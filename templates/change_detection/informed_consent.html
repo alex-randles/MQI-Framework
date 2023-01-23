@@ -1,0 +1,62 @@
+{% extends "change_detection/base_withdraw.html" %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Informed Consent{% endblock %}</title>
+    <script type="text/javascript"  src="{{ url_for('static', filename='js_scripts.js') }}"> </script>
+
+</head>
+<body>
+{% block content %}
+
+<div class="alert alert-dark text-center font-weight-bold" role="alert">
+    Please read the informed consent and check the box to consent.
+</div>
+
+
+<div class="w-100 d-inline-block" style="height:65%;" >
+    <object data="./static/documents/Informed_consent.pdf" type="application/pdf" width="100%" height="100%" >
+        <p>It appears you don't have a PDF plugin for this browser.
+            No biggie... you can <a href="./static/documents/Informed_consent.pdf">click here to
+                download the PDF file.</a></p>
+    </object>
+</div>
+
+
+
+
+<form method="POST" id="consent-form" onsubmit="required()" >
+    <div class="container-fluid mt-3" style="height:10%;" >
+        <div class="row justify-content-center">
+            <div class="col-auto  alert-secondary py-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="accept-form">
+                    <label class="form-check-label" for="accept-form">
+                        Consent
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="col-auto alert-secondary  py-4">
+                <input type="submit" value="Provide consent" class="btn btn-primary">
+            </div>
+
+
+            <div class="col-auto alert-secondary  py-4">
+                <div style="display:none;" class="alert alert-danger" role="alert" id="nameErrMsg">
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</form>
+</body>
+
+
+{% endblock %}

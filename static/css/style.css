@@ -1,0 +1,216 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+
+.success-msg {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 3px 3px 3px 3px;
+}
+
+.success-msg {
+  color: #270;
+  background-color: #DFF2BF;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+
+}
+
+.container {
+    display:block;
+    width:100%;
+}
+
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+.btnTest{
+   right: 0px;
+   top: 0px;
+}
+
+
+pre span{
+    color: red;
+}
+
+
+
+#pageloader
+{
+  background: rgba( 255, 255, 255, 0.8 );
+  display: none;
+  height: 100%;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+}
+
+#pageloader img
+{
+  left: 50%;
+  position: absolute;
+  top: 10%;
+}
+
+h2#heading-style{
+    /* border-color:#0000A0;
+    padding:1%;
+    border-style: outset; */
+}
+
+title * {
+        display: none;
+}
+
+button#home-button {
+  position: relative;
+  left: 0%;
+  width: 10%;
+  height: 5%;
+}
+
+#more-info {
+  position: absolute;
+  right: 5%;
+  top: 3%;
+}
+
+#chart-image {
+#   margin-bottom: 0.5%;
+}
+
+input#button-style, #button-style , input.button-style,  button.button-style {
+
+    font-size : 17px;
+
+}
+
+
+
+
+button.hover-button{
+    border-radius: 40%;
+}
+
+td.table-data {
+ }
+
+.tags {
+  display: inline;
+  position: relative;
+  font-size:10px;
+
+}
+
+.tags:hover:after {
+  background: rgba(0, 0, 0, .8);
+  border-radius: 5px;
+  bottom: 25px;
+  color: #fff;
+  content: attr(gloss);
+  right: 30%;
+  padding: 5px 15px;
+  position: absolute;
+  z-index: 98;
+
+}
+
+.tags:hover:before {
+  bottom: -4px;
+  content: "";
+  left: 50%;
+  position: absolute;
+  z-index: 99;
+  width: 110%;
+
+
+}
+
+i.info-button {
+     cursor:pointer;
+     font-size:20px;
+}
+
+a.tags {
+    font-size: 13px;
+}
+
+.inline-block-child {
+  display: inline-block;
+}
+
+table.metadata-table td {
+    padding: 10px;
+}
+
+
+title.h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+#myProgress {
+  width: 100%;
+  background-color: #ddd;
+}
+
+#myBar {
+  width: 1%;
+  height: 30px;
+  background-color: #04AA6D;
+}
+
+ /* login_page.html */
+
+
+input[type=submit] {
+    font-size:80%;
+}
+
+
+ /* gray out components for the user evaluation */
+
+.gray-out {
+    opacity: 0.35;
+}

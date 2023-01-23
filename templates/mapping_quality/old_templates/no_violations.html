@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<style>
+
+html, body {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+html {
+    background-color:#E8E8E8;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  width:100%;
+  height:5%;
+}
+
+li {
+  float: left;
+  color:white;
+  height:100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  height:100%;
+  font-weight:bold;
+}
+
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+</style>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}"></script>
+        <title>No Violations</title>
+    </head>
+        <body>
+
+<!--           <button style="font-size : 17px;" onclick="location.href = '/';" class="btn"><i class="fa fa-home button-style"></i> Home</button>-->
+<!--           <h1 id="heading-style">Congratulations, no violations were detected in your mapping!</h1>-->
+<!--           -->
+
+
+          <ul style="margin-bottom:1%;">
+              <li style=" word-wrap: break-word; width:15%;font-weight:bold;outline: 2px solid white;"><a href="/index">Home</a></li>
+              <li style="word-wrap: break-word; width:75%;"><b>Congratulations, no violations were detected in your mapping!</b></li>
+              <li style="word-wrap: break-word; width:10%;outline: 2px solid white;"><a href="/logout" onclick="return logout(event);">Logout</a></li>
+
+          </ul>
+
+          <div style="text-align:center">
+              <img style="height:10%;width:25%;" src= "{{ url_for('static',filename='images/green_tick_updated.jpg') }}" alt="green tick symbol" />
+              <br>
+              <br>
+              <a href="/return-refinement-report/" target="blank"><button style="width:25%;font-size : 17px;" class="button-style">Download Validation Report (TTL)</button></a>
+          </div>
+
+
+        </body>
+</html>

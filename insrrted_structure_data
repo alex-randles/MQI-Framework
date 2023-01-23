@@ -1,0 +1,63 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+PREFIX r2rml: <http://www.w3.org/ns/r2rml#>
+PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+PREFIX ex: <http://www.example.com/>
+PREFIX ex-changes: <http://www.example.com/changesGraph/user/>
+PREFIX ex-intent: <https://data.example.com/intent/>
+PREFIX ex-action: <https://data.example.com/action/>
+PREFIX ex-action-effect: <https://data.example.com/actionEffect/>
+PREFIX ex-goal: <https://data.example.com/goal/>
+PREFIX ex-metric: <https://data.example.com/metric/>
+PREFIX ex-metric-query: <https://data.example.com/metricQuery/>
+PREFIX ex-result-set: <https://data.example.com/resultSet/>
+PREFIX ex-result: <https://data.example.com/result/>
+PREFIX : <https://ibclo.ericsson.com/#>
+PREFIX rr: <http://www.w3.org/ns/r2rml#>
+PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+PREFIX r2rml: <http://www.w3.org/ns/r2rml#>
+PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+PREFIX ex: <http://www.example.com/>
+PREFIX ex-changes: <http://www.example.com/changesGraph/user/>
+
+SELECT ?change1 ?reason1
+WHERE {
+  
+  
+  GRAPH ?g {
+     ?changeLog1 a cdo:ChangeLog;
+                cdo:hasChange ?change1 . 
+    ?change1 cdo:hasReason ?reason1
+    
+    BIND (STRBEFORE(?reason1, ":") AS ?changeReference1)
+    BIND (STRAFTER(?reason1, ":") AS ?changeContent1)
+    FILTER(?changeReference = ?changeReference1) 
+     
+    
+    {
+  SELECT ?source ?reason ?changeType ?changeReference
+  WHERE {
+
+    GRAPH ?changeGraph
+    {
+      ?changeLog a cdo:ChangeLog;
+                 cdo:hasChange ?change;
+                 cdo:hasCurrentVersion ?currentVersion .
+      ?change a ?changeType;
+              cdo:hasReason ?reason.
+
+    }
+    GRAPH ex:document_mapping
+    { 
+      ?tripleMap rml:logicalSource|rr:logicalTable ?logicalSource. 
+      ?logicalSource rml:source|rr:tableName ?source .
+    }
+    BIND (REPLACE(STR(?currentVersion), "^.*/([^/]*)$", "$1") as ?changesFileName)
+    FILTER(?source = ?changesFileName)
+    BIND (STRBEFORE(?reason, ":") AS ?changeReference)
+    BIND (STRAFTER(?reason, ":") AS ?changeContent)
+    FILTER(STRSTARTS(?changeReference, "Column"))
+  }  
+    }
+  }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<style>
+html, body {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+html {
+    background-color:#E8E8E8;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  width:100%;
+  height:5%;
+}
+
+li {
+  float: left;
+  color:white;
+  height:100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  height:100%;
+  font-weight:bold;
+}
+
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+
+</style>
+<html>
+        <head>
+            <script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}">
+            </script>
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <title>Mapping Quality Profile</title>
+        </head>
+
+       <header>
+<!--           <h2 id="heading-style">Mapping Quality Profile</h2>-->
+<!--           <button style="font-size : 17px;" class="btn" onclick="location.href = '/index';"><i class="fa fa-home"></i> Home</button>-->
+<!--           {% if session['logged_in'] == True %}-->
+<!--           <a href="/logout" style="margin-left:5%;" onclick="return logout(event);"><button class="button-style">Logout</button></a>-->
+<!--           {% else %}-->
+<!--           <a href="/" style="margin-left:5%;" ><button class="button-style">Login</button></a>-->
+<!--           {% endif %}-->
+       </header>
+        <body>
+        <ul>
+          <li style="position:relative; left: 15%; word-wrap: break-word; width:70%;font-weight:bold;font-size:150%;">Mapping Quality Profile</li>
+          {% if session['logged_in'] == True %}
+            <li style="position:relative; left: 10%;word-wrap: break-word; width:10%;outline: 2px solid white;">  <a href="/index">Home</a></li>
+            <li style="position:relative; left: 10%;word-wrap: break-word; width:10%;outline: 2px solid white;">  <a href="/logout" onclick="return logout(event);">Logout</a></li>
+          {% else %}
+                <li> <a href="/logout">Login</a></li>
+          {% endif %}
+      </ul>
+
+
+
+         <div style="width:90%;margin:0 auto; ">
+             {{ bar_chart_html | safe }}
+         </div>
+
+
+        <div style="text-align:center; margin-top:1%;">
+            <a href="/return-refined-mapping/" target="blank"><button onclick="myFunction()" class="button-style">
+             Export Refined Mapping (TTL)</button></a>
+            <a href="/return-refinement-report/" target="blank"><button class="button-style">
+             Export Validation Report (TTL)</button></a>
+             <br>
+
+             <div style="margin-top:5px; ">
+                 <span style="border:2px red solid;color:red;">Please complete the questionnaire to finish the experiment! -></span>
+                 <a href="{{ url_for('complete_questionnaire') }}"><button class="button-style">
+                 Complete Questionnaire</button></a>
+             </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+<!--         <a href="/return-combined-report/" target="blank"><button class="button-style">-->
+<!--             Download Validation Report + Refined Mapping (TTL)</button></a>-->
+
+<!--         <a class="tags"-->
+<!--                 gloss="The refined mapping and validation information will be combined.">-->
+<!--            <i class="fa fa-info-circle info-button">-->
+<!--            </i></a>-->
+
+        </body>
+    </div>
+</html>
+

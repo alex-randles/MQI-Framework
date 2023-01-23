@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% extends "change_detection/basic_base.html"%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Change Detection Mode{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+<div class="container">
+    <div class="row text-center my-4">
+        <div class="col-">
+            <h2>Choose Data Format</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center my-4">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <h5 class="card-header">CSV file versions</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Connect to CSV file versions</h5>
+                    <p class=" card-text">Detect changes in CSV file versions and represent changes in RDF format.</p>
+                    <div class="my-4">
+                        <img src="./static/images/CSV_logo.jpg" class="rounded mx-3 w-25 -h-25" alt="...">
+                    </div>
+                    <a href="/CSV-changes" class="btn btn-primary mt-4">Detect Changes</a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="opacity: 0.5;">
+            <div class="card text-center">
+                <h5 class="card-header">XML file versions</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Connect to XML file versions</h5>
+                    <p class="card-text mb-4">Detect changes between XML file versions and represent changes in RDF format.</p>
+                    <div class="my-4">
+                        <img src="./static/images/XML_logo.png" class="mx-3 rounded  w-25 -h-25" alt="...">
+                    </div>
+
+                    <button class="btn btn-primary mt-4" disabled>Detect Changes</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" style="opacity: 0.5;">
+            <div class="card text-center">
+                <h5 class="card-header">Relational database</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Connect to Relational Database</h5>
+                    <p class=" card-text">Detect changes in relational databases and represent changes in RDF format.</p>
+                    <div class="my-4">
+                        <img src="./static/images/sql_logo.png" class="rounded mx-3 w-25 -h-25" alt="...">
+                    </div>
+                    <button class="btn btn-primary mt-4" disabled>Detect Changes</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View</title>
+</head>
+<body>
+{% for item in values %}
+<p><b>Participant ID: {{item.participant_id}} Password: {{item.password}} </b>
+<p> Name: {{item.name}} </p>
+<p> Consented: {{item.has_consented}} </p>
+<p> Time consented: {{item.time_consented}}</p>
+<b> Timing</b>
+<p> User logged in: {{item.logged_in}}</p>
+<p> Experiment started: {{item.experiment_started}} </p>
+<p> Mapping uploaded: {{item.mapping_uploaded}} </p>
+<p> Assessment information generated: {{item.assessment_information_generated}} </p>
+<p> Refinements executed: {{item.refinements_executed}} </p>
+<p> Quality profile generated: {{item.quality_profile_generated}} </p>
+<p> Refined mapping exported: {{item.refined_mapping_exported}} </p>
+<p> Validation report exported: {{item.validation_report_exported}} </p>
+<p> Current progress: {{item.current_progress}} </p>
+<p> Experiment completed: {{item.experiment_completed}} </p>
+<p> Quality Report File: {{item.quality_report_file}} </p>
+<p> Validation Report File: {{item.validation_report_file}} </p>
+<p> Refined Mapping File: {{item.refined_mapping_file}} </p>
+<br>
+{% endfor %}
+</body>
+</html>

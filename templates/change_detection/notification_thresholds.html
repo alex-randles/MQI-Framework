@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% extends "change_detection/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Thresholds{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <h4>Notification Thresholds</h4>
+    </div>
+    <div class="row">
+        <div class="col- text-start">
+            <p>Thresholds defined in the notification policy within the graph.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <h6 class="mt-2 fw-bold">Graph ID: <span class="fw-normal">{{graph_id}}</span></h6>
+        </div>
+        <div class="col-4">
+            <a href="/return-change-graph/" class="btn btn-sm btn-secondary">Download Graph</a>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-lg h6 fw-normal">
+            <thead>
+            <tr>
+                <th scope="col">Change Type
+                    <span class="tt" data-bs-placement="top" title="The type of source data change">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+                </th>
+                <th scope="col">Notification Threshold
+                    <span class="tt" data-bs-placement="top" title="Notification threshold for the change type">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+                </th>
+            </tr>
+            </thead>
+
+            {% for change_type, threshold in notification_thresholds.items() %}
+            <tr>
+                {% if change_type != 'Total Count' %}
+                <td>{{change_type}}</td>
+                {% else %}
+                <td class="fw-bold">{{change_type}}</td>
+                {% endif %}
+                <td>{{threshold}}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+</body>
+{% endblock %}
+</html>

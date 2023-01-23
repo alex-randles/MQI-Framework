@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">-->
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <!--<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>-->
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <script type="text/javascript"  src="/static/js_scripts.js"> </script>
+
+
+    <title>Mapping Impact Details</title>
+    <style>
+      body,
+html {
+  height: 100%;
+}
+
+                   .dropdown-menu > li > a {
+    font-weight: 700;
+    padding: 10px 20px;
+}
+
+.bootstrap-select.btn-group .dropdown-menu li small {
+    display: block;
+    padding: 6px 0 0 0;
+    font-weight: 100;
+}
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand d-flex ms-5 p-3 text-uppercase fw-bold" href="/format-choice"><span class="mb-0">MQ Framework • Change Detection Component</span></a>
+    <!--    <i class="bi bi-person-circle"></i>&nbsp User ID: -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 p-4 mr-auto flex-grow-1 justify-content-end">
+            <!--            <li class="nav-item active">-->
+            <!--                <div id="change-process-button">-->
+            <!--                    <a class="nav-link" onclick="loadProcesses()" href="/change-processes">Change Processes&nbsp;&nbsp;&nbsp;|<span class="sr-only"></span></a>-->
+            <!--                </div>-->
+            <!--                <div class="d-flex justify-content-center mx-4" style="none;">-->
+            <!--                    <div id="base-spinner" class="spinner-border text-primary text-center" role="status" style="display:none;">-->
+            <!--                        <span class="sr-only"></span>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </li>-->
+            <li class="nav-item active">
+                <a class="nav-link" href="/component-choice">Home <span class="sr-only"></span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+
+function loadProcesses() {
+  var spinner = document.getElementById("base-spinner");
+  var submit_button = document.getElementById("change-process-button");
+  if (spinner.style.display === "none") {
+    spinner.style.display = "block";
+    submit_button.style.display = "none";
+  } else {
+    spinner.style.display = "none";
+    submit_button.style.display = "block";
+  }
+}
+</script>
+
+
+
+
+<div class="container-fluid">
+    <div class="row py-2">
+        <div class="col-2 p-3">
+            <h5>Mapping ID: 1</h5>
+        </div>
+        <div class="col-8 p-3 text-center">
+            <h2>Mapping-Source Data Change Relations</h2>
+        </div>
+        <div class="col-2 p-3">
+            <a href="/return-sample-mapping/" class="btn btn-secondary">Download Mapping</a>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-auto">
+            <h4>Structural Changes</h4>
+        </div>
+        <div class="col-auto align-items-start">
+                    <span class="tt" data-bs-placement="top" title="Changes to the columns of the source data">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!--        defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;student.csv&#39;: {&#39;Name&#39;: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;delete&#39;: [&#39; Venus&#39;]}), &#39;ID&#39;: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;insert&#39;: [&#39; 11&#39;, &#39; 13&#39;, &#39; 12&#39;]})}})-->
+        <!--        defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;student.csv&#39;: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;insert&#39;: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;Sport&#39;: [&#39;Basketball&#39;, &#39;Tennis&#39;, &#39;Soccer&#39;, &#39;Football&#39;], &#39;LastName&#39;: [&#39;Williams&#39;, &#39;Jordan&#39;, &#39;Ronaldo&#39;, &#39;Brady&#39;], &#39;City&#39;: [&#39;San Mateo&#39;, &#39;California&#39;, &#39;Funchal&#39;, &#39;Brooklyn&#39;], &#39;FirstName&#39;: [&#39;Michael&#39;, &#39;Venus&#39;, &#39;Tom&#39;, &#39;Cristiano&#39;]}), &#39;delete&#39;: defaultdict(&lt;class &#39;dict&#39;&gt;, {&#39;Name&#39;: [&#39;Venus&#39;]})})})-->
+
+
+
+
+
+
+
+        <div id="accordion-20">
+            <div class="card">
+
+                <div class="card-header" id="sourceDataHeading--20">
+                    <h5 class="mb-0">
+                        <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading--20');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-20" aria-expanded="false" aria-controls="sourceDataCollapse-20">
+                            <strong>Source Data: </strong>
+                            student.csv
+                            <i id="icon-sourceDataHeading--20" class="bi bi-plus-circle px-3"></i>
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="sourceDataCollapse-20" class="collapse" aria-labelledby="sourceDataHeading-20" data-bs-parent="#sourceDataCollapse-20">
+                    <div class="card-body">
+
+
+                        <div class="card">
+
+                            <div class="card-header" id="dataReferenceHeading-20">
+                                <h5 class="mb-0">
+
+
+                                    <button class="btn collapsed btn-success" onClick="return changeIcon('dataReferenceCollapse-20');" data-bs-toggle="collapse" data-bs-target="#dataReferenceCollapse-20" aria-expanded="false" aria-controls="dataReferenceCollapse-20">
+                                        <strong>
+                                            insert
+                                        </strong>
+                                        <span class="mx-2">Change Count: 4 </span>
+                                        <i id="icon-dataReferenceCollapse-20" class="bi bi-plus-circle px-3"></i>
+                                    </button>
+                                    <span class="mx-2"></span>
+                                </h5>
+                            </div>
+
+                            <div id="dataReferenceCollapse-20" class="collapse" aria-labelledby="dataReferenceHeading-20" data-bs-parent="#dataReferenceCollapse-20">
+                                <div class="card-body">
+
+
+
+
+
+
+
+
+                                    <div class="card">
+                                        <div class="card-header" id="structureValue-20">
+                                            <h5 class="mb-0">
+                                                <button class="btn collapsed" onclick="return changeIcon('structureValue-20');" data-bs-toggle="collapse" data-bs-target="#structureValueCollapse-20" aria-expanded="false" aria-controls="structureValueCollapse-20">
+                                                    Column Inserted:
+                                                    <strong>
+                                                        Sport
+                                                    </strong>
+                                                    <span class="mx-2"> ∣ Change Count: 4 </span>
+                                                    <i  id="icon-structureValue-20" class="bi bi-plus-circle px-3"></i>
+                                                </button>
+                                                <span class="mx-2"></span>
+                                            </h5>
+                                        </div>
+
+                                        <div id="structureValueCollapse-20" class="collapse" aria-labelledby="structureValueCollapse-20" data-bs-parent="#structureValueCollapse-20">
+                                            <div class="card-body">
+                                                <span class="mx-2 fw-bold">Values</span>
+                                                <ul>
+
+                                                    <li class="list-group-item">
+                                                        Basketball
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Tennis
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Soccer
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Football
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="card">
+                                        <div class="card-header" id="structureValue-21">
+                                            <h5 class="mb-0">
+                                                <button class="btn collapsed" onclick="return changeIcon('structureValue-21');" data-bs-toggle="collapse" data-bs-target="#structureValueCollapse-21" aria-expanded="false" aria-controls="structureValueCollapse-21">
+                                                    Column Inserted:
+                                                    <strong>
+                                                        LastName
+                                                    </strong>
+                                                    <span class="mx-2"> ∣ Change Count: 4 </span>
+                                                    <i  id="icon-structureValue-21" class="bi bi-plus-circle px-3"></i>
+                                                </button>
+                                                <span class="mx-2"></span>
+                                            </h5>
+                                        </div>
+
+                                        <div id="structureValueCollapse-21" class="collapse" aria-labelledby="structureValueCollapse-21" data-bs-parent="#structureValueCollapse-21">
+                                            <div class="card-body">
+                                                <span class="mx-2 fw-bold">Values</span>
+                                                <ul>
+
+                                                    <li class="list-group-item">
+                                                        Williams
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Jordan
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Ronaldo
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Brady
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="card">
+                                        <div class="card-header" id="structureValue-22">
+                                            <h5 class="mb-0">
+                                                <button class="btn collapsed" onclick="return changeIcon('structureValue-22');" data-bs-toggle="collapse" data-bs-target="#structureValueCollapse-22" aria-expanded="false" aria-controls="structureValueCollapse-22">
+                                                    Column Inserted:
+                                                    <strong>
+                                                        City
+                                                    </strong>
+                                                    <span class="mx-2"> ∣ Change Count: 4 </span>
+                                                    <i  id="icon-structureValue-22" class="bi bi-plus-circle px-3"></i>
+                                                </button>
+                                                <span class="mx-2"></span>
+                                            </h5>
+                                        </div>
+
+                                        <div id="structureValueCollapse-22" class="collapse" aria-labelledby="structureValueCollapse-22" data-bs-parent="#structureValueCollapse-22">
+                                            <div class="card-body">
+                                                <span class="mx-2 fw-bold">Values</span>
+                                                <ul>
+
+                                                    <li class="list-group-item">
+                                                        San Mateo
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        California
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Funchal
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Brooklyn
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="card">
+                                        <div class="card-header" id="structureValue-23">
+                                            <h5 class="mb-0">
+                                                <button class="btn collapsed" onclick="return changeIcon('structureValue-23');" data-bs-toggle="collapse" data-bs-target="#structureValueCollapse-23" aria-expanded="false" aria-controls="structureValueCollapse-23">
+                                                    Column Inserted:
+                                                    <strong>
+                                                        FirstName
+                                                    </strong>
+                                                    <span class="mx-2"> ∣ Change Count: 4 </span>
+                                                    <i  id="icon-structureValue-23" class="bi bi-plus-circle px-3"></i>
+                                                </button>
+                                                <span class="mx-2"></span>
+                                            </h5>
+                                        </div>
+
+                                        <div id="structureValueCollapse-23" class="collapse" aria-labelledby="structureValueCollapse-23" data-bs-parent="#structureValueCollapse-23">
+                                            <div class="card-body">
+                                                <span class="mx-2 fw-bold">Values</span>
+                                                <ul>
+
+                                                    <li class="list-group-item">
+                                                        Michael
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Venus
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Tom
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        Cristiano
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                </div>
+                            </div>
+
+                            <div class="card">
+
+                                <div class="card-header" id="dataReferenceHeading-21">
+                                    <h5 class="mb-0">
+
+
+                                        <button class="btn collapsed btn-danger" onClick="return changeIcon('dataReferenceCollapse-21');" data-bs-toggle="collapse" data-bs-target="#dataReferenceCollapse-21" aria-expanded="false" aria-controls="dataReferenceCollapse-21">
+                                            <strong>
+                                                delete
+                                            </strong>
+                                            <span class="mx-2">Change Count: 1 </span>
+                                            <i id="icon-dataReferenceCollapse-21" class="bi bi-plus-circle px-3"></i>
+                                        </button>
+                                        <span class="mx-2"></span>
+                                    </h5>
+                                </div>
+
+                                <div id="dataReferenceCollapse-21" class="collapse" aria-labelledby="dataReferenceHeading-21" data-bs-parent="#dataReferenceCollapse-21">
+                                    <div class="card-body">
+
+
+
+
+
+
+
+
+                                        <div class="card">
+                                            <div class="card-header" id="structureValue-24">
+                                                <h5 class="mb-0">
+                                                    <button class="btn collapsed" onclick="return changeIcon('structureValue-24');" data-bs-toggle="collapse" data-bs-target="#structureValueCollapse-24" aria-expanded="false" aria-controls="structureValueCollapse-24">
+                                                        Column Deleted:
+                                                        <strong>
+                                                            Name
+                                                        </strong>
+                                                        <span class="mx-2"> ∣ Change Count: 1 </span>
+                                                        <i  id="icon-structureValue-24" class="bi bi-plus-circle px-3"></i>
+                                                    </button>
+                                                    <span class="mx-2"></span>
+                                                </h5>
+                                            </div>
+
+                                            <div id="structureValueCollapse-24" class="collapse" aria-labelledby="structureValueCollapse-24" data-bs-parent="#structureValueCollapse-24">
+                                                <div class="card-body">
+                                                    <span class="mx-2 fw-bold">Values</span>
+                                                    <ul>
+
+                                                        <li class="list-group-item">
+                                                            Venus
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-auto">
+                    <h4>Referenced Data Changes</h4>
+                </div>
+                <div class="col-auto align-items-start">
+                    <span class="tt" data-bs-placement="top" title="Changes to the source data used by the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+                </div>
+            </div>
+            <div class="row">
+
+
+
+
+
+
+
+
+                <div id="accordion-0" class="mb-4">
+                    <div class="card">
+
+
+                        <div class="card-header" id="">
+                            <h5 class="mb-0">
+                                <button class="btn collapsed" onClick="return changeIcon('sourceDataHeading-0');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-0" aria-expanded="false" aria-controls="sourceDataCollapse-0">
+                                    <strong>Source Data: </strong>
+                                    student.csv
+                                    <i id="icon-sourceDataHeading-0" class="bi bi-plus-circle px-3"></i>
+                                </button>
+                                <span class="mx-2"></span>
+                            </h5>
+                        </div>
+
+                        <div id="sourceDataCollapse-0" class="collapse" aria-labelledby="sourceDataHeading-0" data-bs-parent="#sourceDataCollapse-0">
+                            <div class="card-body">
+
+
+
+
+
+
+                                <div class="card">
+                                    <div class="card-header" id="dataReferenceHeading-0">
+                                        <h5 class="mb-0">
+                                            <button class="btn collapsed" onclick="return changeIcon('dataReferenceHeading-0');" data-bs-toggle="collapse" data-bs-target="#dataReferenceCollapse-0" aria-expanded="false" aria-controls="dataReferenceCollapse-0">
+                                                <strong>Data Reference: </strong>
+                                                Name
+                                                <i id="icon-dataReferenceHeading-0"  class="bi bi-plus-circle px-3"></i>
+                                            </button>
+                                            <span class="mx-2"></span>
+                                        </h5>
+                                    </div>
+
+                                    <div id="dataReferenceCollapse-0" class="collapse" aria-labelledby="dataReferenceHeading-0" data-bs-parent="#dataReferenceCollapse-0">
+                                        <div class="card-body">
+
+
+
+
+                                            <div class="card">
+                                                <div class="card-header" id="changeHeading-0">
+
+
+                                                    <h5 class="mb-0">
+                                                        <button class="btn collapsed btn-danger" onClick="return changeIcon('changeCollapse-0');" data-bs-toggle="collapse" data-bs-target="#changeCollapse-0" aria-expanded="false" aria-controls="changeCollapse-0">
+                                                            <strong>
+                                                                delete
+                                                            </strong>
+                                                            <span class="mx-2">Change Count: 1 </span>
+                                                            <i id="icon-changeCollapse-0" class="bi bi-plus-circle px-3"></i>
+                                                        </button>
+                                                        <span class="mx-2"></span>
+                                                    </h5>
+                                                </div>
+                                                <div id="changeCollapse-0" class="collapse" aria-labelledby="changeHeading-0" data-bs-parent="#changeCollapse-0">
+                                                    <div class="card-body">
+                                                        <ul class="list-group">
+
+                                                            <li class="list-group-item">
+                                                                Venus
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+                                        </div>
+
+
+
+                                    </div>
+
+
+
+
+                                    <div class="card">
+                                        <div class="card-header" id="dataReferenceHeading-1">
+                                            <h5 class="mb-0">
+                                                <button class="btn collapsed" onclick="return changeIcon('dataReferenceHeading-1');" data-bs-toggle="collapse" data-bs-target="#dataReferenceCollapse-1" aria-expanded="false" aria-controls="dataReferenceCollapse-1">
+                                                    <strong>Data Reference: </strong>
+                                                    ID
+                                                    <i id="icon-dataReferenceHeading-1"  class="bi bi-plus-circle px-3"></i>
+                                                </button>
+                                                <span class="mx-2"></span>
+                                            </h5>
+                                        </div>
+
+                                        <div id="dataReferenceCollapse-1" class="collapse" aria-labelledby="dataReferenceHeading-1" data-bs-parent="#dataReferenceCollapse-1">
+                                            <div class="card-body">
+
+
+
+
+                                                <div class="card">
+                                                    <div class="card-header" id="changeHeading-1">
+
+
+                                                        <h5 class="mb-0">
+                                                            <button class="btn collapsed btn-success" onClick="return changeIcon('changeCollapse-1');" data-bs-toggle="collapse" data-bs-target="#changeCollapse-1" aria-expanded="false" aria-controls="changeCollapse-1">
+                                                                <strong>
+                                                                    insert
+                                                                </strong>
+                                                                <span class="mx-2">Change Count: 3 </span>
+                                                                <i id="icon-changeCollapse-1" class="bi bi-plus-circle px-3"></i>
+                                                            </button>
+                                                            <span class="mx-2"></span>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="changeCollapse-1" class="collapse" aria-labelledby="changeHeading-1" data-bs-parent="#changeCollapse-1">
+                                                        <div class="card-body">
+                                                            <ul class="list-group">
+
+                                                                <li class="list-group-item">
+                                                                    11
+                                                                </li>
+
+                                                                <li class="list-group-item">
+                                                                    13
+                                                                </li>
+
+                                                                <li class="list-group-item">
+                                                                    12
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+                                            </div>
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="test">
+
+            </div>
+        </div>
+
+        <script>
+    $('.collapse').collapse()
+</script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

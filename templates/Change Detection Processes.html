@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/css/bootstrap-select.min.css">-->
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <!--<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.3/js/bootstrap-select.min.js"></script>-->
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <script type="text/javascript"  src="/static/js_scripts.js"> </script>
+
+
+    <title>Change Detection Processes</title>
+    <style>
+      body,
+html {
+  height: 100%;
+}
+
+                   .dropdown-menu > li > a {
+    font-weight: 700;
+    padding: 10px 20px;
+}
+
+.bootstrap-select.btn-group .dropdown-menu li small {
+    display: block;
+    padding: 6px 0 0 0;
+    font-weight: 100;
+}
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand d-flex ms-5 p-3 text-uppercase fw-bold" href="/format-choice"><span class="mb-0">MQ Framework • Change Detection Component</span></a>
+    <!--    <i class="bi bi-person-circle"></i>&nbsp User ID: 1-->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0 p-4 mr-auto flex-grow-1 justify-content-end">
+<!--            <li class="nav-item active">-->
+<!--                <div id="change-process-button">-->
+<!--                    <a class="nav-link" onclick="loadProcesses()" href="/change-processes">Change Processes&nbsp;&nbsp;&nbsp;|<span class="sr-only"></span></a>-->
+<!--                </div>-->
+<!--                <div class="d-flex justify-content-center mx-4" style="none;">-->
+<!--                    <div id="base-spinner" class="spinner-border text-primary text-center" role="status" style="display:none;">-->
+<!--                        <span class="sr-only"></span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </li>-->
+            <li class="nav-item active">
+                <a class="nav-link" href="/component-choice">Home <span class="sr-only"></span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+
+function loadProcesses() {
+  var spinner = document.getElementById("base-spinner");
+  var submit_button = document.getElementById("change-process-button");
+  if (spinner.style.display === "none") {
+    spinner.style.display = "block";
+    submit_button.style.display = "none";
+  } else {
+    spinner.style.display = "none";
+    submit_button.style.display = "block";
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<div class="alert alert-success text-center" role="alert">
+    Change Detection process successfully added!
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="ml-1">
+    <h3 class="mx-2">Change Detection Processes</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 text-start">
+            <p>Change Detection which has been initiated by the account.</p>
+        </div>
+<!--        <div class="col-6 text-end">-->
+<!--            <a class="btn btn-md btn-primary" href="/CSV-changes" >Start New Process</a>-->
+<!--        </div>-->
+    </div>
+</div>
+<table class="table table-lg h6">
+    <thead>
+    <tr>
+        <th scope="col">Process #
+            <span class="tt" data-bs-placement="top" title="ID of the change detection process">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Source Data
+            <span class="tt" data-bs-placement="top" title="Name of the source data">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Data format
+            <span class="tt" data-bs-placement="top" title="The format of the source data">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Detection Ends
+            <span class="tt" data-bs-placement="top" title="The date when the change detection process stops">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Changes Detected
+            <span class="tt" data-bs-placement="top" title="Total number of changes detected">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Thresholds
+            <span class="tt" data-bs-placement="top" title="Thresholds define when users will be notified of source data changes">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Mappings Impacted
+            <span class="tt" data-bs-placement="top" title="Mappings which could be effected by the changes">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Download Current Graph
+            <span class="tt" data-bs-placement="top" title="Download the change detection named graphs locally">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Remove Process
+            <span class="tt" data-bs-placement="top" title="Remove the change detection process">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+
+    
+    <tr>
+        <th scope="row">1</th>
+        
+        
+        
+        <td>
+            <pre>Version 1: <a href=https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv target="_blank">student.csv</a>
+Version 2: <a href=https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student.csv target="_blank">student.csv</a></pre>
+        </td>
+
+        
+
+        
+        
+        
+
+        <td>CSV</td>
+
+        
+        <td>
+            2022-12-31
+        </td>
+        
+
+        
+        <td>25</td>
+        
+
+        <td>
+            
+            <a href="/notification-thresholds" target="__blank">
+                Threshold Limits
+            </a>
+        </td>
+
+        <td>
+            <a href="/mapping-impacted" target="_blank">Mapping #1</a>
+
+            
+            
+            
+
+        </td>
+        <td>
+            <a href="/return-change-graph/">
+                <button class="btn btn-sm btn-secondary">Download Graph</button>
+            </a>
+
+        </td>
+        <td>
+            <a onclick="return disabledButton();"
+               class="btn btn-secondary mr-2">
+                Remove
+            </a>
+        </td>
+    </tr>
+    
+
+    </tbody>
+</table>
+
+
+
+<h3 class="mx-2">Mappings Uploaded</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 text-start">
+            <p>Mappings which have been uploaded by the account.</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+<table class="table table-lg h6">
+    <thead>
+    <tr>
+        <th scope="col">Mapping  #
+            <span class="tt" data-bs-placement="top" title="ID of the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">File name
+            <span class="tt" data-bs-placement="top" title="File name of the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Source Data
+            <span class="tt" data-bs-placement="top" title="The source data used by the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Iterator Name (if applicable)
+            <span class="tt" data-bs-placement="top" title="The iterator used by the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Data references
+            <span class="tt" data-bs-placement="top" title="Data references used by the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Download Mapping
+            <span class="tt" data-bs-placement="top" title="Download the mapping file">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Assess Mapping Quality
+            <span class="tt" data-bs-placement="top" title="Redirect to mapping quality assessment">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Delete Mapping
+            <span class="tt" data-bs-placement="top" title="Delete the mapping from the framework">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+
+    
+    <tr>
+        
+        
+        
+
+        <th scope="row">1</th>
+        <td>
+            
+            mapping.ttl
+            
+        </td>
+        <td>
+            
+            student.csv
+            
+        </td>
+        <td>
+            
+            N/A
+            
+        </td>
+        <td>
+            
+            Name,   ID
+            
+        </td>
+        <td>
+            <a href="/return-sample-mapping/">
+                <button class="btn btn-sm btn-secondary">Download Mapping</button>
+            </a>
+        </td>
+        <td>
+            <a href="/index/mapping.ttl" target="_blank" id="assess-mapping"
+               class="btn btn-sm btn-secondary mr-2">
+                Assess Quality
+            </a>
+        </td>
+        <td>
+            <a
+               onclick="return disabledButton();" class="btn btn-secondary mr-2">
+                Delete
+            </a>
+        </td>
+    </tr>
+    
+
+    </tbody>
+</table>
+
+
+<div class="container-fluid">
+    <div class="row my-3 justify-content-center">
+        <div class="col-3">
+            <a  class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeA7fFzjBcGim56PNdT_mE2Iwy4TUg47NV9Q4k5VNburmws-Q/viewform?embedded=true&amp;entry.880637273={{form_id}}" target="_blank">
+                Complete Questionnaire
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var i = 0;
+function move() {
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 200);
+    function frame() {
+      if (width >= 100) {
+       //  clearInterval(id);
+        move();
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+}
+</script>
+
+
+<script>
+    const tooltips = document.querySelectorAll(".tt")
+    tooltips.forEach ( t=> {
+       new bootstrap.Tooltip(t)
+    })
+
+$('.selectpicker').selectpicker({
+  showSubtext:true
+});
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

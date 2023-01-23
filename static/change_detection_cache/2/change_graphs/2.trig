@@ -1,0 +1,353 @@
+<http://www.example.com/contactDetailsGraph/user/1> {
+    <http://www.example.com/user/1>
+            a       <http://xmlns.com/foaf/0.1/Person> ;
+            <http://xmlns.com/foaf/0.1/mbox>
+                    "alexrandles0@gmail.com" .
+}
+
+<http://www.example.com/notificationGraph/user/2> {
+    <http://www.example.com/deleteChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "5" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://change-detection-ontology.adaptcentre.ie/#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://change-detection-ontology.adaptcentre.ie/#DeleteSourceData> .
+    
+    <http://www.example.com/notificationConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#And> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fifth>
+                    <http://www.example.com/mergeChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#first>
+                    <http://www.example.com/insertChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fourth>
+                    <http://www.example.com/updateChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#second>
+                    <http://www.example.com/deleteChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#sixth>
+                    <http://www.example.com/datatypeChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#third>
+                    <http://www.example.com/moveChangeConstraint/2> .
+    
+    <http://www.example.com/mergeChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://change-detection-ontology.adaptcentre.ie/#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://change-detection-ontology.adaptcentre.ie/#MergeSourceData> .
+    
+    <http://www.example.com/datatypeChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://change-detection-ontology.adaptcentre.ie/#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://change-detection-ontology.adaptcentre.ie/#DatatypeSourceData> .
+    
+    <http://www.example.com/userActor/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
+    
+    <http://www.example.com/policyObligation/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#Obligation> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#action>
+                    <https://change-detection-ontology.adaptcentre.ie/#sendNotification> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#obligedTo>
+                    <https://change-detection-ontology.adaptcentre.ie/#softwareAgent> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#startingConstraint>
+                    <http://www.example.com/notificationConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#actor>
+                    <http://www.example.com/userActor/2> , <https://change-detection-ontology.adaptcentre.ie/#softwareAgent> .
+    
+    <http://www.example.com/insertChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://change-detection-ontology.adaptcentre.ie/#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> .
+    
+    <http://www.example.com/notificationPolicy/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#Policy> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#desc>
+                    "Notification policy for user 2" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#grants>
+                    <http://www.example.com/policyObligation/2> ;
+            <https://change-detection-ontology.adaptcentre.ie/#detectionEnd>
+                    "2022-10-07 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+            <https://change-detection-ontology.adaptcentre.ie/#detectionStart>
+                    "2022-09-28 14:32:55.013058"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    
+    <http://www.example.com/updateChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://change-detection-ontology.adaptcentre.ie/#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://change-detection-ontology.adaptcentre.ie/#UpdateSourceData> .
+    
+    <http://www.example.com/moveChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://change-detection-ontology.adaptcentre.ie/#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://change-detection-ontology.adaptcentre.ie/#MoveSourceData> .
+}
+
+<http://www.example.com/changesGraph/user/2> {
+    <http://www.example.com/detectionTime/10>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/6>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/14>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/14> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Student:       ID: 12" .
+    
+    <http://www.example.com/insertChange/6>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/6> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "test55:  \t\t  djhsdhs" .
+    
+    <http://www.example.com/detectionTime/15>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/19>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/19> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Testing3: Villa" .
+    
+    <http://www.example.com/deleteChange/20>
+            a       <https://change-detection-ontology.adaptcentre.ie/#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/20> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "FirstName: Venus" .
+    
+    <http://www.example.com/detectionTime/5>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/13>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/13> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Test2: Villa" .
+    
+    <http://www.example.com/insertChange/5>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/5> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "test56:  \t\t  djhsdhs" .
+    
+    <http://www.example.com/detectionTime/14>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/18>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/18> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Testing2: Villa" .
+    
+    <http://www.example.com/detectionTime/4>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/12>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/12> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Test1: Villa" .
+    
+    <http://www.example.com/insertChange/4>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/4> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "test3:  \t\t  djhsdhs" .
+    
+    <http://www.example.com/detectionTime/19>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/13>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/9>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/17>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/17> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Testing: Villa" .
+    
+    <http://www.example.com/insertChange/9>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/9> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "FirstName: Fernando" .
+    
+    <http://www.example.com/detectionTime/3>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/20>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/11>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/11> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Test: Villa" .
+    
+    <http://www.example.com/insertChange/3>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/3> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "test2:  \t\t  djhsdhs" .
+    
+    <http://www.example.com/detectionTime/18>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/12>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/8>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/16>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/16> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "LastName: Villa" .
+    
+    <http://www.example.com/insertChange/8>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/8> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Student:       ID: 11" .
+    
+    <http://www.example.com/detectionTime/2>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/10>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/10> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "LastName: Alonso" .
+    
+    <http://www.example.com/changeLog/2>
+            a       <https://change-detection-ontology.adaptcentre.ie/#ChangeLog> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasChange>
+                    <http://www.example.com/insertChange/8> , <http://www.example.com/insertChange/12> , <http://www.example.com/insertChange/3> , <http://www.example.com/insertChange/7> , <http://www.example.com/insertChange/11> , <http://www.example.com/deleteChange/20> , <http://www.example.com/insertChange/9> , <http://www.example.com/insertChange/14> , <http://www.example.com/insertChange/4> , <http://www.example.com/insertChange/18> , <http://www.example.com/insertChange/13> , <http://www.example.com/insertChange/17> , <http://www.example.com/insertChange/16> , <http://www.example.com/insertChange/1> , <http://www.example.com/insertChange/2> , <http://www.example.com/insertChange/5> , <http://www.example.com/insertChange/6> , <http://www.example.com/insertChange/10> , <http://www.example.com/insertChange/15> , <http://www.example.com/insertChange/19> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasCurrentVersion>
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/characters_V2.xml> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasPreviousVersion>
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/characters_V1.xml> .
+    
+    <http://www.example.com/insertChange/2>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/2> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "LastName: Williams" .
+    
+    <http://www.example.com/detectionTime/17>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/11>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/detectionTime/7>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/15>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/15> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "FirstName: David" .
+    
+    <http://www.example.com/insertChange/7>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/7> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "test99:  \t\t  djhsdhs" .
+    
+    <http://www.example.com/detectionTime/1>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+    
+    <http://www.example.com/insertChange/1>
+            a       <https://change-detection-ontology.adaptcentre.ie/#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    <http://www.example.com/detectionTime/1> ;
+            <https://change-detection-ontology.adaptcentre.ie/#hasReason>
+                    "Students:     Student:       ID: 10" .
+    
+    <http://www.example.com/detectionTime/16>
+            a       <http://www.w3.org/2006/time#Instant> ;
+            <http://www.w3.org/2006/time#inXSDDateTimeStamp>
+                    "2022-05-25 19:43:22.919523"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+}

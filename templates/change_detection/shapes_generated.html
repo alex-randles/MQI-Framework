@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% extends "basic_base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Homepage{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4>Mapping Shapes</h4>
+        </div>
+        <div class="col-6">
+                <h4>Shapes Graph</h4>
+    <a  href="/return-mapping-shapes/" class="btn btn-secondary px-2"  role="button">Download Shapes</a>
+
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <pre>
+                {{ mapping }}
+            </pre>
+        </div>
+        <div class="col-6">
+            <pre>
+                {{ shapes }}
+            </pre>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+</body>
+</html>

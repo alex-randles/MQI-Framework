@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% extends "change_detection/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title%}Mapping Impact Details{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row py-2">
+        <div class="col-4">
+        </div>
+        <div class="col-4 p-2">
+            <p>Rate how accurate the information is from 1 (poor) to 10 (completely accurate)
+        </div>
+        <div class="col-3 p-3">
+            <select data-live-search="true" class="form-select" name="accuracy-level"
+                    id="accuracy-level">
+                <option value="" disabled selected>Select a level of accuracy</option>
+                {% for i in range(1, 11) %}
+                {% if i== 1 %}
+                <option value='{{i}}'>{{i}} (Completely Inaccurate)</option>
+                {% elif i == 10 %}
+                <option value='{{i}}'>{{i}} (Extremely Accurate)</option>
+                {% else %}
+                <option value='{{i}}'>{{i}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-1 p-3">
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                        <button class="btn" data-bs-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <strong>Source Data: </strong> users.csv
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn" data-bs-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <strong>Matched Reference: </strong>Users
+                                    </button>
+                                </h5>
+                            </div>
+
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p><strong>Change Category: </strong>Data insertion</p>
+                                    <p><strong>Change Type: </strong>cdo:InsertSourceData</p>
+                                    <p><strong>Data Changed: </strong>ID: 10 inserted</p>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn" data-bs-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <strong>Matched Reference: </strong>Users
+                                    </button>
+                                </h5>
+                            </div>
+
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p><strong>Change Category: </strong>Data insertion</p>
+                                    <p><strong>Change Type: </strong>cdo:InsertSourceData</p>
+                                    <p><strong>Data Changed: </strong>ID: 10 inserted</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

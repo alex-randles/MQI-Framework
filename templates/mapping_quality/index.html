@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+{% extends "mapping_quality/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Homepage{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+<h3 class="h2 text-center mt-2">Mapping Quality Assessment</h3>
+<form style="" method="POST" action="/index" enctype = "multipart/form-data" id="mappingUpload" onsubmit="return validateMappingForm();" >
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-4 bg-light py-2">
+                <h4 class="h4 text-danger">Mapping File (Required)</h4>
+                <label for="mappingFile" class="form-label">
+                    Upload an R2RML or RML mapping file for quality assessment.
+                </label>
+                <input class="form-control form-control-lg" id="mappingFile" type="file" value="./sample_mapping.ttl" name = "mapping_file">
+            </div>
+        </div>
+    </div>
+
+
+    <!--    <div class="container-fluid">-->
+    <!--        <div class="row d-flex justify-content-center py-1 text-center">-->
+    <!--            <div class="col-sm-4 bg-light py-2">-->
+    <!--                <h4 class="h4">Local Ontologies (Optional)</h4>-->
+    <!--                <label for="formFileLg" class="form-label">-->
+    <!--                    You may also upload one or more ontologies you have created which are not available to fetch online.-->
+    <!--                </label>-->
+    <!--                <input class="form-control form-control-lg" id="formFileLg" type="file" name="ontology_file" multiple>-->
+    <!--            </div>-->
+
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center gray-out">
+            <div class="col-sm-4 bg-light py-2">
+                <h4 class="h4">Additional information (Optional)</h4>
+                <label for="mappingFile" class="form-label" >
+                    You may also add additional metadata into the validation report generated.
+                </label>
+
+                <div class="form-group row my-1">
+                    <div class="form-check d-flex justify-content-center mt-2 text-center">
+                        <input class="form-check-input" type="checkbox"  id="add-information" name="add-information" value="false" disabled>
+                        <label class="form-check-label" for="add-information">
+                            Add Additional information
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="creator-name" class="col-sm-4 col-form-label">Creator Name: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The person who created the mapping" class="bi bi-person-circle"></i></span>
+                            <input  type="text"  id="creator-name" name="creator-name" placeholder="Creator Name" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="performed-by-name" class="col-sm-4 col-form-label">Performer Name:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The person who carried out the quality assessment of the mapping" class="bi bi-person-circle"></i></span>
+                            <input type="text"  id="performed-by-name"  name="performed-by-name" placeholder="Performer Name" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="refined-by-name" class="col-sm-4 col-form-label">Refiner Name:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The person who carried out the quality refinement of the mapping" class="bi bi-person-circle"></i></span>
+                            <input type="text" id="refined-by-name"   name="refined-by-name" placeholder="Refiner Name" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1">
+            <div id="nameErrMsg" class="col-sm-4 text-center alert alert-danger" style="display:none;">
+                <p></p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center my-1">
+            <div class="col-sm-12 text-center">
+                <input   class="my-2 btn btn-primary" id="button-style" type = "submit" value="Assess Mapping Quality" />
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-4">
+                <div class="progress" id="myProgress" >
+                    <div class="progress-bar progress-bar-striped"  id="myBar" role="progressbar"  aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-sm-4 text-center">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Error</h4>
+                    {% for msg in messages %}
+                    {{msg}}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}
+
+</body>
+</html>
+
+

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" id="login-html">
+<style>
+h1 {
+  font-size:75px;
+  text-shadow: 0 1px 0 #ccc,
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa,
+               0 6px 1px rgba(0,0,0,.1),
+               0 0 5px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.3),
+               0 3px 5px rgba(0,0,0,.2),
+               0 5px 10px rgba(0,0,0,.25),
+               0 10px 10px rgba(0,0,0,.2),
+               0 20px 20px rgba(0,0,0,.15);
+}
+
+h4, label {
+color:grey;;
+}
+
+html, body {
+  max-height: 100%;
+}
+
+
+
+div.branding {
+    position:absolute;
+    right: 2%;
+    width: 25%;
+    float:left;
+    height: 75%;
+    top: 20%;
+}
+
+div.branding img {
+    width: 60%;
+    height: 30%;
+    float:right;
+}
+
+
+body.login-body {
+    background-color:#E8E8E8;
+
+}
+
+form.login-form {
+    padding:3%;
+    position:absolute;
+    top:25%;
+    background-color: #FFFFFF;
+    border-radius: 50px;
+    text-align: center;
+    width:25%;
+    font-size: 2em;
+    min-height: 40%;
+    left: 35%;
+
+  }
+
+h1.login-heading {
+    text-align: center;
+}
+
+input.login-submit {
+    font-size: 1.5em;
+}
+
+input.participant_id, input.password {
+    width: 60%;
+    font-size: 60%;
+}
+</style>
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Participant Login Page</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+</head>
+
+<body class="login-body">
+
+
+
+    <div class="branding">
+        <img src="{{url_for('static', filename='images/output-onlinepngtools(1).png')}}" alt="ADAPT logo" />
+        <img src="{{url_for('static', filename='images/output-onlinepngtools.png')}}" alt="CRT AI logo" />
+        <img src="{{url_for('static', filename='images/tcd_logo.png')}}" alt="TCD logo" />
+    </div>
+
+<h1 class="login-heading">Participant Login</h1>
+ <form method="POST"  action="." class="login-form">
+         <h4>Login</h4>
+<!--         <label for="participant_id" style="float:left;">Participant ID:</label>-->
+         <input  placeholder="Participant ID" type="text" class="participant_id"  id="participant_id" name="participant_id" required><br><br>
+<!--         <label for="password" style="float:left;">Password:</label>-->
+         <input placeholder="Password" type="password" class="password" id="password" name="password" required><br><br>
+         <input type="submit" value="Login" id="submit">
+         <br>
+         <br>
+         <a style="font-size:16px;" class="tags"
+                 gloss="Contact alex.randles@adaptcentre with your participant ID.">
+           <span>Forgot your password?</span>
+            </a>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                   <p style="color:black;  font-weight: bold;">{{msg}}</p>
+                {% endfor %}
+             {% endif %}
+         {% endwith %}
+
+
+</form>
+
+<!--    <br>-->
+<!--     <p>If you encounter problems signing in, please contact Alex-->
+<!--     Randles (alex.randles@adaptcentre.ie)</p>-->
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% extends "general_base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Modes{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+<div class="container">
+    <div class="row text-center my-4">
+        <div class="col-">
+            <h2>Choose Mode</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center my-4">
+        <div class="col-md-6">
+            <div class="card text-center">
+                <h5 class="card-header">R2RML and RML Mapping Assessment</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Upload R2RML or RML Mapping</h5>
+                    <p class="card-text mb-4">The quality assessment, refinement and validation of R2RML and RML mappings.</p>
+                    <div class="my-4">
+                        <img src="./static/images/r2rml_logo.png" class="mx-3 rounded  w-25 -h-25" alt="...">
+                    </div>
+
+                    <a href="/index" class="btn btn-primary mt-4">Quality Assessment</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-center">
+                <h5 class="card-header">Change detection</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Connect to a Relational Database, CSV or XML file versions</h5>
+                    <p class=" card-text">Detect changes in the relational database, CSV and XML files which were used to create an RDF dataset.</p>
+                    <div class="my-4">
+                        <img src="./static/images/XML_logo.png" class="mx-3 rounded  w-25 -h-25" alt="...">
+                        <img src="./static/images/sql_logo.png" class="rounded mx-3 w-25 -h-25" alt="...">
+                        <img src="./static/images/CSV_logo.jpg" class="rounded mx-3 w-25 -h-25" alt="...">
+                    </div>
+                    <a href="/format-choice" class="btn btn-primary">Change detection</a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+</body>
+</html>

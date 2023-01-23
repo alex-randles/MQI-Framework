@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+{% extends "change_detection/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Change Detection Processes{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+
+
+
+{% if change_process_executed != false %}
+<div class="alert alert-success text-center" role="alert">
+    Change Detection process successfully added!
+</div>
+{% endif %}
+
+{% if mapping_uploaded == true %}
+<div class="alert alert-success text-center" role="alert">
+    Mapping successfully added!
+</div>
+{% endif %}
+
+{% if mapping_uploaded == false %}
+<div class="alert alert-danger text-center" role="alert">
+    No Mapping Uploaded!
+</div>
+{% endif %}
+
+{% if mapping_deleted == true %}
+<div class="alert alert-success text-center" role="alert">
+    Mapping successfully deleted!
+</div>
+{% endif %}
+
+{% if process_removed == true %}
+<div class="alert alert-success text-center" role="alert">
+    Process successfully removed!
+</div>
+{% endif %}
+
+<div class="ml-1">
+    <h3 class="mx-2">Change Detection Processes</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 text-start">
+            <p>Change Detection which has been initiated by the account.</p>
+        </div>
+<!--        <div class="col-6 text-end">-->
+<!--            <a class="btn btn-md btn-primary" href="{{url_for('detect_CSV_changes')}}" >Start New Process</a>-->
+<!--        </div>-->
+    </div>
+</div>
+<table class="table table-lg h6">
+    <thead>
+    <tr>
+        <th scope="col">Process #
+            <span class="tt" data-bs-placement="top" title="ID of the change detection process">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Source Data
+            <span class="tt" data-bs-placement="top" title="Name of the source data">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Data format
+            <span class="tt" data-bs-placement="top" title="The format of the source data">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Detection Ends
+            <span class="tt" data-bs-placement="top" title="The date when the change detection process stops">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Changes Detected
+            <span class="tt" data-bs-placement="top" title="Total number of changes detected">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Thresholds
+            <span class="tt" data-bs-placement="top" title="Thresholds define when users will be notified of source data changes">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Mappings Impacted
+            <span class="tt" data-bs-placement="top" title="Mappings which could be effected by the changes">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Download Current Graph
+            <span class="tt" data-bs-placement="top" title="Download the change detection named graphs locally">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Remove Process
+            <span class="tt" data-bs-placement="top" title="Remove the change detection process">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for key, value in graph_details.items() %}
+    <tr>
+        <th scope="row">{{key}}</th>
+        {% if "change_sources" in value %}
+        {% set current_version = value["change_sources"]["current_version"].split('/')[-1] %}
+        {% set previous_version = value["change_sources"]["previous_version"].split('/')[-1] %}
+        <td>
+            <pre>Version 1: <a href={{value["change_sources"]["previous_version"]}} target="_blank">{{previous_version}}</a>
+Version 2: <a href={{value["change_sources"]["current_version"]}} target="_blank">{{current_version}}</a></pre>
+        </td>
+
+        {% else %}
+        <td>
+            N/a
+        </td>
+        {% endif %}
+
+        {% set detection_end = value["detection_end"]  %}
+        {% set change_count = value["change_count"] %}
+        {% set data_format = value["data_format"]|upper %}
+
+        <td>{{ data_format }}</td>
+
+        {% if detection_end %}
+        <td>
+            {{ detection_end }}
+        </td>
+        {% else %}
+        <td>
+            01/09/2022
+        </td>
+        {% endif %}
+
+        {% if change_count %}
+        <td>{{ change_count }}</td>
+        {% else %}
+        <td>N/a</td>
+        {% endif %}
+
+        <td>
+            {% set graph_filename = graph_details[key]["filename"] %}
+            <a href="{{ url_for('process_thresholds', graph_filename=graph_filename) }}" target="__blank">
+                Threshold Limits
+            </a>
+        </td>
+
+        <td>
+            <a href="{{ url_for('mappings_impacted', mapping_unique_id=0, graph_id=1) }}" target="_blank">Mapping #1</a>
+
+            {% set mappings_impacted = value["mappings_impacted"]["references_impacted"].keys()|list %}
+            {% if mappings_impacted|length > 1 %}
+            {% for mapping_id, mapping_values in value["mappings_impacted"]["references_impacted"].items()  %}
+            {% set mapping_unique_id = participant_id|string + '-' + mapping_id|string %}
+
+            <br>
+            {% endfor %}
+            {% else %}
+            {% endif %}
+
+        </td>
+        <td>
+            <a href="{{ url_for('static', filename='change_detection_cache/%s/change_graphs/%s' % (participant_id, value['filename'])) }}">
+                <button class="btn btn-sm btn-secondary">Download Graph</button>
+            </a>
+
+        </td>
+        <td>
+            <a href="{{ '/remove/%s/%s' % (participant_id, value['filename'])}}"
+               class="btn btn-secondary mr-2">
+                Remove
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+
+
+
+<h3 class="mx-2">Mappings Uploaded</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 text-start">
+            <p>Mappings which have been uploaded by the account.</p>
+        </div>
+    </div>
+</div>
+
+{% set mapping_count = mapping_details.keys()|list|length %}
+{% if  mapping_count > 0 %}
+
+<table class="table table-lg h6">
+    <thead>
+    <tr>
+        <th scope="col">Mapping  #
+            <span class="tt" data-bs-placement="top" title="ID of the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">File name
+            <span class="tt" data-bs-placement="top" title="File name of the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Source Data
+            <span class="tt" data-bs-placement="top" title="The source data used by the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Iterator Name (if applicable)
+            <span class="tt" data-bs-placement="top" title="The iterator used by the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Data references
+            <span class="tt" data-bs-placement="top" title="Data references used by the mapping">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Download Mapping
+            <span class="tt" data-bs-placement="top" title="Download the mapping file">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Assess Mapping Quality
+            <span class="tt" data-bs-placement="top" title="Redirect to mapping quality assessment">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+        <th scope="col">Delete Mapping
+            <span class="tt" data-bs-placement="top" title="Remove the mapping document">
+              <i class="bi bi-info-circle" ></i>
+                </span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {% for key, value in mapping_details.items() %}
+    <tr>
+        {% set filename = value["display_filename"] %}
+        {% set iterators = value["iterators"]|join(",   ") %}
+        {% set data_references = value["data_references"]|join(",   ") %}
+
+        <th scope="row">{{key}}</th>
+        <td>
+            {% if filename %}
+            {{ filename }}
+            {% else %}
+            N/a
+            {% endif %}
+        </td>
+        <td>
+            {% if "source_data" in value %}
+            {{ value["source_data"]|join(", ")}}
+            {% else %}
+            N/a
+            {% endif %}
+        </td>
+        <td>
+            {% if iterators %}
+            {{ iterators }}
+            {% else %}
+            N/A
+            {% endif %}
+        </td>
+        <td>
+            {% if data_references %}
+            {{ data_references }}
+            {% else %}
+            N/a
+            {% endif %}
+        </td>
+        <td>
+            <a href="{{ url_for('download_sample_mapping') }}">
+                <button class="btn btn-sm btn-secondary">Download Mapping</button>
+            </a>
+        </td>
+        <td>
+            <a href="{{ '/index/%s' % (value['filename'])}}" target="_blank" id="assess-mapping"
+               class="btn btn-sm btn-secondary mr-2">
+                Assess Quality
+            </a>
+        </td>
+        <td>
+            <a
+               onclick="return disabledButton();" class="btn btn-secondary mr-2">
+                Delete
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+
+    </tbody>
+</table>
+{% else %}
+<h3 class="text-center my-4">No Mappings Uploaded!</h3>
+{% endif %}
+
+<div class="container-fluid">
+    <div class="row my-3 justify-content-center">
+        <div class="col-3">
+            <a  class="btn btn-primary" href="{{form_url}}" target="_blank">
+                Complete Questionnaire
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var i = 0;
+function move() {
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 200);
+    function frame() {
+      if (width >= 100) {
+       //  clearInterval(id);
+        move();
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+}
+</script>
+
+
+<script>
+    const tooltips = document.querySelectorAll(".tt")
+    tooltips.forEach ( t=> {
+       new bootstrap.Tooltip(t)
+    })
+
+$('.selectpicker').selectpicker({
+  showSubtext:true
+});
+
+</script>
+
+{% endblock %}
+
+</body>
+</html>

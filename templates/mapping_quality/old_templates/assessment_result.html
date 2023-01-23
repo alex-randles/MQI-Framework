@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<style>
+html, body {
+    margin: 0 auto;
+    height: 30%;
+    width: 100%;
+}
+html {
+    background-color:#E8E8E8;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  width:100%;
+  height:60%;
+}
+
+li {
+  float: left;
+  color:white;
+  height:100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  height:100%;
+  font-weight:bold;
+}
+
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+div.one {
+   padding-top:10px;
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-image: url('./static/images/number-1.png');
+}
+</style>
+<script>
+    function hideAssessmentInformation() {
+  var x = document.getElementById("assessment_container");
+  var y = document.getElementById("refinement_redirect");
+  var table_status = document.getElementById("table-status");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    table_status.innerHTML = "Mapping Quality Information [HIDE]";
+  } else {
+    x.style.display = "none";
+    table_status.innerHTML = "Mapping Quality Information [EXPAND]";
+
+  }
+}
+</script>
+
+<html>
+
+        <head>
+             <script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}"></script>
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+                        <!--             script for info button-->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <title>Mapping Quality Assessment</title>
+
+        </head>
+
+        <body>
+
+
+
+            <ul id="list">
+              <li style="position:relative; left: 15%; word-wrap: break-word; width:70%;font-weight:bold;font-size:150%;">Mapping Quality Assessment</li>
+              {% if session['logged_in'] == True %}
+                <li style="position:relative; left: 10%;word-wrap: break-word; width:10%;outline: 2px solid white;">  <a href="/index">Home</a></li>
+                <li style="position:relative; left: 10%;word-wrap: break-word; width:10%;outline: 2px solid white;">  <a href="/logout" onclick="return logout(event);">Logout</a></li>
+              {% else %}
+                    <li> <a href="/logout">Login</a></li>
+              {% endif %}
+            </ul>
+
+
+
+
+            <button id="table-status" onclick="hideAssessmentInformation()" style="font-size:120%;left:1%; background-color:black; color:white;border-radius:3%;padding:0.5%; position:absolute; top:10%;font-weight:bold; ">Mapping Quality Information [HIDE]</button>
+
+
+            <div id="assessment_container">
+
+            <div id="refinement_redirect" style="font-size:120%;display:none; text-align:center;font-weight:bold;" class="success-msg child inline-block-child">
+                      <i class="fa fa-check"></i>
+                    <a href="#refinement_container">Click here, Refinements have been generated below!</a>
+            </div>
+
+            <form id="test" action="./refinement" >
+                <div  id="table">
+         <table style="min-width:100%; margin-top:7%; " class="styled-table">
+                  <tr>
+                      <th>
+                          Violation ID
+                          <a class="tags" gloss="Unique ID">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                      <th>
+                          Metric ID
+                          <a class="tags" gloss="
+                           Mapping metrics (MP),
+                           Data metrics (D),
+                           Vocabulary metrics (VOC)
+                          ">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                      <th>
+                          Result Message
+                          <a class="tags" gloss="Human-readable description of the violation">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                      <th>
+                          Value
+                          <a class="tags" gloss="Value which triggered the violation">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                      <th>Triple Map Name
+                          <a class="tags"
+                             gloss="Triple map which contains the violation">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                      <th>
+                          Violation Location
+                          <a class="tags"
+                             gloss="Location within the triple map">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                      <th>
+                          Select Refinements
+                          <a class="tags"
+                             gloss="Refinements available for this violation">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                      <th>
+                          Display violation
+                          <a class="tags"
+                             gloss="Violation value in red">
+                          <i class="fa fa-info-circle info-button">
+                          </i></a>
+                      </th>
+                  </tr>
+                     {%for violation_ID in assessment_report.keys()%}
+                            {% set current_violation = assessment_report[violation_ID] %}
+                            {% set metric_ID = current_violation["metric_ID"] %}
+                            {% set result_message = current_violation["result_message"] %}
+                            {% set violation_value = find_prefix(current_violation["value"]) %}
+                            {% set triple_map = get_triple_map_ID(current_violation["triple_map"]) %}
+                            {% set violation_location = find_violation_location(current_violation["location"]) %}
+
+                        <tr>
+                            <td>{{violation_ID}}</td>
+                            <td>{{metric_ID}}</td>
+
+                            <td class="table-data">{{result_message}}
+
+                            {% set metric_description = metric_descriptions.get(metric_ID) %}
+                            <a class="tags"
+                                 gloss="{{metric_description}}">
+                            <i class="fa fa-info-circle info-button">
+                            </i></a>
+
+                            </td>
+
+                            <td class="table-data">{{violation_value}}</td>
+
+                            <td class="table-data">{{triple_map}}</td>
+
+                            <td class="table-data">{{violation_location}}</td>
+
+                            <td class="table-data">
+
+                            {% set current_refinements = suggested_refinements[violation_ID] %}
+                            {% if current_refinements|length > 0 %}
+                            <select class="form-select" id={{violation_ID}} name={{violation_ID}}>
+                                <option value="Manual">Manual</option>
+                                   {% for refinement in current_refinements %}
+                                       <option value={{refinement}}>{{split_camel_case(refinement)}}</option>
+                                   {% endfor %}
+                            </select>
+                                {% else %}
+                                   <span style="color:red;">Vocabulary related metrics must be refined by
+                                       the maintainers of the vocabulary.</span>
+                                {% endif %}
+                            </td>
+
+                            <td class="table-data">
+
+                             <div> <button type="button" onclick="showDiv('{{violation_ID|string + 'assessment_result_div'}}')"> <span></span>Display Violation</button></div>
+
+                             <div id="{{violation_ID|string + 'assessment_result_div'}}" style="min-width:100%;display:none;">
+
+                                 {% set violation_display = display_violation(validation_result[violation_ID]["location"], validation_result[violation_ID]["triple_map"], validation_result[violation_ID]["value"]) %}
+                                 {% if violation_display %}
+                                     {% for triple in violation_display %}
+                                        {% if violation_value %}
+                                            {% if parse_violation_value(violation_value) in triple %}
+                                              <pre><span>{{triple}}</span></pre>
+                                           {% else %}
+                                              <pre>{{triple}}</pre>
+                                           {% endif %}
+                                        {% else %}
+                                              <pre>{{triple}}</pre>
+                                       {% endif %}
+                                     {% endfor %}
+                                 {% else %}
+                                    <pre>Violation has no triples related.</pre>
+                                 {% endif %}
+                             </div>
+                         </td>
+                        </tr>
+
+                     {%endfor%}
+                </table>
+                    </div>
+
+                <div style="text-align: center;">
+                               <a style="font-weight:bold;" class="tags"
+                     gloss="This button will generate the refinements you have selected.
+                     If you change refinements after pressing the button, press this button again.">
+                <i class="fa fa-info-circle info-button">
+                </i></a>
+
+
+                <input type="Submit" onclick="showDivInLine('refinement_redirect')" id="button-style" value="Create Refinements">
+                </div>
+
+
+            </form>
+
+            <div style="width:100%;height:100%; text-align:center">
+                        <br>
+                <a href="/return-validation-report/" target="blank"><button class="button-style">Export Quality Report (TTL)
+                </button></a>
+
+                <input type="button"  class="button-style" value="Save result table as PDF" id="btPrint" onclick="createPDF()" />
+
+            </div>
+            </div>
+
+        </body>
+
+{% block content %}
+{% endblock %}
+
+</html>
+
+
+
+<!--        <header>-->
+<!--            <h2 id="heading-style">Mapping Quality Assessment</h2>-->
+<!--            {% if session['logged_in'] == True %}-->
+<!--            <a href="/logout" style="right:10%;top:2%;color:black; position:absolute;" onclick="return logout(event);"><button class="button-style">Logout</button></a>-->
+<!--            {% else %}-->
+<!--            <a href="/" style="right:10%;top:2%;color:black; position:absolute;" ><button class="button-style">Login</button></a>-->
+<!--            {% endif %}-->
+<!--            <div class='parent'>-->
+<!--                <div id="refinement_redirect" style="display:none" class="success-msg child inline-block-child">-->
+<!--                      <i class="fa fa-check"></i>-->
+<!--                    <a href="#refinement_container">Click here, Refinements have been generated below!</a>-->
+<!--                </div>-->
+
+<!--                <div class='child inline-block-child'>-->
+<!--                      <button class="btn" style="font-size : 17px;" onclick="location.href = '/index';"><i class="fa fa-home" ></i> Home</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </header>-->

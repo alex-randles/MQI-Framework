@@ -1,0 +1,27 @@
+<students1 xmlns:diff="http://namespaces.shoobx.com/diff" diff:rename="students">
+  <student>
+    <Name>Venus</Name>
+    <Test>hshsh</Test>
+  </student>
+<diff:insert>
+</diff:insert><students2 diff:insert="">
+  <student diff:insert="">
+    <Name diff:insert="">Venus</Name><diff:insert>
+    </diff:insert><Test diff:insert="">hshsh</Test><diff:insert>
+  </diff:insert></student><diff:insert>
+</diff:insert></students2><diff:insert>
+
+
+</diff:insert><students3 diff:insert="">
+  <student diff:insert="">
+    <Name diff:insert="">Venus</Name><diff:insert>
+    </diff:insert><Test diff:insert="">hshsh</Test><diff:insert>
+  </diff:insert></student><diff:insert>
+  </diff:insert><students3 diff:insert="">
+  <student diff:insert="">
+    <Name diff:insert="">Venus</Name><diff:insert>
+    </diff:insert><Test diff:insert="">hshsh</Test><diff:insert>
+  </diff:insert></student><diff:insert>
+</diff:insert></students3><diff:insert>
+</diff:insert></students3><diff:insert>
+</diff:insert></students1>

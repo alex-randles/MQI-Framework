@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+
+
+html, body {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+html {
+    background-color:#E8E8E8;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  width:100%;
+  height:7%;
+}
+
+li {
+  float: left;
+  color:white;
+  height:100%;
+  text-align: center;
+  vertical-align: middle;
+  
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  height:100%;
+  font-weight:bold;
+}
+
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>PSSUQ</title>
+    <script type="text/javascript"
+        src="{{ url_for('static', filename='js_scripts.js') }}">
+    </script>
+</head>
+<!--<header>-->
+<!--    {% if session['logged_in'] == True %}-->
+<!--        <a href="/logout" style="right:10%;top:1%;color:black; position:absolute;" onclick="return logout(event);"><button class="button-style">Logout</button></a>-->
+<!--    {% else %}-->
+<!--        <a href="/" style="right:10%;top:1%;color:black; position:absolute;" ><button class="button-style">Login</button></a>-->
+<!--    {% endif %}-->
+
+
+<!--    <ul>-->
+<!--          <li style="width:95%;font-weight:bold;font-size:30px;">Usability Questionnaire</li>-->
+<!--          <li>-->
+<!--              {% if session['logged_in'] == True %}-->
+<!--                  <li style="width:5%;font-size:20px;">  <a href="/logout" onclick="return logout(event);">Logout</a></li>-->
+<!--              {% else %}-->
+<!--                  <li> <a href="/logout" onclick="return logout(event);">Logout</a></li>-->
+<!--              {% endif %}-->
+<!--    </ul>-->
+
+<!--    <ul>-->
+<!--          <li style="width:25%;font-weight:bold;font-size:22px;">Usability Questionnaire (PSSUQ)</li>-->
+<!--          <li style="width:50%; font-size:16px;padding-right:15%;">★Please complete the questionnaire to continue to the next page.★</li>-->
+<!--          {% if session['logged_in'] == True %}-->
+<!--                <li style="width:10%;">  <a href="/logout" onclick="return logout(event);">Logout</a></li>-->
+<!--          {% else %}-->
+<!--                <li> <a href="/logout">Login</a></li>-->
+<!--          {% endif %}-->
+<!--      </ul>-->
+
+
+
+<!--</header>-->
+<body>
+          <ul>
+          <li style="word-wrap: break-word;width:15%;font-weight:bold;">Usability Questionnaire</li>
+          <li style="word-wrap: break-word; width:75%;"><b>Step: </b>Please complete the questionnaire to continue to the next page</li>
+          {% if session['logged_in'] == True %}
+                <li style="word-wrap: break-word; width:10%;outline: 2px solid white;">  <a href="/logout" onclick="return logout(event);">Logout</a></li>
+          {% else %}
+                <li> <a href="/logout">Login</a></li>
+          {% endif %}
+      </ul>
+<div style="height: 92%; width:50%; margin: 0 auto; text-align:center;z-index:1;position:relative">
+<!--    <h2 style="text-align:center;">Usability Questionnaire</h2>-->
+    <iframe
+             id='gform' style="height:100%; width:100%;"
+             src="https://docs.google.com/forms/d/e/1FAIpQLSeDbk1NqS7sZ_0ajc2vVjljvy-zjzqn2AcV5ie3FjTfPYDV3g/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">
+Loadjdhdh
+    </iframe>
+
+    <div style="  z-index: -1;position: absolute; top:10%;width:30%;right:30%;">
+        <p>If the questionnaire doesn't load on this page, you can fill it out here:
+        <a href="https://forms.gle/gEqw2GDqQFzEJjdTA" target="_blank">Questionnaire link</a>
+        </p>
+        <p>And press this button when done: <a href="/completion">Next page</a></p>
+
+    </div>
+
+
+
+
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+var load = 0;
+
+document.getElementById('gform').onload = function(){
+    /*Execute on every reload on iFrame*/
+    load++;
+    if(load > 1){
+        /*Second reload is a submit*/
+        document.location = "/completion";
+    }
+}
+</script>
+
+</html>
