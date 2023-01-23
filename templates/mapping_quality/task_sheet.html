@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% extends "mapping_quality/base_no_home.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Task sheet{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <h2 class="text-center mt-2">Follow these Steps 1-3</h2>
+        <div class="col-sm-12  d-flex justify-content-center">
+
+
+            <div class="list-group w-85 mt-3">
+
+                  <a href="" onclick=" window.open('https://drive.google.com/file/d/1NWZlmFYf-Ognuc2mqtM3Ul65YsaTbNiv/view?usp=sharing','_blank')" class="list-group-item list-group-item-action  bg-light my-4">
+
+    <div class="d-flex w-100 justify-content-between ">
+                      <img src="./static/images/number-1.png" height="10%" width="10%">
+    <h2 class="mb-1 mt-4">Click here to open task sheet in new tab</h2>
+
+      <h3 class="mb-1">Task sheet</h3>
+
+    </div>
+
+  </a>
+  <a href="/return-sample-mapping/" class="list-group-item list-group-item-action  bg-light my-4">
+
+    <div class="d-flex w-100 justify-content-between ">
+                      <img src="./static/images/number-2.png" height="10%" width="10%">
+    <h2 class="mb-1 mt-4">Click here to download and save the sample mapping</h2>
+
+      <h3 class="mb-1">Sample Mapping</h3>
+
+    </div>
+
+  </a>
+
+
+                 <a href="/index" class="list-group-item list-group-item-action  bg-light my-4">
+    <div class="d-flex w-100 justify-content-between ">
+                      <img src="./static/images/number-3.png" height="10%" width="10%">
+    <h2 class="mb-1 mt-4">Click here after completing Steps 1 and 2</h2>
+
+      <h3 class="mb-1"></h3>
+
+    </div>
+
+  </a>
+</div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+</body>
+</html>

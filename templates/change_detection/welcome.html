@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends "general_base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+<div class="container-fluid text-center my-4">
+    <div class="row my-4">
+        <div class="col-">
+            <h3>Welcome to the Mapping Quality Framework experiment</h3>
+        </div>
+    </div>
+    <div class="row my-4 justify-content-center text-center" style="margin:20%;">
+        <div class="col-">
+            <h5>The experiment will involve you interacting with the framework. Followed by a usability experiment. The total time for completion of tasks and questionnaire is roughly 30 minutes. Thank you for your participation.</h5>
+        </div>
+    </div>
+<!--    <div class="row justify-content-center text-center">-->
+<!--        <div class="col-">-->
+<!--            <img class="h-50" src="./static/images/welcome.jpg">-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="row">
+        <div class="col-">
+            <a href="/information-sheet" class="btn btn-lg btn-primary">Start the Experiment</a>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+</body>
+</html>

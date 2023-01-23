@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+
+html, body {
+    margin: 0 auto;
+    height: 100%;
+    width: 95%;
+}
+html {
+    background-color:#E8E8E8;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  width:100%;
+  height:7%;
+}
+
+li {
+  float: left;
+  color:white;
+  height:100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  height:100%;
+  font-weight:bold;
+}
+
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+</style>
+ <script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}">
+
+ </script>
+<head>
+    <meta charset="UTF-8">
+    <title>Information Sheet</title>
+</head>
+<body>
+      <ul>
+
+          <li style="width:15%;    word-wrap: break-word;font-weight:bold;">Information Sheet</li>
+          <li style="  width:40%; word-wrap: break-word"><b>Step: </b>Press the Next Page button after you have read the information sheet</li>
+          <li style="margin-right:10%; width:10%;outline: 2px solid white;"><a href="/informed-consent">Next Page</a>
+              {% if session['logged_in'] == True %}
+                <li style="width:15%;word-wrap: break-word; outline: 2px solid white; ">
+                    <a href="/logout" onclick="return withdraw(event);">Withdraw from Experiment</a></li>
+                <li style=" width:10%;word-wrap: break-word;outline: 2px solid white;">
+                    <a href="/logout" onclick="return logout(event);">Logout</a></li>
+          {% else %}
+                <li> <a href="/logout">Login</a></li>
+          {% endif %}
+      </ul>
+<div id="container" class="container" style="height: 90%; width:100%; margin: 0 auto;">
+
+
+<!--    <p>Please read the information sheet for this experiment and continue to the next page when finished.</p>-->
+    <embed src="./static/documents/Information Sheet.pdf" height="100%" width="100%"/>
+</div>
+</body>
+</html>

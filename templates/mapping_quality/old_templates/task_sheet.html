@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}">
+    </script>
+    <style>
+<!--     .button {-->
+<!--          background-color: #008CBA; /* Green */-->
+<!--          border: none;-->
+<!--          color: white;-->
+<!--          padding: 50px 200px;-->
+<!--          text-align: center;-->
+<!--          text-decoration: none;-->
+<!--          display: inline-block;-->
+<!--          font-size: 16px;-->
+<!--          margin: 4px 2px;-->
+<!--          cursor: pointer;-->
+<!--    }-->
+
+    .container {
+            margin: 0 auto;
+<!--            border: 2px solid black;-->
+            border-radius: 20px;
+            padding: 50px;
+    }
+
+    html, button {
+        font-size:30px;
+    }
+
+html {
+    background-color:#E8E8E8;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  width:100%;
+}
+
+li {
+  float: left;
+  color:white;
+    text-align: center;
+vertical-align: middle;
+  line-height: 70px;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  font-weight:bold;
+}
+
+
+li span {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  padding: 10px 5px;
+  font-weight:bold;
+  font-size:40px;
+
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+<!--dd.one, dd.two, dd.three  {-->
+<!--   padding-top:10px;-->
+<!--   background-repeat: no-repeat;-->
+<!--   background-size: contain;-->
+
+<!--}-->
+
+dd.one {
+   padding-top:10px;
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-image: url('./static/images/number-1.png');
+}
+
+dd.two {
+   padding-top:10px;
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-image: url('./static/images/number-2.png');
+}
+
+dd.three {
+   padding-top:10px;
+   background-repeat: no-repeat;
+   background-size: contain;
+   background-image: url('./static/images/number-3.png');
+}
+
+div.one, div.two, div.three {
+    padding: 10px 15px;
+    margin: 50px;
+    background-color:white;
+    border-radius: 30px;
+}
+
+dl {
+
+
+}
+
+
+    </style>
+    <title>Task Sheet</title>
+</head>
+<body>
+
+<!--    <h2 style="text-align:center;">Experiment Files</h2>-->
+<!--    {% if session['logged_in'] == True %}-->
+<!--    <a href="/logout" onclick="return logout(event);" style="right:5%;top:5%;color:black; position:absolute;" ><button class="button-style">Logout</button></a>-->
+
+<!--    {% else %}-->
+<!--    <a href="/" style="right:10%;top:3%;color:black; position:absolute;" ><button class="button-style">Login</button></a>-->
+<!--    {% endif %}-->
+
+    <ul>
+          <li style="width:90%;position:static;font-weight:bold;">Experiment Files</li>
+          <li>
+              {% if session['logged_in'] == True %}
+                  <li style="width:10%;font-size:60%;outline: 2px solid white;">  <a href="/logout" onclick="return logout(event);">Logout</a></li>
+              {% else %}
+                  <li> <a href="/logout" onclick="return logout(event);">Logout</a></li>
+              {% endif %}
+    </ul>
+
+
+<div class="container" style="text-align:center">
+    <dl>
+
+        <div class="one">
+            <dt>Download and save the sample mapping to your computer which will be used during the experiment.</dt>
+            <dd class="one">
+                <a href="/return-sample-mapping/" target="blank"><button class="button">Download Sample Mapping (TTL)
+                </button> </a>
+            </dd>
+        </div>
+
+        <div class="two">
+            <dt>Press the button to open the task sheet in a new tab. The sheet contains the steps required to be completed during the experiment.</dt>
+            <dd class="two">
+                <button class="button" onclick=" window.open('https://drive.google.com/file/d/1NWZlmFYf-Ognuc2mqtM3Ul65YsaTbNiv/view?usp=sharing','_blank')">
+                    Task sheet</button>
+            </dd>
+        </div>
+
+
+        <div class="three">
+            <dt>Once you have completed the above steps, continue to the next page.</dt>
+            <dd class="three">
+                <button onclick="location.href = '/index';" class="btn button-style"><i class="fa fa-home"></i> Next Page</button>
+            </dd>
+        </div>
+
+    </dl>
+
+
+<!--    <p>Press the button to open the task sheet in a new tab. The sheet contains the steps required to be completed during the experiment.</p>-->
+<!--    <button class="button" onclick=" window.open('https://drive.google.com/file/d/1Up4HJK27WPGFJOqMlzqCM59dWnO3MUyb/view?usp=sharing','_blank')">-->
+<!--        Task sheet</button>-->
+<!--    <p>Download and Save the sample mapping which will be used during the experiment.</p>-->
+<!--    <a href="/return-sample-mapping/" target="blank"><button class="button">Download Sample Mapping (TTL)-->
+<!--    </button></a>-->
+<!--    <p>Once you have completed the above steps, continue to the next page.</p>-->
+<!--            <button onclick="location.href = '/index';" class="btn button-style"><i class="fa fa-home"></i> Next Page</button>-->
+
+</div>
+    <div style="text-align: center;">
+        <br>
+    </div>
+
+
+
+</body>
+</html>

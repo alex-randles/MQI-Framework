@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+{% extends "change_detection/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Homepage{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+<h3 class="h2 text-center mt-2">XML Change Detection</h3>
+<form style="" method="POST" action="/XML-changes" enctype = "multipart/form-data" id="uploadForm" onsubmit="move();startSpinner();" >
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-6 bg-light py-2 justify-content-center">
+                <h4 class="h4">XML file versions</h4>
+                <label class="form-label" >
+                    Connect to two XML file versions to detect changes
+                </label>
+                <div class="form-group">
+                    <label for="XML_file_1">XML File V1 URL</label>
+                    <input type="text" class="form-control" value="https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/student.xml"
+                           id="XML_file_1" name="XML_file_1" placeholder="XML file version 1 URL" required>
+                </div>
+                <div class="form-group">
+                    <label for="XML_file_2">XML File V2 URL</label>
+                    <input type="text" value="https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/student.xml"
+                           class="form-control" id="XML_file_2" name="XML_file_2"  placeholder="XML file version 2 URL" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-4 bg-light py-2">
+                <h4 class="h4">Notification Policy</h4>
+                <label  class="form-label" >
+                    Thresholds for notification policy.
+                </label>
+
+
+
+                <div class="form-inline row my-2">
+                    <label for="insert-threshold" class="col-sm-4 col-form-label">Insert Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for insert changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="insert-threshold" name="insert-threshold" value="0"  placeholder="Insert Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="delete-threshold" class="col-sm-4 col-form-label">Delete Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for delete changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="delete-threshold" name="delete-threshold" value="0"  placeholder="Delete Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="move-threshold" class="col-sm-4 col-form-label">Move Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for move changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="move-threshold" name="move-threshold" value="0"  placeholder="Move Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="datatype-threshold" class="col-sm-4 col-form-label">Datatype Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for datatype changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="datatype-threshold" name="datatype-threshold" value="0"  placeholder="Datatype Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="merge-threshold" class="col-sm-4 col-form-label">Merge Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for merge changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="merge-threshold" name="merge-threshold" value="0"  placeholder="Merge Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="update-threshold" class="col-sm-4 col-form-label">Update Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for update changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="update-threshold" name="update-threshold" value="0" placeholder="Update Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="detection-end" class="col-sm-4 col-form-label">Detection End Time:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The date when change detection finishes" class="bi bi-info-circle"></i></span>
+                            <input type="date"  id="detection-end" name="detection-end"  required>                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="email-address" class="col-sm-4 col-form-label">Notification Email: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The email address for the notification to be sent" class="bi bi-envelope"></i></span>
+                            <input value="alexrandles0@gmail.com" type="email"  id="email-address" name="email-address"  placeholder="Email Address"  required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-sm-12 text-center">
+
+                <input   class="my-2 btn btn-primary" id="submit-button" type = "submit" value="Start Change Monitoring" />
+
+            </div>
+
+
+        </div>
+        <div class="container-fluid">
+
+
+            <div class="row d-flex justify-content-center py-1" >
+                <div class="col-sm-4 text-center">
+                    <div class="d-flex justify-content-center">
+                    <div id="spinner" class="spinner-border text-primary text-center" role="status" style="display:none;">
+                        <span class="sr-only"></span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center py-1">
+                <div class="col-sm-4 text-center">
+                    <div class="progress" id="myProgress" >
+                        <div class="progress-bar progress-bar-striped"  id="myBar" role="progressbar"  aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+
+
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-sm-4 text-center">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for msg in messages %}
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Error</h4>
+                    {{msg}}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+
+</form>
+
+
+<!--Generation is the completion of production of a new entity by an activity. This entity did not exist before generation and becomes available for usage after this generation.-->
+
+<!--      <select class="form-select" aria-label="Default select example">-->
+<!--            <option selected>Open this select menu</option>-->
+<!--  <option value="1">prov:generatedAtTime</option>-->
+<!--  <option value="1" disabled>Generation is the completion of production of a new entity by an activity. This entity did not exist before generation and becomes available for usage after this generation.</option>-->
+<!--</select>-->
+
+<script>
+    var i = 0;
+function move() {
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 400);
+    function frame() {
+      if (width >= 100) {
+       //  clearInterval(id);
+        move();
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+}
+
+</script>
+
+<script>
+
+function startSpinner() {
+  var spinner = document.getElementById("spinner");
+  var submit_button = document.getElementById("submit-button");
+  if (spinner.style.display === "none") {
+    spinner.style.display = "block";
+    submit_button.style.display = "none";
+  } else {
+    spinner.style.display = "none";
+    submit_button.style.display = "block";
+  }
+}
+</script>
+
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends "mapping_quality/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Completion Screen{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+
+ <div  style="margin-top:5%; background-color:white; margin:0 auto; width:700px; height:700px; padding:20px; text-align:center; border: 10px solid #787878">
+    <div  style="background-color:white; width:650px; height:650px; padding:20px; text-align:center; border: 5px solid #787878">
+           <span style="font-size:50px; font-weight:bold">Certificate of Completion</span>
+           <br><br>
+           <span style="font-size:25px"><i>This is to certify that</i></span>
+           <br><br>
+           <span style="font-size:30px"><b>Participant ID: {{ participant_id }}</b></span><br/><br/>
+           <span style="font-size:25px"><i>has completed the</i></span> <br/><br/>
+           <span style="font-size:30px">Usability Experiment</span> <br/><br/>
+           <span style="font-size:25px"><i>dated</i></span><br>
+          <span style="font-size:30px">{{date}}</span><br/>
+<!--          <span style="font-size:30px">{{time}}</span><br/>-->
+<!--          <img style="height:25%; width:25%" src="./static/images/green_tick.jpeg"/>-->
+    </div>
+    </div>
+<div>
+<!--     <button id="btnSave">Click me</button>-->
+<!--    <br>-->
+<!--    <a href="/logout" onclick="return logout(event);" style="display: flex;align-items: center;justify-content: center;" ><button class="button-style" style="font-size:30px;">Logout</button></a>-->
+</div>
+
+{% endblock %}
+
+
+
+
+
+</body>
+</html>

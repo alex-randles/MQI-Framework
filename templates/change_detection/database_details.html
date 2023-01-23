@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+{% extends "change_detection/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Homepage{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+<h3 class="h2 text-center mt-2">Database Change Detection</h3>
+<form style="" method="POST" action="/database-changes" enctype = "multipart/form-data" id="uploadForm" onsubmit="return move();" >
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-4 bg-light py-2">
+                <h4 class="h4">Database Details</h4>
+                <label class="form-label" >
+                    Details for database to detect changes.
+                </label>
+
+                <div class="form-group row my-2">
+                    <label for="server-name" class="col-sm-4 col-form-label">Server Name: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The person who created the mapping" class="bi bi-server"></i></span>
+                            <input  type="text" value="127.0.0.1" id="server-name" name="server-name" placeholder="Server Name"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="database-name" class="col-sm-4 col-form-label">Database Name:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The person who carried out the quality assessment of the mapping" class="bi bi-server"></i></span>
+                            <input type="text" value="test_DB" id="database-name"  name="database-name" placeholder="Database Name" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="username" class="col-sm-4 col-form-label">User:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The person who carried out the quality assessment of the mapping" class="bi bi-person-circle"></i></span>
+                            <input type="text"  id="username" value="Alex" name="username" placeholder="User" >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="password" class="col-sm-4 col-form-label">Password:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The person who carried out the quality refinement of the mapping" class="bi bi-info-circle"></i></span>
+                            <input type="password" value="1234" id="password" name="password" placeholder="Password" >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-4 bg-light py-2">
+                <h4 class="h4">Notification Policy</h4>
+                <label  class="form-label" >
+                    Thresholds for notification policy.
+                </label>
+
+
+
+                <div class="form-group row my-2">
+                    <label for="insert_threshold" class="col-sm-4 col-form-label">Insert Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for insert changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="insert_threshold" name="insert_threshold" value="0"  placeholder="Insert Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="delete_threshold" class="col-sm-4 col-form-label">Delete Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for delete changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="delete_threshold" name="delete_threshold" value="0"  placeholder="Delete Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="move_threshold" class="col-sm-4 col-form-label">Move Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for move changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="move_threshold" name="move_threshold" value="0"  placeholder="Move Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="datatype_threshold" class="col-sm-4 col-form-label">Datatype Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for datatype changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="datatype_threshold" name="datatype_threshold" value="0"  placeholder="Datatype Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="merge_threshold" class="col-sm-4 col-form-label">Merge Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for merge changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="merge_threshold" name="merge_threshold" value="0"  placeholder="Merge Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="update_threshold" class="col-sm-4 col-form-label">Update Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for update changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="update_threshold" name="update_threshold" value="0" placeholder="Update Threshold"  onclick='deRequire("more-input")'>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="detection-end" class="col-sm-4 col-form-label">Detection End Time:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The date when change detection finishes" class="bi bi-info-circle"></i></span>
+                            <input type="date" value="03/06/2022" id="detection-end" name="detection-end"  required>                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="email-address" class="col-sm-4 col-form-label">Notification Email: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The email address for the notification to be sent" class="bi bi-envelope"></i></span>
+                            <input value="alexrandles0@gmail.com" type="email"  id="email-address" name="email-address"  placeholder="Email Address"  required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-sm-12 text-center">
+
+                <input   class="my-2 btn btn-primary" id="button-style" type = "submit" value="Start Change Monitoring" />
+
+            </div>
+
+
+        </div>
+        <div class="container-fluid">
+
+            <div class="row d-flex justify-content-center py-1">
+                <div class="col-sm-4 text-center">
+
+                    <div class="progress" id="myProgress" >
+                        <div class="progress-bar progress-bar-striped"  id="myBar" role="progressbar"  aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-sm-4 text-center">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for msg in messages %}
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Error</h4>
+                    {{msg}}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+
+</form>
+
+<!--Generation is the completion of production of a new entity by an activity. This entity did not exist before generation and becomes available for usage after this generation.-->
+
+<!--      <select class="form-select" aria-label="Default select example">-->
+<!--            <option selected>Open this select menu</option>-->
+<!--  <option value="1">prov:generatedAtTime</option>-->
+<!--  <option value="1" disabled>Generation is the completion of production of a new entity by an activity. This entity did not exist before generation and becomes available for usage after this generation.</option>-->
+<!--</select>-->
+
+<script>
+    var i = 0;
+function move() {
+  if (i == 0) {
+    i = 1;
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 200);
+    function frame() {
+      if (width >= 100) {
+       //  clearInterval(id);
+        move();
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+}
+</script>
+
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+{% extends "old_templates/assessment_result.html" %}
+<html>
+{% block content %}
+    <div id="refinement_container" class="container" align="center">
+        <head>
+             <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--            <button style="font-size : 17px;" onclick="location.href = '/';" class="btn"><i class="fa fa-home"></i> Home</button>-->
+        </head>
+        <body>
+        <h2 id="heading-style">Mapping Quality Refinement</h2>
+        <form action="/refinement" method="POST" name="myForm" onsubmit="return validateForm()" style="margin-bottom:2%;">
+         <table style="min-width:100%" class="styled-table" id="refinements_table">
+              <tr>
+                  {% set optional_form_ids = [] %}
+
+                  <th>Violation ID
+
+                  </th>
+
+                  <th>Refinement
+                      <a class="tags"
+                             gloss="The refinement you have selected for this violation">
+                      <i class="fa fa-info-circle info-button">
+                      </i></a>
+                  </th>
+
+                  <th>Violation Value
+
+                  </th>
+
+                  <th>Triple Map
+
+                  </th>
+
+                  <th>Violation Location
+
+                  </th>
+                  <th>
+                      Refinement Values
+                      <a class="tags"
+                             gloss="The values which will be used for executing these refinements">
+                      <i class="fa fa-info-circle info-button">
+                      </i></a>
+                  </th>
+                  <th>Select Refinements
+
+                      <a class="tags"
+                             gloss="Select the refinements you want to be executed">
+                      <i class="fa fa-info-circle info-button">
+                      </i></a>
+
+                      <br>
+                      <br>
+                      <button type="button" title="Testing" id="selectAll" class="main"> <span class="sub"></span> Select All Refinements</button>
+                  </th>
+                  <th>Display Violation</th>
+              </tr>
+             {% set input_form_ids = [] %}
+              {%for violation_ID, refinement_values in refinements.items()%}
+                 {% set triple_map = refinement_values["triple_map"] %}
+                 {% set refinement_name = refinement_values["name"] %}
+                 {% set user_input = refinement_values["user_input"] %}
+                 {% set requires_prefixes = refinement_values["requires_prefixes"] %}
+                 {% set restricted_values = refinement_values["restricted_values"] %}
+                 {% set refinement_properties = refinement_values["values"] %}
+                 {% set optional_values = refinement_values["optional_values"] %}
+                 {% set violation_value = find_prefix(validation_result[violation_ID|int]["value"]) %}
+                 {% set violation_location = assessment_report %}
+                 {% set violation_location = find_violation_location(assessment_report[violation_ID| int]["location"]) %}
+                 <tr>
+                     <td>
+                         {{violation_ID}}
+                     </td>
+
+                     <td>
+                         {{split_camel_case(refinement_name)}}
+
+                         {% set refinement_description = refinement_descriptions.get(refinement_name) %}
+                        <a class="tags"
+                             gloss="{{refinement_description}}">
+                        <i class="fa fa-info-circle info-button">
+                        </i></a>
+
+                     </td>
+
+                     <td>
+                         {{violation_value}}
+                     </td>
+
+                     <td>
+                         {{find_triple_map(violation_ID)}}
+                     </td>
+
+                     <td>
+                         {{violation_location}}
+                     </td>
+                 {% set violation_ID = violation_ID|string %}
+                         {% if user_input == false %}
+                         <td  style="width:100%; font-weight:bold;">{{find_prefix(refinement_properties)}}</td>
+
+                     {% elif user_input == true and requires_prefixes == true and restricted_values is none %}
+
+                         <td  style="width:100%">
+
+                             {% for value in refinement_properties %}
+                                 {% set form_value = violation_ID + '-' + value %}
+                                 {% set prefix_value = violation_ID + '-' + 'PREFIX' + '-' + value %}
+
+                         <div style="display:none">
+                             {% if optional_values is not true %}
+                                 {{ input_form_ids.append(form_value) }} {
+                             {% endif %}
+                         </div>
+
+                             <label for={{form_value}}><b>Property: {{find_prefix(value)}} </b>
+<!--                                 <a class="tags"-->
+<!--                                    gloss="The refinement you have selected for this violation.">-->
+<!--                                     <i class="fa fa-info-circle info-button">-->
+<!--                                     </i></a>-->
+                            </label>
+                                 <br>
+                                  <select  style="width:100%" name={{prefix_value}} id={{prefix_value}} required>
+                                      <option value="" disabled selected>Choose a prefix </option>
+                                      {% for prefix in prefix_values.keys() %}
+                                         <option value={{prefix}}>{{prefix}}</option>
+                                      {% endfor  %}
+                                  </select>
+                             
+                                 <input style="width:100%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required><br><br>
+
+                             {% endfor %}
+                         </td>
+
+                     {% elif restricted_values is none %}
+
+                     <td style="width:100%">
+
+                             {% for value in refinement_properties %}
+                                 {% set form_value_2 = violation_ID + '-' + value %}
+
+
+                         <div style="display:none">
+                             {% if optional_values is not true %}
+                                 {{ input_form_ids.append(form_value_2) }}
+                             {% endif %}
+                         </div>
+
+                             <label for={{form_value_2}}><b>Property: {{find_prefix(value)}}</b></label>
+                                 <br>
+                             <br>
+                                 <input type="text" id={{form_value_2}} name={{form_value_2}} required><br><br>
+
+
+                             {% endfor %}
+                     </td>
+
+                     {% else %}
+
+                       <td style="width:160%">
+                             {% for value in refinement_properties %}
+                                 {% set form_value_3 = violation_ID + '-' + value %}
+
+
+                         <div style="display:none">
+                             {% if optional_values is not true %}
+                                 {{ input_form_ids.append(form_value_3) }} {
+                             {% endif %}
+                         </div>
+
+                             <b>Property: {{find_prefix(value)}}</b>
+                             <br>
+                             <br>
+                             <label for={{form_value_3}}></label>
+                                  <select style="width:100%" name={{form_value_3}} id={{form_value_3}} required>
+                                      {% for (placeholder, values) in restricted_values.items() %}
+                                          <option value="" disabled selected>{{placeholder}}</option>
+                                      {% for value in values %}
+                                         <option value={{value}}>{{find_prefix(value)}}</option>
+                                      {% endfor %}
+                                      {% endfor  %}
+                                  </select>
+                             {% endfor %}
+                      </td>
+
+                     {% endif %}
+
+
+                     <td class="table-data">
+                         <input type="checkbox" id={{violation_ID}} class={{violation_ID}} name={{violation_ID}} value="Execute">
+                         <label for={{violation_ID}}>Select</label><br>
+
+
+                     </td>
+                     <td class="table-data">
+                         <div> <button type="button" onclick="showDiv('{{violation_ID + 'refinements_div'}}')"> <span class="sub"></span>Display Violation</button></div>
+                         <div id="{{violation_ID|string + 'refinements_div'}}" style="display:none">
+                             {% set violation_ID = violation_ID|int %}
+                             {% set violation_display = display_violation(validation_result[violation_ID]["location"], validation_result[violation_ID]["triple_map"], validation_result[violation_ID]["value"]) %}
+                             {% if violation_display %}
+                                 {% for triple in violation_display %}
+                                    {% if violation_value %}
+                                        {% if parse_violation_value(violation_value) in triple %}
+                                          <pre><span>{{triple}}</span></pre>
+                                       {% else %}
+                                          <pre>{{triple}}</pre>
+                                       {% endif %}
+                                    {% else %}
+                                          <pre>{{triple}}</pre>
+                                   {% endif %}
+                             {% endfor %}
+                             {% else %}
+                             <pre>Violation has no triples related.</pre>
+                             {% endif %}
+
+                         </div>
+                     </td>
+                 </tr>
+             {%endfor%}
+
+             </table>
+                <input type="submit" id="button-style" value="Execute Refinements">
+            </form>
+        </body>
+    </div>
+</html>
+
+<script>
+      $(document).ready(function () {
+      $('select').selectize({
+          sortField: 'text'
+      });
+  });
+
+     $(document).ready(function () {
+  $('body').on('click', '#selectAll', function () {
+    if ($(this).hasClass('allChecked')) {
+        $('input[type="checkbox"]', '#refinements_table').prop('checked', false);
+    } else {
+        $('input[type="checkbox"]', '#refinements_table').prop('checked', true);
+    }
+    $(this).toggleClass('allChecked');
+  })
+});
+
+function showDiv(id){
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+}
+
+window.onload = function(){
+       var e = document.getElementById('refinement_redirect');
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+};
+
+  function validateForm() {
+      var form_validation_ids = {{ input_form_ids|safe }};
+      var result_message = "";
+      for (i = 0; i < form_validation_ids.length; i++) {
+          // form values are in the format -> violation_ID + '-' + value
+          // check boxes relate violation ID
+          var current_selected_refinement = form_validation_ids[i].split("-")[0];
+          var current_form_input = form_validation_ids[i];
+          // if refinement is selected but no input is provided
+          if(document.getElementById(current_selected_refinement).checked && document.forms["myForm"][current_form_input].value == ""  )
+          {
+            result_message += "No input provided for Refinement you have selected for Violation " + current_selected_refinement +   "\n";
+          }
+       }
+      if (result_message != "") {
+           alert(result_message);
+           return false;
+      }
+}
+</script>
+{% endblock %}
+

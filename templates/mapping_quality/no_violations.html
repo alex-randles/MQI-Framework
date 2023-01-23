@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% extends "mapping_quality/base.html" %}
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}"></script>
+    <title>{% block title %}No Violations{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+
+<div class="container">
+    <div class="row text-center my-4">
+        <div class="col-">
+            <h2>Congratulations!</h2>
+            <h4>No quality issues have been detected in your mapping.</h4>
+        </div>
+    </div>
+    <div class="row justify-content-center text-center my-4">
+        <div class="col-">
+            <img  class="w-75" src= "{{ url_for('static',filename='images/congraluations.jpg') }}" alt="green tick symbol" />
+        </div>
+    </div>
+    <div class="row justify-content-center text-center">
+        <div class="col-">
+            <a href="/return-refinement-report/" class="btn btn-secondary" target="blank">
+                Download Validation Report (TTL)
+                <span class="tt" data-bs-placement="top" title="RDF report containing quality information">
+                    <i class="bi bi-info-circle px-1" ></i>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+</body>
+</html>

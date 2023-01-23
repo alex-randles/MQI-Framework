@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+
+html, body {
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
+
+
+html {
+    background-color:#E8E8E8;
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #666;
+  width:100%;
+  height:7%;
+}
+
+li {
+  float: left;
+  color:white;
+  height:100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  height:100%;
+  font-weight:bold;
+}
+
+
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Informed Consent</title>
+    <script type="text/javascript"  src="{{ url_for('static', filename='js_scripts.js') }}"> </script>
+</head>
+<body>
+<div id="container" class="container" style="height: 90%; width:90%; margin: 0 auto;">
+
+      <ul>
+          <li style="word-wrap: break-word; width:15%;font-weight:bold;">Informed Consent</li>
+          <li style="word-wrap: break-word; width:50%;padding-right:12%;"><b>Step: </b>Please enter your name and check the checkbox below to proceed through the experiment</li>
+          {% if session['logged_in'] == True %}
+                <li style="word-wrap: break-word; width:16%;outline: 2px solid white;"><a href="/logout" onclick="return withdraw(event);">Withdraw from Experiment</a></li>
+                <li style="word-wrap: break-word; width:7%;outline: 2px solid white;">  <a href="/logout" onclick="return logout(event);">Logout</a></li>
+          {% else %}
+                <li> <a href="/logout">Login</a></li>
+          {% endif %}
+      </ul>
+
+    <embed src="./static/documents/Informed Consent.pdf" height="85%" width="100%"/>
+
+
+    <div style="margin: 0 auto; background-color: #666;padding: 0.5% 0.2%;color:white;">
+        <form method="POST" id="consent-form" onsubmit="required()">
+            <br>
+            <label for="accept-form">By signing this document, I consent to participate in this study, and consent to the data processing necessary to enable my participation and to achieve the research goals of this study.:</label>
+            <br>
+            <br>
+            <label for="name">Full name:</label>
+            <input type="text" id="name" name="name">
+            <label for="accept-form" style="padding-left:2%;">Consent Provided:</label>
+            <input type="checkbox" name="accept-form" value="accept-form" id="accept-form" class="accept-form" >
+            <input type="submit"  value="Submit" id="submit">
+            <span style="color:red; font-weight:bold" id="nameErrMsg" class="error"></span> <br/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

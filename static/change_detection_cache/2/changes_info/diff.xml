@@ -1,0 +1,42 @@
+<Students xmlns:diff="http://namespaces.shoobx.com/diff" diff:rename="students">
+  <Student diff:rename="student">
+    <ID diff:insert="">10</ID><diff:insert>
+    </diff:insert><FirstName diff:rename="Name">Venus</FirstName>
+    <Affliation diff:insert="">Trinity College Dublin</Affliation><diff:insert>
+    </diff:insert><Location diff:insert="">Dublin, Ireland</Location><diff:insert>
+  </diff:insert><Test diff:delete="">hshsh</Test>
+  </Student>
+<diff:insert>  </diff:insert><Student diff:insert="">
+    <ID diff:insert="">11</ID><diff:insert>
+    </diff:insert><FirstName diff:insert="">Fernando</FirstName><diff:insert>
+    </diff:insert><LastName diff:insert="">Alonso</LastName><diff:insert>
+  </diff:insert></Student><diff:insert>
+  </diff:insert><Student diff:insert="">
+    <ID diff:insert="">12</ID><diff:insert>
+    </diff:insert><FirstName diff:insert="">David</FirstName><diff:insert>
+    </diff:insert><LastName diff:insert="">Villa</LastName><diff:insert>
+    </diff:insert><Test diff:insert="">Villa</Test><diff:insert>
+    </diff:insert><Testing diff:insert="">Villa</Testing><diff:insert>
+  </diff:insert></Student><diff:insert>
+  </diff:insert><Studentss diff:insert="">
+    <ID diff:insert="">12</ID><diff:insert>
+    </diff:insert><FirstName diff:insert="">David</FirstName><diff:insert>
+    </diff:insert><LastName diff:insert="">Villa</LastName><diff:insert>
+    </diff:insert><Test diff:insert="">Villa</Test><diff:insert>
+    </diff:insert><Testing diff:insert="">Villa</Testing><diff:insert>
+  </diff:insert></Studentss><diff:insert>  </diff:insert><Studentxx diff:insert="">
+    <ID diff:insert="">12</ID><diff:insert>
+    </diff:insert><FirstName diff:insert="">David</FirstName><diff:insert>
+    </diff:insert><LastName diff:insert="">Villa</LastName><diff:insert>
+    </diff:insert><Test diff:insert="">Villa</Test><diff:insert>
+    </diff:insert><Testing diff:insert="">Villa</Testing><diff:insert>
+  </diff:insert></Studentxx><diff:insert>
+  
+   </diff:insert><Studentdd diff:insert="">
+    <ID diff:insert="">12</ID><diff:insert>
+    </diff:insert><FirstName diff:insert="">David</FirstName><diff:insert>
+    </diff:insert><LastName diff:insert="">Villa</LastName><diff:insert>
+    </diff:insert><Test diff:insert="">Villa</Test><diff:insert>
+    </diff:insert><Testing diff:insert="">Villa</Testing><diff:insert>
+  </diff:insert></Studentdd><diff:insert>
+</diff:insert></Students>

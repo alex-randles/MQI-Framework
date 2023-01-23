@@ -1,0 +1,56 @@
+METRIC ID,METRIC NAME,METRIC DESCRIPTION
+MP1,"Valid language datatype
+definition","Objects maps with literal 
+values may refer to only one 
+datatype and no language tags"
+MP2,Valid term type definition,"The term type for a Subject map must be 
+an rr:IRI or an rr:BlankNode"
+MP3,Valid term type definition,"The term type for a Predicate map must 
+an rr:IRI"
+MP4,Valid term type definition,"The term type for an object map must be an 
+rr:IRI, rr:Literal or an rr:BlankNode"
+MP5,Valid subject definition,"Subject definitions must be valid
+URIs unless its type is defined as
+blank node"
+MP6,Valid literal language tags,"Valid language tags are 
+defined as per RFC 5646 
+(BCP 47) language tags"
+MP7,Child column exist in join condition,A join condition must have a child column
+MP8,Parent column exist in join condition,A join condition must have a parent column 
+D1,"Usage of undefined
+classes ","Classes are
+considered undefined when it is
+not possible to dereference them
+against their namespace"
+D2,"Usage of undefined
+properties ","Properties are
+considered undefined when it is
+not possible to dereference them
+against their namespace"
+D3,Usage of incorrect Domain,"The class type defined in the subject map 
+does not  include the domain for this property "
+D4,No query parameters in URI's,"The use of query parameters is not
+parameters in recommended by the W3C 
+best practices for URIs"
+D5,"No use of entities as
+members of disjoint classes","Individuals of one class cannot be
+simultaneously members
+of another class"
+D6,Usage of incorrect Range,"The term type for this property does not 
+match the range. If the range is a Literal,
+the term type should be a Literal, otherwise IRI"
+D7,Usage of incorrect datatype,"The datatype assigned to the object does not 
+match the datatype range for this property "
+VOC1,No Human readable labels/comments,"Humans consuming the information should be able
+to understand the Linked Data Resource.
+"
+VOC2,No Basic Provenance Information,"Consumers need to understand where the data
+has originated.
+"
+VOC3,No Machine readable licensing ,"Allows the licensing information to be queried by
+machines. 
+"
+VOC4,No Human readable licensing ,"Allows humans to read and understand license in a
+textual format."
+VOC5,Non dereferenceable URI,"Ensuring the resources are retrievable is one of the
+main principles of Linked Data."

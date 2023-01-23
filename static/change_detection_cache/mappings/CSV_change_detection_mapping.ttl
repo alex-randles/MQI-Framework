@@ -1,0 +1,630 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix testv: <http://www.txample.com/people/voc/>.
+@prefix testd: <http://www.txample.com/people/data/>.
+@prefix cdo: <https://change-detection-ontology.adaptcentre.ie/#> . 
+@prefix lode: <http://linkedevents.org/ontology/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix time: <http://www.w3.org/2006/time#> . 
+@prefix rei-action: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiAction.owl#> .
+@prefix rei-entity: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#> .
+@prefix rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
+@prefix rei-denontic: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
+@prefix rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
+@prefix rei-meta-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiMetaPolicy.owl#> .
+@prefix ex: <http://www.example.com/> . 
+
+
+######################################
+## TRIPLE MAPS REPRESENTING CHANGES ##
+######################################
+
+<#ChangeLog>
+
+	rr:logicalTable [
+	                  rr:sqlQuery """
+						  Select USER_ID, VERSION_1, VERSION_2
+						  FROM changes_detected
+
+				       	""";
+				    	rr:sqlVersion rr:SQL2008;
+	];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/changeLog/user-{USER_ID}";
+		rr:class cdo:ChangeLog;
+        rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate cdo:hasChange ;
+		rr:objectMap  [
+				rr:parentTriplesMap <#DeleteChanges> ;
+			    rr:joinCondition [
+						rr:child "USER_ID";
+						rr:parent "USER_ID";
+				];
+        ];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate cdo:hasChange ;
+		rr:objectMap  [
+				rr:parentTriplesMap <#UpdateChanges> ;
+			    rr:joinCondition [
+						rr:child "USER_ID";
+						rr:parent "USER_ID";
+				];
+        ];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate cdo:hasChange ;
+		rr:objectMap  [
+				rr:parentTriplesMap <#InsertChanges> ;
+			    rr:joinCondition [
+						rr:child "USER_ID";
+						rr:parent "USER_ID";
+				];
+        ];
+   ];
+
+   rr:predicateObjectMap [
+	     rr:predicate cdo:hasPreviousVersion;
+	     rr:objectMap [
+			rr:column "VERSION_1";
+			rr:termType rr:IRI;
+	     ];
+   ];
+
+   rr:predicateObjectMap [
+	     rr:predicate cdo:hasCurrentVersion;
+	     rr:objectMap [
+			rr:column "VERSION_2";
+			rr:termType rr:IRI;
+	     ];
+   ];
+.
+
+
+
+
+
+# Delete Changes
+<#DeleteChanges>
+
+	rr:logicalTable [
+	                  rr:sqlQuery """
+						  Select ID, OPERATION , USER_ID, DESCRIPTION
+						  FROM changes_detected
+						  WHERE OPERATION IN ('LOP_DELETE_ROWS', 'delete')
+				       	""";
+				    	rr:sqlVersion rr:SQL2008;
+	];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/deleteChange/{ID}";
+		rr:class cdo:DeleteSourceData;
+	    rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate lode:atTime ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/detectionTime/{ID}";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate cdo:hasReason ;
+		rr:objectMap  [
+			rr:column "DESCRIPTION";
+		];
+   ];
+
+.
+
+<#UpdateChanges>
+
+	rr:logicalTable [
+	                  rr:sqlQuery """
+						  Select ID, OPERATION, USER_ID, DESCRIPTION
+						  FROM changes_detected
+						  WHERE OPERATION IN ('LOP_MODIFY_ROWS', 'rename')
+				       	""";
+				    	rr:sqlVersion rr:SQL2008;
+	];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/updateChange/{ID}";
+		rr:class cdo:UpdateSourceData;
+        rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate lode:atTime ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/detectionTime/{ID}";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate cdo:hasReason ;
+		rr:objectMap  [
+			rr:column "DESCRIPTION";
+		];
+   ];
+
+.
+
+
+
+
+<#InsertChanges>
+
+	rr:logicalTable [
+	                  rr:sqlQuery """
+						  Select ID, OPERATION, USER_ID, DESCRIPTION
+						  FROM changes_detected
+						  WHERE OPERATION IN ('LOP_INSERT_ROWS', 'insert')
+				       	""";
+				    	rr:sqlVersion rr:SQL2008;
+	];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/insertChange/{ID}";
+		rr:class cdo:InsertSourceData;
+        rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate lode:atTime ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/detectionTime/{ID}";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate cdo:hasReason ;
+		rr:objectMap  [
+			rr:column "DESCRIPTION";
+		];
+   ];
+.
+
+
+
+
+
+# Time the change was detected
+<#DetectionTime>
+
+	rr:logicalTable [ rr:tableName "CHANGES_DETECTED"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/detectionTime/{ID}";
+		rr:class time:Instant;
+        rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate time:inXSDDateTimeStamp ;
+		rr:objectMap  [
+			rr:column "DETECTION_TIME";
+			rr:datatype xsd:dateTimeStamp;
+		];
+   ];
+
+.
+
+
+############################################
+## TRIPLE MAPS REPRESENTING NOTIFICATIONS ##
+############################################
+
+
+<#NotificationPolicy>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/notificationPolicy/{USER_ID}";
+		rr:class rei-policy:Policy;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-policy:desc ;
+		rr:objectMap  [
+			rr:template "Notification policy for user {USER_ID}";
+			rr:termType rr:Literal;
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-policy:grants  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/policyObligation/{USER_ID}";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate  cdo:hasDetectionStart  ;
+		rr:objectMap  [
+			rr:column "DETECTION_START";
+			rr:datatype xsd:dateTime;
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate  cdo:hasDetectionEnd  ;
+		rr:objectMap  [
+			rr:column "DETECTION_END";
+			rr:datatype xsd:dateTime;
+		];
+   ];
+.
+
+<#PolicyObligation>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/policyObligation/{USER_ID}";
+		rr:class rei-denontic:Obligation;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-policy:actor  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/userActor/{USER_ID}";
+		];
+		rr:objectMap  [
+			rr:constant cdo:softwareAgent;
+		];
+   ];
+
+
+   rr:predicateObjectMap [
+		rr:predicate  rei-denontic:startingConstraint  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/notificationConstraint/{USER_ID}";
+		];
+   ];
+
+   rr:predicateObjectMap [
+		rr:predicate  rei-denontic:obligedTo  ;
+		rr:objectMap  [
+			rr:constant cdo:softwareAgent;
+		];
+   ];
+
+   rr:predicateObjectMap [
+		rr:predicate  rei-denontic:action  ;
+		rr:objectMap  [
+			rr:constant cdo:sendNotification;
+		];
+   ];
+.
+
+<#UserActor>
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/userActor/{USER_ID}";
+		rr:class rei-entity:Agent;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+.
+
+<#NotificationConstraint>
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/notificationConstraint/{USER_ID}";
+		rr:class rei-constraint:And;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:first  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/insertChangeConstraint/{USER_ID}";
+		];
+   ];
+
+   rr:predicateObjectMap [
+		rr:predicate  rei-constraint:second  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/deleteChangeConstraint/{USER_ID}";
+		];
+   ];
+
+   	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:third  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/moveChangeConstraint/{USER_ID}";
+		];
+   ];
+
+   rr:predicateObjectMap [
+		rr:predicate  rei-constraint:fourth  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/updateChangeConstraint/{USER_ID}";
+		];
+   ];
+
+   rr:predicateObjectMap [
+		rr:predicate  rei-constraint:fifth  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/mergeChangeConstraint/{USER_ID}";
+		];
+   ];
+
+   rr:predicateObjectMap [
+		rr:predicate  rei-constraint:sixth  ;
+		rr:objectMap  [
+			rr:template "http://www.example.com/datatypeChangeConstraint/{USER_ID}";
+		];
+   ];
+.
+
+
+
+<#InsertChangeConstraint>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/insertChangeConstraint/{USER_ID}";
+		rr:class rei-constraint:SimpleConstraint;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:subject  ;
+		rr:objectMap  [
+			rr:constant cdo:InsertSourceData;
+		];
+   ];
+
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:predicate  ;
+		rr:objectMap  [
+			rr:constant cdo:hasThreshold;
+		];
+   ];
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:object  ;
+		rr:objectMap  [
+			rr:column "INSERT_THRESHOLD";
+		];
+   ];
+.
+
+
+
+
+<#DeleteChangeConstraint>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/deleteChangeConstraint/{USER_ID}";
+		rr:class rei-constraint:SimpleConstraint;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:subject  ;
+		rr:objectMap  [
+			rr:constant cdo:DeleteSourceData;
+		];
+   ];
+
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:predicate  ;
+		rr:objectMap  [
+			rr:constant cdo:hasThreshold;
+		];
+   ];
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:object  ;
+		rr:objectMap  [
+			rr:column "DELETE_THRESHOLD";
+		];
+   ];
+.
+
+
+<#MoveChangeConstraint>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/moveChangeConstraint/{USER_ID}";
+		rr:class rei-constraint:SimpleConstraint;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:subject  ;
+		rr:objectMap  [
+			rr:constant cdo:MoveSourceData;
+		];
+   ];
+
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:predicate  ;
+		rr:objectMap  [
+			rr:constant cdo:hasThreshold;
+		];
+   ];
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:object  ;
+		rr:objectMap  [
+			rr:column "MOVE_THRESHOLD";
+		];
+   ];
+.
+
+<#UpdateChangeConstraint>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/updateChangeConstraint/{USER_ID}";
+		rr:class rei-constraint:SimpleConstraint;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:subject  ;
+		rr:objectMap  [
+			rr:constant cdo:UpdateSourceData;
+		];
+   ];
+
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:predicate  ;
+		rr:objectMap  [
+			rr:constant cdo:hasThreshold;
+		];
+   ];
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:object  ;
+		rr:objectMap  [
+			rr:column "UPDATE_THRESHOLD";
+		];
+   ];
+.
+
+
+<#MergeChangeConstraint>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/mergeChangeConstraint/{USER_ID}";
+		rr:class rei-constraint:SimpleConstraint;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:subject  ;
+		rr:objectMap  [
+			rr:constant cdo:MergeSourceData;
+		];
+   ];
+
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:predicate  ;
+		rr:objectMap  [
+			rr:constant cdo:hasThreshold;
+		];
+   ];
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:object  ;
+		rr:objectMap  [
+			rr:column "MERGE_THRESHOLD";
+		];
+   ];
+.
+
+
+<#DatatypeChangeConstraint>
+
+	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/datatypeChangeConstraint/{USER_ID}";
+		rr:class rei-constraint:SimpleConstraint;
+		rr:graphMap [ rr:template "http://www.example.com/notificationGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate  rei-constraint:subject  ;
+		rr:objectMap  [
+			rr:constant cdo:DatatypeSourceData;
+		];
+   ];
+
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:predicate  ;
+		rr:objectMap  [
+			rr:constant cdo:hasThreshold;
+		];
+   ];
+
+  rr:predicateObjectMap [
+		rr:predicate  rei-constraint:object  ;
+		rr:objectMap  [
+			rr:column "DATATYPE_THRESHOLD";
+		];
+   ];
+
+.
+
+
+
+#############################################
+## TRIPLE MAPS REPRESENTING CONTACT EMAILS ##
+#############################################
+
+<#ContactDetails>
+
+	rr:logicalTable [ rr:tableName "CONTACT_DETAILS"];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/user-{USER_ID}";
+		rr:class foaf:Person;
+		rr:graphMap [ rr:template "http://www.example.com/contactDetailsGraph/user-{USER_ID}" ];
+
+	];
+
+
+  rr:predicateObjectMap [
+		rr:predicate  foaf:mbox  ;
+		rr:objectMap  [
+			rr:column "EMAIL_ADDRESS";
+		];
+   ];
+
+.
+
+
+
+
+
+

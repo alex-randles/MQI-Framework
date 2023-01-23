@@ -1,0 +1,46 @@
+PREFIX ex-intent: <https://data.example.com/intent/>
+PREFIX ex-action: <https://data.example.com/action/>
+PREFIX ex-action-effect: <https://data.example.com/actionEffect/>
+PREFIX ex-goal: <https://data.example.com/goal/>
+PREFIX ex-metric: <https://data.example.com/metric/>
+PREFIX pmo: <https://alex-randles.github.io/Prometheus-Metric-Ontology/> 
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+
+
+ex-intent:0 a pmo:Intent; 
+
+       pmo:hasIntentName "Maintain throughput between a specific threshold"; 
+
+       pmo:hasIntentDescription "Maintain downlink throughput at 6900-7000";                                            
+       
+          pmo:hasGoal ex-goal:0, ex-goal:1 .     
+       
+      
+      
+ex-goal:0 a pmo:MetricGoal ; 
+
+    pmo:hasComparisonOperator ">=" ; 
+
+    pmo:hasGoalValue 6900; 
+
+    pmo:hasValidationInterval "15s"^^xsd:duration ; 
+
+    pmo:isSatisfied "false"^^xsd:boolean; 
+
+    pmo:isMaintainedBy ex-action-effect:2 . 
+
+ 
+
+ex-goal:1 a pmo:MetricGoal ; 
+
+    pmo:hasComparisonOperator "<=" ; 
+
+    pmo:hasGoalValue 7000; 
+
+    pmo:hasValidationInterval "15s"^^xsd:duration ; 
+
+    pmo:isSatisfied "false"^^xsd:boolean; 
+
+    pmo:isMaintainedBy ex-action-effect:2 . 
+    
+    

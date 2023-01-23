@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+{% extends "change_detection/basic_base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Source Details{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+<h3 class="h2 text-center mt-2">Change Detection • CSV Source Data</h3>
+<form style="" method="POST" action="{{ url_for('detect_CSV_changes') }}" enctype = "multipart/form-data" id="sourceFileDetails" onsubmit="return validateSourceDataForm();" >
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-6 bg-light py-2 justify-content-center">
+                <h4 class="h4">CSV File Versions</h4>
+                <label class="form-label" >
+                    Connect to two CSV file versions to detect changes.
+                </label>
+                <div class="form-group">
+                    <label for="CSV_URL_1"><span class="fw-bold">Original: </span>Version 1 CSV URL</label>
+                    <input type="text" class="form-control"
+                           id="CSV_URL_1" name="CSV_URL_1" placeholder="Version 1 CSV URL" required>
+                </div>
+                <div class="form-group">
+                    <label for="CSV_URL_2"><span class="fw-bold">Current: </span>Version 2 CSV URL</label>
+                    <input type="text"
+                           class="form-control" id="CSV_URL_2" name="CSV_URL_2"  placeholder="Version 2 CSV URL" required>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid gray-out">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-6 bg-light py-2">
+                <h4 class="h4">Notification Policy Details</h4>
+                <label  class="form-label" >
+                    A notification will be sent to the email address once a threshold for a change type has been reached.
+                </label>
+                <div class="form-group row my-2">
+                    <label for="insert_threshold" class="col-sm-4 col-form-label">Insert Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for insert changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="insert_threshold" name="insert_threshold" value="10"  placeholder="Insert Threshold" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="delete_threshold" class="col-sm-4 col-form-label">Delete Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for delete changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="delete_threshold" name="delete_threshold" value="5"  placeholder="Delete Threshold" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="move_threshold" class="col-sm-4 col-form-label">Move Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for move changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="move_threshold" name="move_threshold" value="0"  placeholder="Move Threshold" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="datatype_threshold" class="col-sm-4 col-form-label">Datatype Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for datatype changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="datatype_threshold" name="datatype_threshold" value="0"  placeholder="Datatype Threshold" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="merge_threshold" class="col-sm-4 col-form-label">Merge Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for merge changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="merge_threshold" name="merge_threshold" value="0"  placeholder="Merge Threshold" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="update_threshold" class="col-sm-4 col-form-label">Update Threshold: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The threshold for update changes" class="bi bi-info-circle"></i></span>
+                            <input  type="number"  id="update_threshold" name="update_threshold" value="0" placeholder="Update Threshold" disabled>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row my-2">
+                    <label for="detection-end" class="col-sm-4 col-form-label">Detection End Time:</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The date when change detection finishes" class="bi bi-info-circle"></i></span>
+                            <input type="date"  id="detection-end" name="detection-end" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row my-2">
+                    <label for="email-address" class="col-sm-4 col-form-label">Notification Email: </label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i title="The email address for the notification to be sent" class="bi bi-envelope"></i></span>
+                            <input value="alex.randles@adaptcentre.ie" type="email"  id="email-address" name="email-address"  placeholder="Email Address"  disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1">
+            <div id="nameErrMsg" class="col-sm-4 text-center alert alert-danger" style="display:none;">
+                <p></p>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-sm-12 text-center">
+                <input   class="my-2 btn btn-primary" id="button-style" type = "submit" value="Start Change Monitoring" />
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center my-3">
+            <div class="col-6">
+                <div class="progress" id="myProgress" >
+                    <div class="progress-bar progress-bar-striped"  id="myBar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-sm-4 text-center">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for msg in messages %}
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Error</h4>
+                    {{msg}}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+document.getElementById("detection-end").value = "2022-12-31"
+</script>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}"></script>
+
+{% endblock %}
+
+</body>
+</html>
+
