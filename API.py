@@ -286,7 +286,7 @@ class API:
     def welcome():
         participant_id = session.get("participant_id")
         session_id = API.get_session_id()
-        return render_template("change_detection/welcome.html")
+        return redirect(url_for("assess_mapping"))
 
     @app.route(("/informed-consent"), methods=["GET", "POST"])
     def informed_consent():
@@ -764,7 +764,7 @@ class API:
     @app.route("/index/<filename>", methods=["GET", "POST"])
     @app.route("/index", methods=["GET", "POST"])
     # @progress_tracker("read_mapping")
-    def read_mapping(filename=None):
+    def assess_mapping(filename=None):
         session["participant_id"] = 1
         participant_id = session.get("participant_id")
         API.update_current_progress(participant_id, "read_mapping")
@@ -1034,13 +1034,13 @@ class API:
 
     @app.route("/return-refinement-report/", methods=['GET', 'POST'])
     def download_refinement_report():
-        # cache_validation_report_file = session.get("validation_report_file")
-        # participant_id = session.get("participant_id")
-        # validation_report_filename = "validation-report-{}.ttl".format(participant_id)
+        cache_validation_report_file = session.get("validation_report_file")
+        participant_id = session.get("participant_id")
+        validation_report_filename = "validation_report-{}.ttl".format(participant_id)
         # API.save_file_to_database(validation_report_filename, "validation_report_file")
         # API.save_cache_file(validation_report_filename, validation_report_filename)
         return send_file(
-            "static/validation_report.ttl",
+            validation_report_filename,
             attachment_filename="validation_report.ttl",
             as_attachment=True, cache_timeout=0
         )
