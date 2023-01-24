@@ -115,13 +115,20 @@ class ValidationReport:
             name_IRI = URIRef(self.EX + "".join(refinement_performer.split()))
             self.validation_graph.add((name_IRI, RDF.type, self.PROV.Agent))
             self.validation_graph.add((name_IRI, RDFS.label, Literal(refinement_performer)))
-            self.validation_graph.add((self.assessment_IRI, self.MQV.refinementPerformedBy, name_IRI))
+            self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, name_IRI))
 
     def add_assessment_time(self):
         # time the mapping information was generated
         # prov:startedAtTime
         current_time = Literal(datetime.utcnow(), datatype=XSD.dateTime)
-        self.validation_graph.add((self.assessment_IRI, self.PROV.startedAtTime, current_time))
+        self.validation_graph.add((self.assessment_IRI, self.PROV.endedAtTime, current_time))
+
+    def add_report_time(self):
+        validation_report_IRI = self.EX.mappingValidationReport + self.unique_report_IRI
+        # time the mapping information was generated
+        # prov:startedAtTime
+        current_time = Literal(datetime.utcnow(), datatype=XSD.dateTime)
+        self.validation_graph.add((validation_report_IRI, self.PROV.generatedAtTime, current_time))
 
     def add_creation_date(self, mapping):
         # the date the mapping was created
@@ -160,6 +167,13 @@ class ValidationReport:
         self.validation_graph.add((quality_assessment_IRI, self.MQV.assessedMapping, mapping_file_IRI))
         mapping = URIRef(list(self.validation_graph.objects(None, self.MQV.assessedMapping))[0])
         self.validation_graph.add((mapping, RDF.type, self.MQV.MappingDocument))
+        self.add_assessment_time()
+        self.add_report_time()
+        # add agent details
+        name = URIRef(self.EX.alexRandles)
+        validation_report_IRI = self.EX.mappingValidationReport + self.unique_report_IRI
+        self.validation_graph.add((name, RDF.type , self.PROV.Agent))
+        self.validation_graph.add((quality_assessment_IRI, self.MQV.wasPerfomedBy, name))
         return quality_assessment_IRI
 
     # def get_current_report_number(self):
@@ -197,9 +211,9 @@ class ValidationReport:
         mqv_metric_IRI = URIRef(self.MQV_METRIC + violation_information["metric_ID"])
         result_message = Literal(violation_information["result_message"], datatype=XSD.string)
         self.validation_graph.add((current_violation_IRI, RDF.type, self.MQV.MappingViolation))
-        self.validation_graph.add((current_violation_IRI, self.MQV.isDescribedBy, metric_IRI))
-        self.validation_graph.add((metric_IRI, RDF.type, mqv_metric_IRI))
-        self.validation_graph.add((current_violation_IRI, self.MQV.resultMessage, result_message))
+        self.validation_graph.add((current_violation_IRI, self.MQV.isDescribedBy, mqv_metric_IRI))
+        # self.validation_graph.add((metric_IRI, RDF.type, mqv_metric_IRI))
+        self.validation_graph.add((current_violation_IRI, self.MQV.hasResultMessage, result_message))
         self.insert_violation_value(violation_information, current_violation_IRI)
         self.insert_violation_location(violation_information, current_violation_IRI)
 

@@ -45,7 +45,8 @@ class TurtleSerializer:
             for predicate, identifiers in self.triple_references[triple_map].items():
                 if predicate != "not_bNode":
                     blank_node_identifiers.append(identifiers)
-            lowest_identifier = min([self.find_identifier(str(identifier)) for identifier in blank_node_identifiers])
+            lowest_identifier = [self.find_identifier(str(identifier)) for identifier in blank_node_identifiers]
+            lowest_identifier = min(lowest_identifier, default=0)
             result.append((triple_map, lowest_identifier))
         sorted_result = sorted(result, key=lambda x: x[1])
         triple_map_sorted = [triple_map for triple_map, _ in sorted_result]

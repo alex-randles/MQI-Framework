@@ -237,11 +237,11 @@ class API:
     def download_validation_report():
         cache_validation_report_file = session.get("validation_report_file")
         participant_id = session.get("participant_id")
-        quality_report_filename = "quality-report-participant-{}.ttl".format(participant_id)
-        API.save_file_to_database(cache_validation_report_file, "quality_report_file")
-        API.update_database_time(participant_id, "quality_report_exported")
-        API.save_cache_file(cache_validation_report_file, quality_report_filename)
-        return send_file(cache_validation_report_file,
+        quality_report_filename = "validation_report-{}.ttl".format(participant_id)
+        # API.save_file_to_database(cache_validation_report_file, "quality_report_file")
+        # API.update_database_time(participant_id, "quality_report_exported")
+        # API.save_cache_file(cache_validation_report_file, quality_report_filename)
+        return send_file(quality_report_filename,
                          attachment_filename=quality_report_filename,
                          as_attachment=True, cache_timeout=0)
 

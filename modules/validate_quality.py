@@ -235,15 +235,17 @@ class ValidateQuality:
             property = self.properties[key]["property"]
             objectMap = self.properties[key]["objectMap"]
             datatype = self.properties[key]["datatype"]
-            range = self.get_range(property)
-            # if any of the datatypes can be any datatype, skip this iteration
-            if datatype in excluded_datatypes:
-                continue
-            if self.is_datatype_range(range):
-                if datatype != range:
-                    # result_message = "Usage of incorrect datatype. Correct datatype is {}.".format(self.find_prefix(range))
-                    # result_message = "Usage of incorrect datatype."
-                    self.add_violation([metric_ID, result_message, property, objectMap])
+            # if a datatype assigned to object map
+            if datatype:
+                range = self.get_range(property)
+                # if any of the datatypes can be any datatype, skip this iteration
+                if datatype in excluded_datatypes:
+                    continue
+                if self.is_datatype_range(range):
+                    if datatype != range:
+                        # result_message = "Usage of incorrect datatype. Correct datatype is {}.".format(self.find_prefix(range))
+                        # result_message = "Usage of incorrect datatype."
+                        self.add_violation([metric_ID, result_message, property, objectMap])
 
 
 
@@ -609,10 +611,10 @@ class ValidateQuality:
                 """ % IRI
         qres = self.vocabularies.query_local_graph(IRI, query)
         disjoint_classes = []
-        for row in qres:
-            current_class = row[0]
-            # disjoint_classes.append("%s" % current_class)
-            disjoint_classes.append(current_class)
+        if qres:
+            for row in qres:
+                current_class = row[0]
+                disjoint_classes.append(current_class)
         return disjoint_classes
 
     def get_triple_map_id(self, triple_map_IRI):
@@ -736,35 +738,29 @@ class ValidateQuality:
             counter += 1
         return properties
 
-    # def validate_D6(self):
-    #     # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
-    #     metric_ID = "D6"
-    #     result_message = "Usage of incorrect range."
-    #     properties = self.get_properties_range()
-    #     for key in properties.keys():
-    #         property = properties[key]["property"]
-    #         if property not in self.undefined_values:
-    #             term_type = properties[key]["termType"]
-    #             objectMap = properties[key]["objectMap"]
-    #             # only retrieve range if term type to speed up execution time
-    #             print(self.get_type(property))
-    #             exit()
-    #             if term_type:
-    #                 range = self.get_range(property)
-    #                 if range:
-    #                     print(range)
-    #                     # if literal range
-    #                     if range.startswith("http://www.w3.org/2001/XMLSchema#") or \
-    #                             range == URIRef("http://www.w3.org/2000/01/rdf-schema#Literal"):
-    #                         correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#Literal")]
-    #                     else:
-    #                         correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#IRI"), URIRef("http://www.w3.org/ns/r2rml#BlankNode")]
-    #                     print("TESTING TERM TYPE", correct_term_type, "PROPERTY", property, "RANGE", range)
-    #                     if term_type not in correct_term_type:
-    #                         print("NOT IN CORRECT TERM TYPES")
-    #                         # exit()
-    #                         # result_message = "Usage of incorrect range. Term type should be {} but is defined as {}.".format(self.find_prefix(correct_term_type[0]), self.find_prefix(term_type))
-    #                         self.add_violation([metric_ID, result_message, term_type, properties[key]["objectMap"]])
+    def validate_D6(self):
+        # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
+        metric_ID = "D6"
+        result_message = "Usage of incorrect range."
+        properties = self.get_properties_range()
+        for key in properties.keys():
+            property = properties[key]["property"]
+            if property not in self.undefined_values:
+                term_type = properties[key]["termType"]
+                objectMap = properties[key]["objectMap"]
+                # only retrieve range if term type to speed up execution time
+                if term_type:
+                    range = self.get_range(property)
+                    if range:
+                        # if literal range
+                        if range.startswith("http://www.w3.org/2001/XMLSchema#") or \
+                                range == URIRef("http://www.w3.org/2000/01/rdf-schema#Literal"):
+                            correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#Literal")]
+                        else:
+                            correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#IRI"), URIRef("http://www.w3.org/ns/r2rml#BlankNode")]
+                        if term_type not in correct_term_type:
+                            result_message = "Usage of incorrect range. Term type should be {} for property {}.".format(self.find_prefix(correct_term_type[0]), self.find_prefix(property))
+                            self.add_violation([metric_ID, result_message, term_type, properties[key]["objectMap"]])
 
 
     def get_properties_range(self):
@@ -862,7 +858,7 @@ class ValidateQuality:
                     return [metric_ID, result_message, property_IRI, subject_IRI]
         else:
             return None
-        
+
 
 
     def find_subclasses(self, subject_classes):

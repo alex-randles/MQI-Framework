@@ -1,0 +1,76 @@
+@prefix dqv: <http://www.w3.org/ns/dqv#> .
+@prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mqv: <https://alex-randles.github.io/MQV/#> .
+@prefix mqv-metric: <https://alex-randles.github.io/MQV-METRICS/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:mappingQualityAssessment a mqv:MappingAssessment ;
+    prov:endedAtTime "2023-01-23T17:25:54.817666"^^xsd:dateTime ;
+    mqv:assessedMapping <refined-mapping-participant-131.ttl> .
+
+ex:mappingValidationReport-1674494293 a mqv:MappingValidationReport ;
+    rdfs:comment "A timestamp is appended to the validation report IRI for uniqueness." ;
+    mqv:hasViolation ex:violation-1674494293-0,
+        ex:violation-1674494293-1,
+        ex:violation-1674494293-2,
+        ex:violation-1674494293-3,
+        ex:violation-1674494293-4 .
+
+ex:refinement-1674494293-0 a mqv:MappingRefinement ;
+    mqv:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:termType <http://www.w3.org/ns/r2rml#Literal>  } 
+                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRI> } 
+                WHERE { 
+                SELECT ?subject
+                WHERE {
+                      ?subject rr:termType <http://www.w3.org/ns/r2rml#Literal> .
+                      FILTER(str(?subject) = "ub2bL43C17").
+                    }
+                }
+               """^^xsd:string ;
+    mqv:refinedViolation ex:violation-1674494293-2 ;
+    mqv:refinementName "Change Term Type"^^xsd:string .
+
+ex:violation-1674494293-0 a mqv:MappingViolation ;
+    mqv:hasLocation "subjectMap"^^xsd:string ;
+    mqv:hasObjectValue dqv:Dimensions ;
+    mqv:inTripleMap <#TriplesMap2> ;
+    mqv:isDescribedBy mqv-metric:D1 ;
+    mqv:resultMessage "Usage of undefined Class."^^xsd:string .
+
+ex:violation-1674494293-1 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap1"^^xsd:string ;
+    mqv:hasObjectValue dqv:inCategory ;
+    mqv:inTripleMap <#TriplesMap2> ;
+    mqv:isDescribedBy mqv-metric:D3 ;
+    mqv:resultMessage "Usage of incorrect domain."^^xsd:string .
+
+ex:violation-1674494293-3 a mqv:MappingViolation ;
+    mqv:hasLocation "subjectMap"^^xsd:string ;
+    mqv:hasObjectValue foaf:Employee ;
+    mqv:inTripleMap <#TriplesMap1> ;
+    mqv:isDescribedBy mqv-metric:D1 ;
+    mqv:resultMessage "Usage of undefined Class."^^xsd:string .
+
+ex:violation-1674494293-4 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap1"^^xsd:string ;
+    mqv:hasObjectValue prov:generatedAtTime ;
+    mqv:inTripleMap <#TriplesMap1> ;
+    mqv:isDescribedBy mqv-metric:D3 ;
+    mqv:resultMessage "Usage of incorrect domain."^^xsd:string .
+
+<refined-mapping-participant-131.ttl> a mqv:MappingDocument .
+
+ex:violation-1674494293-2 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap1"^^xsd:string ;
+    mqv:hasObjectValue rr:Literal ;
+    mqv:inTripleMap <#TriplesMap2> ;
+    mqv:isDescribedBy mqv-metric:D6 ;
+    mqv:resultMessage "Usage of incorrect range. Term type should be  rr:IRI  for property  dqv:inCategory ."^^xsd:string ;
+    mqv:wasRefinedBy ex:refinement-1674494293-0 .
+
