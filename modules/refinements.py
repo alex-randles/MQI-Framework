@@ -1,6 +1,6 @@
 import difflib
 import re
-
+from datetime import datetime
 import pandas as pd
 import rdflib
 from modules.fetch_vocabularies import FetchVocabularies
@@ -20,7 +20,7 @@ class Refinements:
         self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
         self.MQV = Namespace("https://alex-randles.github.io/MQV/#")
         self.MQV_METRIC = Namespace("https://alex-randles.github.io/MQV-METRICS/#")
-        self.prov = Namespace("http://www.w3.org/ns/prov#")
+        self.PROV = Namespace("http://www.w3.org/ns/prov#")
         self.EX = Namespace("http://example.org/")
         self.add_information = add_information
         self.validation_results = validation_results
@@ -1073,6 +1073,7 @@ class Refinements:
         # each refinement has a unique IRI and is associated with a refinement query
         refinement_IRI = URIRef(self.EX + "refinement" + "-" + self.timestamp + "-" + str(self.refinement_count))
         self.refinement_graph.add((refinement_IRI, RDF.type, self.MQV.MappingRefinement))
+        self.refinement_graph.add((refinement_IRI, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
         # adding the SPARQL query used for the refinement
         refinement_query = Literal(refinement_query, datatype=XSD.string)
         self.refinement_graph.add((refinement_IRI, self.MQV.hasRefinementQuery, refinement_query))
