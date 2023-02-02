@@ -1,428 +1,641 @@
-@prefix daq: <http://purl.org/eis/vocab/daq#> .
-@prefix ex: <http://example.com/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix ns1: <http://www.example.com/> .
-@prefix ns10: <http://www.w3.org/2006/time#> .
-@prefix ns11: <http://linkedevents.org/ontology/> .
-@prefix ns12: <urn:x-rdflib:> .
-@prefix ns2: <file:///home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/1/change_graphs/1.> .
-@prefix ns3: <http://www.example.com/contactDetailsGraph/> .
-@prefix ns4: <http://www.example.com/notificationGraph/> .
-@prefix ns5: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
-@prefix ns6: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
-@prefix ns7: <https://change-detection-ontology.adaptcentre.ie/#> .
-@prefix ns8: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
-@prefix ns9: <http://www.example.com/changesGraph/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix qb: <http://purl.org/linked-data/cube#> .
-@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix ns1: <https://w3id.org/> .
+@prefix ns2: <http://www.w3.org/2004/02/skos/core#> .
+@prefix ns3: <http://purl.org/dc/terms/> .
+@prefix ns4: <http://www.w3.org/2002/07/owl#> .
+@prefix ns5: <http://purl.org/vocab/vann/> .
+@prefix ns6: <http://purl.1122org/ontology/bibo/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix rrf: <http://kdeg.scss.tcd.ie/ns/rrf#> .
-@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ns1:mappingDAQobservation {
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Category-Instance> rr:logicalTable <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Observation-View> ;
-        rr:predicateObjectMap [ rr:objectMap [ rr:template "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ] ;
-                rr:predicateMap [ rr:template "http://data.example.com/dimension/has{DIMENSION}Dimension" ] ] ;
-        rr:subjectMap [ rr:class <http://data.example.com/category/Oracle> ;
-                rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
-                rr:template "http://data.example.com/1spatialassessment/category/{CATEGORY}-instance" ] .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Dimension-Instance> rr:logicalTable <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Observation-View> ;
-        rr:predicateObjectMap [ rr:objectMap [ rr:template "http://data.example.com/dimension/{DIMENSION}" ] ;
-                rr:predicate rdf:type ],
-            [ rr:objectMap [ rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ] ;
-                rr:predicateMap [ rr:template "http://data.example.com/dimension/has{METRIC}metric" ] ] ;
-        rr:subjectMap [ rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
-                rr:template "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ] .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Graph-Instance> rr:logicalTable <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Less-Expensive-Query> ;
-        rr:predicateObjectMap [ rr:object daq:dsd ;
-                rr:predicate qb:structure ] ;
-        rr:subjectMap [ rr:class daq:QualityGraph ;
-                rr:constant <http://data.example.com/1spatialassessment/quality-graph/> ] .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Metric-Instance> rr:logicalTable <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Observation-View> ;
-        rr:predicateObjectMap [ rr:objectMap [ rr:template "http://data.example.com/metric/{METRIC}" ] ;
-                rr:predicate rdf:type ],
-            [ rr:objectMap [ rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}" ] ;
-                rr:predicate daq:Observation ] ;
-        rr:subjectMap [ rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
-                rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ] .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Observations> rr:logicalTable <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Observation-View> ;
-        rr:predicateObjectMap [ rr:objectMap [ rr:constant false ] ;
-                rr:predicate daq:isEstimate ],
-            [ rr:objectMap [ rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ] ;
-                rr:predicate daq:metric ],
-            [ rr:objectMap [ rrf:functionCall [ rrf:function <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#CalculateValue> ;
-                                rrf:parameterBindings ( [ rr:column "NUM_INSTANCES" ] [ rr:column "TOTAL_INSTANCES" ] ) ] ] ;
-                rr:predicate daq:value ],
-            [ rr:objectMap [ rr:template "{ASSESSMENT_DATE}" ;
-                        rr:termType rr:Literal ] ;
-                rr:predicate sdmx-dimension:timePeriod ],
-            [ rr:object <http://data.example.com/1spatialassessment/quality-graph/> ;
-                rr:predicate qb:dataSet ],
-            [ rr:objectMap [ rr:template "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}" ] ;
-                rr:predicate daq:computedOn ],
-            [ rr:objectMap [ rr:template "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}" ] ;
-                rr:predicate daq:computedOn ],
-            [ rr:object <http://data.example.com/1spatialassessment/r2rmlconverter/> ;
-                rr:predicate prov:wasGeneratedBy ],
-            [ rr:objectMap [ rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling" ] ;
-                rr:predicate prov:generated ] ;
-        rr:subjectMap [ rr:class daq:Observation ;
-                rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
-                rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}" ] .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Profiling> rr:logicalTable <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Observation-View> ;
-        rr:predicateObjectMap [ rr:objectMap [ rr:column "TOTAL_INSTANCES" ] ;
-                rr:predicate daq:totalDatasetTriplesAssessed ] ;
-        rr:subjectMap [ rr:class daq:MetricProfile ;
-                rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
-                rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling" ] .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#CalculateValue> rrf:functionBody """
-		function calculateValue(numInstances, totalInstances) {
-	    	return 1 - (numInstances / totalInstances);
-    	} """ ;
-        rrf:functionName "calculateValue" .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Less-Expensive-Query> rr:sqlQuery """
-            SELECT DISTINCT ID
-            FROM VALIDATION_BATCH
-        """ ;
-        rr:sqlVersion rr:Oracle .
-
-    <file:///home/alex/Desktop/Mapping-Quality-Framework/static/uploads/1/mappingDAQobservation.ttl#Observation-View> rr:sqlQuery """
-		SELECT DISTINCT MAPPING.CATEGORY, MAPPING.DIMENSION as DIMENSION,
-		    VALIDATION_FEATURE.VALIDATION_BATCH_ID,
-		    VALIDATION_FEATURE.CLASS,
-		    SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) as METRIC,
-		    COUNT(SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1)) as NUM_INSTANCES,
-		    VALIDATION_BATCH.END_DATE as ASSESSMENT_DATE,
-		    VALIDATION_FEATURE.CLASS as COMPUTED_ON,
-		    CASE
-		        WHEN VALIDATION_FEATURE.CLASS = 'ARTIFICIAL' THEN VALIDATION_BATCH.ARTIFICIAL_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BLP' THEN VALIDATION_BATCH.BLP_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_AREA' THEN VALIDATION_BATCH.BOUNDARY_AREA_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_LINE' THEN VALIDATION_BATCH.BOUNDARY_LINE_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_MEREING' THEN VALIDATION_BATCH.BOUNDARY_MEREING_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_POINT' THEN VALIDATION_BATCH.BOUNDARY_POINT_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_SSA' THEN VALIDATION_BATCH.BOUNDARY_SSA_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BUILDING' THEN VALIDATION_BATCH.BUILDING_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BUILDING_GROUP' THEN VALIDATION_BATCH.BUILDING_GROUP_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'BUILDING_UNIT' THEN VALIDATION_BATCH.BUILDING_UNIT_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'DIVISION' THEN VALIDATION_BATCH.DIVISION_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'EXPOSED' THEN VALIDATION_BATCH.EXPOSED_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'LOCALE' THEN VALIDATION_BATCH.LOCALE_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'RAIL_NETWORK_SEGMENT' THEN VALIDATION_BATCH.RAIL_NETWORK_SEGMENT_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'RAIL_POINT' THEN VALIDATION_BATCH.RAIL_POINT_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'SERVICE_LINE' THEN VALIDATION_BATCH.SERVICE_LINE_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'SITE' THEN VALIDATION_BATCH.SITE_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'SITE_POINT' THEN VALIDATION_BATCH.SITE_POINT_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'STRUCTURE' THEN VALIDATION_BATCH.STRUCTURE_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'VEGETATION' THEN VALIDATION_BATCH.VEGETATION_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'WATER' THEN VALIDATION_BATCH.WATER_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'WATER_POINT' THEN VALIDATION_BATCH.WATER_POINT_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'WATER_SINGLE_STREAM' THEN VALIDATION_BATCH.WATER_SINGLE_STREAM_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'WAY' THEN VALIDATION_BATCH.WAY_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'WAY_GDF2' THEN VALIDATION_BATCH.WAY_GDF2_COUNT
-		        WHEN VALIDATION_FEATURE.CLASS = 'WAY_POINT' THEN VALIDATION_BATCH.WAY_POINT_COUNT
-		    END TOTAL_INSTANCES
-		    from VALIDATION_FEATURE
-		    inner join MAPPING on SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) = MAPPING.METRIC
-			INNER JOIN VALIDATION_BATCH
-			ON VALIDATION_FEATURE.VALIDATION_BATCH_ID = VALIDATION_BATCH.ID
-			GROUP BY MAPPING.CATEGORY,MAPPING.DIMENSION, VALIDATION_BATCH_ID, VALIDATION_FEATURE.CLASS, SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1), VALIDATION_BATCH.END_DATE,
-			VALIDATION_BATCH.RULE_SET, VALIDATION_BATCH.ARTIFICIAL_COUNT, VALIDATION_BATCH.BLP_COUNT,
-			VALIDATION_BATCH.BOUNDARY_AREA_COUNT, VALIDATION_BATCH.BOUNDARY_LINE_COUNT, VALIDATION_BATCH.BOUNDARY_MEREING_COUNT,
-			VALIDATION_BATCH.BOUNDARY_POINT_COUNT, VALIDATION_BATCH.BOUNDARY_SSA_COUNT, VALIDATION_BATCH.BUILDING_COUNT,
-			VALIDATION_BATCH.BUILDING_GROUP_COUNT, VALIDATION_BATCH.BUILDING_UNIT_COUNT, VALIDATION_BATCH.DIVISION_COUNT,
-			VALIDATION_BATCH.EXPOSED_COUNT, VALIDATION_BATCH.LOCALE_COUNT, VALIDATION_BATCH.RAIL_NETWORK_SEGMENT_COUNT,
-			VALIDATION_BATCH.RAIL_POINT_COUNT, VALIDATION_BATCH.SERVICE_LINE_COUNT, VALIDATION_BATCH.SITE_COUNT,
-			VALIDATION_BATCH.SITE_POINT_COUNT, VALIDATION_BATCH.STRUCTURE_COUNT, VALIDATION_BATCH.VEGETATION_COUNT,
-			VALIDATION_BATCH.WATER_COUNT, VALIDATION_BATCH.WATER_POINT_COUNT, VALIDATION_BATCH.WATER_SINGLE_STREAM_COUNT,
-			VALIDATION_BATCH.WAY_COUNT, VALIDATION_BATCH.WAY_GDF2_COUNT, VALIDATION_BATCH.WAY_POINT_COUNT
-	""" ;
-        rr:sqlVersion rr:Oracle .
-}
-
-ns3:user-1 {
-    ns1:user-1 a foaf:Person ;
-        foaf:mbox "alexrandles0@gmail.com" .
-}
-
-ns4:user-1 {
-    <http://www.example.com/notificationPolicy/1> a ns6:Policy ;
-        ns6:desc "Notification policy for user 1" ;
-        ns6:grants <http://www.example.com/policyObligation/1> ;
-        ns7:detectionEnd "2022-12-31 00:00:00.0000"^^xsd:dateTime ;
-        ns7:detectionStart "2022-10-20 00:00:00.0000"^^xsd:dateTime .
-
-    <http://www.example.com/datatypeChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:predicate ns7:hasThreshold ;
-        ns5:subject ns7:DatatypeSourceData .
-
-    <http://www.example.com/deleteChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:predicate ns7:hasThreshold ;
-        ns5:subject ns7:DeleteSourceData .
-
-    <http://www.example.com/insertChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:predicate ns7:hasThreshold ;
-        ns5:subject ns7:InsertSourceData .
-
-    <http://www.example.com/mergeChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:predicate ns7:hasThreshold ;
-        ns5:subject ns7:MergeSourceData .
-
-    <http://www.example.com/moveChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:predicate ns7:hasThreshold ;
-        ns5:subject ns7:MoveSourceData .
-
-    <http://www.example.com/notificationConstraint/1> a ns5:And ;
-        ns5:fifth <http://www.example.com/mergeChangeConstraint/1> ;
-        ns5:first <http://www.example.com/insertChangeConstraint/1> ;
-        ns5:fourth <http://www.example.com/updateChangeConstraint/1> ;
-        ns5:second <http://www.example.com/deleteChangeConstraint/1> ;
-        ns5:sixth <http://www.example.com/datatypeChangeConstraint/1> ;
-        ns5:third <http://www.example.com/moveChangeConstraint/1> .
-
-    <http://www.example.com/policyObligation/1> a ns8:Obligation ;
-        ns8:action ns7:sendNotification ;
-        ns8:obligedTo ns7:softwareAgent ;
-        ns8:startingConstraint <http://www.example.com/notificationConstraint/1> ;
-        ns6:actor <http://www.example.com/userActor/1>,
-            ns7:softwareAgent .
-
-    <http://www.example.com/updateChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:predicate ns7:hasThreshold ;
-        ns5:subject ns7:UpdateSourceData .
-
-    <http://www.example.com/userActor/1> a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
-}
-
-ns9:user-1 {
-    <http://www.example.com/changeLog/user-1> a ns7:ChangeLog ;
-        ns7:hasChange
-            <http://www.example.com/deleteChange/25>,
-            <http://www.example.com/deleteChange/26>,
-            <http://www.example.com/insertChange/1>,
-            <http://www.example.com/insertChange/10>,
-            <http://www.example.com/insertChange/11>,
-            <http://www.example.com/insertChange/12>,
-            <http://www.example.com/insertChange/13>,
-            <http://www.example.com/insertChange/14>,
-            <http://www.example.com/insertChange/15>,
-            <http://www.example.com/insertChange/16>,
-            <http://www.example.com/insertChange/17>,
-            <http://www.example.com/insertChange/18>,
-            <http://www.example.com/insertChange/19>,
-            <http://www.example.com/insertChange/2>,
-            <http://www.example.com/insertChange/20>,
-            <http://www.example.com/insertChange/21>,
-            <http://www.example.com/insertChange/22>,
-            <http://www.example.com/insertChange/23>,
-            <http://www.example.com/insertChange/3>,
-            <http://www.example.com/insertChange/4>,
-            <http://www.example.com/insertChange/5>,
-            <http://www.example.com/insertChange/6>,
-            <http://www.example.com/insertChange/7>,
-            <http://www.example.com/insertChange/8>,
-            <http://www.example.com/insertChange/9> ;
-        ns7:hasCurrentVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student.csv> ;
-        ns7:hasPreviousVersion <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv> .
-
-    <http://www.example.com/deleteChange/25> a ns7:DeleteSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/25> ;
-        ns7:hasReason "Name: Venus" .
-
-    <http://www.example.com/deleteChange/26> a ns7:DeleteSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/26> ;
-        ns7:hasReason "Column deleted: Name" .
-
-    <http://www.example.com/detectionTime/1> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/10> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/11> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/12> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/13> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/14> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/15> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/16> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/17> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/18> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/19> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/2> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/20> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/21> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/22> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/23> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/25> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/26> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/3> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/4> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/5> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/6> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/7> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/8> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/detectionTime/9> a ns10:Instant ;
-        ns10:inXSDDateTimeStamp "2022-10-17 18:56:21.457055"^^xsd:dateTimeStamp .
-
-    <http://www.example.com/insertChange/1> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/1> ;
-        ns7:hasReason "FirstName: Venus" .
-
-    <http://www.example.com/insertChange/10> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/10> ;
-        ns7:hasReason "ID: 12" .
-
-    <http://www.example.com/insertChange/11> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/11> ;
-        ns7:hasReason "FirstName: Michael" .
-
-    <http://www.example.com/insertChange/12> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/12> ;
-        ns7:hasReason "LastName: Jordan" .
-
-    <http://www.example.com/insertChange/13> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/13> ;
-        ns7:hasReason "Sport: Basketball" .
-
-    <http://www.example.com/insertChange/14> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/14> ;
-        ns7:hasReason "City: Brooklyn" .
-
-    <http://www.example.com/insertChange/15> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/15> ;
-        ns7:hasReason "ID: 13" .
-
-    <http://www.example.com/insertChange/16> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/16> ;
-        ns7:hasReason "FirstName: Tom" .
-
-    <http://www.example.com/insertChange/17> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/17> ;
-        ns7:hasReason "LastName: Brady" .
-
-    <http://www.example.com/insertChange/18> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/18> ;
-        ns7:hasReason "Sport: Football" .
-
-    <http://www.example.com/insertChange/19> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/19> ;
-        ns7:hasReason "City: San Mateo" .
-
-    <http://www.example.com/insertChange/2> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/2> ;
-        ns7:hasReason "LastName: Williams" .
-
-    <http://www.example.com/insertChange/20> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/20> ;
-        ns7:hasReason "Column inserted: FirstName" .
-
-    <http://www.example.com/insertChange/21> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/21> ;
-        ns7:hasReason "Column inserted: City" .
-
-    <http://www.example.com/insertChange/22> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/22> ;
-        ns7:hasReason "Column inserted: Sport" .
-
-    <http://www.example.com/insertChange/23> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/23> ;
-        ns7:hasReason "Column inserted: LastName" .
-
-    <http://www.example.com/insertChange/3> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/3> ;
-        ns7:hasReason "Sport: Tennis" .
-
-    <http://www.example.com/insertChange/4> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/4> ;
-        ns7:hasReason "City: California" .
-
-    <http://www.example.com/insertChange/5> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/5> ;
-        ns7:hasReason "ID: 11" .
-
-    <http://www.example.com/insertChange/6> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/6> ;
-        ns7:hasReason "FirstName: Cristiano" .
-
-    <http://www.example.com/insertChange/7> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/7> ;
-        ns7:hasReason "LastName: Ronaldo" .
-
-    <http://www.example.com/insertChange/8> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/8> ;
-        ns7:hasReason "Sport: Soccer" .
-
-    <http://www.example.com/insertChange/9> a ns7:InsertSourceData ;
-        ns11:atTime <http://www.example.com/detectionTime/9> ;
-        ns7:hasReason "City: Funchal" .
-}
-
-ns1:document_mapping {
-    <http://example.com/base/TriplesMap1> a rr:TriplesMap ;
-        rml:logicalSource [ rml:referenceFormulation ql:CSV ;
-                rml:source "student.csv" ] ;
-        rr:predicateObjectMap [ rr:objectMap [ rml:reference "ID" ] ;
-                rr:predicate ex:id ],
-            [ rr:objectMap [ rml:reference "Name" ] ;
-                rr:predicate foaf:name ] ;
-        rr:subjectMap [ rr:class foaf:Person ;
-                rr:template "http://example.com/{ID}/{Name}" ] .
+ns1:MQV {
+    ns6:status a ns4:AnnotationProperty .
+
+    ns3:abstract a ns4:AnnotationProperty .
+
+    ns3:created a ns4:AnnotationProperty .
+
+    ns3:title a ns4:AnnotationProperty .
+
+    ns5:preferredNamespacePrefix a ns4:AnnotationProperty .
+
+    ns5:preferredNamespaceUri a ns4:AnnotationProperty .
+
+    ns2:example a ns4:AnnotationProperty .
+
+    <https://alex-randles.github.io/MQV/#> a ns4:Ontology ;
+        ns6:status "Draft" ;
+        ns3:abstract "The Mapping Quality Vocabulary (MQV) provides a set of classes, properties, and restrictions that can be used to represent and interchange provenance and metadata information relating to the quality assessment, quality refinement and quality validation of mapping definitions used to generate Linked data datasets. It can also be specialized to create new classes and properties to model provenance and metadata information for domain specific mapping languages" ;
+        ns3:created "1 June 2020" ;
+        ns3:title "Mapping Quality Vocabulary" ;
+        ns5:preferredNamespacePrefix "mqv" ;
+        ns5:preferredNamespaceUri "https://alex-randles.github.io/MQV/#" .
+
+    <https://alex-randles.github.io/MQV/#assessedMapping> a ns4:ObjectProperty ;
+        rdfs:label "assessedMapping"@en ;
+        rdfs:comment "The quality assessment of the mapping document created by the refinement process." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingDocument> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:assessedMapping :mappingDocument;
+.
+
+:mappingDocument
+	a mqv:MappingDocument;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#assessmentPerformedBy> a ns4:ObjectProperty ;
+        rdfs:label "assessmentPerformedBy"@en ;
+        rdfs:comment "The agent who performed the assessment of the mapping." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <http://www.w3.org/ns/prov#Agent> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:assessmentPerformedBy :AlexRandles;
+.
+
+:AlexRandles
+	a prov:Agent;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#createdBy> a ns4:ObjectProperty ;
+        rdfs:label "createdBy"@en ;
+        rdfs:comment "The agent or mapping quality refinement process who produced the mapping document." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingDocument> ;
+        rdfs:range [ a ns4:Class ;
+                ns4:unionOf ( <http://www.w3.org/ns/prov#Agent> <https://alex-randles.github.io/MQV/#MappingRefinement> ) ] ;
+        ns2:example """@prefix :     <http://example.com/>.;	a mqv:MappingAssessment ;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingDocument
+	a mqv:MappingDocument;
+	mqv:createdBy :mappingEngineer;
+.
+
+:mappingEngineer
+	a prov:Agent;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#executes> a ns4:ObjectProperty ;
+        rdfs:label "executes"@en ;
+        rdfs:comment "The quality metric being executed by the mapping quality assessment process." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <http://www.w3.org/ns/dqv#Metric> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:executes :qualityMetric;
+.
+
+:qualityMetric
+	a mqv:QualityMetric;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#hasConfidenceScore> a ns4:DatatypeProperty ;
+        rdfs:label "hasConfidenceScore"@en ;
+        rdfs:comment "The confidence score of a mapping refinement." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingRefinement> ;
+        rdfs:range xsd:decimal ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingRefinement
+	a mqv:MappingRefinement;
+	mqv:hasConfidenceScore "0.8"^^xsd:double;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#hasLocation> a ns4:DatatypeProperty ;
+        rdfs:label "hasLocation"@en ;
+        rdfs:comment "The location of a violation within the mapping." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        rdfs:range xsd:string ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingViolation
+	a mqv:MappingViolation;
+	mqv:hasLocation "Predicate Object Map"^^xsd:string.
+""" .
+
+    <https://alex-randles.github.io/MQV/#hasMetricType> a ns4:ObjectProperty ;
+        rdfs:label "hasMetricType"@en ;
+        rdfs:comment "A type assigned to a mapping quality metric. For instance, vocabulary type, for a mapping quality metric, which relates to the vocabulary being used within the mapping." ;
+        rdfs:domain <http://www.w3.org/ns/dqv#Metric> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#QualityMetricType> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:qualityMetric
+	a dqv:Metric;
+	mqv:hasMetricType :dataQualityMetric;
+.
+
+:dataQualityMetric
+	a mqv:QualityMetricType;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#hasQualityMeasurement> a ns4:ObjectProperty ;
+        rdfs:label "hasQualityMeasurement"@en ;
+        rdfs:comment "A measurement calculated  by a quality metric on a mapping document." ;
+        rdfs:domain [ a ns4:Class ;
+                ns4:unionOf ( <https://alex-randles.github.io/MQV/#MappingDocument> <https://alex-randles.github.io/MQV/#QualityRequirement> ) ] ;
+        rdfs:range [ a ns4:Class ;
+                ns4:unionOf ( <http://www.w3.org/ns/dqv#Category> <http://www.w3.org/ns/dqv#Dimension> <http://www.w3.org/ns/dqv#Metric> <http://www.w3.org/ns/dqv#QualityMeasurement> ) ] ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingDocument
+	a mqv:MappingDocument;
+	mqv:hasQualityMeasurement :qualityMeasurement;
+.
+
+:qualityMeasurement
+	a dqv:QualityMeasurement;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#hasQualityRequirement> a ns4:ObjectProperty ;
+        rdfs:label "hasQualityRequirement"@en ;
+        rdfs:comment "The quality requirement of a quality assessment process." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#QualityRequirement> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:hasQualityRequirement :qualityRequirement;
+.
+
+:qualityRequirement
+	a mqv:QualityRequirement;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#hasRefinement> a ns4:ObjectProperty ;
+        rdfs:label "hasRefinement"@en ;
+        rdfs:comment "The refinement used for refining a quality violation detcted by a particular quality metric." ;
+        rdfs:domain <http://www.w3.org/ns/dqv#Metric> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingRefinement> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:qualityMetric
+	a dqv:Metric;
+	mqv:hasRefinement :mappingRefinement;
+.
+
+:mappingRefinement
+	a mqv:MappingRefinement;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#hasRefinementQuery> a ns4:DatatypeProperty ;
+        rdfs:label "hasRefinementQuery"@en ;
+        rdfs:comment "A query executed during by a refinement." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingRefinement> ;
+        rdfs:range xsd:string ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:refinement1 a mqv:MappingRefinement;
+	mqv:hasRefinementQuery '''
+		PREFIX rr: <http://www.w3.org/ns/r2rml#>
+		PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+		PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+		DELETE{?om rr:datatype ?datatype}
+		INSERT{?om rr:datatype xsd:string }
+		WHERE
+		{
+		?sub rr:predicateObjectMap ?pom.
+		?pom rr:predicate foaf:name.
+		?pom rr:objectMap ?om.
+		?om rr:datatype ?datatype.
+		}'''^^xsd:string .
+""" .
+
+    <https://alex-randles.github.io/MQV/#hasValidationReport> a ns4:ObjectProperty ;
+        rdfs:label "hasValidationReport"@en ;
+        rdfs:comment "The mapping quality validation report generated by the quality assessment process." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingValidationReport> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:hasValidationReport :mappingValidationReport;
+.
+
+:mappingValidationReport
+	a mqv:MappingValidationReport;
+	mqv:hasViolation :mappingViolation;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#hasValue> a ns4:DatatypeProperty ;
+        rdfs:label "hasValue"@en ;
+        rdfs:comment "The value associated with the violation." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        rdfs:range xsd:string ;
+        rdfs:subPropertyOf <http://www.w3.org/ns/prov#value> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingViolation
+	a mqv:MappingViolation;
+	mqv:hasValue "en-GB".
+""" .
+
+    <https://alex-randles.github.io/MQV/#hasViolation> a ns4:ObjectProperty ;
+        rdfs:label "hasViolation"@en ;
+        rdfs:comment "A mapping quality violation contained within a mapping validation report." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingValidationReport> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingValidationReport
+	a mqv:MappingValidationReport;
+	mqv:hasViolation :mappingViolation;
+.
+
+:mappingViolation
+	a mqv:MappingViolation;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#inTripleMap> a ns4:ObjectProperty ;
+        rdfs:label "inTripleMap"@en ;
+        rdfs:comment "The triple map which contains the violation." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingViolation
+	a mqv:MappingViolation;
+	mqv:inTripleMap <#TripleMap1>;
+.
+""" .
+
+    <https://alex-randles.github.io/MQV/#isDescribedBy> a ns4:ObjectProperty ;
+        rdfs:label "isDescribedBy"@en ;
+        rdfs:comment "The quality metric which detected a quality violation." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        rdfs:range <http://www.w3.org/ns/dqv#Metric> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingViolation
+	a mqv:MappingViolation;
+	mqv:isDescribedBy :qualityMetric;
+.
+
+:qualityMetric
+	a dqv:Metric;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#mappingPurpose> a ns4:DatatypeProperty ;
+        rdfs:label "mappingPurpose"@en ;
+        rdfs:comment "The rationale for the mapping document being created." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingDocument> ;
+        rdfs:range xsd:string ;
+        rdfs:subPropertyOf <http://www.w3.org/ns/prov#value> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingDocument
+	a mqv:MappingDocument;
+	mqv:mappingPurpose 'A mapping for mapping personnel information to RDF.^^xsd:string'""" .
+
+    <https://alex-randles.github.io/MQV/#mappingSource> a ns4:ObjectProperty ;
+        rdfs:label "mappingSource"@en ;
+        rdfs:comment "The original mapping document, which the refined mapping document was created from." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingDocument> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingDocument> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:refinedMappingDocument
+	a mqv:MappingDocument;
+	mqv:mappingSource :originalMappingDocument;
+.
+
+:originalMappingDocument
+	a mqv:MappingDocument;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#performedBy> a ns4:ObjectProperty ;
+        rdfs:label "performedBy"@en ;
+        rdfs:comment "The agent who executes the mapping quality assessment process." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <http://www.w3.org/ns/prov#Agent> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:performedBy :mappingEngineer;
+.
+
+:mappingEngineer
+	a prov:Agent;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#performedOn> a ns4:ObjectProperty ;
+        rdfs:label "performedOn"@en ;
+        rdfs:comment "The original mapping document which the quality assessment process was performed on." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingDocument> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:performedOn :mappingDocument;
+.
+
+:mappingDocument
+	a mqv:MappingDocument;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#refinedViolation> a ns4:ObjectProperty ;
+        rdfs:label "refinedViolation"@en ;
+        rdfs:comment "The refinement which refined the violation." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingRefinement> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        rdfs:subPropertyOf <http://www.w3.org/ns/prov#generated> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:refinement-0
+	a mqv:MappingRefinement;
+	mqv:refinedViolation :mappingViolation.
+
+:mappingViolation
+    a mqv:MappingViolation .
+
+""" .
+
+    <https://alex-randles.github.io/MQV/#refinementName> a ns4:DatatypeProperty ;
+        rdfs:label "refinementName"@en ;
+        rdfs:comment "A textual description of a refinement." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingRefinement> ;
+        rdfs:range xsd:string ;
+        rdfs:subPropertyOf <http://www.w3.org/ns/prov#value> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:refinement-0
+	a mqv:MappingRefinement;
+	mqv:refinementName "Remove Language Tag"^^xsd:string.
+""" .
+
+    <https://alex-randles.github.io/MQV/#refinementPerformedBy> a ns4:ObjectProperty ;
+        rdfs:label "refinementPerformedBy"@en ;
+        rdfs:comment "The agent who performed the refinement of the mapping." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        rdfs:range <http://www.w3.org/ns/prov#Agent> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+	mqv:refinementPerformedBy :AlexRandles;
+.
+
+:AlexRandles
+	a prov:Agent;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#resultMessage> a ns4:DatatypeProperty ;
+        rdfs:label "resultMessage"@en ;
+        rdfs:comment "A textual description of the violation." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        rdfs:range xsd:string ;
+        rdfs:subPropertyOf <http://www.w3.org/ns/prov#value> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingViolation
+    a mqv:MappingViolation;
+    mqv:resultMessage "Usage of undefined Property."
+.
+
+""" .
+
+    <https://alex-randles.github.io/MQV/#toolsUsed> a ns4:ObjectProperty ;
+        rdfs:label "toolsUsed"@en ;
+        rdfs:comment "Mapping tools which have been used to create a mapping document." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingDocument> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingTool> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingDocument
+	a mqv:MappingDocument;
+	mqv:toolsUsed :mappingTool;
+.
+
+:mappingTool
+	a mqv:MappingTool;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#wasDerivedFrom> a ns4:ObjectProperty ;
+        rdfs:label "wasDerivedFrom" ;
+        rdfs:comment "The quality measurement calculated by the mapping quality assessment process." ;
+        rdfs:domain <http://www.w3.org/ns/dqv#QualityMeasurement> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingAssessment> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:qualityMeasurement
+	a dqv:QualityMeasurement;
+	mqv:wasDerivedFrom :mappingAssessment;
+.
+
+:mappingAssessment
+	a mqv:MappingAssessment;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#wasRefinedBy> a ns4:ObjectProperty ;
+        rdfs:label "wasRefinedBy"@en ;
+        rdfs:comment "The refinement used to refine a quality violation." ;
+        rdfs:domain <https://alex-randles.github.io/MQV/#MappingViolation> ;
+        rdfs:range <https://alex-randles.github.io/MQV/#MappingRefinement> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingViolation
+	a mqv:MappingViolation;
+	mqv:wasRefinedBy :mappingRefinement;
+.
+
+:mappingRefinement
+	a mqv:MappingRefinement;
+.""" .
+
+    <http://www.w3.org/ns/dqv#Category> a ns4:Class .
+
+    <http://www.w3.org/ns/dqv#Dimension> a ns4:Class .
+
+    <http://www.w3.org/ns/prov#Collection> a ns4:Class .
+
+    <http://www.w3.org/ns/prov#generated> a ns4:ObjectProperty .
+
+    <https://alex-randles.github.io/MQV/#MappingTool> a ns4:Class ;
+        rdfs:label "MappingTool"@en ;
+        rdfs:comment "A tool which is used to create or refine a mapping document." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+
+:mappingTool
+	a mqv:MappingTool;
+.
+
+:mappingDocument
+	a mqv:MappingDocument ;
+	mqv:toolsUsed :mappingTool ;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#QualityMetricType> a ns4:Class ;
+        rdfs:label "QualityMetricType"@en ;
+        rdfs:comment "Quality metrics may be grouped into type's, such as mapping, data and vocabulary." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Collection> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+
+:dataQualityType
+	a mqv:QualityMetricType;
+.
+
+:mappingViolation
+	a mqv:MappingViolation ;
+	mqv:hasMetricType :dataQualityType ;
+.
+""" .
+
+    <http://www.w3.org/ns/dqv#QualityMeasurement> a ns4:Class .
+
+    <http://www.w3.org/ns/prov#Activity> a ns4:Class .
+
+    <https://alex-randles.github.io/MQV/#MappingValidationReport> a ns4:Class ;
+        rdfs:label "MappingValidationReport"@en ;
+        rdfs:comment "A mapping validation report contains information about quality violations contained within a mapping document." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+
+:mappingValidationReport
+	a mqv:MappingValidationReport;
+.
+
+:mappingAssessment
+	a mqv:MappingAssessment ;
+	mqv:hasValidationReport :mappingValidationReport ;
+.
+""" .
+
+    <https://alex-randles.github.io/MQV/#QualityRequirement> a ns4:Class ;
+        rdfs:label "QualityRequirement"@en ;
+        rdfs:comment "A quality requirement is a requirement a mapping should satisfy." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+
+:qualityRequirement
+	a mqv:QualityRequirement;
+.
+
+:mappingAssessment
+	a mqv:MappingAssessment ;
+	mqv:hasQualityRequirement :qualityRequirement ;
+.""" .
+
+    <http://www.w3.org/ns/prov#Agent> a ns4:Class .
+
+    <http://www.w3.org/ns/prov#value> a ns4:DatatypeProperty .
+
+    <http://www.w3.org/ns/dqv#Metric> a ns4:Class .
+
+    <http://www.w3.org/ns/prov#Entity> a ns4:Class .
+
+    <https://alex-randles.github.io/MQV/#MappingRefinement> a ns4:Class ;
+        rdfs:label "MappingRefinement"@en ;
+        rdfs:comment "An activity which involves removing quality violations contained within a mapping document." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Activity> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+
+:mappingRefinement
+	a mqv:MapppingRefinement;
+.
+
+:mappingViolation
+	a mqv:Violation ;
+	mqv:wasRefinedBy :mappingRefinement ;
+.
+""" .
+
+    <https://alex-randles.github.io/MQV/#MappingDocument> a ns4:Class ;
+        rdfs:label "MappingDocument"@en ;
+        rdfs:comment "A mapping document is a document which contains information on how non-RDF data will be transformed to RDF." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+
+:mappingDocument
+	a mqv:MappingDocument;
+	mqv:createdBy :mappingEngineer
+.
+
+:mappingEngineer
+	a prov:Agent ;
+.
+""" .
+
+    <https://alex-randles.github.io/MQV/#MappingViolation> a ns4:Class ;
+        rdfs:label "MappingViolation"@en ;
+        rdfs:comment "A mapping violation is a quality issue present within a mapping." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Entity> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+
+:mappingViolation
+	a mqv:MappingViolation;
+.
+
+:mappingValidationReport
+	a mqv:MappingValidationReport ;
+	mqv:hasViolation :mappingViolation;
+.""" .
+
+    <https://alex-randles.github.io/MQV/#MappingAssessment> a ns4:Class ;
+        rdfs:label "MappingAssessment"@en ;
+        rdfs:comment "An activity in which the quality of a mapping document is assessed, generating information on quality issues within the mapping." ;
+        rdfs:subClassOf <http://www.w3.org/ns/prov#Activity> ;
+        ns2:example """@prefix :     <http://example.com/>.;
+@prefix mqv: <https://alex-randles.github.io/MQV/#>.;
+
+:mappingQualityAssessement
+	a mqv:MappingAssessment ;
+	mqv:perfomedBy :mappingEngineer;
+.
+
+:mappingEngineer
+    a  prov:Agent;
+""" .
 }
 

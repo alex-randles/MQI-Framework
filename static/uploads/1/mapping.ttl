@@ -1,40 +1,20 @@
-@prefix rr: <http://www.w3.org/ns/r2rml#>.
-@prefix ex: <http://example.com/ns#>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix dqv: <http://www.w3.org/ns/dqv#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ex: <http://example.com/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@base <http://example.com/base/> .
 
-<#TriplesMap1>
-    rr:logicalTable [ rr:tableName "EMP" ];
-    rr:subjectMap [
-        rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class foaf:Employee;
-    ];
-    rr:predicateObjectMap [
-        rr:predicate prov:generatedAtTime;
-        rr:objectMap [ rr:column "ENAME" ];
-    ].
+<TriplesMap1> a rr:TriplesMap;
+    
+  rml:logicalSource [ 
+    rml:source "student.csv";
+    rml:referenceFormulation ql:CSV
+  ];
 
+  rr:subjectMap [ 
+    rr:template "http://example.com/Student{ID}";
+  ];
+.
 
-<#TriplesMap3>
-    rr:logicalTable [ rr:tableName "EMP" ];
-    rr:subjectMap [
-        rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class dqv:Metric;
-    ];
-    rr:predicateObjectMap [
-        rr:predicate geo:hasGeometry;
-        rr:objectMap [ rr:column "CATEGORY" ];
-    ].
-
-<#TriplesMap2>
-    rr:logicalTable [ rr:tableName "EMP" ];
-    rr:subjectMap [
-        rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class dqv:Metric;
-    ];
-    rr:predicateObjectMap [
-        rr:predicate dqv:inCategory;
-        rr:objectMap [ rr:column "CATEGORY" ];
-    ].

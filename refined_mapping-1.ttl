@@ -3,261 +3,540 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix rrf: <http://kdeg.scss.tcd.ie/ns/rrf#> . 
-@prefix daq: <http://purl.org/eis/vocab/daq#> . 
-@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> . 
-@prefix qb: <http://purl.org/linked-data/cube#> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
+@prefix cidoc: <http://erlangen-crm.org/current/> . 
+@prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
 
 	
-<#Observation-View>	
- rr:sqlQuery """  		
-		SELECT DISTINCT MAPPING2.CATEGORY, MAPPING2.DIMENSION as DIMENSION,		
-		    VALIDATION_FEATURE2.VALIDATION_BATCH_ID,		
-		    VALIDATION_FEATURE2.CLASS,		
-		    SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) as METRIC,		
-		    COUNT(SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1)) as NUM_INSTANCES,		
-		    VALIDATION_BATCH2.END_DATE as ASSESSMENT_DATE,		
-		    VALIDATION_FEATURE2.CLASS as COMPUTED_ON,		
-		    CASE		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'ARTIFICIAL' THEN VALIDATION_BATCH2.ARTIFICIAL_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BLP' THEN VALIDATION_BATCH2.BLP_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BOUNDARY_AREA' THEN VALIDATION_BATCH2.BOUNDARY_AREA_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BOUNDARY_LINE' THEN VALIDATION_BATCH2.BOUNDARY_LINE_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BOUNDARY_MEREING' THEN VALIDATION_BATCH2.BOUNDARY_MEREING_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BOUNDARY_POINT' THEN VALIDATION_BATCH2.BOUNDARY_POINT_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BOUNDARY_SSA' THEN VALIDATION_BATCH2.BOUNDARY_SSA_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BUILDING' THEN VALIDATION_BATCH2.BUILDING_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BUILDING_GROUP' THEN VALIDATION_BATCH2.BUILDING_GROUP_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'BUILDING_UNIT' THEN VALIDATION_BATCH2.BUILDING_UNIT_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'DIVISION' THEN VALIDATION_BATCH2.DIVISION_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'EXPOSED' THEN VALIDATION_BATCH2.EXPOSED_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'LOCALE' THEN VALIDATION_BATCH2.LOCALE_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'RAIL_NETWORK_SEGMENT' THEN VALIDATION_BATCH2.RAIL_NETWORK_SEGMENT_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'RAIL_POINT' THEN VALIDATION_BATCH2.RAIL_POINT_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'SERVICE_LINE' THEN VALIDATION_BATCH2.SERVICE_LINE_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'SITE' THEN VALIDATION_BATCH2.SITE_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'SITE_POINT' THEN VALIDATION_BATCH2.SITE_POINT_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'STRUCTURE' THEN VALIDATION_BATCH2.STRUCTURE_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'VEGETATION' THEN VALIDATION_BATCH2.VEGETATION_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'WATER' THEN VALIDATION_BATCH2.WATER_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'WATER_POINT' THEN VALIDATION_BATCH2.WATER_POINT_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'WATER_SINGLE_STREAM' THEN VALIDATION_BATCH2.WATER_SINGLE_STREAM_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'WAY' THEN VALIDATION_BATCH2.WAY_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'WAY_GDF2' THEN VALIDATION_BATCH2.WAY_GDF2_COUNT		
-		        WHEN VALIDATION_FEATURE2.CLASS = 'WAY_POINT' THEN VALIDATION_BATCH2.WAY_POINT_COUNT		
-		    END TOTAL_INSTANCES		
-		    from VALIDATION_FEATURE2		
-		    inner join MAPPING2 on SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) = MAPPING2.METRIC		
-			INNER JOIN VALIDATION_BATCH2		
-			ON VALIDATION_FEATURE2.VALIDATION_BATCH_ID = VALIDATION_BATCH2.ID		
-			GROUP BY MAPPING2.CATEGORY,MAPPING2.DIMENSION, VALIDATION_BATCH_ID, VALIDATION_FEATURE2.CLASS, SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1), VALIDATION_BATCH2.END_DATE,		
-			VALIDATION_BATCH2.RULE_SET, VALIDATION_BATCH2.ARTIFICIAL_COUNT, VALIDATION_BATCH2.BLP_COUNT,		
-			VALIDATION_BATCH2.BOUNDARY_AREA_COUNT, VALIDATION_BATCH2.BOUNDARY_LINE_COUNT, VALIDATION_BATCH2.BOUNDARY_MEREING_COUNT,		
-			VALIDATION_BATCH2.BOUNDARY_POINT_COUNT, VALIDATION_BATCH2.BOUNDARY_SSA_COUNT, VALIDATION_BATCH2.BUILDING_COUNT,		
-			VALIDATION_BATCH2.BUILDING_GROUP_COUNT, VALIDATION_BATCH2.BUILDING_UNIT_COUNT, VALIDATION_BATCH2.DIVISION_COUNT,		
-			VALIDATION_BATCH2.EXPOSED_COUNT, VALIDATION_BATCH2.LOCALE_COUNT, VALIDATION_BATCH2.RAIL_NETWORK_SEGMENT_COUNT,		
-			VALIDATION_BATCH2.RAIL_POINT_COUNT, VALIDATION_BATCH2.SERVICE_LINE_COUNT, VALIDATION_BATCH2.SITE_COUNT,		
-			VALIDATION_BATCH2.SITE_POINT_COUNT, VALIDATION_BATCH2.STRUCTURE_COUNT, VALIDATION_BATCH2.VEGETATION_COUNT,		
-			VALIDATION_BATCH2.WATER_COUNT, VALIDATION_BATCH2.WATER_POINT_COUNT, VALIDATION_BATCH2.WATER_SINGLE_STREAM_COUNT,		
-			VALIDATION_BATCH2.WAY_COUNT, VALIDATION_BATCH2.WAY_GDF2_COUNT, VALIDATION_BATCH2.WAY_POINT_COUNT		
-	  """;	
- rr:sqlVersion  rr:Oracle ;	
-.	
+<#PlaceAppellation>	
+ rdf:type  rr:TriplesMap ;	
 	
-<#CalculateValue>	
- rrf:functionBody """  		
-		function calculateValue(numInstances, totalInstances) {		
-	    	return 1 - (numInstances / totalInstances);		
-    	}   """;	
- rrf:functionName  "calculateValue" ;	
-.	
-	
-<#Less-Expensive-Query>	
- rr:sqlVersion  rr:Oracle ;	
- rr:sqlQuery """  		
-            SELECT DISTINCT ID		
-            FROM VALIDATION_BATCH2		
-          """;	
-.	
-	
-<#Graph-Instance>	
- rr:logicalTable  <#Less-Expensive-Query> ;	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery """ 	
+		SELECT X.ID, X.LABEL, Y.COUNTRY 	
+		FROM (	
+			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL	
+			UNION 	
+			WITH RECURSIVE SYNONYMSSPLITTED(ID, NAMEVARIANTSORGANISATIONS, REST) AS (	
+				SELECT ID, NULL, NAMEVARIANTSORGANISATIONS || ';'	
+				FROM (SELECT ID, NAMEVARIANTSORGANISATIONS FROM DATA) WHERE NAMEVARIANTSORGANISATIONS IS NOT NULL	
+	  			UNION ALL	
+	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
+			) SELECT ID, NAMEVARIANTSORGANISATIONS AS LABEL FROM SYNONYMSSPLITTED WHERE NAMEVARIANTSORGANISATIONS IS NOT NULL	
+		) X INNER JOIN DATA Y ON X.ID = Y.ID WHERE Y.PLACETYPE IS NOT NULL	
+		 """;	
+ ];	
 	
  rr:subjectMap [ 	
- 	 rr:constant  <http://data.example.com/1spatialassessment/quality-graph/> ;	
-	 rr:class  daq:QualityGraph ;	
+ 	 rr:class  cidoc:E41_Appellation ;	
+	 rr:template  "https://kb.beyond2022.ie/place-appellation/{COUNTRY}/{LABEL}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  qb:structure ;	
-	 rr:object  daq:dsd ;	
- ];	
-.	
-	
-<#Category-Instance>	
- rr:logicalTable  <#Observation-View> ;	
-	
- rr:subjectMap [ 	
- 	 rr:graph  <http://data.example.com/1spatialassessment/quality-graph> ;	
-	 rr:class  <http://data.example.com/category/Oracle> ;	
-	 rr:template  "http://data.example.com/1spatialassessment/category/{CATEGORY}-instance" ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:objectMap  [	
-		 rr:template  "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ;	
-		]; 	
-	 rr:predicateMap  [	
-		 rr:template  "http://data.example.com/dimension/has{DIMENSION}Dimension" ;	
+ 	 rr:predicate  rdfs:label ;	
+	 rr:objectMap  [	
+		 rr:template  "{LABEL}" ;	
+		 rr:termType  rr:Literal ;	
 		]; 	
  ];	
 .	
 	
-<#Dimension-Instance>	
- rr:logicalTable  <#Observation-View> ;	
+<#OrganisationAppellation>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery """ 	
+		SELECT X.ID, X.LABEL, Y.COUNTRY 	
+		FROM (	
+			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
+			UNION 	
+			WITH RECURSIVE SYNONYMSSPLITTED(ID, NAMEVARIANTSORGANISATIONS, REST) AS (	
+				SELECT ID, NULL, NAMEVARIANTSORGANISATIONS || ';'	
+				FROM (SELECT ID, NAMEVARIANTSORGANISATIONS FROM DATA) WHERE NAMEVARIANTSORGANISATIONS IS NOT NULL	
+	  			UNION ALL	
+	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
+			) SELECT ID, NAMEVARIANTSORGANISATIONS AS LABEL FROM SYNONYMSSPLITTED WHERE NAMEVARIANTSORGANISATIONS IS NOT NULL	
+		) X INNER JOIN DATA Y ON X.ID = Y.ID WHERE Y.ORGANISATIONTYPE IS NOT NULL	
+		 """;	
+ ];	
 	
  rr:subjectMap [ 	
- 	 rr:graph  <http://data.example.com/1spatialassessment/quality-graph> ;	
-	 rr:template  "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ;	
+ 	 rr:class  cidoc:E41_Appellation ;	
+	 rr:template  "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  rdf:language ;	
+ 	 rr:predicate  rdfs:label ;	
 	 rr:objectMap  [	
-		 rr:template  "http://data.example.com/dimension/{DIMENSION}" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicateMap  [	
-		 rr:template  "http://data.example.com/dimension/has{METRIC}metric" ;	
-		]; 	
-	 rr:objectMap  [	
-		 rr:template  "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;	
+		 rr:template  "{LABEL}" ;	
+		 rr:termType  rr:Literal ;	
 		]; 	
  ];	
 .	
 	
-<#Metric-Instance>	
- rr:logicalTable  <#Observation-View> ;	
+<#Organisation>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery """ 	
+		SELECT 	
+			Y.ID,	
+			Y.NAME,	
+			Y.COUNTRY,	
+			X.ORGANISATIONTYPE,	
+			Y.COMMENT	
+		FROM (	
+			WITH RECURSIVE ORGANISATIONTYPESPLITTED(ID, ORGANISATIONTYPE, REST) AS (	
+				SELECT ID, NULL, ORGANISATIONTYPE || ';'	
+				FROM (SELECT ID, ORGANISATIONTYPE FROM DATA) WHERE ORGANISATIONTYPE IS NOT NULL	
+				UNION ALL	
+				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM ORGANISATIONTYPESPLITTED WHERE REST <> ''	
+			) SELECT ID, ORGANISATIONTYPE FROM ORGANISATIONTYPESPLITTED WHERE ORGANISATIONTYPE IS NOT NULL	
+		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
+		WHERE Y.ORGANISATION IS NOT NULL	
+		 """;	
+ ];	
 	
  rr:subjectMap [ 	
- 	 rr:template  "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;	
-	 rr:graph  <http://data.example.com/1spatialassessment/quality-graph> ;	
+ 	 rr:template  "https://kb.beyond2022.ie/organisation/{COUNTRY}/{NAME}" ;	
+	 rr:class  cidoc:E74_Group , cidoc:E1_CRM_Entity ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  rdf:type ;	
+ 	 rr:object  b2022:Organisation ;	
+	 rr:predicate  cidoc:P2_has_type ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P2_has_type ;	
 	 rr:objectMap  [	
-		 rr:template  "http://data.example.com/metric/{METRIC}" ;	
+		 rr:template  "https://ont.beyond2022.ie/ontology#{ORGANISATIONTYPE}" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  daq:Observation ;	
+ 	 rr:predicate  cidoc:P1_is_identified_by ;	
 	 rr:objectMap  [	
-		 rr:template  "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}" ;	
-		]; 	
- ];	
-.	
-	
-<#Observations>	
- rr:logicalTable  <#Observation-View> ;	
-	
- rr:subjectMap [ 	
- 	 rr:class  daq:Observation ;	
-	 rr:graph  <http://data.example.com/1spatialassessment/quality-graph> ;	
-	 rr:template  "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}" ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  daq:isEstimate ;	
-	 rr:objectMap  [	
-		 rr:constant "false"^^xsd:boolean ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  daq:metric ;	
-	 rr:objectMap  [	
-		 rr:template  "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  daq:value ;	
-	 rr:objectMap  [	
-		 rdf:rest  [	
-			 rdf:rest  rdf:nil ;	
+		 rr:parentTriplesMap  <#OrganisationAppellation> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
 			 ];	
- 			 rrf:parameterBindings  [	
-				 ];	
- 				 rdf:first  [	
-					 rr:column  "TOTAL_INSTANCES" ;	
-					 ];	
- 					 rrf:functionCall  [	
-						 rrf:function  <#CalculateValue> ;	
-						 ];	
- 						 rdf:first  [	
-							 rr:column  "NUM_INSTANCES" ;	
-							 ];	
  		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  sdmx-dimension:timePeriod ;	
+ 	 rr:predicate  cidoc:P3_has_note ;	
 	 rr:objectMap  [	
-		 rr:termType  rr:IRI ;	
-		 rr:template  "{ASSESSMENT_DATE}" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  qb:dataSet ;	
-	 rr:object  <http://data.example.com/1spatialassessment/quality-graph/> ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  daq:computedOn ;	
-	 rr:objectMap  [	
-		 rr:template  "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  daq:computedOn ;	
-	 rr:objectMap  [	
-		 rr:template  "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  prov:wasGeneratedBy ;	
-	 rr:object  <http://data.example.com/1spatialassessment/r2rmlconverter/> ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate  prov:generated ;	
-	 rr:objectMap  [	
-		 rr:template  "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling" ;	
+		 rr:column  "COMMENT" ;	
+		 rr:datatype  xsd:string ;	
 		]; 	
  ];	
 .	
 	
-<#Profiling>	
- rr:logicalTable  <#Observation-View> ;	
+<#OrganisationContainedIn>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery """ 	
+	SELECT 	
+		F.ID AS FROMID,	
+		F.NAME AS FROMNAME,	
+		F.COUNTRY AS COUNTRY,	
+		T.ID AS TOID,	
+		CASE WHEN REGEXP_LIKE(D.CONTAINEDIN, '^http(s)?://') THEN D.CONTAINEDIN ELSE NULL END AS CONTAINEDIN_URI,	
+		CASE WHEN NOT REGEXP_LIKE(D.CONTAINEDIN, '^http(s)?://') THEN D.CONTAINEDIN ELSE NULL END AS CONTAINEDIN,	
+		COALESCE (T.NAME, D.CONTAINEDIN) AS TONAME	
+	FROM	
+		(	
+			WITH RECURSIVE SPLITTEDORGANISATIONCONTAINEDIN (ID, CONTAINEDIN, REST) AS 	
+			( 	
+				SELECT ID, NULL, CONTAINEDIN || ';' FROM  (SELECT ID, CONTAINEDIN FROM DATA WHERE CONTAINEDIN IS NOT NULL) 	
+				UNION ALL 	
+				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SPLITTEDORGANISATIONCONTAINEDIN WHERE REST <> '' 	
+			)	
+			SELECT DISTINCT id, CONTAINEDIN FROM SPLITTEDORGANISATIONCONTAINEDIN WHERE CONTAINEDIN IS NOT NULL	
+		) AS D	
+		JOIN DATA F ON D.ID = F.ID	
+		LEFT OUTER JOIN DATA T ON D.CONTAINEDIN = T.ID	
+	 """;	
+ ];	
 	
  rr:subjectMap [ 	
- 	 rr:graph  <http://data.example.com/1spatialassessment/quality-graph> ;	
-	 rr:class  daq:MetricProfile ;	
-	 rr:template  "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling" ;	
+ 	 rr:class  cidoc:E89_Propositional_Object ;	
+	 rr:template  "https://kb.beyond2022.ie/organisation-contained-in/{COUNTRY}/{FROMNAME}-{TONAME}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  daq:totalDatasetTriplesAssessed ;	
+ 	 rr:predicate  cidoc:P2_has_type ;	
+	 rr:object  b2022:Composition ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  b2022:part_of , cidoc:P67_refers_to ;	
 	 rr:objectMap  [	
-		 rr:column  "TOTAL_INSTANCES" ;	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "FROMID" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P67_refers_to , b2022:composed_of ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "TOID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:termType  rr:IRI ;	
+		 rr:column  "CONTAINEDIN_URI" ;	
 		]; 	
+ ];	
+.	
+	
+<#PLACE>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery """ 	
+		SELECT 	
+			Y.ID,	
+			Y.NAME,	
+			Y.COUNTRY,	
+			X.PLACETYPE,	
+			Y.COMMENT,	
+			CASE WHEN REGEXP_LIKE(Z.CONTAINEDIN, '^http(s)?://') THEN Z.CONTAINEDIN ELSE NULL END AS CONTAINEDIN_URI,	
+			CASE WHEN NOT REGEXP_LIKE(Z.CONTAINEDIN, '^http(s)?://') THEN Z.CONTAINEDIN ELSE NULL END AS CONTAINEDIN	
+		FROM 	
+			DATA Y	
+			LEFT OUTER JOIN 	
+			(	
+				WITH RECURSIVE PLACETYPESPLITTED(ID, PLACETYPE, REST) AS (	
+					SELECT ID, NULL, PLACETYPE || ';'	
+					FROM (SELECT ID, PLACETYPE FROM DATA) WHERE PLACETYPE IS NOT NULL	
+					UNION ALL	
+					SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM PLACETYPESPLITTED WHERE REST <> ''	
+				) SELECT ID, PLACETYPE FROM PLACETYPESPLITTED WHERE PLACETYPE IS NOT NULL	
+			) X ON X.ID = Y.ID 	
+			LEFT OUTER JOIN (	
+				WITH RECURSIVE SPLITTEDPLACECONTAINEDIN (ID, CONTAINEDIN, REST) AS 	
+				( 	
+					SELECT ID, NULL, CONTAINEDIN || ';' FROM  (SELECT ID, CONTAINEDIN FROM DATA WHERE CONTAINEDIN IS NOT NULL) 	
+					UNION ALL 	
+					SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SPLITTEDPLACECONTAINEDIN WHERE REST <> '' 	
+				)	
+				SELECT DISTINCT ID, CONTAINEDIN FROM SPLITTEDPLACECONTAINEDIN WHERE CONTAINEDIN IS NOT NULL	
+			) Z ON Y.ID = Z.ID	
+		WHERE Y.PLACE IS NOT NULL	
+		 """;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template  "https://kb.beyond2022.ie/place/{COUNTRY}/{NAME}" ;	
+	 rr:class  cidoc:E53_Place ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P2_has_type ;	
+	 rr:objectMap  [	
+		 rr:template  "https://ont.beyond2022.ie/ontology#{PLACETYPE}" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P1_is_identified_by ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PlaceAppellation> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P89_falls_within ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "CONTAINEDIN" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:termType  rr:IRI ;	
+		 rr:column  "CONTAINEDIN_URI" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P3_has_note ;	
+	 rr:objectMap  [	
+		 rr:column  "COMMENT" ;	
+		 rr:datatype  xsd:string ;	
+		]; 	
+ ];	
+.	
+	
+<#SOURCE>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery """ 	
+		SELECT	
+			D.ID,	
+			CONCAT(D.SOURCE, ', pp. ' || E.PAGENUMBERS) AS REFERENCE	
+		FROM DATA D 	
+		LEFT OUTER JOIN 	
+		(	
+			WITH RECURSIVE SPLITTEDPAGENUMBERS (ID, PAGENUMBERS, REST) AS 	
+			( 	
+				SELECT ID, NULL, PAGENUMBERS || ';' FROM  (SELECT ID, PAGENUMBERS FROM DATA WHERE PAGENUMBERS IS NOT NULL) 	
+				UNION ALL 	
+				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SPLITTEDPAGENUMBERS WHERE REST <> '' 	
+			) SELECT DISTINCT ID, PAGENUMBERS FROM SPLITTEDPAGENUMBERS WHERE PAGENUMBERS IS NOT NULL	
+		) E ON D.ID = E.ID	
+	 """;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template  "https://kb.beyond2022.ie/reference/{REFERENCE}" ;	
+	 rr:class  cidoc:E32_Authority_Document ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  rdfs:label ;	
+	 rr:objectMap  [	
+		 rr:column  "REFERENCE" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P71_lists ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+.	
+	
+<#CITATION1URI>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery  "SELECT ID, CITATION1 FROM DATA WHERE REGEXP_LIKE(CITATION1, '^http(s)?://')" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:class  cidoc:E32_Authority_Document ;	
+	 rr:column  "CITATION1" ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P71_lists ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+.	
+	
+<#CITATION1TEXT>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery  "SELECT ID, CITATION1 FROM DATA WHERE CITATION1 IS NOT NULL AND NOT REGEXP_LIKE(CITATION1, '^http(s)?://')" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template  "https://kb.beyond2022.ie/reference/{CITATION1}" ;	
+	 rr:class  cidoc:E32_Authority_Document ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  rdfs:label ;	
+	 rr:objectMap  [	
+		 rr:column  "CITATION1" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P71_lists ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+.	
+	
+<#CITATION2URI>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery  "SELECT ID, CITATION2 FROM DATA WHERE REGEXP_LIKE(CITATION2, '^http(s)?://')" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:column  "CITATION2" ;	
+	 rr:class  cidoc:E32_Authority_Document ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P71_lists ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+.	
+	
+<#CITATION2TEXT>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery  "SELECT ID, CITATION2 FROM DATA WHERE CITATION2 IS NOT NULL AND NOT REGEXP_LIKE(CITATION2, '^http(s)?://')" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:class  cidoc:E32_Authority_Document ;	
+	 rr:template  "https://kb.beyond2022.ie/reference/{CITATION2}" ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  rdfs:label ;	
+	 rr:objectMap  [	
+		 rr:column  "CITATION2" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P71_lists ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+.	
+	
+<#CITATION3URI>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery  "SELECT ID, CITATION3 FROM DATA WHERE REGEXP_LIKE(CITATION3, '^http(s)?://')" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:class  cidoc:E32_Authority_Document ;	
+	 rr:column  "CITATION3" ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P71_lists ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:child  "ID" ;	
+			 rr:parent  "ID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+.	
+	
+<#CITATION3TEXT>	
+ rdf:type  rr:TriplesMap ;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery  "SELECT ID, CITATION3 FROM DATA WHERE CITATION3 IS NOT NULL AND NOT REGEXP_LIKE(CITATION3, '^http(s)?://')" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template  "https://kb.beyond2022.ie/reference/{CITATION3}" ;	
+	 rr:class  cidoc:E32_Authority_Document ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  rdfs:label ;	
+	 rr:objectMap  [	
+		 rr:column  "CITATION3" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate  cidoc:P71_lists ;	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#PLACE> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
+			 ];	
+ 		]; 	
+	 rr:objectMap  [	
+		 rr:parentTriplesMap  <#Organisation> ;	
+		 rr:joinCondition  [	
+			 rr:parent  "ID" ;	
+			 rr:child  "ID" ;	
+			 ];	
+ 		]; 	
  ];	
 .	

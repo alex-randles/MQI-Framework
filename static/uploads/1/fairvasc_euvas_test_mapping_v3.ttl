@@ -1,0 +1,502 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix fvc: <http://ontologies.adaptcentre.ie/fairvasc#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#patient>
+
+	rr:logicalTable [ rr:sqlQuery """SELECT 
+	RECORD_ID, 
+	YEAR_OF_BIRTH,   
+	DATE_OF_COMPLICATION,
+	DATE_OF_ENCOUNTER,
+	REDCAP_REPEAT_INSTANCE,
+	GENDER,
+		CASE 
+		WHEN GENDER = 'M' THEN 'Male' 
+		WHEN GENDER = 'F' THEN 'Female' 
+		WHEN GENDER = 'U' THEN 'Undetermined' 
+	END AS GENDER_,
+	FROM EUVAS""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/rkd/patient/{RECORD_ID}" ;
+		rr:class fvc:Patient;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:patientID ;
+		rr:objectMap [			
+			rr:column "RECORD_ID" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:yearOfBirth ;
+		rr:objectMap [			
+			rr:column "YEAR_OF_BIRTH" ;
+			rr:datatype xsd:gYear;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:gender ;
+		rr:objectMap [			
+			rr:column "GENDER_" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:hasDiagnosis;
+		rr:objectMap [
+		rr:parentTriplesMap <#diagnosis> ;
+		rr:joinCondition [
+			rr:child "RECORD_ID" ;
+			rr:parent "RECORD_ID" ;
+		] ;
+		] ;
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:hasANCA;
+		rr:objectMap [
+		rr:parentTriplesMap <#anca> ;
+		rr:joinCondition [
+			rr:child "RECORD_ID" ;
+			rr:parent "RECORD_ID" ;
+		] ;
+		] ;
+	];
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:hasOrganPattern;
+		rr:objectMap [
+		rr:parentTriplesMap <#organ_pattern> ;
+		rr:joinCondition [
+			rr:child "RECORD_ID" ;
+			rr:parent "RECORD_ID" ;
+		] ;
+		] ;
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:hasCreatinine;
+		rr:objectMap [
+		rr:parentTriplesMap <#creatinine> ;
+		rr:joinCondition [
+			rr:child "RECORD_ID" ;
+			rr:parent "RECORD_ID" ;
+		] ;
+		rr:joinCondition [
+            rr:child "DATE_OF_ENCOUNTER" ;
+            rr:parent "DATE_OF_ENCOUNTER" ;
+        ] ;
+		] ;
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:hasOutcomes;
+		rr:objectMap [
+		rr:parentTriplesMap <#outcomes> ;
+		rr:joinCondition [
+			rr:child "RECORD_ID" ;
+			rr:parent "RECORD_ID" ;
+		] ;
+		] ;
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:hasComplications;
+		rr:objectMap [
+		rr:parentTriplesMap <#complications> ;
+		rr:joinCondition [
+			rr:child "RECORD_ID" ;
+			rr:parent "RECORD_ID" ;
+		] ;
+		rr:joinCondition [
+            rr:child "DATE_OF_COMPLICATION" ;
+            rr:parent "DATE_OF_COMPLICATION" ;
+        ] ;
+		] ;
+	]
+	
+.
+
+<#anca> 
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RECORD_ID, 
+				CASE 
+					WHEN ANCA_ELISA = 'M' THEN 'MPO positive' 
+					WHEN ANCA_ELISA = 'EN' THEN 'ELISA negative' 
+					WHEN ANCA_ELISA = 'PR' THEN 'PR3 positive' 
+					WHEN ANCA_ELISA = 'O' THEN 'Other' 
+					WHEN ANCA_ELISA = 'NE' THEN 'No ELISA performed' 
+					WHEN ANCA_ELISA = 'MP' THEN 'MPO and PR3 positive' 
+				END AS ANCASPEC, 
+				CASE 
+					WHEN ANCA_IF_EN = 'C' THEN 'cANCA positive' 
+					WHEN ANCA_IF_EN = 'P' THEN 'pANCA positive' 
+					WHEN ANCA_IF_EN = 'A' THEN 'Atypical' 
+					WHEN ANCA_IF_EN = 'N' THEN 'Negative' 
+					WHEN ANCA_IF_EN = 'U' THEN 'Not tested' 
+				END AS ANCAIF 
+	FROM EUVAS"""];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/rkd/anca/{RECORD_ID}" ;
+		rr:class fvc:ANCA;
+	] ;
+		
+	rr:predicateObjectMap [
+		rr:predicate fvc:ancaIF;
+		rr:objectMap [			
+			rr:column "ANCAIF" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:ancaSpec ;
+		rr:objectMap [			
+			rr:column "ANCASPEC" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+.
+
+
+
+<#diagnosis>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RECORD_ID, 
+			FORMATDATETIME(PARSEDATETIME(DATE_OF_DIAGNOSIS, 'dd/MM/yyyy'), 'yyyy-MM-dd')||'T00:00:00' AS DIAGNOSIS_DATE, 
+				CASE 	
+				WHEN SMALL_VESSEL_VAS_ANCA = 156152 THEN 'ANCA vasculitis unclassified' 
+				WHEN SMALL_VESSEL_VAS_ANCA = 183 THEN 'Eosinophilic granulomatosis with polyangiitis (EGPA)' 
+				WHEN SMALL_VESSEL_VAS_ANCA = 900 THEN 'Granulomatosis with polyangiitis (GPA)' 
+				WHEN SMALL_VESSEL_VAS_ANCA = 727 THEN 'Microscopic polyangiitis (MPA)' 
+				END AS DIAGNOSIS 
+	FROM EUVAS""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/rkd/diagnosis/{RECORD_ID}{DIAGNOSIS_DATE}" ;
+		rr:class fvc:Diagnosis;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:mainDiagnosis ;
+		rr:objectMap [			
+			rr:column "DIAGNOSIS" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+		
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:dateOfDiagnosis ;
+		rr:objectMap [			
+			rr:column "DIAGNOSIS_DATE" ;
+			rr:datatype xsd:dateTime;
+		] ;
+	] ;
+	
+.
+
+
+<#organ_pattern>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RECORD_ID, 
+				CASE 	
+					WHEN SYSTEMS_INVOLVED___k = 1 THEN 'Kidney' 
+				END AS ORGAN_PATTERN___1,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___lg = 1 THEN 'Lung (granuloma)' 
+				END AS ORGAN_PATTERN___2,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___lh = 1 THEN 'Lung (haemorrhage)'
+				END AS ORGAN_PATTERN___3,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___ent = 1 THEN 'ENT' 
+				END AS ORGAN_PATTERN___4,
+				CASE 
+					WHEN SYSTEMS_INVOLVED___t = 1 THEN 'Trachea' 
+				END AS ORGAN_PATTERN___5,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___mt = 1 THEN 'Mucocutaneous' 
+				END AS ORGAN_PATTERN___6,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___ms = 1 THEN 'Musculoskeletal' 
+				END AS ORGAN_PATTERN___7,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___cns = 1 THEN 'CNS'
+				END AS ORGAN_PATTERN___8,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___pns = 1 THEN 'PNS'
+				END AS ORGAN_PATTERN___9,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___a = 1 THEN 'Abdominal'
+				END AS ORGAN_PATTERN___10,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___e = 1 THEN 'Eye'
+				END AS ORGAN_PATTERN___11,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___c = 1 THEN 'Cardiovascular'
+				END AS ORGAN_PATTERN___12,
+				CASE  
+					WHEN SYSTEMS_INVOLVED___o = 1 THEN 'Other' 
+				END AS ORGAN_PATTERN___13, 
+				CASE  
+					WHEN SYSTEMS_INVOLVED___li = 1 THEN 'Interstitial Lung Disease' 
+				END AS ORGAN_PATTERN___14 
+	FROM EUVAS""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/rkd/organ_pattern/{RECORD_ID}" ;
+		rr:class fvc:OrganPattern;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___1" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___2" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___3" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___4" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___5" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___6" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___7" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___8" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___9" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___10" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;	
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___11" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;	
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___12" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;	
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:organPattern ;
+		rr:objectMap [			
+			rr:column "ORGAN_PATTERN___13" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;	
+.
+
+
+<#creatinine>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RECORD_ID,
+			DATE_OF_ENCOUNTER,
+			FORMATDATETIME(PARSEDATETIME(DATE_OF_ENCOUNTER, 'dd/MM/yyyy'), 'yyyy-MM-dd')||'T00:00:00' AS DATE, 
+			CREATININE_MMOL_L_AN AS CREATININE
+	FROM EUVAS
+	""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/rkd/outcomes/{RECORD_ID}{DATE_OF_ENCOUNTER}" ;
+		rr:class fvc:Creatinine;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:dateOfEncounter ;
+		rr:objectMap [			
+			rr:column "DATE" ;
+			rr:datatype xsd:dateTime;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:creatinineValue ;
+		rr:objectMap [			
+			rr:column "CREATININE" ;
+			rr:datatype xsd:integer;
+		] ;
+	] ;
+
+
+.
+
+
+<#outcomes>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RECORD_ID,
+			FORMATDATETIME(PARSEDATETIME(DATE_OF_DEATH, 'dd/MM/yyyy'), 'yyyy-MM-dd')||'T00:00:00' AS DEATH_DATE, 
+			CASE 
+				WHEN CAUSE_OF_DEATH = 'V' THEN 'Vasculitis Related' 
+				WHEN CAUSE_OF_DEATH = 'T' THEN 'Treatment Related' 
+				WHEN CAUSE_OF_DEATH = 'N' THEN 'Not Vasculitis related' 
+				WHEN CAUSE_OF_DEATH = 'U' THEN 'Unknown' 
+			END AS CAUSE_DEATH 
+	FROM EUVAS
+	WHERE CAUSE_OF_DEATH 
+	""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/euvas/outcomes/{RECORD_ID}" ;
+		rr:class fvc:Outcomes;
+	] ;
+	
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:dateOfDeath ;
+		rr:objectMap [			
+			rr:column "DEATH_DATE" ;
+			rr:datatype xsd:dateTime;
+		] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:causeOfDeath ;
+		rr:objectMap [			
+			rr:column "CAUSE_DEATH" ;
+			rr:datatype xsd:string;
+		] ;
+	];
+
+.
+
+<#outcomes_lastvisit>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RECORD_ID,
+			MAX(FORMATDATETIME(PARSEDATETIME(DATE_OF_ENCOUNTER, 'dd/MM/yyyy'), 'yyyy-MM-dd')||'T00:00:00') AS LAST_VISIT_DATE,
+	FROM EUVAS
+	GROUP BY RECORD_ID, DATE_OF_ENCOUNTER
+	""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/euvas/outcomes/{RECORD_ID}" ;
+		rr:class fvc:Outcomes;
+	] ;
+	
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:lastVisit ;
+		rr:objectMap [			
+			rr:column "LAST_VISIT_DATE" ;
+			rr:datatype xsd:string;
+		] ;
+	];
+
+.
+
+<#complications>
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RECORD_ID,
+			DATE_OF_COMPLICATION,
+			FORMATDATETIME(PARSEDATETIME(DATE_OF_COMPLICATION, 'dd/MM/yyyy'), 'yyyy-MM-dd')||'T00:00:00' AS COMP_DATE,
+				CASE 	
+					WHEN COMPLICATIONS_TYPE = 'OAE' THEN 'Other adverse events' 
+					WHEN COMPLICATIONS_TYPE = 'LKP' THEN 'Leukopenia' 
+					WHEN COMPLICATIONS_TYPE = 'TBE' THEN 'Thromboembolic events'
+					WHEN COMPLICATIONS_TYPE = 'INF' THEN 'Infection' 
+					WHEN COMPLICATIONS_TYPE = 'SAC' THEN 'Corticosteroid associated complication' 
+					WHEN COMPLICATIONS_TYPE = 'CVC' THEN 'Cardiovascular complication' 
+					WHEN COMPLICATIONS_TYPE = 'MLG' THEN 'Malignancy' 
+					WHEN COMPLICATIONS_TYPE = 'HGG' THEN 'Hypogammaglobulinaemia' 
+				END AS COMPLICATIONS 
+	FROM EUVAS
+	""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/rkd/complications/{RECORD_ID}{COMP_DATE}" ;
+		rr:class fvc:Complications;
+	] ;
+		
+	rr:predicateObjectMap [
+		rr:predicate fvc:dateOfComplications ;
+		rr:objectMap [			
+			rr:column "COMP_DATE" ;
+			rr:datatype xsd:dateTime;
+		] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:complication ;
+		rr:objectMap [			
+			rr:column "COMPLICATIONS" ;
+			rr:datatype xsd:string;
+		] ;
+	];
+
+.

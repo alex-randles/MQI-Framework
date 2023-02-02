@@ -1,0 +1,696 @@
+# This is the vocabulary for creating R2RML
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix country: <http://eulersharp.sourceforge.net/2003/03swap/countries#> .
+
+# This is the vocabulary of our ontology
+@prefix recipes: <http://ontology.wearehungry.be#> .
+
+
+<#CookingTools>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """SELECT CookingTools.name as toolName FROM CookingTools""" ] ;
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Tool{toolName}" ;
+      rr:class recipes:CookingTool ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate foaf:name ;
+      rr:predicate rdfs:label;
+      rr:objectMap [ rr:column "toolName" ] ;
+  ] ;
+.
+
+<#MeatIngredients>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(name)) as hashed
+		FROM Ingredients
+    WHERE type='meat';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Ingredient{hashed}" ;
+      rr:class recipes:Meat ;
+  ] ;
+.
+
+
+<#FishIngredients>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(name)) as hashed
+		FROM Ingredients
+    WHERE type='fish';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Ingredient{hashed}" ;
+      rr:class recipes:Fish ;
+  ] ;
+.
+
+<#OtherIngredients>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(name)) as hashed
+		FROM Ingredients
+    WHERE type Not In ('meat', 'fish');
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Ingredient{hashed}" ;
+      rr:class recipes:Ingredient ;
+  ] ;
+.
+
+<#CommenPropIngredients>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT name, (md5(name)) as hashed, energy, fat, glucide, dietryFiber, protein, sal, price
+		FROM Ingredients;
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Ingredient{hashed}" ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate foaf:name ;
+      rr:predicate rdfs:label;
+      rr:objectMap [ rr:column "name" ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:energy ;
+      rr:objectMap [ rr:column "energy";
+                     rr:datatype xsd:double
+                   ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:fat ;
+      rr:objectMap [ rr:column "fat";
+                     rr:datatype xsd:double
+                   ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:glucide ;
+      rr:objectMap [ rr:column "glucide";
+                     rr:datatype xsd:double
+                   ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:dietryFiber ;
+      rr:objectMap [ rr:column "dietryFiber";
+                     rr:datatype xsd:double
+                   ] ;
+  ] ;
+  rr:predicateObjectMap [
+      rr:predicate recipes:sal ;
+      rr:objectMap [ rr:column "sal";
+                     rr:datatype xsd:double
+                   ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:protein ;
+      rr:objectMap [ rr:column "protein";
+                     rr:datatype xsd:double
+                   ] ;
+  ] ;
+
+.
+
+
+<#IngredientSeasonProperty>
+
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT
+      (md5(i.name)) as hashed,
+      SUBSTRING_INDEX(SUBSTRING_INDEX(i.season, ',', numbers.n), ',', -1) season
+    FROM
+      (SELECT 1 n UNION ALL SELECT 2
+    UNION ALL SELECT 3 UNION ALL SELECT 4 ) numbers INNER JOIN Ingredients i
+    ON CHAR_LENGTH(i.season)
+      -CHAR_LENGTH(REPLACE(i.season, ',', ''))>=numbers.n-1
+    ORDER BY
+    i.name, n;
+  """
+  ];
+
+  rr:subjectMap [ rr:template "http://data.wearehungry.be#Ingredient{hashed}" ;
+  ] ;
+
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:inSeason;
+      rr:objectMap [
+      rr:template "http://ontology.wearehungry.be#{season}"
+      ] ;
+  ];
+.
+
+
+
+<#blankNodesForPriceClass>
+
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT (md5(name)) as hashed, name
+    FROM Ingredients;
+  """ ];
+
+  rr:subjectMap [ rr:template "http://data.wearehungry.be#Ingredient{hashed}" ;
+  ] ;
+
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:costs;
+      rr:objectMap [
+          rr:template "_:BlankIngredientPriceNode{name}";
+          rr:termType rr:BlankNode;
+      ];
+  ];
+.
+
+
+<#PriceIngredientProperties>
+
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT name, price
+    FROM Ingredients;
+  """ ];
+
+  rr:subjectMap [
+      rr:template "_:BlankIngredientPriceNode{name}";
+      rr:termType rr:BlankNode;
+      rr:class recipes:Price;
+  ] ;
+
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:priceValue ;
+      rr:objectMap [ rr:column "price";
+                     rr:datatype xsd:double
+                   ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:hasUnit ;
+      rr:objectMap [
+            rr:template "_:BlankIngredientPriceUnitNode{name}";
+            rr:termType rr:BlankNode;
+      ] ;
+  ] ;
+.
+
+<#PriceIngredientUnitProperties>
+
+rr:logicalTable [ rr:sqlQuery """
+      SELECT name, price, unit, if(unit LIKE 'grams', 1000.01, 1.01) as unitValues
+      FROM Ingredients;
+  """ ];
+
+
+  rr:subjectMap [
+      rr:template "_:BlankIngredientPriceUnitNode{name}";
+      rr:termType rr:BlankNode;
+      rr:class recipes:Unit;
+  ] ;
+
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:unitValue;
+      rr:objectMap [
+          rr:column "unitValues";
+          rr:datatype xsd:double;
+      ];
+  ];
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:measure ;
+      rr:objectMap [
+          rr:template "http://ontology.wearehungry.be#{unit}" ;
+      ] ;
+  ] ;
+.
+
+<#IngredientTastesFlavor>
+
+  rr:logicalTable [ rr:sqlQuery """
+        SELECT (md5(T.name)) as hashed, T.flavor as taste
+        FROM
+        (SELECT
+          i.name,
+          SUBSTRING_INDEX(SUBSTRING_INDEX(i.flavor, ',', numbers.n), ',', -1) flavor
+        FROM
+        (SELECT 1 n UNION ALL SELECT 2
+          UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) numbers INNER JOIN Ingredients i
+          ON CHAR_LENGTH(i.flavor)
+            -CHAR_LENGTH(REPLACE(i.flavor, ',', ''))>=numbers.n-1
+            ORDER BY
+            i.name, n
+        ) AS T
+        WHERE T.flavor IS NOT Null;
+  """
+  ];
+
+  rr:subjectMap [ rr:template "http://data.wearehungry.be#Ingredient{hashed}" ;
+  ] ;
+
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:tastes;
+      rr:objectMap [
+          rr:template "http://ontology.wearehungry.be#{taste}";
+      ];
+  ];
+.
+
+
+
+<#DessertRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(CONCAT( name,  nationality))) as hashed
+		FROM Recipes
+    WHERE recipeType ='dessert';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+      rr:class  recipes:Dessert;
+  ] ;
+.
+<#DrinkRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(CONCAT( name,  nationality))) as hashed
+		FROM Recipes
+    WHERE recipeType ='drink';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+      rr:class  recipes:Drink;
+  ] ;
+.
+
+<#FastFoodRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(CONCAT( name,  nationality))) as hashed
+		FROM Recipes
+    WHERE recipeType ='fastfood';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+      rr:class  recipes:FastFood;
+  ] ;
+.
+<#SauceRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(CONCAT( name,  nationality))) as hashed
+		FROM Recipes
+    WHERE recipeType ='sauce';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+      rr:class  recipes:Sauce;
+  ] ;
+.
+
+<#SaladRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(CONCAT( name,  nationality))) as hashed
+		FROM Recipes
+    WHERE recipeType ='salad';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+      rr:class  recipes:Salad;
+  ] ;
+.
+
+<#SoupRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(CONCAT( name,  nationality))) as hashed
+		FROM Recipes
+    WHERE recipeType ='soup';
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+      rr:class  recipes:Soup;
+  ] ;
+.
+
+
+<#OtherTypeRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT (md5(CONCAT( name,  nationality))) as hashed
+		FROM Recipes
+    WHERE recipeType Not In ('soup', 'salad', 'dessert', 'drink', 'sauce', 'fastfood');
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+      rr:class  recipes:Recipe;
+  ] ;
+.
+
+
+<#CommonPropRecipes>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+		SELECT name, (md5(CONCAT( name,  nationality))) as hashed, preparationTime, quantityPersons, nationality
+		FROM Recipes
+	""" ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate foaf:name ;
+      rr:predicate rdfs:label;
+      rr:objectMap [ rr:column "name" ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:preparationTime ;
+      rr:objectMap [ rr:column "preparationTime";
+                     rr:datatype xsd:positiveInteger
+                   ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:quantityPerson ;
+      rr:objectMap [ rr:column "quantityPersons";
+                     rr:datatype xsd:positiveInteger
+                   ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:originCountry ;
+      rr:objectMap [ rr:template "http://eulersharp.sourceforge.net/2003/03swap/countries#{nationality}" ] ;
+  ] ;
+
+
+.
+
+
+
+  <#RecipesServedAsProperty>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:sqlQuery  """
+    SELECT
+      r.name,
+      r.nationality,
+      (md5(CONCAT(r.name, r.nationality))) as hashed,
+      SUBSTRING_INDEX(SUBSTRING_INDEX(r.servedAs, ',', numbers.n), ',', -1) servedAs
+    FROM
+      (SELECT 1 n UNION ALL SELECT 2) numbers INNER JOIN Recipes r
+      ON CHAR_LENGTH(r.servedAs)
+         -CHAR_LENGTH(REPLACE(r.servedAs, ',', ''))>=numbers.n-1
+    ORDER BY
+      r.name, n;
+      """
+    ];
+
+    rr:subjectMap [
+        rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate recipes:servedAs ;
+        rr:objectMap [
+            rr:template "http://ontology.wearehungry.be#{servedAs}"  ;
+        ] ;
+    ] ;
+  .
+
+
+  <#RecipesIsServedInProperty>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:sqlQuery  """
+    SELECT
+      r.name,
+      r.nationality,
+      (md5(CONCAT(r.name, r.nationality))) as hashed,
+      SUBSTRING_INDEX(SUBSTRING_INDEX(r.mealTime, ',', numbers.n), ',', -1) mealTime
+    FROM
+      (SELECT 1 n UNION ALL SELECT 2
+       UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) numbers INNER JOIN Recipes r
+      ON CHAR_LENGTH(r.mealTime)
+         -CHAR_LENGTH(REPLACE(r.mealTime, ',', ''))>=numbers.n-1
+    ORDER BY
+      r.name, n;
+      """
+    ];
+
+    rr:subjectMap [
+        rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate recipes:isServedIn ;
+        rr:objectMap [
+            rr:template "http://ontology.wearehungry.be#{mealTime}" ;
+        ] ;
+    ] ;
+.
+
+
+
+<#RecipeToolsProperty>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery  """
+    SELECT (md5(CONCAT(name, nationality))) as hashed,
+            ct.cookingToolName AS tn
+    FROM Recipes
+    INNER JOIN recipe_use_cookingtool ct ON
+        Recipes.name = ct.recipeName
+        AND
+        Recipes.nationality = ct.recipeNationality;
+    """
+  ];
+
+  rr:subjectMap [
+      rr:template "http://data.wearehungry.be#Recipe{hashed}" ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:uses ;
+      rr:objectMap [
+          rr:template "http://data.wearehungry.be#Tool{tn}" ;
+      ] ;
+  ] ;
+.
+
+<#PreparationSteps>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT (md5(CONCAT(name, nationality, p.orderStep))) as hashed,
+            p.orderStep AS os,
+            p.description AS inst
+    FROM Recipes
+    INNER JOIN preparation_steps p ON
+        Recipes.name = p.recipeName
+        AND
+        Recipes.nationality = p.recipeNationality;
+    """ ];
+
+  rr:subjectMap [
+    rr:template "http://data.wearehungry.be#PreparationStep{hashed}" ;
+    rr:class  recipes:PreparationStep;
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate recipes:order ;
+    rr:objectMap [ rr:column "os" ;
+                   rr:datatype xsd:positiveInteger
+                 ] ;
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate recipes:instruction ;
+    rr:objectMap [ rr:column "inst" ;
+                   rr:datatype xsd:string
+                  ] ;
+  ] ;
+.
+
+
+
+<#RecipePreparationStepsProperty>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT (md5(CONCAT(name, nationality, p.orderStep))) as hashedStep,
+           (md5(CONCAT(name, nationality))) as hashedRecipe
+    FROM Recipes
+    INNER JOIN preparation_steps p ON
+        Recipes.name = p.recipeName
+        AND
+        Recipes.nationality = p.recipeNationality;
+    """ ];
+
+  rr:subjectMap [
+    rr:template "http://data.wearehungry.be#Recipe{hashedRecipe}" ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:has ;
+      rr:objectMap [
+          rr:template "http://data.wearehungry.be#PreparationStep{hashedStep}" ;
+      ] ;
+  ] ;
+.
+
+
+<#RecipeContainsIngredientProperty>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT (md5(CONCAT(recipeName, recipeNationality))) as hashedRecipe,
+    (md5(ingredientName)) as hashedIngredient
+    FROM recipe_contains_ingredient;
+    """ ];
+
+  rr:subjectMap [
+    rr:template "http://data.wearehungry.be#Recipe{hashedRecipe}" ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:containsIngredient ;
+      rr:objectMap [
+
+          rr:template "http://data.wearehungry.be#Ingredient{hashedIngredient}" ;
+      ] ;
+  ] ;
+.
+
+
+
+<#RecipeContainsAmountIngredientProperty>
+  a rr:TriplesMap ;
+
+  rr:logicalTable [ rr:sqlQuery """
+    SELECT (md5(CONCAT(recipeName, recipeNationality))) as hashedRecipe,
+    (md5(CONCAT(recipeName, recipeNationality, ingredientName, unit, amount))) as blankHashed
+    FROM recipe_contains_ingredient;
+    """ ];
+
+  rr:subjectMap [
+    rr:template "http://data.wearehungry.be#Recipe{hashedRecipe}" ;
+  ] ;
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:contains;
+      rr:objectMap [
+          rr:template "_:BlankAmountIngredientNode{blankHashed}";
+          rr:termType rr:BlankNode;
+      ];
+  ];
+.
+
+<#AmountIngredientProperties>
+
+rr:logicalTable [ rr:sqlQuery """
+  SELECT (md5(CONCAT(recipeName, recipeNationality))) as hashedRecipe,
+  (md5(CONCAT(recipeName, recipeNationality, ingredientName, unit, amount))) as blankHashed,
+  (md5(ingredientName)) as hashedIngredient,
+  unit,
+  amount
+  FROM recipe_contains_ingredient;
+  """ ];
+
+
+  rr:subjectMap [
+      rr:template "_:BlankAmountIngredientNode{blankHashed}";
+      rr:termType rr:BlankNode;
+      rr:class recipes:AmountIngredient;
+  ] ;
+
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:hasUnit;
+      rr:objectMap [
+          rr:template "_:BlankUnitNode{blankHashed}";
+          rr:termType rr:BlankNode;
+      ];
+  ];
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:usesIngredient;
+      rr:objectMap [
+          rr:template "http://data.wearehungry.be#Ingredient{hashedIngredient}"
+      ];
+  ];
+.
+
+<#BlankAmountIngredientUnitProperties>
+
+rr:logicalTable [ rr:sqlQuery """
+  SELECT (md5(CONCAT(recipeName, recipeNationality))) as hashedRecipe,
+  (md5(CONCAT(recipeName, recipeNationality, ingredientName, unit, amount))) as blankHashed,
+  unit,
+  amount
+  FROM recipe_contains_ingredient;
+  """ ];
+
+
+  rr:subjectMap [
+      rr:template "_:BlankUnitNode{blankHashed}";
+      rr:termType rr:BlankNode;
+      rr:class recipes:Unit;
+  ] ;
+
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:unitValue;
+      rr:objectMap [
+          rr:column "amount";
+          rr:datatype xsd:double;
+      ];
+  ];
+
+  rr:predicateObjectMap [
+      rr:predicate recipes:measure ;
+      rr:objectMap [
+          rr:template "http://ontology.wearehungry.be#{unit}" ;
+      ] ;
+  ] ;
+.

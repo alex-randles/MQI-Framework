@@ -1,137 +1,181 @@
-@prefix daq: <http://purl.org/eis/vocab/daq#> .
 @prefix ex: <http://example.org/> .
+@prefix gym: <http://ontology.smartfitgym.eu#> .
 @prefix mqv: <https://alex-randles.github.io/MQV/#> .
 @prefix mqv-metric: <https://alex-randles.github.io/MQV-METRICS/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqv:MappingAssessment ;
-    prov:endedAtTime "2023-01-24T00:51:27.214901"^^xsd:dateTime ;
-    mqv:assessedMapping <refined-mapping-participant-142.ttl> ;
+    prov:endedAtTime "2023-02-02T19:02:49.382262"^^xsd:dateTime ;
+    mqv:assessedMapping <gym-mapping2.ttl> ;
     mqv:wasPerfomedBy ex:alexRandles .
 
-ex:mappingValidationReport-1674521468 a mqv:MappingValidationReport ;
+ex:mappingValidationReport-1675364564 a mqv:MappingValidationReport ;
     rdfs:comment "A timestamp is appended to the validation report IRI for uniqueness." ;
-    prov:generatedAtTime "2023-01-24T00:51:27.215136"^^xsd:dateTime ;
-    mqv:hasViolation ex:violation-1674521468-0,
-        ex:violation-1674521468-1,
-        ex:violation-1674521468-10,
-        ex:violation-1674521468-11,
-        ex:violation-1674521468-2,
-        ex:violation-1674521468-3,
-        ex:violation-1674521468-4,
-        ex:violation-1674521468-5,
-        ex:violation-1674521468-6,
-        ex:violation-1674521468-7,
-        ex:violation-1674521468-8,
-        ex:violation-1674521468-9 .
+    prov:generatedAtTime "2023-02-02T19:02:49.382399"^^xsd:dateTime ;
+    mqv:hasViolation ex:violation-1675364564-0,
+        ex:violation-1675364564-1,
+        ex:violation-1675364564-10,
+        ex:violation-1675364564-11,
+        ex:violation-1675364564-12,
+        ex:violation-1675364564-13,
+        ex:violation-1675364564-14,
+        ex:violation-1675364564-15,
+        ex:violation-1675364564-16,
+        ex:violation-1675364564-17,
+        ex:violation-1675364564-18,
+        ex:violation-1675364564-19,
+        ex:violation-1675364564-2,
+        ex:violation-1675364564-3,
+        ex:violation-1675364564-4,
+        ex:violation-1675364564-5,
+        ex:violation-1675364564-6,
+        ex:violation-1675364564-7,
+        ex:violation-1675364564-8,
+        ex:violation-1675364564-9 .
+
+<gym-mapping2.ttl> a mqv:MappingDocument .
 
 ex:alexRandles a prov:Agent .
 
-ex:refinement-1674521468-0 a mqv:MappingRefinement ;
-    prov:endedAtTime "2023-01-24T00:51:27.294534"^^xsd:dateTime ;
-    mqv:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {
-                    ?pom rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#types>  .
-                }
-                INSERT {
-                    ?pom rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#language> .
-                }
-                WHERE {
-                    ?pom rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#types>  .
-                    FILTER(str(?pom) = "ub29bL124C24").
-                }
-                """^^xsd:string ;
-    mqv:refinedViolation ex:violation-1674521468-10 ;
-    mqv:refinementName "Find Similar Predicates"^^xsd:string .
-
-ex:violation-1674521468-0 a mqv:MappingViolation ;
+ex:violation-1675364564-0 a mqv:MappingViolation ;
     mqv:hasLocation "subjectMap"^^xsd:string ;
-    mqv:hasObjectValue daq:MetricProfile ;
+    mqv:hasObjectValue gym:goal ;
     mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
-    mqv:inTripleMap <#Profiling> ;
+    mqv:inTripleMap <#goal> ;
     mqv:isDescribedBy mqv-metric:D1 .
 
-ex:violation-1674521468-1 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap1"^^xsd:string ;
-    mqv:hasObjectValue daq:totalDatasetTriplesAssessed ;
+ex:violation-1675364564-1 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqv:hasObjectValue gym:name ;
     mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Profiling> ;
+    mqv:inTripleMap <#goal> ;
     mqv:isDescribedBy mqv-metric:D2 .
 
-ex:violation-1674521468-11 a mqv:MappingViolation ;
-    mqv:hasLocation "subjectMap"^^xsd:string ;
-    mqv:hasObjectValue daq:QualityGraph ;
-    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
-    mqv:inTripleMap <#Graph-Instance> ;
-    mqv:isDescribedBy mqv-metric:D1 .
-
-ex:violation-1674521468-2 a mqv:MappingViolation ;
-    mqv:hasLocation "subjectMap"^^xsd:string ;
-    mqv:hasObjectValue daq:Observation ;
-    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
-    mqv:isDescribedBy mqv-metric:D1 .
-
-ex:violation-1674521468-3 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap7"^^xsd:string ;
-    mqv:hasObjectValue daq:computedOn ;
+ex:violation-1675364564-10 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqv:hasObjectValue gym:calories ;
     mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
+    mqv:inTripleMap <#exercise> ;
     mqv:isDescribedBy mqv-metric:D2 .
 
-ex:violation-1674521468-4 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap6"^^xsd:string ;
-    mqv:hasObjectValue daq:computedOn ;
+ex:violation-1675364564-11 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqv:hasObjectValue gym:hastypes ;
     mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
+    mqv:inTripleMap <#exercise> ;
     mqv:isDescribedBy mqv-metric:D2 .
 
-ex:violation-1674521468-5 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap3"^^xsd:string ;
-    mqv:hasObjectValue daq:value ;
+ex:violation-1675364564-12 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqv:hasObjectValue gym:name ;
     mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
+    mqv:inTripleMap <#exercise> ;
     mqv:isDescribedBy mqv-metric:D2 .
 
-ex:violation-1674521468-6 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap2"^^xsd:string ;
-    mqv:hasObjectValue daq:metric ;
-    mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
-    mqv:isDescribedBy mqv-metric:D2 .
-
-ex:violation-1674521468-7 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap1"^^xsd:string ;
-    mqv:hasObjectValue daq:isEstimate ;
-    mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
-    mqv:isDescribedBy mqv-metric:D2 .
-
-ex:violation-1674521468-8 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap9"^^xsd:string ;
-    mqv:hasObjectValue prov:generated ;
+ex:violation-1675364564-13 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqv:hasObjectValue gym:achieve ;
     mqv:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
+    mqv:inTripleMap <#exercise> ;
     mqv:isDescribedBy mqv-metric:D3 .
 
-ex:violation-1674521468-9 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap2"^^xsd:string ;
-    mqv:hasObjectValue daq:Observation ;
+ex:violation-1675364564-14 a mqv:MappingViolation ;
+    mqv:hasLocation "subjectMap"^^xsd:string ;
+    mqv:hasObjectValue gym:exercisetypes ;
+    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqv:inTripleMap <#exercisetypes> ;
+    mqv:isDescribedBy mqv-metric:D1 .
+
+ex:violation-1675364564-15 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqv:hasObjectValue gym:type ;
     mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Metric-Instance> ;
+    mqv:inTripleMap <#exercisetypes> ;
     mqv:isDescribedBy mqv-metric:D2 .
 
-<refined-mapping-participant-142.ttl> a mqv:MappingDocument .
+ex:violation-1675364564-16 a mqv:MappingViolation ;
+    mqv:hasLocation "subjectMap"^^xsd:string ;
+    mqv:hasObjectValue gym:workouttypes ;
+    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqv:inTripleMap <#workouttypes> ;
+    mqv:isDescribedBy mqv-metric:D1 .
 
-ex:violation-1674521468-10 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap1"^^xsd:string ;
-    mqv:hasObjectValue rdf:types ;
+ex:violation-1675364564-17 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqv:hasObjectValue gym:type ;
     mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Dimension-Instance> ;
-    mqv:isDescribedBy mqv-metric:D2 ;
-    mqv:wasRefinedBy ex:refinement-1674521468-0 .
+    mqv:inTripleMap <#workouttypes> ;
+    mqv:isDescribedBy mqv-metric:D2 .
+
+ex:violation-1675364564-18 a mqv:MappingViolation ;
+    mqv:hasLocation "subjectMap"^^xsd:string ;
+    mqv:hasObjectValue gym:bodyparts ;
+    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqv:inTripleMap <#bodyparts> ;
+    mqv:isDescribedBy mqv-metric:D1 .
+
+ex:violation-1675364564-19 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqv:hasObjectValue gym:name ;
+    mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
+    mqv:inTripleMap <#bodyparts> ;
+    mqv:isDescribedBy mqv-metric:D2 .
+
+ex:violation-1675364564-2 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqv:hasObjectValue gym:helpstobuild ;
+    mqv:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqv:inTripleMap <#goal> ;
+    mqv:isDescribedBy mqv-metric:D3 .
+
+ex:violation-1675364564-3 a mqv:MappingViolation ;
+    mqv:hasLocation "subjectMap"^^xsd:string ;
+    mqv:hasObjectValue gym:workout ;
+    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqv:inTripleMap <#workout> ;
+    mqv:isDescribedBy mqv-metric:D1 .
+
+ex:violation-1675364564-4 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-5"^^xsd:string ;
+    mqv:hasObjectValue gym:hastypes ;
+    mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
+    mqv:inTripleMap <#workout> ;
+    mqv:isDescribedBy mqv-metric:D2 .
+
+ex:violation-1675364564-5 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqv:hasObjectValue gym:calories ;
+    mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
+    mqv:inTripleMap <#workout> ;
+    mqv:isDescribedBy mqv-metric:D2 .
+
+ex:violation-1675364564-6 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqv:hasObjectValue gym:name ;
+    mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
+    mqv:inTripleMap <#workout> ;
+    mqv:isDescribedBy mqv-metric:D2 .
+
+ex:violation-1675364564-7 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqv:hasObjectValue gym:tool ;
+    mqv:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqv:inTripleMap <#workout> ;
+    mqv:isDescribedBy mqv-metric:D3 .
+
+ex:violation-1675364564-8 a mqv:MappingViolation ;
+    mqv:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqv:hasObjectValue gym:achieve ;
+    mqv:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqv:inTripleMap <#workout> ;
+    mqv:isDescribedBy mqv-metric:D3 .
+
+ex:violation-1675364564-9 a mqv:MappingViolation ;
+    mqv:hasLocation "subjectMap"^^xsd:string ;
+    mqv:hasObjectValue gym:exercise ;
+    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqv:inTripleMap <#exercise> ;
+    mqv:isDescribedBy mqv-metric:D1 .
 
