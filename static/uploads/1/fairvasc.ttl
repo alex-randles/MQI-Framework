@@ -1,0 +1,52 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix fvc: <http://ontologies.adaptcentre.ie/fairvasc#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#patient>
+
+	rr:logicalTable [ rr:sqlQuery """SELECT 
+	RECORD_ID, 
+	YEAR_OF_BIRTH,   
+	DATE_OF_COMPLICATION,
+	DATE_OF_ENCOUNTER,
+	REDCAP_REPEAT_INSTANCE,
+	GENDER,
+		CASE 
+		WHEN GENDER = 'M' THEN 'Male' 
+		WHEN GENDER = 'F' THEN 'Female' 
+		WHEN GENDER = 'U' THEN 'Undetermined' 
+	END AS GENDER_,
+	FROM EUVAS""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.fairvasc.ie/resource/rkd/patient/{RECORD_ID}" ;
+		rr:class fvc:Patient;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:patientID ;
+		rr:objectMap [			
+			rr:column "RECORD_ID" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate fvc:yearOfBirth ;
+		rr:objectMap [			
+			rr:column "YEAR_OF_BIRTH" ;
+			rr:datatype xsd:gYear;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate fvc:gender ;
+		rr:objectMap [			
+			rr:column "GENDER_" ;
+			rr:datatype xsd:string;
+		] ;
+	] ;
+	
+.
+

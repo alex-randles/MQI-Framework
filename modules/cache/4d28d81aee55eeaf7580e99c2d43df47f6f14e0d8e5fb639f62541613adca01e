@@ -1,0 +1,163 @@
+@prefix : <http://ontology.openfit.org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://ontology.openfit.org> .
+
+<http://ontology.openfit.org> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://ontology.openfit.org#consists_of
+:consists_of rdf:type owl:ObjectProperty ;
+             rdfs:domain :Session ;
+             rdfs:range :Exercise ;
+             rdfs:label "Consist of"@en .
+
+
+###  http://ontology.openfit.org#has_goal
+:has_goal rdf:type owl:ObjectProperty ;
+          rdfs:domain :Exercise ;
+          rdfs:range :Goal ;
+          rdfs:label "Has goal"@en .
+
+
+###  http://ontology.openfit.org#has_target_area
+:has_target_area rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Weigth_Loss ;
+                 rdfs:range :Target_Area ;
+                 rdfs:label "Has target area"@en .
+
+
+###  http://ontology.openfit.org#has_target_muscle
+:has_target_muscle rdf:type owl:ObjectProperty ;
+                   rdfs:domain :Muscle_Gain ;
+                   rdfs:range :Target_Muscle ;
+                   rdfs:label "Has target muscle"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://ontology.openfit.org#avg_calories_burnt
+:avg_calories_burnt rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :Exercise ;
+                    rdfs:range xsd:int ;
+                    rdfs:label "Average calories burnt"@en .
+
+
+###  http://ontology.openfit.org#description
+:description rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Exercise ,
+                         :Goal ,
+                         :Session ;
+             rdfs:range xsd:string ;
+             rdfs:label "Description"@en .
+
+
+###  http://ontology.openfit.org#duration
+:duration rdf:type owl:DatatypeProperty ;
+          rdfs:domain :Cardio_Exercise ;
+          rdfs:range xsd:dateTime ;
+          rdfs:label "Duration"@en .
+
+
+###  http://ontology.openfit.org#name
+:name rdf:type owl:DatatypeProperty ;
+      rdfs:domain :Exercise ,
+                  :Target_Area ,
+                  :Target_Muscle ;
+      rdfs:range xsd:string ;
+      rdfs:label "Name"@en .
+
+
+###  http://ontology.openfit.org#repetitions
+:repetitions rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Strength_Exercise ;
+             rdfs:range xsd:int ;
+             rdfs:label "Repetitions"@en .
+
+
+###  http://ontology.openfit.org#sets
+:sets rdf:type owl:DatatypeProperty ;
+      rdfs:domain :Strength_Exercise ;
+      rdfs:range xsd:int ;
+      rdfs:label "Sets"@en .
+
+
+###  http://ontology.openfit.org#weight
+:weight rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Strength_Exercise ;
+        rdfs:range xsd:double ;
+        rdfs:label "Weight"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://ontology.openfit.org#Cardio_Exercise
+:Cardio_Exercise rdf:type owl:Class ;
+                 rdfs:subClassOf :Exercise ;
+                 rdfs:label "Cardio exercise"@en .
+
+
+###  http://ontology.openfit.org#Conditioning
+:Conditioning rdf:type owl:Class ;
+              rdfs:subClassOf :Goal ;
+              rdfs:label "Conditioning"@en .
+
+
+###  http://ontology.openfit.org#Exercise
+:Exercise rdf:type owl:Class ;
+          rdfs:label "Exercise"@en .
+
+
+###  http://ontology.openfit.org#Goal
+:Goal rdf:type owl:Class ;
+      rdfs:label "Goal"@en .
+
+
+###  http://ontology.openfit.org#Muscle_Gain
+:Muscle_Gain rdf:type owl:Class ;
+             rdfs:subClassOf :Goal ;
+             rdfs:label "Muscle gain goal"@en .
+
+
+###  http://ontology.openfit.org#Session
+:Session rdf:type owl:Class ;
+         rdfs:label "Exercise session"@en .
+
+
+###  http://ontology.openfit.org#Strength_Exercise
+:Strength_Exercise rdf:type owl:Class ;
+                   rdfs:subClassOf :Exercise ;
+                   rdfs:label "Strength exercise"@en .
+
+
+###  http://ontology.openfit.org#Target_Area
+:Target_Area rdf:type owl:Class ;
+             rdfs:label "Target area of weight loss goal"@en .
+
+
+###  http://ontology.openfit.org#Target_Muscle
+:Target_Muscle rdf:type owl:Class ;
+               rdfs:label "Target muscle of muscle gain goal"@en .
+
+
+###  http://ontology.openfit.org#Weigth_Loss
+:Weigth_Loss rdf:type owl:Class ;
+             rdfs:subClassOf :Goal ;
+             rdfs:label "Weight loss goal"@en .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+###  Generated by the OWL API (version 5.1.9) https://github.com/owlcs/owlapi/

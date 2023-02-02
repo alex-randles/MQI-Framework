@@ -1,0 +1,18 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ex: <http://example.com/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix lb: <https://github.com/LinkedBrainz/r2rml/v0.1#> .
+
+lb:label_area a rr:TriplesMap ;
+              rr:logicalTable[rr:sqlQuery
+        """SELECT label.gid, area.gid AS area
+           FROM label
+                INNER JOIN area ON label.area = area.id"""] ;
+              rr:subjectMap lb:sm_label ;
+              rr:predicateObjectMap
+        [rr:predicate foaf:based_near ;
+         rr:objectMap [rr:template "http://musicbrainz.org/area/{area}#_" ;
+                       rr:termType rr:IRI]] .

@@ -125,7 +125,7 @@ class ValidateQuality:
             self.classes = self.get_classes()
             self.validate_mapping_metrics()
             self.validate_data_metrics()
-            # self.validate_vocabulary_metrics()
+            self.validate_vocabulary_metrics()
             # self.update_progress_bar()
         return self.validation_results
 
@@ -151,8 +151,9 @@ class ValidateQuality:
         self.validate_MP8()
 
     def validate_vocabulary_metrics(self):
-        self.validate_VOC1()
-        self.validate_VOC2()
+        pass
+        # self.validate_VOC1()
+        # self.validate_VOC2()
 
 
     def validate_D1(self):
@@ -217,6 +218,7 @@ class ValidateQuality:
         if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
             for row in qres:
                 if not row:
+                    print(row, query)
                     return [metric_ID, result_message, property_IRI, subject_IRI]
 
 
@@ -505,7 +507,7 @@ class ValidateQuality:
         # making it easier for the user to read
         if predicate != URIRef("http://www.w3.org/ns/r2rml#subjectMap"):
             location_predicate = self.strip_IRI(predicate)
-            location = "%s%s" % (location_predicate, location_num)
+            location = "%s-%s" % (location_predicate, location_num)
         else:
             location = self.strip_IRI(predicate)
         return location

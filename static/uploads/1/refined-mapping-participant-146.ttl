@@ -12,16 +12,19 @@
 @prefix dct: <http://purl.org/dc/terms/> . 
 @prefix oscd: <https://w3id.org/OSCD#> . 
 @prefix fvc: <https://w3id.org/FAIRVASC#> . 
-@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix void: <http://rdfs.org/ns/void#> . 
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
 	
 <#TriplesMap1>	
 	
- rr:logicalTable [ 	
- 	 rr:tableName  "EMP" ;	
+ rml:logicalSource [ 	
+ 	 rml:referenceFormulation  rr:SQL2008 ;	
+	 rml:source  "TRANSPORT.BUS" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class  foaf:Employee ;	
+ 	 rr:class  prov:Entity , foaf:Document ;	
 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
  ];	
 	
@@ -35,17 +38,18 @@
 	
 <#TriplesMap3>	
 	
- rr:logicalTable [ 	
- 	 rr:tableName  "EMP" ;	
+ rml:logicalSource [ 	
+ 	 rml:source  "TRANSPORT.BUS" ;	
+	 rml:referenceFormulation  rr:SQL2008 ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class  dqv:Metric , skos:OrderedCollection , geo:Geometry ;	
+ 	 rr:class  dqv:Metric , geo:Geometry , skos:OrderedCollection ;	
 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  rdf:hasGeometry ;	
+ 	 rr:predicate  rdf:first ;	
 	 rr:objectMap  [	
 		 rr:column  "CATEGORY" ;	
 		]; 	
@@ -61,12 +65,13 @@
 	
 <#TriplesMap2>	
 	
- rr:logicalTable [ 	
- 	 rr:tableName  "EMP" ;	
+ rml:logicalSource [ 	
+ 	 rml:referenceFormulation  rr:SQL2008 ;	
+	 rml:source  "TRANSPORT.BUS" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class  dqv:Metric ;	
+ 	 rr:class  dqv:Metric , dqv:Dimension ;	
 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
  ];	
 	
@@ -80,19 +85,20 @@
 	
 <#TriplesMap55>	
 	
- rml:logicalSource [ 	
- 	 rr:tableName  "EMP" ;	
- ];	
+  rml:logicalSource [
+    rml:source "Transport.xml" ;
+    rml:iterator "/transport/bus/route/stop";
+    rml:referenceFormulation ql:XPath;
+  ];
 	
  rr:subjectMap [ 	
- 	 rr:class  oscd:UpdateSourceData , dqv:Metric ;	
-	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
+	 rr:class  void:Linkset , dqv:Metric , oscd:UpdateSourceData ;	
  ];	
 	
  rr:subjectMap [ 	
  	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class  oscd:UpdateSourceDatas ;	
-	 rr:termType rr:Literal;
+	 rr:class  void:Linkset ;	
  ];	
 	
  rr:predicateObjectMap [ 	

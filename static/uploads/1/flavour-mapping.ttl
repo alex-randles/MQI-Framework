@@ -1,0 +1,218 @@
+# This is the vocabulary for creating R2RML
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+# This is the vocabulary of our ontology
+@prefix flavourtown: <http://www.semanticweb.org/FlavourTown#>.
+
+
+# Create our Cuisine individuals
+<#Cuisines>
+  a rr:TriplesMap;
+  rr:logicalTable [rr:tableName "Cuisine"];
+
+  rr:subjectMap [
+    rr:template "http://www.semanticweb.org/FlavourTown#cuisine_{name}";
+    rr:class flavourtown:Cuisine;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:cuisineName;
+    rr:objectMap [rr:column "name"];
+  ];
+.
+
+# Create our Flavour individuals
+<#Flavours>
+  a rr:TriplesMap;
+  rr:logicalTable [rr:tableName "Flavour"];
+
+  rr:subjectMap [
+    rr:template "http://www.semanticweb.org/FlavourTown#flavour_{name}";
+    rr:class flavourtown:Flavour;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:flavourName;
+    rr:objectMap [rr:column "name"];
+  ];
+.
+
+
+# Create our Ingredient individuals
+<#Ingredients>
+  a rr:TriplesMap;
+  rr:logicalTable [rr:tableName "Ingredient"];
+
+  rr:subjectMap [
+    rr:template "http://www.semanticweb.org/FlavourTown#ingredient_{name}";
+    rr:class flavourtown:ingredient;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:ingredientName;
+    rr:objectMap [rr:column "name"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:calories;
+    rr:objectMap [rr:column "calories"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:carbohydrates;
+    rr:objectMap [rr:column "carbs"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:protein;
+    rr:objectMap [rr:column "protein"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:fat;
+    rr:objectMap [rr:column "fat"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:tastesLike;
+    rr:objectMap [
+      rr:parentTriplesMap <#FlavourRelations>;
+      rr:joinCondition [
+        rr:child "id";
+        rr:parent "ingredient";
+      ];
+    ];
+  ];
+.
+
+# Create our Recipe individuals
+<#Recipes>
+  a rr:TriplesMap;
+  rr:logicalTable [rr:tableName "Recipe"];
+
+  rr:subjectMap [
+    rr:template "http://www.semanticweb.org/FlavourTown#recipe_{name}";
+    rr:class flavourtown:Recipe;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:recipeServes;
+    rr:objectMap [rr:column "serves"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:recipeName;
+    rr:objectMap [rr:column "name"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:belongsTo;
+    rr:objectMap [
+      rr:parentTriplesMap <#Cuisines>;
+      rr:joinCondition [
+        rr:child "cuisine";
+        rr:parent "id"
+      ];
+    ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:hasIngredient;
+    rr:objectMap [
+      rr:parentTriplesMap <#IngredientRelations>;
+      rr:joinCondition [
+        rr:child "id";
+        rr:parent "recipe"
+      ];
+    ];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:consistsOf;
+    rr:objectMap [
+      rr:parentTriplesMap <#PreparationSteps>;
+      rr:joinCondition [
+        rr:child "id";
+        rr:parent "recipe"
+      ];
+    ];
+  ];
+.
+
+# Create our PreparationStep individuals
+<#PreparationSteps>
+  a rr:TriplesMap;
+  rr:logicalTable [
+    rr:sqlQuery """SELECT Preparation_Step.id,Preparation_Step.recipe,Preparation_Step.step_number,Preparation_Step.instruction, Recipe.name FROM Preparation_Step JOIN Recipe ON (Preparation_Step.recipe = Recipe.id)""";
+  ];
+
+  rr:subjectMap [
+    rr:template "http://www.semanticweb.org/FlavourTown#preparationstep_{name}_{step_number}";
+    rr:class flavourtown:preparationStep;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:stepNumber;
+    rr:objectMap [rr:column "step_number"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:instructionSet;
+    rr:objectMap [rr:column "instruction"];
+  ];
+
+
+.
+
+# Create our FlavourRelation individuals that link an Ingredient with a Flavour
+<#FlavourRelations>
+  a rr:TriplesMap;
+  rr:logicalTable [rr:tableName "Flavour_Relation"];
+
+  rr:subjectMap [
+    rr:template "http://www.semanticweb.org/FlavourTown#flavourrelation_{id}";
+    rr:class flavourtown:FlavourRelation;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:intensity;
+    rr:objectMap [rr:column "intensity"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:provideFlavour;
+    rr:objectMap [
+      rr:parentTriplesMap <#Flavours>;
+      rr:joinCondition [
+        rr:child "flavour";
+        rr:parent "id";
+      ];
+    ];
+  ];
+.
+
+# Create our IngredientRelation individuals that link a Recipe with a Ingredient
+<#IngredientRelations>
+  a rr:TriplesMap;
+  rr:logicalTable [rr:tableName "Ingredient_Relation"];
+
+  rr:subjectMap [
+    rr:template "http://www.semanticweb.org/IngredientTown#ingredientrelation_{id}";
+    rr:class flavourtown:IngredientRelation;
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:amount;
+    rr:objectMap [rr:column "amount"];
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate flavourtown:provideIngredient;
+    rr:objectMap [
+      rr:parentTriplesMap <#Ingredients>;
+      rr:joinCondition [
+        rr:child "ingredient";
+        rr:parent "id";
+      ];
+    ];
+  ];
+.

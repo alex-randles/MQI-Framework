@@ -12,13 +12,10 @@
 @prefix dct: <http://purl.org/dc/terms/> . 
 @prefix oscd: <https://w3id.org/OSCD#> . 
 @prefix fvc: <https://w3id.org/FAIRVASC#> . 
-@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+
 	
 <#TriplesMap1>	
-	
- rr:logicalTable [ 	
- 	 rr:tableName  "EMP" ;	
- ];	
 	
  rr:subjectMap [ 	
  	 rr:class  foaf:Employee ;	
@@ -35,12 +32,8 @@
 	
 <#TriplesMap3>	
 	
- rr:logicalTable [ 	
- 	 rr:tableName  "EMP" ;	
- ];	
-	
  rr:subjectMap [ 	
- 	 rr:class  dqv:Metric , skos:OrderedCollection , geo:Geometry ;	
+ 	 rr:class  geo:Geometry , dqv:Metric , skos:OrderedCollection ;	
 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
  ];	
 	
@@ -61,13 +54,9 @@
 	
 <#TriplesMap2>	
 	
- rr:logicalTable [ 	
- 	 rr:tableName  "EMP" ;	
- ];	
-	
  rr:subjectMap [ 	
- 	 rr:class  dqv:Metric ;	
-	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
+	 rr:class  dqv:Metric ;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -85,14 +74,14 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class  oscd:UpdateSourceData , dqv:Metric ;	
+ 	 rr:class  oscd:UpdateSourceData , oscd:DatatypeSourceData , dqv:Metric ;	
 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class  oscd:UpdateSourceDatas ;	
-	 rr:termType rr:Literal;
+ 	 rr:termType  rr:Literal ;	
+	 rr:class  oscd:DatatypeSourceData ;	
+	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	

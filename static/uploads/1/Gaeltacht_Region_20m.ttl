@@ -1,0 +1,65 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix ont: <http://ontologies.geohive.ie/osi#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<#TriplesMap1>
+	rr:logicalTable [
+		rr:tableName "GAELTACHT_CBD2019_20M" ;
+	] ;
+
+	rr:subjectMap [
+		rr:template "http://data.geohive.ie/resource/gaeltachtregion/{GUID}" ;
+		rr:class ont:GaeltachtRegion ;
+		rr:class geo:Feature ;
+    ] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "GT_ENGLISH" ;
+			rr:language "en" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "GT_ENGLISH" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "GT_GAEILGE" ;
+			rr:language "ga" ;
+		] ;
+	] ;
+	
+	
+	rr:predicateObjectMap [
+		rr:predicate geo:hasGeometry ;
+		rr:objectMap [
+			rr:template "urn:osi:boundary:geom:{GUID}" ;
+		] ;
+    ] ;
+	.
+
+<#TriplesMap2>
+	rr:logicalTable [
+		rr:tableName "GAELTACHT_CBD2019_20M" ;
+	] ;
+
+	rr:subjectMap [
+		rr:class geo:Geometry ;
+		rr:template "urn:osi:boundary:geom:{GUID}" ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate geo:asWKT ;
+		rr:objectMap [
+			rr:column "GEOMETRY" ;
+		] ;
+	] ;
+	.

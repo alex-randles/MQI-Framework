@@ -141,7 +141,7 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate  rdfs:subPropertyOf ;	
 	 rr:objectMap  [	
-		 rr:constant  daq:hasMetricsss ;	
+		 rr:constant  daq:hasMetric ;	
 		]; 	
  ];	
 	

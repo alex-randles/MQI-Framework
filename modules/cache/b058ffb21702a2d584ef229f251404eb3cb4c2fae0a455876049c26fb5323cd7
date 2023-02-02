@@ -1,0 +1,2132 @@
+@prefix : <http://openfridge.eu/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix obda: <https://w3id.org/obda/vocabulary#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix swrl: <http://www.w3.org/2003/11/swrl#> .
+@prefix swrlb: <http://www.w3.org/2003/11/swrlb#> .
+@prefix terms: <http://open.vocab.org/terms/> .
+@base <http://openfridge.eu/ontology> .
+
+<http://openfridge.eu/ontology> rdf:type owl:Ontology ;
+                                 rdfs:comment "This is an ontology created engineered to work together with a smart fridge application. The ontology provides classes and rules to make it easy to find recipes based on your preferences. Certain individuals are already added, especially those that would be beneficial to everyone. Actual data about ingredients, recipes and stores should be provided by the end user." ;
+                                 rdfs:label "Openfridge" ;
+                                 foaf:name "Openfridge" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://open.vocab.org/terms/similarTo
+terms:similarTo rdf:type owl:AnnotationProperty .
+
+
+###  http://openfridge.eu/ontology#quantity_type
+:quantity_type rdf:type owl:AnnotationProperty .
+
+
+###  http://xmlns.com/foaf/0.1/name
+foaf:name rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://openfridge.eu/ontology#canContainIngredientFromCategory
+:canContainIngredientFromCategory rdf:type owl:ObjectProperty ;
+                                  rdfs:range :IngredientCategory ;
+                                  rdfs:comment "The subject can contain an ingredient from a certain category, e.g. meat."@en ;
+                                  rdfs:label "Can contain ingredient from category"@en .
+
+
+###  http://openfridge.eu/ontology#canOptionallyContain
+:canOptionallyContain rdf:type owl:ObjectProperty ;
+                      owl:inverseOf :isOptionallyUsedIn ;
+                      rdfs:range :Ingredient ;
+                      rdfs:comment "The subject can optionally contain the ingredient."@en ;
+                      rdfs:label "Can optionally contain"@en .
+
+
+###  http://openfridge.eu/ontology#contains
+:contains rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isUsedIn ;
+          rdfs:domain :Recipe ;
+          rdfs:range :Ingredient ;
+          rdfs:comment "The subject contains the ingredient."@en ;
+          rdfs:label "Contains"@en .
+
+
+###  http://openfridge.eu/ontology#containsAllergen
+:containsAllergen rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Ingredient ;
+                  rdfs:range :Allergen ;
+                  rdfs:comment "The ingredient contains an allergen."@en ;
+                  rdfs:label "Contains allergen"@en .
+
+
+###  http://openfridge.eu/ontology#containsIngredientFromCategory
+:containsIngredientFromCategory rdf:type owl:ObjectProperty ;
+                                rdfs:range :IngredientCategory ;
+                                rdfs:comment "The subject contains an ingredient from a certain category, e.g. meat."@en ;
+                                rdfs:label "Contains ingredient from category"@en .
+
+
+###  http://openfridge.eu/ontology#describesRequiredAmountOf
+:describesRequiredAmountOf rdf:type owl:ObjectProperty ;
+                           rdfs:domain :RequiredIngredient ;
+                           rdfs:range :Ingredient ;
+                           rdfs:comment "Describes how much of a certain ingredient is needed in a step."@en ;
+                           rdfs:label "Describes required amount of"@en .
+
+
+###  http://openfridge.eu/ontology#hasAddress
+:hasAddress rdf:type owl:ObjectProperty ;
+            owl:inverseOf :isAddressOf ;
+            rdf:type owl:FunctionalProperty ;
+            rdfs:range :Address ;
+            rdfs:comment "The subject has an address."@en ;
+            rdfs:label "Has address"@en .
+
+
+###  http://openfridge.eu/ontology#hasAllergen
+:hasAllergen rdf:type owl:ObjectProperty ;
+             rdfs:domain :Recipe ;
+             rdfs:range :Allergen ;
+             rdfs:comment "The recipe contains an allergen."@en ;
+             rdfs:label "Has allergen"@en .
+
+
+###  http://openfridge.eu/ontology#hasCategory
+:hasCategory rdf:type owl:ObjectProperty ;
+             rdfs:domain :Ingredient ;
+             rdfs:range :IngredientCategory ;
+             rdfs:comment "The subject has a category, e.g. meat."@en ;
+             rdfs:label "Has category"@en .
+
+
+###  http://openfridge.eu/ontology#hasRequiredCookingTechnique
+:hasRequiredCookingTechnique rdf:type owl:ObjectProperty ;
+                             rdfs:domain :Recipe ;
+                             rdfs:range :CookingTechnique ;
+                             rdfs:comment "The subject requires the use of a certain cooking technique."@en ;
+                             rdfs:label "Has required cooking technique"@en .
+
+
+###  http://openfridge.eu/ontology#hasStep
+:hasStep rdf:type owl:ObjectProperty ;
+         owl:inverseOf :isStepOf ;
+         rdfs:domain :Recipe ;
+         rdfs:range :Step ;
+         rdfs:comment "The subject potentially has multiple steps, the object is one of them."@en ;
+         rdfs:label "Has step"@en .
+
+
+###  http://openfridge.eu/ontology#isAddressOf
+:isAddressOf rdf:type owl:ObjectProperty ;
+             rdfs:domain :Address ;
+             rdfs:range :Store ;
+             rdfs:comment "The address belongs to the specified object."@en ;
+             rdfs:label "Is address of"@en .
+
+
+###  http://openfridge.eu/ontology#isAvailableAs
+:isAvailableAs rdf:type owl:ObjectProperty ;
+               owl:inverseOf :isProductOfIngredient ;
+               rdfs:domain :Ingredient ;
+               rdfs:range :ProductEntry ;
+               rdfs:comment "This ingredient is available as specified product entry."@en ;
+               rdfs:label "Is available as"@en .
+
+
+###  http://openfridge.eu/ontology#isCityOf
+:isCityOf rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isLocatedIn ;
+          rdfs:domain :City ;
+          rdfs:range :Address ;
+          rdfs:comment "The subject is the city specified in a certain address."@en ;
+          rdfs:label "Is city of"@en .
+
+
+###  http://openfridge.eu/ontology#isCuisine
+:isCuisine rdf:type owl:ObjectProperty ;
+           owl:inverseOf :isCuisineOf ;
+           rdf:type owl:FunctionalProperty ;
+           rdfs:domain :Recipe ;
+           rdfs:range :Cuisine ;
+           rdfs:comment "A recipe is a certain cuisine."@en ;
+           rdfs:label "Is cuisine"@en .
+
+
+###  http://openfridge.eu/ontology#isCuisineOf
+:isCuisineOf rdf:type owl:ObjectProperty ;
+             rdfs:domain :Cuisine ;
+             rdfs:range :Recipe ;
+             rdfs:comment "The subject is the cuisine of a certain recipe."@en ;
+             rdfs:label "Is cuisine of"@en .
+
+
+###  http://openfridge.eu/ontology#isLocatedIn
+:isLocatedIn rdf:type owl:ObjectProperty ,
+                      owl:FunctionalProperty ;
+             rdfs:domain :Address ;
+             rdfs:range :City ;
+             rdfs:comment "An address is located in a certain city."@en ;
+             rdfs:label "Is located in"@en .
+
+
+###  http://openfridge.eu/ontology#isMealType
+:isMealType rdf:type owl:ObjectProperty ;
+            owl:inverseOf :isMealTypeOf ;
+            rdfs:domain :Recipe ;
+            rdfs:range :MealType ;
+            rdfs:comment "A recipe belongs to a certain meal type, e.g. dessert."@en ;
+            rdfs:label "Is meal type"@en .
+
+
+###  http://openfridge.eu/ontology#isMealTypeOf
+:isMealTypeOf rdf:type owl:ObjectProperty ;
+              rdfs:domain :MealType ;
+              rdfs:range :Recipe ;
+              rdfs:comment "The subject is the meal type of a certain recipe."@en ;
+              rdfs:label "Is meal type of"@en .
+
+
+###  http://openfridge.eu/ontology#isOfferedBy
+:isOfferedBy rdf:type owl:ObjectProperty ;
+             owl:inverseOf :offers ;
+             rdf:type owl:FunctionalProperty ;
+             rdfs:domain :ProductEntry ;
+             rdfs:range :Store ;
+             rdfs:comment "A product entry is offered by a certain store."@en ;
+             rdfs:label "Is offered by"@en .
+
+
+###  http://openfridge.eu/ontology#isOfferedByBrand
+:isOfferedByBrand rdf:type owl:ObjectProperty ;
+                  rdfs:range :Brand ;
+                  rdfs:comment "The subject is offered by a certain brand."@en ;
+                  rdfs:label "Is offered by brand"@en .
+
+
+###  http://openfridge.eu/ontology#isOpenDuring
+:isOpenDuring rdf:type owl:ObjectProperty ;
+              owl:inverseOf :isOpeningPeriodOf ;
+              rdfs:domain :Store ;
+              rdfs:range :OpeningPeriod ;
+              rdfs:comment "A store is open during a certain period of a day."@en ;
+              rdfs:label "Is open during"@en .
+
+
+###  http://openfridge.eu/ontology#isOpeningPeriodOf
+:isOpeningPeriodOf rdf:type owl:ObjectProperty ,
+                            owl:FunctionalProperty ;
+                   rdfs:domain :OpeningPeriod ;
+                   rdfs:range :Store ;
+                   rdfs:comment "The subject is an opening period of a certain store."@en ;
+                   rdfs:label "Is opening period of"@en .
+
+
+###  http://openfridge.eu/ontology#isOptionallyUsedIn
+:isOptionallyUsedIn rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Ingredient ;
+                    rdfs:comment "The ingredient can optionally be used in the object."@en ;
+                    rdfs:label "Is optionally used in"@en .
+
+
+###  http://openfridge.eu/ontology#isProducedBy
+:isProducedBy rdf:type owl:ObjectProperty ;
+              owl:inverseOf :produces ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain :ProductEntry ;
+              rdfs:range :Brand ;
+              rdfs:comment "The product entry is produced by a certain brand."@en ;
+              rdfs:label "Is produced by"@en .
+
+
+###  http://openfridge.eu/ontology#isProductOfIngredient
+:isProductOfIngredient rdf:type owl:ObjectProperty ,
+                                owl:FunctionalProperty ;
+                       rdfs:domain :ProductEntry ;
+                       rdfs:range :Ingredient ;
+                       rdfs:comment "The product entry is a product of a certain ingredient."@en ;
+                       rdfs:label "Is product of ingredient"@en .
+
+
+###  http://openfridge.eu/ontology#isSoldIn
+:isSoldIn rdf:type owl:ObjectProperty ;
+          rdfs:domain :Ingredient ;
+          rdfs:range :Store ;
+          rdfs:comment "The ingredient is sold in a certain store."@en ;
+          rdfs:label "Is sold in"@en .
+
+
+###  http://openfridge.eu/ontology#isStepOf
+:isStepOf rdf:type owl:ObjectProperty ,
+                   owl:FunctionalProperty ;
+          rdfs:domain :Step ;
+          rdfs:range :Recipe ;
+          rdfs:comment "A step belongs to a certain recipe."@en ;
+          rdfs:label "Is step of"@en .
+
+
+###  http://openfridge.eu/ontology#isUsedIn
+:isUsedIn rdf:type owl:ObjectProperty ;
+          rdfs:domain :Ingredient ;
+          rdfs:range :Recipe ;
+          rdfs:comment "An ingredient is used in a certain recipe."@en ;
+          rdfs:label "Is used in"@en .
+
+
+###  http://openfridge.eu/ontology#offers
+:offers rdf:type owl:ObjectProperty ;
+        rdfs:domain :Store ;
+        rdfs:range :ProductEntry ;
+        rdfs:comment "A store offers a certain product entry."@en ;
+        rdfs:label "Offers"@en .
+
+
+###  http://openfridge.eu/ontology#openOnDay
+:openOnDay rdf:type owl:ObjectProperty ,
+                    owl:FunctionalProperty ;
+           rdfs:domain :OpeningPeriod ;
+           rdfs:range :DayOfWeek ;
+           rdfs:comment "An opening period has a certain day of the week."@en ;
+           rdfs:label "Open on day"@en .
+
+
+###  http://openfridge.eu/ontology#otherLocationsOfChain
+:otherLocationsOfChain rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Store ;
+                       rdfs:range :Store ;
+                       rdfs:comment "Potentially links a store to other stores of the same chain."@en ;
+                       rdfs:label "Other locations of chain"@en .
+
+
+###  http://openfridge.eu/ontology#possiblyHasAllergen
+:possiblyHasAllergen rdf:type owl:ObjectProperty ;
+                     rdfs:range :Allergen ;
+                     rdfs:comment "The subject contains an allergen."@en ;
+                     rdfs:label "Possibly has allergen"@en .
+
+
+###  http://openfridge.eu/ontology#produces
+:produces rdf:type owl:ObjectProperty ;
+          rdfs:domain :Brand ;
+          rdfs:range :ProductEntry ;
+          rdfs:comment "A brand produces a certain product entry."@en ;
+          rdfs:label "Produces"@en .
+
+
+###  http://openfridge.eu/ontology#requiredByStep
+:requiredByStep rdf:type owl:ObjectProperty ;
+                owl:inverseOf :requiresIngredient ;
+                rdfs:domain :RequiredIngredient ;
+                rdfs:range :Step ;
+                rdfs:comment "The subject is required to complete a step of a recipe."@en ;
+                rdfs:label "Required by step"@en .
+
+
+###  http://openfridge.eu/ontology#requires
+:requires rdf:type owl:ObjectProperty ;
+          rdfs:domain :Recipe ;
+          rdfs:comment "A recipe requires a certain object."@en ;
+          rdfs:label "Requires"@en .
+
+
+###  http://openfridge.eu/ontology#requiresCookingUtensil
+:requiresCookingUtensil rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Step ;
+                        rdfs:range :CookingUtensil ;
+                        rdfs:comment "The step of a recipe requires a certain cooking utensil."@en ;
+                        rdfs:label "Requires cooking utensil"@en .
+
+
+###  http://openfridge.eu/ontology#requiresIngredient
+:requiresIngredient rdf:type owl:ObjectProperty ,
+                             owl:InverseFunctionalProperty ;
+                    rdfs:domain :Step ;
+                    rdfs:range :RequiredIngredient ;
+                    rdfs:comment "A step of a recipe requires a certain (required) ingredient."@en ;
+                    rdfs:label "Requires ingredient"@en .
+
+
+###  http://openfridge.eu/ontology#usesCookingTechnique
+:usesCookingTechnique rdf:type owl:ObjectProperty ;
+                      rdfs:domain :Step ;
+                      rdfs:range :CookingTechnique ;
+                      rdfs:comment "A step requires the user to apply a certain cooking technique."@en ;
+                      rdfs:label "Uses cooking technique"@en .
+
+
+###  http://openfridge.eu/ontology#variantOf
+:variantOf rdf:type owl:ObjectProperty ,
+                    owl:SymmetricProperty ,
+                    owl:TransitiveProperty ;
+           rdfs:domain :Recipe ;
+           rdfs:range :Recipe ;
+           rdfs:comment "A recipe can be a variant of another recipe."@en ;
+           rdfs:label "Variant of"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://openfridge.eu/ontology#amount
+:amount rdf:type owl:DatatypeProperty ;
+        rdfs:domain :RequiredIngredient ;
+        rdfs:range xsd:decimal ;
+        rdfs:comment "The amount of an ingredient."@en ;
+        rdfs:label "Amount"@en .
+
+
+###  http://openfridge.eu/ontology#closingTime
+:closingTime rdf:type owl:DatatypeProperty ;
+             rdfs:domain :OpeningPeriod ;
+             rdfs:range rdfs:Literal ;
+             rdfs:comment "The end (closing) time of an opening period."@en ;
+             rdfs:label "Closing time"@en .
+
+
+###  http://openfridge.eu/ontology#cookingTime
+:cookingTime rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Recipe ;
+             rdfs:range xsd:positiveInteger ;
+             rdfs:comment "The time it takes to prepare a recipe."@en ;
+             rdfs:label "Cooking time"@en .
+
+
+###  http://openfridge.eu/ontology#country
+:country rdf:type owl:DatatypeProperty ;
+         rdfs:domain :City ;
+         rdfs:range rdfs:Literal ;
+         rdfs:comment "The country in which a city is located."@en ;
+         rdfs:label "Country"@en .
+
+
+###  http://openfridge.eu/ontology#description
+:description rdf:type owl:DatatypeProperty ;
+             rdfs:range rdfs:Literal ;
+             rdfs:comment "Describes the subject."@en ;
+             rdfs:label "Description"@en .
+
+
+###  http://openfridge.eu/ontology#houseNumber
+:houseNumber rdf:type owl:DatatypeProperty ;
+             rdfs:domain :Address ;
+             rdfs:range rdfs:Literal ;
+             rdfs:comment "The house number of an address."@en ;
+             rdfs:label "House number"@en .
+
+
+###  http://openfridge.eu/ontology#isHotMeal
+:isHotMeal rdf:type owl:DatatypeProperty ;
+           rdfs:domain :Recipe ;
+           rdfs:range xsd:boolean ;
+           rdfs:comment "True if the recipe is used to prepare a hot dish, false if it is used to prepare a cold dish."@en ;
+           rdfs:label "Is hot meal"@en .
+
+
+###  http://openfridge.eu/ontology#isNonVegan
+:isNonVegan rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Recipe ;
+            rdfs:range xsd:boolean ;
+            rdfs:comment "True if the recipe contains fish, dairy or meat."@en ;
+            rdfs:label "Is non vegan"@en .
+
+
+###  http://openfridge.eu/ontology#isNonVegetarian
+:isNonVegetarian rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Recipe ;
+                 rdfs:range xsd:boolean ;
+                 rdfs:comment "True if the dish contains meat."@en ;
+                 rdfs:label "Is non vegetarian"@en .
+
+
+###  http://openfridge.eu/ontology#isOptional
+:isOptional rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Step ;
+            rdfs:range xsd:boolean ;
+            rdfs:comment "True if a step of a recipe is optional and thus can potentially be skipped."@en ;
+            rdfs:label "Is optional"@en .
+
+
+###  http://openfridge.eu/ontology#name
+:name rdf:type owl:DatatypeProperty ;
+      rdfs:range rdfs:Literal ;
+      rdfs:comment "The name of the subject."@en ;
+      rdfs:label "Name"@en .
+
+
+###  http://openfridge.eu/ontology#openingTime
+:openingTime rdf:type owl:DatatypeProperty ;
+             rdfs:domain :OpeningPeriod ;
+             rdfs:range rdfs:Literal ;
+             rdfs:comment "The beginning (opening) time of an opening period (the time at which a store opens)."@en ;
+             rdfs:label "Opening time"@en .
+
+
+###  http://openfridge.eu/ontology#postalCode
+:postalCode rdf:type owl:DatatypeProperty ;
+            rdfs:domain :City ;
+            rdfs:range rdfs:Literal ;
+            rdfs:comment "The postal code of a city."@en ;
+            rdfs:label "Postal code"@en .
+
+
+###  http://openfridge.eu/ontology#price
+:price rdf:type owl:DatatypeProperty ;
+       rdfs:domain :ProductEntry ;
+       rdfs:range xsd:decimal ;
+       rdfs:comment "The price of a product entry."@en ;
+       rdfs:label "Price"@en .
+
+
+###  http://openfridge.eu/ontology#quantity
+:quantity rdf:type owl:DatatypeProperty ;
+          rdfs:domain :ProductEntry ;
+          rdfs:range xsd:decimal ;
+          rdfs:comment "The quantity of a certain ingredient that the product entry contains."@en ;
+          rdfs:label "Quantity"@en .
+
+
+###  http://openfridge.eu/ontology#quantityType
+:quantityType rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Ingredient ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "The ingredient has a certain quantity type that describes how an amount of that ingredient should be represented, e.g. grams."@en ;
+              rdfs:label "Quantity type"@en .
+
+
+###  http://openfridge.eu/ontology#source
+:source rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Recipe ;
+        rdfs:range rdfs:Literal ;
+        rdfs:comment "Useful to reference to the original source of the recipe (e.g. for copyright reasons)."@en ;
+        rdfs:label "Source"@en .
+
+
+###  http://openfridge.eu/ontology#stepNr
+:stepNr rdf:type owl:DatatypeProperty ;
+        rdfs:domain :Step ;
+        rdfs:range xsd:positiveInteger ;
+        rdfs:comment "The order number of a recipe step, e.g. 1 for the first step of a recipe."@en ;
+        rdfs:label "Step number"@en .
+
+
+###  http://openfridge.eu/ontology#streetName
+:streetName rdf:type owl:DatatypeProperty ;
+            rdfs:domain :Address ;
+            rdfs:range rdfs:Literal ;
+            rdfs:comment "The street name in an address."@en ;
+            rdfs:label "Street name"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://openfridge.eu/ontology#Address
+:Address rdf:type owl:Class ;
+         rdfs:comment "Het fysieke adres waarop een ding gelegen is"@nl ,
+                      "This is a physical address where a thing is located."@en ;
+         rdfs:label "Address"@en ,
+                    "Adres"@nl .
+
+
+###  http://openfridge.eu/ontology#Allergen
+:Allergen rdf:type owl:Class ;
+          rdfs:comment "A substance that can cause an allergic reaction"@en ,
+                       "Een substantie die een allergische reactie kan veroorzaken"@nl ;
+          rdfs:label "Allergeen"@nl ,
+                     "Allergen"@en .
+
+
+###  http://openfridge.eu/ontology#Brand
+:Brand rdf:type owl:Class ;
+       rdfs:comment "Een merknaam"@nl ,
+                    "The name of a brand"@en ;
+       rdfs:label "Brand"@en ,
+                  "Merk"@nl .
+
+
+###  http://openfridge.eu/ontology#City
+:City rdf:type owl:Class ;
+      rdfs:comment "A physical city that can be referred to in an address"@en ,
+                   "Een fysieke stad om naar te verwijzen in een adres"@nl ;
+      rdfs:label "City"@en ,
+                 "Stad"@nl .
+
+
+###  http://openfridge.eu/ontology#CookingTechnique
+:CookingTechnique rdf:type owl:Class ;
+                  rdfs:comment "A technique used in the preparation of a dish"@en ,
+                               "Een techniek nodig bij het bereiden van een maaltijd"@nl ;
+                  rdfs:label "Cooking technique"@en ,
+                             "Kooktechniek"@nl .
+
+
+###  http://openfridge.eu/ontology#CookingUtensil
+:CookingUtensil rdf:type owl:Class ;
+                rdfs:comment "A utensil needed to prepare a dish"@en ,
+                             "Gereedschap nodig bij het bereiden van een maaltijd"@nl ;
+                rdfs:label "Cooking utensil"@en ,
+                           "Kookgereedschap"@nl .
+
+
+###  http://openfridge.eu/ontology#Cuisine
+:Cuisine rdf:type owl:Class ;
+         rdfs:comment "Het land of de locatie van origine van het gerecht"@nl ,
+                      "The  country or location of origin of a dish"@en ;
+         rdfs:label "Cuisine"@en ,
+                    "Keuken"@nl .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek
+:DayOfWeek rdf:type owl:Class ;
+           rdfs:comment "One of the seven days of the week"@en ,
+                        "Één van de zeven dagen van de week"@nl ;
+           rdfs:label "Dag van de week"@nl ,
+                      "Day of the week"@en .
+
+
+###  http://openfridge.eu/ontology#Ingredient
+:Ingredient rdf:type owl:Class ;
+            rdfs:comment "An ingredient that can be used in a recipe. This is a general ingredient and not a specific subtype of a brand. E.g. an apple instead of Pink Lady apples."@en ,
+                         "Een ingrediënt dat kan gebruikt worden in een recept. Dit is een algemeen ingrediënt en geen specifiek subtype van een merk. Bijvoorbeeld een appel en geen Pink Lady appels."@nl ;
+            rdfs:label "Ingredient"@en ,
+                       "Ingrediënt"@nl .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory
+:IngredientCategory rdf:type owl:Class ;
+                    rdfs:comment "De categorie waartoe een ingrediënt behoort. Bijvoorbeeld vlees of vis."@nl ,
+                                 "The categorie to which an ingredient belongs. E.g. meat or fish."@en ;
+                    rdfs:label "Ingredient category"@en ,
+                               "Ingrediëntcategorie"@nl .
+
+
+###  http://openfridge.eu/ontology#MealType
+:MealType rdf:type owl:Class ;
+          rdfs:comment "Het type van een gerecht. Bijvoorbeeld dessert of lunch."@nl ,
+                       "The type of a dish. E.g. dessert or lunch."@en ;
+          rdfs:label "Meal type"@en ,
+                     "Type gerecht"@nl .
+
+
+###  http://openfridge.eu/ontology#OpeningPeriod
+:OpeningPeriod rdf:type owl:Class ;
+               rdfs:comment "Dit is een deel van een bepaalde dag van de week waarop een winkel open is. Een winkel kan meerdere openingstijden hebben."@nl ,
+                            "This is a part of a certain day of the week where a store is opened. A store can have multiple opening periods."@en ;
+               rdfs:label "Opening period"@en ,
+                          "Openingstijd"@nl .
+
+
+###  http://openfridge.eu/ontology#ProductEntry
+:ProductEntry rdf:type owl:Class ;
+              rdfs:comment "A store offers a specific ingredient from a certain brand at a specified price. This is referred to as a product entry."@en ,
+                           "Een winkel biedt een ingrediënt van een merk aan aan een zekere prijs. Dit noemen we een productaanbieding."@nl ;
+              rdfs:label "Product entry"@en ,
+                         "Productaanbieding"@nl .
+
+
+###  http://openfridge.eu/ontology#Recipe
+:Recipe rdf:type owl:Class ;
+        rdfs:comment "Instructies die beschrijven hoe een bepaald gerecht kan klaargemaakt worden."@nl ,
+                     "Instructions on how one could prepare a certain dish."@en ;
+        rdfs:label "Recept"@nl ,
+                   "Recipe"@en .
+
+
+###  http://openfridge.eu/ontology#RequiredIngredient
+:RequiredIngredient rdf:type owl:Class ;
+                    rdfs:comment "Dit beschrijft hoeveel van een bepaald ingrediënt nodig is in een stap van een recept."@nl ,
+                                 "This describes how much of a certain ingredient is needed in a recipe step."@en ;
+                    rdfs:label "Required ingredient"@en ,
+                               "Vereist ingrediënt"@nl .
+
+
+###  http://openfridge.eu/ontology#Step
+:Step rdf:type owl:Class ;
+      rdfs:comment "Dit is één stap uit de instructies van een recept."@nl ,
+                   "This is one step from the instructions of a recipe."@en ;
+      rdfs:label "Stap"@nl ,
+                 "Step"@en .
+
+
+###  http://openfridge.eu/ontology#Store
+:Store rdf:type owl:Class ;
+       rdfs:comment "A location that offers products for sale."@en ,
+                    "Een plaats die producten te koop aanbiedt."@nl ;
+       rdfs:label "Store"@en ,
+                  "Winkel"@nl .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://openfridge.eu/ontology#Allergen/celery
+<http://openfridge.eu/ontology#Allergen/celery> rdf:type owl:NamedIndividual ,
+                                                         :Allergen ;
+                                                :description """People with celery allergy also need to be aware of the issue of allergy to celeriac. Celeriac is a type of
+celery but the root is the main edible part rather than the stalk. Celery and celeriac are likely to contain
+very similar allergens and although our Factsheet is entitled Celery Allergy, you must assume that you
+should also avoid celeriac. """ ,
+                                                             """People with celery allergy also need to be aware of the issue of allergy to celeriac. Celeriac is a type of
+celery but the root is the main edible part rather than the stalk. Celery and celeriac are likely to contain
+very similar allergens and although our Factsheet is entitled Celery Allergy, you must assume that you
+should also avoid celeriac. """@en ;
+                                                :name "Celery" ,
+                                                      "Celery"@en ;
+                                                rdfs:label "Celery" ,
+                                                           "Celery"@en ;
+                                                foaf:name "Celery" ,
+                                                          "Celery"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/crustaceans
+<http://openfridge.eu/ontology#Allergen/crustaceans> rdf:type owl:NamedIndividual ,
+                                                              :Allergen ;
+                                                     :description "Crustaceans include shrimp, lobster, langoustine, crayfish and crab and count among the most frequent causes of food-induced allergic reactions." ,
+                                                                  "Crustaceans include shrimp, lobster, langoustine, crayfish and crab and count among the most frequent causes of food-induced allergic reactions."@en ;
+                                                     :name "Crustaceans" ,
+                                                           "Crustaceans"@en ;
+                                                     rdfs:label "Crustaceans" ,
+                                                                "Crustaceans"@en ;
+                                                     foaf:name "Crustaceans" ,
+                                                               "Crustaceans"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/eggs
+<http://openfridge.eu/ontology#Allergen/eggs> rdf:type owl:NamedIndividual ,
+                                                       :Allergen ;
+                                              :description "Eggs are one of the most common allergy-causing foods for children. Egg allergy symptoms usually occur a few minutes to a few hours after eating eggs or foods containing eggs. Signs and symptoms range from mild to severe and can include skin rashes, hives, nasal congestion, and vomiting or other digestive problems. Rarely, egg allergy can cause anaphylaxis — a life-threatening reaction." ,
+                                                           "Eggs are one of the most common allergy-causing foods for children. Egg allergy symptoms usually occur a few minutes to a few hours after eating eggs or foods containing eggs. Signs and symptoms range from mild to severe and can include skin rashes, hives, nasal congestion, and vomiting or other digestive problems. Rarely, egg allergy can cause anaphylaxis — a life-threatening reaction."@en ;
+                                              :name "Eggs" ,
+                                                    "Eggs"@en ;
+                                              rdfs:label "Eggs" ,
+                                                         "Eggs"@en ;
+                                              foaf:name "Eggs" ,
+                                                        "Eggs"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/fish
+<http://openfridge.eu/ontology#Allergen/fish> rdf:type owl:NamedIndividual ,
+                                                       :Allergen ;
+                                              :description "Salmon, tuna and halibut are the most common kinds of fish people are allergic to." ,
+                                                           "Salmon, tuna and halibut are the most common kinds of fish people are allergic to."@en ;
+                                              :name "Fish" ,
+                                                    "Fish"@en ;
+                                              rdfs:label "Fish" ,
+                                                         "Fish"@en ;
+                                              foaf:name "Fish" ,
+                                                        "Fish"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/gluten
+<http://openfridge.eu/ontology#Allergen/gluten> rdf:type owl:NamedIndividual ,
+                                                         :Allergen ;
+                                                :description "Gluten is a protein found in grains, such as wheat, barley and rye. Some people are allergic to wheat, but that is not the same as a gluten allergy. Gluten allergy is a misleading term commonly confused with wheat allergy, or sometimes celiac disease. There is no such thing as a gluten allergy, but there is a condition called Celiac Disease. Celiac Disease is a digestive condition that is potentially serious if not diagnosed or treated. " ,
+                                                             "Gluten is a protein found in grains, such as wheat, barley and rye. Some people are allergic to wheat, but that is not the same as a gluten allergy. Gluten allergy is a misleading term commonly confused with wheat allergy, or sometimes celiac disease. There is no such thing as a gluten allergy, but there is a condition called Celiac Disease. Celiac Disease is a digestive condition that is potentially serious if not diagnosed or treated. "@en ;
+                                                :name "Gluten" ,
+                                                      "Gluten"@en ;
+                                                rdfs:label "Gluten" ,
+                                                           "Gluten"@en ;
+                                                foaf:name "Gluten" ,
+                                                          "Gluten"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/lupin
+<http://openfridge.eu/ontology#Allergen/lupin> rdf:type owl:NamedIndividual ,
+                                                        :Allergen ;
+                                               :description "Lupin can be found in a wide range of food products including bread, bakery and pasta products, sauces, beverages and meat based products such as burgers and sausages. Gluten-free or soy-free products may sometimes contain lupin." ,
+                                                            "Lupin can be found in a wide range of food products including bread, bakery and pasta products, sauces, beverages and meat based products such as burgers and sausages. Gluten-free or soy-free products may sometimes contain lupin."@en ;
+                                               :name "Lupin" ,
+                                                     "Lupin"@en ;
+                                               rdfs:label "Lupin" ,
+                                                          "Lupin"@en ;
+                                               foaf:name "Lupin" ,
+                                                         "Lupin"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/milk
+<http://openfridge.eu/ontology#Allergen/milk> rdf:type owl:NamedIndividual ,
+                                                       :Allergen ;
+                                              :description "Milk allergy is an abnormal response by the body's immune system to milk and products containing milk. It's one of the most common food allergies in children. Cow's milk is the usual cause of milk allergy, but milk from sheep, goats, buffalo and other mammals also can cause a reaction." ,
+                                                           "Milk allergy is an abnormal response by the body's immune system to milk and products containing milk. It's one of the most common food allergies in children. Cow's milk is the usual cause of milk allergy, but milk from sheep, goats, buffalo and other mammals also can cause a reaction."@en ;
+                                              :name "Milk" ,
+                                                    "Milk"@en ;
+                                              rdfs:label "Milk" ,
+                                                         "Milk"@en ;
+                                              foaf:name "Milk" ,
+                                                        "Milk"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/molluscs
+<http://openfridge.eu/ontology#Allergen/molluscs> rdf:type owl:NamedIndividual ,
+                                                           :Allergen ;
+                                                  :description "Molluscs include mussels, scallops, oysters, clams, snails, periwinkles, whelks, squid and octopus. Marine molluscs and crustaceans are often collectively referred to as \"shellfish\"." ,
+                                                               "Molluscs include mussels, scallops, oysters, clams, snails, periwinkles, whelks, squid and octopus. Marine molluscs and crustaceans are often collectively referred to as \"shellfish\"."@en ;
+                                                  :name "Molluscs" ,
+                                                        "Molluscs"@en ;
+                                                  rdfs:label "Molluscs" ,
+                                                             "Molluscs"@en ;
+                                                  foaf:name "Molluscs" ,
+                                                            "Molluscs"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/mustard
+<http://openfridge.eu/ontology#Allergen/mustard> rdf:type owl:NamedIndividual ,
+                                                          :Allergen ;
+                                                 :description "Mustard is one of the most common spice allergiesTrusted Source. The primary allergen in yellow mustard is “Sin a 1.” The enzymes don’t break down much in the digestive tract, and the allergen is present even if the mustard is cooked in food. The major allergen in brown mustard is “Bra j 1.”" ,
+                                                              "Mustard is one of the most common spice allergiesTrusted Source. The primary allergen in yellow mustard is “Sin a 1.” The enzymes don’t break down much in the digestive tract, and the allergen is present even if the mustard is cooked in food. The major allergen in brown mustard is “Bra j 1.”"@en ;
+                                                 :name "Mustard" ,
+                                                       "Mustard"@en ;
+                                                 rdfs:label "Mustard" ,
+                                                            "Mustard"@en ;
+                                                 foaf:name "Mustard" ,
+                                                           "Mustard"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/peanuts
+<http://openfridge.eu/ontology#Allergen/peanuts> rdf:type owl:NamedIndividual ,
+                                                          :Allergen ;
+                                                 :description "It’s not uncommon these days to find schools that have declared they are “nut-free” That means the onetime staple of kids’ lunchboxes — a peanut butter and jelly sandwich — is nowhere to be found on school grounds. That’s because peanuts can cause a life-threatening reaction in some people. Peanuts are one of the food allergens most commonly associated with anaphylaxis, a sudden and potentially deadly condition that requires immediate attention and treatment." ,
+                                                              "It’s not uncommon these days to find schools that have declared they are “nut-free” That means the onetime staple of kids’ lunchboxes — a peanut butter and jelly sandwich — is nowhere to be found on school grounds. That’s because peanuts can cause a life-threatening reaction in some people. Peanuts are one of the food allergens most commonly associated with anaphylaxis, a sudden and potentially deadly condition that requires immediate attention and treatment."@en ;
+                                                 :name "Peanuts" ,
+                                                       "Peanuts"@en ;
+                                                 rdfs:label "Peanuts" ,
+                                                            "Peanuts"@en ;
+                                                 foaf:name "Peanuts" ,
+                                                           "Peanuts"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/sesame
+<http://openfridge.eu/ontology#Allergen/sesame> rdf:type owl:NamedIndividual ,
+                                                         :Allergen ;
+                                                :description "A wide variety of foods contain sesame. Foods from the Middle East or Asia frequently contain sesame oil. Many bakeries sell bagels with sesame seed toppings, which can lead to cross-contamination." ,
+                                                             "A wide variety of foods contain sesame. Foods from the Middle East or Asia frequently contain sesame oil. Many bakeries sell bagels with sesame seed toppings, which can lead to cross-contamination."@en ;
+                                                :name "Sesame" ,
+                                                      "Sesame"@en ;
+                                                rdfs:label "Sesame" ,
+                                                           "Sesame"@en ;
+                                                foaf:name "Sesame" ,
+                                                          "Sesame"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/soya
+<http://openfridge.eu/ontology#Allergen/soya> rdf:type owl:NamedIndividual ,
+                                                       :Allergen ;
+                                              :description "Many foods containing soy — such as tofu, soy meat alternatives, soy sauce, soy flour and soybean oil — can be found in supermarkets as well as natural, health and Asian food stores. There are many types of food alternatives made with soy, such as soy bacon, cheese, \"chicken-less\" nuggets, corn dogs, hamburgers, hot dogs and ice cream." ,
+                                                           "Many foods containing soy — such as tofu, soy meat alternatives, soy sauce, soy flour and soybean oil — can be found in supermarkets as well as natural, health and Asian food stores. There are many types of food alternatives made with soy, such as soy bacon, cheese, \"chicken-less\" nuggets, corn dogs, hamburgers, hot dogs and ice cream."@en ;
+                                              :name "Soya" ,
+                                                    "Soya"@en ;
+                                              rdfs:label "Soya" ,
+                                                         "Soya"@en ;
+                                              foaf:name "Soya" ,
+                                                        "Soya"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/sulphites
+<http://openfridge.eu/ontology#Allergen/sulphites> rdf:type owl:NamedIndividual ,
+                                                            :Allergen ;
+                                                   :description "Sulphites are substances that are naturally found in some foods.  They are used as an additive to maintain food colour, shelf-life and prevent the growth of fungi or bacteria.  Sulphites are also used in food packaging like cellophane." ,
+                                                                "Sulphites are substances that are naturally found in some foods.  They are used as an additive to maintain food colour, shelf-life and prevent the growth of fungi or bacteria.  Sulphites are also used in food packaging like cellophane."@en ;
+                                                   :name "Sulphites" ,
+                                                         "Sulphites"@en ;
+                                                   rdfs:label "Sulphites" ,
+                                                              "Sulphites"@en ;
+                                                   foaf:name "Sulphites" ,
+                                                             "Sulphites"@en .
+
+
+###  http://openfridge.eu/ontology#Allergen/tree_nuts
+<http://openfridge.eu/ontology#Allergen/tree_nuts> rdf:type owl:NamedIndividual ,
+                                                            :Allergen ;
+                                                   :description "If you’re allergic to one type of tree nut, you have a higher chance of being allergic to other types. For this reason, your doctor may recommend you avoid all nuts. You may also be advised to avoid peanuts because of the higher likelihood of cross-contact with tree nuts during manufacturing and processing." ,
+                                                                "If you’re allergic to one type of tree nut, you have a higher chance of being allergic to other types. For this reason, your doctor may recommend you avoid all nuts. You may also be advised to avoid peanuts because of the higher likelihood of cross-contact with tree nuts during manufacturing and processing."@en ;
+                                                   :name "Tree nuts" ,
+                                                         "Tree nuts"@en ;
+                                                   rdfs:label "Tree nuts" ,
+                                                              "Tree nuts"@en ;
+                                                   foaf:name "Tree nuts" ,
+                                                             "Tree nuts"@en .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek/friday
+<http://openfridge.eu/ontology#DayOfWeek/friday> rdf:type owl:NamedIndividual ,
+                                                          :DayOfWeek ;
+                                                 :name "Friday" ,
+                                                       "Friday"@en ,
+                                                       "Vrijdag"@nl ;
+                                                 rdfs:label "Friday" ,
+                                                            "Friday"@en ,
+                                                            "Vrijdag"@nl ;
+                                                 foaf:name "Friday" ,
+                                                           "Friday"@en ,
+                                                           "Vrijdag"@nl .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek/monday
+<http://openfridge.eu/ontology#DayOfWeek/monday> rdf:type owl:NamedIndividual ,
+                                                          :DayOfWeek ;
+                                                 :name "Maandag"@nl ,
+                                                       "Monday" ,
+                                                       "Monday"@en ;
+                                                 rdfs:label "Maandag"@nl ,
+                                                            "Monday" ,
+                                                            "Monday"@en ;
+                                                 foaf:name "Maandag"@nl ,
+                                                           "Monday" ,
+                                                           "Monday"@en .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek/saturday
+<http://openfridge.eu/ontology#DayOfWeek/saturday> rdf:type owl:NamedIndividual ,
+                                                            :DayOfWeek ;
+                                                   :name "Saturday" ,
+                                                         "Saturday"@en ,
+                                                         "Zaterdag"@nl ;
+                                                   rdfs:label "Saturday" ,
+                                                              "Saturday"@en ,
+                                                              "Zaterdag"@nl ;
+                                                   foaf:name "Saturday" ,
+                                                             "Saturday"@en ,
+                                                             "Zaterdag"@nl .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek/sunday
+<http://openfridge.eu/ontology#DayOfWeek/sunday> rdf:type owl:NamedIndividual ,
+                                                          :DayOfWeek ;
+                                                 :name "Sunday" ,
+                                                       "Sunday"@en ,
+                                                       "Zondag"@nl ;
+                                                 rdfs:label "Sunday" ,
+                                                            "Sunday"@en ,
+                                                            "Zondag"@nl ;
+                                                 foaf:name "Sunday" ,
+                                                           "Sunday"@en ,
+                                                           "Zondag"@nl .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek/thursday
+<http://openfridge.eu/ontology#DayOfWeek/thursday> rdf:type owl:NamedIndividual ,
+                                                            :DayOfWeek ;
+                                                   :name "Donderdag"@nl ,
+                                                         "Thursday" ,
+                                                         "Thursday"@en ;
+                                                   rdfs:label "Donderdag"@nl ,
+                                                              "Thursday" ,
+                                                              "Thursday"@en ;
+                                                   foaf:name "Donderdag"@nl ,
+                                                             "Thursday" ,
+                                                             "Thursday"@en .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek/tuesday
+<http://openfridge.eu/ontology#DayOfWeek/tuesday> rdf:type owl:NamedIndividual ,
+                                                           :DayOfWeek ;
+                                                  :name "Dinsdag"@nl ,
+                                                        "Tuesday" ,
+                                                        "Tuesday"@en ;
+                                                  rdfs:label "Dinsdag"@nl ,
+                                                             "Tuesday" ,
+                                                             "Tuesday"@en ;
+                                                  foaf:name "Dinsdag"@nl ,
+                                                            "Tuesday" ,
+                                                            "Tuesday"@en .
+
+
+###  http://openfridge.eu/ontology#DayOfWeek/wednesday
+<http://openfridge.eu/ontology#DayOfWeek/wednesday> rdf:type owl:NamedIndividual ,
+                                                             :DayOfWeek ;
+                                                    :name "Wednesday" ,
+                                                          "Wednesday"@en ,
+                                                          "Woensdag"@nl ;
+                                                    rdfs:label "Wednesday" ,
+                                                               "Wednesday"@en ,
+                                                               "Woensdag"@nl ;
+                                                    foaf:name "Wednesday" ,
+                                                              "Wednesday"@en ,
+                                                              "Woensdag"@nl .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/beer
+<http://openfridge.eu/ontology#IngredientCategory/beer> rdf:type owl:NamedIndividual ,
+                                                                 :IngredientCategory ;
+                                                        :description "Beer is one of the oldest and most widely consumed alcoholic drinks in the world." ,
+                                                                     "Beer is one of the oldest and most widely consumed alcoholic drinks in the world."@en ;
+                                                        :name "Beer" ,
+                                                              "Beer"@en ;
+                                                        rdfs:label "Beer" ,
+                                                                   "Beer"@en ;
+                                                        foaf:name "Beer" ,
+                                                                  "Beer"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/bread
+<http://openfridge.eu/ontology#IngredientCategory/bread> rdf:type owl:NamedIndividual ,
+                                                                  :IngredientCategory ;
+                                                         :description "Bread is a staple food prepared from a dough of flour and water, usually by baking." ,
+                                                                      "Bread is a staple food prepared from a dough of flour and water, usually by baking."@en ;
+                                                         :name "Bread" ,
+                                                               "Bread"@en ;
+                                                         rdfs:label "Bread" ,
+                                                                    "Bread"@en ;
+                                                         foaf:name "Bread" ,
+                                                                   "Bread"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/condiment
+<http://openfridge.eu/ontology#IngredientCategory/condiment> rdf:type owl:NamedIndividual ,
+                                                                      :IngredientCategory ;
+                                                             :description "A condiment is a spice, sauce, or preparation that is added to food, typically after cooking, to impart a specific flavor, to enhance the flavor, or to complement the dish." ,
+                                                                          "A condiment is a spice, sauce, or preparation that is added to food, typically after cooking, to impart a specific flavor, to enhance the flavor, or to complement the dish."@en ;
+                                                             :name "Condiment" ,
+                                                                   "Condiment"@en ;
+                                                             rdfs:label "Condiment" ,
+                                                                        "Condiment"@en ;
+                                                             foaf:name "Condiment" ,
+                                                                       "Condiment"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/dairy
+<http://openfridge.eu/ontology#IngredientCategory/dairy> rdf:type owl:NamedIndividual ,
+                                                                  :IngredientCategory ;
+                                                         :description "Dairy products or milk products are a type of food produced from or containing the milk of mammals. They are primarily produced from mammals such as cattle, water buffaloes, goats, and sheep. Dairy products include food items such as yogurt, cheese and butter." ,
+                                                                      "Dairy products or milk products are a type of food produced from or containing the milk of mammals. They are primarily produced from mammals such as cattle, water buffaloes, goats, and sheep. Dairy products include food items such as yogurt, cheese and butter."@en ;
+                                                         :name "Dairy" ,
+                                                               "Dairy"@en ;
+                                                         rdfs:label "Dairy" ,
+                                                                    "Dairy"@en ;
+                                                         foaf:name "Dairy" ,
+                                                                   "Dairy"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/fish
+<http://openfridge.eu/ontology#IngredientCategory/fish> rdf:type owl:NamedIndividual ,
+                                                                 :IngredientCategory ;
+                                                        :description "Fish are gill-bearing aquatic craniate animals that lack limbs with digits. They form a sister group to the tunicates, together forming the olfactores. Included in this definition are the living hagfish, lampreys, and cartilaginous and bony fish as well as various extinct related groups" ,
+                                                                     "Fish are gill-bearing aquatic craniate animals that lack limbs with digits. They form a sister group to the tunicates, together forming the olfactores. Included in this definition are the living hagfish, lampreys, and cartilaginous and bony fish as well as various extinct related groups"@en ;
+                                                        :name "Fish" ,
+                                                              "Fish"@en ;
+                                                        rdfs:label "Fish" ,
+                                                                   "Fish"@en ;
+                                                        foaf:name "Fish" ,
+                                                                  "Fish"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/fruit
+<http://openfridge.eu/ontology#IngredientCategory/fruit> rdf:type owl:NamedIndividual ,
+                                                                  :IngredientCategory ;
+                                                         :description "Fruits are the fleshy seed-associated structures of a plant that are sweet or sour, and edible in the raw state, such as apples, bananas, grapes, lemons, oranges, and strawberries." ,
+                                                                      "Fruits are the fleshy seed-associated structures of a plant that are sweet or sour, and edible in the raw state, such as apples, bananas, grapes, lemons, oranges, and strawberries."@en ;
+                                                         :name "Fruit" ,
+                                                               "Fruit"@en ;
+                                                         rdfs:label "Fruit" ,
+                                                                    "Fruit"@en ;
+                                                         foaf:name "Fruit" ,
+                                                                   "Fruit"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/meat
+<http://openfridge.eu/ontology#IngredientCategory/meat> rdf:type owl:NamedIndividual ,
+                                                                 :IngredientCategory ;
+                                                        :description "Meat is animal flesh that is eaten as food. Humans have hunted and killed animals for meat since prehistoric times. The advent of civilization allowed the domestication of animals such as chickens, sheep, rabbits, pigs and cattle. This eventually led to their use in meat production on an industrial scale with the aid of slaughterhouses." ,
+                                                                     "Meat is animal flesh that is eaten as food. Humans have hunted and killed animals for meat since prehistoric times. The advent of civilization allowed the domestication of animals such as chickens, sheep, rabbits, pigs and cattle. This eventually led to their use in meat production on an industrial scale with the aid of slaughterhouses."@en ;
+                                                        :name "Meat" ,
+                                                              "Meat"@en ;
+                                                        rdfs:label "Meat" ,
+                                                                   "Meat"@en ;
+                                                        foaf:name "Meat" ,
+                                                                  "Meat"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/nuts
+<http://openfridge.eu/ontology#IngredientCategory/nuts> rdf:type owl:NamedIndividual ,
+                                                                 :IngredientCategory ;
+                                                        :description "A nut is a fruit composed of an inedible hard shell and a seed, which is generally edible. In general usage, a wide variety of dried seeds are called nuts, but in a botanical context \"nut\" implies that the shell does not open to release the seed." ,
+                                                                     "A nut is a fruit composed of an inedible hard shell and a seed, which is generally edible. In general usage, a wide variety of dried seeds are called nuts, but in a botanical context \"nut\" implies that the shell does not open to release the seed."@en ;
+                                                        :name "Nuts" ,
+                                                              "Nuts"@en ;
+                                                        rdfs:label "Nuts" ,
+                                                                   "Nuts"@en ;
+                                                        foaf:name "Nuts" ,
+                                                                  "Nuts"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/spice
+<http://openfridge.eu/ontology#IngredientCategory/spice> rdf:type owl:NamedIndividual ,
+                                                                  :IngredientCategory ;
+                                                         :description "A spice is a seed, fruit, root, bark, or other plant substance primarily used for flavoring, coloring or preserving food." ,
+                                                                      "A spice is a seed, fruit, root, bark, or other plant substance primarily used for flavoring, coloring or preserving food."@en ;
+                                                         :name "Spice" ,
+                                                               "Spice"@en ;
+                                                         rdfs:label "Spice" ,
+                                                                    "Spice"@en ;
+                                                         foaf:name "Spice" ,
+                                                                   "Spice"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/stock
+<http://openfridge.eu/ontology#IngredientCategory/stock> rdf:type owl:NamedIndividual ,
+                                                                  :IngredientCategory ;
+                                                         :description "Stock is a flavored liquid preparation." ,
+                                                                      "Stock is a flavored liquid preparation."@en ;
+                                                         :name "Stock" ,
+                                                               "Stock"@en ;
+                                                         rdfs:label "Stock" ,
+                                                                    "Stock"@en ;
+                                                         foaf:name "Stock" ,
+                                                                   "Stock"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/vegetables
+<http://openfridge.eu/ontology#IngredientCategory/vegetables> rdf:type owl:NamedIndividual ,
+                                                                       :IngredientCategory ;
+                                                              :description "Vegetables are parts of plants that are consumed by humans or other animals as food. The original meaning is still commonly used and is applied to plants collectively to refer to all edible plant matter, including the flowers, fruits, stems, leaves, roots, and seeds." ,
+                                                                           "Vegetables are parts of plants that are consumed by humans or other animals as food. The original meaning is still commonly used and is applied to plants collectively to refer to all edible plant matter, including the flowers, fruits, stems, leaves, roots, and seeds."@en ;
+                                                              :name "Vegetables" ,
+                                                                    "Vegetables"@en ;
+                                                              rdfs:label "Vegetables" ,
+                                                                         "Vegetables"@en ;
+                                                              foaf:name "Vegetables" ,
+                                                                        "Vegetables"@en .
+
+
+###  http://openfridge.eu/ontology#IngredientCategory/wine
+<http://openfridge.eu/ontology#IngredientCategory/wine> rdf:type owl:NamedIndividual ,
+                                                                 :IngredientCategory ;
+                                                        :description "Wine is an alcoholic drink made from fermented grapes, the five countries with the largest wine-producing regions are in Italy, Spain, France, the United States, and China. Yeast consumes the sugar in the grapes and converts it to ethanol, carbon dioxide, and heat." ,
+                                                                     "Wine is an alcoholic drink made from fermented grapes, the five countries with the largest wine-producing regions are in Italy, Spain, France, the United States, and China. Yeast consumes the sugar in the grapes and converts it to ethanol, carbon dioxide, and heat."@en ;
+                                                        :name "Wine" ,
+                                                              "Wine"@en ;
+                                                        rdfs:label "Wine" ,
+                                                                   "Wine"@en ;
+                                                        foaf:name "Wine" ,
+                                                                  "Wine"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/breakfast
+<http://openfridge.eu/ontology#MealType/breakfast> rdf:type owl:NamedIndividual ,
+                                                            :MealType ;
+                                                   :description "Breakfast is the first meal of a day, most often eaten in the early morning before undertaking the day's work. Some believe it to be the most important meal of the day.The word breakfast literally refers to breaking the fasting period of the prior night" ,
+                                                                "Breakfast is the first meal of a day, most often eaten in the early morning before undertaking the day's work. Some believe it to be the most important meal of the day.The word breakfast literally refers to breaking the fasting period of the prior night"@en ;
+                                                   :name "Breakfast" ,
+                                                         "Breakfast"@en ;
+                                                   rdfs:label "Breakfast" ,
+                                                              "Breakfast"@en ;
+                                                   foaf:name "Breakfast" ,
+                                                             "Breakfast"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/brunch
+<http://openfridge.eu/ontology#MealType/brunch> rdf:type owl:NamedIndividual ,
+                                                         :MealType ;
+                                                :description "A meal normally had at around 11:00 that counts as both breakfast and lunch." ,
+                                                             "A meal normally had at around 11:00 that counts as both breakfast and lunch."@en ;
+                                                :name "Brunch" ,
+                                                      "Brunch"@en ;
+                                                rdfs:label "Brunch" ,
+                                                           "Brunch"@en ;
+                                                foaf:name "Brunch" ,
+                                                          "Brunch"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/dinner
+<http://openfridge.eu/ontology#MealType/dinner> rdf:type owl:NamedIndividual ,
+                                                         :MealType ;
+                                                :description "Dinner usually refers to a significant and important meal of the day, which can be the noon or the evening meal. The meaning as the evening meal, generally the largest of the day, is becoming a standard in many parts of the English-speaking world." ,
+                                                             "Dinner usually refers to a significant and important meal of the day, which can be the noon or the evening meal. The meaning as the evening meal, generally the largest of the day, is becoming a standard in many parts of the English-speaking world."@en ;
+                                                :name "Dinner" ,
+                                                      "Dinner"@en ;
+                                                rdfs:label "Dinner" ,
+                                                           "Dinner"@en ;
+                                                foaf:name "Dinner" ,
+                                                          "Dinner"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/elevenses
+<http://openfridge.eu/ontology#MealType/elevenses> rdf:type owl:NamedIndividual ,
+                                                            :MealType ;
+                                                   :description "A light snack in between breakfast and lunch." ,
+                                                                "A light snack in between breakfast and lunch."@en ;
+                                                   :name "Elevenses" ,
+                                                         "Elevenses"@en ;
+                                                   rdfs:label "Elevenses" ,
+                                                              "Elevenses"@en ;
+                                                   foaf:name "Elevenses" ,
+                                                             "Elevenses"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/lunch
+<http://openfridge.eu/ontology#MealType/lunch> rdf:type owl:NamedIndividual ,
+                                                        :MealType ;
+                                               :description "A light meal typically eaten at midday" ,
+                                                            "A light meal typically eaten at midday"@en ;
+                                               :name "Lunch" ,
+                                                     "Lunch"@en ;
+                                               rdfs:label "Lunch" ,
+                                                          "Lunch"@en ;
+                                               foaf:name "Lunch" ,
+                                                         "Lunch"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/second_breakfast
+<http://openfridge.eu/ontology#MealType/second_breakfast> rdf:type owl:NamedIndividual ,
+                                                                   :MealType ;
+                                                          :description "Eating a second meal after breakfast but before lunch." ,
+                                                                       "Eating a second meal after breakfast but before lunch."@en ;
+                                                          :name "Second breakfast" ,
+                                                                "Second breakfast"@en ;
+                                                          rdfs:label "Second breakfast" ,
+                                                                     "Second breakfast"@en ;
+                                                          foaf:name "Second breakfast" ,
+                                                                    "Second breakfast"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/snack
+<http://openfridge.eu/ontology#MealType/snack> rdf:type owl:NamedIndividual ,
+                                                        :MealType ;
+                                               :description "A snack is a small service of food and generally eaten between meals." ,
+                                                            "A snack is a small service of food and generally eaten between meals."@en ;
+                                               :name "Snack" ,
+                                                     "Snack"@en ;
+                                               rdfs:label "Snack" ,
+                                                          "Snack"@en ;
+                                               foaf:name "Snack" ,
+                                                         "Snack"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/supper
+<http://openfridge.eu/ontology#MealType/supper> rdf:type owl:NamedIndividual ,
+                                                         :MealType ;
+                                                :description "A light meal typically consumed at midday" ,
+                                                             "A light meal typically consumed at midday"@en ;
+                                                :name "Supper" ,
+                                                      "Supper"@en ;
+                                                rdfs:label "Supper" ,
+                                                           "Supper"@en ;
+                                                foaf:name "Supper" ,
+                                                          "Supper"@en .
+
+
+###  http://openfridge.eu/ontology#MealType/tea
+<http://openfridge.eu/ontology#MealType/tea> rdf:type owl:NamedIndividual ,
+                                                      :MealType ;
+                                             :description "A snack in between lunch and dinner" ,
+                                                          "A snack in between lunch and dinner"@en ;
+                                             :name "Tea" ,
+                                                   "Tea"@en ;
+                                             rdfs:label "Tea" ,
+                                                        "Tea"@en ;
+                                             foaf:name "Tea" ,
+                                                       "Tea"@en .
+
+
+#################################################################
+#    Rules
+#################################################################
+
+<urn:swrl:var#entry> rdf:type swrl:Variable .
+
+<urn:swrl:var#ingredient> rdf:type swrl:Variable .
+
+<urn:swrl:var#brand> rdf:type swrl:Variable .
+
+<urn:swrl:var#store> rdf:type swrl:Variable .
+
+<urn:swrl:var#recipe> rdf:type swrl:Variable .
+
+<urn:swrl:var#allergen> rdf:type swrl:Variable .
+
+<urn:swrl:var#category> rdf:type swrl:Variable .
+
+<urn:swrl:var#cat> rdf:type swrl:Variable .
+
+<urn:swrl:var#name> rdf:type swrl:Variable .
+
+<urn:swrl:var#x> rdf:type swrl:Variable .
+
+<urn:swrl:var#step> rdf:type swrl:Variable .
+
+<urn:swrl:var#req> rdf:type swrl:Variable .
+
+<urn:swrl:var#bool> rdf:type swrl:Variable .
+
+<urn:swrl:var#requiredIngredient> rdf:type swrl:Variable .
+
+<urn:swrl:var#originStore> rdf:type swrl:Variable .
+
+<urn:swrl:var#otherStore> rdf:type swrl:Variable .
+
+<urn:swrl:var#otherName> rdf:type swrl:Variable .
+
+<urn:swrl:var#originName> rdf:type swrl:Variable .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :isProductOfIngredient ;
+                           swrl:argument1 <urn:swrl:var#entry> ;
+                           swrl:argument2 <urn:swrl:var#ingredient>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate :Ingredient ;
+                                      swrl:argument1 <urn:swrl:var#ingredient>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :isProducedBy ;
+                                                 swrl:argument1 <urn:swrl:var#entry> ;
+                                                 swrl:argument2 <urn:swrl:var#brand>
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :isOfferedByBrand ;
+                           swrl:argument1 <urn:swrl:var#ingredient> ;
+                           swrl:argument2 <urn:swrl:var#brand>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :isProductOfIngredient ;
+                           swrl:argument1 <urn:swrl:var#entry> ;
+                           swrl:argument2 <urn:swrl:var#ingredient>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate :Ingredient ;
+                                      swrl:argument1 <urn:swrl:var#ingredient>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :offers ;
+                                                 swrl:argument1 <urn:swrl:var#store> ;
+                                                 swrl:argument2 <urn:swrl:var#entry>
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :isSoldIn ;
+                           swrl:argument1 <urn:swrl:var#ingredient> ;
+                           swrl:argument2 <urn:swrl:var#store>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Recipe ;
+                           swrl:argument1 <urn:swrl:var#recipe>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasStep ;
+                                      swrl:argument1 <urn:swrl:var#recipe> ;
+                                      swrl:argument2 <urn:swrl:var#step>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :requiresIngredient ;
+                                                 swrl:argument1 <urn:swrl:var#step> ;
+                                                 swrl:argument2 <urn:swrl:var#req>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate :isOptional ;
+                                                            swrl:argument1 <urn:swrl:var#step> ;
+                                                            swrl:argument2 <urn:swrl:var#bool>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                       swrl:builtin swrlb:equal ;
+                                                                       swrl:arguments [ rdf:type rdf:List ;
+                                                                                        rdf:first <urn:swrl:var#bool> ;
+                                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                                   rdf:first "true"^^xsd:boolean ;
+                                                                                                   rdf:rest rdf:nil
+                                                                                                 ]
+                                                                                      ]
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                  swrl:propertyPredicate :describesRequiredAmountOf ;
+                                                                                  swrl:argument1 <urn:swrl:var#req> ;
+                                                                                  swrl:argument2 <urn:swrl:var#ingredient>
+                                                                                ] ;
+                                                                      rdf:rest rdf:nil
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :canOptionallyContain ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#ingredient>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                           swrl:propertyPredicate :name ;
+                           swrl:argument1 <urn:swrl:var#category> ;
+                           swrl:argument2 <urn:swrl:var#cat>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                      swrl:builtin swrlb:equal ;
+                                      swrl:arguments [ rdf:type rdf:List ;
+                                                       rdf:first <urn:swrl:var#cat> ;
+                                                       rdf:rest [ rdf:type rdf:List ;
+                                                                  rdf:first "Meat" ;
+                                                                  rdf:rest rdf:nil
+                                                                ]
+                                                     ]
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :requiresIngredient ;
+                                                 swrl:argument1 <urn:swrl:var#step> ;
+                                                 swrl:argument2 <urn:swrl:var#requiredIngredient>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:ClassAtom ;
+                                                            swrl:classPredicate :Recipe ;
+                                                            swrl:argument1 <urn:swrl:var#recipe>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate :hasCategory ;
+                                                                       swrl:argument1 <urn:swrl:var#ingredient> ;
+                                                                       swrl:argument2 <urn:swrl:var#category>
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                  swrl:propertyPredicate :hasStep ;
+                                                                                  swrl:argument1 <urn:swrl:var#recipe> ;
+                                                                                  swrl:argument2 <urn:swrl:var#step>
+                                                                                ] ;
+                                                                      rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                 rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                             swrl:propertyPredicate :describesRequiredAmountOf ;
+                                                                                             swrl:argument1 <urn:swrl:var#requiredIngredient> ;
+                                                                                             swrl:argument2 <urn:swrl:var#ingredient>
+                                                                                           ] ;
+                                                                                 rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                            rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                                                                        swrl:propertyPredicate :isOptional ;
+                                                                                                        swrl:argument1 <urn:swrl:var#step> ;
+                                                                                                        swrl:argument2 <urn:swrl:var#bool>
+                                                                                                      ] ;
+                                                                                            rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                                       rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                                                                   swrl:builtin swrlb:equal ;
+                                                                                                                   swrl:arguments [ rdf:type rdf:List ;
+                                                                                                                                    rdf:first <urn:swrl:var#bool> ;
+                                                                                                                                    rdf:rest [ rdf:type rdf:List ;
+                                                                                                                                               rdf:first "false"^^xsd:boolean ;
+                                                                                                                                               rdf:rest rdf:nil
+                                                                                                                                             ]
+                                                                                                                                  ]
+                                                                                                                 ] ;
+                                                                                                       rdf:rest rdf:nil
+                                                                                                     ]
+                                                                                          ]
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                           swrl:propertyPredicate :isNonVegetarian ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 "true"^^xsd:boolean
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Recipe ;
+                           swrl:argument1 <urn:swrl:var#recipe>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasStep ;
+                                      swrl:argument1 <urn:swrl:var#recipe> ;
+                                      swrl:argument2 <urn:swrl:var#step>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                 swrl:propertyPredicate :isOptional ;
+                                                 swrl:argument1 <urn:swrl:var#step> ;
+                                                 swrl:argument2 <urn:swrl:var#bool>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:equal ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first <urn:swrl:var#bool> ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first "false"^^xsd:boolean ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate :requiresCookingUtensil ;
+                                                                       swrl:argument1 <urn:swrl:var#step> ;
+                                                                       swrl:argument2 <urn:swrl:var#x>
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :requires ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :requiresIngredient ;
+                           swrl:argument1 <urn:swrl:var#step> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate :Recipe ;
+                                      swrl:argument1 <urn:swrl:var#recipe>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :hasStep ;
+                                                 swrl:argument1 <urn:swrl:var#recipe> ;
+                                                 swrl:argument2 <urn:swrl:var#step>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate :isOptional ;
+                                                            swrl:argument1 <urn:swrl:var#step> ;
+                                                            swrl:argument2 <urn:swrl:var#bool>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                       swrl:builtin swrlb:equal ;
+                                                                       swrl:arguments [ rdf:type rdf:List ;
+                                                                                        rdf:first <urn:swrl:var#bool> ;
+                                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                                   rdf:first "false"^^xsd:boolean ;
+                                                                                                   rdf:rest rdf:nil
+                                                                                                 ]
+                                                                                      ]
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :requires ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Recipe ;
+                           swrl:argument1 <urn:swrl:var#recipe>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasStep ;
+                                      swrl:argument1 <urn:swrl:var#recipe> ;
+                                      swrl:argument2 <urn:swrl:var#step>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :usesCookingTechnique ;
+                                                 swrl:argument1 <urn:swrl:var#step> ;
+                                                 swrl:argument2 <urn:swrl:var#x>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate :isOptional ;
+                                                            swrl:argument1 <urn:swrl:var#step> ;
+                                                            swrl:argument2 <urn:swrl:var#bool>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                       swrl:builtin swrlb:equal ;
+                                                                       swrl:arguments [ rdf:type rdf:List ;
+                                                                                        rdf:first <urn:swrl:var#bool> ;
+                                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                                   rdf:first "false"^^xsd:boolean ;
+                                                                                                   rdf:rest rdf:nil
+                                                                                                 ]
+                                                                                      ]
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasRequiredCookingTechnique ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :canOptionallyContain ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#ingredient>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :containsAllergen ;
+                                      swrl:argument1 <urn:swrl:var#ingredient> ;
+                                      swrl:argument2 <urn:swrl:var#allergen>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate :Recipe ;
+                                                 swrl:argument1 <urn:swrl:var#recipe>
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :possiblyHasAllergen ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#allergen>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Recipe ;
+                           swrl:argument1 <urn:swrl:var#recipe>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                      swrl:builtin swrlb:equal ;
+                                      swrl:arguments [ rdf:type rdf:List ;
+                                                       rdf:first <urn:swrl:var#bool> ;
+                                                       rdf:rest [ rdf:type rdf:List ;
+                                                                  rdf:first "true"^^xsd:boolean ;
+                                                                  rdf:rest rdf:nil
+                                                                ]
+                                                     ]
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                 swrl:propertyPredicate :isNonVegetarian ;
+                                                 swrl:argument1 <urn:swrl:var#recipe> ;
+                                                 swrl:argument2 <urn:swrl:var#bool>
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                           swrl:propertyPredicate :isNonVegan ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 "true"^^xsd:boolean
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Step ;
+                           swrl:argument1 <urn:swrl:var#step>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasCategory ;
+                                      swrl:argument1 <urn:swrl:var#ingredient> ;
+                                      swrl:argument2 <urn:swrl:var#x>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :requiresIngredient ;
+                                                 swrl:argument1 <urn:swrl:var#step> ;
+                                                 swrl:argument2 <urn:swrl:var#req>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                            swrl:propertyPredicate :describesRequiredAmountOf ;
+                                                            swrl:argument1 <urn:swrl:var#req> ;
+                                                            swrl:argument2 <urn:swrl:var#ingredient>
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :canContainIngredientFromCategory ;
+                           swrl:argument1 <urn:swrl:var#step> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Step ;
+                           swrl:argument1 <urn:swrl:var#step>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasCategory ;
+                                      swrl:argument1 <urn:swrl:var#ingredient> ;
+                                      swrl:argument2 <urn:swrl:var#x>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                 swrl:propertyPredicate :isOptional ;
+                                                 swrl:argument1 <urn:swrl:var#step> ;
+                                                 swrl:argument2 <urn:swrl:var#bool>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:equal ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first <urn:swrl:var#bool> ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first "false"^^xsd:boolean ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate :requiresIngredient ;
+                                                                       swrl:argument1 <urn:swrl:var#step> ;
+                                                                       swrl:argument2 <urn:swrl:var#req>
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                  swrl:propertyPredicate :describesRequiredAmountOf ;
+                                                                                  swrl:argument1 <urn:swrl:var#req> ;
+                                                                                  swrl:argument2 <urn:swrl:var#ingredient>
+                                                                                ] ;
+                                                                      rdf:rest rdf:nil
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :containsIngredientFromCategory ;
+                           swrl:argument1 <urn:swrl:var#step> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Store ;
+                           swrl:argument1 <urn:swrl:var#originStore>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                      swrl:propertyPredicate :name ;
+                                      swrl:argument1 <urn:swrl:var#otherStore> ;
+                                      swrl:argument2 <urn:swrl:var#otherName>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate :Store ;
+                                                 swrl:argument1 <urn:swrl:var#otherStore>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate :name ;
+                                                            swrl:argument1 <urn:swrl:var#originStore> ;
+                                                            swrl:argument2 <urn:swrl:var#originName>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                       swrl:builtin swrlb:equal ;
+                                                                       swrl:arguments ( <urn:swrl:var#originName>
+                                                                                        <urn:swrl:var#otherName>
+                                                                                      )
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :otherLocationsOfChain ;
+                           swrl:argument1 <urn:swrl:var#originStore> ;
+                           swrl:argument2 <urn:swrl:var#otherStore>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :contains ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#ingredient>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :containsAllergen ;
+                                      swrl:argument1 <urn:swrl:var#ingredient> ;
+                                      swrl:argument2 <urn:swrl:var#allergen>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:ClassAtom ;
+                                                 swrl:classPredicate :Recipe ;
+                                                 swrl:argument1 <urn:swrl:var#recipe>
+                                               ] ;
+                                     rdf:rest rdf:nil
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :hasAllergen ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#allergen>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :containsIngredientFromCategory ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#category>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate :Recipe ;
+                                      swrl:argument1 <urn:swrl:var#recipe>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                 swrl:propertyPredicate :name ;
+                                                 swrl:argument1 <urn:swrl:var#category> ;
+                                                 swrl:argument2 <urn:swrl:var#cat>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:equal ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first <urn:swrl:var#cat> ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first "Dairy" ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                           swrl:propertyPredicate :isNonVegan ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 "true"^^xsd:boolean
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :containsIngredientFromCategory ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#category>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:ClassAtom ;
+                                      swrl:classPredicate :Recipe ;
+                                      swrl:argument1 <urn:swrl:var#recipe>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                 swrl:propertyPredicate :name ;
+                                                 swrl:argument1 <urn:swrl:var#category> ;
+                                                 swrl:argument2 <urn:swrl:var#name>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                            swrl:builtin swrlb:equal ;
+                                                            swrl:arguments [ rdf:type rdf:List ;
+                                                                             rdf:first <urn:swrl:var#name> ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first "Fish" ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                          ] ;
+                                                rdf:rest rdf:nil
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                           swrl:propertyPredicate :isNonVegan ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 "true"^^xsd:boolean
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Recipe ;
+                           swrl:argument1 <urn:swrl:var#recipe>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasCategory ;
+                                      swrl:argument1 <urn:swrl:var#ingredient> ;
+                                      swrl:argument2 <urn:swrl:var#x>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :hasStep ;
+                                                 swrl:argument1 <urn:swrl:var#recipe> ;
+                                                 swrl:argument2 <urn:swrl:var#step>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                            swrl:propertyPredicate :requiresIngredient ;
+                                                            swrl:argument1 <urn:swrl:var#step> ;
+                                                            swrl:argument2 <urn:swrl:var#req>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                       swrl:propertyPredicate :describesRequiredAmountOf ;
+                                                                       swrl:argument1 <urn:swrl:var#req> ;
+                                                                       swrl:argument2 <urn:swrl:var#ingredient>
+                                                                     ] ;
+                                                           rdf:rest rdf:nil
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :canContainIngredientFromCategory ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Recipe ;
+                           swrl:argument1 <urn:swrl:var#recipe>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasCategory ;
+                                      swrl:argument1 <urn:swrl:var#ingredient> ;
+                                      swrl:argument2 <urn:swrl:var#x>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :hasStep ;
+                                                 swrl:argument1 <urn:swrl:var#recipe> ;
+                                                 swrl:argument2 <urn:swrl:var#step>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate :isOptional ;
+                                                            swrl:argument1 <urn:swrl:var#step> ;
+                                                            swrl:argument2 <urn:swrl:var#bool>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                       swrl:builtin swrlb:equal ;
+                                                                       swrl:arguments [ rdf:type rdf:List ;
+                                                                                        rdf:first <urn:swrl:var#bool> ;
+                                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                                   rdf:first "false"^^xsd:boolean ;
+                                                                                                   rdf:rest rdf:nil
+                                                                                                 ]
+                                                                                      ]
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                  swrl:propertyPredicate :requiresIngredient ;
+                                                                                  swrl:argument1 <urn:swrl:var#step> ;
+                                                                                  swrl:argument2 <urn:swrl:var#req>
+                                                                                ] ;
+                                                                      rdf:rest [ rdf:type swrl:AtomList ;
+                                                                                 rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                             swrl:propertyPredicate :describesRequiredAmountOf ;
+                                                                                             swrl:argument1 <urn:swrl:var#req> ;
+                                                                                             swrl:argument2 <urn:swrl:var#ingredient>
+                                                                                           ] ;
+                                                                                 rdf:rest rdf:nil
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :containsIngredientFromCategory ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#x>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+[ rdf:type swrl:Imp ;
+   swrl:body [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:ClassAtom ;
+                           swrl:classPredicate :Recipe ;
+                           swrl:argument1 <urn:swrl:var#recipe>
+                         ] ;
+               rdf:rest [ rdf:type swrl:AtomList ;
+                          rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                      swrl:propertyPredicate :hasStep ;
+                                      swrl:argument1 <urn:swrl:var#recipe> ;
+                                      swrl:argument2 <urn:swrl:var#step>
+                                    ] ;
+                          rdf:rest [ rdf:type swrl:AtomList ;
+                                     rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                 swrl:propertyPredicate :requiresIngredient ;
+                                                 swrl:argument1 <urn:swrl:var#step> ;
+                                                 swrl:argument2 <urn:swrl:var#req>
+                                               ] ;
+                                     rdf:rest [ rdf:type swrl:AtomList ;
+                                                rdf:first [ rdf:type swrl:DatavaluedPropertyAtom ;
+                                                            swrl:propertyPredicate :isOptional ;
+                                                            swrl:argument1 <urn:swrl:var#step> ;
+                                                            swrl:argument2 <urn:swrl:var#bool>
+                                                          ] ;
+                                                rdf:rest [ rdf:type swrl:AtomList ;
+                                                           rdf:first [ rdf:type swrl:BuiltinAtom ;
+                                                                       swrl:builtin swrlb:equal ;
+                                                                       swrl:arguments [ rdf:type rdf:List ;
+                                                                                        rdf:first <urn:swrl:var#bool> ;
+                                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                                   rdf:first "false"^^xsd:boolean ;
+                                                                                                   rdf:rest rdf:nil
+                                                                                                 ]
+                                                                                      ]
+                                                                     ] ;
+                                                           rdf:rest [ rdf:type swrl:AtomList ;
+                                                                      rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                                                                                  swrl:propertyPredicate :describesRequiredAmountOf ;
+                                                                                  swrl:argument1 <urn:swrl:var#req> ;
+                                                                                  swrl:argument2 <urn:swrl:var#ingredient>
+                                                                                ] ;
+                                                                      rdf:rest rdf:nil
+                                                                    ]
+                                                         ]
+                                              ]
+                                   ]
+                        ]
+             ] ;
+   swrl:head [ rdf:type swrl:AtomList ;
+               rdf:first [ rdf:type swrl:IndividualPropertyAtom ;
+                           swrl:propertyPredicate :contains ;
+                           swrl:argument1 <urn:swrl:var#recipe> ;
+                           swrl:argument2 <urn:swrl:var#ingredient>
+                         ] ;
+               rdf:rest rdf:nil
+             ]
+ ] .
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
