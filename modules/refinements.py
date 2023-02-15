@@ -887,8 +887,8 @@ class Refinements:
                    PREFIX schema: <http://schema.org/> 
                        SELECT ?domain ?comment 
                         WHERE {
-                          <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain;
-                               rdfs:comment ?comment . 
+                          <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
+                          OPTIONAL {?domain  rdfs:comment ?comment .} 
                         }   
                    """% property_IRI
         qres = FetchVocabularies().query_local_graph(property_IRI, query)
