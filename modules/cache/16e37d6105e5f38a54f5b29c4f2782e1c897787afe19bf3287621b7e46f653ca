@@ -1,0 +1,1113 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.example.com/awesome_recipes"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.example.com/awesome_recipes">
+    <Prefix name="" IRI="http://www.example.com/awesome_recipes"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#Allergen"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AmountUnit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Category"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Ingredient"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#InstructionStep"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Recipe"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Vegetarian"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WithFish"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WithMeat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WithPoultry"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#alternativeOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#belongsTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#contains"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAuthor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#of"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#partOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#provides"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#recipeContainsAllergen"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#with"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#advanced"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#amount"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#calorieDensity"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#calories"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#carbs"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#duration"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#fats"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#image"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#proteins"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#servings"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#stepNr"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#totalCalories"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#totalCarbs"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#totalFats"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#totalProteis"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#unit"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/name"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#amountUnit_1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#amountUnit_2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#amountUnit_3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#dairy"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#fish"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#fruit"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#gluten"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ingredient_1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ingredient_2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ingredient_3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_4"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_5"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_6"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_7"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instructionStep_8"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#meat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#nuts"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#poultry"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#recipe_1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#recipe_2"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#recipe_3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#recipe_4"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#Vegetarian"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Recipe"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#WithFish"/>
+                    <Class IRI="#WithMeat"/>
+                    <Class IRI="#WithPoultry"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#WithFish"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+            <NamedIndividual IRI="#fish"/>
+        </ObjectHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#WithMeat"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+            <NamedIndividual IRI="#meat"/>
+        </ObjectHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#WithPoultry"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+            <NamedIndividual IRI="#poultry"/>
+        </ObjectHasValue>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#Vegetarian"/>
+        <Class IRI="#Recipe"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WithFish"/>
+        <Class IRI="#Recipe"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WithMeat"/>
+        <Class IRI="#Recipe"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WithPoultry"/>
+        <Class IRI="#Recipe"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Allergen"/>
+        <Class IRI="#AmountUnit"/>
+        <Class IRI="#Category"/>
+        <Class IRI="#Ingredient"/>
+        <Class IRI="#InstructionStep"/>
+        <Class IRI="#Recipe"/>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#AmountUnit"/>
+        <NamedIndividual IRI="#amountUnit_1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#AmountUnit"/>
+        <NamedIndividual IRI="#amountUnit_2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#AmountUnit"/>
+        <NamedIndividual IRI="#amountUnit_3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Category"/>
+        <NamedIndividual IRI="#dairy"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Category"/>
+        <NamedIndividual IRI="#fish"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Category"/>
+        <NamedIndividual IRI="#fruit"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Allergen"/>
+        <NamedIndividual IRI="#gluten"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Ingredient"/>
+        <NamedIndividual IRI="#ingredient_1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Ingredient"/>
+        <NamedIndividual IRI="#ingredient_2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Ingredient"/>
+        <NamedIndividual IRI="#ingredient_3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_4"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_5"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_6"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_7"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#InstructionStep"/>
+        <NamedIndividual IRI="#instructionStep_8"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Category"/>
+        <NamedIndividual IRI="#meat"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Category"/>
+        <NamedIndividual IRI="#nuts"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Category"/>
+        <NamedIndividual IRI="#poultry"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Recipe"/>
+        <NamedIndividual IRI="#recipe_1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Recipe"/>
+        <NamedIndividual IRI="#recipe_2"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Recipe"/>
+        <NamedIndividual IRI="#recipe_3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Recipe"/>
+        <NamedIndividual IRI="#recipe_4"/>
+    </ClassAssertion>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_1"/>
+        <NamedIndividual IRI="#ingredient_2"/>
+        <NamedIndividual IRI="#ingredient_3"/>
+        <NamedIndividual IRI="#recipe_1"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#recipe_3"/>
+        <NamedIndividual IRI="#recipe_4"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_1"/>
+        <NamedIndividual IRI="#recipe_1"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_1"/>
+        <NamedIndividual IRI="#recipe_2"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_1"/>
+        <NamedIndividual IRI="#recipe_3"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_2"/>
+        <NamedIndividual IRI="#recipe_1"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_2"/>
+        <NamedIndividual IRI="#recipe_2"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_2"/>
+        <NamedIndividual IRI="#recipe_3"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_3"/>
+        <NamedIndividual IRI="#recipe_1"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_3"/>
+        <NamedIndividual IRI="#recipe_2"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#ingredient_3"/>
+        <NamedIndividual IRI="#recipe_3"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#instructionStep_1"/>
+        <NamedIndividual IRI="#instructionStep_2"/>
+        <NamedIndividual IRI="#instructionStep_3"/>
+        <NamedIndividual IRI="#instructionStep_4"/>
+        <NamedIndividual IRI="#instructionStep_5"/>
+        <NamedIndividual IRI="#instructionStep_6"/>
+        <NamedIndividual IRI="#instructionStep_7"/>
+        <NamedIndividual IRI="#instructionStep_8"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#recipe_1"/>
+        <NamedIndividual IRI="#recipe_2"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#recipe_1"/>
+        <NamedIndividual IRI="#recipe_3"/>
+    </DifferentIndividuals>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#recipe_3"/>
+    </DifferentIndividuals>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#of"/>
+        <NamedIndividual IRI="#amountUnit_1"/>
+        <NamedIndividual IRI="#ingredient_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#of"/>
+        <NamedIndividual IRI="#amountUnit_2"/>
+        <NamedIndividual IRI="#ingredient_2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_1"/>
+        <NamedIndividual IRI="#instructionStep_1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_1"/>
+        <NamedIndividual IRI="#instructionStep_2"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_1"/>
+        <NamedIndividual IRI="#meat"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#instructionStep_3"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#instructionStep_4"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#instructionStep_5"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#instructionStep_6"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_3"/>
+        <NamedIndividual IRI="#instructionStep_7"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#provides"/>
+        <NamedIndividual IRI="#recipe_3"/>
+        <NamedIndividual IRI="#instructionStep_8"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_3"/>
+        <NamedIndividual IRI="#nuts"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_3"/>
+        <NamedIndividual IRI="#poultry"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_4"/>
+        <NamedIndividual IRI="#dairy"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_4"/>
+        <NamedIndividual IRI="#fish"/>
+    </ObjectPropertyAssertion>
+    <NegativeObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#fish"/>
+    </NegativeObjectPropertyAssertion>
+    <NegativeObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#meat"/>
+    </NegativeObjectPropertyAssertion>
+    <NegativeObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <NamedIndividual IRI="#poultry"/>
+    </NegativeObjectPropertyAssertion>
+    <NegativeObjectPropertyAssertion>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <NamedIndividual IRI="#recipe_4"/>
+        <NamedIndividual IRI="#meat"/>
+    </NegativeObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#amount"/>
+        <NamedIndividual IRI="#amountUnit_1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">300.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#unit"/>
+        <NamedIndividual IRI="#amountUnit_1"/>
+        <Literal>grams</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#amount"/>
+        <NamedIndividual IRI="#amountUnit_2"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">250.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#unit"/>
+        <NamedIndividual IRI="#amountUnit_2"/>
+        <Literal>grams</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#totalCalories"/>
+        <NamedIndividual IRI="#recipe_1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">150.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#totalCalories"/>
+        <NamedIndividual IRI="#recipe_2"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">400.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#totalCalories"/>
+        <NamedIndividual IRI="#recipe_3"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#float">1000.0</Literal>
+    </DataPropertyAssertion>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#alternativeOf"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#partOf"/>
+    </TransitiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#alternativeOf"/>
+        <Class IRI="#Ingredient"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#belongsTo"/>
+        <Class IRI="#Ingredient"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#contains"/>
+        <Class IRI="#Ingredient"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAuthor"/>
+        <Class IRI="#Recipe"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#of"/>
+        <Class IRI="#AmountUnit"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#partOf"/>
+        <Class IRI="#Ingredient"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#provides"/>
+        <Class IRI="#Recipe"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#recipeContainsAllergen"/>
+        <Class IRI="#Recipe"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <Class IRI="#Recipe"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#with"/>
+        <Class IRI="#Recipe"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#alternativeOf"/>
+        <Class IRI="#Ingredient"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#belongsTo"/>
+        <Class IRI="#Category"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#contains"/>
+        <Class IRI="#Allergen"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasAuthor"/>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#of"/>
+        <Class IRI="#Ingredient"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#partOf"/>
+        <Class IRI="#Ingredient"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#provides"/>
+        <Class IRI="#InstructionStep"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#recipeContainsAllergen"/>
+        <Class IRI="#Allergen"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+        <Class IRI="#Category"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#with"/>
+        <Class IRI="#AmountUnit"/>
+    </ObjectPropertyRange>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#with"/>
+            <ObjectProperty IRI="#of"/>
+            <ObjectProperty IRI="#belongsTo"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#recipeContainsIngredientOfCategory"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#with"/>
+            <ObjectProperty IRI="#of"/>
+            <ObjectProperty IRI="#contains"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#recipeContainsAllergen"/>
+    </SubObjectPropertyOf>
+    <FunctionalDataProperty>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/name"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#advanced"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#amount"/>
+        <Class IRI="#AmountUnit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#calorieDensity"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#calories"/>
+        <Class IRI="#Ingredient"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#carbs"/>
+        <Class IRI="#Ingredient"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#duration"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#fats"/>
+        <Class IRI="#Ingredient"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#image"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#proteins"/>
+        <Class IRI="#Ingredient"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#servings"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#stepNr"/>
+        <Class IRI="#InstructionStep"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#totalCalories"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#totalCarbs"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#totalFats"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#totalProteis"/>
+        <Class IRI="#Recipe"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#unit"/>
+        <Class IRI="#AmountUnit"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/name"/>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#advanced"/>
+        <Datatype abbreviatedIRI="xsd:boolean"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#amount"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#calorieDensity"/>
+        <Datatype abbreviatedIRI="rdfs:Literal"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#calories"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#carbs"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#duration"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#fats"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#image"/>
+        <Datatype abbreviatedIRI="xsd:anyURI"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#proteins"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#servings"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#stepNr"/>
+        <Datatype abbreviatedIRI="xsd:int"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#totalCalories"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#totalCarbs"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#totalFats"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#totalProteis"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#unit"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <HasKey>
+        <Class IRI="#InstructionStep"/>
+        <DataProperty IRI="#stepNr"/>
+    </HasKey>
+    <HasKey>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/name"/>
+    </HasKey>
+    <DLSafeRule>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Recipe"/>
+                <Variable IRI="urn:swrl:var#r"/>
+            </ClassAtom>
+            <ClassAtom>
+                <ObjectMinCardinality cardinality="4">
+                    <ObjectProperty IRI="#provides"/>
+                </ObjectMinCardinality>
+                <Variable IRI="urn:swrl:var#r"/>
+            </ClassAtom>
+        </Body>
+        <Head>
+            <DataPropertyAtom>
+                <DataProperty IRI="#advanced"/>
+                <Variable IRI="urn:swrl:var#r"/>
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+            </DataPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Recipe"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+            </ClassAtom>
+            <BuiltInAtom IRI="http://www.w3.org/2003/11/swrlb#greaterThan">
+                <Variable IRI="urn:swrl:var#totalCalories"/>
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">200</Literal>
+            </BuiltInAtom>
+            <BuiltInAtom IRI="http://www.w3.org/2003/11/swrlb#lessThanOrEqual">
+                <Variable IRI="urn:swrl:var#totalCalories"/>
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">600</Literal>
+            </BuiltInAtom>
+            <DataPropertyAtom>
+                <DataProperty IRI="#totalCalories"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+                <Variable IRI="urn:swrl:var#totalCalories"/>
+            </DataPropertyAtom>
+        </Body>
+        <Head>
+            <DataPropertyAtom>
+                <DataProperty IRI="#calorieDensity"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+                <Literal xml:lang="en">medium</Literal>
+            </DataPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Recipe"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+            </ClassAtom>
+            <BuiltInAtom IRI="http://www.w3.org/2003/11/swrlb#greaterThan">
+                <Variable IRI="urn:swrl:var#totalCalories"/>
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">600</Literal>
+            </BuiltInAtom>
+            <DataPropertyAtom>
+                <DataProperty IRI="#totalCalories"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+                <Variable IRI="urn:swrl:var#totalCalories"/>
+            </DataPropertyAtom>
+        </Body>
+        <Head>
+            <DataPropertyAtom>
+                <DataProperty IRI="#calorieDensity"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+                <Literal xml:lang="en">high</Literal>
+            </DataPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Recipe"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+            </ClassAtom>
+            <BuiltInAtom IRI="http://www.w3.org/2003/11/swrlb#lessThanOrEqual">
+                <Variable IRI="urn:swrl:var#totalCalories"/>
+                <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">200</Literal>
+            </BuiltInAtom>
+            <DataPropertyAtom>
+                <DataProperty IRI="#totalCalories"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+                <Variable IRI="urn:swrl:var#totalCalories"/>
+            </DataPropertyAtom>
+        </Body>
+        <Head>
+            <DataPropertyAtom>
+                <DataProperty IRI="#calorieDensity"/>
+                <Variable IRI="urn:swrl:var#recipe"/>
+                <Literal xml:lang="en">low</Literal>
+            </DataPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Allergen</IRI>
+        <Literal xml:lang="en">Allergen: we define it as a substance of an ingredient to which someone could be allergic or intolerant to.
+Example: Lactose, fructose and gluten - Someone can be intolerant or allergic to these substances</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#AmountUnit</IRI>
+        <Literal xml:lang="en">AmountUnit: Intermediate class used to model the concept of the relation between a Recipe and Ingredient. This relation has two dataproperties amount and unit with which the Ingredient is used in the Recipe.
+Example: Lasagne (Recipe) needs 500 (amount) grams (unit) of minced meat (Ingredient).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Category</IRI>
+        <Literal xml:lang="en">Category: a collection of Ingredients. Example: peanuts (Ingredient) belong to the Category nuts</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Ingredient</IRI>
+        <Literal xml:lang="en">Ingredient</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#InstructionStep</IRI>
+        <Literal xml:lang="en">Instruction step of a Recipe - It&apos;s the descirption of a single step in order to prepare the Recipe also containing the number of the step.
+Example: &quot;Boil the water&quot; is the description and is the first step (stepNr) of preparing Spaghetti Bolognese (Recipe).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Recipe</IRI>
+        <Literal xml:lang="en">Recipe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Vegetarian</IRI>
+        <Literal xml:lang="en">Vegetarian recipe: subclass of the class Recipe that defines if a recipe does not contain ingledients that belong to the categories &quot;meat&quot;, &quot;fish&quot; and &quot;poeltry&quot;. It is therefore equivalent to &quot;Recipe and (not (WithMeat or WithFish or WithPoultry))&quot;.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#WithFish</IRI>
+        <Literal xml:lang="en">Recipe with fish: subclass of the class Recipe that defines if a recipe contains ingledients that belong to the category &quot;fish&quot;.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#WithMeat</IRI>
+        <Literal xml:lang="en">Recipe with meat: subclass of the class Recipe that defines if a recipe contains ingledients that belong to the category &quot;meat&quot;.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#WithPoultry</IRI>
+        <Literal xml:lang="en">Recipe with poultry: subclass of the class Recipe that defines if a recipe contains ingledients that belong to the category &quot;poultry&quot;.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#advanced</IRI>
+        <Literal xml:lang="en">Advanced recipe: it defines if a recipe is advanced by checkingthe number of instruction steps that it provides. Its value established through a rule.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#alternativeOf</IRI>
+        <Literal xml:lang="en">Alternative of: ObjectProperty which models the relation between Ingredients. It defines which Ingredient could be used as an alternative of another Ingredient in a Recipe. alternativeOf is transitive.
+Example: Soy milk is an alternative of (cow) milk.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#amount</IRI>
+        <Literal xml:lang="en">Amount of ingredient in a recipe.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#belongsTo</IRI>
+        <Literal xml:lang="en">Belongs to: ObjectProperty which models the relation that defines to which Category an Ingredient belongs to.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#calorieDensity</IRI>
+        <Literal>Calorie density: it describes if a recipe is a &quot;low&quot;, &quot;medium&quot; or &quot;high&quot; calorie recipe. The calories are intended to be per serving.
+&lt;= 200 : low
+200 &lt;= 600 : medium
+&gt; 600 : high
+The value of this data property is defined through a rule.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#calories</IRI>
+        <Literal xml:lang="en">Calories: defined as how many calories are in 100 grams of the Ingredient</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#carbs</IRI>
+        <Literal xml:lang="en">Carbohydrates: amount of grams of carbohydrates in 100 grams of an Ingredient</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#contains</IRI>
+        <Literal xml:lang="en">Contains: ObjectProperty which models the relation that defines if an Ingredient contains an Allergen.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#duration</IRI>
+        <Literal xml:lang="en">Duration: The amount of minutes it is going to take to prepare the Recipe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#fats</IRI>
+        <Literal xml:lang="en">Fats: amount of grams of fats in 100 grams of an Ingredient</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasAuthor</IRI>
+        <Literal xml:lang="en">Has author: ObjectProperty which models the relation between a Recipe and a foaf:Person. The foaf:Person will be the author of the Recipe.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#image</IRI>
+        <Literal xml:lang="en">Image: The URI which leads to the image of a recipe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#of</IRI>
+        <Literal xml:lang="en">Of: ObjectProperty which was added together with the ObjectProperty &quot;with&quot; in order to model the relation between a Recipe and Ingredient using AmountUnit. Of models the relation between AmountUnit and Ingredient.
+Example: 500 grams (AmountUnit) of minced meat (Ingredient)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#partOf</IRI>
+        <Literal xml:lang="en">Part of: ObjectProperty which models the relation between two Ingredients. An Ingredient can be made out of other Ingredients. This ObjectProperty is transitive.
+Example: Milk (Ingredient) is a part of chocolate (Ingredient)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#proteins</IRI>
+        <Literal xml:lang="en">Proteins: amount of grams of proteins in 100 grams of an Ingredient</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#provides</IRI>
+        <Literal xml:lang="en">Provides: ObjectProperty which models the relation between a Recipe and an InstructionStep.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#recipeContainsAllergen</IRI>
+        <Literal xml:lang="en">Recipe contains Allergen: ObjectProperty which models the relation between Recipe and Allergen. To model this in the ontology we added the intermediate class AmountUnit. This relation uses chaining to infer if a Recipe contains an Allergen. It chains a Recipe with AmountUnit of Ingredient which contains an Allergen.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#recipeContainsIngredientOfCategory</IRI>
+        <Literal xml:lang="en">Recipe contains Ingredient of Category: ObjectProperty which models the relation between Recipe and Category. To model this in the ontology we added the intermediate class AmountUnit. This relation uses chaining to infer if an Ingredient in a Recipe belongs to a certain Category. It chains a Recipe with AmountUnit of Ingredient which belongs to a Category.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#servings</IRI>
+        <Literal xml:lang="en">Servings: The amount of people who are going to be able of the Recipe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#stepNr</IRI>
+        <Literal xml:lang="en">Step number: The number of the instruction step of a Recipe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#totalCalories</IRI>
+        <Literal>The total amount of calories per serving in a Recipe.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#totalCarbs</IRI>
+        <Literal xml:lang="en">The total amount of carbohydrates per serving in a Recipe.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#totalFats</IRI>
+        <Literal xml:lang="en">The total amount of fats per serving in a Recipe.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#totalProteis</IRI>
+        <Literal xml:lang="en">The total amount of proteins per serving in a Recipe.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#unit</IRI>
+        <Literal xml:lang="en">Unit of measure of an ingredient. For example spoons, liters, grams...</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#with</IRI>
+        <Literal xml:lang="en">With: ObjectProperty which was added together with the ObjectProperty &quot;of&quot; in order to model the relation between a Recipe and Ingredient using AmountUnit.
+With models the relation between Recipe and AmountUnit.
+Example: Lasagne (Recipe) with 500 grams (AmountUnit)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://xmlns.com/foaf/0.1/Person</IRI>
+        <Literal xml:lang="en">Person: in this ontology equivalent to the Author of a Recipe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>http://xmlns.com/foaf/0.1/name</IRI>
+        <Literal xml:lang="en">Name: the name of a foaf:Person</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

@@ -1,0 +1,631 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix recipe: <http://www.example.com/awesome_recipes#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/spec/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#Authors>
+	a rr:TriplesMap ; 
+	rr:logicalTable [ rr:tableName "Authors" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Authors#{name}" ;
+		rr:class foaf:Person
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate foaf:name ;
+		rr:objectMap [ 
+			rr:column "name" ;
+			rr:datatype xsd:string
+		] 
+	] ;
+.
+
+
+<#InstructionSteps>
+	a rr:TriplesMap;
+	rr:logicalTable [ rr:tableName "Instructionsteps" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/InstructionSteps#{recipeAuthor}&{recipeName}&{stepNr}" ;
+		rr:class recipe:InstructionStep
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label	;
+		rr:objectMap [ 
+			rr:column "description" ;
+			rr:language "en"
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:stepNr ;
+		rr:objectMap [ 
+			rr:column "stepNr" ;
+			rr:datatype xsd:int
+		]
+	] ;
+.
+
+<#Categories>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:tableName "Categories" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Categories#{name}" ;
+		rr:class recipe:Category
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "name" ;
+			rr:language "en"
+		] 
+	] ;
+.
+
+<#Allergens>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:tableName "Allergens" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Allergens#{name}" ;
+		rr:class recipe:Allergen
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "name" ;
+			rr:language "en"
+		] 
+	] ;
+.
+
+<#Ingredients>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:tableName "Ingredients" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Ingredients#{name}" ;
+		rr:class recipe:Ingredient
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "name" ;
+			rr:language "en"
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:calories ;
+		rr:objectMap [ 
+			rr:column "calories" ;
+			rr:datatype xsd:float
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:carbs ;
+		rr:objectMap [ 
+			rr:column "carbs" ;
+			rr:datatype xsd:float
+		] 
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:fats ;
+		rr:objectMap [ 
+			rr:column "fats" ;
+			rr:datatype xsd:float
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:proteins ;
+		rr:objectMap [
+			rr:column "proteins" ;
+			rr:datatype xsd:float
+		]
+	] ;
+.
+
+<#Alternatives>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Ingredients.name, ai.alternative, ai.ingredient
+		FROM Ingredients JOIN AlternativeIngredient ai ON (ai.ingredient = Ingredients.name) """ ];
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Ingredients#{name}" ;
+		rr:class recipe:Ingredient
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:alternativeOf ;
+		rr:objectMap [ 
+			rr:parentTriplesMap <#Ingredients> ;
+			rr:joinCondition [
+				rr:child "alternative" ;
+				rr:parent "name"
+			] ;
+		] ;
+	] ;
+.
+
+<#SubPartsOf>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Ingredients.name, ssi.superIngredient, ssi.subIngredient
+		FROM Ingredients JOIN SubAndSuperIngredients ssi ON (ssi.superIngredient = Ingredients.name) """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Ingredients#{name}" ;
+		rr:class recipe:Ingredient
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:partOf ;
+		rr:objectMap [ 
+			rr:parentTriplesMap <#Ingredients> ;
+			rr:joinCondition [
+				rr:child "subIngredient" ;
+				rr:parent "name"
+			] ;
+		] ;
+	] ;
+.
+
+<#IngredientsInCategories>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Ingredients.name, coi.categorie, coi.ingredient
+		FROM Ingredients JOIN CategorieOfIngredients coi ON (Ingredients.name = coi.ingredient) """  ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Ingredients#{name}" ;
+		rr:class recipe:Ingredient
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:belongsTo ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Categories> ;
+			rr:joinCondition [
+				rr:child "categorie" ;
+				rr:parent "name"
+			] ;
+		] ;
+	] ;
+.
+
+<#AllergensInIngredients>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Ingredients.name, aii.ingredient, aii.allergen
+		FROM Ingredients JOIN AllergensInIngredients aii ON (Ingredients.name = aii.ingredient) """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Ingredients#{name}" ;
+		rr:class recipe:Ingredient
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:contains ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Allergens> ;
+			rr:joinCondition [
+				rr:child "allergen" ;
+				rr:parent "name"
+			] ;
+		] ;
+	] ;
+.
+
+<#AmountUnits>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Ingredients.name, ior.recipe, ior.recipeAuthor, ior.amount, ior.unit, ior.ingredient, SHA2(concat(ior.ingredient, ior.recipe, ior.recipeAuthor),256) as hash
+			FROM Ingredients JOIN IngredientsOfRecipes ior ON (Ingredients.name = ior.ingredient)""" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/{hash}" ;
+		rr:class recipe:AmountUnit
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:amount ;
+		rr:objectMap [ 
+			rr:column "amount" ;
+			rr:datatype xsd:float
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:unit ;
+		rr:objectMap [ 
+			rr:column "unit" ;
+			rr:datatype xsd:string
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:of ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Ingredients> ;
+			rr:joinCondition [
+				rr:child "ingredient";
+				rr:parent "name" 
+			] ;
+		] ;
+	] ;
+.
+
+<#Recipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:tableName "Recipes" ] ;
+	rr:subjectMap [ 
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{name}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "name" ;
+			rr:language "en"
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:duration ;
+		rr:objectMap [ 
+			rr:column "duration" ;
+			rr:datatype xsd:int
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:servings ;
+		rr:objectMap [ 
+			rr:column "servings" ;
+			rr:datatype xsd:int
+		]
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:image ;
+		rr:objectMap [
+			rr:column "image" ;
+			rr:datatype xsd:anyURI;
+		];
+	];
+.
+
+<#AuthorsOfRecipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT r.name as recipename, r.author, Authors.name
+			FROM Recipes r JOIN Authors ON (r.author = Authors.name) """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{recipename}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:hasAuthor ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Authors> ;
+			rr:joinCondition [
+				rr:child "author";
+				rr:parent "name" 
+			] ;
+		] ;
+	] ;
+.
+<#AmountUnitsOfRecipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT r.name, r.author, ior.recipe, ior.recipeAuthor
+			FROM Recipes r JOIN IngredientsOfRecipes ior ON (r.name = ior.recipe AND r.author = ior.recipeAuthor) """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{name}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:with ;
+		rr:objectMap [
+			rr:parentTriplesMap	<#AmountUnits> ;
+			rr:joinCondition [
+				rr:child "author" ;
+				rr:parent "recipeAuthor"
+			] ;
+			rr:joinCondition [
+				rr:child "name" ;
+				rr:parent "recipe"
+			] ;
+		] ;
+	] ;
+.
+<#InstructionStepsInRecipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT r.name, r.author, iss.recipeName, iss.recipeAuthor
+			FROM Recipes r JOIN InstructionSteps iss ON (r.name = iss.recipeName AND r.author = iss.recipeAuthor) """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{name}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:provides ;
+		rr:objectMap [
+			rr:parentTriplesMap <#InstructionSteps> ;
+			rr:joinCondition [
+				rr:child "author" ;
+				rr:parent "recipeAuthor"
+			] ;
+			rr:joinCondition [
+				rr:child "name" ;
+				rr:parent "recipeName"
+			] ;
+		] ;
+	] ;
+.
+<#FrenchRecipeTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Recipes.name, Recipes.author, Translations.text, Translations.language, Translations.translation
+		FROM Recipes JOIN Translations ON (Recipes.name = Translations.text)
+		WHERE Translations.language = 'fr' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{name}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "fr" 
+		] ;
+	] ;
+.
+<#FrenchIngredientTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Ingredients.name, Translations.text, Translations.language, Translations.translation
+		FROM Ingredients JOIN Translations ON (Ingredients.name = Translations.text)
+		WHERE Translations.language = 'fr' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Ingredients#{name}" ;
+		rr:class recipe:Ingredient
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "fr" 
+		] ;
+	] ;
+.
+<#FrenchCategoriesTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Categories.name, Translations.text, Translations.language, Translations.translation
+		FROM Categories JOIN Translations ON (Categories.name = Translations.text)
+		WHERE Translations.language = 'fr' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Categories#{name}" ;
+		rr:class recipe:Category
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "fr" 
+		] ;
+	] ;
+.
+<#FrenchAllergenTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Allergens.name, Translations.text, Translations.language, Translations.translation
+		FROM Allergens JOIN Translations ON (Allergens.name = Translations.text)
+		WHERE Translations.language = 'fr' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Allergens#{name}" ;
+		rr:class recipe:Allergen
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "fr" 
+		] ;
+	] ;
+.
+<#FrenchInstructionStepTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT InstructionSteps.description, InstructionSteps.recipeName, InstructionSteps.recipeAuthor, InstructionSteps.stepNr, Translations.text, Translations.language, Translations.translation
+		FROM InstructionSteps JOIN Translations ON (InstructionSteps.description = Translations.text)
+		WHERE Translations.language = 'fr' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/InstructionSteps#{recipeAuthor}&{recipeName}&{stepNr}" ;
+		rr:class recipe:InstructionStep
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "fr" 
+		] ;
+	] ;
+.
+<#DutchRecipeTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Recipes.name, Recipes.author, Translations.text, Translations.language, Translations.translation
+		FROM Recipes JOIN Translations ON (Recipes.name = Translations.text)
+		WHERE Translations.language = 'nl' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{name}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "nl" 
+		] ;
+	] ;
+.
+<#DutchIngredientTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Ingredients.name, Translations.text, Translations.language, Translations.translation
+		FROM Ingredients JOIN Translations ON (Ingredients.name = Translations.text)
+		WHERE Translations.language = 'nl' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Ingredients#{name}" ;
+		rr:class recipe:Ingredient
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "nl" 
+		] ;
+	] ;
+.
+<#DutchCategoriesTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Categories.name, Translations.text, Translations.language, Translations.translation
+		FROM Categories JOIN Translations ON (Categories.name = Translations.text)
+		WHERE Translations.language = 'nl' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Categories#{name}" ;
+		rr:class recipe:Category
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "nl" 
+		] ;
+	] ;
+.
+<#DutchAllergenTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT Allergens.name, Translations.text, Translations.language, Translations.translation
+		FROM Allergens JOIN Translations ON (Allergens.name = Translations.text)
+		WHERE Translations.language = 'nl' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Allergens#{name}" ;
+		rr:class recipe:Allergen
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "nl" 
+		] ;
+	] ;
+.
+<#DutchInstructionStepTranslations>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT InstructionSteps.description, InstructionSteps.recipeName, InstructionSteps.recipeAuthor, InstructionSteps.stepNr, Translations.text, Translations.language, Translations.translation
+		FROM InstructionSteps JOIN Translations ON (InstructionSteps.description = Translations.text)
+		WHERE Translations.language = 'nl' """ ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/InstructionSteps#{recipeAuthor}&{recipeName}&{stepNr}" ;
+		rr:class recipe:InstructionStep
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "translation" ;
+			rr:language "nl" 
+		] ;
+	] ;
+.
+<#CaloriesInRecipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT Ingredients.calories as calories, Ingredients.name, Recipes.name, Recipes.author, IngredientsOfRecipes.recipe, IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.ingredient, Recipes.servings as servings, IngredientsOfRecipes.amount as amount, IngredientsOfRecipes.unit as unit,
+SUM(CASE
+	WHEN unit = 'pieces' THEN amount*80*calories/100/servings
+	WHEN unit = 'cups' THEN amount*40*calories/100/servings
+	WHEN unit = 'tablespoons' THEN amount*3*calories/100/servings
+	WHEN unit = 'liters' THEN amount * 1000*calories/100/servings
+	WHEN unit = 'pinches' THEN amount*0.5*calories/100/servings
+	WHEN unit = 'pounds' THEN amount*2200*calories/100/servings
+	WHEN unit = 'teaspoons' THEN amount*0.5*calories/100/servings
+	ELSE amount*calories/100/servings
+END) AS realamount
+FROM IngredientsOfRecipes LEFT JOIN Ingredients ON (IngredientsOfRecipes.ingredient = Ingredients.name)
+				LEFT JOIN Recipes ON (Recipes.name = IngredientsOfRecipes.recipe
+									AND
+								Recipes.author = IngredientsOfRecipes.recipeAuthor)
+				GROUP BY IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.recipe""" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{recipe}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:totalCalories ;
+		rr:objectMap [ 
+			rr:column "realamount" ;
+			rr:datatype xsd:float
+		] ;
+	] ;
+.
+<#CarbsInRecipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT Ingredients.carbs as carbs, Recipes.servings as servings, Ingredients.name, Recipes.name, Recipes.author, IngredientsOfRecipes.recipe, IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.ingredient, IngredientsOfRecipes.amount as amount, IngredientsOfRecipes.unit as unit,
+SUM(CASE
+	WHEN unit = 'pieces' THEN amount*80*carbs/100/servings
+	WHEN unit = 'cups' THEN amount*40*carbs/100/servings
+	WHEN unit = 'tablespoons' THEN amount*3*carbs/100/servings
+	WHEN unit = 'liters' THEN amount * 1000*carbs/100/servings
+	WHEN unit = 'pinches' THEN amount*0.5*carbs/100/servings
+	WHEN unit = 'pounds' THEN amount*2200*carbs/100/servings
+	WHEN unit = 'teaspoons' THEN amount*0.5*carbs/100/servings
+	ELSE amount*carbs/100/servings
+END) AS realamount
+FROM IngredientsOfRecipes LEFT JOIN Ingredients ON (IngredientsOfRecipes.ingredient = Ingredients.name)
+				LEFT JOIN Recipes ON (Recipes.name = IngredientsOfRecipes.recipe
+									AND
+								Recipes.author = IngredientsOfRecipes.recipeAuthor)
+				GROUP BY IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.recipe""" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{recipe}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:totalCarbs;
+		rr:objectMap [ 
+			rr:column "realamount" ;
+			rr:datatype xsd:float
+		] ;
+	] ;
+	.
+<#FatsInRecipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT Ingredients.fats as fats, Recipes.servings as servings, Ingredients.name, Recipes.name, Recipes.author, IngredientsOfRecipes.recipe, IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.ingredient, IngredientsOfRecipes.amount as amount, IngredientsOfRecipes.unit as unit,
+SUM(CASE
+	WHEN unit = 'pieces' THEN amount*80*fats/100/servings
+	WHEN unit = 'cups' THEN amount*40*fats/100/servings
+	WHEN unit = 'tablespoons' THEN amount*3*fats/100/servings
+	WHEN unit = 'liters' THEN amount*1000*fats/100/servings
+	WHEN unit = 'pinches' THEN amount*0.5*fats/100/servings
+	WHEN unit = 'pounds' THEN amount*2200*fats/100/servings
+	WHEN unit = 'teaspoons' THEN amount*0.5*fats/100/servings
+	ELSE amount*fats/100/servings
+END) AS realamount
+FROM IngredientsOfRecipes LEFT JOIN Ingredients ON (IngredientsOfRecipes.ingredient = Ingredients.name)
+				LEFT JOIN Recipes ON (Recipes.name = IngredientsOfRecipes.recipe
+									AND
+								Recipes.author = IngredientsOfRecipes.recipeAuthor)
+				GROUP BY IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.recipe""" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{recipe}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:totalFats;
+		rr:objectMap [ 
+			rr:column "realamount" ;
+			rr:datatype xsd:float
+		] ;
+	] ;.
+<#ProteinsInRecipes>
+	a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT Ingredients.proteins as proteins, Recipes.servings as servings, Ingredients.name, Recipes.name, Recipes.author, IngredientsOfRecipes.recipe, IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.ingredient, IngredientsOfRecipes.amount as amount, IngredientsOfRecipes.unit as unit,
+SUM(CASE
+	WHEN unit = 'pieces' THEN amount*80*proteins/100/servings
+	WHEN unit = 'cups' THEN amount*40*proteins/100/servings
+	WHEN unit = 'tablespoons' THEN amount*3*proteins/100/servings
+	WHEN unit = 'liters' THEN amount * 1000*proteins/100/servings
+	WHEN unit = 'pinches' THEN amount*0.5*proteins/100/servings
+	WHEN unit = 'pounds' THEN amount*2200*proteins/100/servings
+	WHEN unit = 'teaspoons' THEN amount*0.5*proteins/100/servings
+	ELSE amount*proteins/100/servings
+END) AS realamount
+FROM IngredientsOfRecipes LEFT JOIN Ingredients ON (IngredientsOfRecipes.ingredient = Ingredients.name)
+				LEFT JOIN Recipes ON (Recipes.name = IngredientsOfRecipes.recipe
+									AND
+								Recipes.author = IngredientsOfRecipes.recipeAuthor)
+				GROUP BY IngredientsOfRecipes.recipeAuthor, IngredientsOfRecipes.recipe""" ] ;
+	rr:subjectMap [
+		rr:template "http://www.example.com/awesome_recipes/Recipes#{author}&{recipe}" ;
+		rr:class recipe:Recipe
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate recipe:totalProteins;
+		rr:objectMap [ 
+			rr:column "realamount"; 
+			rr:datatype xsd:float
+		] ;
+	] ;
+	.

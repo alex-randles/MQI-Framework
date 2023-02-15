@@ -1,0 +1,242 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rrf: <http://kdeg.scss.tcd.ie/ns/rrf#> .
+@prefix daq:     <http://purl.org/eis/vocab/daq#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix sdmx-dimension:    <http://purl.org/linked-data/sdmx/2009/dimension#>.
+@prefix qb:    <http://purl.org/linked-data/cube#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+<#Less-Expensive-Query>
+	    rr:sqlQuery """
+            SELECT DISTINCT ID
+            FROM VALIDATION_BATCH
+        """;
+    rr:sqlVersion rr:Oracle .
+
+
+<#Observation-View>
+    rr:sqlQuery """
+		SELECT DISTINCT MAPPING.CATEGORY, MAPPING.DIMENSION as DIMENSION,
+		    VALIDATION_FEATURE.VALIDATION_BATCH_ID,
+		    VALIDATION_FEATURE.CLASS,
+		    SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) as METRIC,
+		    COUNT(SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1)) as NUM_INSTANCES,
+		    VALIDATION_BATCH.END_DATE as ASSESSMENT_DATE,
+		    VALIDATION_FEATURE.CLASS as COMPUTED_ON,
+		    CASE
+		        WHEN VALIDATION_FEATURE.CLASS = 'ARTIFICIAL' THEN VALIDATION_BATCH.ARTIFICIAL_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BLP' THEN VALIDATION_BATCH.BLP_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_AREA' THEN VALIDATION_BATCH.BOUNDARY_AREA_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_LINE' THEN VALIDATION_BATCH.BOUNDARY_LINE_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_MEREING' THEN VALIDATION_BATCH.BOUNDARY_MEREING_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_POINT' THEN VALIDATION_BATCH.BOUNDARY_POINT_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BOUNDARY_SSA' THEN VALIDATION_BATCH.BOUNDARY_SSA_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BUILDING' THEN VALIDATION_BATCH.BUILDING_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BUILDING_GROUP' THEN VALIDATION_BATCH.BUILDING_GROUP_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'BUILDING_UNIT' THEN VALIDATION_BATCH.BUILDING_UNIT_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'DIVISION' THEN VALIDATION_BATCH.DIVISION_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'EXPOSED' THEN VALIDATION_BATCH.EXPOSED_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'LOCALE' THEN VALIDATION_BATCH.LOCALE_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'RAIL_NETWORK_SEGMENT' THEN VALIDATION_BATCH.RAIL_NETWORK_SEGMENT_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'RAIL_POINT' THEN VALIDATION_BATCH.RAIL_POINT_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'SERVICE_LINE' THEN VALIDATION_BATCH.SERVICE_LINE_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'SITE' THEN VALIDATION_BATCH.SITE_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'SITE_POINT' THEN VALIDATION_BATCH.SITE_POINT_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'STRUCTURE' THEN VALIDATION_BATCH.STRUCTURE_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'VEGETATION' THEN VALIDATION_BATCH.VEGETATION_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'WATER' THEN VALIDATION_BATCH.WATER_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'WATER_POINT' THEN VALIDATION_BATCH.WATER_POINT_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'WATER_SINGLE_STREAM' THEN VALIDATION_BATCH.WATER_SINGLE_STREAM_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'WAY' THEN VALIDATION_BATCH.WAY_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'WAY_GDF2' THEN VALIDATION_BATCH.WAY_GDF2_COUNT
+		        WHEN VALIDATION_FEATURE.CLASS = 'WAY_POINT' THEN VALIDATION_BATCH.WAY_POINT_COUNT
+		    END TOTAL_INSTANCES
+		    from VALIDATION_FEATURE
+		    inner join MAPPING on SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) = MAPPING.METRIC
+			INNER JOIN VALIDATION_BATCH
+			ON VALIDATION_FEATURE.VALIDATION_BATCH_ID = VALIDATION_BATCH.ID
+			GROUP BY MAPPING.CATEGORY,MAPPING.DIMENSION, VALIDATION_BATCH_ID, VALIDATION_FEATURE.CLASS, SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1), VALIDATION_BATCH.END_DATE,
+			VALIDATION_BATCH.RULE_SET, VALIDATION_BATCH.ARTIFICIAL_COUNT, VALIDATION_BATCH.BLP_COUNT,
+			VALIDATION_BATCH.BOUNDARY_AREA_COUNT, VALIDATION_BATCH.BOUNDARY_LINE_COUNT, VALIDATION_BATCH.BOUNDARY_MEREING_COUNT,
+			VALIDATION_BATCH.BOUNDARY_POINT_COUNT, VALIDATION_BATCH.BOUNDARY_SSA_COUNT, VALIDATION_BATCH.BUILDING_COUNT,
+			VALIDATION_BATCH.BUILDING_GROUP_COUNT, VALIDATION_BATCH.BUILDING_UNIT_COUNT, VALIDATION_BATCH.DIVISION_COUNT,
+			VALIDATION_BATCH.EXPOSED_COUNT, VALIDATION_BATCH.LOCALE_COUNT, VALIDATION_BATCH.RAIL_NETWORK_SEGMENT_COUNT,
+			VALIDATION_BATCH.RAIL_POINT_COUNT, VALIDATION_BATCH.SERVICE_LINE_COUNT, VALIDATION_BATCH.SITE_COUNT,
+			VALIDATION_BATCH.SITE_POINT_COUNT, VALIDATION_BATCH.STRUCTURE_COUNT, VALIDATION_BATCH.VEGETATION_COUNT,
+			VALIDATION_BATCH.WATER_COUNT, VALIDATION_BATCH.WATER_POINT_COUNT, VALIDATION_BATCH.WATER_SINGLE_STREAM_COUNT,
+			VALIDATION_BATCH.WAY_COUNT, VALIDATION_BATCH.WAY_GDF2_COUNT, VALIDATION_BATCH.WAY_POINT_COUNT
+	""";
+    rr:sqlVersion rr:Oracle .
+
+
+<#Graph-Instance>
+	rr:logicalTable <#Less-Expensive-Query> ;
+	rr:subjectMap [
+		rr:constant <http://data.example.com/1spatialassessment/quality-graph/> ;
+		rr:class daq:QualityGraph
+	] ;
+	rr:predicateObjectMap [
+        rr:predicate qb:structure ;
+        rr:object daq:dsd
+    ] .
+
+
+<#Category-Instance>
+	rr:logicalTable <#Observation-View> ;
+	rr:subjectMap [
+	  		rr:template "http://data.example.com/1spatialassessment/category/{CATEGORY}-instance" ;
+
+        rr:class <http://data.example.com/category/Oracle> ;
+        rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicateMap [
+        	rr:template "http://data.example.com/dimension/has{DIMENSION}Dimension";
+        ] ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ;
+			rr:termType rr:IRI; 
+        ] ;
+    ] .
+
+<#Dimension-Instance>
+	rr:logicalTable <#Observation-View> ;
+	rr:subjectMap [
+        rr:template "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ;
+        rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
+    ] ;
+	rr:predicateObjectMap [
+        rr:predicate rdf:type ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/dimension/{DIMENSION}";
+			rr:termType rr:IRI; 
+        ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicateMap [
+        	rr:template "http://data.example.com/dimension/has{METRIC}metric";
+        ] ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ; 
+			rr:termType rr:IRI; 
+        ] ;
+    ] .
+
+<#Metric-Instance>
+	rr:logicalTable <#Observation-View> ;
+	rr:subjectMap [
+	      rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;
+	      rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
+	  ] ;
+	  rr:predicateObjectMap [
+        rr:predicate rdf:type ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/metric/{METRIC}";
+			rr:termType rr:IRI; 
+        ] ;
+      ] ;
+	  rr:predicateObjectMap [
+	      rr:predicate daq:Observation ;
+	      rr:objectMap [
+	  		rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}"; 
+			rr:termType rr:IRI; 
+	      ] ;
+	  ] .
+
+
+<#Observations>
+    rr:logicalTable <#Observation-View> ;
+    rr:subjectMap [
+	  	rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}";
+	    rr:class daq:Observation ;
+		rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:isEstimate ;
+        rr:objectMap [ rr:constant "false";
+		rr:datatype xsd:boolean; 
+	   ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:metric ;
+        rr:objectMap [
+			rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;
+			rr:termType rr:IRI; 
+        ];
+    ] ;
+   	rr:predicateObjectMap [
+        rr:predicate daq:value ;
+        rr:objectMap [
+        	rrf:functionCall [
+                rrf:function <#CalculateValue> ;
+                rrf:parameterBindings (
+                    [ rr:column "NUM_INSTANCES" ]
+                    [ rr:column "TOTAL_INSTANCES" ]
+                ) ;
+    		] ;
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate sdmx-dimension:timePeriod ;
+        rr:objectMap [
+        	rr:termType rr:Literal ;
+			rr:template "{ASSESSMENT_DATE}";
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate qb:dataSet ;
+        rr:object <http://data.example.com/1spatialassessment/quality-graph/> ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:computedOn ;
+        rr:objectMap [
+			rr:template "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}";
+			rr:termType rr:IRI; 
+			
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:computedOn ;
+        rr:objectMap [
+        	rr:template "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}";
+			rr:termType rr:IRI;  
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate prov:wasGeneratedBy ;
+        rr:object <http://data.example.com/1spatialassessment/r2rmlconverter/>
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate prov:generated ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling";
+			rr:termType rr:IRI; 
+        ]
+    ] .
+
+
+ # Do we need more profiling information?
+ <#Profiling>
+	rr:logicalTable <#Observation-View> ;
+	rr:subjectMap [
+		rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling" ;
+	    rr:class daq:MetricProfile ;
+		rr:graph <http://data.example.com/1spatialassessment/quality-graph>
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:totalDatasetTriplesAssessed ; # this might be changed if we create a small vocabulary for osi
+        rr:objectMap [
+			rr:column "TOTAL_INSTANCES"
+		]
+    ] .
+
+
+<#CalculateValue>
+	rrf:functionName "calculateValue" ;
+	rrf:functionBody """
+		function calculateValue(numInstances, totalInstances) {
+	    	return 1 - (numInstances / totalInstances);
+    	} """ ;
+.

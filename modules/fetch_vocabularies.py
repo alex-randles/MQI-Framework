@@ -22,8 +22,11 @@ class FetchVocabularies:
     def query_local_graph(self, property_IRI, query):
         g = self.retrieve_local_graph(property_IRI)
         if g:
-            qres = g.query(query)
-            return qres
+            if len(g) > 10:
+                qres = g.query(query)
+                return qres
+            else:
+                return None
         else:
             print("NO QUERY RESULT!!!")
             return None
