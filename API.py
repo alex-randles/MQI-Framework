@@ -284,7 +284,7 @@ class API:
     @app.route(("/"), methods=["GET", "POST"])
     @app.route(("/welcome"), methods=["GET", "POST"])
     def welcome():
-        return render_template("Alignment Suggestions.html")
+        return render_template("KCG Sample Screenshot.html")
         participant_id = session.get("participant_id")
         session_id = API.get_session_id()
         return redirect(url_for("assess_mapping"))
