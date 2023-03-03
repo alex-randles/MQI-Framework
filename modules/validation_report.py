@@ -41,8 +41,8 @@ class ValidationReport:
         self.validation_graph = Graph()
         # self.MQV = Namespace("http://mappingQualityVocabulary.org/")
         # self.MQV_METRIC = Namespace("http://mappingQualityVocabulary.org/metric/")
-        self.MQV = Namespace("https://alex-randles.github.io/MQV/#")
-        self.MQV_METRIC = Namespace("https://alex-randles.github.io/MQV-METRICS/#")
+        self.MQV = Namespace("https://w3id.org/MQIO#")
+        self.MQV_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
         self.EX = Namespace("http://example.org/")
         self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
         self.PROV = Namespace("http://www.w3.org/ns/prov#")
@@ -61,7 +61,7 @@ class ValidationReport:
         # report_IRI = "-" + mapping_name + "-" + str(current_report_number)
         # current_time = time.gmtime()
         # timestamp = calendar.timegm(current_time)
-        report_IRI = "-" + self.timestamp
+        report_IRI = "-" + "testing"
         return report_IRI
 
     def get_mapping_IRI(self):
@@ -77,8 +77,8 @@ class ValidationReport:
         self.insert_assessment_information()
         self.iterate_violations(validation_report_IRI)
         # add more information only if check box selected
-        if "add-information" in self.form_data.keys():
-            self.add_form_data()
+        # if "add-information" in self.form_data.keys():
+        #     self.add_form_data()
         self.save_validation_report()
 
     def add_form_data(self):
@@ -90,11 +90,11 @@ class ValidationReport:
         # print(mapping_file_IRI)
         # exit()
         # mapping_file_IRI = mapping
-        self.validation_graph.add((mapping_file_IRI, RDF.type, self.MQV.MappingDocument))
+        self.validation_graph.add((mapping_file_IRI, RDF.type, self.MQV.MappingArtefact))
         mapping = mapping_file_IRI
         # adding creator name
         creator_name = self.form_data["creator-name"]
-        creator_name_IRI = self.add_PROV_Agent(creator_name)
+        # creator_name_IRI = self.add_PROV_Agent(creator_name)
         self.validation_graph.add((mapping, self.MQV.createdBy, creator_name_IRI))
         # adding the person who performed the assessment
         performed_by_name = self.form_data["performed-by-name"]
@@ -124,7 +124,7 @@ class ValidationReport:
         self.validation_graph.add((self.assessment_IRI, self.PROV.endedAtTime, current_time))
 
     def add_report_time(self):
-        validation_report_IRI = self.EX.mappingValidationReport + self.unique_report_IRI
+        validation_report_IRI = self.EX.mappingValidationReport + "-0"
         # time the mapping information was generated
         # prov:startedAtTime
         current_time = Literal(datetime.utcnow(), datatype=XSD.dateTime)
@@ -166,14 +166,15 @@ class ValidationReport:
         mapping_file_IRI = URIRef(self.mapping_file.split("/")[-1])
         self.validation_graph.add((quality_assessment_IRI, self.MQV.assessedMapping, mapping_file_IRI))
         mapping = URIRef(list(self.validation_graph.objects(None, self.MQV.assessedMapping))[0])
-        self.validation_graph.add((mapping, RDF.type, self.MQV.MappingDocument))
-        self.add_assessment_time()
-        self.add_report_time()
+        self.validation_graph.add((mapping, RDF.type, self.MQV.MappingArtefact))
+        # self.add_assessment_time()
+        # self.add_report_time()
         # add agent details
         name = URIRef(self.EX.alexRandles)
-        validation_report_IRI = self.EX.mappingValidationReport + self.unique_report_IRI
-        self.validation_graph.add((name, RDF.type , self.PROV.Agent))
-        self.validation_graph.add((quality_assessment_IRI, self.MQV.wasPerfomedBy, name))
+        validation_report_IRI = self.EX.mappingValidationReport + "-0"
+        # self.validation_graph.add((name, RDF.type , self.PROV.Agent))
+        # self.validation_graph.add((quality_assessment_IRI, self.MQV.wasPerfomedBy, name))
+        self.validation_graph.add((quality_assessment_IRI, self.MQV.hasValidationReport, validation_report_IRI))
         return quality_assessment_IRI
 
     # def get_current_report_number(self):
@@ -185,11 +186,11 @@ class ValidationReport:
 
     def insert_validation_report(self):
         # adding validation report
-        validation_report_IRI = self.EX.mappingValidationReport + self.unique_report_IRI
+        validation_report_IRI = self.EX.mappingValidationReport + "-0"
         self.validation_graph.add((validation_report_IRI, RDF.type, self.MQV.MappingValidationReport))
         # adding a comment which tells the user what the unique report IRI means
-        comment = "A timestamp is appended to the validation report IRI for uniqueness."
-        self.validation_graph.add((validation_report_IRI, RDFS.comment, Literal(comment)))
+        # comment = "A timestamp is appended to the validation report IRI for uniqueness."
+        # self.validation_graph.add((validation_report_IRI, RDFS.comment, Literal(comment)))
         return validation_report_IRI
 
     def iterate_violations(self, validation_report_IRI):
@@ -199,7 +200,7 @@ class ValidationReport:
 
     def insert_violation(self, violation_ID, violation_information, validation_report_IRI):
         # mqv:hasViolation mqv:violation0,
-        current_violation_IRI = self.EX.violation + self.unique_report_IRI + "-" + str(violation_ID)
+        current_violation_IRI = self.EX.violation + "-" + str(violation_ID)
         self.validation_graph.add((validation_report_IRI, self.MQV.hasViolation, current_violation_IRI))
         self.insert_violation_information(violation_information, current_violation_IRI)
 
@@ -251,9 +252,10 @@ class ValidationReport:
             violation_value_type  = type(violation_value)
             if  violation_value_type is not tuple:
                 if violation_value_type == Literal:
+                    violation_value = Literal(violation_value,datatype=XSD.string)
                     self.validation_graph.add((current_violation_IRI, self.MQV.hasLiteralValue, violation_value))
                 else:
-                    self.validation_graph.add((current_violation_IRI, self.MQV.hasObjectValue, violation_value))
+                    self.validation_graph.add((current_violation_IRI, self.MQV.hasObjectValue, URIRef(violation_value)))
             else:
                 for value in violation_value:
                     violation_value_type = type(violation_value)
@@ -271,11 +273,11 @@ class ValidationReport:
         processUpdate(self.validation_graph, query)
 
     def bind_namespaces(self):
-        self.validation_graph.bind("mqv", self.MQV)
+        self.validation_graph.bind("mqio", self.MQV)
         self.validation_graph.bind("ex", self.EX)
         self.validation_graph.bind("rr", self.R2RML)
         self.validation_graph.bind("prov", self.PROV)
-        self.validation_graph.bind("mqv-metric", self.MQV_METRIC)
+        self.validation_graph.bind("mqio-metrics", self.MQV_METRIC)
         self.bind_mapping_namespaces()
 
     def bind_mapping_namespaces(self):
