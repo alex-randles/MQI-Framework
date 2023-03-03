@@ -1,5 +1,5 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix fvc: <http://w3id.org/FAIRVASC#> .
+@prefix fvc: <http://ontologies.adaptcentre.ie/fairvasc#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 

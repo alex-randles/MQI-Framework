@@ -80,8 +80,6 @@ class ValidateQuality:
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
 
-
-
     @staticmethod
     def create_metric_descriptions():
         metric_description_file = "Framework metric_refinement HOVER descriptions - Metric Descriptions.csv"
@@ -123,10 +121,11 @@ class ValidateQuality:
             print(self.current_triple_IRI)
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
-            self.validate_mapping_metrics()
-            self.validate_data_metrics()
-            self.validate_vocabulary_metrics()
+            # self.validate_mapping_metrics()
+            # self.validate_data_metrics()
             # self.update_progress_bar()
+        # each triple map is tested otherwise
+        self.validate_vocabulary_metrics()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -151,9 +150,12 @@ class ValidateQuality:
         self.validate_MP8()
 
     def validate_vocabulary_metrics(self):
-        pass
-        # self.validate_VOC1()
-        # self.validate_VOC2()
+        # pass
+        self.validate_VOC1()
+        self.validate_VOC2()
+        self.validate_VOC3()
+        self.validate_VOC5()
+        self.validate_VOC4()
 
 
     def validate_D1(self):
@@ -240,14 +242,13 @@ class ValidateQuality:
             # if a datatype assigned to object map
             if datatype:
                 range = self.get_range(property)
-                # if any of the datatypes can be any datatype, skip this iteration
-                if datatype in excluded_datatypes:
-                    continue
-                if self.is_datatype_range(range):
-                    if datatype != range:
-                        # result_message = "Usage of incorrect datatype. Correct datatype is {}.".format(self.find_prefix(range))
-                        # result_message = "Usage of incorrect datatype."
-                        self.add_violation([metric_ID, result_message, property, objectMap])
+                if not range ==  URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
+                    # if any of the datatypes can be any datatype, skip this iteration
+                    if datatype in excluded_datatypes:
+                        continue
+                    if self.is_datatype_range(range):
+                        if datatype != range:
+                            self.add_violation([metric_ID, result_message, property, objectMap])
 
 
 
@@ -348,16 +349,17 @@ class ValidateQuality:
                          "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
                          "ASK { <%s> %s ?label } " % (class_IRI, "|".join(human_label_predicates))
                 qres = self.vocabularies.query_local_graph(class_IRI, query)
-                for row in qres:
-                    if row is False:
-                        self.add_violation([metric_ID, result_message, class_IRI, subject_IRI])
+                if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
+                    for row in qres:
+                        if row is False:
+                            self.add_violation([metric_ID, result_message, class_IRI, subject_IRI])
 
     def validate_VOC2(self):
         # A function to validate basic provenance information
         result_message = "No Basic Provenance Information."
         metric_ID = "VOC2"
         # returning true for now as testing mappings
-        return True
+        # return True
         for namespace in self.unique_namespaces:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
                                 "dcterms:publisher", "dc:title", "dc:description"]
@@ -368,14 +370,15 @@ class ValidateQuality:
                     "PREFIX dct: <http://purl.org/dc/terms/> " \
                      "ASK { ?subject %s ?label } " % ("|".join(provenance_predicates))
             qres = self.vocabularies.query_local_graph(namespace, query)
-            for row in qres:
-                if row is False:
-                    self.add_violation([metric_ID, result_message, namespace, None])
+            if qres:
+                for row in qres:
+                    if row is False:
+                        self.add_violation([metric_ID, result_message, namespace, None])
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
         result_message = "Basic Provenance Information."
-        metric_ID = "VOC2"
+        metric_ID = "VOC3"
         for namespace in self.unique_namespaces:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
                                 "dcterms:publisher", "dc:title", "dc:description"]
@@ -386,10 +389,57 @@ class ValidateQuality:
                     "PREFIX dct: <http://purl.org/dc/terms/> " \
                      "ASK { ?subject %s ?label } " % ("|".join(provenance_predicates))
             qres = self.vocabularies.query_local_graph(namespace, query)
-            for row in qres:
-                if row is False:
+            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
+                for row in qres:
+                    if row is False:
+                        self.add_violation([metric_ID, result_message, namespace, None])
+
+    def validate_VOC4(self):
+        # A function to validate basic provenance information
+        result_message = "No Machine-Readable license."
+        metric_ID = "VOC4"
+        # returning true for now as testing mappings
+        # return True
+        unique_namespaces = list(set(self.unique_namespaces))
+        for namespace in unique_namespaces:
+            query = """
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX xhtml: <http://www.w3.org/1999/xhtml#>
+            PREFIX cc: <http://creativecommons.org/ns#>
+            PREFIX doap: <http://usefulinc.com/ns/doap#>
+            PREFIX schema: <http://schema.org/>
+            SELECT ?subject ?predicate ?object
+            WHERE {
+              ?subject ?predicate ?object
+              FILTER(?predicate IN (dct:license, dct:rights, dc:rights, xhtml:license, cc:license, dc:license, doap:license, schema:license))
+            }
+            """
+            qres = self.vocabularies.query_local_graph(namespace, query)
+            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
+                if not qres:
                     self.add_violation([metric_ID, result_message, namespace, None])
 
+
+    def validate_VOC5(self):
+        # A function to validate basic provenance information
+        result_message = "No Human-Readable license."
+        metric_ID = "VOC5"
+        # returning true for now as testing mappings
+        # return True
+        unique_namespaces = list(set(self.unique_namespaces))
+        for namespace in unique_namespaces:
+            query = """
+            SELECT ?subject ?predicate ?object
+            WHERE {
+              ?subject ?predicate ?object
+              FILTER(CONTAINS(?object, "license")) 
+            }
+            """
+            qres = self.vocabularies.query_local_graph(namespace, query)
+            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
+                if not qres:
+                    self.add_violation([metric_ID, result_message, namespace, None])
 
     # def validate_VOC2(self):
     #     metric_ID = "VOC2"
@@ -683,8 +733,8 @@ class ValidateQuality:
         blank_node_references = self.add_unique_name(triple_references)
         return blank_node_references
 
-    def create_validation_report(self):
-        ValidationReport(self.validation_results, "validation_report.ttl", self.file_name)
+    def create_validation_report(self, output_file):
+        ValidationReport(self.validation_results, output_file, self.file_name, None, None)
 
     def get_properties_datatype(self):
         # A function to retrieve all properties in the mapping with data types related
