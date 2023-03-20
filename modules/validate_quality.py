@@ -122,10 +122,7 @@ class ValidateQuality:
             print(self.current_triple_IRI)
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
-            self.validate_D1()
-            self.validate_D3()
-            self.validate_D6()
-            self.validate_D7()
+            self.validate_data_metrics()
             # self.validate_mapping_metrics()
             # self.validate_data_metrics()
             # self.update_progress_bar()
@@ -729,14 +726,16 @@ class ValidateQuality:
         query = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
                    SELECT DISTINCT ?disjointClass
                    WHERE {
-                      <%s> owl:disjointWith ?disjointClass
+                      GRAPH <%s> {
+                          <%s> owl:disjointWith ?disjointClass .
+                      }
                    }
-                """ % IRI
+                """ % (self.get_namespace(IRI), IRI)
         qres = self.vocabularies.query_local_graph(IRI, query)
         disjoint_classes = []
-        if qres:
-            for row in qres:
-                current_class = row[0]
+        for binding in qres.get("results").values():
+            for result in binding:
+                current_class = URIRef(result["disjointClass"]["value"])
                 disjoint_classes.append(current_class)
         return disjoint_classes
 

@@ -328,7 +328,7 @@ class Refinements:
         for binding in qres.get("results").values():
             for result in binding:
                 current_class = result["property"]["value"]
-                current_comment = result["comment"]["value"]
+                current_comment = result["comment"]["value"].split(".")[0] + "."
                 predicates.append((current_class, current_comment))
         return {select_placeholder: predicates}
 
@@ -362,7 +362,7 @@ class Refinements:
         for binding in qres.get("results").values():
             for result in binding:
                 current_class = result["classOnto"]["value"]
-                current_comment = result["comment"]["value"]
+                current_comment = result["comment"]["value"].split(".")[0] + "."
                 classes.append((current_class, current_comment))
         classes = self.order_similar_matches(classes, violation_value)
         return {select_placeholder: classes}
@@ -909,10 +909,9 @@ class Refinements:
         complex_domain = False
         print(query)
         for row in qres["results"]["bindings"]:
-            domain = row["domain"]["value"]
-            comment = row["comment"]["value"]
-            print(domain, comment)
-            domain = [domain, comment]
+            current_domain = row["domain"]["value"]
+            current_comment = row["comment"]["value"].split(".")[0] + "."
+            domain = [current_domain, current_comment]
         # if qres:
         #     for row in qres:
         #         domain = ["%s" % row[0], "%s" % row[1]]
