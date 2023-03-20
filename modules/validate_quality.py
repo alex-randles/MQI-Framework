@@ -122,7 +122,10 @@ class ValidateQuality:
             print(self.current_triple_IRI)
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
+            self.validate_D1()
             self.validate_D3()
+            self.validate_D6()
+            self.validate_D7()
             # self.validate_mapping_metrics()
             # self.validate_data_metrics()
             # self.update_progress_bar()
@@ -208,23 +211,24 @@ class ValidateQuality:
             term_type = self.properties[key]["termType"]
             objectMap = self.properties[key]["objectMap"]
             # only retrieve range if term type to speed up execution time
-            if term_type:
-                resource_type = self.get_type(property)
-                if OWL.DatatypeProperty in resource_type and term_type != URIRef("http://www.w3.org/ns/r2rml#Literal"):
-                    self.add_violation([metric_ID, result_message, term_type, objectMap])
-                elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
-                    self.add_violation([metric_ID, result_message, term_type, objectMap])
+            if not term_type:
+                term_type = URIRef("http://www.w3.org/ns/r2rml#Literal")
+            resource_type = self.get_type(property)
+            if OWL.DatatypeProperty in resource_type and term_type != URIRef("http://www.w3.org/ns/r2rml#Literal"):
+                result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property))
+                self.add_violation([metric_ID, result_message, term_type, objectMap])
+            elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
+                result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property))
+                self.add_violation([metric_ID, result_message, term_type, objectMap])
 
 
     def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
         result_message = "Usage of undefined %s." % (value_type)
-        query = " ASK { <%s> ?predicate ?object } " % property_IRI
-        qres = self.vocabularies.query_local_graph(property_IRI)
-        if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
-            for row in qres:
-                if not row:
-                    print(row, query)
-                    return [metric_ID, result_message, property_IRI, subject_IRI]
+        query = " ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_IRI
+        qres = self.vocabularies.query_local_graph(property_IRI, query)
+        is_defined_concept = qres["boolean"]
+        if not is_defined_concept:
+            return [metric_ID, result_message, property_IRI, subject_IRI]
 
 
     def validate_D7(self):
@@ -245,7 +249,7 @@ class ValidateQuality:
             # if a datatype assigned to object map
             if datatype:
                 range = self.get_range(property)
-                if not range ==  URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
+                if not range == URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
                     # if any of the datatypes can be any datatype, skip this iteration
                     if datatype in excluded_datatypes:
                         continue
@@ -857,29 +861,30 @@ class ValidateQuality:
             counter += 1
         return properties
 
-    def validate_D6(self):
-        # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
-        metric_ID = "D6"
-        result_message = "Usage of incorrect range."
-        properties = self.get_properties_range()
-        for key in properties.keys():
-            property = properties[key]["property"]
-            if property not in self.undefined_values:
-                term_type = properties[key]["termType"]
-                objectMap = properties[key]["objectMap"]
-                # only retrieve range if term type to speed up execution time
-                if term_type:
-                    range = self.get_range(property)
-                    if range:
-                        # if literal range
-                        if range.startswith("http://www.w3.org/2001/XMLSchema#") or \
-                                range == URIRef("http://www.w3.org/2000/01/rdf-schema#Literal"):
-                            correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#Literal")]
-                        else:
-                            correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#IRI"), URIRef("http://www.w3.org/ns/r2rml#BlankNode")]
-                        if term_type not in correct_term_type:
-                            result_message = "Usage of incorrect range. Term type should be {} for property {}.".format(self.find_prefix(correct_term_type[0]), self.find_prefix(property))
-                            self.add_violation([metric_ID, result_message, term_type, properties[key]["objectMap"]])
+    # def validate_D6(self):
+    #     # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
+    #     metric_ID = "D6"
+    #     result_message = "Usage of incorrect range."
+    #     properties = self.get_properties_range()
+    #     for key in properties.keys():
+    #         property = properties[key]["property"]
+    #         if property not in self.undefined_values:
+    #             term_type = properties[key]["termType"]
+    #             objectMap = properties[key]["objectMap"]
+    #             # only retrieve range if term type to speed up execution time
+    #             if not term_type:
+    #                 term_type = URIRef("http://www.w3.org/ns/r2rml#Literal")
+    #             range = self.get_range(property)
+    #             if range:
+    #                 # if literal range
+    #                 if range.startswith("http://www.w3.org/2001/XMLSchema#") or \
+    #                         range == URIRef("http://www.w3.org/2000/01/rdf-schema#Literal"):
+    #                     correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#Literal")]
+    #                 else:
+    #                     correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#IRI"), URIRef("http://www.w3.org/ns/r2rml#BlankNode")]
+    #                 if term_type not in correct_term_type:
+    #                     result_message = "Usage of incorrect range. Term type should be {} for property {}.".format(self.find_prefix(correct_term_type[0]), self.find_prefix(property))
+    #                     self.add_violation([metric_ID, result_message, term_type, properties[key]["objectMap"]])
 
 
     def get_properties_range(self):
@@ -1013,37 +1018,48 @@ class ValidateQuality:
         # GET THE TYPE OF THE IRI E.G owl:ObjectProperty or owl:DatatypeProperty
         # CHECK ONLY IF VALID IRI
         if isinstance(IRI, URIRef) and IRI not in self.undefined_values:
-            query = """SELECT ?type
+            query = """
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            SELECT ?type
                         WHERE {
-                          <%s> rdf:type ?type
+                          GRAPH <%s> { <%s> rdf:type ?type . }
                         }   
-                   """ % IRI
+                   """ % (self.get_namespace(IRI), IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)
             resource_type = []
-            if qres:
-                for row in qres:
-                    resource_type.append(URIRef(row["type"]))
+            if qres["results"]["bindings"]:
+                for row in qres["results"]["bindings"]:
+                    print(row)
+                    resource_type.append(URIRef(row["type"]["value"]))
             return resource_type
         else:
             return []
 
     def get_range(self, IRI):
         if IRI not in self.range_cache.keys():
-            query = """PREFIX dcam: <http://purl.org/dc/dcam/>
-                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                       PREFIX schema: <http://schema.org/>  
-                       SELECT ?range
-                        WHERE {
-                          <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range
-                        }   
-                   """ % IRI
+            # query = """PREFIX dcam: <http://purl.org/dc/dcam/>
+            #            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            #            PREFIX schema: <http://schema.org/>
+            #            SELECT ?range
+            #             WHERE {
+            #               <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range
+            #             }
+            #        """ % IRI
+            query = """
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                SELECT ?range
+                WHERE {
+                GRAPH <%s>
+                    { <%s> rdfs:range ?range . }
+                }
+                """ % (self.get_namespace(IRI), IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)
             range = None
-            if qres:
-                for row in qres:
-                    range = URIRef(row[0])
-                    # print(row[0], "RANGE ")
-                    # exit()
+            query_bindings = qres["results"]["bindings"]
+            # if a range returned
+            if query_bindings:
+                for row in query_bindings:
+                    range = URIRef(row["range"]["value"])
             self.range_cache[IRI] = range
             return range
         else:
