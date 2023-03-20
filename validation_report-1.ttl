@@ -1,143 +1,40 @@
-@prefix daq: <http://purl.org/eis/vocab/daq#> .
 @prefix ex: <http://example.org/> .
-@prefix mqv: <https://w3id.org/MQIO#> .
-@prefix mqv-metric: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix qb: <http://purl.org/linked-data/cube#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix mqio: <https://w3id.org/MQIO#> .
+@prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:mappingQualityAssessment a mqv:MappingAssessment ;
-    prov:endedAtTime "2023-03-03T16:30:03.629514"^^xsd:dateTime ;
-    mqv:assessedMapping <mappingDAQobservation_2nd_Dump.ttl> ;
-    mqv:wasPerfomedBy ex:alexRandles .
+ex:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <demo_mapping.ttl> ;
+    mqio:hasValidationReport ex:mappingValidationReport-0 .
 
-ex:mappingValidationReport-0 a mqv:MappingValidationReport ;
-    prov:generatedAtTime "2023-03-03T16:30:03.629582"^^xsd:dateTime ;
-    mqv:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-10,
+<demo_mapping.ttl> a mqio:MappingArtefact .
+
+ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
+    mqio:hasViolation ex:violation-10,
         ex:violation-11,
-        ex:violation-12,
-        ex:violation-13,
-        ex:violation-14,
-        ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5,
-        ex:violation-6,
-        ex:violation-7,
-        ex:violation-8,
-        ex:violation-9 .
+        ex:violation-12 .
 
-ex:alexRandles a prov:Agent .
+ex:violation-10 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue geo:SpatialObjects ;
+    mqio:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqio:inTripleMap <#artist_area> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
 
-ex:violation-0 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap-9"^^xsd:string ;
-    mqv:hasObjectValue prov:generated ;
-    mqv:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
-    mqv:isDescribedBy mqv-metric:D3 .
+ex:violation-11 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue foaf:based_near ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#artist_area> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
 
-ex:violation-1 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqv:hasObjectValue rr:Literal ;
-    mqv:hasResultMessage "Usage of incorrect range. Term type should be  rr:IRI  for property  sdmx-dimension:timePeriod ."^^xsd:string ;
-    mqv:inTripleMap <#Observations> ;
-    mqv:isDescribedBy mqv-metric:D6 .
-
-ex:violation-10 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue rdf: ;
-    mqv:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC5 .
-
-ex:violation-11 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue sdmx-dimension: ;
-    mqv:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC4 .
-
-ex:violation-12 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue prov: ;
-    mqv:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC4 .
-
-ex:violation-13 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue daq: ;
-    mqv:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC4 .
-
-ex:violation-14 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue rdf: ;
-    mqv:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC4 .
-
-ex:violation-2 a mqv:MappingViolation ;
-    mqv:hasLocation "subjectMap"^^xsd:string ;
-    mqv:hasObjectValue daq:MetricProfile ;
-    mqv:hasResultMessage "Usage of undefined Class."^^xsd:string ;
-    mqv:inTripleMap <#Profiling> ;
-    mqv:isDescribedBy mqv-metric:D1 .
-
-ex:violation-3 a mqv:MappingViolation ;
-    mqv:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqv:hasObjectValue daq:totalDatasetTriplesAssessed ;
-    mqv:hasResultMessage "Usage of undefined Property."^^xsd:string ;
-    mqv:inTripleMap <#Profiling> ;
-    mqv:isDescribedBy mqv-metric:D2 .
-
-ex:violation-4 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue prov: ;
-    mqv:hasResultMessage "Basic Provenance Information."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC3 .
-
-ex:violation-5 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue sdmx-dimension: ;
-    mqv:hasResultMessage "Basic Provenance Information."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC3 .
-
-ex:violation-6 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue sdmx-dimension: ;
-    mqv:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC5 .
-
-ex:violation-7 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue qb: ;
-    mqv:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC5 .
-
-ex:violation-8 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue prov: ;
-    mqv:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC5 .
-
-ex:violation-9 a mqv:MappingViolation ;
-    mqv:hasLocation "None"^^xsd:string ;
-    mqv:hasObjectValue daq: ;
-    mqv:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqv:inTripleMap <#CalculateValue> ;
-    mqv:isDescribedBy mqv-metric:VOC5 .
-
-<mappingDAQobservation_2nd_Dump.ttl> a mqv:MappingArtefact .
+ex:violation-12 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be  rr:IRI  for property  foaf:based_near ."^^xsd:string ;
+    mqio:inTripleMap <#artist_area> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
 

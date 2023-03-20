@@ -196,7 +196,7 @@ class ValidationReport:
     def iterate_violations(self, validation_report_IRI):
         for violation_ID in self.validation_results:
             current_violation = self.validation_results[violation_ID]
-            self.insert_violation(violation_ID, current_violation, validation_report_IRI)
+            self.insert_violation(violation_ID + 10, current_violation, validation_report_IRI)
 
     def insert_violation(self, violation_ID, violation_information, validation_report_IRI):
         # mqv:hasViolation mqv:violation0,
