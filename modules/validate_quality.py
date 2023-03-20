@@ -47,6 +47,7 @@ class ValidateQuality:
         self.vocabularies = FetchVocabularies(file_name)
         # mainly used for vocabulary metrics
         self.unique_namespaces = self.vocabularies.get_unique_namespaces()
+        self.unique_namespaces = [namespace for namespace in self.unique_namespaces]
         self.violation_counter = 0
         self.validation_results = {}
         self.undefined_values = []
@@ -121,11 +122,12 @@ class ValidateQuality:
             print(self.current_triple_IRI)
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
+            self.validate_D3()
             # self.validate_mapping_metrics()
             # self.validate_data_metrics()
             # self.update_progress_bar()
         # each triple map is tested otherwise
-        self.validate_vocabulary_metrics()
+        # self.validate_vocabulary_metrics()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -152,10 +154,11 @@ class ValidateQuality:
     def validate_vocabulary_metrics(self):
         # pass
         self.validate_VOC1()
-        self.validate_VOC2()
+        # self.validate_VOC2()
         self.validate_VOC3()
-        self.validate_VOC5()
         self.validate_VOC4()
+        self.validate_VOC5()
+        self.validate_VOC6()
 
 
     def validate_D1(self):
@@ -216,7 +219,7 @@ class ValidateQuality:
     def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
         result_message = "Usage of undefined %s." % (value_type)
         query = " ASK { <%s> ?predicate ?object } " % property_IRI
-        qres = self.vocabularies.query_local_graph(property_IRI, query)
+        qres = self.vocabularies.query_local_graph(property_IRI)
         if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
             for row in qres:
                 if not row:
@@ -336,7 +339,7 @@ class ValidateQuality:
                 human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
                                           "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
                                           "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
-                                          "skosxl:literalForm",
+                                          "skosxl:literalForm", "rdfs:comment",
                                           "schema:description", "schema:description", "foaf:name"]
                 query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" \
                          "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" \
@@ -354,40 +357,42 @@ class ValidateQuality:
                         if row is False:
                             self.add_violation([metric_ID, result_message, class_IRI, subject_IRI])
 
-    def validate_VOC2(self):
-        # A function to validate basic provenance information
-        result_message = "No Basic Provenance Information."
-        metric_ID = "VOC2"
-        # returning true for now as testing mappings
-        # return True
-        for namespace in self.unique_namespaces:
-            provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
-                                "dcterms:publisher", "dc:title", "dc:description"]
-            query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
-                    "PREFIX dc: <http://purl.org/dc/elements/1.1/> \n" \
-                     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
-                     "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
-                    "PREFIX dct: <http://purl.org/dc/terms/> " \
-                     "ASK { ?subject %s ?label } " % ("|".join(provenance_predicates))
-            qres = self.vocabularies.query_local_graph(namespace, query)
-            if qres:
-                for row in qres:
-                    if row is False:
-                        self.add_violation([metric_ID, result_message, namespace, None])
+    # def validate_VOC2(self):
+    #     # A function to validate basic provenance information
+    #     result_message = "No Basic Provenance Information."
+    #     metric_ID = "VOC2"
+    #     # returning true for now as testing mappings
+    #     # return True
+    #     for namespace in self.unique_namespaces:
+    #         provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
+    #                             "dcterms:publisher", "dc:title", "dc:description"]
+    #         query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
+    #                 "PREFIX dc: <http://purl.org/dc/elements/1.1/> \n" \
+    #                  "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
+    #                  "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
+    #                 "PREFIX dct: <http://purl.org/dc/terms/> " \
+    #                  "ASK { ?subject %s ?label } " % ("|".join(provenance_predicates))
+    #         qres = self.vocabularies.query_local_graph(namespace, query)
+    #         if qres:
+    #             for row in qres:
+    #                 if row is False:
+    #                     self.add_violation([metric_ID, result_message, namespace, None])
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
-        result_message = "Basic Provenance Information."
+        result_message = "No Basic Provenance Information."
         metric_ID = "VOC3"
         for namespace in self.unique_namespaces:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
-                                "dcterms:publisher", "dc:title", "dc:description"]
+                                "dcterms:publisher", "dc:title", "dc:description", "rdfs:comment"]
             query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
-                    "PREFIX dc: <http://purl.org/dc/elements/1.1/> \n" \
+                    "PREFIX dc: <http://purl.org/dc/elements/1.1/> " \
+                    "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" \
                      "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
                      "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
                     "PREFIX dct: <http://purl.org/dc/terms/> " \
-                     "ASK { ?subject %s ?label } " % ("|".join(provenance_predicates))
+                     "ASK { ?subject a owl:Ontology; " \
+                    "              %s ?label } " % ("|".join(provenance_predicates))
             qres = self.vocabularies.query_local_graph(namespace, query)
             if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                 for row in qres:
@@ -401,6 +406,7 @@ class ValidateQuality:
         # returning true for now as testing mappings
         # return True
         unique_namespaces = list(set(self.unique_namespaces))
+        print("VALIDATING NAMESPACES", unique_namespaces)
         for namespace in unique_namespaces:
             query = """
             PREFIX dct: <http://purl.org/dc/terms/>
@@ -441,21 +447,76 @@ class ValidateQuality:
                 if not qres:
                     self.add_violation([metric_ID, result_message, namespace, None])
 
-    # def validate_VOC2(self):
-    #     metric_ID = "VOC2"
-    #     result_message = "No domain definition ."
-    #     properties = self.get_properties()
-    #     for key in properties.keys():
-    #         property_IRI = properties[key]["property"]
-    #         subject_IRI = properties[key]["subject"]
-    #         print("VALIDATIN DOMAIN DEFINITION", property_IRI, self.domain_cache, "\n", self.domain_cache.get(property_IRI))
-    #         if property_IRI not in self.undefined_values:
-    #             print("DOMAIN FROM CACHE")
-    #             domain_defintion = self.domain_cache.get(property_IRI)
-    #             print(domain_defintion)
-    #             print("DOMAIN FROM VOCABULARIES")
-    #             print(self.get_domain(property_IRI))
+    def validate_VOC2(self):
+        metric_ID = "VOC2"
+        result_message = "No domain definition ."
+        properties = self.get_properties()
+        for key in properties.keys():
+            property_IRI = properties[key]["property"]
+            subject_IRI = properties[key]["subject"]
+            print("VALIDATIN DOMAIN DEFINITION", property_IRI, self.domain_cache, "\n", self.domain_cache.get(property_IRI))
+            if property_IRI not in self.undefined_values:
+                print("DOMAIN FROM CACHE")
+                domain_defintion = self.domain_cache.get(property_IRI)
+                print(domain_defintion)
+                print("DOMAIN FROM VOCABULARIES")
+                print(self.get_domain(property_IRI))
 
+    def validate_VOC6(self):
+        # A function to validate basic provenance information
+        result_message = "No Regular Expression of URI."
+        metric_ID = "VOC6"
+        # returning true for now as testing mappings
+        # return True
+        unique_namespaces = list(set(self.unique_namespaces))
+        print("VALIDATING NAMESPACES", unique_namespaces)
+        for namespace in unique_namespaces:
+            query = """
+            PREFIX dct: <http://purl.org/dc/terms/>
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX xhtml: <http://www.w3.org/1999/xhtml#>
+            PREFIX cc: <http://creativecommons.org/ns#>
+            PREFIX doap: <http://usefulinc.com/ns/doap#>
+            PREFIX schema: <http://schema.org/>
+            SELECT ?subject ?predicate ?object
+            WHERE {
+              ?subject ?predicate ?object
+              FILTER(CONTAINS(STR(?predicate), "Uri"))
+            }
+            """
+            qres = self.vocabularies.query_local_graph(namespace, query)
+            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
+                if not qres:
+                    self.add_violation([metric_ID, result_message, namespace, None])
+
+
+
+    # def validate_VOC6(self):
+    #     # A function to validate basic provenance information
+    #     result_message = "No Machine-Readable license."
+    #     metric_ID = "VOC4"
+    #     # returning true for now as testing mappings
+    #     # return True
+    #     unique_namespaces = list(set(self.unique_namespaces))
+    #     for namespace in unique_namespaces:
+    #         print("VALIDATING NAMESPACE", namespace)
+    #         query = """
+    #         PREFIX dct: <http://purl.org/dc/terms/>
+    #         PREFIX dc: <http://purl.org/dc/elements/1.1/>
+    #         PREFIX xhtml: <http://www.w3.org/1999/xhtml#>
+    #         PREFIX cc: <http://creativecommons.org/ns#>
+    #         PREFIX doap: <http://usefulinc.com/ns/doap#>
+    #         PREFIX schema: <http://schema.org/>
+    #         SELECT ?subject ?predicate ?object
+    #         WHERE {
+    #           ?subject ?predicate ?object
+    #           FILTER(?predicate IN (dct:license, dct:rights, dc:rights, xhtml:license, cc:license, dc:license, doap:license, schema:license))
+    #         }
+    #         """
+    #         qres = self.vocabularies.query_local_graph(namespace, query)
+    #         if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
+    #             if not qres:
+    #                 self.add_violation([metric_ID, result_message, namespace, None])
 
 
 
@@ -570,6 +631,12 @@ class ValidateQuality:
             return IRI.split("/")[-1]
         return IRI
 
+    def get_namespace(self, IRI):
+        if "#" in IRI:
+            IRI = IRI[:IRI.rfind("#") + 1]
+        else:
+            IRI = IRI[:IRI.rfind("/") + 1]
+        return IRI
 
 
     def validate_MP2(self):
@@ -1001,25 +1068,45 @@ class ValidateQuality:
 
     def get_domain(self, IRI):
         if IRI not in self.domain_cache.keys():
-            query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
-                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-                       PREFIX schema: <http://schema.org/> 
-                                   SELECT ?domain
-                                    WHERE {
-                                      <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain
-                        }   
-                   """ % IRI
+            # query = """PREFIX dcam: <http://purl.org/dc/dcam/>
+            #            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            #            PREFIX schema: <http://schema.org/>
+            #            SELECT ?domain
+            #             WHERE {
+            #               <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain
+            #             }
+            #        """ % IRI
+
+            query = """
+                PREFIX gts: <http://resource.geosciml.org/ontology/timescale/gts#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                SELECT ?domain
+                WHERE {
+                GRAPH <%s>
+                    { <%s> rdfs:domain ?domain . }
+                }
+                """ % (self.get_namespace(IRI), IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)
-            domain = None
-            if qres:
-                for row in qres:
-                    domain = [row["domain"]]
-                    if isinstance(row["domain"], BNode):
-                        complex_domain = True
-                        graph = self.vocabularies.retrieve_local_graph(IRI)
-                        domain = self.get_complex_domain(IRI, graph)
-            print("ADDING TO DOMAIN CACHE", IRI, domain, self.domain_cache)
-            self.domain_cache[IRI] = domain
+            domain = []
+            print( qres["results"]["bindings"])
+            if qres["results"]["bindings"]:
+                for row in qres["results"]["bindings"]:
+                    domain.append(row["domain"]["value"])
+                    domain_type = row["domain"]["type"]
+                    if domain_type != "uri":
+                        pass
+                self.domain_cache[IRI] = domain
+                return domain
+
+            # if qres:
+            #     for row in qres:
+            #         domain = [row["domain"]]
+            #         if isinstance(row["domain"], BNode):
+            #             complex_domain = True
+            #             graph = self.vocabularies.retrieve_local_graph(IRI)
+            #             domain = self.get_complex_domain(IRI, graph)
+            # print("ADDING TO DOMAIN CACHE", IRI, domain, self.domain_cache)
+            # self.domain_cache[IRI] = domain
             return domain
         else:
             return self.domain_cache[IRI]
@@ -1128,5 +1215,5 @@ class ValidateQuality:
 
 
 if __name__ == "__main__":
-    t = ValidateQuality("/home/alex/Desktop/testing_mapping.ttl")
+    t = ValidateQuality("/home/alex/Desktop/Evaluation-1 (Validation Reports)/28 (FAIRVASC-Mapping2)/fairvasc_euvas_test_mapping_v3.ttl")
     print(json.dumps(t.validation_results, indent = 4))
