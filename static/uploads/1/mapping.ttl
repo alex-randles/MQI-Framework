@@ -45,10 +45,10 @@
     rr:logicalTable [ rr:tableName "EMP" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class geo:Geometry;
+        rr:class geo:Geometry, foaf:Agent, foaf:Document;
     ];
     rr:predicateObjectMap [
-        rr:predicate geo:isSimple;
+        rr:predicate geo:isSimples;
         rr:objectMap [ rr:column "ENAME"; rr:termType rr:Literal; rr:datatype xsd:booleazn; ];
     ].
 
@@ -63,3 +63,15 @@
         rr:predicate cidoc:P113_removed;
         rr:objectMap [ rr:column "ENAME"; ];
     ].
+    
+<#TriplesMap7>
+    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/employee/{EMPNO}";
+        rr:class cidoc:E21_Persons;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate cidoc:P113_removed;
+        rr:objectMap [ rr:column "ENAME"; ];
+    ].
+
