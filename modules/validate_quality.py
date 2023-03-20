@@ -224,7 +224,7 @@ class ValidateQuality:
         query = " ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_IRI
         qres = self.vocabularies.query_local_graph(property_IRI, query)
         is_defined_concept = qres["boolean"]
-        if not is_defined_concept:
+        if is_defined_concept is False:
             return [metric_ID, result_message, property_IRI, subject_IRI]
 
 
