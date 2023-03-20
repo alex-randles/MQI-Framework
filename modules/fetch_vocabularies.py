@@ -34,9 +34,10 @@ class FetchVocabularies:
         # via a SPARQL endpoint
         qres = sparql.queryAndConvert()
         # check if results from query - otherwise graph does not exist
-        results = qres["results"]["bindings"]
-        if not results:
-            self.http_retrieval(property_NS)
+        if "results" in qres.keys():
+            results = qres["results"]["bindings"]
+            if not results:
+                self.http_retrieval(property_NS)
         return qres
 
 

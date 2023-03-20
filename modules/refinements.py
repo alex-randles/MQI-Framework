@@ -315,20 +315,21 @@ class Refinements:
                     PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
                     SELECT ?property (GROUP_CONCAT(?commentProperty ; separator=' ') AS ?comment) 
                     WHERE {
-                      
+                      GRAPH <%s> { 
                       ?property a ?type;
                                  rdfs:comment|skos:definition ?commentProperty . 
                       FILTER(?type IN (rdf:Property, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty))
+                      }
                     }
                     GROUP BY ?property
-                    """
-        print(violation_value, "VIOLATION VALUE")
+                    """ % (self.get_namespace(violation_value))
         qres = FetchVocabularies().query_local_graph(violation_value, query)
         predicates = []
-        for row in qres:
-            predicates.append([row[0], str(row[1].split(". ")[0])])
-        print({select_placeholder: predicates})
-       #  predicates = self.order_similar_matches(predicates, violation_value)
+        for binding in qres.get("results").values():
+            for result in binding:
+                current_class = result["property"]["value"]
+                current_comment = result["comment"]["value"]
+                predicates.append((current_class, current_comment))
         return {select_placeholder: predicates}
 
     def order_similar_matches(self, values, violation_value):
@@ -347,19 +348,22 @@ class Refinements:
                     PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
                     SELECT ?classOnto (GROUP_CONCAT(?commentOnto ; separator=' ') AS ?comment) 
                     WHERE {
-                      
-                      ?classOnto a ?type; 
-                              rdfs:comment|skos:definition ?commentOnto . 
-                      FILTER(?type IN (owl:Class, rdfs:Class))
+                      GRAPH <%s> { 
+                          ?classOnto a ?type; 
+                                  rdfs:comment|skos:definition ?commentOnto . 
+                          FILTER(?type IN (owl:Class, rdfs:Class))
+                      }
                     }
                     GROUP BY ?classOnto
-                    """
+                    """ % (self.get_namespace(violation_value))
         # violation_value = violation_value[:violation_value.rfind("#")+1]
         qres = FetchVocabularies().query_local_graph(violation_value, query)
         classes = []
-        for row in qres:
-            print(row)
-            classes.append([row[0], str(row[1].split(". ")[0])])
+        for binding in qres.get("results").values():
+            for result in binding:
+                current_class = result["classOnto"]["value"]
+                current_comment = result["comment"]["value"]
+                classes.append((current_class, current_comment))
         classes = self.order_similar_matches(classes, violation_value)
         return {select_placeholder: classes}
 
@@ -880,6 +884,13 @@ class Refinements:
                 domain_identifier = new_blank_nodes.pop(0)
         return domain_values
 
+    def get_namespace(self, IRI):
+        if "#" in IRI:
+            IRI = IRI[:IRI.rfind("#") + 1]
+        else:
+            IRI = IRI[:IRI.rfind("/") + 1]
+        return IRI
+
     def find_domain(self, IRI):
         property_IRI = self.validation_results[IRI]["value"]
         query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
@@ -887,24 +898,31 @@ class Refinements:
                    PREFIX schema: <http://schema.org/> 
                        SELECT ?domain ?comment 
                         WHERE {
-                          <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
-                          OPTIONAL {?domain  rdfs:comment ?comment .} 
+                          GRAPH <%s> {
+                              <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
+                              OPTIONAL {?domain  rdfs:comment ?comment .} 
+                          }
                         }   
-                   """% property_IRI
+                   """% (self.get_namespace(property_IRI), property_IRI)
         qres = FetchVocabularies().query_local_graph(property_IRI, query)
         domain = None
         complex_domain = False
         print(query)
-        if qres:
-            for row in qres:
-                domain = ["%s" % row[0], "%s" % row[1]]
-                print(domain)
-                if isinstance(row["domain"], BNode):
-                    complex_domain = True
-                    graph = FetchVocabularies().retrieve_local_graph(property_IRI)
-                    print(len(graph), "REFINEMENTS GRAPH")
-                    domain = self.get_complex_domain(property_IRI, graph)
-        print(domain, "REFINEMENT DOMAIN")
+        for row in qres["results"]["bindings"]:
+            domain = row["domain"]["value"]
+            comment = row["comment"]["value"]
+            print(domain, comment)
+            domain = [domain, comment]
+        # if qres:
+        #     for row in qres:
+        #         domain = ["%s" % row[0], "%s" % row[1]]
+        #         print(domain)
+        #         if isinstance(row["domain"], BNode):
+        #             complex_domain = True
+        #             graph = FetchVocabularies().retrieve_local_graph(property_IRI)
+        #             print(len(graph), "REFINEMENTS GRAPH")
+        #             domain = self.get_complex_domain(property_IRI, graph)
+        # print(domain, "REFINEMENT DOMAIN")
         output = {"Choose class value: ": [domain]}
         return output
 
@@ -923,21 +941,22 @@ class Refinements:
 
     def find_range(self, IRI):
         # returns  domain for IRI if applicable
-        print("IN FIND RANGE FUNCTION")
         query = """PREFIX dcam: <http://purl.org/dc/dcam/>
                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                    PREFIX schema: <http://schema.org/>  
                    SELECT ?range
                     WHERE {
-                      <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range
+                      GRAPH <%s> {
+                            <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range . 
+                      }
                     }   
-               """ % IRI
+               """ % (self.get_namespace(IRI), IRI)
         qres = FetchVocabularies().query_local_graph(IRI, query)
-        print(IRI)
-        for row in qres:
-            print(row[0], "DATATYPE RANGE ")
-            return row[0]
-        return None
+        for binding in qres.get("results").values():
+            for result in binding:
+                correct_range = result["range"]["value"]
+                return URIRef(correct_range)
+
 
     def create_filename(self, IRI):
         # A function which will create a filename from a URI
@@ -1029,11 +1048,11 @@ class Refinements:
         # self.save_graph_to_file(mapping_graph, "comparison_mapping.ttl")
         # remove full file path from validation report
         # add information is set to true
-        mapping = list(self.refinement_graph.objects(None, self.MQV.assessedMapping))[0]
-        self.refinement_graph.remove((None, RDF.type, self.MQV.MappingDocument))
-        self.refinement_graph.add((mapping, RDF.type, self.MQV.MappingDocument))
-        self.add_metadata(mapping)
-        print(validation_report_file)
+        # mapping = list(self.refinement_graph.objects(None, self.MQV.assessedMapping))[0]
+        # self.refinement_graph.remove((None, RDF.type, self.MQV.MappingDocument))
+        # self.refinement_graph.add((mapping, RDF.type, self.MQV.MappingDocument))
+        # self.add_metadata(mapping)
+        # print(validation_report_file)
         self.refinement_graph.serialize(destination=validation_report_file, format="ttl")
         # __init__(self, mapping_graph, blank_node_references, output_file)
         # uses custom serializer to keep mapping ordering
