@@ -6,6 +6,10 @@
 @prefix geo: <http://www.opengis.net/ont/geosparql#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix cidoc:   <http://erlangen-crm.org/current/> . 
+@prefix mqio: <https://www.w3.org/MQIO/#> .
+@prefix fvc: <http://www.w3id.org/FAIRVASC#> . 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
 <#TriplesMap1>
     rr:logicalTable [ rr:tableName "EMP" ];
     rr:subjectMap [
@@ -72,6 +76,30 @@
     ];
     rr:predicateObjectMap [
         rr:predicate cidoc:P113_removed;
+        rr:objectMap [ rr:column "ENAME"; ];
+    ].
+    
+        
+<#TriplesMap8>
+    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/employee/{EMPNO}";
+        rr:class mqio:MappingDocument;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate mqio:hasValidationReport;
+        rr:objectMap [ rr:column "ENAME"; ];
+    ].
+
+
+<#TriplesMap99>
+    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/employee/{EMPNO}";
+        rr:class fvc:Patients;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
         rr:objectMap [ rr:column "ENAME"; ];
     ].
 
