@@ -221,7 +221,7 @@ class ValidateQuality:
 
     def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
         result_message = "Usage of undefined %s." % (value_type)
-        query = " ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_IRI
+        query = " ASK { GRAPH <%s> { <%s> ?predicate ?object . } } " % (self.get_namespace(property_IRI), property_IRI)
         qres = self.vocabularies.query_local_graph(property_IRI, query)
         is_defined_concept = qres["boolean"]
         if is_defined_concept is False:

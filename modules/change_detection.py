@@ -12,9 +12,6 @@ from collections import defaultdict
 from csv_diff import load_csv, compare
 
 
-
-
-
 # creates tabular form of CSV file
 # Then converts tabular form to RDF using R2RML
 # user enters details in form

@@ -112,7 +112,6 @@ class FetchVocabularies:
 
         ##
         g.serialize(destination=file_location)
-        exit()
         return True
 
     def http_retrieval(self, url):

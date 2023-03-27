@@ -1,31 +1,34 @@
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix daq:     <http://purl.org/eis/vocab/daq#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix ex: <http://example.com/ns#> .
-@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix ex: <http://example.com/ns#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix prov: <http://www.w3.org/ns/prov#> . 
+@prefix dqv: <http://www.w3.org/ns/dqv#> . 
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix cidoc:   <http://erlangen-crm.org/current/> . 
+@prefix mqio: <https://www.w3.org/MQIO/#> .
+@prefix fvc: <http://www.w3id.org/FAIRVASC#> . 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+<#TriplesMap1>
+    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/employee/{EMPNO}";
+        rr:class foaf:Employee, prov:Test;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate prov:generatedAtTime;
+        rr:objectMap [ rr:column "ENAME"; rr:termType rr:IRI; rr:datatype xsd:dateTime;];
+    ].
 
 
-<#Class-ValidationRule-View>
-    rr:sqlQuery """
-    SELECT DISTINCT CATEGORY, DIMENSION,
-                SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) as VAL_RULE_ID,
-                SUBSTR(VALIDATION_RULE, INSTR(validation_rule, ' ') + 1) as VAL_RULE_LABEL
-                FROM VALIDATION_FEATURE inner join MAPPING on SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) = MAPPING.METRIC
-        """;
-    rr:sqlVersion rr:Oracle .
-
-    <#OracleCategory>
-        rr:logicalTable <#Class-ValidationRule-View> ;
-        rr:subjectMap [
-            rr:template "http://data.example.com/category/{CATEGORY}" ;
-            rr:class rdfs:Class ;
-        ] ;
-        rr:predicateObjectMap [
-            rr:predicate rdfs:label ;
-            rr:objectMap [ rr:column "CATEGORY" ];
-        ] ;
-        rr:predicateObjectMap [
-            rr:predicate rdfs:subClassOfs ;
-            rr:objectMap [ rr:constant daq:Category ] ;
-        ] .
+<#TriplesMap2>
+    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/employee/{EMPNO}";
+        rr:class foaf:Employee;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:name;
+        rr:objectMap [ rr:column "ENAME" ];
+    ].
