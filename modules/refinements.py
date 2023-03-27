@@ -346,12 +346,13 @@ class Refinements:
         query = """ PREFIX owl: <http://www.w3.org/2002/07/owl#>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+                    PREFIX prov: <http://www.w3.org/ns/prov#> 
                     SELECT ?classOnto (GROUP_CONCAT(?commentOnto ; separator=' ') AS ?comment) 
                     WHERE {
                       GRAPH <%s> { 
-                          ?classOnto a ?type; 
-                                  rdfs:comment|skos:definition ?commentOnto . 
-                          FILTER(?type IN (owl:Class, rdfs:Class))
+                          ?classOnto a ?type . 
+                          OPTIONAL { ?classOnto  rdfs:comment|skos:definition|prov:definition ?commentOnto . } 
+                          FILTER(?type IN (owl:Class, rdfs:Class) && !isBlank(?classOnto) )
                       }
                     }
                     GROUP BY ?classOnto
@@ -362,7 +363,10 @@ class Refinements:
         for binding in qres.get("results").values():
             for result in binding:
                 current_class = result["classOnto"]["value"]
-                current_comment = result["comment"]["value"].split(".")[0] + "."
+                if "comment" in result:
+                    current_comment = result["comment"]["value"].split(".")[0] + "."
+                else:
+                    current_comment = ""
                 classes.append((current_class, current_comment))
         classes = self.order_similar_matches(classes, violation_value)
         return {select_placeholder: classes}
@@ -896,21 +900,24 @@ class Refinements:
         query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                    PREFIX schema: <http://schema.org/> 
-                       SELECT ?domain ?comment 
+                   PREFIX prov: <http://www.w3.org/ns/prov#> 
+                   SELECT ?domain ?comment 
                         WHERE {
                           GRAPH <%s> {
                               <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
-                              OPTIONAL {?domain  rdfs:comment ?comment .} 
+                              OPTIONAL { ?domain  rdfs:comment|prov:definition ?comment .} 
                           }
-                        }   
+                   }   
                    """% (self.get_namespace(property_IRI), property_IRI)
         qres = FetchVocabularies().query_local_graph(property_IRI, query)
         domain = None
         complex_domain = False
-        print(query)
         for row in qres["results"]["bindings"]:
             current_domain = row["domain"]["value"]
-            current_comment = row["comment"]["value"].split(".")[0] + "."
+            if "comment" in row:
+                current_comment = row["comment"]["value"].split(".")[0] + "."
+            else:
+                current_comment = "No description of class in ontology."
             domain = [current_domain, current_comment]
         # if qres:
         #     for row in qres:

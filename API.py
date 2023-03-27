@@ -11,6 +11,7 @@ import shutil
 import string
 import time
 import timeit
+import urllib
 import pandas as pd
 from collections import OrderedDict, defaultdict
 from datetime import datetime
@@ -284,10 +285,7 @@ class API:
     @app.route(("/"), methods=["GET", "POST"])
     @app.route(("/welcome"), methods=["GET", "POST"])
     def welcome():
-        return render_template("KCG Sample Screenshot.html")
-        participant_id = session.get("participant_id")
-        session_id = API.get_session_id()
-        return redirect(url_for("assess_mapping"))
+        return redirect(url_for("component_choice"))
 
     @app.route(("/informed-consent"), methods=["GET", "POST"])
     def informed_consent():
@@ -499,62 +497,57 @@ class API:
     # view change detection processes running by a user
     @app.route(("/change-processes"), methods=["GET", "POST"])
     def change_detection():
-        form_id = str(shortuuid.ShortUUID().random(length=12))
-        session["form_id"] = form_id
-        time.sleep(1)
-        form_id = session.get("form_id")
-        return render_template("Change Detection Processes.html", form_id=form_id)
-        # participant_id = 1
-        # # no alert if no process executed
-        # if request.method == "GET":
-        #     change_process_executed = session.get("change_process_executed")
-        #     session["change_process_executed"] = True
-        #     # get graph details for user
-        #     display_changes = DisplayChanges(participant_id)
-        #     error_code = display_changes.error_code
-        #     if error_code == 0:
-        #         user_graph_details = display_changes.graph_details
-        #         mapping_details = display_changes.mapping_details
-        #         session["graph_details"] = user_graph_details
-        #         session["mapping_details"] = mapping_details
-        #         session_id = API.get_session_id()
-        #         form_url = "https://docs.google.com/forms/d/e/1FAIpQLSfV8h0Z1bxHJ04tIBzzznwWGMfVuVlYhiDJf529pXVU8KdtqA/viewform?embedded=true&entry.880637273={}".format(
-        #             session_id)
-        #         print(form_url)
-        #         # return render_template("change_detection/Change Detection Processes.html")
-        #         return render_template(
-        #             "change_detection/change_results.html",
-        #             form_url=form_url,
-        #             participant_id=participant_id,
-        #             change_process_executed=change_process_executed,
-        #             graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
-        #             mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
-        #         )
-        #     else:
-        #         return "<h1>Error!!!!!</h1>"
-        # else:
-        #     uploaded_file = request.files['mapping-file']
-        #     if uploaded_file.filename != '':
-        #         file_version = API.iterate_user_files(participant_id)
-        #         filename = uploaded_file.filename + "_{}-{}".format(participant_id, file_version)
-        #         filename = os.path.join(app.config['UPLOAD_FOLDER'] + session.get("participant_id") + "/", filename)
-        #         uploaded_file.save(filename)
-        #         mapping_uploaded = True
-        #     else:
-        #         mapping_uploaded = False
-        #     # mapping uploaded = True to display banner
-        #     # get graph details for user
-        #     display_changes = DisplayChanges(participant_id)
-        #     user_graph_details = display_changes.graph_details
-        #     mapping_details = display_changes.mapping_details
-        #     return render_template("change_detection/change_results.html",
-        #                            mapping_uploaded=mapping_uploaded,
-        #                            participant_id=participant_id,
-        #                            change_process_executed=change_process_executed,
-        #                            graph_details=OrderedDict(
-        #                                sorted(user_graph_details.items(), key=lambda t: t[0])),
-        #                            mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
-        #                            )
+        participant_id = 1
+        # no alert if no process executed
+        if request.method == "GET":
+            change_process_executed = session.get("change_process_executed")
+            session["change_process_executed"] = True
+            # get graph details for user
+            display_changes = DisplayChanges(participant_id)
+            error_code = display_changes.error_code
+            if error_code == 0:
+                user_graph_details = display_changes.graph_details
+                mapping_details = display_changes.mapping_details
+                session["graph_details"] = user_graph_details
+                session["mapping_details"] = mapping_details
+                session_id = API.get_session_id()
+                form_url = "https://docs.google.com/forms/d/e/1FAIpQLSfV8h0Z1bxHJ04tIBzzznwWGMfVuVlYhiDJf529pXVU8KdtqA/viewform?embedded=true&entry.880637273={}".format(
+                    session_id)
+                print(form_url)
+                # return render_template("change_detection/Change Detection Processes.html")
+                return render_template(
+                    "change_detection/change_results.html",
+                    form_url=form_url,
+                    participant_id=participant_id,
+                    change_process_executed=change_process_executed,
+                    graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
+                    mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
+                )
+            else:
+                return "<h1>Error!!!!!</h1>"
+        else:
+            uploaded_file = request.files['mapping-file']
+            if uploaded_file.filename != '':
+                file_version = API.iterate_user_files(participant_id)
+                filename = uploaded_file.filename + "_{}-{}".format(participant_id, file_version)
+                filename = os.path.join(app.config['UPLOAD_FOLDER'] + session.get("participant_id") + "/", filename)
+                uploaded_file.save(filename)
+                mapping_uploaded = True
+            else:
+                mapping_uploaded = False
+            # mapping uploaded = True to display banner
+            # get graph details for user
+            display_changes = DisplayChanges(participant_id)
+            user_graph_details = display_changes.graph_details
+            mapping_details = display_changes.mapping_details
+            return render_template("change_detection/change_results.html",
+                                   mapping_uploaded=mapping_uploaded,
+                                   participant_id=participant_id,
+                                   change_process_executed=change_process_executed,
+                                   graph_details=OrderedDict(
+                                       sorted(user_graph_details.items(), key=lambda t: t[0])),
+                                   mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
+                                   )
 
 
     @app.route('/remove/<user_id>/<file_id>/')
@@ -793,80 +786,84 @@ class API:
                 file.save(mapping_file)
                 if file and file_extension in app.config["allowed_file_extensions"]:
                     if API.validate_RDF(mapping_file):
-                        # try:
-                        print(mapping_file)
-                        current_time = time.gmtime()
-                        timestamp = str(calendar.timegm(current_time))
-                        session["timestamp"] = timestamp
-                        assessment_result = ValidateQuality(mapping_file)
-                        content = pickle.dumps(assessment_result)
-                        print(mapping_file)
-                        session["assessment_result"] = content
-                        validation_result = assessment_result.validation_results
-                        session["validation_result"] = validation_result
-                        triple_references = assessment_result.triple_references
-                        session["triple_references"] = triple_references
-                        more_info_data = request.form
-                        session["more_info_data"] = more_info_data
-                        # if violations exist within validation result
-                        if len(validation_result) > 0:
-                            participant_id = session.get("participant_id")
-                            validation_report_file = "validation_report-{}.ttl".format(participant_id)
-                            session["validation_report_file"] = validation_report_file
-                            session["namespaces"] = assessment_result.namespaces
-                            # user wants to add more info to reports
-                            add_information = request.form.get("add-information")
-                            session["add_information"] = add_information
-                            mapping_graph = assessment_result.mapping_graph
-                            session["mapping_graph"] = assessment_result.mapping_graph
-                            find_violation_location = assessment_result.find_violation_location
-                            session["find_violation_location"] = find_violation_location
-                            detailed_metric_information = assessment_result.detailed_metric_information
-                            metric_descriptions = assessment_result.metric_descriptions
-                            session["refinements"] = Refinements(timestamp, validation_result, triple_references,
-                                                                 mapping_graph)
-                            suggested_refinements = session["refinements"].provide_suggested_refinements()
-                            session["suggested_refinements"] = suggested_refinements
-                            refinement_descriptions = session["refinements"].refinement_descriptions
-                            serializer = TurtleSerializer(mapping_graph)
-                            parse_violation_value = serializer.parse_violation_value
-                            find_prefix = assessment_result.find_prefix
-                            session["find_prefix"] = find_prefix
-                            API.create_validation_report(more_info_data)
-                            get_triple_map_id = assessment_result.get_triple_map_id
-                            session["get_triple_map_id"] = get_triple_map_id
-                            participant_id = session["participant_id"]
-                            API.update_database_time(participant_id, "assessment_information_generated")
-                            cache_validation_result = session.get("validation_result")
-                            bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
-                            session["bar_chart_html"] = bar_chart_html
-                            return render_template(
-                                "mapping_quality/assessment_result.html",
-                                bar_chart_html=bar_chart_html,
-                                refinement_descriptions=refinement_descriptions,
-                                participant_id=participant_id,
-                                display_violation=serializer.display_violation,
-                                metric_descriptions=metric_descriptions,
-                                len=len(validation_result),
-                                assessment_report=validation_result,
-                                find_prefix=find_prefix,
-                                suggested_refinements=suggested_refinements,
-                                find_violation_location=find_violation_location,
-                                split_camel_case=API.split_camel_case,
-                                detailed_metric_information=detailed_metric_information,
-                                validation_result=session.get("validation_result"),
-                                find_bNode_reference=assessment_result.find_blank_node_reference,
-                                get_triple_map_ID=assessment_result.get_triple_map_id,
-                                parse_violation_value=parse_violation_value
-                            )
+                        try:
+                            print(mapping_file)
+                            current_time = time.gmtime()
+                            timestamp = str(calendar.timegm(current_time))
+                            session["timestamp"] = timestamp
+                            assessment_result = ValidateQuality(mapping_file)
+                            content = pickle.dumps(assessment_result)
+                            print(mapping_file)
+                            session["assessment_result"] = content
+                            validation_result = assessment_result.validation_results
+                            session["validation_result"] = validation_result
+                            triple_references = assessment_result.triple_references
+                            session["triple_references"] = triple_references
+                            more_info_data = request.form
+                            session["more_info_data"] = more_info_data
+                            # if violations exist within validation result
+                            if len(validation_result) > 0:
+                                participant_id = session.get("participant_id")
+                                validation_report_file = "validation_report-{}.ttl".format(participant_id)
+                                session["validation_report_file"] = validation_report_file
+                                session["namespaces"] = assessment_result.namespaces
+                                # user wants to add more info to reports
+                                add_information = request.form.get("add-information")
+                                session["add_information"] = add_information
+                                mapping_graph = assessment_result.mapping_graph
+                                session["mapping_graph"] = assessment_result.mapping_graph
+                                find_violation_location = assessment_result.find_violation_location
+                                session["find_violation_location"] = find_violation_location
+                                detailed_metric_information = assessment_result.detailed_metric_information
+                                metric_descriptions = assessment_result.metric_descriptions
+                                session["refinements"] = Refinements(timestamp, validation_result, triple_references,
+                                                                     mapping_graph)
+                                suggested_refinements = session["refinements"].provide_suggested_refinements()
+                                session["suggested_refinements"] = suggested_refinements
+                                refinement_descriptions = session["refinements"].refinement_descriptions
+                                serializer = TurtleSerializer(mapping_graph)
+                                parse_violation_value = serializer.parse_violation_value
+                                find_prefix = assessment_result.find_prefix
+                                session["find_prefix"] = find_prefix
+                                API.create_validation_report(more_info_data)
+                                get_triple_map_id = assessment_result.get_triple_map_id
+                                session["get_triple_map_id"] = get_triple_map_id
+                                participant_id = session["participant_id"]
+                                API.update_database_time(participant_id, "assessment_information_generated")
+                                cache_validation_result = session.get("validation_result")
+                                bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
+                                session["bar_chart_html"] = bar_chart_html
+                                return render_template(
+                                    "mapping_quality/assessment_result.html",
+                                    bar_chart_html=bar_chart_html,
+                                    refinement_descriptions=refinement_descriptions,
+                                    participant_id=participant_id,
+                                    display_violation=serializer.display_violation,
+                                    metric_descriptions=metric_descriptions,
+                                    len=len(validation_result),
+                                    assessment_report=validation_result,
+                                    find_prefix=find_prefix,
+                                    suggested_refinements=suggested_refinements,
+                                    find_violation_location=find_violation_location,
+                                    split_camel_case=API.split_camel_case,
+                                    detailed_metric_information=detailed_metric_information,
+                                    validation_result=session.get("validation_result"),
+                                    find_bNode_reference=assessment_result.find_blank_node_reference,
+                                    get_triple_map_ID=assessment_result.get_triple_map_id,
+                                    parse_violation_value=parse_violation_value
+                                )
 
-                        else:
-                            API.create_validation_report(more_info_data)
-                            return render_template("mapping_quality/no_violations.html", participant_id=participant_id)
-                        # except Exception as e:
-                        #     print(e)
-                        #     flash("Check the mapping and upload again. Validate with http://ttl.summerofcode.be/")
-                        #     return render_template("mapping_quality/index.html")
+                            else:
+                                API.create_validation_report(more_info_data)
+                                return render_template("mapping_quality/no_violations.html", participant_id=participant_id)
+                        except urllib.error.URLError as server_error:
+                            print(server_error)
+                            flash("Start the Apache fueski server!")
+                            return render_template("mapping_quality/index.html")
+                        except Exception as e:
+                            print(e)
+                            flash("Check the mapping and upload again. Validate with http://ttl.summerofcode.be/")
+                            return render_template("mapping_quality/index.html")
                     else:
                         flash("Mapping file contains invalid RDF. Validate with http://ttl.summerofcode.be/")
                         return render_template("mapping_quality/index.html")
@@ -1029,7 +1026,7 @@ class API:
         # refined_mapping_file_name = session.get("mapping_file").split(".")[0] + "_refined_mapping.ttl"
         participant_id = session.get("participant_id")
         local_filename = "refined_mapping-{}.ttl".format(participant_id)
-        refined_mapping_filename = "refined-mapping-participant-{}.ttl".format(participant_id)
+        refined_mapping_filename = "refined-mapping.ttl"
         return send_file(local_filename, attachment_filename=refined_mapping_filename, as_attachment=True,
                          cache_timeout=0)
 
@@ -1037,7 +1034,7 @@ class API:
     def download_refinement_report():
         cache_validation_report_file = session.get("validation_report_file")
         participant_id = session.get("participant_id")
-        validation_report_filename = "validation_report-{}.ttl".format(participant_id)
+        validation_report_filename = "validation_report-1.ttl"
         # API.save_file_to_database(validation_report_filename, "validation_report_file")
         # API.save_cache_file(validation_report_filename, validation_report_filename)
         return send_file(
