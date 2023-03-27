@@ -26,9 +26,9 @@
     rr:logicalTable [ rr:tableName "EMP" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class foaf:Employee;
+        rr:class foaf:Employee, foaf:Test;
     ];
     rr:predicateObjectMap [
         rr:predicate foaf:name;
-        rr:objectMap [ rr:column "ENAME" ];
+        rr:objectMap [ rr:column "ENAME";  rr:language "en-us";  rr:datatype xsd:positiveInteger; ];
     ].

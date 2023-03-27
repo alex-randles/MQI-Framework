@@ -123,6 +123,7 @@ class ValidateQuality:
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.validate_data_metrics()
+            self.validate_mapping_metrics()
             # self.validate_mapping_metrics()
             # self.validate_data_metrics()
             # self.update_progress_bar()

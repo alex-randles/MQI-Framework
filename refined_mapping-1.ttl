@@ -20,7 +20,7 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class  prov:Entity , foaf:Employee , prov:Test ;	
+ 	 rr:class  prov:Test , foaf:Employee ;	
 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
  ];	
 	
@@ -28,8 +28,8 @@
  	 rr:predicate  prov:generatedAtTime ;	
 	 rr:objectMap  [	
 		 rr:termType  rr:IRI ;	
-		 rr:datatype  xsd:dateTime ;	
 		 rr:column  "ENAME" ;	
+		 rr:datatype  xsd:dateTime ;	
 		]; 	
  ];	
 .	
@@ -41,14 +41,16 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class  foaf:Employee ;	
-	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
+	 rr:class  foaf:OnlineChatAccount , foaf:Employee ;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate  foaf:name ;	
 	 rr:objectMap  [	
+		 rr:language  "en-us" ;	
 		 rr:column  "ENAME" ;	
+		 rr:datatype  xsd:positiveInteger ;	
 		]; 	
  ];	
 .	
