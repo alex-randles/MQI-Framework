@@ -18,55 +18,82 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-11,
         ex:violation-12,
         ex:violation-13,
-        ex:violation-14 .
+        ex:violation-14,
+        ex:violation-15,
+        ex:violation-16,
+        ex:violation-17 .
 
-ex:refinement-1679924854-0 a ns1:MappingRefinement ;
-    prov:endedAtTime "2023-03-27T13:50:16.243251"^^xsd:dateTime ;
+ex:refinement-1679944844-0 a ns1:MappingRefinement ;
+    prov:endedAtTime "2023-03-27T19:30:39.708561"^^xsd:dateTime ;
     ns1:hasRefinementQuery """
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            DELETE {
+                ?subject rr:class <http://xmlns.com/foaf/0.1/Test> . 
+            }
             INSERT {
-                ?subject rr:class <http://www.w3.org/ns/prov#Entity> .
+                ?subject rr:class <http://xmlns.com/foaf/0.1/OnlineChatAccount>
             }
             WHERE {
-              <file:///home/alex/MQI-Framework/static/uploads/1/test_mapping.ttl#TriplesMap1> rr:subjectMap ?subject
+                <file:///home/alex/MQI-Framework/static/uploads/1/test_mapping.ttl#TriplesMap2> rr:subjectMap ?subject .
             }
             """^^xsd:string ;
-    ns1:refinedViolation ex:violation-1679924854-2 ;
-    ns1:refinementName "Add Domain Class"^^xsd:string .
+    ns1:refinedViolation ex:violation-1679944844-0 ;
+    ns1:refinementName "Find Similar Classes"^^xsd:string .
 
 ex:violation-10 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue foaf:Employee ;
+    mqio:hasObjectValue foaf:Test ;
     mqio:hasResultMessage "Usage of undefined Class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:inTripleMap <#TriplesMap2> ;
     mqio:isDescribedBy mqio-metrics:D1 .
 
 ex:violation-11 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue prov:Test ;
-    mqio:hasResultMessage "Usage of undefined Class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-12 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue prov:generatedAtTime ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-13 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:IRI ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:Literal' for property ' prov:generatedAtTime '."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-14 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
     mqio:hasObjectValue foaf:Employee ;
     mqio:hasResultMessage "Usage of undefined Class."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap2> ;
     mqio:isDescribedBy mqio-metrics:D1 .
 
-ex:violation-1679924854-2 ns1:wasRefinedBy ex:refinement-1679924854-0 .
+ex:violation-12 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "An object map with a language tag and datatype."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:isDescribedBy mqio-metrics:MP1 .
+
+ex:violation-13 a mqio:MappingViolation ;
+    mqio:hasLiteralValue "en-us"^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "Language tag not defined in RFC 5646."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-14 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue prov:Test ;
+    mqio:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-15 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue foaf:Employee ;
+    mqio:hasResultMessage "Usage of undefined Class."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-16 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue prov:generatedAtTime ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+ex:violation-1679944844-0 ns1:wasRefinedBy ex:refinement-1679944844-0 .
+
+ex:violation-17 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:IRI ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:Literal' for property ' prov:generatedAtTime '."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
 
