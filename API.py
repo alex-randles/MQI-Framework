@@ -364,7 +364,17 @@ class API:
             form_id = str(shortuuid.ShortUUID().random(length=12))
             session["form_id"] = form_id
             session["change_process_executed"] = True
-            return redirect(url_for('change_detection'))
+            form_details = request.form
+            change_detection = DetectChanges(participant_id, form_details)
+            # invalid URL
+            if change_detection.error_code == 1:
+                flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
+                return redirect(url_for('detect_CSV_changes'))
+            elif change_detection.error_code == 2:
+                flash("Incorrect file format.")
+                return redirect(url_for('detect_CSV_changes'))
+            else:
+                return redirect(url_for('change_detection'))
 
     @app.route(("/XML-changes"), methods=["GET", "POST"])
     def detect_XML_changes():
@@ -476,7 +486,6 @@ class API:
     def notification_thresholds():
         return render_template("Thresholds.html")
 
-
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
     def process_thresholds(graph_filename):
@@ -510,14 +519,8 @@ class API:
                 mapping_details = display_changes.mapping_details
                 session["graph_details"] = user_graph_details
                 session["mapping_details"] = mapping_details
-                session_id = API.get_session_id()
-                form_url = "https://docs.google.com/forms/d/e/1FAIpQLSfV8h0Z1bxHJ04tIBzzznwWGMfVuVlYhiDJf529pXVU8KdtqA/viewform?embedded=true&entry.880637273={}".format(
-                    session_id)
-                print(form_url)
-                # return render_template("change_detection/Change Detection Processes.html")
                 return render_template(
                     "change_detection/change_results.html",
-                    form_url=form_url,
                     participant_id=participant_id,
                     change_process_executed=change_process_executed,
                     graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),

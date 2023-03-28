@@ -36,7 +36,7 @@
             <https://w3id.org/OSCD#hasDetectionEnd>
                     "00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
             <https://w3id.org/OSCD#hasDetectionStart>
-                    "2023-03-28 16:16:17.156234"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+                    "2023-03-28 16:17:31.227475"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     
     <http://www.example.com/updateChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
@@ -107,7 +107,7 @@
     <http://www.example.com/detectionTime/5>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/insertChange/1>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
@@ -119,7 +119,7 @@
     <http://www.example.com/detectionTime/4>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/insertChange/0>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
@@ -138,7 +138,7 @@
     <http://www.example.com/detectionTime/3>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/changeLog/user-1>
             a       <https://w3id.org/OSCD#ChangeLog> ;
@@ -159,17 +159,17 @@
     <http://www.example.com/detectionTime/2>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/detectionTime/8>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/detectionTime/1>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/insertChange/4>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
@@ -181,7 +181,7 @@
     <http://www.example.com/detectionTime/7>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/deleteChange/8>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
@@ -193,7 +193,7 @@
     <http://www.example.com/detectionTime/6>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
     
     <http://www.example.com/insertChange/3>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
@@ -205,5 +205,5 @@
     <http://www.example.com/detectionTime/0>
             a       <http://www.w3.org/2006/time#Instant> ;
             <http://www.w3.org/2006/time#inXSDDateTimeStamp>
-                    "2023-03-28 16:16:17.111960"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
+                    "2023-03-28 16:17:31.185341"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> .
 }

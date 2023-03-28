@@ -114,7 +114,7 @@ class DetectChanges:
                 new_row = [change_id, change_type, detection_time, change_reason, self.user_id, version_1, version_2]
                 changes_df.loc[len(changes_df)] = new_row
                 change_id += 1
-        changes_df.to_csv("/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/1/changes_info/changes_detected.csv")
+        changes_df.to_csv("/home/alex/MQI-Framework/static/change_detection_cache/1/changes_info/changes_detected.csv")
 
 
     # create CSV file to be uplifted to notification policy
@@ -197,7 +197,7 @@ class DetectChanges:
         # remove row indexes
         changes_df.reset_index(drop=True)
         # output changes into CSV file
-        changes_df.to_csv("/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/1/changes_info/changes_detected.csv")
+        changes_df.to_csv("/home/alex/MQI-Framework/static/change_detection_cache/1/changes_info/changes_detected.csv")
         print("CHANGES CSV NEW CREATED")
 
     def update_r2rml_config(self):
@@ -220,17 +220,17 @@ class FileNames:
     def __init__(self, user_id):
         # create dynamic file names
         self.user_id = user_id
-        self.graph_directory = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/change_graphs".format(self.user_id)
+        self.graph_directory = "/home/alex/MQI-Framework/static/change_detection_cache/{}/change_graphs".format(self.user_id)
         self.graph_version = self.find_graph_version()
-        self.user_graph_directory = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/changes_info/".format(self.user_id)
-        self.user_directory = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/changes_info/".format(self.user_id)
-        self.xml_diff_file = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/changes_info/diff.xml".format(self.user_id)
+        self.user_graph_directory = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/".format(self.user_id)
+        self.user_directory = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/".format(self.user_id)
+        self.xml_diff_file = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/diff.xml".format(self.user_id)
         self.notification_details_csv = self.user_directory + "notification_details.csv".format(self.user_id)
-        self.mapping_file = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/mappings/CSV_change_detection_mapping.ttl"
-        self.r2rml_input_files = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/changes_info/contact_details.csv;/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/changes_info/changes_detected.csv;/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/changes_info/notification_details.csv".format(self.user_id, self.user_id, self.user_id).strip()
-        self.r2rml_output_file = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{}/change_graphs/{}.trig".format(self.user_id, self.graph_version)
-        self.r2rml_config_file = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/r2rml/config.properties"
-        self.r2rml_run_file = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/r2rml/run.sh"
+        self.mapping_file = "/home/alex/MQI-Framework/static/change_detection_cache/mappings/CSV_change_detection_mapping.ttl"
+        self.r2rml_input_files = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/contact_details.csv;/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/changes_detected.csv;/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/notification_details.csv".format(self.user_id, self.user_id, self.user_id).strip()
+        self.r2rml_output_file = "/home/alex/MQI-Framework/static/change_detection_cache/{}/change_graphs/{}.trig".format(self.user_id, self.graph_version)
+        self.r2rml_config_file = "/home/alex/MQI-Framework/static/change_detection_cache/r2rml/config.properties"
+        self.r2rml_run_file = "/home/alex/MQI-Framework/static/change_detection_cache/r2rml/run.sh"
         # store file names in dict for retrieval
         self.filename_dict = {
             "user_graph_directory": self.user_graph_directory,

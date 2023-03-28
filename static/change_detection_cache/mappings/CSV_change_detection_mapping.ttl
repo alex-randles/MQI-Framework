@@ -5,7 +5,7 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix testv: <http://www.txample.com/people/voc/>.
 @prefix testd: <http://www.txample.com/people/data/>.
-@prefix cdo: <https://change-detection-ontology.adaptcentre.ie/#> . 
+@prefix oscd: <https://w3id.org/OSCD#> .
 @prefix lode: <http://linkedevents.org/ontology/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix time: <http://www.w3.org/2006/time#> . 
@@ -35,13 +35,13 @@
 
 	rr:subjectMap [
 		rr:template "http://www.example.com/changeLog/user-{USER_ID}";
-		rr:class cdo:ChangeLog;
+		rr:class oscd:ChangeLog;
         rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
 
 	];
 
 	rr:predicateObjectMap [
-		rr:predicate cdo:hasChange ;
+		rr:predicate oscd:hasChange ;
 		rr:objectMap  [
 				rr:parentTriplesMap <#DeleteChanges> ;
 			    rr:joinCondition [
@@ -52,7 +52,7 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate cdo:hasChange ;
+		rr:predicate oscd:hasChange ;
 		rr:objectMap  [
 				rr:parentTriplesMap <#UpdateChanges> ;
 			    rr:joinCondition [
@@ -63,7 +63,7 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate cdo:hasChange ;
+		rr:predicate oscd:hasChange ;
 		rr:objectMap  [
 				rr:parentTriplesMap <#InsertChanges> ;
 			    rr:joinCondition [
@@ -74,7 +74,7 @@
    ];
 
    rr:predicateObjectMap [
-	     rr:predicate cdo:hasPreviousVersion;
+	     rr:predicate oscd:hasPreviousVersion;
 	     rr:objectMap [
 			rr:column "VERSION_1";
 			rr:termType rr:IRI;
@@ -82,7 +82,7 @@
    ];
 
    rr:predicateObjectMap [
-	     rr:predicate cdo:hasCurrentVersion;
+	     rr:predicate oscd:hasCurrentVersion;
 	     rr:objectMap [
 			rr:column "VERSION_2";
 			rr:termType rr:IRI;
@@ -108,7 +108,7 @@
 
 	rr:subjectMap [
 		rr:template "http://www.example.com/deleteChange/{ID}";
-		rr:class cdo:DeleteSourceData;
+		rr:class oscd:DeleteSourceData;
 	    rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
 	];
 
@@ -120,7 +120,7 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate cdo:hasReason ;
+		rr:predicate oscd:hasReason ;
 		rr:objectMap  [
 			rr:column "DESCRIPTION";
 		];
@@ -141,7 +141,7 @@
 
 	rr:subjectMap [
 		rr:template "http://www.example.com/updateChange/{ID}";
-		rr:class cdo:UpdateSourceData;
+		rr:class oscd:UpdateSourceData;
         rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
 
 	];
@@ -154,7 +154,7 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate cdo:hasReason ;
+		rr:predicate oscd:hasReason ;
 		rr:objectMap  [
 			rr:column "DESCRIPTION";
 		];
@@ -178,7 +178,7 @@
 
 	rr:subjectMap [
 		rr:template "http://www.example.com/insertChange/{ID}";
-		rr:class cdo:InsertSourceData;
+		rr:class oscd:InsertSourceData;
         rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
 
 	];
@@ -191,7 +191,7 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate cdo:hasReason ;
+		rr:predicate oscd:hasReason ;
 		rr:objectMap  [
 			rr:column "DESCRIPTION";
 		];
@@ -258,7 +258,7 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate  cdo:hasDetectionStart  ;
+		rr:predicate  oscd:hasDetectionStart  ;
 		rr:objectMap  [
 			rr:column "DETECTION_START";
 			rr:datatype xsd:dateTime;
@@ -266,7 +266,7 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate  cdo:hasDetectionEnd  ;
+		rr:predicate  oscd:hasDetectionEnd  ;
 		rr:objectMap  [
 			rr:column "DETECTION_END";
 			rr:datatype xsd:dateTime;
@@ -291,7 +291,7 @@
 			rr:template "http://www.example.com/userActor/{USER_ID}";
 		];
 		rr:objectMap  [
-			rr:constant cdo:softwareAgent;
+			rr:constant oscd:softwareAgent;
 		];
    ];
 
@@ -306,14 +306,14 @@
    rr:predicateObjectMap [
 		rr:predicate  rei-denontic:obligedTo  ;
 		rr:objectMap  [
-			rr:constant cdo:softwareAgent;
+			rr:constant oscd:softwareAgent;
 		];
    ];
 
    rr:predicateObjectMap [
 		rr:predicate  rei-denontic:action  ;
 		rr:objectMap  [
-			rr:constant cdo:sendNotification;
+			rr:constant oscd:sendNotification;
 		];
    ];
 .
@@ -399,7 +399,7 @@
 	rr:predicateObjectMap [
 		rr:predicate  rei-constraint:subject  ;
 		rr:objectMap  [
-			rr:constant cdo:InsertSourceData;
+			rr:constant oscd:InsertSourceData;
 		];
    ];
 
@@ -407,7 +407,7 @@
   rr:predicateObjectMap [
 		rr:predicate  rei-constraint:predicate  ;
 		rr:objectMap  [
-			rr:constant cdo:hasThreshold;
+			rr:constant oscd:hasThreshold;
 		];
    ];
 
@@ -436,7 +436,7 @@
 	rr:predicateObjectMap [
 		rr:predicate  rei-constraint:subject  ;
 		rr:objectMap  [
-			rr:constant cdo:DeleteSourceData;
+			rr:constant oscd:DeleteSourceData;
 		];
    ];
 
@@ -444,7 +444,7 @@
   rr:predicateObjectMap [
 		rr:predicate  rei-constraint:predicate  ;
 		rr:objectMap  [
-			rr:constant cdo:hasThreshold;
+			rr:constant oscd:hasThreshold;
 		];
    ];
 
@@ -471,7 +471,7 @@
 	rr:predicateObjectMap [
 		rr:predicate  rei-constraint:subject  ;
 		rr:objectMap  [
-			rr:constant cdo:MoveSourceData;
+			rr:constant oscd:MoveSourceData;
 		];
    ];
 
@@ -479,7 +479,7 @@
   rr:predicateObjectMap [
 		rr:predicate  rei-constraint:predicate  ;
 		rr:objectMap  [
-			rr:constant cdo:hasThreshold;
+			rr:constant oscd:hasThreshold;
 		];
    ];
 
@@ -505,7 +505,7 @@
 	rr:predicateObjectMap [
 		rr:predicate  rei-constraint:subject  ;
 		rr:objectMap  [
-			rr:constant cdo:UpdateSourceData;
+			rr:constant oscd:UpdateSourceData;
 		];
    ];
 
@@ -513,7 +513,7 @@
   rr:predicateObjectMap [
 		rr:predicate  rei-constraint:predicate  ;
 		rr:objectMap  [
-			rr:constant cdo:hasThreshold;
+			rr:constant oscd:hasThreshold;
 		];
    ];
 
@@ -540,7 +540,7 @@
 	rr:predicateObjectMap [
 		rr:predicate  rei-constraint:subject  ;
 		rr:objectMap  [
-			rr:constant cdo:MergeSourceData;
+			rr:constant oscd:MergeSourceData;
 		];
    ];
 
@@ -548,7 +548,7 @@
   rr:predicateObjectMap [
 		rr:predicate  rei-constraint:predicate  ;
 		rr:objectMap  [
-			rr:constant cdo:hasThreshold;
+			rr:constant oscd:hasThreshold;
 		];
    ];
 
@@ -575,7 +575,7 @@
 	rr:predicateObjectMap [
 		rr:predicate  rei-constraint:subject  ;
 		rr:objectMap  [
-			rr:constant cdo:DatatypeSourceData;
+			rr:constant oscd:DatatypeSourceData;
 		];
    ];
 
@@ -583,7 +583,7 @@
   rr:predicateObjectMap [
 		rr:predicate  rei-constraint:predicate  ;
 		rr:objectMap  [
-			rr:constant cdo:hasThreshold;
+			rr:constant oscd:hasThreshold;
 		];
    ];
 
