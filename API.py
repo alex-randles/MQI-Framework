@@ -561,10 +561,10 @@ class API:
         process_removed = mapping_deleted = None
         if "trig" in filename:
             # user_id = 1
-            filename = f"/home/alex/Desktop/Mapping-Quality-Framework/static/change_detection_cache/{user_id}/change_graphs/{file_id}"
+            filename = f"./static/change_detection_cache/change_graphs/{file_id}"
             process_removed = True
         else:
-            filename = f"./static/uploads/{user_id}/{file_id}"
+            filename = f"./static/uploads/{file_id}"
             mapping_deleted = True
         try:
             os.remove(filename)
@@ -587,7 +587,7 @@ class API:
     # iterate user files to get next file version
     @staticmethod
     def iterate_user_files(user_id):
-        graph_directory = "/home/alex/Desktop/Mapping-Quality-Framework/modules/change_detection_cache/{}/change_graphs".format(user_id)
+        graph_directory = "./modules/change_detection_cache/change_graphs/"
         directory_files = [f for f in listdir(graph_directory) if isfile(join(graph_directory, f))]
         # find files related to user ID
         user_versions = []
@@ -784,7 +784,7 @@ class API:
             filename = secure_filename(file.filename)
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)
-                mapping_file = os.path.join(app.config['UPLOAD_FOLDER'] + str(session.get("participant_id")) + "/", filename)
+                mapping_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 session["mapping_file"] = mapping_file
                 file.save(mapping_file)
                 if file and file_extension in app.config["allowed_file_extensions"]:
