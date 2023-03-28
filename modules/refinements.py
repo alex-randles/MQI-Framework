@@ -893,19 +893,32 @@ class Refinements:
                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                    PREFIX schema: <http://schema.org/> 
                    PREFIX prov: <http://www.w3.org/ns/prov#> 
-                   SELECT ?domain ?comment 
-                        WHERE {
-                          GRAPH <%s> {
-                              <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
-                              OPTIONAL { ?domain  rdfs:comment|prov:definition ?comment .} 
-                          }
+                   PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                   PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                   SELECT ?domainClass ?comment
+                   WHERE {
+                      GRAPH <%s> {
+                        {
+                          <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
+                          OPTIONAL { ?domain  rdfs:comment|prov:definition ?comment .} 
+                          ?domain owl:unionOf ?list .
+                          ?list rdf:rest*/rdf:first ?domainClass .
+                        }
+                        UNION 
+                        {
+                          <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domainClass . 
+                          OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
+                          FILTER (!isBlank(?domainClass))
+                        }
+                      }
                    }   
-                   """% (self.get_namespace(property_IRI), property_IRI)
+                   GROUP BY ?domainClass ?comment
+                   """% (self.get_namespace(property_IRI), property_IRI, property_IRI)
         qres = FetchVocabularies().query_local_graph(property_IRI, query)
         domain = None
         complex_domain = False
         for row in qres["results"]["bindings"]:
-            current_domain = row["domain"]["value"]
+            current_domain = row["domainClass"]["value"]
             if "comment" in row:
                 current_comment = row["comment"]["value"].split(".")[0] + "."
             else:
