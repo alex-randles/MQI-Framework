@@ -124,6 +124,8 @@ class FetchVocabularies:
         r = requests.get(url, headers=headers)
         localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
         requests.post(localhost, data=r, headers={"content-type": "application/rdf+xml"})
+        print(r)
+        exit()
         ##
         # filename = self.hash_filename(url)
         # file_location = self.cache_directory + filename

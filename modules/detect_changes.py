@@ -40,13 +40,16 @@ class DetectChanges:
         self.execute_r2rml()
 
     def execute_change_detection(self):
-        file_format = self.retrieve_file_format()
-        if file_format == "csv":
-            self.fetch_csv_data()
-        elif file_format == "xml":
-            self.fetch_xml_data()
-        else:
-            pass
+        try:
+            file_format = self.retrieve_file_format()
+            if file_format == "csv":
+                self.fetch_csv_data()
+            elif file_format == "xml":
+                self.fetch_xml_data()
+            else:
+                pass
+        except Exception as e:
+            self.error_code = 1
 
     def retrieve_file_format(self):
         # maps the key for the form file input to the format
@@ -79,6 +82,7 @@ class DetectChanges:
             load_csv(open("two.csv"))
         )
         return csv_diff
+
 
     @staticmethod
     def format_csv_changes(csv_diff):
@@ -117,19 +121,18 @@ class DetectChanges:
                 change_id += 1
         changes_df.to_csv(changes_detected_csv)
 
-
     # create CSV file to be uplifted to notification policy
     def create_notification_csv(self):
         # create dictionary with only notification details from form
         # use upper case for R2RML
         df = pd.DataFrame([{
             "USER_ID": self.user_id,
-            "INSERT_THRESHOLD": self.form_details.get("insert-threshold", ""),
-            "DELETE_THRESHOLD": self.form_details.get("delete-threshold", ""),
-            "MOVE_THRESHOLD": self.form_details.get("move-threshold", ""),
-            "DATATYPE_THRESHOLD": self.form_details.get("datatype-threshold", ""),
-            "MERGE_THRESHOLD": self.form_details.get("merge-threshold", ""),
-            "UPDATE_THRESHOLD": self.form_details.get("update-threshold", ""),
+            "INSERT_THRESHOLD": self.form_details.get("insert_threshold", ""),
+            "DELETE_THRESHOLD": self.form_details.get("delete_threshold", ""),
+            "MOVE_THRESHOLD": self.form_details.get("move_threshold", ""),
+            "DATATYPE_THRESHOLD": self.form_details.get("datatype_threshold", ""),
+            "MERGE_THRESHOLD": self.form_details.get("merge_threshold", ""),
+            "UPDATE_THRESHOLD": self.form_details.get("update_threshold", ""),
             "DETECTION_START": datetime.now().now(),
             "DETECTION_END": self.form_details.get("detection-end", "") + " 00:00:00.0000"
         }])
