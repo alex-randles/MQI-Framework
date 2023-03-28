@@ -9,6 +9,7 @@
 @prefix mqio: <https://www.w3.org/MQIO/#> .
 @prefix fvc: <http://www.w3id.org/FAIRVASC#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dbo: <https://dbpedia.org/ontology/> . 
 
 <#TriplesMap1>
     rr:logicalTable [ rr:tableName "EMP" ];
@@ -17,7 +18,7 @@
         rr:class foaf:Employee, prov:Test;
     ];
     rr:predicateObjectMap [
-        rr:predicate prov:generatedAtTime;
+        rr:predicate prov:generated;
         rr:objectMap [ rr:column "ENAME"; rr:termType rr:IRI; rr:datatype xsd:dateTime;];
     ].
 
@@ -26,9 +27,9 @@
     rr:logicalTable [ rr:tableName "EMP" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class foaf:Employee, foaf:Test;
+        rr:class foaf:Employee, foaf:Test, dbo:Person;
     ];
     rr:predicateObjectMap [
-        rr:predicate foaf:name;
+        rr:predicate cidoc:P174_starts_before_the_end_of;
         rr:objectMap [ rr:column "ENAME";  rr:language "en-us";  rr:datatype xsd:positiveInteger; ];
     ].

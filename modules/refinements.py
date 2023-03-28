@@ -18,8 +18,8 @@ class Refinements:
         self.participant_id = participant_id
         self.timestamp = timestamp
         self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
-        self.MQV = Namespace("https://alex-randles.github.io/MQV/#")
-        self.MQV_METRIC = Namespace("https://alex-randles.github.io/MQV-METRICS/#")
+        self.MQV = Namespace("https://w3id.org/MQIO#")
+        self.MQV_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
         self.PROV = Namespace("http://www.w3.org/ns/prov#")
         self.EX = Namespace("http://example.org/")
         self.add_information = add_information
@@ -1096,7 +1096,7 @@ class Refinements:
 
     def add_refinement_information(self, violation_ID, refinement_query, refinement_name):
         # each refinement has a unique IRI and is associated with a refinement query
-        refinement_IRI = URIRef(self.EX + "refinement" + "-" + self.timestamp + "-" + str(self.refinement_count))
+        refinement_IRI = URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
         self.refinement_graph.add((refinement_IRI, RDF.type, self.MQV.MappingRefinement))
         self.refinement_graph.add((refinement_IRI, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
         # adding the SPARQL query used for the refinement
@@ -1107,7 +1107,7 @@ class Refinements:
         self.refinement_graph.add(
             (refinement_IRI, self.MQV.refinementName, refinement_name))
         # adding the wasRefinedBy property related to the previously defined refinement
-        violation_IRI = URIRef(self.EX + "violation" + "-" + self.timestamp + "-" + str(violation_ID))
+        violation_IRI = URIRef(self.EX + "violation" + "-" + str(violation_ID))
         self.refinement_graph.add((violation_IRI, self.MQV.wasRefinedBy, refinement_IRI))
         # add inverse property for mqv:refinedViolation, relating this refinement to the violation
         self.refinement_graph.add((refinement_IRI, self.MQV.refinedViolation, violation_IRI))

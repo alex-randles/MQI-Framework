@@ -37,7 +37,10 @@ class FetchVocabularies:
         if "results" in qres.keys():
             results = qres["results"]["bindings"]
             if not results:
-                self.http_retrieval(property_NS)
+                if property_NS.startswith("https://dbpedia.org/ontology/"):
+                    self.http_retrieval(property_IRI)
+                else:
+                    self.http_retrieval(property_NS)
         return qres
 
 

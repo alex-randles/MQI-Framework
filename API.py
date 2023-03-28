@@ -786,84 +786,84 @@ class API:
                 file.save(mapping_file)
                 if file and file_extension in app.config["allowed_file_extensions"]:
                     if API.validate_RDF(mapping_file):
-                        try:
-                            print(mapping_file)
-                            current_time = time.gmtime()
-                            timestamp = str(calendar.timegm(current_time))
-                            session["timestamp"] = timestamp
-                            assessment_result = ValidateQuality(mapping_file)
-                            content = pickle.dumps(assessment_result)
-                            print(mapping_file)
-                            session["assessment_result"] = content
-                            validation_result = assessment_result.validation_results
-                            session["validation_result"] = validation_result
-                            triple_references = assessment_result.triple_references
-                            session["triple_references"] = triple_references
-                            more_info_data = request.form
-                            session["more_info_data"] = more_info_data
-                            # if violations exist within validation result
-                            if len(validation_result) > 0:
-                                participant_id = session.get("participant_id")
-                                validation_report_file = "validation_report-{}.ttl".format(participant_id)
-                                session["validation_report_file"] = validation_report_file
-                                session["namespaces"] = assessment_result.namespaces
-                                # user wants to add more info to reports
-                                add_information = request.form.get("add-information")
-                                session["add_information"] = add_information
-                                mapping_graph = assessment_result.mapping_graph
-                                session["mapping_graph"] = assessment_result.mapping_graph
-                                find_violation_location = assessment_result.find_violation_location
-                                session["find_violation_location"] = find_violation_location
-                                detailed_metric_information = assessment_result.detailed_metric_information
-                                metric_descriptions = assessment_result.metric_descriptions
-                                session["refinements"] = Refinements(timestamp, validation_result, triple_references,
-                                                                     mapping_graph)
-                                suggested_refinements = session["refinements"].provide_suggested_refinements()
-                                session["suggested_refinements"] = suggested_refinements
-                                refinement_descriptions = session["refinements"].refinement_descriptions
-                                serializer = TurtleSerializer(mapping_graph)
-                                parse_violation_value = serializer.parse_violation_value
-                                find_prefix = assessment_result.find_prefix
-                                session["find_prefix"] = find_prefix
-                                API.create_validation_report(more_info_data)
-                                get_triple_map_id = assessment_result.get_triple_map_id
-                                session["get_triple_map_id"] = get_triple_map_id
-                                participant_id = session["participant_id"]
-                                API.update_database_time(participant_id, "assessment_information_generated")
-                                cache_validation_result = session.get("validation_result")
-                                bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
-                                session["bar_chart_html"] = bar_chart_html
-                                return render_template(
-                                    "mapping_quality/assessment_result.html",
-                                    bar_chart_html=bar_chart_html,
-                                    refinement_descriptions=refinement_descriptions,
-                                    participant_id=participant_id,
-                                    display_violation=serializer.display_violation,
-                                    metric_descriptions=metric_descriptions,
-                                    len=len(validation_result),
-                                    assessment_report=validation_result,
-                                    find_prefix=find_prefix,
-                                    suggested_refinements=suggested_refinements,
-                                    find_violation_location=find_violation_location,
-                                    split_camel_case=API.split_camel_case,
-                                    detailed_metric_information=detailed_metric_information,
-                                    validation_result=session.get("validation_result"),
-                                    find_bNode_reference=assessment_result.find_blank_node_reference,
-                                    get_triple_map_ID=assessment_result.get_triple_map_id,
-                                    parse_violation_value=parse_violation_value
-                                )
+                        # try:
+                        print(mapping_file)
+                        current_time = time.gmtime()
+                        timestamp = str(calendar.timegm(current_time))
+                        session["timestamp"] = timestamp
+                        assessment_result = ValidateQuality(mapping_file)
+                        content = pickle.dumps(assessment_result)
+                        print(mapping_file)
+                        session["assessment_result"] = content
+                        validation_result = assessment_result.validation_results
+                        session["validation_result"] = validation_result
+                        triple_references = assessment_result.triple_references
+                        session["triple_references"] = triple_references
+                        more_info_data = request.form
+                        session["more_info_data"] = more_info_data
+                        # if violations exist within validation result
+                        if len(validation_result) > 0:
+                            participant_id = session.get("participant_id")
+                            validation_report_file = "validation_report-{}.ttl".format(participant_id)
+                            session["validation_report_file"] = validation_report_file
+                            session["namespaces"] = assessment_result.namespaces
+                            # user wants to add more info to reports
+                            add_information = request.form.get("add-information")
+                            session["add_information"] = add_information
+                            mapping_graph = assessment_result.mapping_graph
+                            session["mapping_graph"] = assessment_result.mapping_graph
+                            find_violation_location = assessment_result.find_violation_location
+                            session["find_violation_location"] = find_violation_location
+                            detailed_metric_information = assessment_result.detailed_metric_information
+                            metric_descriptions = assessment_result.metric_descriptions
+                            session["refinements"] = Refinements(timestamp, validation_result, triple_references,
+                                                                 mapping_graph)
+                            suggested_refinements = session["refinements"].provide_suggested_refinements()
+                            session["suggested_refinements"] = suggested_refinements
+                            refinement_descriptions = session["refinements"].refinement_descriptions
+                            serializer = TurtleSerializer(mapping_graph)
+                            parse_violation_value = serializer.parse_violation_value
+                            find_prefix = assessment_result.find_prefix
+                            session["find_prefix"] = find_prefix
+                            API.create_validation_report(more_info_data)
+                            get_triple_map_id = assessment_result.get_triple_map_id
+                            session["get_triple_map_id"] = get_triple_map_id
+                            participant_id = session["participant_id"]
+                            API.update_database_time(participant_id, "assessment_information_generated")
+                            cache_validation_result = session.get("validation_result")
+                            bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
+                            session["bar_chart_html"] = bar_chart_html
+                            return render_template(
+                                "mapping_quality/assessment_result.html",
+                                bar_chart_html=bar_chart_html,
+                                refinement_descriptions=refinement_descriptions,
+                                participant_id=participant_id,
+                                display_violation=serializer.display_violation,
+                                metric_descriptions=metric_descriptions,
+                                len=len(validation_result),
+                                assessment_report=validation_result,
+                                find_prefix=find_prefix,
+                                suggested_refinements=suggested_refinements,
+                                find_violation_location=find_violation_location,
+                                split_camel_case=API.split_camel_case,
+                                detailed_metric_information=detailed_metric_information,
+                                validation_result=session.get("validation_result"),
+                                find_bNode_reference=assessment_result.find_blank_node_reference,
+                                get_triple_map_ID=assessment_result.get_triple_map_id,
+                                parse_violation_value=parse_violation_value
+                            )
 
-                            else:
-                                API.create_validation_report(more_info_data)
-                                return render_template("mapping_quality/no_violations.html", participant_id=participant_id)
-                        except urllib.error.URLError as server_error:
-                            print(server_error)
-                            flash("Start the Apache fueski server!")
-                            return render_template("mapping_quality/index.html")
-                        except Exception as e:
-                            print(e)
-                            flash("Check the mapping and upload again. Validate with http://ttl.summerofcode.be/")
-                            return render_template("mapping_quality/index.html")
+                        else:
+                            API.create_validation_report(more_info_data)
+                            return render_template("mapping_quality/no_violations.html", participant_id=participant_id)
+                        # except urllib.error.URLError as server_error:
+                        #     print(server_error)
+                        #     flash("Start the Apache fueski server!")
+                        #     return render_template("mapping_quality/index.html")
+                        # except Exception as e:
+                        #     print(e)
+                        #     flash("Check the mapping and upload again. Validate with http://ttl.summerofcode.be/")
+                        #     return render_template("mapping_quality/index.html")
                     else:
                         flash("Mapping file contains invalid RDF. Validate with http://ttl.summerofcode.be/")
                         return render_template("mapping_quality/index.html")
