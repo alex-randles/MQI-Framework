@@ -10,13 +10,9 @@ class DisplayChanges:
     def __init__(self, user_id, testing=False):
         # user graph files naming convention
         # user_1-2.trig
-        self.user_id = user_id
-        if testing is False:
-            self.graph_directory = "/home/alex/Desktop/MQ-Framework/static/change_detection_cache/{}/change_graphs/".format(user_id)
-            self.mappings_directory = "/home/alex/Desktop/MQ-Framework/static/uploads/{}/".format(self.user_id)
-        else:
-            self.graph_directory = "/home/alex/Desktop/MQ-Framework/static/change_detection_cache/{}/change_graphs/".format(user_id)
-            self.mappings_directory = "/home/alex/Desktop/MQ-Framework/static/uploads/{}/".format(self.user_id)
+        self.user_id = 1
+        self.graph_directory = "./static/change_detection_cache/{}/change_graphs/".format(user_id)
+        self.mappings_directory = "./static/uploads/{}/".format(self.user_id)
         # stores graph currently being queried
         self.current_graph = None
         # stores version of graph being queried
@@ -45,7 +41,7 @@ class DisplayChanges:
         PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
         PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
         PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+        PREFIX oscd: <https://change-detection-ontology.adaptcentre.ie/#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -60,16 +56,16 @@ class DisplayChanges:
             # GET DIFFERENT CHANGE TYPES
             VALUES ?changeType
             {
-                       cdo:InsertSourceData
-                       cdo:DeleteSourceData
-                       cdo:MoveSourceData
-                       cdo:UpdateSourceData
-                       cdo:MergeSourceData
-                       cdo:DatatypeSourceData
+                       oscd:InsertSourceData
+                       oscd:DeleteSourceData
+                       oscd:MoveSourceData
+                       oscd:UpdateSourceData
+                       oscd:MergeSourceData
+                       oscd:DatatypeSourceData
                      }
                     # GET EACH CHANGE FROM LOG
-                     ?changeLog a cdo:ChangeLog ;
-                                cdo:hasChange ?change.
+                     ?changeLog a oscd:ChangeLog ;
+                                oscd:hasChange ?change.
                      ?change a ?changeType
           }
         }
@@ -144,7 +140,7 @@ class DisplayChanges:
             PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
             PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
             PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-            PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+            PREFIX oscd: <https://w3id.org/OSCD#>
             PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
             PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
             PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -188,7 +184,7 @@ class DisplayChanges:
         PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
         PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
         PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+        PREFIX oscd: <https://w3id.org/OSCD/#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -201,8 +197,8 @@ class DisplayChanges:
           GRAPH ?g  {
             # GET DETECTION PERIOD END
             ?policy a rei-policy:Policy ;
-                    cdo:hasDetectionEnd ?detectionEnd; 
-                    cdo:hasDetectionStart ?detectionStart . 
+                    oscd:hasDetectionEnd ?detectionEnd; 
+                    oscd:hasDetectionStart ?detectionStart . 
           }
         }
 
@@ -220,7 +216,7 @@ class DisplayChanges:
         PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
         PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
         PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+        PREFIX oscd: <https://change-detection-ontology.adaptcentre.ie/#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -245,7 +241,7 @@ class DisplayChanges:
         PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
         PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
         PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+        PREFIX oscd: <https://change-detection-ontology.adaptcentre.ie/#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -321,7 +317,7 @@ class DisplayChanges:
         PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
         PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
         PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+        PREFIX oscd: <https://w3id.org/OSCD/#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -333,9 +329,9 @@ class DisplayChanges:
         {
           # QUERY USER GRAPH
           GRAPH ?g {
-            ?changeLog a cdo:ChangeLog;
-                       cdo:hasChange ?change .
-            ?change cdo:hasReason ?changeReason;
+            ?changeLog a oscd:ChangeLog;
+                       oscd:hasChange ?change .
+            ?change oscd:hasReason ?changeReason;
                     a ?changeType .
           }
         }
@@ -405,7 +401,7 @@ class DisplayChanges:
         PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
         PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
         PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
+        PREFIX oscd: <https://w3id.org/OSCD#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -417,9 +413,9 @@ class DisplayChanges:
         {
           # QUERY USER GRAPH
           GRAPH ?g {
-            ?changeLog a cdo:ChangeLog; 
-                       cdo:hasCurrentVersion ?currentVersion ;
-                       cdo:hasPreviousVersion ?previousVersion . 
+            ?changeLog a oscd:ChangeLog; 
+                       oscd:hasCurrentVersion ?currentVersion ;
+                       oscd:hasPreviousVersion ?previousVersion . 
           }
         }
         """

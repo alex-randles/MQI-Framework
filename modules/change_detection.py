@@ -22,16 +22,16 @@ class ChangeDetection:
         self.RR = Namespace("http://www.w3.org/ns/r2rml#")
         self.user_id = user_id
         self.form_details = form_details
-        self.notification_directory = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/notification_details/"
-        self.contact_directory = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/contact_details/"
-        self.changes_directory = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/change_details/"
-        self.graph_directory = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/graphs"
-        self.changes_CSV = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_{}.csv".format(user_id)
+        self.notification_directory = "/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/notification_details/"
+        self.contact_directory = "/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/contact_details/"
+        self.changes_directory = "/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/change_details/"
+        self.graph_directory = "/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/graphs"
+        self.changes_CSV = "/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_{}.csv".format(user_id)
         self.XML_diff_output = "diff_output.xml"
-        self.R2RML_directory = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/r2rml/"
+        self.R2RML_directory = "/home/alex/MQI-Framework/change_detection/database_change_detection/r2rml/"
         self.config_filename = self.R2RML_directory + "config.properties"
-        self.user_graph_file = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/graphs/user_{}.trig".format(user_id)
-        self.DB_info_directory = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/DB_info_directory"
+        self.user_graph_file = "/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/graphs/user_{}.trig".format(user_id)
+        self.DB_info_directory = "/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/DB_info_directory"
         # error code
         self.error_code = 0
         # 1 is invalid URL
@@ -170,7 +170,7 @@ class ChangeDetection:
         self.create_notification_CSV()
         self.create_contact_CSV()
         # copy data as DB query not working
-        df = pd.read_csv("/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_1.csv")
+        df = pd.read_csv("/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_1.csv")
         df.to_csv(self.changes_CSV)
 
     # CSV that contains server info etc
@@ -210,7 +210,7 @@ class ChangeDetection:
 
     @staticmethod
     def iterate_user_files(user_id):
-        graph_directory = "/home/alex/Desktop/Mapping-Quality-Framework/static/change_graphs"
+        graph_directory = "/home/alex/MQI-Framework/static/change_graphs"
         directory_files = [f for f in listdir(graph_directory) if isfile(join(graph_directory, f))]
         # find files related to user ID
         user_versions = []
@@ -352,9 +352,9 @@ class ChangeDetection:
         new_version = current_version
         new_file_version = "user_{}-{}".format(self.user_id, new_version)
         config_file_details = """connectionURL =
-                mappingFile = /home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/r2rml/DB_change_detection_mapping_user_{}.ttl
-                CSVFiles = /home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/notification_details/notification_policy_user_{}.csv;/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/contact_details/contact_details_user_{}.csv;/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_{}.csv;/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/DB_info_directory/DB_info_user_{}.csv
-                outputFile = /home/alex/Desktop/Mapping-Quality-Framework/static/change_graphs/{}.trig
+                mappingFile = /home/alex/MQI-Framework/change_detection/database_change_detection/r2rml/DB_change_detection_mapping_user_{}.ttl
+                CSVFiles = /home/alex/MQI-Framework/change_detection/database_change_detection/user_files/notification_details/notification_policy_user_{}.csv;/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/contact_details/contact_details_user_{}.csv;/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_{}.csv;/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/DB_info_directory/DB_info_user_{}.csv
+                outputFile = /home/alex/MQI-Framework/static/change_graphs/{}.trig
                 format= TRIG
                     """.format(self.user_id, self.user_id, self.user_id, self.user_id, self.user_id, new_file_version)
         # save config file
@@ -371,9 +371,9 @@ class ChangeDetection:
         new_version = current_version
         new_file_version = "user_{}-{}".format(self.user_id, new_version)
         config_file_details = """connectionURL =
-                mappingFile = /home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/r2rml/XML_change_detection_mapping_user_{}.ttl
-                CSVFiles = /home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/notification_details/notification_policy_user_{}.csv;/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/contact_details/contact_details_user_{}.csv;/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_{}.csv
-                outputFile = /home/alex/Desktop/Mapping-Quality-Framework/static/change_graphs/{}.trig
+                mappingFile = /home/alex/MQI-Framework/change_detection/database_change_detection/r2rml/XML_change_detection_mapping_user_{}.ttl
+                CSVFiles = /home/alex/MQI-Framework/change_detection/database_change_detection/user_files/notification_details/notification_policy_user_{}.csv;/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/contact_details/contact_details_user_{}.csv;/home/alex/MQI-Framework/change_detection/database_change_detection/user_files/change_details/change_details_user_{}.csv
+                outputFile = /home/alex/MQI-Framework/static/change_graphs/{}.trig
                 format= TRIG
                     """.format(self.user_id, self.user_id, self.user_id, self.user_id, new_file_version)
         # save config file
