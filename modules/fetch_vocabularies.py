@@ -2,6 +2,7 @@ from rdflib import *
 import os
 import hashlib
 import requests
+import urllib
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
@@ -111,21 +112,19 @@ class FetchVocabularies:
         # some graphs return rdf:nil with rdflib
         if len(g) < 10:
             raise Exception("Sorry, no graphs with < 10 triples.")
-
-
-        ##
         g.serialize(destination=file_location)
         return True
 
     def http_retrieval(self, url):
         headers = {'Accept': 'application/rdf+xml'}
-        import urllib
         graph_name = urllib.parse.quote(url)
         r = requests.get(url, headers=headers)
         localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
-        requests.post(localhost, data=r, headers={"content-type": "application/rdf+xml"})
-        print(r)
-        exit()
+        # if host returns xml or turtle RDF data
+        try:
+            requests.post(localhost, data=r, headers={"content-type": "application/rdf+xml"})
+        except requests.exceptions.ConnectionError as e:
+            requests.post(localhost, data=r, headers={"content-type": "text/turtle"})
         ##
         # filename = self.hash_filename(url)
         # file_location = self.cache_directory + filename

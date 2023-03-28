@@ -32,7 +32,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  gtfs:jininnikn ;	
+ 	 rr:predicate  prov:test ;	
 	 rr:objectMap  [	
 		 rml:reference  "Name" ;	
 		]; 	
