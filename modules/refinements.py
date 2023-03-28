@@ -30,9 +30,10 @@ class Refinements:
         self.namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.refinement_count = 0
         self.refinement_graph = Graph()
+        self.refinement_graph.bind("prov", Namespace("http://www.w3.org/ns/prov#"))
         # relates to refinements suggested to the users on the dashboard
         self.suggested_refinements = {
-            # MAPPING METRIC REFINEMENTS #
+            # mapping metric refinements #
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP2": ["ChangeTermType", "RemoveTermType"],
             "MP3": ["ChangeTermType", "RemoveTermType"],
