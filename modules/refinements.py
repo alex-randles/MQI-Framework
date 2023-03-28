@@ -1164,7 +1164,11 @@ class Refinements:
                 prefix_value = line_values[2]
                 new_prefix_value = self.remove_angle_brackets(prefix_value)
                 prefix_values[prefix] = new_prefix_value
-        return prefix_values
+        # sort prefix values alphabetically
+        dict_keys = list(prefix_values.keys())
+        dict_keys.sort()
+        sorted_prefix_values = {i: prefix_values[i] for i in dict_keys}
+        return sorted_prefix_values
 
     def remove_angle_brackets(self, value):
         # removes angle brackets from a string e.g <http://pgxo.loria.fr/> -> http://pgxo.loria.fr/

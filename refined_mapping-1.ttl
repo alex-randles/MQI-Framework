@@ -9,6 +9,7 @@
 @prefix ql: <http://semweb.mmlab.be/ns/ql#> . 
 @prefix prov: <http://www.w3.org/ns/prov#> . 
 @prefix gtfs: <http://vocab.gtfs.org/terms#> . 
+@prefix zoology: <http://purl.org/NET/biol/zoology#> . 
 
 	
 <TriplesMap1>	
@@ -20,8 +21,8 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template  "http://example.com/{ID}/{Name}" ;	
-	 rr:class  foaf:Person ;	
+ 	 rr:class  foaf:Person ;	
+	 rr:template  "http://example.com/{ID}/{Name}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -32,7 +33,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  gtfs:jininnikn ;	
+ 	 rr:predicate  zoology:test ;	
 	 rr:objectMap  [	
 		 rml:reference  "Name" ;	
 		]; 	
