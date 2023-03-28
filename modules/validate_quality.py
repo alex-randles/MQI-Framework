@@ -197,6 +197,45 @@ class ValidateQuality:
             if metric_result:
                 self.add_violation(metric_result)
 
+    def validate_D4(self):
+        result_message = "Query parameters in URI."
+        metric_ID = "D4"
+        query = """SELECT ?object ?subject
+                    WHERE {
+                      ?subject ?predicate ?object
+                      FILTER(isIRI(?object) && CONTAINS(STR(?object), "?"))
+                    }   
+               """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            object_IRI = row[0]
+            subject_IRI = row[1]
+            self.add_violation([metric_ID, result_message, object_IRI, subject_IRI])
+
+    def validate_D5(self):
+        # A function to validate the usage of disjoint classes
+        classes_and_subjects = self.get_classes()
+        # a list of only class IRI's
+        classes = [values["class"] for values in classes_and_subjects.values()]
+        metric_ID = "D5"
+        # more than one class is needed to be disjoint
+        if len(classes) <= 1:
+            return
+        # iterate through each class and find disjoint classes
+        for key in classes_and_subjects.keys():
+            current_IRI = classes_and_subjects[key]["class"]
+            if current_IRI not in self.undefined_values:
+                disjoint_classes = self.find_disjoint_classes(current_IRI)
+                for class_IRI in disjoint_classes:
+                    if class_IRI in classes:
+                        subject_IRI = classes_and_subjects[key]["subject"]
+                        result_message = "Class %s is disjoint with %s" % (
+                        self.find_prefix(current_IRI), self.find_prefix(class_IRI))
+                        self.add_violation([metric_ID, result_message, (current_IRI, class_IRI), subject_IRI])
+                        classes.remove(class_IRI)
+                        classes.remove(current_IRI)
+                    # else:
+                    #     continue
 
     def validate_D6(self):
         # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
@@ -216,14 +255,6 @@ class ValidateQuality:
             elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
                 result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property))
                 self.add_violation([metric_ID, result_message, term_type, objectMap])
-
-    def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
-        result_message = "Usage of undefined %s." % value_type
-        query = " ASK { GRAPH <%s> { <%s> ?predicate ?object . } } " % (self.get_namespace(property_IRI), property_IRI)
-        qres = self.vocabularies.query_local_graph(property_IRI, query)
-        is_defined_concept = qres["boolean"]
-        if is_defined_concept is False:
-            return [metric_ID, result_message, property_IRI, subject_IRI]
 
     def validate_D7(self):
         metric_ID = "D7"
@@ -252,77 +283,13 @@ class ValidateQuality:
                             self.add_violation([metric_ID, result_message, property, objectMap])
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
+        result_message = "Usage of undefined %s." % value_type
+        query = " ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % (property_IRI)
+        qres = self.vocabularies.query_local_graph(property_IRI, query)
+        is_defined_concept = qres["boolean"]
+        if is_defined_concept is False:
+            return [metric_ID, result_message, property_IRI, subject_IRI]
 
     def validate_VOC1(self):
         # A function to validate no human readable labelling and comments
@@ -356,25 +323,19 @@ class ValidateQuality:
                             self.add_violation([metric_ID, result_message, class_IRI, subject_IRI])
 
     # def validate_VOC2(self):
-    #     # A function to validate basic provenance information
-    #     result_message = "No Basic Provenance Information."
     #     metric_ID = "VOC2"
-    #     # returning true for now as testing mappings
-    #     # return True
-    #     for namespace in self.unique_namespaces:
-    #         provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
-    #                             "dcterms:publisher", "dc:title", "dc:description"]
-    #         query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
-    #                 "PREFIX dc: <http://purl.org/dc/elements/1.1/> \n" \
-    #                  "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
-    #                  "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
-    #                 "PREFIX dct: <http://purl.org/dc/terms/> " \
-    #                  "ASK { ?subject %s ?label } " % ("|".join(provenance_predicates))
-    #         qres = self.vocabularies.query_local_graph(namespace, query)
-    #         if qres:
-    #             for row in qres:
-    #                 if row is False:
-    #                     self.add_violation([metric_ID, result_message, namespace, None])
+    #     result_message = "No domain definition ."
+    #     properties = self.get_properties()
+    #     for key in properties.keys():
+    #         property_IRI = properties[key]["property"]
+    #         subject_IRI = properties[key]["subject"]
+    #         print("VALIDATIN DOMAIN DEFINITION", property_IRI, self.domain_cache, "\n", self.domain_cache.get(property_IRI))
+    #         if property_IRI not in self.undefined_values:
+    #             print("DOMAIN FROM CACHE")
+    #             domain_defintion = self.domain_cache.get(property_IRI)
+    #             print(domain_defintion)
+    #             print("DOMAIN FROM VOCABULARIES")
+    #             print(self.get_domain(property_IRI))
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
@@ -424,7 +385,6 @@ class ValidateQuality:
                 if not qres:
                     self.add_violation([metric_ID, result_message, namespace, None])
 
-
     def validate_VOC5(self):
         # A function to validate basic provenance information
         result_message = "No Human-Readable license."
@@ -444,21 +404,6 @@ class ValidateQuality:
             if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                 if not qres:
                     self.add_violation([metric_ID, result_message, namespace, None])
-
-    def validate_VOC2(self):
-        metric_ID = "VOC2"
-        result_message = "No domain definition ."
-        properties = self.get_properties()
-        for key in properties.keys():
-            property_IRI = properties[key]["property"]
-            subject_IRI = properties[key]["subject"]
-            print("VALIDATIN DOMAIN DEFINITION", property_IRI, self.domain_cache, "\n", self.domain_cache.get(property_IRI))
-            if property_IRI not in self.undefined_values:
-                print("DOMAIN FROM CACHE")
-                domain_defintion = self.domain_cache.get(property_IRI)
-                print(domain_defintion)
-                print("DOMAIN FROM VOCABULARIES")
-                print(self.get_domain(property_IRI))
 
     def validate_VOC6(self):
         # A function to validate basic provenance information
@@ -515,8 +460,6 @@ class ValidateQuality:
     #         if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
     #             if not qres:
     #                 self.add_violation([metric_ID, result_message, namespace, None])
-
-
 
     def get_triple_maps_IRI(self):
         # returns IRI for all triple maps
@@ -690,33 +633,6 @@ class ValidateQuality:
             subject = row[0]
             term_type = row[1]
             self.add_violation([metric_ID, result_message, term_type, subject])
-
-
-
-
-    def validate_D5(self):
-        # A function to validate the usage of disjoint classes
-        classes_and_subjects = self.get_classes()
-        # a list of only class IRI's
-        classes = [values["class"] for values in classes_and_subjects.values()]
-        metric_ID = "D5"
-        # more than one class is needed to be disjoint
-        if len(classes) <= 1:
-            return
-        # iterate through each class and find there disjoint classes
-        for key in classes_and_subjects.keys():
-            current_IRI = classes_and_subjects[key]["class"]
-            subject_IRI = classes_and_subjects[key]["subject"]
-            if current_IRI not in self.undefined_values:
-                disjoint_classes = self.find_disjoint_classes(current_IRI)
-                for class_IRI in disjoint_classes:
-                    if class_IRI in classes:
-                        result_message = "Class %s is disjoint with %s" % (self.find_prefix(current_IRI), self.find_prefix(class_IRI))
-                        self.add_violation([metric_ID, result_message, (current_IRI, class_IRI), subject_IRI])
-                        classes.remove(class_IRI)
-                        classes.remove(current_IRI)
-                    # else:
-                    #     continue
 
     def find_disjoint_classes(self, IRI):
         # a function which finds the classes disjoint to IRI argument (if any)
@@ -925,11 +841,20 @@ class ValidateQuality:
     def get_classes(self):
         # A function to retrieve all classes in the mapping
         classes = {}
-        query = """SELECT ?subject ?class
+        query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?subject ?class
                     WHERE {
-                      ?tripleMap rr:subjectMap ?subject . 
-                      ?subject rr:class ?class .
-                      FILTER(isIRI(?class)) 
+                        {
+                          ?tripleMap rr:subjectMap ?sm .
+                          ?subject rr:class ?class . 
+                        }
+                        UNION {
+                          ?pom rr:predicate rdf:type ;
+                               rr:objectMap ?subject . 
+                          ?subject  rr:constant ?class . 
+                        }
+                        FILTER (isIRI(?class)) .
                     }
                """
         qres = self.current_graph.query(query)
@@ -979,8 +904,6 @@ class ValidateQuality:
         else:
             return None
 
-
-
     def find_subclasses(self, subject_classes):
         # find all subclasses of the domain of a predicate IRI
         sub_classes = []
@@ -1009,10 +932,8 @@ class ValidateQuality:
                 return sub_classes
         return sub_classes
 
-
     def get_type(self, IRI):
-        # GET THE TYPE OF THE IRI E.G owl:ObjectProperty or owl:DatatypeProperty
-        # CHECK ONLY IF VALID IRI
+        # get the type of the specified IRI E.G owl:ObjectProperty or owl:DatatypeProperty
         if isinstance(IRI, URIRef) and IRI not in self.undefined_values:
             query = """
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -1091,13 +1012,11 @@ class ValidateQuality:
 
             query = """
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    SELECT DISTINCT ?domain ?subClass ?subClass2
+                    SELECT ?domain
                     WHERE {
                       GRAPH <%s>
                       { 
                         <%s> rdfs:domain ?domain .
-                        OPTIONAL { ?domain rdfs:subClassOf ?subClass . } 
-                        OPTIONAL { ?subClass rdfs:subClassOf ?subClass2 . } 
                       }
                     }
                 """ % (self.get_namespace(IRI), IRI)
@@ -1131,21 +1050,6 @@ class ValidateQuality:
             return domain
         else:
             return self.domain_cache[IRI]
-
-    def validate_D4(self):
-        result_message = "Query parameters in URI."
-        metric_ID = "D4"
-        query = """SELECT ?object ?subject
-                    WHERE {
-                      ?subject ?predicate ?object
-                      FILTER(isIRI(?object) && CONTAINS(STR(?object), "?"))
-                    }   
-               """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            object_IRI = row[0]
-            subject_IRI = row[1]
-            self.add_violation([metric_ID, result_message, object_IRI, subject_IRI])
 
     def validate_MP1(self):
         result_message = "An object map with a language tag and datatype."

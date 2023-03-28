@@ -13,10 +13,9 @@ from rdflib.plugins.sparql import *
 class Refinements:
 
     # add information -> add additional information added by users to validation report
-    def __init__(self, timestamp, validation_results=None, triple_references=None,
+    def __init__(self, validation_results=None, triple_references=None,
                  mapping_graph=None, add_information=None, participant_id=None):
         self.participant_id = participant_id
-        self.timestamp = timestamp
         self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
         self.MQV = Namespace("https://w3id.org/MQIO#")
         self.MQV_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
@@ -24,7 +23,6 @@ class Refinements:
         self.EX = Namespace("http://example.org/")
         self.add_information = add_information
         self.validation_results = validation_results
-        #         self.vocabularyGraph = Graph().parse("http://www.w3.org/ns/r2rml#")
         self.prefix_file = "prefixes.txt"
         self.prefix_values = self.create_prefix_value_dict(self.prefix_file)
         self.triple_references = triple_references
@@ -43,8 +41,7 @@ class Refinements:
             "MP6": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP7": ["AddChildColumn"],
             "MP8": ["AddParentColumn"],
-
-            # DATA METRIC REFINEMENTS #
+            # data metric refinenements
             "D1": ["FindSimilarClasses", "ChangeClass", "RemoveClass"],  # Usage of undefined classes
             "D2": ["FindSimilarPredicates", "ChangePredicate"],  # Usage of undefined properties
             "D3": ["AddDomainClass", "ChangePredicate"],  # Usage of incorrect Domain
@@ -52,15 +49,9 @@ class Refinements:
             "D5": ["ChangeClass", "RemoveClass"], # No use of entities as members of disjoint classes
             "D6": ["ChangeTermType", "RemoveTermType"], # Usage of incorrect Range
             "D7": ["AddCorrectDatatype", "ChangeDatatype", "RemoveDatatype"],  # Usage of incorrect datatype
-
-            # VOCABULARY METRIC REFINEMENTS #
-            "VOC1": [],  # human readable labels
-            "VOC2": [],  # basic provenance information
-
         }
         # user_input relates to whether the user is required to input values into the framework
         # requires prefixes relates to whether or not the refinement requires prefixes e.g FOAF, RDF etc, literal values will not
-
         self.refinement_options = {
             "AddDomainClass": {"user_input": True, "requires_prefixes": False, "restricted_values": self.find_domain,
                                "user_input_values": [self.R2RML + "class"]},

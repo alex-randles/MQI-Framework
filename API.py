@@ -816,7 +816,7 @@ class API:
                             session["find_violation_location"] = find_violation_location
                             detailed_metric_information = assessment_result.detailed_metric_information
                             metric_descriptions = assessment_result.metric_descriptions
-                            session["refinements"] = Refinements(timestamp, validation_result, triple_references,
+                            session["refinements"] = Refinements(validation_result, triple_references,
                                                                  mapping_graph)
                             suggested_refinements = session["refinements"].provide_suggested_refinements()
                             session["suggested_refinements"] = suggested_refinements
@@ -917,7 +917,7 @@ class API:
             cache_refinement_values = session.get("refinement_values")
             print(cache_refinement_values, "CACHE REFINEMENT VALUES ")
             print(cache_mapping_graph.serialize(format="ttl").decode('utf8'))
-            session["refinements"] = Refinements(timestamp, cache_validation_result, cache_triple_references,
+            session["refinements"] = Refinements(cache_validation_result, cache_triple_references,
                                                  cache_mapping_graph,
                                                  cache_add_information, participant_id)
             session["refinements"].process_user_input(session["request_form"], cache_refinement_values,
@@ -970,7 +970,7 @@ class API:
             if refinement_options:
                 # refinements = Refinements(session.get("validation_result"), triple_references, cache_mapping_graph,
                 #                           session.get("add_information"))
-                refinements = Refinements(timestamp, cache_validation_result, cache_triple_references,
+                refinements = Refinements(cache_validation_result, cache_triple_references,
                                           cache_mapping_graph,
                                           cache_add_information)
                 refinement_values = refinements.provide_refinements(selected_refinements)
