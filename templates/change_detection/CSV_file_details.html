@@ -9,7 +9,7 @@
 
 {% block content %}
 <h3 class="h2 text-center mt-2">Change Detection • CSV Source Data</h3>
-<form style="" method="POST" action="{{ url_for('detect_CSV_changes') }}" enctype = "multipart/form-data" id="sourceFileDetails" >
+<form style="" method="POST" action="{{ url_for('detect_CSV_changes') }}" enctype="multipart/form-data" id="sourceFileDetails" >
 
 
     <div class="container-fluid">
@@ -45,7 +45,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The threshold for insert changes" class="bi bi-info-circle"></i></span>
-                            <input  type="number"  id="insert_threshold" name="insert_threshold" value="5"  placeholder="Insert Threshold" disabled>
+                            <input  type="number"  id="insert_threshold" name="insert_threshold" value="5"  placeholder="Insert Threshold">
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The threshold for delete changes" class="bi bi-info-circle"></i></span>
-                            <input  type="number"  id="delete_threshold" name="delete_threshold" value="5"  placeholder="Delete Threshold" disabled>
+                            <input  type="number"  id="delete_threshold" name="delete_threshold" value="5444"  placeholder="Delete Threshold">
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The threshold for move changes" class="bi bi-info-circle"></i></span>
-                            <input  type="number"  id="move_threshold" name="move_threshold" value="0"  placeholder="Move Threshold" disabled>
+                            <input  type="number"  id="move_threshold" name="move_threshold" value="0"  placeholder="Move Threshold">
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The threshold for datatype changes" class="bi bi-info-circle"></i></span>
-                            <input  type="number"  id="datatype_threshold" name="datatype_threshold" value="0"  placeholder="Datatype Threshold" disabled>
+                            <input  type="number"  id="datatype_threshold" name="datatype_threshold" value="0"  placeholder="Datatype Threshold">
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The threshold for merge changes" class="bi bi-info-circle"></i></span>
-                            <input  type="number"  id="merge_threshold" name="merge_threshold" value="0"  placeholder="Merge Threshold" disabled>
+                            <input  type="number"  id="merge_threshold" name="merge_threshold" value="0"  placeholder="Merge Threshold">
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The threshold for update changes" class="bi bi-info-circle"></i></span>
-                            <input  type="number"  id="update_threshold" name="update_threshold" value="0" placeholder="Update Threshold" disabled>
+                            <input  type="number"  id="update_threshold" name="update_threshold" value="0" placeholder="Update Threshold">
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The date when change detection finishes" class="bi bi-info-circle"></i></span>
-                            <input type="date"  id="detection-end" name="detection-end" disabled>
+                            <input type="date"  id="detection-end" name="detection-end">
                         </div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                     <div class="col-sm-8">
                         <div class="input-group">
                             <span class="input-group-text"><i title="The email address for the notification to be sent" class="bi bi-envelope"></i></span>
-                            <input value="alex.randles@adaptcentre.ie" type="email"  id="email-address" name="email-address"  placeholder="Email Address"  disabled>
+                            <input value="alex.randles@adaptcentre.ie" type="email"  id="email-address" name="email-address"  placeholder="Email Address">
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
         </div>
         <div class="row d-flex justify-content-center py-1">
             <div class="col-sm-12 text-center">
-                <input   class="my-2 btn btn-primary" id="button-style" type = "submit" value="Start Change Monitoring" />
+                <input class="my-2 btn btn-primary" id="button-style" type = "submit" value="Start Change Monitoring" />
             </div>
         </div>
         <div class="row d-flex justify-content-center my-3">

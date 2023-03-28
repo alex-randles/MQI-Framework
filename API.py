@@ -365,6 +365,7 @@ class API:
             session["form_id"] = form_id
             session["change_process_executed"] = True
             form_details = request.form
+
             change_detection = DetectChanges(participant_id, form_details)
             # invalid URL
             if change_detection.error_code == 1:

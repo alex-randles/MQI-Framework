@@ -1,42 +1,31 @@
 @prefix ex: <http://example.org/> .
+@prefix ex1: <http://example.com/> .
+@prefix gtfs: <http://vocab.gtfs.org/terms#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/test-mapping.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <test-mapping.ttl> ;
+    mqio:assessedMapping <refined-mapping29.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-03-28T14:20:55.796869"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {
-                    ?pom rr:predicate <http://www.w3.org/2002/07/owl#types>  .
-                }
-                INSERT {
-                    ?pom rr:predicate <http://www.w3.org/2002/07/owl#differentFrom> .
-                }
-                WHERE {
-                    ?pom rr:predicate <http://www.w3.org/2002/07/owl#types>  .
-                    FILTER(str(?pom) = "ub2bL32C27").
-                }
-                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+    mqio:hasViolation ex:violation-0,
+        ex:violation-1 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue owl:types ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue ex1:id ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#VenueMapping> ;
-    mqio:isDescribedBy mqio-metrics:D2 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:inTripleMap <TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue gtfs:jininnikn ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+<refined-mapping29.ttl> a mqio:MappingArtefact .
 
