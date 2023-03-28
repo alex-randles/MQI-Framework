@@ -2,11 +2,11 @@
 @prefix ex1: <http://example.com/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix zoology: <http://purl.org/NET/biol/zoology#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping29.ttl> ;
+    mqio:assessedMapping <refined-mapping30.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -14,18 +14,18 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-1 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue prov:test ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
     mqio:hasObjectValue ex1:id ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <TriplesMap1> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-<refined-mapping29.ttl> a mqio:MappingArtefact .
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue zoology:test ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+<refined-mapping30.ttl> a mqio:MappingArtefact .
 
