@@ -28,16 +28,13 @@ from fs.osfs import OSFS
 class ValidationReport:
 
     def __init__(self, validation_results, output_file, mapping_file, form_data, timestamp):
-        # we need the mapping file to represent the triple for which file was assessed
-        # self.participant_id = participant_id
-        # self.home_fs = OSFS(".")
         self.timestamp = timestamp
         self.output_file = output_file
         self.form_data = form_data
         self.mapping_file = mapping_file
         self.unique_report_IRI = self.create_unique_report_IRI()
         self.mapping_graph = Graph().parse(mapping_file, format="ttl")
-        self.mapping_namespaces = {prefix:namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
+        self.mapping_namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.validation_graph = Graph()
         # self.MQV = Namespace("http://mappingQualityVocabulary.org/")
         # self.MQV_METRIC = Namespace("http://mappingQualityVocabulary.org/metric/")
@@ -46,6 +43,7 @@ class ValidationReport:
         self.EX = Namespace("http://example.org/")
         self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
         self.PROV = Namespace("http://www.w3.org/ns/prov#")
+        self.RML = Namespace("http://semweb.mmlab.be/ns/rml#")
         self.bind_namespaces()
         self.validation_results = validation_results
         self.violation_count = 0
@@ -66,7 +64,6 @@ class ValidationReport:
 
     def get_mapping_IRI(self):
         # A function that returns the mapping name with the full path
-        # e.g
         mapping_file_IRI = URIRef(self.mapping_file.split("/")[-1])
         return mapping_file_IRI
 
@@ -278,6 +275,8 @@ class ValidationReport:
         self.validation_graph.bind("rr", self.R2RML)
         self.validation_graph.bind("prov", self.PROV)
         self.validation_graph.bind("mqio-metrics", self.MQV_METRIC)
+        self.validation_graph.bind("rml", self.RML)
+        self.validation_graph.bind("rdf", Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"))
         self.bind_mapping_namespaces()
 
     def bind_mapping_namespaces(self):
