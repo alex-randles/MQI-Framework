@@ -3,7 +3,7 @@ from rdflib import *
 import os
 import re
 from collections import defaultdict
-
+from modules.r2rml import *
 
 class DisplayChanges:
 
@@ -11,8 +11,8 @@ class DisplayChanges:
         # user graph files naming convention
         # user_1-2.trig
         self.user_id = 1
-        self.graph_directory = "./static/change_detection_cache/{}/change_graphs/".format(user_id)
-        self.mappings_directory = "./static/uploads/{}/".format(self.user_id)
+        self.graph_directory = graph_directory
+        self.mappings_directory = upload_directory
         # stores graph currently being queried
         self.current_graph = None
         # stores version of graph being queried
@@ -38,38 +38,21 @@ class DisplayChanges:
     def get_changes_count(self):
         # query to get notification thresholds
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX oscd: <https://change-detection-ontology.adaptcentre.ie/#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-
-
-        # GET COUNT FOR EACH CHANGE TYPE
-        SELECT ?changeType (count(?change) AS ?count)
-        WHERE
-        {
-          # QUERY USER GRAPH
-          GRAPH ?g {
-            # GET DIFFERENT CHANGE TYPES
-            VALUES ?changeType
+            PREFIX oscd: <https://w3id.org/OSCD#>
+            
+            # GET COUNT FOR EACH CHANGE TYPE
+            SELECT ?changeType (COUNT(?change) AS ?count)
+            WHERE
             {
-                       oscd:InsertSourceData
-                       oscd:DeleteSourceData
-                       oscd:MoveSourceData
-                       oscd:UpdateSourceData
-                       oscd:MergeSourceData
-                       oscd:DatatypeSourceData
-                     }
-                    # GET EACH CHANGE FROM LOG
-                     ?changeLog a oscd:ChangeLog ;
-                                oscd:hasChange ?change.
-                     ?change a ?changeType
-          }
-        }
-        GROUP BY ?changeType
+              # QUERY USER GRAPH
+              GRAPH ?g {
+                # GET EACH CHANGE FROM LOG
+                ?changeLog a oscd:ChangeLog ;
+                           oscd:hasChange ?change.
+                ?change a ?changeType . 
+              }
+            }
+            GROUP BY ?changeType
         """
 
         qres = self.current_graph.query(query)
@@ -108,7 +91,7 @@ class DisplayChanges:
             # create dictionary to store version details
             self.mapping_details[self.current_graph_version]["filename"] = filename
             self.mapping_details[self.current_graph_version]["display_filename"] = filename
-            user_graph_file = self.mappings_directory + "/" + filename
+            user_graph_file = self.mappings_directory + filename
             # set current graph
             self.current_graph = Graph()
             self.current_graph.parse(user_graph_file, format="ttl")
@@ -435,11 +418,6 @@ class DisplayChanges:
             first_source = list(change_sources.values())[0]
             data_format = first_source.split(".")[-1]
             self.graph_details[self.current_graph_version]["data_format"] = data_format
-
-
-
-
-
 
 
 if __name__ == "__main__":

@@ -16,6 +16,7 @@ from datetime import datetime
 from xmldiff import main, formatting
 from collections import defaultdict
 from csv_diff import load_csv, compare
+from modules.r2rml import *
 
 class DetectChanges:
 
@@ -114,7 +115,7 @@ class DetectChanges:
                 new_row = [change_id, change_type, detection_time, change_reason, self.user_id, version_1, version_2]
                 changes_df.loc[len(changes_df)] = new_row
                 change_id += 1
-        changes_df.to_csv("/home/alex/MQI-Framework/static/change_detection_cache/1/changes_info/changes_detected.csv")
+        changes_df.to_csv(changes_detected_csv)
 
 
     # create CSV file to be uplifted to notification policy
@@ -201,18 +202,13 @@ class DetectChanges:
         print("CHANGES CSV NEW CREATED")
 
     def update_r2rml_config(self):
-        config_details = """connectionURL =
-mappingFile = {}
-CSVFiles = {};
-outputFile = {}
-format= TRIG            
-        """.format(self.mapping_file, self.r2rml_input_files, self.r2rml_output_file).strip()
+        config_details = r2rml_config.format(self.mapping_file, self.r2rml_input_files, self.r2rml_output_file).strip()
         # write config file generated for user which include their input data
         open(self.r2rml_config_file, "w").write(config_details)
         print("R2RML CONFIG FILE UPDATED")
 
     def execute_r2rml(self):
-        os.system(self.r2rml_run_file)
+        os.system(run_command)
         print("EXECUTING R2RML ENGINE")
 
 
@@ -220,17 +216,17 @@ class FileNames:
     def __init__(self, user_id):
         # create dynamic file names
         self.user_id = user_id
-        self.graph_directory = "/home/alex/MQI-Framework/static/change_detection_cache/{}/change_graphs".format(self.user_id)
+        self.graph_directory = graph_directory
         self.graph_version = self.find_graph_version()
-        self.user_graph_directory = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/".format(self.user_id)
-        self.user_directory = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/".format(self.user_id)
-        self.xml_diff_file = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/diff.xml".format(self.user_id)
-        self.notification_details_csv = self.user_directory + "notification_details.csv".format(self.user_id)
-        self.mapping_file = "/home/alex/MQI-Framework/static/change_detection_cache/mappings/CSV_change_detection_mapping.ttl"
-        self.r2rml_input_files = "/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/contact_details.csv;/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/changes_detected.csv;/home/alex/MQI-Framework/static/change_detection_cache/{}/changes_info/notification_details.csv".format(self.user_id, self.user_id, self.user_id).strip()
-        self.r2rml_output_file = "/home/alex/MQI-Framework/static/change_detection_cache/{}/change_graphs/{}.trig".format(self.user_id, self.graph_version)
-        self.r2rml_config_file = "/home/alex/MQI-Framework/static/change_detection_cache/r2rml/config.properties"
-        self.r2rml_run_file = "/home/alex/MQI-Framework/static/change_detection_cache/r2rml/run.sh"
+        self.user_graph_directory = user_graph_directory
+        self.user_directory = user_directory
+        self.xml_diff_file = xml_diff_file
+        self.notification_details_csv = notification_details_csv
+        self.mapping_file = mapping_file
+        self.r2rml_input_files = r2rml_input_files
+        self.r2rml_output_file = r2rml_output_file.format(self.graph_version)
+        self.r2rml_config_file = r2rml_config_file
+        self.r2rml_run_file = r2rml_run_file
         # store file names in dict for retrieval
         self.filename_dict = {
             "user_graph_directory": self.user_graph_directory,

@@ -99,7 +99,7 @@
 
 	rr:logicalTable [
 	                  rr:sqlQuery """
-						  Select ID, OPERATION , USER_ID, DESCRIPTION
+						  Select ID, OPERATION , USER_ID, DESCRIPTION, DETECTION_TIME
 						  FROM changes_detected
 						  WHERE OPERATION IN ('LOP_DELETE_ROWS', 'delete')
 				       	""";
@@ -115,8 +115,9 @@
 	rr:predicateObjectMap [
 		rr:predicate lode:atTime ;
 		rr:objectMap  [
-			rr:template "http://www.example.com/detectionTime/{ID}";
-		];
+		    rr:column "DETECTION_TIME";
+			rr:datatype xsd:dateTimeStamp;
+  	    ];
    ];
 
 	rr:predicateObjectMap [
@@ -132,7 +133,7 @@
 
 	rr:logicalTable [
 	                  rr:sqlQuery """
-						  Select ID, OPERATION, USER_ID, DESCRIPTION
+						  Select ID, OPERATION, USER_ID, DESCRIPTION, DETECTION_TIME
 						  FROM changes_detected
 						  WHERE OPERATION IN ('LOP_MODIFY_ROWS', 'rename')
 				       	""";
@@ -149,8 +150,9 @@
 	rr:predicateObjectMap [
 		rr:predicate lode:atTime ;
 		rr:objectMap  [
-			rr:template "http://www.example.com/detectionTime/{ID}";
-		];
+		    rr:column "DETECTION_TIME";
+			rr:datatype xsd:dateTimeStamp;
+  	    ];
    ];
 
 	rr:predicateObjectMap [
@@ -169,7 +171,7 @@
 
 	rr:logicalTable [
 	                  rr:sqlQuery """
-						  Select ID, OPERATION, USER_ID, DESCRIPTION
+						  Select ID, OPERATION, USER_ID, DESCRIPTION, DETECTION_TIME
 						  FROM changes_detected
 						  WHERE OPERATION IN ('LOP_INSERT_ROWS', 'insert')
 				       	""";
@@ -186,8 +188,9 @@
 	rr:predicateObjectMap [
 		rr:predicate lode:atTime ;
 		rr:objectMap  [
-			rr:template "http://www.example.com/detectionTime/{ID}";
-		];
+		    rr:column "DETECTION_TIME";
+			rr:datatype xsd:dateTimeStamp;
+  	    ];
    ];
 
 	rr:predicateObjectMap [
@@ -196,32 +199,6 @@
 			rr:column "DESCRIPTION";
 		];
    ];
-.
-
-
-
-
-
-# Time the change was detected
-<#DetectionTime>
-
-	rr:logicalTable [ rr:tableName "CHANGES_DETECTED"];
-
-	rr:subjectMap [
-		rr:template "http://www.example.com/detectionTime/{ID}";
-		rr:class time:Instant;
-        rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
-
-	];
-
-	rr:predicateObjectMap [
-		rr:predicate time:inXSDDateTimeStamp ;
-		rr:objectMap  [
-			rr:column "DETECTION_TIME";
-			rr:datatype xsd:dateTimeStamp;
-		];
-   ];
-
 .
 
 
