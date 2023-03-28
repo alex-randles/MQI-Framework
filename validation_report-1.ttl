@@ -1,8 +1,8 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix ns1: <http://www.w3.org/ns/prov#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <file:///home/alex/MQI-Framework/test-mapping.ttl> a mqio:MappingArtefact .
@@ -15,18 +15,18 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    ns1:endedAtTime "2023-03-28T12:41:30.447973"^^xsd:dateTime ;
+    prov:endedAtTime "2023-03-28T14:20:55.796869"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE {
-                    ?pom rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#types>  .
+                    ?pom rr:predicate <http://www.w3.org/2002/07/owl#types>  .
                 }
                 INSERT {
-                    ?pom rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> .
+                    ?pom rr:predicate <http://www.w3.org/2002/07/owl#differentFrom> .
                 }
                 WHERE {
-                    ?pom rr:predicate <http://www.w3.org/1999/02/22-rdf-syntax-ns#types>  .
-                    FILTER(str(?pom) = "ub8bL31C27").
+                    ?pom rr:predicate <http://www.w3.org/2002/07/owl#types>  .
+                    FILTER(str(?pom) = "ub2bL32C27").
                 }
                 """^^xsd:string ;
     mqio:refinedViolation ex:violation-0 ;
@@ -34,7 +34,7 @@ ex:refinement-0 a mqio:MappingRefinement ;
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rdf:types ;
+    mqio:hasObjectValue owl:types ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#VenueMapping> ;
     mqio:isDescribedBy mqio-metrics:D2 ;

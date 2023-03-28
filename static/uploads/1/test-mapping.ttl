@@ -11,6 +11,7 @@
 @base <http://example.com/ns#>.
 @prefix prov: <http://www.w3.org/ns/prov#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
 
 <#VenueMapping> a rr:TriplesMap;
   rr:logicalTable [
@@ -30,7 +31,7 @@
     ]
   ];
     rr:predicateObjectMap [
-    rr:predicate rdf:types;
+    rr:predicate owl:types;
     rr:objectMap [
       rr:column "shshsh"; 
     ]

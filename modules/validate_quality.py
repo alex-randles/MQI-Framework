@@ -954,20 +954,14 @@ class ValidateQuality:
 
     def get_range(self, IRI):
         if IRI not in self.range_cache.keys():
-            # query = """PREFIX dcam: <http://purl.org/dc/dcam/>
-            #            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            #            PREFIX schema: <http://schema.org/>
-            #            SELECT ?range
-            #             WHERE {
-            #               <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range
-            #             }
-            #        """ % IRI
             query = """
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX dcam: <http://purl.org/dc/dcam/>
+                PREFIX schema: <http://schema.org/>
                 SELECT ?range
                 WHERE {
                 GRAPH <%s>
-                    { <%s> rdfs:range ?range . }
+                    { <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range . }
                 }
                 """ % (self.get_namespace(IRI), IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)

@@ -1013,9 +1013,10 @@ class API:
                     suggested_refinements=suggested_refinements
                 )
             else:
-                # if no refinements return quality profile and give option to go back and add refinements
-                bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
-                return render_template("mapping_quality/no_refinements.html", bar_chart_html=bar_chart_html)
+                return redirect("get_refinements")
+                # # if no refinements return quality profile and give option to go back and add refinements
+                # bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
+                # return render_template("mapping_quality/no_refinements.html", bar_chart_html=bar_chart_html)
 
     @staticmethod
     def save_cache_file(filename, cache_filename):

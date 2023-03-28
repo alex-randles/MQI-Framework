@@ -15,8 +15,8 @@
  rdf:type  rr:TriplesMap ;	
 	
  rr:logicalTable [ 	
- 	 rml:referenceFormulation  ql:JSONPath ;	
-	 rml:iterator  "$.venue[*]" ;	
+ 	 rml:iterator  "$.venue[*]" ;	
+	 rml:referenceFormulation  ql:JSONPath ;	
 	 rml:source  "Venue.json" ;	
  ];	
 	
@@ -33,7 +33,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  owl:differentFrom ;	
+ 	 rr:predicate  owl:maxCardinality ;	
 	 rr:objectMap  [	
 		 rr:column  "shshsh" ;	
 		]; 	
