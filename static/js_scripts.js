@@ -84,9 +84,7 @@ function createPDF() {
     win.document.write('<body>');
     win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
     win.document.write('</body></html>');
-
     win.document.close(); 	// CLOSE THE CURRENT WINDOW.
-
     win.print();    // PRINT THE CONTENTS.
 }
 
@@ -125,7 +123,6 @@ function changeIcon(div_id){
         document.getElementById(icon_id).className =  "bi bi-dash-circle px-3" ;
     else
         document.getElementById(icon_id).className = "bi bi-plus-circle px-3";
-
 }
 
 

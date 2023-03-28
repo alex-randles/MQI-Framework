@@ -75,8 +75,6 @@ class ValidateQuality:
             "MP11": "https://tools.ietf.org/html/rfc5646", # language tags
             "VOC1": "https://www.w3.org/TR/dwbp/#ProvideMetadata", # human readable labels
             "VOC2": "" # domain
-
-
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
@@ -168,7 +166,7 @@ class ValidateQuality:
         for key in list(self.classes):
             class_IRI = self.classes[key]["class"]
             subject_IRI = self.classes[key]["subject"]
-            metric_result = self.validate_undefined(class_IRI, subject_IRI, "Class", metric_ID)
+            metric_result = self.validate_undefined(class_IRI, subject_IRI, "class", metric_ID)
             # if class is undefined
             if metric_result:
                 del self.classes[key]
@@ -180,7 +178,7 @@ class ValidateQuality:
         for key in list(self.properties):
             property_IRI = self.properties[key]["property"]
             subject_IRI = self.properties[key]["subject"]
-            metric_result = self.validate_undefined(property_IRI, subject_IRI, "Property", metric_ID)
+            metric_result = self.validate_undefined(property_IRI, subject_IRI, "property", metric_ID)
             # if property is undefined
             if metric_result:
                 # remove if undefined
@@ -219,15 +217,13 @@ class ValidateQuality:
                 result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property))
                 self.add_violation([metric_ID, result_message, term_type, objectMap])
 
-
     def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
-        result_message = "Usage of undefined %s." % (value_type)
+        result_message = "Usage of undefined %s." % value_type
         query = " ASK { GRAPH <%s> { <%s> ?predicate ?object . } } " % (self.get_namespace(property_IRI), property_IRI)
         qres = self.vocabularies.query_local_graph(property_IRI, query)
         is_defined_concept = qres["boolean"]
         if is_defined_concept is False:
             return [metric_ID, result_message, property_IRI, subject_IRI]
-
 
     def validate_D7(self):
         metric_ID = "D7"
@@ -1094,24 +1090,33 @@ class ValidateQuality:
             #        """ % IRI
 
             query = """
-                PREFIX gts: <http://resource.geosciml.org/ontology/timescale/gts#>
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                SELECT ?domain
-                WHERE {
-                GRAPH <%s>
-                    { <%s> rdfs:domain ?domain . }
-                }
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    SELECT DISTINCT ?domain ?subClass ?subClass2
+                    WHERE {
+                      GRAPH <%s>
+                      { 
+                        <%s> rdfs:domain ?domain .
+                        OPTIONAL { ?domain rdfs:subClassOf ?subClass . } 
+                        OPTIONAL { ?subClass rdfs:subClassOf ?subClass2 . } 
+                      }
+                    }
                 """ % (self.get_namespace(IRI), IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)
             domain = []
-            print( qres["results"]["bindings"])
             if qres["results"]["bindings"]:
                 for row in qres["results"]["bindings"]:
                     domain.append(row["domain"]["value"])
                     domain_type = row["domain"]["type"]
-                    if domain_type != "uri":
-                        pass
-                self.domain_cache[IRI] = domain
+                    # if domain_type == "uri":
+                    #     if "subClass" in row:
+                    #         if row["subClass"]["type"] == "uri":
+                    #             domain.append(row["subClass"]["value"])
+                    #     if "subClass2" in row:
+                    #         if row["subClass2"]["type"] == "uri":
+                    #             domain.append(row["subClass2"]["value"])
+                self.domain_cache[IRI] = set(domain)
+                # print(self.domain_cache)
+                # exit()
                 return domain
 
             # if qres:
@@ -1227,7 +1232,6 @@ class ValidateQuality:
         for (violation_ID, metric_ID, result_message, value, triple_) in self.validation_results:
             print(violation_ID, metric_ID, result_message, value)
             # self.query_validation_results(value)
-
 
 
 if __name__ == "__main__":

@@ -308,7 +308,7 @@ class TurtleSerializer:
         if IRI.startswith("file:"):
             try:
                 new_IRI = IRI.split("#")[1]
-                return   " <#%s> " % (new_IRI)
+                return " <#%s> " % (new_IRI)
             except:
                 return " <%s> " % (IRI)
         return " <%s> " % (IRI)
