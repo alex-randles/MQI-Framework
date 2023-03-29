@@ -113,8 +113,8 @@
         {% set current_version = value["change_sources"]["current_version"].split('/')[-1] %}
         {% set previous_version = value["change_sources"]["previous_version"].split('/')[-1] %}
         <td>
-            <pre>Version 1: <a href={{value["change_sources"]["previous_version"]}} target="_blank">{{previous_version}}</a>
-Version 2: <a href={{value["change_sources"]["current_version"]}} target="_blank">{{current_version}}</a></pre>
+            <pre>Version 1: <a href={{value["change_sources"]["previous_version"]}}>{{previous_version}}</a>
+Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_version}}</a></pre>
         </td>
 
         {% else %}
@@ -147,13 +147,13 @@ Version 2: <a href={{value["change_sources"]["current_version"]}} target="_blank
 
         <td>
             {% set graph_filename = graph_details[key]["filename"] %}
-            <a href="{{ url_for('process_thresholds', graph_filename=graph_filename) }}" target="__blank">
+            <a href="{{ url_for('process_thresholds', graph_filename=graph_filename) }}">
                 Threshold Limits
             </a>
         </td>
 
         <td>
-            <a href="{{ url_for('mappings_impacted', mapping_unique_id=0, graph_id=1) }}" target="_blank">Mapping #1</a>
+            <a href="{{ url_for('mappings_impacted', mapping_unique_id=0, graph_id=1) }}">Mapping #1</a>
 
             {% set mappings_impacted = value["mappings_impacted"]["references_impacted"].keys()|list %}
             {% if mappings_impacted|length > 1 %}
@@ -286,14 +286,14 @@ Version 2: <a href={{value["change_sources"]["current_version"]}} target="_blank
             </a>
         </td>
         <td>
-            <a href="{{ '/index/%s' % (value['filename'])}}" target="_blank" id="assess-mapping"
+            <a href="{{ '/index/%s' % (value['filename'])}}" id="assess-mapping"
                class="btn btn-sm btn-secondary mr-2">
                 Assess Quality
             </a>
         </td>
         <td>
-            <a
-               onclick="return disabledButton();" class="btn btn-secondary mr-2">
+            <a href="{{ '/remove/%s' % (value['filename'])}}"
+               class="btn btn-sm btn-secondary mr-2">
                 Delete
             </a>
         </td>

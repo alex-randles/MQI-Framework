@@ -70,6 +70,7 @@ class DetectChanges:
         output_changes["insert"] = defaultdict(dict)
         output_changes["delete"] = defaultdict(dict)
         change_id = 0
+        # process output from csv diff library
         for change_type, related_changes in csv_diff.items():
             for changes in related_changes:
                 if isinstance(changes, dict):
@@ -102,6 +103,7 @@ class DetectChanges:
         return output_changes
 
     def output_changes(self, output_changes):
+        # save differences detected to CSV format for uplift
         df = pd.DataFrame(
             columns=["ID",
                      "OPERATION",
@@ -125,10 +127,8 @@ class DetectChanges:
                 df.loc[len(df)] = new_row
         df.to_csv(changes_detected_csv)
 
-    # create CSV file to be uplifted to notification policy
     def create_notification_csv(self):
         # create dictionary with only notification details from form
-        # use upper case for R2RML
         df = pd.DataFrame([{
             "USER_ID": self.user_id,
             "INSERT_THRESHOLD": self.form_details.get("insert-threshold", ""),
@@ -145,7 +145,6 @@ class DetectChanges:
         return df
 
     def detect_xml_changes(self, version_1, version_2):
-        # retrieve the latest xml data first
         # detect differences between XML file versions
         diff = main.diff_texts(
             version_1,
@@ -164,7 +163,6 @@ class DetectChanges:
         version_2_xml = requests.get(version_2_url).text
         self.detect_xml_changes(version_1_xml, version_2_xml)
 
-        # convert XML output to CSV file with the differences
     def format_XML_changes(self):
         # parse XML file and store in CSV format
         # namespace for changes - http://namespaces.shoobx.com/diff
