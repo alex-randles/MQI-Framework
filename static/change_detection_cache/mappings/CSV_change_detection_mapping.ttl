@@ -397,8 +397,6 @@
 .
 
 
-
-
 <#DeleteChangeConstraint>
 
 	rr:logicalTable [ rr:tableName "NOTIFICATION_DETAILS"];

@@ -8,8 +8,6 @@
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix ql: <http://semweb.mmlab.be/ns/ql#> . 
 @prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix gtfs: <http://vocab.gtfs.org/terms#> . 
-@prefix zoology: <http://purl.org/NET/biol/zoology#> . 
 
 	
 <TriplesMap1>	
@@ -33,7 +31,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  zoology:test ;	
+ 	 rr:predicate  prov:has_provenance ;	
 	 rr:objectMap  [	
 		 rml:reference  "Name" ;	
 		]; 	

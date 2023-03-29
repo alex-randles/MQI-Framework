@@ -61,7 +61,7 @@
             <th scope="col">
 <!--                Select Refinements-->
 <!--                <i class="bi bi-info-circle"  title="Select the refinements you want to be executed"></i>-->
-                <button type="button" title="Testing" id="selectAll" class="main"> <span class="sub"></span> Execute All Refinements</button>
+                <button type="button" title="Testing" id="selectAll" class="main" onClick='toggle(this)'>Execute All Refinements</button>
             </th>
             <th scope="col">
                 Display violation
@@ -172,17 +172,14 @@
 
             {% else %}
 
-            <td style="width:160%">
+            <td style="width:100%">
                 {% for value in refinement_properties %}
                 {% set form_value_3 = violation_ID + '-' + value %}
-
-
                 <div style="display:none">
                     {% if optional_values is not true %}
                     {{ input_form_ids.append(form_value_3) }} {
                     {% endif %}
                 </div>
-
                 <b>Property: {{find_prefix(value)}}</b>
                 <label for={{form_value_3}}></label>
                 <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} required>
@@ -213,7 +210,7 @@
 
             </td>
             <td class="table-data">
-                <div> <button class="btn btn-secondary" type="button" onclick="showDiv('{{violation_ID + 'refinements_div'}}')"> <span class="sub"></span>Display Violation</button></div>
+                <div> <button class="btn btn-secondary" type="button" onClick="showDiv('{{violation_ID + 'refinements_div'}}')"> <span class="sub"></span>Display Violation</button></div>
                 <div id="{{violation_ID|string + 'refinements_div'}}" style="display:none">
                     {% set violation_ID = violation_ID|int %}
                     {% set violation_display = display_violation(validation_result[violation_ID]["location"], validation_result[violation_ID]["triple_map"], validation_result[violation_ID]["value"]) %}
@@ -266,6 +263,14 @@
     $(this).toggleClass('allChecked');
   })
 });
+</script>
+<script>
+function toggle(source) {
+  checkboxes = document.getElementsById('refinements_table');
+  for(var checkbox in checkboxes)
+    checkbox.checked = source.checked;
+    alert("shhssh");
+}
 </script>
 {% endblock %}
 {% block refinement_buttons %}

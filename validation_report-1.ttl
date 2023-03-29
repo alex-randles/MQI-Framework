@@ -2,16 +2,18 @@
 @prefix ex1: <http://example.com/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix zoology: <http://purl.org/NET/biol/zoology#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping30.ttl> ;
+    mqio:assessedMapping <mapping.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
-        ex:violation-1 .
+        ex:violation-1,
+        ex:violation-2 .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
@@ -22,10 +24,17 @@ ex:violation-0 a mqio:MappingViolation ;
 
 ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue zoology:test ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:hasObjectValue prov:atLocation ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
     mqio:inTripleMap <TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:isDescribedBy mqio-metrics:D3 .
 
-<refined-mapping30.ttl> a mqio:MappingArtefact .
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property ' prov:atLocation '."^^xsd:string ;
+    mqio:inTripleMap <TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
+
+<mapping.ttl> a mqio:MappingArtefact .
 
