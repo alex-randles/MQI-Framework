@@ -32,6 +32,7 @@ class DetectChanges:
         self.update_r2rml_config()
         self.execute_r2rml()
 
+
     # find the version number of the graph being created
     def find_graph_version(self):
         onlyfiles = [f for f in listdir(r2rml.graph_directory) if isfile(join(r2rml.graph_directory, f))]
@@ -43,17 +44,6 @@ class DetectChanges:
 
     def execute_change_detection(self):
         self.fetch_csv_data()
-
-    def retrieve_file_format(self):
-        # maps the key for the form file input to the format
-        file_format = {
-            "CSV_URL_1" : "csv",
-            "XML_file_1" : "xml",
-        }
-        for form_name, file_format in file_format.items():
-            if form_name in self.form_details.keys():
-                return file_format
-        return None
 
     def fetch_csv_data(self):
         # retrieve csv data from
@@ -76,25 +66,39 @@ class DetectChanges:
 
     @staticmethod
     def format_csv_changes(csv_diff):
-        output_changes = defaultdict(list)
+        output_changes = defaultdict(dict)
+        output_changes["insert"] = defaultdict(dict)
+        output_changes["delete"] = defaultdict(dict)
+        change_id = 0
         for change_type, related_changes in csv_diff.items():
             for changes in related_changes:
                 if isinstance(changes, dict):
                     for data_reference, change_reason in changes.items():
                         if change_type == "added":
-                            result_message = "{}: {}".format(data_reference, change_reason)
-                            output_changes["insert"].append(result_message)
+                            output_changes["insert"][change_id] = {
+                                "data_reference": data_reference,
+                                "change_reason": change_reason
+                            }
                         else:
-                            result_message = "{}: {}".format(data_reference, change_reason)
-                            output_changes["delete"].append(result_message)
+                            output_changes["delete"][change_id] = {
+                                "data_reference": data_reference,
+                                "change_reason": change_reason
+                            }
+                        change_id += 1
                 else:
                     if isinstance(changes, str):
+                        structural_reference = "Columns"
                         if change_type == "columns_added":
-                            result_message = "Column inserted: {}".format(changes)
-                            output_changes["insert"].append(result_message)
+                            output_changes["insert"][change_id] = {
+                                "structural_reference": structural_reference,
+                                "change_reason": changes,
+                            }
                         else:
-                            result_message = "Column deleted: {}".format(changes)
-                            output_changes["delete"].append(result_message)
+                            output_changes["delete"][change_id] = {
+                                "structural" : structural_reference,
+                                "change_reason" : changes,
+                            }
+                        change_id += 1
         return output_changes
 
     def output_changes(self, output_changes):
@@ -103,6 +107,8 @@ class DetectChanges:
                      "OPERATION",
                      "DETECTION_TIME",
                      "DESCRIPTION",
+                     "STRUCTURAL_REFERENCE",
+                     "DATA_REFERENCE",
                      "USER_ID",
                      "VERSION_1",
                      "VERSION_2"]
@@ -110,12 +116,13 @@ class DetectChanges:
         version_1 = self.form_details.get("CSV_URL_1")
         version_2 = self.form_details.get("CSV_URL_2")
         detection_time = datetime.now()
-        change_id = 0
         for change_type, changes in output_changes.items():
-            for change_reason in changes:
-                new_row = [change_id, change_type, detection_time, change_reason, self.user_id, version_1, version_2]
+            for change_id, changed_values in changes.items():
+                data_reference = changed_values.get("data_reference")
+                structural_reference = changed_values.get("structural_reference")
+                changed_data = changed_values.get("change_reason")
+                new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, self.user_id, version_1, version_2]
                 changes_df.loc[len(changes_df)] = new_row
-                change_id += 1
         changes_df.to_csv(changes_detected_csv)
 
     # create CSV file to be uplifted to notification policy
@@ -148,7 +155,7 @@ class DetectChanges:
         diff_text = open(self.xml_diff_file, "w+")
         diff_text.write(diff)
         diff_text.close()
-        self.output_XML_changes()
+        self.format_XML_changes()
 
     def fetch_xml_data(self):
         version_1_url = self.form_details.get("XML_file_1")
@@ -158,7 +165,7 @@ class DetectChanges:
         self.detect_xml_changes(version_1_xml, version_2_xml)
 
         # convert XML output to CSV file with the differences
-    def output_XML_changes(self):
+    def format_XML_changes(self):
         # parse XML file and store in CSV format
         # namespace for changes - http://namespaces.shoobx.com/diff
         tree = ET.parse(r2rml.xml_diff_file)
@@ -179,6 +186,10 @@ class DetectChanges:
                 result += elem.tag + ": " + elem.text + " "
             else:
                 pass
+        self.output_XML_changes(results)
+        return results
+    
+    def output_XML_changes(self, results):
         # create a dataframe with changes
         changes_df = pd.DataFrame(
             columns=["ID", "OPERATION", "DETECTION_TIME", "DESCRIPTION", "USER_ID", "VERSION_1", "VERSION_2"])
@@ -201,6 +212,7 @@ class DetectChanges:
         changes_df.to_csv("/home/alex/MQI-Framework/static/change_detection_cache/1/changes_info/changes_detected.csv")
         print("CHANGES CSV NEW CREATED")
 
+
     def update_r2rml_config(self):
         r2rml_output_file = r2rml.r2rml_output_file.format(self.graph_version)
         config_details = r2rml_config.format(r2rml.mapping_file, r2rml.r2rml_input_files, r2rml_output_file).strip()
@@ -216,8 +228,7 @@ class DetectChanges:
 if __name__ == '__main__':
     csv_file_1 = "https://raw.githubusercontent.com/kg-construct/" \
                  "rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv"
-    csv_file_2 = "https://raw.githubusercontent.com/kg-construct/" \
-                 "rml-test-cases/master/test-cases/RMLTC0009a-CSV/student.csv"
+    csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v2.csv"
     form_details = {
         'CSV-URL_1': csv_file_1,
         'CSV-URL_2': csv_file_2,

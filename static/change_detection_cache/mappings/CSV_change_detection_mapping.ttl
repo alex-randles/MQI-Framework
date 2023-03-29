@@ -99,7 +99,7 @@
 
 	rr:logicalTable [
 	                  rr:sqlQuery """
-						  Select ID, OPERATION , USER_ID, DESCRIPTION, DETECTION_TIME
+						  Select ID, OPERATION, USER_ID, DESCRIPTION, DETECTION_TIME, DATA_REFERENCE, STRUCTURAL_REFERENCE
 						  FROM changes_detected
 						  WHERE OPERATION IN ('LOP_DELETE_ROWS', 'delete')
 				       	""";
@@ -121,9 +121,23 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate oscd:hasReason ;
+		rr:predicate oscd:hasChangedData ;
 		rr:objectMap  [
 			rr:column "DESCRIPTION";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate oscd:hasStructuralReference ;
+		rr:objectMap  [
+			rr:column "STRUCTURAL_REFERENCE";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate oscd:hasDataReference ;
+		rr:objectMap  [
+			rr:column "DATA_REFERENCE";
 		];
    ];
 
@@ -171,7 +185,7 @@
 
 	rr:logicalTable [
 	                  rr:sqlQuery """
-						  Select ID, OPERATION, USER_ID, DESCRIPTION, DETECTION_TIME
+						  Select ID, OPERATION, USER_ID, DESCRIPTION, DETECTION_TIME, DATA_REFERENCE, STRUCTURAL_REFERENCE
 						  FROM changes_detected
 						  WHERE OPERATION IN ('LOP_INSERT_ROWS', 'insert')
 				       	""";
@@ -194,9 +208,23 @@
    ];
 
 	rr:predicateObjectMap [
-		rr:predicate oscd:hasReason ;
+		rr:predicate oscd:hasChangedData ;
 		rr:objectMap  [
 			rr:column "DESCRIPTION";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate oscd:hasStructuralReference ;
+		rr:objectMap  [
+			rr:column "STRUCTURAL_REFERENCE";
+		];
+   ];
+
+	rr:predicateObjectMap [
+		rr:predicate oscd:hasDataReference ;
+		rr:objectMap  [
+			rr:column "DATA_REFERENCE";
 		];
    ];
 .
