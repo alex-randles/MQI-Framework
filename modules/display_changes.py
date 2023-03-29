@@ -22,6 +22,7 @@ class DisplayChanges:
         # error code
         # no error = 0
         self.error_code = 0
+        self.analyse_mappings()
         self.generate_display_information()
 
     # generate information to display graph information
@@ -296,47 +297,42 @@ class DisplayChanges:
         self.graph_details[self.current_graph_version]["change_reasons"] = change_reasons
 
     def analyse_mappings(self):
-        # function to find which mappings are effected by changes
-        # match data references to mapping references
-        for graph_id, graph_details in self.graph_details.items():
-            self.graph_details[graph_id]["mappings_impacted"] = {
-                "references_impacted" : defaultdict(list),
-                "sources_impacted" : defaultdict(list),
+        graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/14.trig"
+        change_graph = Dataset()
+        change_graph.parse(graph_filename, format="trig")
+        g = Graph().parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
+        change_graph.add(g)
+        query = """
+            PREFIX oscd: <https://w3id.org/OSCD#>
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            
+            SELECT ?graphName
+            WHERE {
+              GRAPH ?changesGraph {    			 
+                ?changeLog a oscd:ChangeLog;
+                        oscd:hasChange ?change;
+                        oscd:hasCurrentVersion ?currentVersion .
+                ?change oscd:hasDataReference ?reference;
+                        oscd:hasChangedData ?changedData .
+                BIND (REPLACE(STR(?currentVersion), "^.*/([^/]*)$", "$1") as ?source)
+              }
+              GRAPH ?mappingGraph {    			 
+                ?tripleMap rml:logicalSource|rr:logicalTable ?logicalSource;
+                        rr:predicateObjectMap ?pom .
+                ?logicalSource rml:source|rr:tableName ?source .
+                ?pom rr:objectMap ?objectMap .
+                ?objectMap rml:reference|rr:column ?reference.
+              }
+                BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
             }
-        # return
-        # for graph_id, graph_details in self.graph_details.items():
-        #     change_reasons = graph_details["change_reasons"]
-        #     for mapping_id, mapping_details in self.mapping_details.items():
-        #         # compare sources to file names
-        #         if "change_sources" in graph_details.keys():
-        #             data_sources = graph_details["change_sources"].values()
-        #             # compare change reasons and data references
-        #             mapping_data_references = mapping_details["data_references"]
-        #             mapping_data_sources = mapping_details["source_data"]
-        #             for mapping_source in mapping_data_sources:
-        #                 # match regardless of case
-        #                 matching_data_sources = [source.lower() for source in data_sources]
-        #                 matching_data_sources = [source.lower() for source in data_sources]
-        #                 # another loop to capture which sources match
-        #                 for data_source in matching_data_sources:
-        #                     # check if mapping source e.g student.csv
-        #                     # in url of change detection files
-        #                     # e.g https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/rmltc0002a-csv/student.csv
-        #                     if mapping_source in data_source:
-        #                         # only append if not already appended
-        #                         print("MATCCCH", mapping_source, data_source)
-        #                         self.graph_details[graph_id]["mappings_impacted"]["sources_impacted"][mapping_id].append(mapping_source)
-        #                         for reason_id, reason in change_reasons.items():
-        #                             match_reason = reason["match_reason"]
-        #                             for reference in mapping_data_references:
-        #                                 if reference.lower() == match_reason.lower():
-        #                                     current_matches  = self.graph_details[graph_id]["mappings_impacted"]["references_impacted"][
-        #                                         mapping_id]
-        #                                     if reason_id not in current_matches:
-        #                                         self.graph_details[graph_id]["mappings_impacted"]["references_impacted"][
-        #                                             mapping_id].append(reason_id)
+            GROUP BY ?graphName
+        """
+        qres = change_graph.query(query)
+        for row in qres:
+            print(row)
+        exit()
 
-        # print(self.graph_details[2])
 
     # get the location of the change detection source data
     def get_changes_source(self):
