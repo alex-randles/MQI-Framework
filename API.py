@@ -27,7 +27,6 @@ from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename, redirect
 
-from modules.change_detection import ChangeDetection
 from modules.detect_changes import DetectChanges
 from modules.display_changes import DisplayChanges
 from modules.fetch_vocabularies import FetchVocabularies
@@ -91,23 +90,6 @@ def admin_required(f):
 
     return decorated_function
 
-
-def progress_tracker(arg):
-    def progress_tracker_decorator(fn):
-        @wraps(fn)
-        def progress_tracker_decorator_inner(*args, **kwds):
-            print("check args", arg)
-            participant_id = session.get("participant_id")
-            current_progress = API.get_current_progress(participant_id)
-            print(current_progress)
-            return redirect(url_for(current_progress))
-            # return fn(*args, **kwds)
-
-        return progress_tracker_decorator_inner
-
-    return progress_tracker_decorator
-
-
 class users(db.Model):
     participant_id = db.Column("id", db.Integer, primary_key=True)
     # will default to variable name if none defined
@@ -137,19 +119,6 @@ class users(db.Model):
     #     setattr(db, col, None)
     def __init__(self, password):
         self.password = password
-
-
-# class timing(db.Model):
-#     participant_id = db.Column("id", db.Integer, primary_key=True)
-#     task_names = ["User logged in"]
-
-class certificate_numbers(db.Model):
-    response_id = db.Column("id", db.Integer, primary_key=True)
-    # will default to variable name if none defined
-    certificate_number = db.Column(db.String(100))
-    def __init__(self, certificate_number):
-        self.certificate_number = certificate_number
-
 
 class API:
 
@@ -191,19 +160,7 @@ class API:
 
     @staticmethod
     def run_assessment(filename):
-        start_time = timeit.default_timer()
-        # parsed_mapping = ParseMapping(filename)
-        # triple_maps = parsed_mapping.triple_map_graphs
-        # if len(triple_maps) > 0:
-        #     number_triple_maps = round(100 / len(list(triple_maps)))
-        # else:
-        #     number_triple_maps = 100
-        # print(number_triple_maps)
-        # exit()
         quality_assessment = ValidateQuality(filename)
-        elapsed = timeit.default_timer() - start_time
-        print("ASSESSMENT TIMING IN API", elapsed)
-        # exit()
         return quality_assessment
 
     @staticmethod
@@ -221,36 +178,13 @@ class API:
         ValidationReport(formatted_validation_result, cache_validation_report_file,
                          cache_mapping_file, more_info_data, timestamp)
 
-    @staticmethod
-    def save_file_to_database(filename, column):
-        participant_id = session.get("participant_id")
-        if participant_id:
-            # add consent information to database - changes boolean value to True
-            found_users = users.query.filter_by(participant_id=participant_id).first()
-            if found_users:
-                with open(filename, "r") as text_file:
-                    file_contents = "\n".join(text_file.readlines())
-                    # found_users.quality_report_file = file_contents
-                    setattr(found_users, column, file_contents)
-                    db.session.commit()
-
     @app.route("/return-validation-report/", methods=['GET', 'POST'])
     def download_validation_report():
         cache_validation_report_file = session.get("validation_report_file")
         participant_id = session.get("participant_id")
         quality_report_filename = "validation_report-{}.ttl".format(participant_id)
-        # API.save_file_to_database(cache_validation_report_file, "quality_report_file")
-        # API.update_database_time(participant_id, "quality_report_exported")
-        # API.save_cache_file(cache_validation_report_file, quality_report_filename)
         return send_file(quality_report_filename,
                          attachment_filename=quality_report_filename,
-                         as_attachment=True, cache_timeout=0)
-
-    @app.route("/return-mapping-shapes/", methods=['GET', 'POST'])
-    def download_shapes_file():
-        shapes_file = "/home/alex/Desktop/Mapping-Quality-Framework/static/shapes.ttl"
-        return send_file(shapes_file,
-                         attachment_filename="shapes.ttl",
                          as_attachment=True, cache_timeout=0)
 
     @staticmethod
@@ -270,44 +204,16 @@ class API:
             if error_message:
                 return error_message
 
-    @app.route(("/experiment-information"), methods=["GET", "POST"])
-    @login_required
-    def experiment_information():
-        participant_id = session.get("participant_id")
-        session_id = API.get_session_id()
-        if request.method == "GET":
-            return render_template("change_detection/experiment_information.html",
-                                   participant_id=participant_id,
-                                   session_id=session_id)
-        else:
-            return render_template("change_detection/experiment_information.html", participant_id=participant_id)
-
     @app.route(("/"), methods=["GET", "POST"])
     @app.route(("/welcome"), methods=["GET", "POST"])
     def welcome():
         return redirect(url_for("component_choice"))
-
-    @app.route(("/informed-consent"), methods=["GET", "POST"])
-    def informed_consent():
-        participant_id = session.get("participant_id")
-        if request.method == "GET":
-            return render_template("change_detection/informed_consent.html", participant_id=participant_id)
-        else:
-            return redirect(url_for("component_choice"))
-
-    @app.route(("/information-sheet"), methods=["GET"])
-    def information_sheet():
-        participant_id = session.get("participant_id")
-        if request.method == "GET":
-            return render_template("change_detection/information_sheet.html", participant_id=participant_id)
-            # return render_template("mapping_quality/information_sheet.html", participant_id=participant_id)
 
     @app.route(("/component-choice"), methods=["GET"])
     def component_choice():
         if request.method == "GET":
             participant_id = session.get("participant_id")
             return render_template("component_choice.html", participant_id=participant_id)
-
 
     @app.route(("/format-choice"), methods=["GET"])
     def format_choice():
@@ -324,35 +230,6 @@ class API:
             participant_id)
         return send_file(user_graph_file, attachment_filename="user_graph.trig", as_attachment=True,
                          cache_timeout=0)
-
-    @app.route(("/process-change"), methods=["GET", "POST"])
-    def process_changes():
-        participant_id = session.get("participant_id")
-        if request.method == "GET":
-            return redirect(url_for('information_sheet'))
-        elif request.method == "POST":
-            # create a graph with 3 named graphs for user
-            graph_file = ChangeDetection.create_notification_policy(participant_id, request.form)
-            return render_template("change_detection/change_results.html", participant_id=participant_id,
-                                   graph_file=graph_file)
-
-    @app.route(("/certificate-number"), methods=["GET", "POST"])
-    def certificate_number():
-        # random.randint(0,1000000000)
-        return render_template("change_detection/certificate_number.html")
-
-    @app.route(("/database-changes"), methods=["GET", "POST"])
-    def detect_database_changes():
-        participant_id = session.get("participant_id")
-        if request.method == "GET":
-            return render_template("change_detection/database_details.html", participant_id=participant_id)
-        elif request.method == "POST":
-            # create a graph with 3 named graphs for user
-            form_details = request.form
-            session["change_process_executed"] = True
-            change_detection = ChangeDetection(participant_id, form_details)
-            graph_file = change_detection.user_graph_file
-            return redirect(url_for('change_detection'))
 
     @app.route(("/CSV-changes"), methods=["GET", "POST"])
     def detect_CSV_changes():
@@ -377,40 +254,6 @@ class API:
             else:
                 return redirect(url_for('change_detection'))
 
-    @app.route(("/XML-changes"), methods=["GET", "POST"])
-    def detect_XML_changes():
-        participant_id = session.get("participant_id")
-        if request.method == "GET":
-            return render_template("change_detection/XML_file_details.html", participant_id=participant_id)
-        elif request.method == "POST":
-            # create a graph with 3 named graphs for user
-            form_details = request.form
-            change_detection = DetectChanges(participant_id, form_details)
-            # invalid URL
-            if change_detection.error_code == 1:
-                flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
-                return redirect(url_for('detect_XML_changes'))
-            elif change_detection.error_code == 2:
-                flash("Incorrect file format.")
-                return redirect(url_for('detect_XML_changes'))
-            else:
-                graph_file = 0
-                # print(graph_file, "USER FILE")
-                change_counts = 0
-                # get graph details for user
-                display_changes = DisplayChanges(participant_id)
-                user_graph_details = display_changes.graph_details
-                mapping_details = display_changes.mapping_details
-                print(change_detection.error_code, "CHANGE DETECTION")
-                return render_template(
-                    "change_detection/change_results.html",
-                    change_counts=change_counts,
-                    participant_id=participant_id,
-                    graph_file=graph_file,
-                    graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
-                    mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
-                )
-
     @staticmethod
     def mapping(test_dict):
         return isinstance(test_dict, dict)
@@ -419,30 +262,6 @@ class API:
     def get_session_id():
         # return random.randint(0,1000000000)
         return random.randint(0,1000000000)
-
-    @app.route("/display-certificate-number")
-    def test_session_id():
-        form_id = session.get("form_id")
-        if not form_id:
-            form_id = "All tasks not completed."
-            form_id = str(shortuuid.ShortUUID().random(length=12))
-        else:
-            try:
-                f = open("certificate_number.txt", "a+")
-                f.write("\n" + form_id)
-            except:
-                pass
-        return render_template("change_detection/certificate_number.html", certificate_number=form_id)
-
-    @app.route("/questionnaire")
-    def questionnaire():
-        form_id = shortuuid.uuid()
-        form_url = "https://docs.google.com/forms/d/e/1FAIpQLSfV8h0Z1bxHJ04tIBzzznwWGMfVuVlYhiDJf529pXVU8KdtqA/viewform?embedded=true&entry.880637273={}".format(form_id)
-        print(form_url)
-        return render_template("change_detection/questionnaire.html",
-                               form_url=form_url,
-                               form_id=form_id,
-                               )
 
     # generate a html file with mapping impacted details
     # e.g data references where data has been inserted or removed
@@ -553,7 +372,6 @@ class API:
                                    mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                                    )
 
-
     @app.route('/remove/<user_id>/<file_id>/')
     def remove(file_id, user_id):
         filename = f"{file_id}"
@@ -600,43 +418,6 @@ class API:
         else:
             return 1
 
-    @app.route(("/task-sheet"), methods=["GET", "POST"])
-    # @progress_tracker("task_sheet")
-    def task_sheet():
-        participant_id = session.get("participant_id")
-        API.update_current_progress(participant_id, "task_sheet")
-        if request.method == "GET":
-            API.update_database_time(participant_id, "task_sheet")
-            return render_template("mapping_quality/task_sheet.html", participant_id=participant_id)
-
-
-    @app.route(("/PSSUQ"), methods=["GET", "POST"])
-    # @progress_tracker("complete_questionnaire")
-    def complete_questionnaire():
-        participant_id = session.get("participant_id")
-        API.update_current_progress(participant_id, "complete_questionnaire")
-        if request.method == "GET":
-            API.update_database_time(participant_id, "PSSUQ")
-            # return render_template("mapping_quality/PSSUQ.html")
-            return render_template("mapping_quality/PSSUQ.html", participant_id=participant_id)
-
-    @app.route(("/completion"), methods=["GET", "POST"])
-    # @progress_tracker("experiment_completion")
-    def experiment_completion():
-        participant_id = session.get("participant_id")
-        API.update_current_progress(participant_id, "experiment_completion")
-        if request.method == "GET":
-            date = datetime.today().strftime('%d-%m-%Y')
-            time = datetime.now().strftime("%H:%M:%S")
-            API.update_database_time(participant_id, "experiment_completed")
-            return render_template(
-                "completion_screen.html",
-                participant_id=participant_id,
-                date=date,
-                time=time)
-        else:
-            return render_template("mapping_quality/completion_screen.html")
-
     @app.route(("/logout"), methods=["GET", "POST"])
     def logout():
         logged_in = session.pop("logged_in", None)
@@ -650,29 +431,6 @@ class API:
         return render_template("mapping_quality/view.html", values=users.query.all())
 
     @staticmethod
-    def get_current_progress(participant_id):
-        if participant_id:
-            found_users = users.query.filter_by(participant_id=participant_id).first()
-            if found_users:
-                current_progress = found_users.current_progress
-                if current_progress:
-                    return current_progress
-                else:
-                    return "information_sheet"
-            else:
-                return "information_sheet"
-        else:
-            return "information_sheet"
-
-    @staticmethod
-    def update_current_progress(participant_id, current_progress):
-        if participant_id:
-            found_users = users.query.filter_by(participant_id=participant_id).first()
-            if found_users:
-                found_users.current_progress = current_progress
-                db.session.commit()
-
-    @staticmethod
     def create_participant_details(num_participants):
         # add participant passwords to database
         for i in range(1, num_participants):
@@ -684,18 +442,6 @@ class API:
             usr = users(password)
             db.session.add(usr)
             db.session.commit()
-
-    @staticmethod
-    def add_consent_information_database(participant_id, name):
-        if participant_id:
-            # add consent information to database - changes boolean value to True
-            found_users = users.query.filter_by(participant_id=participant_id).first()
-            if found_users:
-                found_users.has_consented = True
-                current_time = datetime.now()
-                found_users.time_consented = current_time
-                found_users.name = name
-                db.session.commit()
 
     @staticmethod
     def update_database_time(participant_id, action):
@@ -717,60 +463,12 @@ class API:
             file_extension = split_filename[1].lower()
             return file_extension
 
-    @app.route(("/login"), methods=["GET", "POST"])
-    def login():
-        session["participant_id"] = "1"
-        return redirect("welcome")
-        # API.create_participant_details(10)
-        # if request.method == "GET":
-        #     API.get_session_id()
-        #     if "logged_in" not in session:
-        #         return render_template("login.html")
-        #     else:
-        #         participant_id = session.get("participant_id")
-        #         progress = API.get_current_progress(participant_id)
-        #         if progress is not None:
-        #             return redirect(url_for("process_changes"))
-        #             # return redirect(url_for(progress))
-        #         else:
-        #             flash("You are already logged in!")
-        #             return render_template("login.html")
-        # elif request.method == "POST":
-        #     ## Got from video https://www.youtube.com/watch?v=qbnqNWXf_tU
-        #     # testing
-        #     session.permanent = True
-        #     participant_id = request.form["participant_id"]
-        #     password = request.form["password"]
-        #     found_users = users.query.filter_by(participant_id=participant_id).first()
-        #     if found_users:
-        #         correct_password = found_users.password
-        #         if correct_password == password.strip():
-        #             session["participant_id"] = participant_id
-        #             API.update_database_time(participant_id, "logged_in")
-        #             # API.update_current_progress(participant_id, "login")
-        #             session["logged_in"] = True
-        #             participant_id = session.get("participant_id")
-        #             # return render_template("component_choice.html")
-        #             return redirect(url_for("welcome"))
-        #         else:
-        #             flash("Invalid credentials, try again!")
-        #             return render_template("login.html")
-        #     else:
-        #         flash("Invalid credentials, try again!")
-        #         return render_template("login.html")
-
     @app.route("/index/<filename>", methods=["GET", "POST"])
     @app.route("/index", methods=["GET", "POST"])
-    # @progress_tracker("read_mapping")
     def assess_mapping(filename=None):
         session["participant_id"] = 1
         participant_id = session.get("participant_id")
-        API.update_current_progress(participant_id, "read_mapping")
         if request.method == "POST":
-            time.sleep(2)
-            # return render_template("mapping_quality/no_violations.html", participant_id=participant_id)
-            API.get_current_progress(participant_id)
-            API.update_database_time(participant_id, "mapping_uploaded")
             # get file uploaded
             file = request.files['mapping_file']
             ontology_file = request.files.getlist('ontology_file')
@@ -833,7 +531,6 @@ class API:
                             get_triple_map_id = assessment_result.get_triple_map_id
                             session["get_triple_map_id"] = get_triple_map_id
                             participant_id = session["participant_id"]
-                            API.update_database_time(participant_id, "assessment_information_generated")
                             cache_validation_result = session.get("validation_result")
                             bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
                             session["bar_chart_html"] = bar_chart_html
@@ -880,7 +577,6 @@ class API:
                 return render_template("mapping_quality/index.html")
         else:
             participant_id = session.get("participant_id")
-            API.update_database_time(participant_id, "experiment_started")
             return render_template("mapping_quality/index.html", participant_id=participant_id)
             # return render_template("mapping_quality/index.html")
 
@@ -894,11 +590,9 @@ class API:
         return False
 
     @app.route("/refinement", methods=["GET", "POST"])
-    # @progress_tracker("get_refinements")
     def get_refinements():
         cache_mapping_graph = session.get("mapping_graph")
         session["mapping_graph"] = copy.deepcopy(cache_mapping_graph)
-        cache_assessment_result = session.get("assessment_result")
         cache_triple_references = session.get("triple_references")
         cache_validation_result = session.get("validation_result")
         cache_add_information = session.get("add_information")
@@ -908,13 +602,9 @@ class API:
         cache_find_violation = session.get("find_violation_location")
         more_info_data = session.get("more_info_data")
         find_prefix = session.get("find_prefix")
-        timestamp = session.get("timestamp")
-        bar_chart_html = session.get("bar_chart_html")
         participant_id = session.get("participant_id")
-        # API.update_current_progress(participant_id, "get_refinements")
         if request.method == "POST":
             session["request_form"] = request.form.to_dict()
-            API.update_database_time(participant_id, "refinements_executed")
             # create validation report incase user goes back and then forward,not to include multiple refinement queries
             API.create_validation_report(more_info_data)
             print(request.form.to_dict(), "REQUEST FORM INFO")
@@ -927,7 +617,6 @@ class API:
             session["refinements"].process_user_input(session["request_form"], cache_refinement_values,
                                                       cache_mapping_file,
                                                       cache_mapping_graph, cache_validation_report_file)
-            API.update_database_time(participant_id, "quality_profile_generated")
             refinements = session["refinements"]
             find_triple_map = refinements.find_triple_map
             find_violation_location = cache_find_violation
@@ -972,13 +661,10 @@ class API:
             selected_refinements = request.values
             refinement_options = API.refinements_selected(selected_refinements)
             if refinement_options:
-                # refinements = Refinements(session.get("validation_result"), triple_references, cache_mapping_graph,
-                #                           session.get("add_information"))
                 refinements = Refinements(cache_validation_result, cache_triple_references,
                                           cache_mapping_graph,
                                           cache_add_information)
                 refinement_values = refinements.provide_refinements(selected_refinements)
-                # cache.set("refinement_values", refinement_values)
                 session["refinement_values"] = refinement_values
                 print("REFINEMENT VALUES", refinement_values)
                 # find_prefix = refinements.find_prefix
@@ -1022,10 +708,6 @@ class API:
                 # bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
                 # return render_template("mapping_quality/no_refinements.html", bar_chart_html=bar_chart_html)
 
-    @staticmethod
-    def save_cache_file(filename, cache_filename):
-        shutil.copy2(filename, './modules/participant_cache/' + cache_filename)
-
     @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
     def download_refined_mapping():
         # refined_mapping_file_name = session.get("mapping_file").split(".")[0] + "_refined_mapping.ttl"
@@ -1047,20 +729,6 @@ class API:
             attachment_filename="validation_report.ttl",
             as_attachment=True, cache_timeout=0
         )
-
-    @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
-    def download_sample_mapping():
-        sample_mapping = "static/documents/sample_mapping.ttl"
-        return send_file(sample_mapping,
-                         attachment_filename="mapping.ttl",
-                         as_attachment=True, cache_timeout=0)
-
-    @app.route("/return-change-graph/", methods=['GET', 'POST'])
-    def download_change_report():
-        sample_graph = "static/change_graph.trig"
-        return send_file(sample_graph,
-                         attachment_filename="change_graph.trig",
-                         as_attachment=True, cache_timeout=0)
 
 
 if __name__ == "__main__":
