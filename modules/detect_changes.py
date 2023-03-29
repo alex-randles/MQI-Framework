@@ -6,7 +6,7 @@ from datetime import datetime
 from os import listdir
 from os.path import isfile, join
 import xml.etree.ElementTree as ET
-import os
+import io
 import time
 import requests
 from rdflib import *
@@ -17,39 +17,32 @@ from xmldiff import main, formatting
 from collections import defaultdict
 from csv_diff import load_csv, compare
 from modules.r2rml import *
+import modules.r2rml as r2rml
+
 
 class DetectChanges:
 
     def __init__(self, user_id, form_details):
         self.form_details = form_details
         self.user_id = user_id
-        self.filenames = FileNames(self.user_id)
         self.error_code = 0
-        self.user_directory = self.filenames.filename_dict.get("user_graph_directory")
-        self.graph_directory = self.filenames.filename_dict.get("graph_directory")
-        self.xml_diff_file = self.filenames.filename_dict.get("xml_diff_file")
-        self.mapping_file = self.filenames.filename_dict.get("mapping_file")
-        self.r2rml_input_files = self.filenames.filename_dict.get("r2rml_input_files")
-        self.r2rml_output_file = self.filenames.filename_dict.get("r2rml_output_file")
-        self.r2rml_config_file = self.filenames.filename_dict.get("r2rml_config_file")
-        self.r2rml_run_file = self.filenames.filename_dict.get("r2rml_run_file")
-        self.notification_details_csv = self.filenames.filename_dict.get("notification_details_csv")
+        self.graph_version = self.find_graph_version()
         self.execute_change_detection()
         self.create_notification_csv()
         self.update_r2rml_config()
         self.execute_r2rml()
 
+    # find the version number of the graph being created
+    def find_graph_version(self):
+        onlyfiles = [f for f in listdir(r2rml.graph_directory) if isfile(join(r2rml.graph_directory, f))]
+        file_versions = [int(f.split(".")[0]) for f in onlyfiles]
+        if file_versions:
+            return max(file_versions) + 1
+        else:
+            return 1
+
     def execute_change_detection(self):
-        try:
-            file_format = self.retrieve_file_format()
-            if file_format == "csv":
-                self.fetch_csv_data()
-            elif file_format == "xml":
-                self.fetch_xml_data()
-            else:
-                pass
-        except Exception as e:
-            self.error_code = 1
+        self.fetch_csv_data()
 
     def retrieve_file_format(self):
         # maps the key for the form file input to the format
@@ -66,23 +59,20 @@ class DetectChanges:
         # retrieve csv data from
         version_1_url = self.form_details.get("CSV_URL_1")
         version_2_url = self.form_details.get("CSV_URL_2")
-        version_1_csv = requests.get(version_1_url).text
-        version_2_csv = requests.get(version_2_url).text
-        open("one.csv", "w+").write(version_1_csv)
-        open("two.csv", "w+").write(version_2_csv)
-        version_1_csv = version_2_csv = None
-        csv_diff = self.detect_csv_changes(version_1_csv, version_2_csv)
+        self.version_1_csv = requests.get(version_1_url).text
+        self.version_2_csv = requests.get(version_2_url).text
+        csv_diff = self.detect_csv_changes()
         output_changes = self.format_csv_changes(csv_diff)
         self.output_changes(output_changes)
 
-    @staticmethod
-    def detect_csv_changes(version_1_csv, version_2_csv):
+    def detect_csv_changes(self):
+        version_1_file_object = io.StringIO(self.version_1_csv)
+        version_2_file_object = io.StringIO(self.version_2_csv)
         csv_diff = compare(
-            load_csv(open("one.csv")),
-            load_csv(open("two.csv"))
+            load_csv(version_1_file_object),
+            load_csv(version_2_file_object),
         )
         return csv_diff
-
 
     @staticmethod
     def format_csv_changes(csv_diff):
@@ -109,7 +99,14 @@ class DetectChanges:
 
     def output_changes(self, output_changes):
         changes_df = pd.DataFrame(
-            columns=["ID", "OPERATION", "DETECTION_TIME", "DESCRIPTION", "USER_ID", "VERSION_1", "VERSION_2"])
+            columns=["ID",
+                     "OPERATION",
+                     "DETECTION_TIME",
+                     "DESCRIPTION",
+                     "USER_ID",
+                     "VERSION_1",
+                     "VERSION_2"]
+        )
         version_1 = self.form_details.get("CSV_URL_1")
         version_2 = self.form_details.get("CSV_URL_2")
         detection_time = datetime.now()
@@ -127,16 +124,16 @@ class DetectChanges:
         # use upper case for R2RML
         df = pd.DataFrame([{
             "USER_ID": self.user_id,
-            "INSERT_THRESHOLD": self.form_details.get("insert_threshold", ""),
-            "DELETE_THRESHOLD": self.form_details.get("delete_threshold", ""),
-            "MOVE_THRESHOLD": self.form_details.get("move_threshold", ""),
-            "DATATYPE_THRESHOLD": self.form_details.get("datatype_threshold", ""),
-            "MERGE_THRESHOLD": self.form_details.get("merge_threshold", ""),
-            "UPDATE_THRESHOLD": self.form_details.get("update_threshold", ""),
+            "INSERT_THRESHOLD": self.form_details.get("insert-threshold", ""),
+            "DELETE_THRESHOLD": self.form_details.get("delete-threshold", ""),
+            "MOVE_THRESHOLD": self.form_details.get("move-threshold", ""),
+            "DATATYPE_THRESHOLD": self.form_details.get("datatype-threshold", ""),
+            "MERGE_THRESHOLD": self.form_details.get("merge-threshold", ""),
+            "UPDATE_THRESHOLD": self.form_details.get("update-threshold", ""),
             "DETECTION_START": datetime.now().now(),
             "DETECTION_END": self.form_details.get("detection-end", "") + " 00:00:00.0000"
         }])
-        df.to_csv(self.notification_details_csv)
+        df.to_csv(r2rml.notification_details_csv)
         print("NOTIFICATION POLICY SAVED TO CSV")
         return df
 
@@ -164,7 +161,7 @@ class DetectChanges:
     def output_XML_changes(self):
         # parse XML file and store in CSV format
         # namespace for changes - http://namespaces.shoobx.com/diff
-        tree = ET.parse(self.xml_diff_file)
+        tree = ET.parse(r2rml.xml_diff_file)
         result = ""
         results = defaultdict(list)
         # create a dictionary with changes
@@ -205,53 +202,16 @@ class DetectChanges:
         print("CHANGES CSV NEW CREATED")
 
     def update_r2rml_config(self):
-        config_details = r2rml_config.format(self.mapping_file, self.r2rml_input_files, self.r2rml_output_file).strip()
+        r2rml_output_file = r2rml.r2rml_output_file.format(self.graph_version)
+        config_details = r2rml_config.format(r2rml.mapping_file, r2rml.r2rml_input_files, r2rml_output_file).strip()
         # write config file generated for user which include their input data
-        open(self.r2rml_config_file, "w").write(config_details)
+        open(r2rml.r2rml_config_file, "w").write(config_details)
         print("R2RML CONFIG FILE UPDATED")
 
-    def execute_r2rml(self):
+    @staticmethod
+    def execute_r2rml():
         os.system(run_command)
         print("EXECUTING R2RML ENGINE")
-
-
-class FileNames:
-    def __init__(self, user_id):
-        # create dynamic file names
-        self.user_id = user_id
-        self.graph_directory = graph_directory
-        self.graph_version = self.find_graph_version()
-        self.user_graph_directory = user_graph_directory
-        self.user_directory = user_directory
-        self.xml_diff_file = xml_diff_file
-        self.notification_details_csv = notification_details_csv
-        self.mapping_file = mapping_file
-        self.r2rml_input_files = r2rml_input_files
-        self.r2rml_output_file = r2rml_output_file.format(self.graph_version)
-        self.r2rml_config_file = r2rml_config_file
-        self.r2rml_run_file = r2rml_run_file
-        # store file names in dict for retrieval
-        self.filename_dict = {
-            "user_graph_directory": self.user_graph_directory,
-            "user_directory": self.user_directory,
-            "graph_directory": self.graph_directory,
-            "xml_diff_file": self.xml_diff_file,
-            "notification_details_csv": self.notification_details_csv,
-            "mapping_file": self.mapping_file,
-            "r2rml_input_files": self.r2rml_input_files,
-            "r2rml_output_file": self.r2rml_output_file,
-            "r2rml_config_file": self.r2rml_config_file,
-            "r2rml_run_file": self.r2rml_run_file,
-        }
-
-    # find the version number of the graph being created
-    def find_graph_version(self):
-        onlyfiles = [f for f in listdir(self.graph_directory) if isfile(join(self.graph_directory, f))]
-        file_versions = [int(f.split(".")[0]) for f in onlyfiles]
-        if file_versions:
-            return max(file_versions) + 1
-        else:
-            return 1
 
 if __name__ == '__main__':
     csv_file_1 = "https://raw.githubusercontent.com/kg-construct/" \
