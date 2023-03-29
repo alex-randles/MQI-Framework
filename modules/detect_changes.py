@@ -102,7 +102,7 @@ class DetectChanges:
         return output_changes
 
     def output_changes(self, output_changes):
-        changes_df = pd.DataFrame(
+        df = pd.DataFrame(
             columns=["ID",
                      "OPERATION",
                      "DETECTION_TIME",
@@ -122,8 +122,8 @@ class DetectChanges:
                 structural_reference = changed_values.get("structural_reference")
                 changed_data = changed_values.get("change_reason")
                 new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, self.user_id, version_1, version_2]
-                changes_df.loc[len(changes_df)] = new_row
-        changes_df.to_csv(changes_detected_csv)
+                df.loc[len(df)] = new_row
+        df.to_csv(changes_detected_csv)
 
     # create CSV file to be uplifted to notification policy
     def create_notification_csv(self):
