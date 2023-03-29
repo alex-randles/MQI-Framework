@@ -6,6 +6,8 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<file:///home/alex/MQI-Framework/mapping.ttl> a mqio:MappingArtefact .
+
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
     mqio:assessedMapping <mapping.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
@@ -14,6 +16,22 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
         ex:violation-2 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-03-29T11:50:02.745049"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:termType <http://www.w3.org/ns/r2rml#Literal> .  } 
+                WHERE { 
+                SELECT ?subject
+                WHERE {
+                      ?subject rr:termType <http://www.w3.org/ns/r2rml#Literal> .
+                      FILTER(str(?subject) = "ub2bL27C18").
+                    }
+                }
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-2 ;
+    mqio:refinementName "Remove Term Type"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
@@ -34,7 +52,6 @@ ex:violation-2 a mqio:MappingViolation ;
     mqio:hasObjectValue rr:Literal ;
     mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property ' prov:atLocation '."^^xsd:string ;
     mqio:inTripleMap <TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-<mapping.ttl> a mqio:MappingArtefact .
+    mqio:isDescribedBy mqio-metrics:D6 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

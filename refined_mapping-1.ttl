@@ -14,13 +14,13 @@
  rdf:type  rr:TriplesMap ;	
 	
  rml:logicalSource [ 	
- 	 rml:referenceFormulation  ql:CSV ;	
-	 rml:source  "student.csv" ;	
+ 	 rml:source  "student.csv" ;	
+	 rml:referenceFormulation  ql:CSV ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class  foaf:Person ;	
-	 rr:template  "http://example.com/{ID}/{Name}" ;	
+ 	 rr:template  "http://example.com/{ID}/{Name}" ;	
+	 rr:class  foaf:Person ;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -31,7 +31,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate  prov:has_provenance ;	
+ 	 rr:predicate  prov:atLocation ;	
 	 rr:objectMap  [	
 		 rml:reference  "Name" ;	
 		]; 	

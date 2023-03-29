@@ -491,19 +491,27 @@ class Refinements:
         new_term_type = list(query_values.values())[0]
         current_result = self.validation_results[violation_ID]
         subject_IRI = current_result["location"]
-        old_term_type = current_result["value"]
+        # delete current term type (if applicable)
+        # then insert term type input
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:termType <%s>  } 
+                DELETE { ?subject rr:termType ?currentTermType  } 
+                WHERE {
+                    SELECT ?subject
+                    WHERE {
+                          ?subject ?p ?o . 
+                          FILTER(str(?subject) = "%s").
+                    }
+                }; 
                 INSERT { ?subject rr:termType <%s> } 
                 WHERE { 
-                SELECT ?subject
-                WHERE {
-                      ?subject rr:termType <%s> .
-                      FILTER(str(?subject) = "%s").
+                    SELECT ?subject
+                    WHERE {
+                          ?subject ?p ?o . 
+                          FILTER(str(?subject) = "%s").
                     }
-                }
-               """ % (old_term_type, new_term_type, old_term_type, subject_IRI)
+                }; 
+               """ % (subject_IRI, new_term_type, subject_IRI)
         print("Changing term type query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -523,17 +531,6 @@ class Refinements:
                     }
                 }
                """ % (term_type_value, term_type_value, subject_IRI)
-        # update_query = """
-        #         PREFIX rr: <http://www.w3.org/ns/r2rml#>
-        #         DELETE { ?subject rr:termType ?termType.  }
-        #         WHERE {
-        #         SELECT ?subject ?termType
-        #         WHERE {
-        #               ?subject rr:termType ?termType .
-        #               FILTER(str(?subject) = "%s").
-        #             }
-        #         }
-        #        """ % (subject_IRI)
         print("Removing term type query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -776,17 +773,6 @@ class Refinements:
         # this value is most likely a literal
         language_tag = current_result["value"]
         update_query = """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:language "%s"  } 
-                WHERE { 
-                SELECT ?subject
-                WHERE {
-                      ?subject rr:language "%s" .
-                      FILTER(str(?subject) = "%s").
-                    }
-                }
-               """ % (language_tag, language_tag, subject_IRI)
-        update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject rr:language ?language  }
                 WHERE {
@@ -796,7 +782,7 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (subject_IRI)
+               """ % subject_IRI
         print("Removing language tag\n" + update_query)
         processUpdate(mapping_graph, update_query)
         print(mapping_graph.serialize(format="turtle").decode("utf-8"))
