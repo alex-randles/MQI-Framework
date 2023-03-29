@@ -4,7 +4,7 @@ import os
 import re
 from collections import defaultdict
 from modules.r2rml import *
-
+import modules.r2rml as r2rml
 class DisplayChanges:
 
     def __init__(self, user_id, testing=False):
@@ -115,20 +115,12 @@ class DisplayChanges:
     # take graph filename and generate a dictionary to display threshold information
     @staticmethod
     def generate_thresholds_html(graph_filename, user_id):
-        graph_filename = "/home/alex/Desktop/MQ-Framework/static/change_detection_cache/{}/change_graphs/{}".format(user_id, graph_filename)
-        graph_filename = "/home/alex/Desktop/MQ-Framework/static/change_detection_cache/2/change_graphs/1.trig"
+        graph_filename = r2rml.graph_directory + graph_filename
         change_graph = Dataset()
         change_graph.parse(graph_filename, format="trig")
         query = """
-            PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-            PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-            PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
             PREFIX oscd: <https://w3id.org/OSCD#>
             PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-            PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-
-
             SELECT ?changeType ?threshold 
             WHERE
             {
@@ -139,23 +131,22 @@ class DisplayChanges:
                             rei-constraint:object ?threshold . 
               }
             }
-
             """
         qres = change_graph.query(query)
         # change type human readable
+        oscd_namespace = "https://w3id.org/OSCD#"
         change_types = {
-            'https://change-detection-ontology.adaptcentre.ie/#DatatypeSourceData': "Datatype Change",
-            'https://change-detection-ontology.adaptcentre.ie/#MoveSourceData': "Move Change",
-            'https://change-detection-ontology.adaptcentre.ie/#DeleteSourceData': "Delete Change",
-            'https://change-detection-ontology.adaptcentre.ie/#UpdateSourceData': "Update Change",
-            'https://change-detection-ontology.adaptcentre.ie/#MergeSourceData': "Merge Change",
-            'https://change-detection-ontology.adaptcentre.ie/#InsertSourceData': "Insert Change",
+            oscd_namespace + 'DatatypeSourceData': "Datatype Change",
+            oscd_namespace + 'MoveSourceData': "Move Change",
+            oscd_namespace + 'DeleteSourceData': "Delete Change",
+            oscd_namespace + 'UpdateSourceData': "Update Change",
+            oscd_namespace + 'MergeSourceData': "Merge Change",
+            oscd_namespace + 'InsertSourceData': "Insert Change",
         }
         # dictionary that maps change type to notification threshold
         notification_thresholds = {}
         total_threshold_count = 0
         for row in qres:
-            print(row)
             total_threshold_count += int(row[1])
             notification_thresholds[change_types.get(str(row[0]))] = str(row[1])
         notification_thresholds["Total Count"] = total_threshold_count
@@ -164,15 +155,8 @@ class DisplayChanges:
     def get_detection_period(self):
         # get detection time for notification policy to check if still valid
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
         PREFIX oscd: <https://w3id.org/OSCD/#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-
-
         SELECT ?detectionStart ?detectionEnd 
         WHERE
         {
@@ -196,20 +180,13 @@ class DisplayChanges:
     def get_table_name(self):
         # get detection time for notification policy to check if still valid
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX oscd: <https://change-detection-ontology.adaptcentre.ie/#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-        SELECT DISTINCT ?sourceData
-        WHERE
-        {
-            ?subject rr:tableName|rml:source ?sourceData
-        }
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
+            SELECT DISTINCT ?sourceData
+            WHERE
+            {
+                ?subject rr:tableName|rml:source ?sourceData
+            }
         """
         qres = self.current_graph.query(query)
         # lists as could be more than 1 triple map
@@ -221,21 +198,13 @@ class DisplayChanges:
     def get_iterator(self):
         # get detection time for notification policy to check if still valid
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX oscd: <https://change-detection-ontology.adaptcentre.ie/#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-        SELECT DISTINCT ?iterator
-        WHERE
-        {
-          ?subject rml:iterator ?iterator
-        }
-
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
+            SELECT DISTINCT ?iterator
+            WHERE
+            {
+              ?subject rml:iterator ?iterator
+            }
         """
         qres = self.current_graph.query(query)
         # lists as could be more than 1 triple map
@@ -258,13 +227,13 @@ class DisplayChanges:
     def get_mapping_direct_references(self):
         # get references from column or attribute names
         query = """
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-        SELECT DISTINCT ?dataReference
-        WHERE
-        {
-            ?subject rml:reference|rr:column ?dataReference
-        }
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
+            SELECT DISTINCT ?dataReference
+            WHERE
+            {
+                ?subject rml:reference|rr:column ?dataReference
+            }
         """
         qres = self.current_graph.query(query)
         references = []
@@ -276,13 +245,13 @@ class DisplayChanges:
     def get_mapping_template_references(self):
         # get template values as well
         query = """
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-        SELECT DISTINCT ?dataReference
-        WHERE
-        {
-                  ?subject rr:template ?dataReference
-        }
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
+            SELECT DISTINCT ?dataReference
+            WHERE
+            {
+                      ?subject rr:template ?dataReference
+            }
         """
         qres = self.current_graph.query(query)
         references = []
@@ -297,27 +266,19 @@ class DisplayChanges:
     def get_change_reasons(self):
         # get the reasons for changes occurring
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX oscd: <https://w3id.org/OSCD/#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-        # GET REASON FOR CHANGE OCCURING AND REMOVE UNNEEDED INFORMATION
-        SELECT (strbefore(?changeReason,':') as ?reason) ?changeReason ?changeType 
-        WHERE
-        {
-          # QUERY USER GRAPH
-          GRAPH ?g {
-            ?changeLog a oscd:ChangeLog;
-                       oscd:hasChange ?change .
-            ?change oscd:hasReason ?changeReason;
-                    a ?changeType .
-          }
-        }
+            PREFIX oscd: <https://w3id.org/OSCD/#>
+            # GET REASON FOR CHANGE OCCURING AND REMOVE UNNEEDED INFORMATION
+            SELECT (strbefore(?changeReason,':') as ?reason) ?changeReason ?changeType 
+            WHERE
+            {
+              # QUERY USER GRAPH
+              GRAPH ?g {
+                ?changeLog a oscd:ChangeLog;
+                           oscd:hasChange ?change .
+                ?change oscd:hasChangedData ?changeReason;
+                        a ?changeType .
+              }
+            }
         """
         qres = self.current_graph.query(query)
         change_reasons = ["name"]

@@ -293,22 +293,14 @@ class API:
         #                        mapping_id=mapping_id,
         #                        )
 
-    @app.route('/notification-thresholds', methods=['GET', 'POST'])
-    def notification_thresholds():
-        return render_template("Thresholds.html")
-
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
     def process_thresholds(graph_filename):
         # reassign as pycharm underlines as error
         str_graph_filename = str(graph_filename)
         participant_id = session.get("participant_id")
-        # notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, participant_id)
-        # print(notification_thresholds)
-        notification_thresholds = {'Update Change': '0', 'Insert Change': '10',
-                                   'Datatype Change': '0', 'Delete Change': '5',
-                                   'Move Change': '0', 'Merge Change': '0', 'Total Count': "15"}
-        # graph_id =  "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
+        notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, participant_id)
+        graph_id =  "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
         return render_template("change_detection/notification_thresholds.html",
                                participant_id=participant_id,
                                graph_id=1,
