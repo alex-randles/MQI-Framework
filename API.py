@@ -178,15 +178,6 @@ class API:
         ValidationReport(formatted_validation_result, cache_validation_report_file,
                          cache_mapping_file, more_info_data, timestamp)
 
-    @app.route("/return-validation-report/", methods=['GET', 'POST'])
-    def download_validation_report():
-        cache_validation_report_file = session.get("validation_report_file")
-        participant_id = session.get("participant_id")
-        quality_report_filename = "validation_report-{}.ttl".format(participant_id)
-        return send_file(quality_report_filename,
-                         attachment_filename=quality_report_filename,
-                         as_attachment=True, cache_timeout=0)
-
     @staticmethod
     def split_camel_case(word):
         splitted = re.sub('([A-Z][a-z]+)', r' \1', re.sub('([A-Z]+)', r' \1', word)).split()
@@ -372,10 +363,9 @@ class API:
                                    mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                                    )
 
-    @app.route('/remove/<user_id>/<file_id>/')
-    def remove(file_id, user_id):
+    @app.route('/remove/<file_id>/')
+    def remove(file_id):
         filename = f"{file_id}"
-        user_id = f"{user_id}"
         # alert message if process or mapping removed
         process_removed = mapping_deleted = None
         if "trig" in filename:
@@ -729,6 +719,15 @@ class API:
             attachment_filename="validation_report.ttl",
             as_attachment=True, cache_timeout=0
         )
+
+    @app.route("/return-validation-report/", methods=['GET', 'POST'])
+    def download_validation_report():
+        cache_validation_report_file = session.get("validation_report_file")
+        participant_id = session.get("participant_id")
+        quality_report_filename = "validation_report-{}.ttl".format(participant_id)
+        return send_file(quality_report_filename,
+                         attachment_filename=quality_report_filename,
+                         as_attachment=True, cache_timeout=0)
 
 
 if __name__ == "__main__":
