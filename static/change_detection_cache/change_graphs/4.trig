@@ -1,3 +1,50 @@
+<http://www.example.com/changesGraph/user-2> {
+    <http://www.example.com/changeLog/user-2>
+            a       <https://w3id.org/OSCD#ChangeLog> ;
+            <https://w3id.org/OSCD#hasChange>
+                    <http://www.example.com/deleteChange/2> , <http://www.example.com/insertChange/3> , <http://www.example.com/insertChange/1> , <http://www.example.com/insertChange/0> ;
+            <https://w3id.org/OSCD#hasCurrentVersion>
+                    <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0009a-CSV/student.csv> ;
+            <https://w3id.org/OSCD#hasPreviousVersion>
+                    <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv> .
+    
+    <http://www.example.com/insertChange/0>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-03-29 16:46:30.196639"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    "Venus Williams" ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "Name" .
+    
+    <http://www.example.com/deleteChange/2>
+            a       <https://w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-03-29 16:46:30.196639"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    "Venus" ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "Name" .
+    
+    <http://www.example.com/insertChange/3>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-03-29 16:46:30.196639"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    "Sport" ;
+            <https://w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/insertChange/1>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-03-29 16:46:30.196639"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    "Demi Moore" ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "Name" .
+}
+
 <http://www.example.com/contactDetailsGraph/user-1> {
     <http://www.example.com/user-1>
             a       <http://xmlns.com/foaf/0.1/Person> ;
@@ -5,160 +52,98 @@
                     "alexrandles0@gmail.com" .
 }
 
-<http://www.example.com/notificationGraph/user-1> {
-    <http://www.example.com/userActor/1>
+<http://www.example.com/notificationGraph/user-2> {
+    <http://www.example.com/deleteChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://w3id.org/OSCD#DeleteSourceData> .
+    
+    <http://www.example.com/notificationConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#And> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fifth>
+                    <http://www.example.com/mergeChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#first>
+                    <http://www.example.com/insertChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fourth>
+                    <http://www.example.com/updateChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#second>
+                    <http://www.example.com/deleteChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#sixth>
+                    <http://www.example.com/datatypeChangeConstraint/2> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#third>
+                    <http://www.example.com/moveChangeConstraint/2> .
+    
+    <http://www.example.com/mergeChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "47474747" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://w3id.org/OSCD#MergeSourceData> .
+    
+    <http://www.example.com/datatypeChangeConstraint/2>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://w3id.org/OSCD#DatatypeSourceData> .
+    
+    <http://www.example.com/userActor/2>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
     
-    <http://www.example.com/policyObligation/1>
+    <http://www.example.com/policyObligation/2>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#Obligation> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#action>
                     <https://w3id.org/OSCD#sendNotification> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#obligedTo>
                     <https://w3id.org/OSCD#softwareAgent> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#startingConstraint>
-                    <http://www.example.com/notificationConstraint/1> ;
+                    <http://www.example.com/notificationConstraint/2> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#actor>
-                    <http://www.example.com/userActor/1> , <https://w3id.org/OSCD#softwareAgent> .
+                    <http://www.example.com/userActor/2> , <https://w3id.org/OSCD#softwareAgent> .
     
-    <http://www.example.com/insertChangeConstraint/1>
+    <http://www.example.com/insertChangeConstraint/2>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "10" ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
                     <https://w3id.org/OSCD#hasThreshold> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
                     <https://w3id.org/OSCD#InsertSourceData> .
     
-    <http://www.example.com/notificationPolicy/1>
+    <http://www.example.com/notificationPolicy/2>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#Policy> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#desc>
-                    "Notification policy for user 1" ;
+                    "Notification policy for user 2" ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#grants>
-                    <http://www.example.com/policyObligation/1> ;
+                    <http://www.example.com/policyObligation/2> ;
             <https://w3id.org/OSCD#hasDetectionEnd>
-                    "00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                    "2022-07-10 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
             <https://w3id.org/OSCD#hasDetectionStart>
-                    "2023-03-28 17:48:39.519235"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+                    "2023-03-29 16:59:55.088206"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     
-    <http://www.example.com/updateChangeConstraint/1>
+    <http://www.example.com/updateChangeConstraint/2>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "0" ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
                     <https://w3id.org/OSCD#hasThreshold> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
                     <https://w3id.org/OSCD#UpdateSourceData> .
     
-    <http://www.example.com/moveChangeConstraint/1>
+    <http://www.example.com/moveChangeConstraint/2>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    "5555" ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
                     <https://w3id.org/OSCD#hasThreshold> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
                     <https://w3id.org/OSCD#MoveSourceData> .
-    
-    <http://www.example.com/deleteChangeConstraint/1>
-            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
-                    <https://w3id.org/OSCD#hasThreshold> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
-                    <https://w3id.org/OSCD#DeleteSourceData> .
-    
-    <http://www.example.com/notificationConstraint/1>
-            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#And> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fifth>
-                    <http://www.example.com/mergeChangeConstraint/1> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#first>
-                    <http://www.example.com/insertChangeConstraint/1> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fourth>
-                    <http://www.example.com/updateChangeConstraint/1> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#second>
-                    <http://www.example.com/deleteChangeConstraint/1> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#sixth>
-                    <http://www.example.com/datatypeChangeConstraint/1> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#third>
-                    <http://www.example.com/moveChangeConstraint/1> .
-    
-    <http://www.example.com/mergeChangeConstraint/1>
-            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
-                    <https://w3id.org/OSCD#hasThreshold> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
-                    <https://w3id.org/OSCD#MergeSourceData> .
-    
-    <http://www.example.com/datatypeChangeConstraint/1>
-            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
-                    <https://w3id.org/OSCD#hasThreshold> ;
-            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
-                    <https://w3id.org/OSCD#DatatypeSourceData> .
-}
-
-<http://www.example.com/changesGraph/user-1> {
-    <http://www.example.com/insertChange/6>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "Column inserted: Sport" .
-    
-    <http://www.example.com/deleteChange/8>
-            a       <https://w3id.org/OSCD#DeleteSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "Name: Venus" .
-    
-    <http://www.example.com/insertChange/4>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "Sport:" .
-    
-    <http://www.example.com/insertChange/2>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "Name: Venus Williams" .
-    
-    <http://www.example.com/insertChange/0>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "ID: 10" .
-    
-    <http://www.example.com/insertChange/5>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "Name: Demi Moore" .
-    
-    <http://www.example.com/deleteChange/7>
-            a       <https://w3id.org/OSCD#DeleteSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "ID: 10" .
-    
-    <http://www.example.com/changeLog/user-1>
-            a       <https://w3id.org/OSCD#ChangeLog> ;
-            <https://w3id.org/OSCD#hasChange>
-                    <http://www.example.com/insertChange/6> , <http://www.example.com/insertChange/3> , <http://www.example.com/insertChange/2> , <http://www.example.com/deleteChange/8> , <http://www.example.com/insertChange/5> , <http://www.example.com/insertChange/4> , <http://www.example.com/insertChange/1> , <http://www.example.com/insertChange/0> , <http://www.example.com/deleteChange/7> ;
-            <https://w3id.org/OSCD#hasCurrentVersion>
-                    <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0009a-CSV/student.csv> ;
-            <https://w3id.org/OSCD#hasPreviousVersion>
-                    <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv> .
-    
-    <http://www.example.com/insertChange/3>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "ID: 20" .
-    
-    <http://www.example.com/insertChange/1>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-03-28 17:48:39.466543"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasReason>
-                    "Sport: 100" .
 }
