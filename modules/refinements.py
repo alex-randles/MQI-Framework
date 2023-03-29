@@ -895,14 +895,14 @@ class Refinements:
                    PREFIX prov: <http://www.w3.org/ns/prov#> 
                    PREFIX owl: <http://www.w3.org/2002/07/owl#>
                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                   SELECT ?domainClass ?comment
+                   SELECT DISTINCT ?domainClass ?comment
                    WHERE {
                       GRAPH <%s> {
                         {
                           <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
-                          OPTIONAL { ?domain  rdfs:comment|prov:definition ?comment .} 
                           ?domain owl:unionOf ?list .
                           ?list rdf:rest*/rdf:first ?domainClass .
+                          OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
                         }
                         UNION 
                         {
@@ -915,40 +915,16 @@ class Refinements:
                    GROUP BY ?domainClass ?comment
                    """% (self.get_namespace(property_IRI), property_IRI, property_IRI)
         qres = FetchVocabularies().query_local_graph(property_IRI, query)
-        domain = None
-        complex_domain = False
+        domain = []
         for row in qres["results"]["bindings"]:
             current_domain = row["domainClass"]["value"]
             if "comment" in row:
                 current_comment = row["comment"]["value"].split(".")[0] + "."
             else:
                 current_comment = "No description of class in ontology."
-            domain = [current_domain, current_comment]
-        # if qres:
-        #     for row in qres:
-        #         domain = ["%s" % row[0], "%s" % row[1]]
-        #         print(domain)
-        #         if isinstance(row["domain"], BNode):
-        #             complex_domain = True
-        #             graph = FetchVocabularies().retrieve_local_graph(property_IRI)
-        #             print(len(graph), "REFINEMENTS GRAPH")
-        #             domain = self.get_complex_domain(property_IRI, graph)
-        # print(domain, "REFINEMENT DOMAIN")
-        output = {"Choose class value: ": [domain]}
+            domain.append((current_domain, current_comment))
+        output = {"Choose class value: ": domain}
         return output
-
-    #     def find_domain(self, IRI):
-    #         # returns  domain for IRI if applicable
-    #         query = """PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    #                     SELECT ?domain
-    #                     WHERE {
-    #                       <%s> rdfs:domain ?domain .
-    #                     }
-    #                     """ % (IRI)
-    #         qres = FetchVocabularies().query_local_graph(IRI, query)
-    #         for row in qres:
-    #             return row[0]
-    #         return None
 
     def find_range(self, IRI):
         # returns  domain for IRI if applicable

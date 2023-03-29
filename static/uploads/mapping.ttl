@@ -24,7 +24,7 @@
   ];
 
   rr:predicateObjectMap [ 
-    rr:predicate prov:namess ; 
+    rr:predicate prov:atLocation ; 
     rr:objectMap [ rml:reference "Name" ]
   ].
 
