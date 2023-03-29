@@ -1,5 +1,5 @@
 run_command = 'java -jar "./static/change_detection_cache/r2rml/target/r2rml-fat.jar" "./static/change_detection_cache/r2rml/config.properties"'
-r2rml_config  = """connectionURL =
+r2rml_config = """connectionURL =
 mappingFile = {}
 CSVFiles = {};
 outputFile = {}
