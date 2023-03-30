@@ -81,7 +81,7 @@ class ValidateQuality:
 
     @staticmethod
     def create_metric_descriptions():
-        metric_description_file = "Framework metric_refinement HOVER descriptions - Metric Descriptions.csv"
+        metric_description_file = "metric_descriptions.csv"
         df = pd.read_csv(metric_description_file)
         metric_descriptions = {}
         for row in df.itertuples():

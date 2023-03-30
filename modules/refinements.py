@@ -151,7 +151,7 @@ class Refinements:
 
     @staticmethod
     def create_refinement_descriptions():
-        refinement_description_file = "Framework metric_refinement HOVER descriptions - Refinement Descriptions.csv"
+        refinement_description_file = "refinement_descriptions.csv"
         df = pd.read_csv(refinement_description_file)
         refinement_descriptions = {}
         for row in df.itertuples():
