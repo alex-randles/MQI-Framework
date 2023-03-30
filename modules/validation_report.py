@@ -7,22 +7,6 @@ import time
 import rdflib
 from rdflib import Graph, URIRef, Namespace, RDF, Literal, RDFS, XSD, BNode, RDF
 from rdflib.plugins.sparql.processor import processUpdate
-from fs.osfs import OSFS
-
-# query = """
-#         PREFIX ex: <http://example.org/>
-#         PREFIX mqv: <http://mappingQualityVocabulary.org/>
-#         INSERT DATA { ex:validationReport a mqv:MappingValidationReport . }
-#         """
-# query = """
-#         PREFIX mqv: <http://mappingQualityVocabulary.org/>
-#         PREFIX ex: <http://example.org/>
-#         INSERT {{  {0} a mqv:MappingViolation;
-#                                   mqv:isDescribedBy {1} .
-#                    ?validationReport mqv:hasViolation {0} .
-#                    }}
-#         WHERE {{ ?validationReport a mqv:MappingValidationReport . }}
-#         """
 
 
 class ValidationReport:
@@ -36,8 +20,6 @@ class ValidationReport:
         self.mapping_graph = Graph().parse(mapping_file, format="ttl")
         self.mapping_namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.validation_graph = Graph()
-        # self.MQIO = Namespace("http://mappingQualityVocabulary.org/")
-        # self.MQIO_METRIC = Namespace("http://mappingQualityVocabulary.org/metric/")
         self.MQIO = Namespace("https://w3id.org/MQIO#")
         self.MQIO_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
         self.EX = Namespace("http://example.org/")
@@ -48,7 +30,6 @@ class ValidationReport:
         self.validation_results = validation_results
         self.violation_count = 0
         self.assessment_IRI = None
-        self.named_graph_IRI = BNode()
         self.create_validation_report()
 
 
@@ -70,7 +51,6 @@ class ValidationReport:
     def create_validation_report(self):
         # A function create the validation report and add each violation
         validation_report_IRI = self.insert_validation_report()
-        # self.validation_graph.add((validation_report_IRI, self.MQIO.hasValidationReport, self.named_graph_IRI))
         self.insert_assessment_information()
         self.iterate_violations(validation_report_IRI)
         # add more information only if check box selected
@@ -115,8 +95,7 @@ class ValidationReport:
             self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, name_IRI))
 
     def add_assessment_time(self):
-        # time the mapping information was generated
-        # prov:startedAtTime
+        # time the mapping information was generated - prov:startedAtTime
         current_time = Literal(datetime.utcnow(), datatype=XSD.dateTime)
         self.validation_graph.add((self.assessment_IRI, self.PROV.endedAtTime, current_time))
 
@@ -155,9 +134,7 @@ class ValidationReport:
     def insert_assessment_information(self):
         # ex:mappingQualityAssessment a mqv:MappingAssessment ;
         quality_assessment_IRI = self.EX.mappingQualityAssessment
-        # self.validation_graph.add((self.named_graph_IRI, self.EX.hehe, quality_assessment_IRI))
         self.assessment_IRI = quality_assessment_IRI
-        # self.validation_graph.add((self.named_graph_IRI, RDF.type, self.MQIO.MappingAssessment))
         self.validation_graph.add((quality_assessment_IRI, RDF.type, self.MQIO.MappingAssessment))
         # mqv:assessedMapping </home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/valid_mapping.ttl> .
         mapping_file_IRI = URIRef(self.mapping_file.split("/")[-1])
@@ -173,13 +150,6 @@ class ValidationReport:
         # self.validation_graph.add((quality_assessment_IRI, self.MQIO.wasPerfomedBy, name))
         self.validation_graph.add((quality_assessment_IRI, self.MQIO.hasValidationReport, validation_report_IRI))
         return quality_assessment_IRI
-
-    # def get_current_report_number(self):
-    #     # a function to get the unique number for each report
-    #     report_file = "report_counter.txt"
-    #     with self.home_fs.open(report_file) as progress_file:
-    #         current_report_number = str(progress_file.read())
-    #         return current_report_number
 
     def insert_validation_report(self):
         # adding validation report
@@ -206,10 +176,10 @@ class ValidationReport:
         # mqv: isDescribedBy mqv: metricD6;
         # mqv: resultMessage "Usage of incorrect domain.";
         metric_IRI = URIRef(self.EX + violation_information["metric_ID"])
-        mqv_metric_IRI = URIRef(self.MQIO_METRIC + violation_information["metric_ID"])
+        mqio_metric_IRI = URIRef(self.MQIO_METRIC + violation_information["metric_ID"])
         result_message = Literal(violation_information["result_message"], datatype=XSD.string)
         self.validation_graph.add((current_violation_IRI, RDF.type, self.MQIO.MappingViolation))
-        self.validation_graph.add((current_violation_IRI, self.MQIO.isDescribedBy, mqv_metric_IRI))
+        self.validation_graph.add((current_violation_IRI, self.MQIO.isDescribedBy, mqio_metric_IRI))
         # self.validation_graph.add((metric_IRI, RDF.type, mqv_metric_IRI))
         self.validation_graph.add((current_violation_IRI, self.MQIO.hasResultMessage, result_message))
         self.insert_violation_value(violation_information, current_violation_IRI)
@@ -264,10 +234,6 @@ class ValidationReport:
     def create_mapping_assessment(self):
         # A function create the validation report and add each violation
         self.validation_graph.add((self.EX.mappingQualityAssessment, RDF.type, self.MQIO.MappingAssessment))
-
-    def execute_SPARQL_update(self, query):
-        # A function to update the validation report graph
-        processUpdate(self.validation_graph, query)
 
     def bind_namespaces(self):
         self.validation_graph.bind("mqio", self.MQIO)

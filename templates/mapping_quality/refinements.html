@@ -172,7 +172,7 @@
 
             {% else %}
 
-            <td style="width:100%">
+            <td style="width:25%">
                 {% for value in refinement_properties %}
                 {% set form_value_3 = violation_ID + '-' + value %}
                 <div style="display:none">
@@ -182,7 +182,7 @@
                 </div>
                 <b>Property: {{find_prefix(value)}}</b>
                 <label for={{form_value_3}}></label>
-                <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} required>
+                <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} style="width:100%" required>
                     {% for (placeholder, values) in restricted_values.items() %}
                     <option value="" disabled selected>{{placeholder}}</option>
                     {% for value in values %}

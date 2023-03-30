@@ -1,17 +1,38 @@
-from modules.detect_changes import  *
+def analyse_mappings():
+    graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/14.trig"
+    change_graph = Dataset()
+    change_graph.parse(graph_filename, format="trig")
+    change_graph.parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
+    query = """
+        PREFIX oscd: <https://w3id.org/OSCD#>
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        PREFIX rr: <http://www.w3.org/ns/r2rml#>
 
-csv_file_1 = "https://raw.githubusercontent.com/kg-construct/" \
-             "rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv"
-csv_file_2 = "https://raw.githubusercontent.com/kg-construct/" \
-             "rml-test-cases/master/test-cases/RMLTC0009a-CSV/student.csv"
-form_details = {
-    'CSV_URL_1': "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv",
-    'CSV_URL_2': "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v2.csv",
-    'insert-threshold': '10', 'delete-threshold': '0',
-    'move-threshold': '5555', 'datatype-threshold': '0',
-    'merge-threshold': '47474747', 'update-threshold': '0',
-    'detection-end': '2022-07-10',
-    'email-address': 'alexrandles0@gmail.com',
-    "user-id": "2",
-}
-cd = DetectChanges(user_id=2, form_details=form_details)
+        SELECT ?graphName
+        WHERE {
+          GRAPH ?changesGraph {    			 
+            ?changeLog a oscd:ChangeLog;
+                    oscd:hasChange ?change;
+                    oscd:hasCurrentVersion ?currentVersion .
+            ?change oscd:hasDataReference ?reference;
+                    oscd:hasChangedData ?changedData .
+            BIND (REPLACE(STR(?currentVersion), "^.*/([^/]*)$", "$1") as ?source)
+          }
+          GRAPH ?mappingGraph {    			 
+            ?tripleMap rml:logicalSource|rr:logicalTable ?logicalSource;
+                    rr:predicateObjectMap ?pom .
+            ?logicalSource rml:source|rr:tableName ?source .
+            ?pom rr:objectMap ?objectMap .
+            ?objectMap rml:reference|rr:column ?reference.
+          }
+          BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
+        }
+        GROUP BY ?graphName
+    """
+    qres = change_graph.query(query)
+    print(qres)
+    for row in qres:
+        print(row)
+    exit()
+
+analyse_mappings()
