@@ -300,8 +300,7 @@ class DisplayChanges:
         graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/14.trig"
         change_graph = Dataset()
         change_graph.parse(graph_filename, format="trig")
-        g = Graph().parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
-        change_graph.add(g)
+        change_graph.parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
         query = """
             PREFIX oscd: <https://w3id.org/OSCD#>
             PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
@@ -324,13 +323,12 @@ class DisplayChanges:
                 ?pom rr:objectMap ?objectMap .
                 ?objectMap rml:reference|rr:column ?reference.
               }
-                BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
+              BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
             }
             GROUP BY ?graphName
         """
         qres = change_graph.query(query)
-        for row in qres:
-            print(row)
+        print(qres)
         exit()
 
 

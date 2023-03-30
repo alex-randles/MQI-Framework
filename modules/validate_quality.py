@@ -1027,7 +1027,7 @@ class ValidateQuality:
                     #     if "subClass2" in row:
                     #         if row["subClass2"]["type"] == "uri":
                     #             domain.append(row["subClass2"]["value"])
-                self.domain_cache[IRI] = set(domain)
+                self.domain_cache[IRI] = domain
                 # print(self.domain_cache)
                 # exit()
                 return domain
