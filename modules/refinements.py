@@ -496,22 +496,15 @@ class Refinements:
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:termType ?currentTermType  } 
-                WHERE {
-                    SELECT ?subject
-                    WHERE {
-                          ?subject ?p ?o . 
-                          FILTER(str(?subject) = "%s").
-                    }
-                }; 
                 INSERT { ?subject rr:termType <%s> } 
                 WHERE { 
-                    SELECT ?subject
+                    SELECT ?subject 
                     WHERE {
                           ?subject ?p ?o . 
                           FILTER(str(?subject) = "%s").
                     }
                 }; 
-               """ % (subject_IRI, new_term_type, subject_IRI)
+               """ % (new_term_type, subject_IRI)
         print("Changing term type query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -524,11 +517,11 @@ class Refinements:
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:termType <%s> .  } 
                 WHERE { 
-                SELECT ?subject
-                WHERE {
-                      ?subject rr:termType <%s> .
-                      FILTER(str(?subject) = "%s").
-                    }
+                    SELECT ?subject
+                    WHERE {
+                          ?subject rr:termType <%s> .
+                          FILTER(str(?subject) = "%s").
+                        }
                 }
                """ % (term_type_value, term_type_value, subject_IRI)
         print("Removing term type query\n" + update_query)
@@ -538,7 +531,6 @@ class Refinements:
     def remove_datatype(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
         object_map_IRI = current_result["location"]
-        data_type_value = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject rr:datatype ?datatype .  }
@@ -610,12 +602,8 @@ class Refinements:
             old_predicate = violation_info["value"]
             update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {
-                    ?pom rr:predicate <%s>  .
-                }
-                INSERT {
-                    ?pom rr:predicate %s .
-                }
+                DELETE {   ?pom rr:predicate <%s>  .  }
+                INSERT {   ?pom rr:predicate %s .     }
                 WHERE {
                     ?pom rr:predicate <%s>  .
                     FILTER(str(?pom) = "%s").
@@ -648,10 +636,6 @@ class Refinements:
         return update_query
 
     def change_datatype(self, query_values, mapping_graph, violation_ID):
-        #         if isinstance(query_values, URIRef):
-        #            correct_datatype = query_values
-        #         else:
-        #            correct_datatype = list(query_values.values())[0]
         correct_datatype = self.get_user_input(query_values)
         current_result = self.validation_results[violation_ID]
         object_map_IRI = current_result["location"]
@@ -661,10 +645,10 @@ class Refinements:
                 DELETE { ?objectMap rr:datatype ?datatype }
                 INSERT { ?objectMap rr:datatype %s }
                 WHERE {
-                SELECT ?objectMap ?datatype
-                WHERE {
-                      ?objectMap rr:datatype ?datatype.
-                      FILTER(str(?objectMap) = "%s").
+                    SELECT ?objectMap ?datatype
+                    WHERE {
+                          ?objectMap rr:datatype ?datatype.
+                          FILTER(str(?objectMap) = "%s").
                     }
                 }
                """ % (correct_datatype, object_map_IRI)
@@ -676,7 +660,6 @@ class Refinements:
     def add_correct_range(self, correct_range, mapping_graph, violation_ID):
         current_result = self.validation_results[int(violation_ID)]
         object_map_IRI = current_result["location"]
-        old_datatype = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?objectMap rr:constant ?range }

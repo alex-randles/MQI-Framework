@@ -874,63 +874,13 @@ class ValidateQuality:
                             "http://www.w3.org/2002/07/owl#Thing"]
         # check if there is a domain firstly
         if domain:
-            # check if domain in excluded domains
-            for current_domain in domain:
-                if str(current_domain) in excluded_domains:
-                    return None
-            # find subclasses of classes defined in the subject map
             classes = self.get_classes()
-            # subject_map_classes = [class_IRI for (subject_IRI, class_IRI) in self.get_classes().items()]
-            subject_map_classes = [classes[key]["class"] for key in classes.keys()]
-            sub_classes = self.find_subclasses(subject_map_classes)
-            # if a domain is in the vocabulary, or not in the excluded domains described above or the domain is a subclass of the subject class
-            # sub_classes = []
-            for IRI in subject_map_classes:
-                str_IRI = str(IRI)
-                if str_IRI.startswith("http://www.w3.org/2002/07/owl#") or str_IRI.startswith("http://www.w3.org/2000/01/rdf-schema#"):
-                    return
-            # print(domain, domain not in excluded_domains, "DOMAIN TEST")
-            print("*******DOMAIN", domain)
-            if domain is not None:
-                # domain = str(domain[0])
-                if domain not in excluded_domains and URIRef(domain[0]) not in sub_classes:
-                    result_message = "Usage of incorrect domain."
-                    for class_IRI in subject_map_classes:
-                        # print(type(class_IRI), class_IRI, type(domain[0]), domain)
-                        print("TESTING DOMAIN****************", str(class_IRI),  str(domain), str(class_IRI) == str(domain) )
-                        if class_IRI in domain:
-                            return
-                    return [metric_ID, result_message, property_IRI, subject_IRI]
+            match_domain = [v["class"] for k,v in classes.items() if str(v["class"]) in domain]
+            if not match_domain:
+                result_message = "Usage of incorrect domain."
+                return [metric_ID, result_message, property_IRI, subject_IRI]
         else:
             return None
-
-    def find_subclasses(self, subject_classes):
-        # find all subclasses of the domain of a predicate IRI
-        sub_classes = []
-        excluded_subclasses = [URIRef('http://www.w3.org/2002/07/owl#Thing'),
-                               URIRef("http://www.w3.org/2000/01/rdf-schema#Resource")]
-        for class_IRI in subject_classes:
-            try:
-                local_file, file_format = self.vocabularies.retrieve_local_file(class_IRI)
-                if local_file:
-                    graph = Graph().parse(local_file, format=file_format)
-                    current_class_IRI = class_IRI
-                    i = 0
-                    while True:
-                        current_num_subclasses = len(sub_classes)
-                        for (s, p, o) in graph.triples((current_class_IRI, RDFS.subClassOf, None)):
-                            if isinstance(o, URIRef) and o not in excluded_subclasses:
-                                sub_classes.append(o)
-                        # if no more subclasses
-                        if current_num_subclasses == len(sub_classes):
-                            break
-                        # else find subclass of subclass
-                        else:
-                            current_class_IRI = sub_classes[i]
-                            i += 1
-            except:
-                return sub_classes
-        return sub_classes
 
     def get_type(self, IRI):
         # get the type of the specified IRI E.G owl:ObjectProperty or owl:DatatypeProperty
@@ -976,71 +926,40 @@ class ValidateQuality:
         else:
             return self.range_cache[IRI]
 
-    def get_complex_domain(self, IRI, g):
-        domain = list(g.objects(IRI, RDFS.domain))[0]
-        domain_identifier = list(g.objects(domain, OWL.unionOf))[0]
-        domain_values = []
-        new_blank_nodes = []
-        while True:
-            for (s, p, o) in g.triples((domain_identifier, None, None)):
-                if p == RDF.first:
-                    domain_values.append(o)
-                elif p == RDF.rest:
-                    new_blank_nodes.append(o)
-            if not new_blank_nodes:
-                break
-            else:
-                domain_identifier = new_blank_nodes.pop(0)
-        return domain_values
-
     def get_domain(self, IRI):
         if IRI not in self.domain_cache.keys():
-            # query = """PREFIX dcam: <http://purl.org/dc/dcam/>
-            #            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-            #            PREFIX schema: <http://schema.org/>
-            #            SELECT ?domain
-            #             WHERE {
-            #               <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain
-            #             }
-            #        """ % IRI
-
-            query = """
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    SELECT ?domain
-                    WHERE {
-                      GRAPH <%s>
-                      { 
-                        <%s> rdfs:domain ?domain .
-                      }
-                    }
-                """ % (self.get_namespace(IRI), IRI)
+            query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
+                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                       PREFIX schema: <http://schema.org/> 
+                       PREFIX prov: <http://www.w3.org/ns/prov#> 
+                       PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                       SELECT DISTINCT ?domainClass ?comment
+                       WHERE {
+                          GRAPH <%s> {
+                            {
+                              <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domain . 
+                              ?domain owl:unionOf ?list .
+                              ?list rdf:rest*/rdf:first ?domainClass .
+                              OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
+                            }
+                            UNION 
+                            {
+                              <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes ?domainClass . 
+                              OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
+                              FILTER (!isBlank(?domainClass))
+                            }
+                          }
+                       }   
+                       GROUP BY ?domainClass ?comment
+                       """ % (self.get_namespace(IRI), IRI, IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)
             domain = []
             if qres["results"]["bindings"]:
                 for row in qres["results"]["bindings"]:
-                    domain.append(row["domain"]["value"])
-                    domain_type = row["domain"]["type"]
-                    # if domain_type == "uri":
-                    #     if "subClass" in row:
-                    #         if row["subClass"]["type"] == "uri":
-                    #             domain.append(row["subClass"]["value"])
-                    #     if "subClass2" in row:
-                    #         if row["subClass2"]["type"] == "uri":
-                    #             domain.append(row["subClass2"]["value"])
+                    domain.append(row["domainClass"]["value"])
                 self.domain_cache[IRI] = domain
-                # print(self.domain_cache)
-                # exit()
                 return domain
-
-            # if qres:
-            #     for row in qres:
-            #         domain = [row["domain"]]
-            #         if isinstance(row["domain"], BNode):
-            #             complex_domain = True
-            #             graph = self.vocabularies.retrieve_local_graph(IRI)
-            #             domain = self.get_complex_domain(IRI, graph)
-            # print("ADDING TO DOMAIN CACHE", IRI, domain, self.domain_cache)
-            # self.domain_cache[IRI] = domain
             return domain
         else:
             return self.domain_cache[IRI]
@@ -1094,22 +1013,6 @@ class ValidateQuality:
             language_tag = row[1]
             self.add_violation([metric_ID, result_message, language_tag, subject])
 
-    def validate_MP8(self):
-        result_message = "Join condition should have a parent column."
-        metric_ID = "MP8"
-        query = """
-                        SELECT ?joinCondition 
-                        WHERE {
-                           ?objectMap rr:joinCondition ?joinCondition .
-                           FILTER NOT EXISTS {
-                             ?joinCondition rr:parent ?parent . 
-                           }
-                        }"""
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            self.add_violation([metric_ID, result_message, None, subject])
-
     def validate_MP7(self):
         result_message = "Join condition should have a child column."
         metric_ID = "MP7"
@@ -1119,6 +1022,22 @@ class ValidateQuality:
                            ?objectMap rr:joinCondition ?joinCondition .
                            FILTER NOT EXISTS {
                              ?joinCondition rr:child ?child . 
+                           }
+                        }"""
+        qres = self.current_graph.query(query)
+        for row in qres:
+            subject = row[0]
+            self.add_violation([metric_ID, result_message, None, subject])
+
+    def validate_MP8(self):
+        result_message = "Join condition should have a parent column."
+        metric_ID = "MP8"
+        query = """
+                        SELECT ?joinCondition 
+                        WHERE {
+                           ?objectMap rr:joinCondition ?joinCondition .
+                           FILTER NOT EXISTS {
+                             ?joinCondition rr:parent ?parent . 
                            }
                         }"""
         qres = self.current_graph.query(query)
