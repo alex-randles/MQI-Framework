@@ -19,7 +19,7 @@ class FetchVocabularies:
     def create_graph(self):
         if self.file_name:
             self.mapping_graph = Graph().parse(self.file_name, format="ttl")
-            self.fetch_mapping_ontologies()
+            # self.fetch_mapping_ontologies()
 
     # retrieves and queries local graph
     def query_local_graph(self, property_IRI, query):
