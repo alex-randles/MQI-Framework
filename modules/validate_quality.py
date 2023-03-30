@@ -343,7 +343,7 @@ class ValidateQuality:
         metric_ID = "VOC3"
         for namespace in self.unique_namespaces:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
-                                "dcterms:publisher", "dc:title", "dc:description", "rdfs:comment"]
+                                "dcterms:publisher", "dc:title", "dc:description", "rdfs:comment", "foaf:maker"]
             query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
                     "PREFIX dc: <http://purl.org/dc/elements/1.1/> " \
                     "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" \
