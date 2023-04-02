@@ -29,7 +29,6 @@ def analyse_mappings():
            BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
 
         }
-        GROUP BY ?graphName
     """
     qres = change_graph.query(query)
     return qres

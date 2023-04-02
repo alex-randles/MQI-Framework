@@ -87,8 +87,8 @@
         rr:class mqio:MappingDocument;
     ];
     rr:predicateObjectMap [
-        rr:predicate mqio:hasValidationReport;
-        rr:objectMap [ rr:column "ENAME"; ];
+        rr:predicate mqio:usedQuery;
+        rr:objectMap [ rr:column "ENAME"; rr:datatype xsd:sss];
     ].
 
 

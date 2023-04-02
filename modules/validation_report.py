@@ -164,8 +164,8 @@ class ValidationReport:
         self.insert_violation_information(violation_information, current_violation_IRI)
 
     def insert_violation_information(self, violation_information, current_violation_IRI):
-        metric_IRI = URIRef(self.EX + violation_information["metric_ID"])
-        mqio_metric_IRI = URIRef(self.MQIO_METRIC + violation_information["metric_ID"])
+        metric_IRI = URIRef(self.EX + violation_information["metric_identifier"])
+        mqio_metric_IRI = URIRef(self.MQIO_METRIC + violation_information["metric_identifier"])
         result_message = Literal(violation_information["result_message"], datatype=XSD.string)
         self.validation_graph.add((current_violation_IRI, RDF.type, self.MQIO.MappingViolation))
         self.validation_graph.add((current_violation_IRI, self.MQIO.isDescribedBy, mqio_metric_IRI))
