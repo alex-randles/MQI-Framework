@@ -118,7 +118,7 @@
 
             {% elif user_input == true and requires_prefixes == true and restricted_values is none %}
 
-            <td  style="width:100%">
+            <td  style="width:25%">
 
                 {% for value in refinement_properties %}
                 {% set form_value = violation_ID + '-' + value %}
@@ -150,7 +150,7 @@
 
             {% elif restricted_values is none %}
 
-            <td style="width:100%">
+            <td style="width:25%">
 
                 {% for value in refinement_properties %}
                 {% set form_value_2 = violation_ID + '-' + value %}

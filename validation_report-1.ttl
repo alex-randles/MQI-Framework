@@ -1,18 +1,37 @@
 @prefix ex: <http://example.org/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix mqio1: <https://www.w3id.org/MQIO/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<file:///home/alex/MQI-Framework/sample_mapping8.ttl> a mqio:MappingArtefact .
+
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <sample_mapping.ttl> ;
+    mqio:assessedMapping <sample_mapping8.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
         ex:violation-2 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-02T23:07:41.051072"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                DELETE { ?subject rr:datatype ?datatype .  }
+                WHERE {
+                SELECT ?subject ?datatype
+                WHERE {
+                      ?subject rr:datatype ?datatype.
+                      FILTER(str(?subject) = "ub2bL21C22").
+                    }
+                }
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-2 ;
+    mqio:refinementName "Remove Datatype"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
@@ -23,17 +42,16 @@ ex:violation-0 a mqio:MappingViolation ;
 
 ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue prov:generatedAtTime ;
+    mqio:hasObjectValue geo:isEmpty ;
     mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:D3 .
 
 ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue prov:generatedAtTime ;
+    mqio:hasObjectValue geo:isEmpty ;
     mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D7 .
-
-<sample_mapping.ttl> a mqio:MappingArtefact .
+    mqio:isDescribedBy mqio-metrics:D7 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
