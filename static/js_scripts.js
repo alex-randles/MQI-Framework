@@ -189,5 +189,9 @@ function scrollWin() {
   window.scrollBy(0, 100);
 }
 
+function addSampleSourceData(){
+  document.getElementById('CSV_URL_1').value = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv";
+  document.getElementById('CSV_URL_2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student.csv";
+}
 
 $('.collapse').collapse()

@@ -1,8 +1,9 @@
+from rdflib import *
 def analyse_mappings():
     graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/14.trig"
     change_graph = Dataset()
     change_graph.parse(graph_filename, format="trig")
-    change_graph.parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
+    # change_graph.parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
     query = """
         PREFIX oscd: <https://w3id.org/OSCD#>
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
@@ -16,8 +17,8 @@ def analyse_mappings():
                     oscd:hasCurrentVersion ?currentVersion .
             ?change oscd:hasDataReference ?reference;
                     oscd:hasChangedData ?changedData .
-            BIND (REPLACE(STR(?currentVersion), "^.*/([^/]*)$", "$1") as ?source)
           }
+          BIND (REPLACE(STR(?currentVersion), "^.*/([^/]*)$", "$1") as ?source)
           GRAPH ?mappingGraph {    			 
             ?tripleMap rml:logicalSource|rr:logicalTable ?logicalSource;
                     rr:predicateObjectMap ?pom .
@@ -25,14 +26,18 @@ def analyse_mappings():
             ?pom rr:objectMap ?objectMap .
             ?objectMap rml:reference|rr:column ?reference.
           }
-          BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
+           BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
+
         }
         GROUP BY ?graphName
     """
     qres = change_graph.query(query)
-    print(qres)
-    for row in qres:
+    return qres
+
+def analyse_result(qres):
+    for row in list(set(qres)).copy():
         print(row)
     exit()
 
-analyse_mappings()
+t = analyse_mappings()
+print(analyse_result(t))

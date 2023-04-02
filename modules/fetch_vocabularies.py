@@ -24,15 +24,12 @@ class FetchVocabularies:
     # retrieves and queries local graph
     def query_local_graph(self, property_IRI, query):
         if "#" in property_IRI:
-            property_NS = property_IRI[:property_IRI.rfind("#") + 1]
+            property_namespace = property_IRI[:property_IRI.rfind("#") + 1]
         else:
-            property_NS = property_IRI[:property_IRI.rfind("/") + 1]
+            property_namespace = property_IRI[:property_IRI.rfind("/") + 1]
         sparql = SPARQLWrapper(self.localhost)
         sparql.setQuery(query)
         sparql.setReturnFormat(JSON)
-        # gets the first 3 geological ages
-        # from a Geological Timescale database,
-        # via a SPARQL endpoint
         qres = sparql.queryAndConvert()
         # check if results from query - otherwise graph does not exist
         if "results" in qres.keys():
@@ -41,7 +38,7 @@ class FetchVocabularies:
                 if property_NS.startswith("https://dbpedia.org/ontology/"):
                     self.http_retrieval(property_IRI)
                 else:
-                    self.http_retrieval(property_NS)
+                    self.http_retrieval(property_namespace)
         return qres
 
 

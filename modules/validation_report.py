@@ -85,8 +85,7 @@ class ValidationReport:
         self.add_refinement_performer()
 
     def add_refinement_performer(self):
-        # mqv:refinementPerformedBy
-        # who performed the refinements
+        # mqv:refinementPerformedBy - who performed the refinements
         refinement_performer = self.form_data["refined-by-name"]
         if refinement_performer:
             name_IRI = URIRef(self.EX + "".join(refinement_performer.split()))
@@ -101,15 +100,12 @@ class ValidationReport:
 
     def add_report_time(self):
         validation_report_IRI = self.EX.mappingValidationReport + "-0"
-        # time the mapping information was generated
-        # prov:startedAtTime
+        # time the mapping information was generated - prov:startedAtTime
         current_time = Literal(datetime.utcnow(), datatype=XSD.dateTime)
         self.validation_graph.add((validation_report_IRI, self.PROV.generatedAtTime, current_time))
 
     def add_creation_date(self, mapping):
-        # the date the mapping was created
-        # prov:generatedAtTime dateTime
-        # find mapping creation time from system
+        # the date the mapping was created - prov:generatedAtTime dateTime
         mapping_creation_time = time.ctime(
             os.path.getctime(self.mapping_file))
         creation_date_time_format = datetime.strptime(mapping_creation_time, "%a %b %d %H:%M:%S %Y")
@@ -152,12 +148,8 @@ class ValidationReport:
         return quality_assessment_IRI
 
     def insert_validation_report(self):
-        # adding validation report
         validation_report_IRI = self.EX.mappingValidationReport + "-0"
         self.validation_graph.add((validation_report_IRI, RDF.type, self.MQIO.MappingValidationReport))
-        # adding a comment which tells the user what the unique report IRI means
-        # comment = "A timestamp is appended to the validation report IRI for uniqueness."
-        # self.validation_graph.add((validation_report_IRI, RDFS.comment, Literal(comment)))
         return validation_report_IRI
 
     def iterate_violations(self, validation_report_IRI):
@@ -172,9 +164,6 @@ class ValidationReport:
         self.insert_violation_information(violation_information, current_violation_IRI)
 
     def insert_violation_information(self, violation_information, current_violation_IRI):
-        # mqv: violation2 a mqv: MappingViolation;
-        # mqv: isDescribedBy mqv: metricD6;
-        # mqv: resultMessage "Usage of incorrect domain.";
         metric_IRI = URIRef(self.EX + violation_information["metric_ID"])
         mqio_metric_IRI = URIRef(self.MQIO_METRIC + violation_information["metric_ID"])
         result_message = Literal(violation_information["result_message"], datatype=XSD.string)
