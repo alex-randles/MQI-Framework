@@ -59,6 +59,7 @@ class ValidateQuality:
         self.current_graph = None
         self.current_triple_IRI = None
         self.detailed_metric_information = {
+            # data quality aspect metrics
             "D1": "https://www.w3.org/TR/dwbp/#AccessRealTime", # undefined property
             "D2": "https://www.w3.org/TR/dwbp/#AccessRealTime", # undefined property
             "D3": "https://www.w3.org/TR/rdf-schema/#ch_domain",  # domain
@@ -66,15 +67,20 @@ class ValidateQuality:
             "D5": "https://www.w3.org/TR/2004/REC-owl-guide-20040210/#DisjointClasses", # disjoint
             "D6": "https://www.w3.org/TR/rdf-schema/#ch_range",
             "D7": "https://www.w3.org/TR/rdf-schema/#ch_datatype", # incorrect datatype
+            # mapping quality aspect metrics
+            "MP1": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
             "MP9": "https://tools.ietf.org/html/rfc5646",
             "MP12": "https://www.w3.org/TR/r2rml/#foreign-key",
             "MP10": "https://www.w3.org/TR/r2rml/#typing",
             "MP8": "https://www.w3.org/TR/r2rml/#typing",
-            "MP1": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
             "MP2": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
             "MP11": "https://tools.ietf.org/html/rfc5646", # language tags
+            # vocabulary quality aspect metrics
             "VOC1": "https://www.w3.org/TR/dwbp/#ProvideMetadata", # human readable labels
-            "VOC2": "" # domain
+            "VOC2": "https://www.w3.org/TR/rdf-schema/#ch_domain", # domain and range definitions
+            "VOC3": "https://www.w3.org/TR/rdf-schema/#ch_domain", # basic provenance
+            "VOC4": "https://wiki.creativecommons.org/wiki/License_RDF", # machine readable license
+            "VOC5": "https://wiki.creativecommons.org/wiki/License_RDF", # human readable license
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
@@ -159,7 +165,6 @@ class ValidateQuality:
         self.validate_VOC5()
         self.validate_VOC6()
 
-
     def validate_D1(self):
         # A function to validate the usage of undefined classes
         metric_ID = "D1"
@@ -184,7 +189,6 @@ class ValidateQuality:
                 # remove if undefined
                 del self.properties[key]
                 self.add_violation(metric_result)
-
 
     def validate_D3(self):
         # A function to validate the usage of correct domain definitions
@@ -265,9 +269,7 @@ class ValidateQuality:
                               URIRef("http://www.w3.org/2001/XMLSchema#anySimpleType")]
         # only if datatype
         # datatype_properties = {key:value for (key,value) in properties.items() if value["datatype"] is not None}
-        count = 0
         for key in list(self.properties):
-            count+=1
             property = self.properties[key]["property"]
             objectMap = self.properties[key]["objectMap"]
             datatype = self.properties[key]["datatype"]
@@ -282,14 +284,18 @@ class ValidateQuality:
                         if datatype != range:
                             self.add_violation([metric_ID, result_message, property, objectMap])
 
-
     def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
         result_message = "Usage of undefined %s." % value_type
-        query = " ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % (property_IRI)
+        query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_IRI
         qres = self.vocabularies.query_local_graph(property_IRI, query)
         is_defined_concept = qres["boolean"]
         if is_defined_concept is False:
-            return [metric_ID, result_message, property_IRI, subject_IRI]
+            result_message = "Usage of undefined %s." % value_type
+            query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_IRI)
+            qres = self.vocabularies.query_local_graph(property_IRI, query)
+            is_defined_concept = qres["boolean"]
+            if is_defined_concept is True:
+                return [metric_ID, result_message, property_IRI, subject_IRI]
 
     def validate_VOC1(self):
         # A function to validate no human readable labelling and comments
@@ -404,62 +410,6 @@ class ValidateQuality:
             if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                 if not qres:
                     self.add_violation([metric_ID, result_message, namespace, None])
-
-    def validate_VOC6(self):
-        # A function to validate basic provenance information
-        result_message = "No Regular Expression of URI."
-        metric_ID = "VOC6"
-        # returning true for now as testing mappings
-        # return True
-        unique_namespaces = list(set(self.unique_namespaces))
-        print("VALIDATING NAMESPACES", unique_namespaces)
-        for namespace in unique_namespaces:
-            query = """
-            PREFIX dct: <http://purl.org/dc/terms/>
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            PREFIX xhtml: <http://www.w3.org/1999/xhtml#>
-            PREFIX cc: <http://creativecommons.org/ns#>
-            PREFIX doap: <http://usefulinc.com/ns/doap#>
-            PREFIX schema: <http://schema.org/>
-            SELECT ?subject ?predicate ?object
-            WHERE {
-              ?subject ?predicate ?object
-              FILTER(CONTAINS(STR(?predicate), "Uri"))
-            }
-            """
-            qres = self.vocabularies.query_local_graph(namespace, query)
-            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
-                if not qres:
-                    self.add_violation([metric_ID, result_message, namespace, None])
-
-
-
-    # def validate_VOC6(self):
-    #     # A function to validate basic provenance information
-    #     result_message = "No Machine-Readable license."
-    #     metric_ID = "VOC4"
-    #     # returning true for now as testing mappings
-    #     # return True
-    #     unique_namespaces = list(set(self.unique_namespaces))
-    #     for namespace in unique_namespaces:
-    #         print("VALIDATING NAMESPACE", namespace)
-    #         query = """
-    #         PREFIX dct: <http://purl.org/dc/terms/>
-    #         PREFIX dc: <http://purl.org/dc/elements/1.1/>
-    #         PREFIX xhtml: <http://www.w3.org/1999/xhtml#>
-    #         PREFIX cc: <http://creativecommons.org/ns#>
-    #         PREFIX doap: <http://usefulinc.com/ns/doap#>
-    #         PREFIX schema: <http://schema.org/>
-    #         SELECT ?subject ?predicate ?object
-    #         WHERE {
-    #           ?subject ?predicate ?object
-    #           FILTER(?predicate IN (dct:license, dct:rights, dc:rights, xhtml:license, cc:license, dc:license, doap:license, schema:license))
-    #         }
-    #         """
-    #         qres = self.vocabularies.query_local_graph(namespace, query)
-    #         if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
-    #             if not qres:
-    #                 self.add_violation([metric_ID, result_message, namespace, None])
 
     def get_triple_maps_IRI(self):
         # returns IRI for all triple maps
@@ -739,22 +689,6 @@ class ValidateQuality:
                                    "datatype": row[3]}
             counter += 1
         return properties
-
-
-
-    # def validate_constants(self):
-    #     metric_ID = "M22"
-    #     result_message = "Usage of incorrect range."
-    #     properties = self.get_properties_range()
-    #     for key in properties.keys():
-    #         property = properties[key]["property"]
-    #         constant = properties[key]["constant"]
-    #         objectMap = properties[key]["objectMap"]
-    #         # may not be a constant value associated with the objectMap
-    #         if constant:
-    #             range = self.get_range(property)
-    #             if range != constant:
-    #                 self.add_violation([metric_ID, result_message, property, objectMap])
 
     def get_properties(self):
         self.test_count += 1
