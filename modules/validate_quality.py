@@ -57,7 +57,7 @@ class ValidateQuality:
         self.domain_cache = {}
         self.refinements = []
         self.current_graph = None
-        self.current_triple_IRI = None
+        self.current_triple_identifier = None
         self.detailed_metric_information = {
             # data quality aspect metrics
             "D1": "https://www.w3.org/TR/dwbp/#AccessRealTime", # undefined property
@@ -111,7 +111,7 @@ class ValidateQuality:
                 IRI = IRI.replace(match_namespace, prefix + ":")
                 return " %s " % (IRI)
             elif type(IRI) is tuple:
-                result = "".join(([self.find_prefix(current_IRI) for current_IRI in IRI]))
+                result = "".join(([self.find_prefix(current_identifier) for current_identifier in IRI]))
                 return result
             return IRI
 
@@ -119,11 +119,11 @@ class ValidateQuality:
         # metrics = [self.validate_]
         # iterate each triple map
         # self.update_progress_bar()
-        for (triple_map_IRI, graph) in self.triple_maps:
-            # self.blank_node_references[triple_map_IRI] = self.generate_triple_references(graph)
+        for (triple_map_identifier, graph) in self.triple_maps:
+            # self.blank_node_references[triple_map_identifier] = self.generate_triple_references(graph)
             self.current_graph = graph
-            self.current_triple_IRI = triple_map_IRI
-            print(self.current_triple_IRI)
+            self.current_triple_identifier = triple_map_identifier
+            print(self.current_triple_identifier)
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.validate_data_metrics()
@@ -169,9 +169,9 @@ class ValidateQuality:
         # A function to validate the usage of undefined classes
         metric_identifier = "D1"
         for key in list(self.classes):
-            class_IRI = self.classes[key]["class"]
-            subject_IRI = self.classes[key]["subject"]
-            metric_result = self.validate_undefined(class_IRI, subject_IRI, "class", metric_identifier)
+            class_identifier = self.classes[key]["class"]
+            subject_identifier = self.classes[key]["subject"]
+            metric_result = self.validate_undefined(class_identifier, subject_identifier, "class", metric_identifier)
             # if class is undefined
             if metric_result:
                 del self.classes[key]
@@ -181,9 +181,9 @@ class ValidateQuality:
         # A function to validate the usage of undefined properties
         metric_identifier = "D2"
         for key in list(self.properties):
-            property_IRI = self.properties[key]["property"]
-            subject_IRI = self.properties[key]["subject"]
-            metric_result = self.validate_undefined(property_IRI, subject_IRI, "property", metric_identifier)
+            property_identifier = self.properties[key]["property"]
+            subject_identifier = self.properties[key]["subject"]
+            metric_result = self.validate_undefined(property_identifier, subject_identifier, "property", metric_identifier)
             # if property is undefined
             if metric_result:
                 # remove if undefined
@@ -194,9 +194,9 @@ class ValidateQuality:
         # A function to validate the usage of correct domain definitions
         metric_identifier = "D3"
         for key in list(self.properties):
-            property_IRI = self.properties[key]["property"]
-            subject_IRI = self.properties[key]["subject"]
-            metric_result = self.validate_domain(property_IRI, subject_IRI, metric_identifier)
+            property_identifier = self.properties[key]["property"]
+            subject_identifier = self.properties[key]["subject"]
+            metric_result = self.validate_domain(property_identifier, subject_identifier, metric_identifier)
             # if domain is not present
             if metric_result:
                 self.add_violation(metric_result)
@@ -212,9 +212,9 @@ class ValidateQuality:
                """
         qres = self.current_graph.query(query)
         for row in qres:
-            object_IRI = row[0]
-            subject_IRI = row[1]
-            self.add_violation([metric_identifier, result_message, object_IRI, subject_IRI])
+            object_identifier = row[0]
+            subject_identifier = row[1]
+            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_D5(self):
         # A function to validate the usage of disjoint classes
@@ -227,17 +227,17 @@ class ValidateQuality:
             return
         # iterate through each class and find disjoint classes
         for key in classes_and_subjects.keys():
-            current_IRI = classes_and_subjects[key]["class"]
-            if current_IRI not in self.undefined_values:
-                disjoint_classes = self.find_disjoint_classes(current_IRI)
-                for class_IRI in disjoint_classes:
-                    if class_IRI in classes:
-                        subject_IRI = classes_and_subjects[key]["subject"]
+            current_identifier = classes_and_subjects[key]["class"]
+            if current_identifier not in self.undefined_values:
+                disjoint_classes = self.find_disjoint_classes(current_identifier)
+                for class_identifier in disjoint_classes:
+                    if class_identifier in classes:
+                        subject_identifier = classes_and_subjects[key]["subject"]
                         result_message = "Class %s is disjoint with %s" % (
-                        self.find_prefix(current_IRI), self.find_prefix(class_IRI))
-                        self.add_violation([metric_identifier, result_message, (current_IRI, class_IRI), subject_IRI])
-                        classes.remove(class_IRI)
-                        classes.remove(current_IRI)
+                        self.find_prefix(current_identifier), self.find_prefix(class_identifier))
+                        self.add_violation([metric_identifier, result_message, (current_identifier, class_identifier), subject_identifier])
+                        classes.remove(class_identifier)
+                        classes.remove(current_identifier)
                     # else:
                     #     continue
 
@@ -284,17 +284,17 @@ class ValidateQuality:
                         if datatype != range:
                             self.add_violation([metric_identifier, result_message, property, objectMap])
 
-    def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_identifier):
+    def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
-        query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_IRI
-        qres = self.vocabularies.query_local_graph(property_IRI, query)
+        query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_identifier
+        qres = self.vocabularies.query_local_graph(property_identifier, query)
         is_defined_concept = qres["boolean"]
         if is_defined_concept is False:
-            query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_IRI)
-            qres = self.vocabularies.query_local_graph(property_IRI, query)
+            query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_identifier)
+            qres = self.vocabularies.query_local_graph(property_identifier, query)
             is_defined_concept = qres["boolean"]
             if is_defined_concept is True:
-                return [metric_identifier, result_message, property_IRI, subject_IRI]
+                return [metric_identifier, result_message, property_identifier, subject_identifier]
 
     def validate_VOC1(self):
         # A function to validate no human readable labelling and comments
@@ -303,9 +303,9 @@ class ValidateQuality:
         # validate only classes to speed up execution
         classes = self.get_classes()
         for key in classes.keys():
-            class_IRI = classes[key]["class"]
-            subject_IRI = classes[key]["subject"]
-            if class_IRI not in self.undefined_values:
+            class_identifier = classes[key]["class"]
+            subject_identifier = classes[key]["subject"]
+            if class_identifier not in self.undefined_values:
                 human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
                                           "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
                                           "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
@@ -320,27 +320,27 @@ class ValidateQuality:
                          "PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> \n" \
                          "PREFIX schema: <http://schema.org/> \n" \
                          "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
-                         "ASK { <%s> %s ?label } " % (class_IRI, "|".join(human_label_predicates))
-                qres = self.vocabularies.query_local_graph(class_IRI, query)
+                         "ASK { <%s> %s ?label } " % (class_identifier, "|".join(human_label_predicates))
+                qres = self.vocabularies.query_local_graph(class_identifier, query)
                 if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                     for row in qres:
                         if row is False:
-                            self.add_violation([metric_identifier, result_message, class_IRI, subject_IRI])
+                            self.add_violation([metric_identifier, result_message, class_identifier, subject_identifier])
 
     # def validate_VOC2(self):
     #     metric_identifier = "VOC2"
     #     result_message = "No domain definition ."
     #     properties = self.get_properties()
     #     for key in properties.keys():
-    #         property_IRI = properties[key]["property"]
-    #         subject_IRI = properties[key]["subject"]
-    #         print("VALIDATIN DOMAIN DEFINITION", property_IRI, self.domain_cache, "\n", self.domain_cache.get(property_IRI))
-    #         if property_IRI not in self.undefined_values:
+    #         property_identifier = properties[key]["property"]
+    #         subject_identifier = properties[key]["subject"]
+    #         print("VALIDATIN DOMAIN DEFINITION", property_identifier, self.domain_cache, "\n", self.domain_cache.get(property_identifier))
+    #         if property_identifier not in self.undefined_values:
     #             print("DOMAIN FROM CACHE")
-    #             domain_defintion = self.domain_cache.get(property_IRI)
+    #             domain_defintion = self.domain_cache.get(property_identifier)
     #             print(domain_defintion)
     #             print("DOMAIN FROM VOCABULARIES")
-    #             print(self.get_domain(property_IRI))
+    #             print(self.get_domain(property_identifier))
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
@@ -410,7 +410,7 @@ class ValidateQuality:
                 if not qres:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
-    def get_triple_maps_IRI(self):
+    def get_triple_maps_identifier(self):
         # returns IRI for all triple maps
         triple_maps = []
         for (s, p, o) in self.mapping_graph.triples((None, None, None)):
@@ -422,11 +422,11 @@ class ValidateQuality:
     def assign_triples_to_each_map(self):
         # returns a dic with the triple map as key and the triples within that triple map as values
         # it will only include triples linked to the triple map IRI
-        triple_maps_IRI = self.get_triple_maps_IRI()
+        triple_maps_identifier = self.get_triple_maps_identifier()
         # iterate each triple map and find triples which have blank nodes
         # e.g #ORGANISATIONOFOFFICE http://www.w3.org/ns/r2rml#predicateObjectMap ub1bL248C24
         triple_map_triples = {}
-        for IRI in triple_maps_IRI:
+        for IRI in triple_maps_identifier:
             # empty dictionary assign triples to this triple map
             triple_map_triples[IRI] = {}
             for (s, p, o) in self.mapping_graph.triples((IRI, None, None)):
@@ -476,44 +476,44 @@ class ValidateQuality:
         triple_references = self.order_triple_maps_triples(triple_map_triples)
         return triple_references
 
-    def find_violation_location(self, violation_IRI):
+    def find_violation_location(self, violation_identifier):
         # A function which returns the triple map and the location within it
         for (triple_map, values) in self.triple_references.items():
             for (predicate, bNodes_values) in self.triple_references[triple_map].items():
-                if violation_IRI in bNodes_values:
-                    location_num = bNodes_values.index(violation_IRI) + 1
+                if violation_identifier in bNodes_values:
+                    location_num = bNodes_values.index(violation_identifier) + 1
                     violation_location = self.format_user_location(predicate, location_num)
                     return  violation_location
-                elif self.violation_is_object(bNodes_values, violation_IRI):
-                    bNode = self.violation_is_object(bNodes_values, violation_IRI)
+                elif self.violation_is_object(bNodes_values, violation_identifier):
+                    bNode = self.violation_is_object(bNodes_values, violation_identifier)
                     location_num = bNodes_values.index(bNode) + 1
                     violation_location = self.format_user_location(predicate, location_num)
                     return  violation_location
 
-    def violation_is_object(self, bNode_values, violation_IRI):
+    def violation_is_object(self, bNode_values, violation_identifier):
         # since we only store blank nodes for logical table, subjectMap, predicateObjectMap
         # this function can tell if the violation is within these
         for bNode in bNode_values:
             for (s,p,o) in self.mapping_graph.triples((bNode, None, None)):
-                if o == violation_IRI:
+                if o == violation_identifier:
                     return bNode
                 # if the violation is contained with a join condition for example
                 elif isinstance(o, BNode):
                     for (s, p, o) in self.mapping_graph.triples((o, None, None)):
-                        if o == violation_IRI:
+                        if o == violation_identifier:
                             return bNode
 
     def format_user_location(self, predicate, location_num):
         # ( http://www.w3.org/ns/r2rml#predicateObjectMap , 1) -> predicateObjectMap1
         # making it easier for the user to read
         if predicate != URIRef("http://www.w3.org/ns/r2rml#subjectMap"):
-            location_predicate = self.strip_IRI(predicate)
+            location_predicate = self.strip_identifier(predicate)
             location = "%s-%s" % (location_predicate, location_num)
         else:
-            location = self.strip_IRI(predicate)
+            location = self.strip_identifier(predicate)
         return location
 
-    def strip_IRI(self, IRI):
+    def strip_identifier(self, IRI):
         # (http://www.w3.org/ns/r2rml#predicateObjectMap) -> #predicateObjectMap
         if "#" in IRI:
             return IRI.split("#")[-1]
@@ -601,15 +601,15 @@ class ValidateQuality:
                 disjoint_classes.append(current_class)
         return disjoint_classes
 
-    def get_triple_map_id(self, triple_map_IRI):
+    def get_triple_map_id(self, triple_map_identifier):
         # returns 'TripleMap1' from <file://Desktop/TripleMap1>
-        if "#" in triple_map_IRI:
-            return triple_map_IRI.split("#")[-1]
-        return triple_map_IRI.split("/")[-1]
+        if "#" in triple_map_identifier:
+            return triple_map_identifier.split("#")[-1]
+        return triple_map_identifier.split("/")[-1]
 
     def add_violation(self, metric_result):
         metric_results = [self.violation_counter] + metric_result
-        triple_map_identifier = self.current_triple_IRI
+        triple_map_identifier = self.current_triple_identifier
         metric_results.append(triple_map_identifier)
         self.violation_counter += 1
         self.add_violation_to_report(metric_results)
@@ -620,9 +620,9 @@ class ValidateQuality:
         key_values = ["metric_identifier", "result_message", "value", "location", "triple_map"]
         self.validation_results[violation_identifier] = {key:value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
 
-    def find_blank_node_reference(self, violation_location, triple_map_IRI):
+    def find_blank_node_reference(self, violation_location, triple_map_identifier):
         if isinstance(violation_location, BNode):
-            current_blank_node_references = self.blank_node_references[triple_map_IRI]
+            current_blank_node_references = self.blank_node_references[triple_map_identifier]
             for (reference_item, bnode) in current_blank_node_references.items():
                 if bnode == violation_location:
                     return reference_item
@@ -809,8 +809,8 @@ class ValidateQuality:
                 return True
         return False
 
-    def validate_domain(self, property_IRI, subject_IRI, metric_identifier):
-        domain = self.get_domain(property_IRI)
+    def validate_domain(self, property_identifier, subject_identifier, metric_identifier):
+        domain = self.get_domain(property_identifier)
         # The hierarchical inference ignores the universal super-concepts, i.e. owl:Thing and rdfs:Resource
         excluded_domain = ValidateQuality.is_excluded_domain(domain)
         if domain and not excluded_domain:
@@ -818,7 +818,7 @@ class ValidateQuality:
             match_domain = [v["class"] for k,v in classes.items() if str(v["class"]) in domain]
             if not match_domain:
                 result_message = "Usage of incorrect domain."
-                return [metric_identifier, result_message, property_IRI, subject_IRI]
+                return [metric_identifier, result_message, property_identifier, subject_identifier]
         else:
             return None
 
@@ -931,9 +931,9 @@ class ValidateQuality:
                     """
         qres = self.current_graph.query(query)
         for row in qres:
-            object_IRI = row[0]
-            subject_IRI = row[1]
-            self.add_violation([metric_identifier, result_message, object_IRI, subject_IRI])
+            object_identifier = row[0]
+            subject_identifier = row[1]
+            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP6(self):
         result_message = "Language tag not defined in RFC 5646."

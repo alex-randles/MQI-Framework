@@ -5,8 +5,6 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/sample_mapping.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
     mqio:assessedMapping <sample_mapping.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
@@ -16,25 +14,19 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-1,
         ex:violation-2 .
 
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-02T19:27:39.916969"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            INSERT {
-                ?subject rr:class <http://www.w3.org/ns/prov#Entity> .
-            }
-            WHERE {
-              <file:///home/alex/MQI-Framework/static/uploads/sample_mapping.ttl#TriplesMap8> rr:subjectMap ?subject
-            }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Add Domain Class"^^xsd:string .
-
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
     mqio:hasObjectValue mqio1:MappingDocument ;
     mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue prov:generatedAtTime ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
 
 ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
@@ -43,11 +35,5 @@ ex:violation-2 a mqio:MappingViolation ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:D7 .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue prov:generatedAtTime ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D3 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+<sample_mapping.ttl> a mqio:MappingArtefact .
 
