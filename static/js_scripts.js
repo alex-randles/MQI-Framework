@@ -195,3 +195,4 @@ function addSampleSourceData(){
 }
 
 $('.collapse').collapse()
+

@@ -156,20 +156,17 @@ class DisplayChanges:
     def get_detection_period(self):
         # get detection time for notification policy to check if still valid
         query = """
-        PREFIX oscd: <https://w3id.org/OSCD/#>
+        PREFIX oscd: <https://w3id.org/OSCD#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        SELECT ?detectionStart ?detectionEnd 
+        SELECT ?detectionStart ?detectionEnd
         WHERE
         {
-          # QUERY NOTIFICATION GRAPH
           GRAPH ?g  {
-            # GET DETECTION PERIOD END
             ?policy a rei-policy:Policy ;
                     oscd:hasDetectionEnd ?detectionEnd; 
-                    oscd:hasDetectionStart ?detectionStart . 
+                    oscd:hasDetectionStart ?detectionStart .
           }
         }
-
         """
         qres = self.current_graph.query(query)
         for row in qres:
@@ -177,6 +174,7 @@ class DisplayChanges:
             detection_end = str(row[1]).split(" ")[0]
             self.graph_details[self.current_graph_version]["detection_start"] = detection_start
             self.graph_details[self.current_graph_version]["detection_end"] = detection_end
+        self.graph_details[self.current_graph_version]["mappings_impacted"] = {"references_impacted": {}}
 
     def get_table_name(self):
         # get detection time for notification policy to check if still valid
@@ -195,6 +193,7 @@ class DisplayChanges:
         for row in qres:
             source_data.append(str(row[0]))
         self.mapping_details[self.current_graph_version]["source_data"] = source_data
+
 
     def get_iterator(self):
         # get detection time for notification policy to check if still valid
@@ -297,9 +296,10 @@ class DisplayChanges:
         self.graph_details[self.current_graph_version]["change_reasons"] = change_reasons
 
     def analyse_mappings(self):
-        graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/14.trig"
-        change_graph = Dataset()
-        change_graph.parse(graph_filename, format="trig")
+        pass
+        # graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/14.trig"
+        # change_graph = Dataset()
+        # change_graph.parse(graph_filename, format="trig")
         # change_graph.parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
         # query = """
         #     PREFIX oscd: <https://w3id.org/OSCD#>
@@ -330,7 +330,6 @@ class DisplayChanges:
         # """
         # qres = change_graph.query(query)
         # print(qres)
-        self.graph_details[self.current_graph_version]["mappings_impacted"] = {}
 
     # get the location of the change detection source data
     def get_changes_source(self):

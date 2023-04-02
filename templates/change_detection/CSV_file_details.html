@@ -9,7 +9,7 @@
 
 {% block content %}
 <h3 class="h2 text-center mt-2">Change Detection • CSV Source Data</h3>
-<form style="" method="POST" action="{{ url_for('detect_CSV_changes') }}" enctype="multipart/form-data" id="sourceFileDetails" >
+<form style="" method="POST" action="{{ url_for('detect_CSV_changes') }}" onSubmit="move();" enctype="multipart/form-data" id="sourceFileDetails" >
 
 
     <div class="container-fluid">
@@ -137,7 +137,7 @@
         </div>
         <div class="row d-flex justify-content-center py-1">
             <div class="col-sm-12 text-center">
-                <input class="my-2 btn btn-primary" id="button-style" type = "submit" value="Start Change Monitoring" />
+                <input class="my-2 btn btn-primary" id="button-style" type= "submit" value="Start Change Monitoring" />
             </div>
         </div>
         <div class="row d-flex justify-content-center my-3">

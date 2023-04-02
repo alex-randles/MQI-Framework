@@ -304,6 +304,7 @@ class API:
         return render_template("change_detection/notification_thresholds.html",
                                participant_id=participant_id,
                                graph_id=1,
+                               graph_filename=graph_filename,
                                notification_thresholds=notification_thresholds)
 
     # view change detection processes running by a user
@@ -721,6 +722,17 @@ class API:
                          attachment_filename=quality_report_filename,
                          as_attachment=True, cache_timeout=0)
 
+    @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
+    def download_sample_mapping():
+        return send_file("./static/sample_mapping.ttl",
+                         as_attachment=True, cache_timeout=0)
+
+    @app.route("/return-change-graph/<graph_file_name>", methods=['GET', 'POST'])
+    def download_change_report(graph_file_name):
+        graph_location = "./static/change_detection_cache/change_graphs/" + graph_file_name
+        return send_file(graph_location,
+                         attachment_filename="change_graph.trig",
+                         as_attachment=True, cache_timeout=0)
 
 if __name__ == "__main__":
     # start api
