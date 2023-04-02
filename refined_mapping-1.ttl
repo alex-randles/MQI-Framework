@@ -21,14 +21,14 @@
 	
  rr:subjectMap [ 	
  	 rr:template  "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class  mqio:MappingDocument ;	
+	 rr:class  prov:Entity , mqio:MappingDocument ;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate  prov:generatedAtTime ;	
 	 rr:objectMap  [	
+		 rr:datatype  xsd:sss ;	
 		 rr:column  "ENAME" ;	
-		 rr:datatype  xsd:dateTime ;	
 		]; 	
  ];	
 .	
