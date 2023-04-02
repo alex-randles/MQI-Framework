@@ -926,7 +926,7 @@ class Refinements:
         # e.g {0: ['RemoveTermType', 'ChangeOMTermType'], 1: ['AddDomainClass']}
         suggested_refinements = {}
         for violation_ID in self.validation_results.keys():
-            metric_ID = self.validation_results[violation_ID]["metric_ID"]
+            metric_ID = self.validation_results[violation_ID]["metric_identifier"]
             if metric_ID in self.suggested_refinements.keys():
                 suggested_refinements[violation_ID] = self.suggested_refinements[metric_ID]
         print(suggested_refinements, "SUGGESTED REFINEEMNTS")

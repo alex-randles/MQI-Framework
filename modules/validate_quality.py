@@ -91,9 +91,9 @@ class ValidateQuality:
         df = pd.read_csv(metric_description_file)
         metric_descriptions = {}
         for row in df.itertuples():
-            metric_ID = row[1]
+            metric_identifier = row[1]
             metric_description = row[3]
-            metric_descriptions[metric_ID] = metric_description.replace("\n", " ")
+            metric_descriptions[metric_identifier] = metric_description.replace("\n", " ")
         return metric_descriptions
 
     def find_prefix(self, IRI):
@@ -167,11 +167,11 @@ class ValidateQuality:
 
     def validate_D1(self):
         # A function to validate the usage of undefined classes
-        metric_ID = "D1"
+        metric_identifier = "D1"
         for key in list(self.classes):
             class_IRI = self.classes[key]["class"]
             subject_IRI = self.classes[key]["subject"]
-            metric_result = self.validate_undefined(class_IRI, subject_IRI, "class", metric_ID)
+            metric_result = self.validate_undefined(class_IRI, subject_IRI, "class", metric_identifier)
             # if class is undefined
             if metric_result:
                 del self.classes[key]
@@ -179,11 +179,11 @@ class ValidateQuality:
 
     def validate_D2(self):
         # A function to validate the usage of undefined properties
-        metric_ID = "D2"
+        metric_identifier = "D2"
         for key in list(self.properties):
             property_IRI = self.properties[key]["property"]
             subject_IRI = self.properties[key]["subject"]
-            metric_result = self.validate_undefined(property_IRI, subject_IRI, "property", metric_ID)
+            metric_result = self.validate_undefined(property_IRI, subject_IRI, "property", metric_identifier)
             # if property is undefined
             if metric_result:
                 # remove if undefined
@@ -192,18 +192,18 @@ class ValidateQuality:
 
     def validate_D3(self):
         # A function to validate the usage of correct domain definitions
-        metric_ID = "D3"
+        metric_identifier = "D3"
         for key in list(self.properties):
             property_IRI = self.properties[key]["property"]
             subject_IRI = self.properties[key]["subject"]
-            metric_result = self.validate_domain(property_IRI, subject_IRI, metric_ID)
+            metric_result = self.validate_domain(property_IRI, subject_IRI, metric_identifier)
             # if domain is not present
             if metric_result:
                 self.add_violation(metric_result)
 
     def validate_D4(self):
         result_message = "Query parameters in URI."
-        metric_ID = "D4"
+        metric_identifier = "D4"
         query = """SELECT ?object ?subject
                     WHERE {
                       ?subject ?predicate ?object
@@ -214,14 +214,14 @@ class ValidateQuality:
         for row in qres:
             object_IRI = row[0]
             subject_IRI = row[1]
-            self.add_violation([metric_ID, result_message, object_IRI, subject_IRI])
+            self.add_violation([metric_identifier, result_message, object_IRI, subject_IRI])
 
     def validate_D5(self):
         # A function to validate the usage of disjoint classes
         classes_and_subjects = self.get_classes()
         # a list of only class IRI's
         classes = [values["class"] for values in classes_and_subjects.values()]
-        metric_ID = "D5"
+        metric_identifier = "D5"
         # more than one class is needed to be disjoint
         if len(classes) <= 1:
             return
@@ -235,7 +235,7 @@ class ValidateQuality:
                         subject_IRI = classes_and_subjects[key]["subject"]
                         result_message = "Class %s is disjoint with %s" % (
                         self.find_prefix(current_IRI), self.find_prefix(class_IRI))
-                        self.add_violation([metric_ID, result_message, (current_IRI, class_IRI), subject_IRI])
+                        self.add_violation([metric_identifier, result_message, (current_IRI, class_IRI), subject_IRI])
                         classes.remove(class_IRI)
                         classes.remove(current_IRI)
                     # else:
@@ -243,7 +243,7 @@ class ValidateQuality:
 
     def validate_D6(self):
         # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
-        metric_ID = "D6"
+        metric_identifier = "D6"
         result_message = "Usage of incorrect range."
         for key in list(self.properties):
             property = self.properties[key]["property"]
@@ -255,13 +255,13 @@ class ValidateQuality:
             resource_type = self.get_type(property)
             if OWL.DatatypeProperty in resource_type and term_type != URIRef("http://www.w3.org/ns/r2rml#Literal"):
                 result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property))
-                self.add_violation([metric_ID, result_message, term_type, objectMap])
+                self.add_violation([metric_identifier, result_message, term_type, objectMap])
             elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
                 result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property))
-                self.add_violation([metric_ID, result_message, term_type, objectMap])
+                self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
     def validate_D7(self):
-        metric_ID = "D7"
+        metric_identifier = "D7"
         result_message = "Usage of incorrect datatype."
         # xsd:anySimpleType, xsd:anyType could be declared as datatypes in the vocabulary
         # these can be any datatypes so not need to check
@@ -276,31 +276,30 @@ class ValidateQuality:
             # if a datatype assigned to object map
             if datatype:
                 range = self.get_range(property)
-                if not range == URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
+                if range != URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
                     # if any of the datatypes can be any datatype, skip this iteration
                     if datatype in excluded_datatypes:
                         continue
                     if self.is_datatype_range(range):
                         if datatype != range:
-                            self.add_violation([metric_ID, result_message, property, objectMap])
+                            self.add_violation([metric_identifier, result_message, property, objectMap])
 
-    def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_ID):
+    def validate_undefined(self, property_IRI, subject_IRI, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
         query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_IRI
         qres = self.vocabularies.query_local_graph(property_IRI, query)
         is_defined_concept = qres["boolean"]
         if is_defined_concept is False:
-            result_message = "Usage of undefined %s." % value_type
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_IRI)
             qres = self.vocabularies.query_local_graph(property_IRI, query)
             is_defined_concept = qres["boolean"]
             if is_defined_concept is True:
-                return [metric_ID, result_message, property_IRI, subject_IRI]
+                return [metric_identifier, result_message, property_IRI, subject_IRI]
 
     def validate_VOC1(self):
         # A function to validate no human readable labelling and comments
         result_message = "No Human Readable Labelling and Comments."
-        metric_ID = "VOC1"
+        metric_identifier = "VOC1"
         # validate only classes to speed up execution
         classes = self.get_classes()
         for key in classes.keys():
@@ -326,10 +325,10 @@ class ValidateQuality:
                 if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                     for row in qres:
                         if row is False:
-                            self.add_violation([metric_ID, result_message, class_IRI, subject_IRI])
+                            self.add_violation([metric_identifier, result_message, class_IRI, subject_IRI])
 
     # def validate_VOC2(self):
-    #     metric_ID = "VOC2"
+    #     metric_identifier = "VOC2"
     #     result_message = "No domain definition ."
     #     properties = self.get_properties()
     #     for key in properties.keys():
@@ -346,7 +345,7 @@ class ValidateQuality:
     def validate_VOC3(self):
         # A function to validate basic provenance information
         result_message = "No Basic Provenance Information."
-        metric_ID = "VOC3"
+        metric_identifier = "VOC3"
         for namespace in self.unique_namespaces:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
                                 "dcterms:publisher", "dc:title", "dc:description", "rdfs:comment", "foaf:maker"]
@@ -362,12 +361,12 @@ class ValidateQuality:
             if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                 for row in qres:
                     if row is False:
-                        self.add_violation([metric_ID, result_message, namespace, None])
+                        self.add_violation([metric_identifier, result_message, namespace, None])
 
     def validate_VOC4(self):
         # A function to validate basic provenance information
         result_message = "No Machine-Readable license."
-        metric_ID = "VOC4"
+        metric_identifier = "VOC4"
         # returning true for now as testing mappings
         # return True
         unique_namespaces = list(set(self.unique_namespaces))
@@ -389,12 +388,12 @@ class ValidateQuality:
             qres = self.vocabularies.query_local_graph(namespace, query)
             if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                 if not qres:
-                    self.add_violation([metric_ID, result_message, namespace, None])
+                    self.add_violation([metric_identifier, result_message, namespace, None])
 
     def validate_VOC5(self):
         # A function to validate basic provenance information
         result_message = "No Human-Readable license."
-        metric_ID = "VOC5"
+        metric_identifier = "VOC5"
         # returning true for now as testing mappings
         # return True
         unique_namespaces = list(set(self.unique_namespaces))
@@ -409,7 +408,7 @@ class ValidateQuality:
             qres = self.vocabularies.query_local_graph(namespace, query)
             if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
                 if not qres:
-                    self.add_violation([metric_ID, result_message, namespace, None])
+                    self.add_violation([metric_identifier, result_message, namespace, None])
 
     def get_triple_maps_IRI(self):
         # returns IRI for all triple maps
@@ -532,7 +531,7 @@ class ValidateQuality:
 
     def validate_MP2(self):
         result_message = "Term type for subject map should be an IRI or Blank Node"
-        metric_ID = "MP2"
+        metric_identifier = "MP2"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?subjectMap ?termType
                     WHERE {
@@ -545,11 +544,11 @@ class ValidateQuality:
         for row in qres:
             subject = row[0]
             term_type = row[1]
-            self.add_violation([metric_ID, result_message, term_type, subject])
+            self.add_violation([metric_identifier, result_message, term_type, subject])
 
     def validate_MP3(self):
         result_message = "Term type for predicate map should be an IRI."
-        metric_ID = "MP3"
+        metric_identifier = "MP3"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?predicateMap ?termType
                     WHERE {
@@ -563,12 +562,12 @@ class ValidateQuality:
         for row in qres:
             subject = row[0]
             term_type = row[1]
-            self.add_violation([metric_ID, result_message, term_type, subject])
+            self.add_violation([metric_identifier, result_message, term_type, subject])
 
     def validate_MP4(self):
         # The user may spell one of the term types incorrect e.g rr:Literal(s)
         result_message = "Term type for object map should be an IRI, Blank Node or Literal."
-        metric_ID = "MP4"
+        metric_identifier = "MP4"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?objectMap ?termType
                     WHERE {
@@ -582,7 +581,7 @@ class ValidateQuality:
         for row in qres:
             subject = row[0]
             term_type = row[1]
-            self.add_violation([metric_ID, result_message, term_type, subject])
+            self.add_violation([metric_identifier, result_message, term_type, subject])
 
     def find_disjoint_classes(self, IRI):
         # a function which finds the classes disjoint to IRI argument (if any)
@@ -610,16 +609,16 @@ class ValidateQuality:
 
     def add_violation(self, metric_result):
         metric_results = [self.violation_counter] + metric_result
-        triple_map_ID = self.current_triple_IRI
-        metric_results.append(triple_map_ID)
+        triple_map_identifier = self.current_triple_IRI
+        metric_results.append(triple_map_identifier)
         self.violation_counter += 1
         self.add_violation_to_report(metric_results)
 
     def add_violation_to_report(self, metric_results):
         # adding violation to report using violation ID as key which is mapped to a dictionary with the below keys
-        violation_ID = metric_results[0]
-        key_values = ["metric_ID", "result_message", "value", "location", "triple_map"]
-        self.validation_results[violation_ID] = {key:value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+        violation_identifier = metric_results[0]
+        key_values = ["metric_identifier", "result_message", "value", "location", "triple_map"]
+        self.validation_results[violation_identifier] = {key:value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
 
     def find_blank_node_reference(self, violation_location, triple_map_IRI):
         if isinstance(violation_location, BNode):
@@ -709,7 +708,7 @@ class ValidateQuality:
 
     # def validate_D6(self):
     #     # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
-    #     metric_ID = "D6"
+    #     metric_identifier = "D6"
     #     result_message = "Usage of incorrect range."
     #     properties = self.get_properties_range()
     #     for key in properties.keys():
@@ -730,7 +729,7 @@ class ValidateQuality:
     #                     correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#IRI"), URIRef("http://www.w3.org/ns/r2rml#BlankNode")]
     #                 if term_type not in correct_term_type:
     #                     result_message = "Usage of incorrect range. Term type should be {} for property {}.".format(self.find_prefix(correct_term_type[0]), self.find_prefix(property))
-    #                     self.add_violation([metric_ID, result_message, term_type, properties[key]["objectMap"]])
+    #                     self.add_violation([metric_identifier, result_message, term_type, properties[key]["objectMap"]])
 
 
     def get_properties_range(self):
@@ -810,7 +809,7 @@ class ValidateQuality:
                 return True
         return False
 
-    def validate_domain(self, property_IRI, subject_IRI, metric_ID):
+    def validate_domain(self, property_IRI, subject_IRI, metric_identifier):
         domain = self.get_domain(property_IRI)
         # The hierarchical inference ignores the universal super-concepts, i.e. owl:Thing and rdfs:Resource
         excluded_domain = ValidateQuality.is_excluded_domain(domain)
@@ -819,7 +818,7 @@ class ValidateQuality:
             match_domain = [v["class"] for k,v in classes.items() if str(v["class"]) in domain]
             if not match_domain:
                 result_message = "Usage of incorrect domain."
-                return [metric_ID, result_message, property_IRI, subject_IRI]
+                return [metric_identifier, result_message, property_IRI, subject_IRI]
         else:
             return None
 
@@ -907,7 +906,7 @@ class ValidateQuality:
 
     def validate_MP1(self):
         result_message = "An object map with a language tag and datatype."
-        metric_ID = "MP1"
+        metric_identifier = "MP1"
         query = """SELECT ?om ?pm 
                WHERE {
                   ?s rr:predicateObjectMap ?pm .
@@ -918,11 +917,11 @@ class ValidateQuality:
                """
         qres = self.current_graph.query(query)
         for row in qres:
-            self.add_violation([metric_ID, result_message, None, row[0]])
+            self.add_violation([metric_identifier, result_message, None, row[0]])
 
     def validate_MP5(self):
         result_message = "Subject map class must be a valid IRI."
-        metric_ID = "MP5"
+        metric_identifier = "MP5"
         query = """SELECT ?class ?subjectMap
                     WHERE { 
                             ?subject rr:subjectMap ?subjectMap .
@@ -934,11 +933,11 @@ class ValidateQuality:
         for row in qres:
             object_IRI = row[0]
             subject_IRI = row[1]
-            self.add_violation([metric_ID, result_message, object_IRI, subject_IRI])
+            self.add_violation([metric_identifier, result_message, object_IRI, subject_IRI])
 
     def validate_MP6(self):
         result_message = "Language tag not defined in RFC 5646."
-        metric_ID = "MP6"
+        metric_identifier = "MP6"
         language_tags = ('af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY', 'ar-MA', 'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg', 'bg-BG', 'bs-BA', 'ca', 'ca-ES', 'cs', 'cs-CZ', 'cy', 'cy-GB', 'da', 'da-DK', 'de', 'de-AT', 'de-CH', 'de-DE', 'de-LI', 'de-LU', 'dv', 'dv-MV', 'el', 'el-GR', 'en', 'en-AU', 'en-BZ', 'en-CA', 'en-CB', 'en-GB', 'en-IE', 'en-JM', 'en-NZ', 'en-PH', 'en-TT', 'en-US', 'en-ZA', 'en-ZW', 'eo', 'es', 'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR', 'es-DO', 'es-EC', 'es-ES', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV', 'es-UY', 'es-VE', 'et', 'et-EE', 'eu', 'eu-ES', 'fa', 'fa-IR', 'fi', 'fi-FI', 'fo', 'fo-FO', 'fr', 'fr-BE', 'fr-CA', 'fr-CH', 'fr-FR', 'fr-LU', 'fr-MC', 'gl', 'gl-ES', 'gu', 'gu-IN', 'he', 'he-IL', 'hi', 'hi-IN', 'hr', 'hr-BA', 'hr-HR', 'hu', 'hu-HU', 'hy', 'hy-AM', 'id', 'id-ID', 'is', 'is-IS', 'it', 'it-CH', 'it-IT', 'ja', 'ja-JP', 'ka', 'ka-GE', 'kk', 'kk-KZ', 'kn', 'kn-IN', 'ko', 'ko-KR', 'kok', 'kok-IN', 'ky', 'ky-KG', 'lt', 'lt-LT', 'lv', 'lv-LV', 'mi', 'mi-NZ', 'mk', 'mk-MK', 'mn', 'mn-MN', 'mr', 'mr-IN', 'ms', 'ms-BN', 'ms-MY', 'mt', 'mt-MT', 'nb', 'nb-NO', 'nl', 'nl-BE', 'nl-NL', 'nn-NO', 'ns', 'ns-ZA', 'pa', 'pa-IN', 'pl', 'pl-PL', 'ps', 'ps-AR', 'pt', 'pt-BR', 'pt-PT', 'qu', 'qu-BO', 'qu-EC', 'qu-PE', 'ro', 'ro-RO', 'ru', 'ru-RU', 'sa', 'sa-IN', 'se', 'se-FI', 'se-NO', 'se-SE', 'sk', 'sk-SK', 'sl', 'sl-SI', 'sq', 'sq-AL', 'sr-BA', 'sr-Cyrl-BA', 'sr-SP', 'sr-Cyrl-SP', 'sv', 'sv-FI', 'sv-SE', 'sw', 'sw-KE', 'syr', 'syr-SY', 'ta', 'ta-IN', 'te', 'te-IN', 'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur', 'ur-PK', 'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW', 'zu', 'zu-ZA')
         query = """SELECT ?objectMap ?languageTag
                    WHERE {
@@ -952,11 +951,11 @@ class ValidateQuality:
         for row in qres:
             subject = row[0]
             language_tag = row[1]
-            self.add_violation([metric_ID, result_message, language_tag, subject])
+            self.add_violation([metric_identifier, result_message, language_tag, subject])
 
     def validate_MP7(self):
         result_message = "Join condition should have a child column."
-        metric_ID = "MP7"
+        metric_identifier = "MP7"
         query = """
                         SELECT ?joinCondition 
                         WHERE {
@@ -968,11 +967,11 @@ class ValidateQuality:
         qres = self.current_graph.query(query)
         for row in qres:
             subject = row[0]
-            self.add_violation([metric_ID, result_message, None, subject])
+            self.add_violation([metric_identifier, result_message, None, subject])
 
     def validate_MP8(self):
         result_message = "Join condition should have a parent column."
-        metric_ID = "MP8"
+        metric_identifier = "MP8"
         query = """
                         SELECT ?joinCondition 
                         WHERE {
@@ -984,11 +983,11 @@ class ValidateQuality:
         qres = self.current_graph.query(query)
         for row in qres:
             subject = row[0]
-            self.add_violation([metric_ID, result_message, None, subject])
+            self.add_violation([metric_identifier, result_message, None, subject])
 
     def display_validation_results(self):
-        for (violation_ID, metric_ID, result_message, value, triple_) in self.validation_results:
-            print(violation_ID, metric_ID, result_message, value)
+        for (violation_identifier, metric_identifier, result_message, value, triple_) in self.validation_results:
+            print(violation_identifier, metric_identifier, result_message, value)
             # self.query_validation_results(value)
 
 

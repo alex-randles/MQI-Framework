@@ -125,7 +125,7 @@
 
         {% for violation_ID in assessment_report.keys() %}
         {% set current_violation = assessment_report[violation_ID] %}
-        {% set metric_ID = current_violation["metric_ID"] %}
+        {% set metric_ID = current_violation["metric_identifier"] %}
         {% set result_message = current_violation["result_message"] %}
         {% set violation_value = find_prefix(current_violation["value"]) %}
         {% set triple_map = get_triple_map_ID(current_violation["triple_map"]) %}

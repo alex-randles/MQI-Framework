@@ -51,7 +51,7 @@ class VisualiseResults:
         # dimension_counts = {key: {"count":0, "violation_IDS" : []} for (key, value) in dimensions_metrics.items()}
         dimension_counts = {key: { "count": 0, "violations": []}  for (key, value) in dimensions_metrics.items()}
         for violation in validation_result.keys():
-            metric_ID = validation_result[violation]["metric_ID"]
+            metric_ID = validation_result[violation]["metric_identifier"]
             dimension = [dimension for (dimension, metrics) in dimensions_metrics.items() if metric_ID in metrics]
             if dimension:
                 # update violation count for dimension
