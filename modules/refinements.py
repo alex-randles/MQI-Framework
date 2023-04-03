@@ -358,7 +358,7 @@ class Refinements:
                 if "comment" in result:
                     current_comment = result["comment"]["value"].split(".")[0] + "."
                 else:
-                    current_comment = ""
+                    current_comment = "No class description in ontology."
                 classes.append((current_class, current_comment))
         classes = self.order_similar_matches(classes, violation_value)
         return {select_placeholder: classes}

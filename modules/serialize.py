@@ -61,7 +61,7 @@ class TurtleSerializer:
 
     def add_triple_map(self, triple_map_IRI):
         # add triple map IRI to output file
-        self.output  +=  "\n%s\n" % (self.get_triple_map_name(triple_map_IRI))
+        self.output += "\n%s\n" % (self.get_triple_map_name(triple_map_IRI))
         triple_map_values = self.triple_references[triple_map_IRI]
         self.add_non_bNodes(triple_map_values)
         self.add_bNodes(triple_map_values)
@@ -79,7 +79,7 @@ class TurtleSerializer:
         non_bNode_key = "not_bNode"
         if non_bNode_key in triple_map_values.keys():
             for (predicate, object) in triple_map_values[non_bNode_key]:
-                self.output = self.output  + self.format_IRI(predicate) + self.format_IRI(object) + ";\n"
+                self.output = self.output + self.format_IRI(predicate) + self.format_IRI(object) + ";\n"
 
     def add_bNodes(self, triple_map_values):
         # rml mappings define source differently
@@ -110,7 +110,7 @@ class TurtleSerializer:
                     # print("line 69", p, o, count)
                     count += 1
                     if p not in values.keys():
-                        values[p]  = [o]
+                        values[p] = [o]
                     elif p in values.keys():
                         # print(values[p], "IN KEYS")
                         values[p] = values[p] + [o]
@@ -145,9 +145,9 @@ class TurtleSerializer:
     def group_objects(self, predicate_objects):
         # groups predicates and objects, with predicate as key and object as value
         grouped_object = {}
-        for (p,o) in predicate_objects:
+        for p, o in predicate_objects:
             if p in grouped_object.keys():
-                grouped_object[p] =  grouped_object[p] + [o]
+                grouped_object[p] = grouped_object[p] + [o]
             else:
                 grouped_object[p] = [o]
         self.add_grouped_objects(grouped_object)
@@ -290,7 +290,6 @@ class TurtleSerializer:
             return new_literal
         return ' "%s" ' % literal
 
-
     def is_multi_line(self, literal):
         if len(literal.split("\n")) > 1:
             # escape characters are replaced correctly, one backslash with two backslash
@@ -334,7 +333,7 @@ class TurtleSerializer:
             match_namespace = max(match)
             prefix = [prefix for (prefix, namespace) in self.namespaces.items() if namespace == match_namespace][0]
             IRI = IRI.replace(match_namespace, prefix + ":")
-            return " %s " % (IRI)
+            return " %s" % (IRI)
 
     @staticmethod
     def check_query_parameter(IRI):
