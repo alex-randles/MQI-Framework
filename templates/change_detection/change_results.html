@@ -155,7 +155,7 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
         <td>
             <a href="{{ url_for('mappings_impacted', mapping_unique_id=0, graph_id=1) }}">Mapping #1</a>
 
-            {{mappings_impacted}}
+            {{mappings_impacted.get(graph_filename)}}
 
         </td>
         <td>

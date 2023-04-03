@@ -68,17 +68,33 @@ def detect_mapping_impact():
         change_graph = str(row["changesGraph"])
         mapping_identifier = get_mapping_identifier(mapping_graph)
         if mapping_identifier:
-            matched_graphs[change_graph] = defaultdict(dict)
-            matched_graphs[change_graph][mapping_identifier[0]] = {
-                "insert" : "shshhs",
+            mapping_identifier = mapping_identifier[0]
+            data_reference = str(row["reference"])
+            if change_graph not in matched_graphs:
+                matched_graphs[change_graph] = defaultdict(dict)
+            matched_graphs[change_graph][mapping_identifier] = {
+                "insert": defaultdict(dict),
             }
+            matched_graphs[change_graph][mapping_identifier][data_reference] = str(row["data"])
     print(matched_graphs)
+    return matched_graphs
 
 def get_mapping_identifier(mapping_filename):
-    mappings = {
-        7: {'filename': 'refined-mapping28.ttl', 'display_filename':
-            'document_mapping.ttl', 'source_data': ['student.csv'],
-            'data_references': ['ID', 'Name']}}
+    mappings = {1: {'filename': 'sample_mapping.ttl', 'display_filename': 'sample_mapping.ttl', 'source_data': ['EMP'],
+         'data_references': ['ENAME', 'EMPNO']},
+     2: {'filename': 'sample_mapping10.ttl', 'display_filename': 'sample_mapping10.ttl', 'source_data': ['student.csv'],
+         'data_references': ['ID', 'Name']},
+     3: {'filename': 'refined-mapping28.ttl', 'display_filename': 'refined-mapping28.ttl',
+         'source_data': ['student.csv'], 'data_references': ['ID', 'Name']},
+     4: {'filename': 'sample_mapping8.ttl', 'display_filename': 'sample_mapping8.ttl', 'source_data': ['EMP'],
+         'data_references': ['ENAME', 'EMPNO']},
+     5: {'filename': 'mapping.ttl', 'display_filename': 'mapping.ttl', 'source_data': ['EMP'],
+         'data_references': ['ENAME', 'EMPNO']},
+     6: {'filename': 'sample_mapping9.ttl', 'display_filename': 'sample_mapping9.ttl', 'source_data': ['EMP'],
+         'data_references': ['ENAME', 'EMPNO']},
+     7: {'filename': 'document_mapping.ttl', 'display_filename': 'document_mapping.ttl', 'source_data': ['student.csv'],
+         'data_references': ['ID', 'Name']}}
+
     mapping_identifier = [key for key, values in mappings.items() if values["filename"] == mapping_filename.strip()]
     return mapping_identifier
 
