@@ -116,14 +116,18 @@ function scrollWin() {
 }
 
 function addSampleSourceData(sample_data_identifier){
-  if (sample_data_identifier == 1) {
+  if (sample_data_identifier == 1){
       document.getElementById('CSV_URL_1').value = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv";
       document.getElementById('CSV_URL_2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v3.csv";
   }
-  else if (sample_data_identifier == 2) {
+  else if (sample_data_identifier == 2){
       document.getElementById('CSV_URL_1').value = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv";
       document.getElementById('CSV_URL_2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student.csv";
 
+  }
+  else if (sample_data_identifier == 3){
+     document.getElementById('CSV_URL_1').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv";
+     document.getElementById('CSV_URL_2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee.csv";
   }
 }
 

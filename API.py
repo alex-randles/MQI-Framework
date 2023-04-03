@@ -694,8 +694,12 @@ class API:
                          attachment_filename=quality_report_filename,
                          as_attachment=True, cache_timeout=0)
 
-    @app.route("/return-sample-mapping/<mapping_filename>", methods=['GET', 'POST'])
-    def download_sample_mapping(mapping_filename):
+    @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
+    def download_sample_mapping():
+        return send_file("./static/sample_mapping.ttl", as_attachment=True, cache_timeout=0)
+
+    @app.route("/return-impacted-mapping/<mapping_filename>", methods=['GET', 'POST'])
+    def download_impacted_mapping(mapping_filename):
         mapping_path = "./static/uploads/" + mapping_filename
         if os.path.exists(mapping_path):
             return send_file(mapping_path, as_attachment=True, cache_timeout=0)
