@@ -32,11 +32,10 @@ class DetectChanges:
         self.update_r2rml_config()
         self.execute_r2rml()
 
-
-    # find the version number of the graph being created
     def find_graph_version(self):
-        onlyfiles = [f for f in listdir(r2rml.graph_directory) if isfile(join(r2rml.graph_directory, f))]
-        file_versions = [int(f.split(".")[0]) for f in onlyfiles]
+        # find the version number of the graph being created
+        only_files = [f for f in listdir(r2rml.graph_directory) if isfile(join(r2rml.graph_directory, f))]
+        file_versions = [int(f.split(".")[0]) for f in only_files]
         if file_versions:
             return max(file_versions) + 1
         else:

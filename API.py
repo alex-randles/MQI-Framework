@@ -233,7 +233,6 @@ class API:
             session["form_id"] = form_id
             session["change_process_executed"] = True
             form_details = request.form
-
             change_detection = DetectChanges(participant_id, form_details)
             # invalid URL
             if change_detection.error_code == 1:
@@ -258,7 +257,9 @@ class API:
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mapping-impacted', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
-        return render_template("change_detection/mappings_impacted.html")
+        return render_template("change_detection/mappings_impacted.html",
+                               mapping_id=mapping_unique_id,
+                               mappings_impacted=session.get("mappings_impacted"))
 
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
@@ -291,6 +292,7 @@ class API:
                 mappings_impacted = display_changes.mappings_impacted
                 session["graph_details"] = user_graph_details
                 session["mapping_details"] = mapping_details
+                session["mappings_impacted"] = mappings_impacted
                 return render_template(
                     "change_detection/change_results.html",
                     participant_id=participant_id,
@@ -353,6 +355,7 @@ class API:
                                process_removed=process_removed,
                                graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
                                mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
+                               mappings_impacted=session.get("mappings_impacted"),
                                )
 
     # iterate user files to get next file version
@@ -691,10 +694,14 @@ class API:
                          attachment_filename=quality_report_filename,
                          as_attachment=True, cache_timeout=0)
 
-    @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
-    def download_sample_mapping():
-        return send_file("./static/sample_mapping.ttl",
-                         as_attachment=True, cache_timeout=0)
+    @app.route("/return-sample-mapping/<mapping_filename>", methods=['GET', 'POST'])
+    def download_sample_mapping(mapping_filename):
+        mapping_path = "./static/uploads/" + mapping_filename
+        if os.path.exists(mapping_path):
+            return send_file(mapping_path, as_attachment=True, cache_timeout=0)
+        else:
+            mapping_path = "./static/sample_mapping.ttl"
+            return send_file(mapping_path, as_attachment=True, cache_timeout=0)
 
     @app.route("/return-change-graph/<graph_file_name>", methods=['GET', 'POST'])
     def download_change_report(graph_file_name):
