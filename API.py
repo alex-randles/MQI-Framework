@@ -255,43 +255,10 @@ class API:
         return random.randint(0,1000000000)
 
     # generate a html file with mapping impacted details
-    # e.g data references where data has been inserted or removed
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mapping-impacted', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
-        return render_template("Mapping Impact Details.html")
-        # # return render_template("Mapping Impact Details.html")
-        # # reassign as pycharm underlines as error
-        # str_mapping_unique_id = str(mapping_unique_id)
-        # mapping_details = session.get("mapping_details")
-        # # mapping_graph_name = mapping_details.get(int(mapping_unique_id)).get("filename").split(".")[0]
-        # mapping_graph_name = "document_mapping"
-        # graph_id = int(graph_id)
-        # participant_id = 1
-        # change_relations = DetectChangeRelations(participant_id, graph_id, mapping_graph_name, session_id=session.get("id"))
-        # mapping_relations = change_relations.mapping_relations
-        # structural_relations = change_relations.new_structure_values
-        # relations = mapping_relations.copy()  # start with keys and values of x
-        # button_colors = {
-        #     "insert": "btn-success",
-        #     "delete": "btn-danger",
-        # }
-        # structure_change_names = {
-        #     "insert": "Column Inserted: ",
-        #     "delete": "Column Deleted: ",
-        # }
-        # data = pd.read_csv("/home/alex/Desktop/Mapping-Quality-Framework/modules/CSV_file_2.csv")
-        # mapping_id = 1
-        # return render_template("change_detection/mappings_impacted.html",
-        #                        mapping_relations=mapping_relations,
-        #                        structural_relations=structural_relations,
-        #                        structure_change_names=structure_change_names,
-        #                        relations=relations,
-        #                        button_colors=button_colors,
-        #                        tables=[data.to_html()],
-        #                        titles=[''],
-        #                        mapping_id=mapping_id,
-        #                        )
+        return render_template("change_detection/mappings_impacted.html")
 
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])

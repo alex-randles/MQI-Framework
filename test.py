@@ -1,6 +1,7 @@
 from rdflib import *
 from collections import defaultdict
 import os
+import json
 graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/1.trig"
 complete_graph = ConjunctiveGraph()
 
@@ -32,7 +33,8 @@ def add_mapping_graphs():
 def analyse_mapping_impact():
     add_change_graphs()
     add_mapping_graphs()
-    detect_mapping_impact()
+    mappings_impacted = detect_mapping_impact()
+    get_structural_changes(mappings_impacted)
 
 def detect_mapping_impact():
     query = """
@@ -66,18 +68,118 @@ def detect_mapping_impact():
     for row in qres:
         mapping_graph = str(row["mappingGraph"])
         change_graph = str(row["changesGraph"])
+        change_identifier = str(row["change"])
         mapping_identifier = get_mapping_identifier(mapping_graph)
         if mapping_identifier:
             mapping_identifier = mapping_identifier[0]
             data_reference = str(row["reference"])
+            changed_data = str(row["data"])
             if change_graph not in matched_graphs:
                 matched_graphs[change_graph] = defaultdict(dict)
-            matched_graphs[change_graph][mapping_identifier] = {
-                "insert": defaultdict(dict),
-            }
-            matched_graphs[change_graph][mapping_identifier][data_reference] = str(row["data"])
-    print(matched_graphs)
+                matched_graphs[change_graph][mapping_identifier] = defaultdict(dict)
+                matched_graphs[change_graph][mapping_identifier]["insert"]["data_reference_changes"] = defaultdict(dict)
+                matched_graphs[change_graph][mapping_identifier]["delete"]["data_reference_changes"] = defaultdict(dict)
+                matched_graphs[change_graph][mapping_identifier]["filename"] = mapping_graph
+            if matched_graphs[change_graph][mapping_identifier].keys():
+                change_type = get_change_type(change_identifier)
+                if data_reference not in matched_graphs[change_graph][mapping_identifier][change_type]:
+                    matched_graphs[change_graph][mapping_identifier][change_type]["data_reference_changes"][data_reference] = [changed_data]
+                else:
+                    matched_graphs[change_graph][mapping_identifier][change_type]["data_reference_changes"][data_reference].append(changed_data)
+    # print(matched_graphs)
     return matched_graphs
+
+def get_structural_changes(mappings_impacted):
+    complete_graph = ConjunctiveGraph()
+    complete_graph.parse("complete_graph.trig", format="trig")
+    query = """
+        PREFIX oscd: <https://w3id.org/OSCD#>
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        PREFIX rr: <http://www.w3.org/ns/r2rml#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT ?g ?referenceChanged ?dataChanged ?change2
+        WHERE {
+          GRAPH ?g {
+            ?changeLog2 a oscd:ChangeLog;
+                       oscd:hasChange ?change2 .
+            ?change2 oscd:hasDataReference ?referenceChanged2;
+                    oscd:hasChangedData ?changedData2 .
+            ?changedData2 rdfs:comment ?dataChanged . 
+            FILTER (?referenceChanged2 = ?referenceChanged) 
+            {
+            SELECT ?referenceChanged ?stucturalReference
+              WHERE {
+                  ?changeLog a oscd:ChangeLog;
+                             oscd:hasChange ?change .
+                  ?change oscd:hasStructuralReference ?stucturalReference;
+                          oscd:hasChangedData ?changedData .
+                  ?changedData rdfs:comment ?referenceChanged . 
+                }
+            }
+            }
+            
+        }
+
+    """
+    qres = complete_graph.query(query)
+    for row in qres:
+        change_graph = str(row["g"].split("/")[-1])
+        data_reference = str(row["referenceChanged"])
+        changed_data = str(row["dataChanged"])
+        change_identifier = str(row["change2"])
+        change_type = get_change_type(change_identifier)
+        current_mappings_impacted = mappings_impacted[change_graph]
+        for mapping_identifier, values_impacted in current_mappings_impacted.items():
+            if change_type in values_impacted.keys():
+                mappings_impacted[change_graph][mapping_identifier][change_type]["structural_changes"] = defaultdict(dict)
+                mappings_impacted[change_graph][mapping_identifier][change_type]["structural_changes"][data_reference] = changed_data
+
+    dic = mappings_impacted["1.trig"][3]
+    print(json.dumps(dic, indent = 4))
+    exit()
+    query = """
+        PREFIX oscd: <https://w3id.org/OSCD#>
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        PREFIX rr: <http://www.w3.org/ns/r2rml#>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        SELECT ?referenceChanged ?dataChanged
+        WHERE {
+          GRAPH ?g {
+            ?changeLog a oscd:ChangeLog;
+                       oscd:hasChange ?change .
+            ?change oscd:hasDataReference ?referenceChanged;
+                    oscd:hasChangedData ?changedData .
+            ?changedData rdfs:comment ?dataChanged . 
+
+        
+            {
+              SELECT ?referenceChanged ?stucturalReference
+              WHERE {
+                GRAPH ?g {
+                  ?changeLog a oscd:ChangeLog;
+                             oscd:hasChange ?change .
+                  ?change oscd:hasStructuralReference ?stucturalReference;
+                          oscd:hasChangedData ?changedData .
+                  ?changedData rdfs:comment ?referenceChanged . 
+        
+        
+                }
+              }
+            }
+          }
+        } 
+    """
+    print("shshs")
+    qres = complete_graph.query(query)
+    for row in qres:
+        print(row)
+
+
+def get_change_type(change_identifier):
+    if "insert" in change_identifier:
+        return "insert"
+    else:
+        return "delete"
 
 def get_mapping_identifier(mapping_filename):
     mappings = {1: {'filename': 'sample_mapping.ttl', 'display_filename': 'sample_mapping.ttl', 'source_data': ['EMP'],

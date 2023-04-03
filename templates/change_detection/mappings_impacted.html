@@ -28,228 +28,31 @@
     </div>
 
     <div class="row">
-
-        <!--        {{ relations }}-->
-        <!--        {{ structural_relations }}-->
-        {% set source_count = [20] %}
-        {% set structure_value_count = [20] %}
-        {% set data_reference_count = [20] %}
-        {% set count = [20] %}
-        {% set data_sources  = structural_relations.keys()|list %}
-
-        {% for source_data, changes in structural_relations.items()  %}
-        <div id="accordion-{{source_count[-1]}}">
+        <div id="accordion-20">
             <div class="card">
-                {% set source_id = 'sourceDataHeading--' + source_count[-1]|string %}
-                <div class="card-header" id="{{source_id}}">
+                <div class="card-header" id="sourceDataHeading--20">
                     <h5 class="mb-0">
-                        <button class="btn collapsed" onclick="return changeIcon('{{source_id}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{source_count[-1]}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{source_count[-1]}}">
+                        <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading--20');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-20" aria-expanded="false" aria-controls="sourceDataCollapse-20">
                             <strong>Source Data: </strong>
-                            {{source_data}}
-                            <i id="icon-{{source_id}}" class="bi bi-plus-circle px-3"></i>
+                            student.csv
+                            <i id="icon-sourceDataHeading--20" class="bi bi-plus-circle px-3"></i>
                         </button>
                     </h5>
                 </div>
-
-                <div id="sourceDataCollapse-{{source_count[-1]}}" class="collapse" aria-labelledby="sourceDataHeading-{{source_count[-1]}}" data-bs-parent="#sourceDataCollapse-{{source_count[-1]}}">
-                    <div class="card-body">
-
-                        {% for change_type, changed_content in changes.items() %}
-                        <div class="card">
-                            {% set data_reference_id = 'dataReferenceCollapse-' + data_reference_count[-1]|string %}
-                            <div class="card-header" id="dataReferenceHeading-{{data_reference_count[-1]}}">
-                                <h5 class="mb-0">
-                                    {% set color = button_colors.get(change_type, '') %}
-                                    {% set structure_name = structure_change_names.get(change_type, '') %}
-                                    <button class="btn collapsed {{color}}" onClick="return changeIcon('{{data_reference_id}}');" data-bs-toggle="collapse" data-bs-target="#{{data_reference_id}}" aria-expanded="false" aria-controls="{{data_reference_id}}">
-                                        <strong>
-                                            {{ change_type }}
-                                        </strong>
-                                        <span class="mx-2">Change Count: {{changed_content|length}} </span>
-                                        <i id="icon-{{data_reference_id}}" class="bi bi-plus-circle px-3"></i>
-                                    </button>
-                                    <span class="mx-2"></span>
-                                </h5>
-                            </div>
-
-                            <div id="{{data_reference_id}}" class="collapse" aria-labelledby="dataReferenceHeading-{{data_reference_count[-1]}}" data-bs-parent="#{{data_reference_id}}">
-                                <div class="card-body">
-
-
-
-
-
-
-                                    {% for content, values in changed_content.items() %}
-                                    {% set structure_value_id = 'structureValue-' + structure_value_count[-1]|string %}
-                                    <div class="card">
-                                        <div class="card-header" id="{{structure_value_id}}">
-                                            <h5 class="mb-0">
-                                                <button class="btn collapsed" onclick="return changeIcon('{{structure_value_id}}');" data-bs-toggle="collapse" data-bs-target="#structureValueCollapse-{{structure_value_count[-1]}}" aria-expanded="false" aria-controls="structureValueCollapse-{{structure_value_count[-1]}}">
-                                                    {{ structure_name }}
-                                                    <strong>
-                                                        {{ content }}
-                                                    </strong>
-                                                    <span class="mx-2"> ∣ Change Count: {{values|length}} </span>
-                                                    <i  id="icon-{{structure_value_id}}" class="bi bi-plus-circle px-3"></i>
-                                                </button>
-                                                <span class="mx-2"></span>
-                                            </h5>
-                                        </div>
-
-                                        <div id="structureValueCollapse-{{structure_value_count[-1]}}" class="collapse" aria-labelledby="structureValueCollapse-{{structure_value_count[-1]}}" data-bs-parent="#structureValueCollapse-{{structure_value_count[-1]}}">
-                                            <div class="card-body">
-                                                <span class="mx-2 fw-bold">Values</span>
-                                                <ul>
-                                                    {% for value in values %}
-                                                    <li class="list-group-item">
-                                                        {{ value }}
-                                                    </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% set _ = structure_value_count.append(structure_value_count[-1] + 1) %}
-                                    {% endfor %}
-
-                                    {% set _ = count.append(count[-1] + 1) %}
-                                    {% set _ = data_reference_count.append(data_reference_count[-1] + 1)%}
-
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
+                <div id="sourceDataCollapse-20" class="collapse" aria-labelledby="dataReferenceHeading-20" data-bs-parent="#dataReferenceCollapse-20">
+                <div class="card-body">
+                    fjdj
+                </div>
                 </div>
             </div>
-
-            {% set _ = source_count.append(source_count[-1] + 1) %}
-            {% set _ = data_reference_count.append(data_reference_count[-1] + 1)%}
-
-            {% endfor %}
         </div>
-
-        <div class="row mt-4">
-            <h4>Referenced Data Changes
-                <span class="tt" data-bs-placement="top" title="Changes to the data referenced in the mapping">
-                    <i class="bi bi-info-circle" ></i>
-                </span>
-            </h4>
-        </div>
-        <div class="row">
-
-            {% set source_count = [0] %}
-            {% set data_reference_count = [0] %}
-            {% set count = [0] %}
-            {% set data_sources  = relations.keys()|list %}
-
-            {% for source in data_sources %}
-            {% set accordion_id = 'accordion-' + source_count[-1]|string %}
-            <div id="{{accordion_id}}" class="mb-4">
-                <div class="card">
-
-                    {% set source_id = 'sourceDataHeading-' + source_count[-1]|string %}
-                    <div class="card-header" id="{{card_id}}">
-                        <h5 class="mb-0">
-                            <button class="btn collapsed" onClick="document.getElementById('test').scrollIntoView();" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{source_count[-1]}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{source_count[-1]}}">
-                                <strong>Source Data: </strong>
-                                {{source}}
-                                <i id="icon-{{source_id}}" class="bi bi-plus-circle px-3"></i>
-                            </button>
-                            <span class="mx-2"></span>
-                        </h5>
-                    </div>
-
-                    <div id="sourceDataCollapse-{{source_count[-1]}}" class="collapse" aria-labelledby="sourceDataHeading-{{source_count[-1]}}" data-bs-parent="#sourceDataCollapse-{{source_count[-1]}}">
-                        <div class="card-body">
-
-                            {% set data_references =  relations[source] %}
-                            {% for reference, changes in data_references.items()  %}
-
-                            {% if changes %}
-                            {% set data_reference_id = 'dataReferenceHeading-' + data_reference_count[-1]|string %}
-                            <div class="card">
-                                <div class="card-header" id="{{data_reference_id}}">
-                                    <h5 class="mb-0">
-                                        <button class="btn collapsed" onclick="return changeIcon('{{data_reference_id}}');" data-bs-toggle="collapse" data-bs-target="#dataReferenceCollapse-{{data_reference_count[-1]}}" aria-expanded="false" aria-controls="dataReferenceCollapse-{{data_reference_count[-1]}}">
-                                            <strong>Data Reference: </strong>
-                                            {{ reference }}
-                                            <i id="icon-{{data_reference_id}}"  class="bi bi-plus-circle px-3"></i>
-                                        </button>
-                                        <span class="mx-2"></span>
-                                    </h5>
-                                </div>
-
-                                <div id="dataReferenceCollapse-{{data_reference_count[-1]}}" class="collapse" aria-labelledby="dataReferenceHeading-{{data_reference_count[-1]}}" data-bs-parent="#dataReferenceCollapse-{{data_reference_count[-1]}}">
-                                    <div class="card-body">
-
-
-
-                                        {% for change_type, changed_reference_content in changes.items() %}
-                                        <div class="card">
-                                            <div class="card-header" id="changeHeading-{{count[-1]}}">
-                                                {% set color = button_colors.get(change_type, '') %}
-                                                {% set change_id = 'changeCollapse-' + count[-1]|string  %}
-                                                <h5 class="mb-0">
-                                                    <button class="btn collapsed {{color}}" onClick="return changeIcon('{{change_id}}');" data-bs-toggle="collapse" data-bs-target="#{{change_id}}" aria-expanded="false" aria-controls="{{change_id}}">
-                                                        <strong>
-                                                            {{ change_type }}
-                                                        </strong>
-                                                        <span class="mx-2">Change Count: {{changed_reference_content|length}} </span>
-                                                        <i id="icon-{{change_id}}" class="bi bi-plus-circle px-3"></i>
-                                                    </button>
-                                                    <span class="mx-2"></span>
-                                                </h5>
-                                            </div>
-                                            <div id="{{change_id}}" class="collapse" aria-labelledby="changeHeading-{{count[-1]}}" data-bs-parent="#{{change_id}}">
-                                                <div class="card-body">
-                                                    <ul class="list-group">
-                                                        {% for content in changed_reference_content %}
-                                                        <li class="list-group-item">
-                                                            {{ content }}
-                                                        </li>
-                                                        {% endfor %}
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        {% set _ = count.append(count[-1] + 1) %}
-                                        {% endfor %}
-
-
-                                        {% set _ = data_reference_count.append(data_reference_count[-1] + 1)%}
-                                        {% endif %}
-                                    </div>
-
-
-
-                                </div>
-                                {% endfor  %}
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {% set _ = source_count.append(source_count[-1] + 1) %}
-                {% set _ = data_reference_count.append(data_reference_count[-1] + 1)%}
-
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-    <div id="test">
-
     </div>
 </div>
 
-        <script>
+<script>
     $('.collapse').collapse()
 </script>
-        {% endblock %}
+{% endblock %}
 </body>
 </html>
 
