@@ -61,7 +61,7 @@
             <th scope="col">
 <!--                Select Refinements-->
 <!--                <i class="bi bi-info-circle"  title="Select the refinements you want to be executed"></i>-->
-                <button type="button" title="Testing" id="selectAll" class="main" onClick='toggle(this)'>Execute All Refinements</button>
+                <button type="button" title="Testing" id="selectAll" class="main" onClick='selectAllRefinements()'>Execute All Refinements</button>
             </th>
             <th scope="col">
                 Display violation
@@ -114,7 +114,7 @@
             </td>
             {% set violation_ID = violation_ID|string %}
             {% if user_input == false %}
-            <td  style="width:100%; font-weight:bold;">{{find_prefix(refinement_properties)}}</td>
+            <td  style="width:25%; font-weight:bold;">{{find_prefix(refinement_properties)}}</td>
 
             {% elif user_input == true and requires_prefixes == true and restricted_values is none %}
 
@@ -265,11 +265,18 @@
 });
 </script>
 <script>
-function toggle(source) {
-    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i] != source)
-            checkboxes[i].checked = source.checked;
+function selectAllRefinements() {
+    var allInputs = document.getElementsByTagName("input");
+    for (var i = 0, max = allInputs.length; i < max; i++){
+        if (allInputs[i].type === 'checkbox') {
+            var checkBoxStatus = allInputs[i].checked;
+            if (checkBoxStatus == true){
+                 allInputs[i].checked = false;
+            }
+            else {
+                 allInputs[i].checked = true;
+            }
+         }
     }
 }
 </script>

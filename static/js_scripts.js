@@ -8,56 +8,6 @@ function logout(event){
         }
 }
 
-function withdraw(event){
-    var check = confirm("Do you really want to withdraw from the experiment?");
-    if(check){
-       return true;
-    }
-    else {
-        return false;
-    }
-}
-
-function disabledButton(event){
-    var check = confirm("This button is disabled for the experiment!");
-    return false;
-}
-
-//var source = new EventSource("/progress");
-//source.onmessage = function(event) {
-//    $('.progress-bar').css('width', event.data+'%').attr('aria-valuenow', event.data);
-//    $('.progress-bar-label').text(event.data+'%');
-//    if(event.data == 100){
-//        source.close()
-//    }
-//}
-
-
-function required()
-{
-    var name = document.forms["consent-form"]["name"].value;
-    var checkbox = document.forms["consent-form"]["accept-form"].checked;
-    var errMsgHolder = document.getElementById('nameErrMsg');
-    if (name == "")
-    {
-            errMsgHolder.style.display = "block";
-            errMsgHolder.innerHTML = "Please Enter your name!";
-            event.preventDefault();
-            return false;
-    }
-    else if (checkbox == false){
-            errMsgHolder.style.display = "block";
-            errMsgHolder.innerHTML = "Please Check the consent checkbox!";
-            event.preventDefault();
-            return false;
-    }
-    else
-        {
-            return true;
-        }
-}
-
-
 function myFunction() {
   alert("Only RDF comments (rdfs:comment) will be in the refined mapping and not hash comments (#). Also the ordering of the triples could change as RDF graphs have no order.");
 }
@@ -156,30 +106,6 @@ function validateMappingForm() {
           errMsgHolder.innerHTML = "Mapping File must be turtle format (.ttl)";
           return false;
     } else {
-         move();
-         return true;
-    }
-}
-
-
-function validateSourceDataForm() {
-    var input_v1 = document.forms["sourceFileDetails"]["CSV_URL_1"].value;
-    var input_v2 = document.forms["sourceFileDetails"]["CSV_URL_2"].value;
-    var url_v1 = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv";
-    var url_v2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student.csv";
-    var errMsgHolder = document.getElementById('nameErrMsg');
-    if (input_v1 !== url_v1.trim()) {
-          errMsgHolder.style.display = "block";
-          errMsgHolder.innerHTML = "Version 1 URL incorrect.";
-          alert("Version 1 URL incorrect.");
-          return false;
-    } else if (input_v2 !== url_v2.trim()) {
-          errMsgHolder.style.display = "block";
-          errMsgHolder.innerHTML = "Version 2 URL incorrect.";
-          alert("Version 2 URL incorrect.");
-          return false;
-    } else {
-         errMsgHolder.style.display = "none";
          move();
          return true;
     }
