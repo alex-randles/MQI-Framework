@@ -91,10 +91,15 @@ class DisplayChanges:
             change_graph = str(row["changesGraph"])
             mapping_identifier = self.get_mapping_identifier(mapping_graph)
             if mapping_identifier:
-                matched_graphs[change_graph] = defaultdict(dict)
-                matched_graphs[change_graph][mapping_identifier[0]] = {
-                    "insert": "shshhs",
+                mapping_identifier = mapping_identifier[0]
+                data_reference = str(row["reference"])
+                if change_graph not in matched_graphs:
+                    matched_graphs[change_graph] = defaultdict(dict)
+                matched_graphs[change_graph][mapping_identifier] = {
+                    "insert": defaultdict(dict),
                 }
+                matched_graphs[change_graph][mapping_identifier][data_reference] = str(row["data"])
+        print(matched_graphs)
         return matched_graphs
 
     def get_mapping_identifier(self, mapping_filename):
