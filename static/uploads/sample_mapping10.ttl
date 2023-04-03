@@ -1,23 +1,30 @@
-@prefix rr: <http://www.w3.org/ns/r2rml#>.
-@prefix ex: <http://example.com/ns#>.
-@prefix foaf: <http://xmlns.com/foaf/0.1/>.
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix dqv: <http://www.w3.org/ns/dqv#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix cidoc:   <http://erlangen-crm.org/current/> . 
-@prefix mqio: <https://www.w3id.org/MQIO/#> .
-@prefix fvc: <http://www.w3id.org/FAIRVASC#> . 
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ex: <http://example.com/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@base <http://example.com/base/> .
 
+<TriplesMap1> a rr:TriplesMap;
 
-<#TriplesMap8>
-    rr:logicalTable [ rr:tableName "EMP" ];
-    rr:subjectMap [
-        rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class mqio:MappingDocument;
-    ];
-    rr:predicateObjectMap [
-        rr:predicate prov:generatedAtTime ;
-        rr:objectMap [ rr:column "ENAME"; rr:datatype xsd:sss];
-    ].
+  rml:logicalSource [
+    rml:source "student.csv";
+    rml:referenceFormulation ql:CSV
+  ];
+
+  rr:subjectMap [
+    rr:template "http://example.com/{ID}/{Name}";
+    rr:class foaf:Person
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate ex:id ;
+    rr:objectMap [ rml:reference "ID" ]
+  ];
+
+  rr:predicateObjectMap [
+    rr:predicate foaf:name ;
+    rr:objectMap [ rml:reference "Name" ]
+  ].
+

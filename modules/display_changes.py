@@ -112,6 +112,8 @@ class DisplayChanges:
         self.get_table_name()
         self.get_iterator()
         self.get_mapping_references()
+        print(self.mapping_details)
+        exit()
 
     # take graph filename and generate a dictionary to display threshold information
     @staticmethod
@@ -193,7 +195,6 @@ class DisplayChanges:
         for row in qres:
             source_data.append(str(row[0]))
         self.mapping_details[self.current_graph_version]["source_data"] = source_data
-
 
     def get_iterator(self):
         # get detection time for notification policy to check if still valid

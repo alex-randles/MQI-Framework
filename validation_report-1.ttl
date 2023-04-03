@@ -5,8 +5,6 @@
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/sample_mapping10.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
     mqio:assessedMapping <sample_mapping10.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
@@ -15,23 +13,6 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
         ex:violation-2 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-03T11:21:14.637957"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?objectMap rr:datatype ?datatype }
-                INSERT { ?objectMap rr:datatype <http://rdfs.co/bevon/kddkdkd> }
-                WHERE {
-                    SELECT ?objectMap ?datatype
-                    WHERE {
-                          ?objectMap rr:datatype ?datatype.
-                          FILTER(str(?objectMap) = "ub2bL21C22").
-                    }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Change Datatype"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
@@ -52,6 +33,7 @@ ex:violation-2 a mqio:MappingViolation ;
     mqio:hasObjectValue prov:generatedAtTime ;
     mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D7 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:isDescribedBy mqio-metrics:D7 .
+
+<sample_mapping10.ttl> a mqio:MappingArtefact .
 
