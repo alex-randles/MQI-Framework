@@ -321,6 +321,7 @@ class API:
             if error_code == 0:
                 user_graph_details = display_changes.graph_details
                 mapping_details = display_changes.mapping_details
+                mappings_impacted = display_changes.mappings_impacted
                 session["graph_details"] = user_graph_details
                 session["mapping_details"] = mapping_details
                 return render_template(
@@ -329,6 +330,7 @@ class API:
                     change_process_executed=change_process_executed,
                     graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
                     mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
+                    mappings_impacted = mappings_impacted,
                 )
             else:
                 return "<h1>Error!!!!!</h1>"

@@ -155,15 +155,7 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
         <td>
             <a href="{{ url_for('mappings_impacted', mapping_unique_id=0, graph_id=1) }}">Mapping #1</a>
 
-            {% set mappings_impacted = value["mappings_impacted"]["references_impacted"].keys()|list %}
-            {% if mappings_impacted|length > 1 %}
-            {% for mapping_id, mapping_values in value["mappings_impacted"]["references_impacted"].items()  %}
-            {% set mapping_unique_id = participant_id|string + '-' + mapping_id|string %}
-
-            <br>
-            {% endfor %}
-            {% else %}
-            {% endif %}
+            {{mappings_impacted}}
 
         </td>
         <td>
