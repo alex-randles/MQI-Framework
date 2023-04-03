@@ -99,7 +99,6 @@ class DisplayChanges:
                     "insert": defaultdict(dict),
                 }
                 matched_graphs[change_graph][mapping_identifier][data_reference] = str(row["data"])
-        print(matched_graphs)
         return matched_graphs
 
     def get_mapping_identifier(self, mapping_filename):
