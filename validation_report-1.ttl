@@ -1,38 +1,41 @@
 @prefix ex: <http://example.org/> .
-@prefix ibclo: <https://ibclo.ericsson.com/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/sample_mapping17.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/refined-mapping61.ttl> a mqio:MappingArtefact .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <sample_mapping17.ttl> ;
+    mqio:assessedMapping <refined-mapping61.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-04T20:14:51.523131"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-04T21:39:34.377967"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <https://ibclo.ericsson.com/generatedAtTime>  .  }
-                INSERT {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasRole> .     }
-                WHERE {
-                    ?pom rr:predicate <https://ibclo.ericsson.com/generatedAtTime>  .
-                    FILTER(str(?pom) = "ub55bL23C27").
-                }
-                """^^xsd:string ;
+                DELETE { ?subject rr:termType ?currentTermType  } 
+                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRI> } 
+                WHERE { 
+                    SELECT ?subject 
+                    WHERE {
+                          ?subject ?p ?o . 
+                          FILTER(str(?subject) = "ub9bL32C16").
+                    }
+                }; 
+               """^^xsd:string ;
     mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+    mqio:refinementName "Change Term Type"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue ibclo:generatedAtTime ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property ' ibclo:hasMetricQuery '."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:isDescribedBy mqio-metrics:D6 ;
     mqio:wasRefinedBy ex:refinement-0 .
 

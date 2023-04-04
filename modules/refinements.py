@@ -204,7 +204,7 @@ class Refinements:
         return update_query
 
     def get_correct_term_types(self, violation_ID):
-        metric_ID = self.validation_results[violation_ID]["metric_ID"]
+        metric_ID = self.validation_results[violation_ID]["metric_identifier"]
         violation_value = self.validation_results[violation_ID]["value"]
         all_term_types = [self.R2RML + "IRI", self.R2RML + "BlankNode", self.R2RML + "Literal"]
         print(violation_value, "VIOLATION VALUE", str(self.R2RML + "Literal") != violation_value)

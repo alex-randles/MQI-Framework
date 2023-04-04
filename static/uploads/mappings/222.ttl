@@ -16,7 +16,7 @@
 
 
 <#TriplesMap8>
-    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:logicalTable [ rr:tableName "products.csv" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
         rr:class ex:MappingDocumehhnt;

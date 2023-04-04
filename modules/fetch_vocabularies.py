@@ -135,9 +135,10 @@ class FetchVocabularies:
         graph_name = urllib.parse.quote(max_value[0])
         localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
         # if host returns xml or turtle RDF data
-        try:
+        if format == "xml":
             requests.post(localhost, data=open(file_path).read(), headers={"content-type": "application/rdf+xml"})
-        except Exception as e:
+        if format == "ttl":
+            print("whshashshsh")
             requests.post(localhost, data=open(file_path).read().encode('utf-8'), headers={"content-type": "text/turtle"})
 
     # checks if ontology already saved

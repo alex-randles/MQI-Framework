@@ -285,7 +285,7 @@ class API:
         # no alert if no process executed
         if request.method == "GET":
             change_process_executed = session.get("change_process_executed")
-            session["change_process_executed"] = True
+            session["change_process_executed"] = False
             # get graph details for user
             display_changes = DisplayChanges(participant_id)
             error_code = display_changes.error_code
@@ -298,6 +298,7 @@ class API:
                     "change_detection/change_results.html",
                     participant_id=participant_id,
                     change_process_executed=change_process_executed,
+                    process_removed=False,
                     graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
                     mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                     # mappings_impacted = mappings_impacted,
