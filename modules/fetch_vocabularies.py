@@ -117,12 +117,13 @@ class FetchVocabularies:
         graph_name = urllib.parse.quote(url)
         try:
             r = requests.get(url, headers=headers)
-            localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
-            # if host returns xml or turtle RDF data
-            try:
-                requests.post(localhost, data=r, headers={"content-type": "application/rdf+xml"})
-            except requests.exceptions.ConnectionError as e:
-                requests.post(localhost, data=r, headers={"content-type": "text/turtle"})
+            if r.status_code == 200:
+                localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
+                # if host returns xml or turtle RDF data
+                try:
+                    requests.post(localhost, data=r, headers={"content-type": "application/rdf+xml"})
+                except requests.exceptions.ConnectionError as e:
+                    requests.post(localhost, data=r, headers={"content-type": "text/turtle"})
         except requests.exceptions.SSLError as e:
             pass
         ##

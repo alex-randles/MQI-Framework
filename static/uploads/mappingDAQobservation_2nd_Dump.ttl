@@ -71,6 +71,56 @@
     rr:sqlVersion rr:Oracle .
 
 
+<#Graph-Instance>
+	rr:logicalTable <#Less-Expensive-Query> ;
+	rr:subjectMap [
+		rr:constant <http://data.example.com/1spatialassessment/quality-graph/> ;
+		rr:class daq:QualityGraph
+	] ;
+	rr:predicateObjectMap [
+        rr:predicate qb:structure ;
+        rr:object daq:dsd
+    ] .
+
+
+<#Category-Instance>
+	rr:logicalTable <#Observation-View> ;
+	rr:subjectMap [
+	  		rr:template "http://data.example.com/1spatialassessment/category/{CATEGORY}-instance" ;
+
+        rr:class <http://data.example.com/category/Oracle> ;
+        rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicateMap [
+        	rr:template "http://data.example.com/dimension/has{DIMENSION}Dimension";
+        ] ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ;
+        ] ;
+    ] .
+
+<#Dimension-Instance>
+	rr:logicalTable <#Observation-View> ;
+	rr:subjectMap [
+        rr:template "http://data.example.com/1spatialassessment/dimension/{DIMENSION}-instance" ;
+        rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
+    ] ;
+	rr:predicateObjectMap [
+        rr:predicate rdf:type ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/dimension/{DIMENSION}"
+        ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicateMap [
+        	rr:template "http://data.example.com/dimension/has{METRIC}metric";
+        ] ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;
+        ] ;
+    ] .
+
 <#Metric-Instance>
 	rr:logicalTable <#Observation-View> ;
 	rr:subjectMap [
@@ -84,9 +134,97 @@
         ] ;
       ] ;
 	  rr:predicateObjectMap [
-	      rr:predicate daq:Observations ;
+	      rr:predicate daq:Observation ;
 	      rr:objectMap [
 	  		rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}";
 	      ] ;
 	  ] .
 
+
+<#Observations>
+    rr:logicalTable <#Observation-View> ;
+    rr:subjectMap [
+	  	rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}";
+	    rr:class daq:Observation ;
+		rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:isEstimate ;
+        rr:objectMap [ rr:constant "false"^^xsd:boolean ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:metric ;
+        rr:objectMap [
+			rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;
+        ];
+    ] ;
+   	rr:predicateObjectMap [
+        rr:predicate daq:value ;
+        rr:objectMap [
+        	rrf:functionCall [
+                rrf:function <#CalculateValue> ;
+                rrf:parameterBindings (
+                    [ rr:column "NUM_INSTANCES" ]
+                    [ rr:column "TOTAL_INSTANCES" ]
+                ) ;
+    		] ;
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate sdmx-dimension:timePeriod ;
+        rr:objectMap [
+        	rr:termType rr:Literal ;
+			rr:template "{ASSESSMENT_DATE}";
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate qb:dataSet ;
+        rr:object <http://data.example.com/1spatialassessment/quality-graph/> ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:computedOn ;
+        rr:objectMap [
+			rr:template "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}"
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:computedOn ;
+        rr:objectMap [
+        	rr:template "http://ontologies.adaptcentre.ie/dataset-hierarchy#{COMPUTED_ON}" 
+        ];
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate prov:wasGeneratedBy ;
+        rr:object <http://data.example.com/1spatialassessment/r2rmlconverter/>
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate prov:generated ;
+        rr:objectMap [
+        	rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling"
+        ]
+    ] .
+
+
+ # Do we need more profiling information?
+ <#Profiling>
+	rr:logicalTable <#Observation-View> ;
+	rr:subjectMap [
+		rr:template "http://data.example.com/1spatialassessment/observation/{METRIC}-{VALIDATION_BATCH_ID}-profiling" ;
+	    rr:class daq:MetricProfile ;
+		rr:graph <http://data.example.com/1spatialassessment/quality-graph>
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate daq:totalDatasetTriplesAssessed ; # this might be changed if we create a small vocabulary for osi
+        rr:objectMap [
+        	rr:column "TOTAL_INSTANCES"
+        ]
+    ] .
+
+
+<#CalculateValue>
+	rrf:functionName "calculateValue" ;
+	rrf:functionBody """
+		function calculateValue(numInstances, totalInstances) {
+	    	return 1 - (numInstances / totalInstances);
+    	} """ ;
+.

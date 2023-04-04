@@ -901,12 +901,12 @@ class ValidateQuality:
                 for row in qres["results"]["bindings"]:
                     if "domainClass" in row:
                         domain.append(row["domainClass"]["value"])
-                    if "superClass" in row:
-                        domain.append(row["superClass"]["value"])
-                    if "superClass2" in row:
-                        domain.append(row["superClass2"]["value"])
-                    if "superClass3" in row:
-                        domain.append(row["superClass3"]["value"])
+                        if "superClass" in row:
+                            domain.append(row["superClass"]["value"])
+                        if "superClass2" in row:
+                            domain.append(row["superClass2"]["value"])
+                        if "superClass3" in row:
+                            domain.append(row["superClass3"]["value"])
                 self.domain_cache[IRI] = list(set(domain))
                 return domain
             return domain

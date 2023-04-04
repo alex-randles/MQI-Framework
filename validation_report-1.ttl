@@ -1,124 +1,39 @@
-@prefix cidoc: <http://erlangen-crm.org/current/> .
+@prefix daq: <http://purl.org/eis/vocab/daq#> .
 @prefix ex: <http://example.org/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix mqio1: <https://www.w3id.org/MQIO/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <mapping.ttl> ;
+    mqio:assessedMapping <mappingDAQobservation_2nd_Dump.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
-        ex:violation-10,
-        ex:violation-11,
-        ex:violation-12,
-        ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5,
-        ex:violation-6,
-        ex:violation-7,
-        ex:violation-8,
-        ex:violation-9 .
+        ex:violation-2 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue cidoc:E21_Persons ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap5> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P113_removed ;
+    mqio:hasLocation "predicateObjectMap-9"^^xsd:string ;
+    mqio:hasObjectValue prov:generated ;
     mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap5> ;
+    mqio:inTripleMap <#Observations> ;
     mqio:isDescribedBy mqio-metrics:D3 .
 
-ex:violation-10 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:IRI ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:Literal' for property ' prov:generatedAtTime '."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-11 a mqio:MappingViolation ;
+ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue mqio1:MappingDocument ;
+    mqio:hasObjectValue daq:MetricProfile ;
     mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:inTripleMap <#Profiling> ;
     mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-12 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue mqio1:usedQuery ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue geo:isSimples ;
+    mqio:hasObjectValue daq:totalDatasetTriplesAssessed ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap4> ;
+    mqio:inTripleMap <#Profiling> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue foaf:Agent,
-        foaf:Document ;
-    mqio:hasResultMessage "Class  foaf:Agent  is disjoint with  foaf:Document "^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap4> ;
-    mqio:isDescribedBy mqio-metrics:D5 .
-
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue foaf:Employee ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue cidoc:E21_Persons ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap7> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P113_removed ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap7> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue foaf:Employee ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap3> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue foaf:Employee ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-9 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue prov:generatedAtTime ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-<mapping.ttl> a mqio:MappingArtefact .
+<mappingDAQobservation_2nd_Dump.ttl> a mqio:MappingArtefact .
 
