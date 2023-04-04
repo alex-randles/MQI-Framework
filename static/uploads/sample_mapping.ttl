@@ -72,7 +72,7 @@
 
 
 <#Metric-Instance>
-	rr:logicalTable <#Observation-View> ;
+	rr:logicalTable [ rr:tableName "employee.csv"; ] ;
 	rr:subjectMap [
 	      rr:template "http://data.example.com/1spatialassessment/metric/{METRIC}-instance" ;
 	      rr:graph <http://data.example.com/1spatialassessment/quality-graph> ;

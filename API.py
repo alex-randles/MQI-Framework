@@ -29,13 +29,13 @@ from werkzeug.utils import secure_filename, redirect
 
 from modules.detect_changes import DetectChanges
 from modules.display_changes import DisplayChanges
+from modules.detect_mapping_impact import DetectMappingImpact
 from modules.fetch_vocabularies import FetchVocabularies
 from modules.refinements import Refinements
 from modules.serialize import TurtleSerializer
 from modules.validate_quality import ValidateQuality
 from modules.validation_report import ValidationReport
 from modules.visualise_results import VisualiseResults
-from modules.change_relations import DetectChangeRelations
 
 app = Flask(__name__)
 app.config['SESSION_PERMANENT'] = True
@@ -257,6 +257,7 @@ class API:
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mapping-impacted', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
+        DetectMappingImpact(mapping_unique_id, graph_id)
         return render_template("change_detection/mappings_impacted.html",
                                mapping_id=mapping_unique_id,
                                mappings_impacted=session.get("mappings_impacted"))
@@ -291,17 +292,15 @@ class API:
             if error_code == 0:
                 user_graph_details = display_changes.graph_details
                 mapping_details = display_changes.mapping_details
-                mappings_impacted = display_changes.mappings_impacted
                 session["graph_details"] = user_graph_details
                 session["mapping_details"] = mapping_details
-                session["mappings_impacted"] = mappings_impacted
                 return render_template(
                     "change_detection/change_results.html",
                     participant_id=participant_id,
                     change_process_executed=change_process_executed,
                     graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
                     mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
-                    mappings_impacted = mappings_impacted,
+                    # mappings_impacted = mappings_impacted,
                 )
             else:
                 return "<h1>Error!!!!!</h1>"

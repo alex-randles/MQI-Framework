@@ -24,24 +24,8 @@ class DisplayChanges:
         # no error = 0
         self.error_code = 0
         self.generate_display_information()
-        for change_graph, changed_values in self.graph_details.items():
-            # split which fails?
-            change_graph_sources = [changed_values.get("change_sources").get("previous_version").split("/")[-1], changed_values.get("change_sources").get("current_version").split("/")[-1]]
-            for change_source in change_graph_sources:
-                for mapping_graph, mapping_values in self.mapping_details.items():
-                    mapping_sources = mapping_values.get("source_data")
-                    if change_source in mapping_sources:
-                        if "impacts_mapping" not in self.graph_details[change_graph].keys():
-                            self.graph_details[change_graph]["impacts_mapping"] = [(mapping_graph, change_source)]
-                        else:
-                            self.graph_details[change_graph]["impacts_mapping"].append((mapping_graph, change_source))
+        self.analyse_mapping_impact()
 
-        # print(self.graph_details)
-        # exit()
-        # print(self.graph_details)
-        # print(self.mapping_details)
-        # exit()
-        self.mappings_impacted = self.analyse_mapping_impact()
 
 
     def add_change_graphs(self):
@@ -69,10 +53,21 @@ class DisplayChanges:
         self.complete_graph.serialize(destination="complete_graph.trig", format="trig")
 
     def analyse_mapping_impact(self):
-        self.add_change_graphs()
-        self.add_mapping_graphs()
-        mappings_impacted = self.detect_mapping_impact()
-        return mappings_impacted
+        for change_graph, changed_values in self.graph_details.items():
+            # split which fails?
+            change_graph_sources = [changed_values.get("change_sources").get("previous_version").split("/")[-1], changed_values.get("change_sources").get("current_version").split("/")[-1]]
+            for change_source in change_graph_sources:
+                for mapping_graph, mapping_values in self.mapping_details.items():
+                    mapping_sources = mapping_values.get("source_data")
+                    if change_source in mapping_sources:
+                        if "impacts_mapping" not in self.graph_details[change_graph].keys():
+                            self.graph_details[change_graph]["impacts_mapping"] = [mapping_graph]
+                        else:
+                            self.graph_details[change_graph]["impacts_mapping"].append(mapping_graph)
+        # self.add_change_graphs()
+        # self.add_mapping_graphs()
+        # mappings_impacted = self.detect_mapping_impact()
+        # return mappings_impacted
 
     def detect_mapping_impact(self):
         query = """
@@ -128,7 +123,7 @@ class DisplayChanges:
         # try:
         self.iterate_mappings()
         self.iterate_changes_graphs()
-        self.analyse_mappings()
+        # self.analyse_mappings()
         # except Exception as exception:
         #     # general exception
         #     print("CHANGE DETECTION EXCEPTION", exception)
