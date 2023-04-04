@@ -25,15 +25,15 @@
 	
  rr:subjectMap[ 	
  	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class ex:MappingDocumehhnt, ibclo:Metric;	
+	 rr:class ibclo:Metric, ex:MappingDocumehhnt;	
  ];	
 	
  rr:predicateObjectMap[ 	
  	 rr:predicate ibclo:hasMetricQuery;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
 		 rr:datatype xsd:sss;	
-		 rr:termType rr:IRI, rr:Literal;	
+		 rr:column "ENAME" ;	
+		 rr:termType rr:Literal;	
 		]; 	
  ];	
 .	
