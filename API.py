@@ -529,7 +529,7 @@ class API:
                     return render_template("mapping_quality/index.html")
 
             else:
-                flash("Please upload a File!")
+                flash("Please Upload a Mapping File!")
                 return render_template("mapping_quality/index.html")
         else:
             participant_id = session.get("participant_id")
