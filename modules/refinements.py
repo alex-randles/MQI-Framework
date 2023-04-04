@@ -33,6 +33,9 @@ class Refinements:
         self.refinement_graph.bind("prov", Namespace("http://www.w3.org/ns/prov#"))
         # relates to refinements suggested to the users on the dashboard
         self.suggested_refinements = {
+            ##
+            ## No triple map metric - we are not a mapping editor
+            ##
             # mapping metric refinements #
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP2": ["ChangeTermType", "RemoveTermType"],
@@ -42,6 +45,7 @@ class Refinements:
             "MP6": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP7": ["AddChildColumn"],
             "MP8": ["AddParentColumn"],
+
             # data metric refinenements
             "D1": ["FindSimilarClasses", "ChangeClass", "RemoveClass"],  # Usage of undefined classes
             "D2": ["FindSimilarPredicates", "ChangePredicate"],  # Usage of undefined properties

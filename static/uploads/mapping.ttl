@@ -11,7 +11,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 
 <#TriplesMap1>
-    rr:logicalTable [ rr:tableName "EMP" ];
+    rr:logicalTable [ rr:tableName "employee.csv" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
         rr:class foaf:Employee;

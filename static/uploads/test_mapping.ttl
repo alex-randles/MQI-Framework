@@ -12,7 +12,7 @@
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 
 <#TriplesMap8>
-    rml:logicalSource [ rml:source "employee.csv" ];
+    rml:logicalSource [ rml:source "student.csv" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
         rr:class mqio:MappingDocument;
