@@ -338,7 +338,7 @@ class API:
             filename = f"./static/change_detection_cache/change_graphs/{file_id}"
             process_removed = True
         else:
-            filename = f"./static/uploads/{file_id}"
+            filename = f"./static/uploads/mappings/{file_id}"
             mapping_deleted = True
         try:
             os.remove(filename)
