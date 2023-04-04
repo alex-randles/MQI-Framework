@@ -127,7 +127,6 @@ class ValidateQuality:
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.validate_data_metrics()
-            self.validate_mapping_metrics()
             # self.validate_mapping_metrics()
             # self.validate_data_metrics()
             # self.update_progress_bar()
@@ -250,15 +249,16 @@ class ValidateQuality:
             term_type = self.properties[key]["termType"]
             objectMap = self.properties[key]["objectMap"]
             # only retrieve range if term type to speed up execution time
-            if not term_type:
-                term_type = URIRef("http://www.w3.org/ns/r2rml#Literal")
-            resource_type = self.get_type(property)
-            if OWL.DatatypeProperty in resource_type and term_type != URIRef("http://www.w3.org/ns/r2rml#Literal"):
-                result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property))
-                self.add_violation([metric_identifier, result_message, term_type, objectMap])
-            elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
-                result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property))
-                self.add_violation([metric_identifier, result_message, term_type, objectMap])
+            # if not term_type:
+            #     term_type = URIRef("http://www.w3.org/ns/r2rml#Literal")
+            if term_type:
+                resource_type = self.get_type(property)
+                if OWL.DatatypeProperty in resource_type and term_type != URIRef("http://www.w3.org/ns/r2rml#Literal"):
+                    result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property))
+                    self.add_violation([metric_identifier, result_message, term_type, objectMap])
+                elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
+                    result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property))
+                    self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
     def validate_D7(self):
         metric_identifier = "D7"
@@ -874,7 +874,7 @@ class ValidateQuality:
                        PREFIX prov: <http://www.w3.org/ns/prov#> 
                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
                        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                       SELECT DISTINCT ?domainClass ?comment
+                       SELECT DISTINCT ?domainClass ?superClass ?superClass2 ?superClass3 ?comment
                        WHERE {
                           GRAPH <%s> {
                             {
@@ -889,16 +889,25 @@ class ValidateQuality:
                               OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
                               FILTER (!isBlank(?domainClass))
                             }
+                            OPTIONAL { ?superClass rdfs:subClassOf ?domainClass. } 
+                            OPTIONAL { ?superClass rdfs:subClassOf ?domainClass.  ?superClass2 rdfs:subClassOf ?superClass . ?superClass3 rdfs:subClassOf ?superClass2 . }
+    OPTIONAL { ?superClass rdfs:subClassOf ?domainClass.  ?superClass2 rdfs:subClassOf ?superClass . ?superClass3 rdfs:subClassOf ?superClass2 . ?superClass3 rdfs:subClassOf ?superClass2 }
                           }
                        }   
-                       GROUP BY ?domainClass ?comment
                        """ % (self.get_namespace(IRI), IRI, IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)
             domain = []
             if qres["results"]["bindings"]:
                 for row in qres["results"]["bindings"]:
-                    domain.append(row["domainClass"]["value"])
-                self.domain_cache[IRI] = domain
+                    if "domainClass" in row:
+                        domain.append(row["domainClass"]["value"])
+                    if "superClass" in row:
+                        domain.append(row["superClass"]["value"])
+                    if "superClass2" in row:
+                        domain.append(row["superClass2"]["value"])
+                    if "superClass3" in row:
+                        domain.append(row["superClass3"]["value"])
+                self.domain_cache[IRI] = list(set(domain))
                 return domain
             return domain
         else:

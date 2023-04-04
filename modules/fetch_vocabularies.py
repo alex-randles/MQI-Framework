@@ -115,13 +115,16 @@ class FetchVocabularies:
     def http_retrieval(self, url):
         headers = {'Accept': 'application/rdf+xml'}
         graph_name = urllib.parse.quote(url)
-        r = requests.get(url, headers=headers)
-        localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
-        # if host returns xml or turtle RDF data
         try:
-            requests.post(localhost, data=r, headers={"content-type": "application/rdf+xml"})
-        except requests.exceptions.ConnectionError as e:
-            requests.post(localhost, data=r, headers={"content-type": "text/turtle"})
+            r = requests.get(url, headers=headers)
+            localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
+            # if host returns xml or turtle RDF data
+            try:
+                requests.post(localhost, data=r, headers={"content-type": "application/rdf+xml"})
+            except requests.exceptions.ConnectionError as e:
+                requests.post(localhost, data=r, headers={"content-type": "text/turtle"})
+        except requests.exceptions.SSLError as e:
+            pass
         ##
         # filename = self.hash_filename(url)
         # file_location = self.cache_directory + filename
