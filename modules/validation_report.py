@@ -74,6 +74,10 @@ class ValidationReport:
             performed_by_name = self.form_data["performed-by-name"]
             performed_by_IRI = URIRef("http://example.org/" + performed_by_name)
             self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, performed_by_IRI))
+            # add agent who performed the refinement of the mapping
+            # refinement_agent = self.form_data["refined-by-name"]
+            # refinement_agent_identifier = URIRef("http://example.org/" + refinement_agent)
+            # self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, refinement_agent_identifier))
 
     def add_assessment_time(self):
         # time the mapping information was generated - prov:startedAtTime
