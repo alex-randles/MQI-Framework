@@ -1,86 +1,38 @@
-@prefix cidoc: <http://erlangen-crm.org/current/> .
 @prefix ex: <http://example.org/> .
+@prefix ibclo: <https://ibclo.ericsson.com/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<file:///home/alex/MQI-Framework/sample_mapping17.ttl> a mqio:MappingArtefact .
+
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <organizations.ttl> ;
+    mqio:assessedMapping <sample_mapping17.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5,
-        ex:violation-6,
-        ex:violation-7,
-        ex:violation-8 .
+    mqio:hasViolation ex:violation-0 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-04T20:14:51.523131"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <https://ibclo.ericsson.com/generatedAtTime>  .  }
+                INSERT {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasRole> .     }
+                WHERE {
+                    ?pom rr:predicate <https://ibclo.ericsson.com/generatedAtTime>  .
+                    FILTER(str(?pom) = "ub55bL23C27").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Find Similar Predicates"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P82b_end_of_the_end ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P81b_begin_of_the_end ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P82a_begin_of_the_begin ;
+    mqio:hasObjectValue ibclo:generatedAtTime ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P81a_end_of_the_begin ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue cidoc:E81_Actor_Appellation ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P81a_end_of_the_begin ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P82a_begin_of_the_begin ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P81b_begin_of_the_end ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue cidoc:P82b_end_of_the_end ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-<organizations.ttl> a mqio:MappingArtefact .
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
