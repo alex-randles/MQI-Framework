@@ -51,7 +51,7 @@ app.config['SECRET_KEY'] = "hello"
 sess = Session()
 sess.init_app(app)
 
-UPLOAD_FOLDER = 'static/uploads/'
+UPLOAD_FOLDER = 'static/uploads/mappings/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # to prevent caching of previous result
 file_counter = 0
