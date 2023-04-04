@@ -26,6 +26,32 @@ class DisplayChanges:
         self.generate_display_information()
         self.analyse_mapping_impact()
 
+
+
+    def add_change_graphs(self):
+        change_directory = "./static/change_detection_cache/change_graphs/"
+        directory = os.fsencode(change_directory)
+        for file in os.listdir(directory):
+            filename = os.fsdecode(file)
+            file_path = change_directory + filename
+            current_graph = ConjunctiveGraph()
+            current_graph.parse(file_path, format="trig")
+            change_graph_identifier = URIRef("http://www.example.com/changesGraph/user-1")
+            changes_graph = current_graph.get_context(change_graph_identifier)
+            for s, p, o in changes_graph.triples((None, None, None)):
+                self.complete_graph.add((s, p, o, filename))
+
+    def add_mapping_graphs(self):
+        mapping_directory = "./static/uploads/mappings"
+        directory = os.fsencode(mapping_directory)
+        for file in os.listdir(directory):
+            filename = os.fsdecode(file)
+            file_path = mapping_directory + filename
+            mapping_graph = Graph().parse(file_path, format="ttl")
+            for s, p, o in mapping_graph.triples((None, None, None)):
+                self.complete_graph.add((s, p, o, filename))
+        self.complete_graph.serialize(destination="complete_graph.trig", format="trig")
+
     def analyse_mapping_impact(self):
         for change_graph, changed_values in self.graph_details.items():
             # split which fails?
@@ -38,6 +64,54 @@ class DisplayChanges:
                             self.graph_details[change_graph]["impacts_mapping"] = [mapping_graph]
                         else:
                             self.graph_details[change_graph]["impacts_mapping"].append(mapping_graph)
+        # self.add_change_graphs()
+        # self.add_mapping_graphs()
+        # mappings_impacted = self.detect_mapping_impact()
+        # return mappings_impacted
+
+    def detect_mapping_impact(self):
+        query = """
+            PREFIX oscd: <https://w3id.org/OSCD#>
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+            SELECT ?mappingGraph ?changesGraph ?source ?change ?reference ?changedData ?data
+            WHERE {
+              GRAPH ?changesGraph {    			 
+                ?changeLog a oscd:ChangeLog;
+                        oscd:hasChange ?change;
+                        oscd:hasCurrentVersion ?currentVersion .
+                ?change oscd:hasDataReference ?reference;
+                        oscd:hasChangedData ?changedData .
+                ?changedData rdfs:comment ?data . 
+                BIND (REPLACE(STR(?currentVersion), "^.*/([^/]*)$", "$1") as ?source)
+              }
+                GRAPH ?mappingGraph {    			 
+                ?tripleMap rml:logicalSource|rr:logicalTable ?logicalSource;
+                        rr:predicateObjectMap ?pom .
+                ?logicalSource rml:source|rr:tableName ?source .
+                ?pom rr:objectMap ?objectMap .
+                ?objectMap rml:reference|rr:column ?reference.
+              }
+            }
+        """
+        qres = self.complete_graph.query(query)
+        matched_graphs = defaultdict(dict)
+        for row in qres:
+            mapping_graph = str(row["mappingGraph"])
+            change_graph = str(row["changesGraph"])
+            mapping_identifier = self.get_mapping_identifier(mapping_graph)
+            if mapping_identifier:
+                mapping_identifier = mapping_identifier[0]
+                data_reference = str(row["reference"])
+                if change_graph not in matched_graphs:
+                    matched_graphs[change_graph] = defaultdict(dict)
+                matched_graphs[change_graph][mapping_identifier] = {
+                    "insert": defaultdict(dict),
+                }
+                matched_graphs[change_graph][mapping_identifier][data_reference] = str(row["data"])
+        return matched_graphs
 
     def get_mapping_identifier(self, mapping_filename):
         mapping_identifier = [key for key, values in self.mapping_details.items() if values["filename"] == mapping_filename.strip()]

@@ -180,18 +180,18 @@ class API:
 
     @staticmethod
     def split_camel_case(word):
-        splitted = re.sub('([A-Z][a-z]+)', r' \1', re.sub('([A-Z]+)', r' \1', word)).split()
-        result = " ".join(splitted)
+        split_word = re.sub('([A-Z][a-z]+)', r' \1', re.sub('([A-Z]+)', r' \1', word)).split()
+        result = " ".join(split_word)
         return result
 
     @staticmethod
-    def add_ontology_file(ontology_file):
+    def store_ontology_file(ontology_file):
         for file in ontology_file:
             filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'] + session.get("participant_id") + "/", filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'] + "local_ontologies/", filename)
             file.save(file_path)
             # if uploaded file is not valid RDF
-            error_message = FetchVocabularies.create_local_vocabulary(file_path)
+            error_message = FetchVocabularies.store_local_vocabulary(file_path)
             if error_message:
                 return error_message
 
@@ -275,7 +275,7 @@ class API:
                                participant_id=participant_id,
                                graph_id=1,
                                graph_filename=graph_filename,
-                               change_graph_details=user_graph_details,
+                               change_graph_details=change_graph_details,
                                notification_thresholds=notification_thresholds)
 
     # view change detection processes running by a user
@@ -431,7 +431,7 @@ class API:
             if ontology_file:
                 if ontology_file[0].filename != "":
                     # if ontology added successfully
-                    error_message = API.add_ontology_file(ontology_file)
+                    error_message = API.store_ontology_file(ontology_file)
                     if error_message:
                         flash("Local upload errror, ensure it's RDF format")
                         return render_template("mapping_quality/index.html")

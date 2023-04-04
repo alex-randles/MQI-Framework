@@ -331,26 +331,7 @@
 <#PLACEOFORGANISATION>
 	a rr:TriplesMap ;
 
-	rr:logicalTable [ rr:sqlQuery """
-	SELECT 
-		D.ID,
-		D.PLACE,
-		F.OFFICENAME,
-		F.COUNTRY,
-		CASEWHEN(REGEXP_LIKE(D.PLACE, '^http(s)?://'), D.PLACE, NULL) AS PLACE_URI,
-		CASEWHEN(REGEXP_LIKE(D.PLACE, '^http(s)?://'), NULL, D.PLACE) AS PLACE_LABEL
-	FROM
-		(
-			WITH RECURSIVE placenamesplitted (id, PLACE, rest) AS 
-			( 
-				SELECT id, NULL, PLACE || ';' FROM  (SELECT id, PLACE FROM data WHERE PLACE IS NOT NULL) 
-				UNION ALL 
-				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM placenamesplitted WHERE rest <> '' 
-			)
-			SELECT DISTINCT id, PLACE FROM placenamesplitted WHERE PLACE IS NOT NULL
-		) AS D
-		JOIN DATA F ON D.ID = F.ID
-	""" ] ;
+	rr:logicalTable [ rr:tableName "student-v3.csv" ] ;
 
 	rr:subjectMap [
 		rr:template "https://kb.beyond2022.ie/location/{COUNTRY}/{OFFICENAME}-{PLACE}" ;
