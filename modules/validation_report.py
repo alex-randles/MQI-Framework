@@ -56,42 +56,24 @@ class ValidationReport:
         # add more information only if check box selected
         # if "add-information" in self.form_data.keys():
         #     self.add_form_data()
+        self.add_form_data()
         self.save_validation_report()
 
     def add_form_data(self):
         # adding mapping information
         # DEBUGGING - YOU WILL HAVE TO CHANGE IN REFINEMENTS
-        mapping_file_IRI = URIRef(self.mapping_file.split("/")[-1])
-        # mapping = URIRef(list(self.validation_graph.objects(None, self.MQIO.assessedMapping))[0])
-        # self.validation_graph.remove((mapping, RDF.type, self.MQIO.MappingDocument))
-        # print(mapping_file_IRI)
-        # exit()
-        # mapping_file_IRI = mapping
-        self.validation_graph.add((mapping_file_IRI, RDF.type, self.MQIO.MappingArtefact))
-        mapping = mapping_file_IRI
-        # adding creator name
-        creator_name = self.form_data["creator-name"]
-        # creator_name_IRI = self.add_PROV_Agent(creator_name)
-        self.validation_graph.add((mapping, self.MQIO.createdBy, creator_name_IRI))
-        # adding the person who performed the assessment
-        performed_by_name = self.form_data["performed-by-name"]
-        performed_by_IRI = self.add_PROV_Agent(performed_by_name)
-        self.validation_graph.add((self.assessment_IRI, self.MQIO.assessmentPerformedBy, performed_by_IRI))
-        # adding the creation date
-        self.add_creation_date(mapping)
-        # the current time
-        self.add_assessment_time()
-        # who performed by the refinements
-        self.add_refinement_performer()
-
-    def add_refinement_performer(self):
-        # mqv:refinementPerformedBy - who performed the refinements
-        refinement_performer = self.form_data["refined-by-name"]
-        if refinement_performer:
-            name_IRI = URIRef(self.EX + "".join(refinement_performer.split()))
-            self.validation_graph.add((name_IRI, RDF.type, self.PROV.Agent))
-            self.validation_graph.add((name_IRI, RDFS.label, Literal(refinement_performer)))
-            self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, name_IRI))
+        if self.form_data.get("add-information"):
+            mapping_file_IRI = URIRef(self.mapping_file.split("/")[-1])
+            self.validation_graph.add((URIRef(self.mapping_file.split("/")[-1]), RDF.type, self.MQIO.MappingArtefact))
+            mapping = mapping_file_IRI
+            # adding creator name
+            creator_name = self.form_data.get('creator-name')
+            creator_name_IRI = URIRef("http://example.org/" + creator_name)
+            self.validation_graph.add((mapping, self.MQIO.wasCreatedBy, creator_name_IRI))
+            # adding the person who performed the assessment
+            performed_by_name = self.form_data["performed-by-name"]
+            performed_by_IRI = URIRef("http://example.org/" + performed_by_name)
+            self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, performed_by_IRI))
 
     def add_assessment_time(self):
         # time the mapping information was generated - prov:startedAtTime
@@ -136,7 +118,7 @@ class ValidationReport:
         mapping_file_IRI = URIRef(self.mapping_file.split("/")[-1])
         self.validation_graph.add((quality_assessment_IRI, self.MQIO.assessedMapping, mapping_file_IRI))
         mapping = URIRef(list(self.validation_graph.objects(None, self.MQIO.assessedMapping))[0])
-        self.validation_graph.add((mapping, RDF.type, self.MQIO.MappingArtefact))
+        self.validation_graph.add((URIRef(str(mapping).split("/")[-1]), RDF.type, self.MQIO.MappingArtefact))
         # self.add_assessment_time()
         # self.add_report_time()
         # add agent details
