@@ -1,0 +1,1548 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://ontology.wearehungry.be#"
+     xml:base="http://ontology.wearehungry.be"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:obda="https://w3id.org/obda/vocabulary#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:swrla="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:recipes="http://ontology.wearehungry.be#"
+     xmlns:countries="http://eulersharp.sourceforge.net/2003/03swap/countries#">
+    <owl:Ontology rdf:about="http://ontology.wearehungry.be"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled -->
+
+    <owl:AnnotationProperty rdf:about="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.wearehungry.be#contains -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#contains">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#AmountIngredient"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">If a substance contains something, that thing is part of it.
+The object property links a recipe with the class Amount Ingredient, which indicates how much of an ingredient is needed in the recipe.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">contains</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#containsIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#containsIngredient">
+        <owl:inverseOf rdf:resource="http://ontology.wearehungry.be#isUsedIn"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">If a substance contains something, that thing is part of it. 
+Contains ingredient indicates which ingredients are used in a recipe.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">contains ingredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#costs -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#costs">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#Price"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The price is the amount of money that you have to pay in order to buy, do, or produce something. 
+This relation is between the Ingredient and Price classes to indicate how much the ingredient costs.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">costs</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#has -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#has">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#PreparationStep"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To own.
+The object property has links a recipe to its preparation steps.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">has</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#hasUnit -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#hasUnit">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#Unit"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To own.
+The object property is twice used. Once for connecting an Amount Ingredient to a Unit to indicate how much is used of an ingredient. The second time between Price and Unit to indicate the amount of ingredient the price of that ingredient is based on.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">has unit</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#inSeason -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#inSeason">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#Season"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Able to be bought or used.
+Available in season connects an ingredient to a number of instances of the Season class to convey in which seasons an ingredient is available.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">available in season</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#isServedIn -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#isServedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#MealTime"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To serve something at a particular time. 
+This object property is between Recipe and Mealtime to indicate when a recipe could be served.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">is served in</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#isUsedBy -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#isUsedBy">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <owl:inverseOf rdf:resource="http://ontology.wearehungry.be#uses"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To put something such as a tool, skill or building to a particular purpose.
+The object property is the inverse of the use object property. It shows which recipes use a particular cooking tool.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">is used by</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#isUsedIn -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#isUsedIn">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To put something such as a tool, skill or building to a particular purpose. 
+This object property is the inverse of contains ingredient. It shows in which recipes a certain ingredient was used.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">is used in</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#measure -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#measure">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Unit"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#UnitMeasure"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A unit used for stating the size, weight, etc. of something, or a way of measuring.
+This object property is between Unit and UnitMeasure to show in which unit the amount of the ingredient is:</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">measures</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#originCountry -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#originCountry">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Belonging to a particular nation. 
+The assumption is made that each recipe has a nationality and that a recipe is unique in its country.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">origin country</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#servedAs -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#servedAs">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#Temperature"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To provide food or drinks.
+A recipe has a connection to the Temperature class which says whether the recipe is to be consumed hot, cold or both.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">served as</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#tastes -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#tastes">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#Flavor"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To have a particular flavor. 
+It links each ingredient to its flavor.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tastes</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#uses -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#uses">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#CookingTool"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To put something such as a tool, skill or building to a particular purpose.
+The object property connects a recipe with each of the cooking tools it uses in the preparation of the recipe.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">uses</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#usesIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.wearehungry.be#usesIngredient">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#AmountIngredient"/>
+        <rdfs:range rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To put something such as a tool, skill or building to a particular purpose.
+Uses ingredient is used to connect an amount of an ingredient to the ingredient it refers to.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">uses ingredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.wearehungry.be#dietryFiber -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#dietryFiber">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The part of food that helps to keep a person healthy by keeping the bowels working and moving other food quickly through the body</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dietary fibre</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#energy -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#energy">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A quantity of food capable of producing such an amount of energy</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">energy</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#fat -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#fat">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A white or yellow substance in the bodies of animals and humans, stored under the skin</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">fat</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#glucide -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#glucide">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A substance such as sugar or starch that consists of carbon, hydrogen and oxygen</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">glucide</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#instruction -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#instruction">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#PreparationStep"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Advice and information about how to do or use something</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">instruction</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#order -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#order">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#PreparationStep"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The way in which things are arranged</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">order</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#preparationTime -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#preparationTime">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The time needed for preparing a recipe</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">preparation time</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#priceValue -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#priceValue">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Price"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">How much something is worth in money</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">price value</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#protein -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#protein">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A substance, found within all living things, that forms the structure of muscles, organs, etc.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">protein</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#quantityPerson -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#quantityPerson">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A number of persons which a recipe is prepared for.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">quantity person</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#sal -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#sal">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A white substance that is added to food to give it a better flavor or to preserve it</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">salt</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.wearehungry.be#unitValue -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.wearehungry.be#unitValue">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.wearehungry.be#Unit"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The exact amount needed of a unit</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">unit value</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.wearehungry.be#AmountIngredient -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#AmountIngredient">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A collection or mass.
+This class is used to determine how much of a particular ingredient is used in a Recipe.</rdfs:comment>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Amount Ingredient</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#AnimalProduced -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#AnimalProduced">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Any ingredient coming from something that lives and moves.
+This includes animal produced ingredients such as milk and eggs. Meat and Fish are two subclasses that represent ingredients for which an animal has to be killed to obtain them.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Animal Produced Ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#CookingTool -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#CookingTool">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A tool with a particular use in the kitchen.
+Each instance of the class represents a cooking tool that can be used to prepare a recipe. This also includes appliances such as stoves or ovens.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Cooking Tool</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Dessert -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Dessert">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <owl:disjointWith rdf:resource="http://ontology.wearehungry.be#Sauce"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sweet food eaten at the end of a meal</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Dessert</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Drink -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Drink">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <owl:disjointWith rdf:resource="http://ontology.wearehungry.be#Salad"/>
+        <owl:disjointWith rdf:resource="http://ontology.wearehungry.be#Sauce"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A liquid for drinking</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Drink</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#FastFood -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#FastFood">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Hot food that is served very quickly and can be taken away to be eaten in the street. 
+If it takes than 20 minutes to prepare a recipe, then it is considered fast food.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fast Food</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Fish -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Fish">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#AnimalProduced"/>
+        <owl:disjointWith rdf:resource="http://ontology.wearehungry.be#Meat"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The flesh of fish eaten as food</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fish</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Flavor -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Flavor">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Flavor is a substance added to food or drink to give it a particular flavor.
+The class has five named individuals, each representing a flavor profile. Each ingredient is linked to one of the named individuals.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Flavor</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Ingredient -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Ingredient">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A food that is used with other foods in the preparation of a particular dish.
+Ingredient represents the raw substances that can be used to prepare a recipe.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#MealTime -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#MealTime">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A time in the day when you eat a meal.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Meal Time</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Meat -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Meat">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#AnimalProduced"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The flesh of an animal or a bird eaten as food</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Meat</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#PreparationStep -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#PreparationStep">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A stage of the things that you do or the time that you spend preparing for something.
+The class keeps track of the order and instructions of the preparation.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Preparation Step</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Price -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Price">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The amount of money that you have to pay for something.
+The Price class is used to determine the price of each ingredient.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Price</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Recipe -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Recipe">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A set of instructions telling you how to prepare and cook a particular food, including a list of what foods are needed for this.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Recipe</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Salad -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Salad">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <owl:disjointWith rdf:resource="http://ontology.wearehungry.be#Sauce"/>
+        <owl:disjointWith rdf:resource="http://ontology.wearehungry.be#Soup"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A mixture of raw vegetables such as lettuce, tomato and cucumber, usually served with other food as part of a meal</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Salad</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Sauce -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Sauce">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A thick liquid that is eaten with food to add flavor to it</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Sauce</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#SeaFood -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#SeaFood">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://ontology.wearehungry.be#Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://ontology.wearehungry.be#containsIngredient"/>
+                        <owl:someValuesFrom rdf:resource="http://ontology.wearehungry.be#Fish"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Fish and sea creatures that can be eaten, especially shellfish.
+If the recipe contains a Fish ingedrient, then it will belong to the Seafood class.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Seafood</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Season -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Season">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">One of the four periods of the year; spring, summer, autumn or winter.
+The class is used to indicate the availability of ingredients.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Season</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Soup -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Soup">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A liquid food made by boiling meat, vegetables, etc. in water, often eaten as the first course of a meal</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Soup</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#SpicyIngredient -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#SpicyIngredient">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://ontology.wearehungry.be#Ingredient"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://ontology.wearehungry.be#tastes"/>
+                        <owl:hasValue rdf:resource="http://ontology.wearehungry.be#spicy"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Having a strong taste because spices have been used to flavor it.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Spicy ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#SpicyRecipe -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#SpicyRecipe">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://ontology.wearehungry.be#Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://ontology.wearehungry.be#containsIngredient"/>
+                        <owl:someValuesFrom rdf:resource="http://ontology.wearehungry.be#SpicyIngredient"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Having a strong taste because spices have been used to flavor it. 
+If a recipe contains a spicy ingredient, it is considered a spicy recipe.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Spicy recipe</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Temperature -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Temperature">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The measured amount of heat in a place or in the body.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Temperature</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#Unit -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#Unit">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A standard measure that is used to express amounts.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Unit</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#UnitMeasure -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#UnitMeasure">
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">To discover the exact size or amount of something.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Unit Measure</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#VeganRecipe -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#VeganRecipe">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://ontology.wearehungry.be#Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://ontology.wearehungry.be#containsIngredient"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:complementOf rdf:resource="http://ontology.wearehungry.be#AnimalProduced"/>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Not eating, using or including any animal products.
+If a recipe has no Animal Produced Ingredient ingredients, then it is considered a vegan recipe.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Vegan Recipe</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#VegetarianRecipe -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#VegetarianRecipe">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://ontology.wearehungry.be#Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://ontology.wearehungry.be#containsIngredient"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:complementOf rdf:resource="http://ontology.wearehungry.be#Fish"/>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://ontology.wearehungry.be#containsIngredient"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:complementOf rdf:resource="http://ontology.wearehungry.be#Meat"/>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Not eating or including meat or fish.
+A vegetarian recipe may contain Animal Produced Ingredient ingredients, but no Meat or Fish is allowed.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Vegetarian Recipe</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#lowFatIngredient -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#lowFatIngredient">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Containing only a very small amount of fat.
+An ingredient is considered low-fat if its fat value is less than 5.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Low-fat Ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.wearehungry.be#lowSugarIngredient -->
+
+    <owl:Class rdf:about="http://ontology.wearehungry.be#lowSugarIngredient">
+        <rdfs:subClassOf rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Containing only a very small amount of sugar.
+An ingredient is considered low-sugar if its glucide value is less than 5.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Low-sugar Ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.wearehungry.be#autumn -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#autumn">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Season"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The season of the year between summer and winter, lasting from September to November north of the equator and from March to May south of the equator, when fruits and crops become ready to eat and are picked, and leaves fall.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">autumn</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#bitter -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#bitter">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Flavor"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Having a strong, unpleasant taste; not sweet</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bitter</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#breakfast -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#breakfast">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#MealTime"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The first meal of the day</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">breakfast</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#cold -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#cold">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Temperature"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">At a low temperature, especially when compared to the temperature of the human body, and not hot, or warm</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cold</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#dinner -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#dinner">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#MealTime"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The main meal of the day, eaten either in the middle of the day or in the evening</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dinner</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#grams -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#grams">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#UnitMeasure"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A unit of mass equal to 0.001 kilograms</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">grams</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#kilograms -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#kilograms">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#UnitMeasure"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A unit of mass equal to 1000 grams</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">kilograms</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#liters -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#liters">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#UnitMeasure"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A unit for measuring the volume of a liquid or gas, equal to 1000 cubic centimeters</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">liters</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#lunch -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#lunch">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#MealTime"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A meal eaten in the middle of the day</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">lunch</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#oven -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#oven">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#CookingTool"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#salty -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#salty">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Flavor"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Containing or tasting of salt</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">salty</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#snack -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#snack">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#MealTime"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A small meal or amount of food, usually eaten in a hurry</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">snack</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#sour -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#sour">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Flavor"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Having a taste like that of a lemon or of fruit that is not ready to eat</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sour</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#spicy -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#spicy">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Flavor"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Having a strong taste because spices have been used to flavor it</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">spicy</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#spring -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#spring">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Season"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The season of the year between winter and summer, lasting from March to June north of the equator, and from September to December south of the equator, when the weather becomes warmer, leaves and plants start to grow again and flowers appear</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">spring</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#summer -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#summer">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Season"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The season of the year between spring and autumn when the weather is warmest, lasting from June to September north of the equator and from December to March south of the equator</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">summer</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#sweet -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#sweet">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Flavor"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Containing, or tasting as if it contains, a lot of sugar</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">sweet</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#warm -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#warm">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Temperature"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Having or producing a comfortably high temperature, although not hot</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">warm</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://ontology.wearehungry.be#winter -->
+
+    <owl:NamedIndividual rdf:about="http://ontology.wearehungry.be#winter">
+        <rdf:type rdf:resource="http://ontology.wearehungry.be#Season"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The season between autumn and spring, lasting from November to March north of the equator and from May to September south of the equator, when the weather is coldest</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">winter</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#AmountIngredient"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#CookingTool"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#Flavor"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#Ingredient"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#MealTime"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#PreparationStep"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#Price"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#Recipe"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#Season"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#Temperature"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#Unit"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#UnitMeasure"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointProperties"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#contains"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#containsIngredient"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#costs"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#has"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#hasUnit"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#inSeason"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#isServedIn"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#isUsedBy"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#isUsedIn"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#measure"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#originCountry"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#servedAs"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#tastes"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#uses"/>
+            <rdf:Description rdf:about="http://ontology.wearehungry.be#usesIngredient"/>
+        </owl:members>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#r">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#ai">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#ingredient">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#aiUnit">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#amountIngredientUsed">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#price">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#ingredientSingularPrice">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#priceUnit">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#ingredientSingularAmount">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#ingredientAmountPrice">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#i">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#f">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#s">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://ontology.wearehungry.be#p">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">If the amount of fat in one ingredient is less that 5, we consider this ingredient as low-fat one.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LowFatIngredient</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#fat"/>
+                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                                <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#f"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://ontology.wearehungry.be#f"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">5.0</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#lowFatIngredient"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">If the amount of glucide in one ingredient is less that 5, we consider this ingredient as low-sugar one.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">LowSugarIngredient</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#glucide"/>
+                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                                <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#s"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://ontology.wearehungry.be#s"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">5.0</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#lowSugarIngredient"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This rule is using to infer a recipe is fast food or not. We consider if the preparation time is less than 20 minutes the recipe is fast food.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">FastFoodRecipe</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#r"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#preparationTime"/>
+                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#r"/>
+                                <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#p"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#lessThanOrEqual"/>
+                                        <swrl:arguments>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                <rdf:first rdf:resource="http://ontology.wearehungry.be#p"/>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                        <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">20</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </swrl:arguments>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#FastFood"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#r"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This rule is used to calculate total price of a recipe using the price of each ingredient.</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TotalPrice</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#r"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#AmountIngredient"/>
+                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#ai"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#usesIngredient"/>
+                                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#ai"/>
+                                        <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#ingredient"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#hasUnit"/>
+                                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#ai"/>
+                                                <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#aiUnit"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                        <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#unitValue"/>
+                                                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#aiUnit"/>
+                                                        <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#amountIngredientUsed"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                        <rdf:first>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#costs"/>
+                                                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#ingredient"/>
+                                                                <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#price"/>
+                                                            </rdf:Description>
+                                                        </rdf:first>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                <rdf:first>
+                                                                    <rdf:Description>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                                        <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#priceValue"/>
+                                                                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#price"/>
+                                                                        <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#ingredientSingularPrice"/>
+                                                                    </rdf:Description>
+                                                                </rdf:first>
+                                                                <rdf:rest>
+                                                                    <rdf:Description>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                        <rdf:first>
+                                                                            <rdf:Description>
+                                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                                <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#hasUnit"/>
+                                                                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#price"/>
+                                                                                <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#priceUnit"/>
+                                                                            </rdf:Description>
+                                                                        </rdf:first>
+                                                                        <rdf:rest>
+                                                                            <rdf:Description>
+                                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                                <rdf:first>
+                                                                                    <rdf:Description>
+                                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                                                        <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#unitValue"/>
+                                                                                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#priceUnit"/>
+                                                                                        <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#ingredientSingularAmount"/>
+                                                                                    </rdf:Description>
+                                                                                </rdf:first>
+                                                                                <rdf:rest>
+                                                                                    <rdf:Description>
+                                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                                        <rdf:first>
+                                                                                            <rdf:Description>
+                                                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                                                                <swrl:builtin rdf:resource="http://swrl.stanford.edu/ontologies/built-ins/3.4/swrlm.owl#eval"/>
+                                                                                                <swrl:arguments>
+                                                                                                    <rdf:Description>
+                                                                                                        <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                                                        <rdf:first rdf:resource="http://ontology.wearehungry.be#ingredientAmountPrice"/>
+                                                                                                        <rdf:rest>
+                                                                                                            <rdf:Description>
+                                                                                                                <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+                                                                                                                <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ingredientSingularPrice * (amountIngredientUsed / ingredientSingularAmount)</rdf:first>
+                                                                                                                <rdf:rest rdf:parseType="Collection">
+                                                                                                                    <rdf:Description rdf:about="http://ontology.wearehungry.be#ingredientSingularPrice"/>
+                                                                                                                    <rdf:Description rdf:about="http://ontology.wearehungry.be#amountIngredientUsed"/>
+                                                                                                                    <rdf:Description rdf:about="http://ontology.wearehungry.be#ingredientSingularAmount"/>
+                                                                                                                </rdf:rest>
+                                                                                                            </rdf:Description>
+                                                                                                        </rdf:rest>
+                                                                                                    </rdf:Description>
+                                                                                                </swrl:arguments>
+                                                                                            </rdf:Description>
+                                                                                        </rdf:first>
+                                                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                                                    </rdf:Description>
+                                                                                </rdf:rest>
+                                                                            </rdf:Description>
+                                                                        </rdf:rest>
+                                                                    </rdf:Description>
+                                                                </rdf:rest>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                        <swrl:builtin rdf:resource="http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl#select"/>
+                        <swrl:arguments rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://ontology.wearehungry.be#r"/>
+                        </swrl:arguments>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                <swrl:builtin rdf:resource="http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl#sum"/>
+                                <swrl:arguments rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://ontology.wearehungry.be#ingredientAmountPrice"/>
+                                </swrl:arguments>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This rule is used to calculate the total amount of fat in a recipe</rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">TotalFat</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#Recipe"/>
+                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#r"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                <swrl:classPredicate rdf:resource="http://ontology.wearehungry.be#Ingredient"/>
+                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#containsIngredient"/>
+                                        <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#r"/>
+                                        <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#i"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                <swrl:propertyPredicate rdf:resource="http://ontology.wearehungry.be#fat"/>
+                                                <swrl:argument1 rdf:resource="http://ontology.wearehungry.be#i"/>
+                                                <swrl:argument2 rdf:resource="http://ontology.wearehungry.be#f"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                        <swrl:builtin rdf:resource="http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl#select"/>
+                        <swrl:arguments rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://ontology.wearehungry.be#r"/>
+                        </swrl:arguments>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                <swrl:builtin rdf:resource="http://sqwrl.stanford.edu/ontologies/built-ins/3.4/sqwrl.owl#sum"/>
+                                <swrl:arguments rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="http://ontology.wearehungry.be#f"/>
+                                </swrl:arguments>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

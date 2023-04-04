@@ -3,169 +3,691 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ex: <http://example.com/ns#> . 
-@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix dqv: <http://www.w3.org/ns/dqv#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
-@prefix cidoc: <http://erlangen-crm.org/current/> . 
-@prefix mqio: <https://www.w3id.org/MQIO/#> . 
-@prefix fvc: <http://www.w3id.org/FAIRVASC#> . 
+@prefix workouts: <http://data.virtualworkout.com/> . 
+@prefix owl: <http://www.w3.org/2002/07/owl#> . 
 
 	
-<#TriplesMap1>	
+<#CardioWorkouts>	
+ rdf:type rr:TripesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery""" 	
+          SELECT 	
+            *, 	
+            CASE 	
+                WHEN fitness_level_recommendation = 0 	
+                        THEN 'VeryPoor'	
+                WHEN fitness_level_recommendation = 1	
+                        THEN 'Poor'	
+                WHEN fitness_level_recommendation = 2	
+                        THEN 'BelowAverage'	
+                WHEN fitness_level_recommendation = 3	
+                        THEN 'Average'	
+                WHEN fitness_level_recommendation = 4	
+                        THEN 'AboveAverage'	
+                WHEN fitness_level_recommendation = 5	
+                        THEN 'Moderate'	
+                WHEN fitness_level_recommendation = 6	
+                        THEN 'Excelent'	
+            END AS transformed_fitness_level	
+            FROM CardioWorkout INNER JOIN Workout on CardioWorkout.id = Workout.id	
+     """;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:class prov:Entity, foaf:Employee;	
-	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:template "http://data.virtualworkout.com/{name}" ;	
+	 rr:class workouts:CardioTraining;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate prov:generatedAtTime;	
+ 	 rr:predicate rdfs:comment;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
-		 rr:termType rr:IRI;	
-		 rr:datatype xsd:dateTime;	
+		 rr:column "description" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:name;	
+	 rr:objectMap [	
+		 rr:column "name" ;	
+		 rr:datatype xsd:string;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:repetitions;	
+	 rr:objectMap [	
+		 rr:column "repetitions" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:sets;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "sets" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:duration;	
+	 rr:objectMap [	
+		 rr:column "duration" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:minAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:column "age_recommendation_min" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:maxAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:column "age_recommendation_max" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:ratingsOfPerceivedExertion;	
+	 rr:objectMap [	
+		 rr:column "perceived_exertion" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:requires;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{transformed_fitness_level}" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:uses;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{equipment}" ;	
 		]; 	
  ];	
 .	
 	
-<#TriplesMap2>	
+<#FlexibilityWorkouts>	
+ rdf:type rr:TripesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery""" 	
+        SELECT 	
+            *, 	
+            CASE 	
+                WHEN fitness_level_recommendation = 0 	
+                        THEN 'VeryPoor'	
+                WHEN fitness_level_recommendation = 1	
+                        THEN 'Poor'	
+                WHEN fitness_level_recommendation = 2	
+                        THEN 'BelowAverage'	
+                WHEN fitness_level_recommendation = 3	
+                        THEN 'Average'	
+                WHEN fitness_level_recommendation = 4	
+                        THEN 'AboveAverage'	
+                WHEN fitness_level_recommendation = 5	
+                        THEN 'Moderate'	
+                WHEN fitness_level_recommendation = 6	
+                        THEN 'Excelent'	
+            END AS transformed_fitness_level	
+        FROM FlexibilityWorkout INNER JOIN Workout on FlexibilityWorkout.id = Workout.id """;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class foaf:Employee;	
+ 	 rr:class workouts:FlexibilityTraining;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate foaf:name;	
+ 	 rr:predicate rdfs:comment;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
+		 rr:column "description" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:name;	
+	 rr:objectMap [	
+		 rr:column "name" ;	
+		 rr:datatype xsd:string;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:repetitions;	
+	 rr:objectMap [	
+		 rr:column "repetitions" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:minAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:column "age_recommendation_min" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:maxAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "age_recommendation_max" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:duration;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "duration" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:ratingsOfPerceivedExertion;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "perceived_exertion" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:requires;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{transformed_fitness_level}" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:holdPositionDuration;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "hold_position_duration_seconds" ;	
 		]; 	
  ];	
 .	
 	
-<#TriplesMap3>	
+<#UpperBodyMuscleBodyParts>	
+ rdf:type rr:TripesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery " select * from BodyPart where category = 'upper_body_muscle' " ;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:class foaf:Employee, dqv:Dimension;	
-	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:template "http://data.virtualworkout.com/{name}" ;	
+	 rr:class workouts:UpperBodyMuscle;	
+ ];	
+.	
+	
+<#LowerBodyMuscleBodyParts>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery " select * from BodyPart where category = 'lower_body_muscle' " ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:class workouts:LowerBodyMuscle;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
+ ];	
+.	
+	
+<#MuscleDifferent>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery " SELECT a.name as bodypart1, b.name as bodypart2  FROM BodyPart a, BodyPart b where a.name != b.name and a.category != 'joint' and b.category != 'joint'; " ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:class workouts:BodyPart;	
+	 rr:template "http://data.virtualworkout.com/{bodypart1}" ;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate dqv:inCategory;	
+ 	 rr:predicate owl:differentFrom;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
+		 rr:template "http://data.virtualworkout.com/{bodypart2}" ;	
 		]; 	
  ];	
 .	
 	
-<#TriplesMap4>	
+<#JointsDifferent>	
+ rdf:type rr:TripesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery " SELECT a.name as bodypart1, b.name as bodypart2  FROM BodyPart a, BodyPart b where a.name != b.name and a.category == 'joint' and b.category == 'joint'; " ;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class foaf:Document, foaf:Agent, geo:Geometry;	
+ 	 rr:template "http://data.virtualworkout.com/{bodypart1}" ;	
+	 rr:class workouts:BodyPart;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate geo:isSimples;	
+ 	 rr:predicate owl:differentFrom;	
 	 rr:objectMap [	
-		 rr:datatype xsd:booleazn;	
-		 rr:termType rr:Literal;	
-		 rr:column "ENAME" ;	
+		 rr:template "http://data.virtualworkout.com/{bodypart2}" ;	
 		]; 	
  ];	
 .	
 	
-<#TriplesMap5>	
+<#JointBodyParts>	
+ rdf:type rr:TripesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery " select * from BodyPart where category = 'joint' " ;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:class cidoc:E21_Persons;	
-	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:class workouts:Joint;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
+ ];	
+.	
+	
+<#Goals>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:tableName "Goal" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:class workouts:Goal;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
+ ];	
+.	
+	
+<#HealthIssues>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:tableName "HealthIssue" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:class workouts:HealthIssue;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
+ ];	
+.	
+	
+<#WeightWorkout>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery""" 	
+        SELECT 	
+            *, 	
+            CASE 	
+                WHEN fitness_level_recommendation = 0 	
+                        THEN 'VeryPoor'	
+                WHEN fitness_level_recommendation = 1	
+                        THEN 'Poor'	
+                WHEN fitness_level_recommendation = 2	
+                        THEN 'BelowAverage'	
+                WHEN fitness_level_recommendation = 3	
+                        THEN 'Average'	
+                WHEN fitness_level_recommendation = 4	
+                        THEN 'AboveAverage'	
+                WHEN fitness_level_recommendation = 5	
+                        THEN 'Moderate'	
+                WHEN fitness_level_recommendation = 6	
+                        THEN 'Excelent'	
+            END AS transformed_fitness_level	
+        FROM WeightWorkout INNER JOIN Workout on WeightWorkout.id = Workout.id """;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.virtualworkout.com/{name}" ;	
+	 rr:class workouts:WeightTraining;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate cidoc:P113_removed;	
+ 	 rr:predicate rdfs:comment;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
+		 rr:column "description" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:name;	
+	 rr:objectMap [	
+		 rr:column "name" ;	
+		 rr:datatype xsd:string;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:minAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "age_recommendation_min" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:maxAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "age_recommendation_max" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:uses;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{equipment}" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:repetitions;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "repetitions" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:duration;	
+	 rr:objectMap [	
+		 rr:column "duration" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:sets;	
+	 rr:objectMap [	
+		 rr:column "sets" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:ratingsOfPerceivedExertion;	
+	 rr:objectMap [	
+		 rr:column "perceived_exertion" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:requires;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{transformed_fitness_level}" ;	
 		]; 	
  ];	
 .	
 	
-<#TriplesMap7>	
+<#Sports>	
+ rdf:type rr:TripesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery""" 	
+        SELECT 	
+            *, 	
+            CASE 	
+                WHEN fitness_level_recommendation = 0 	
+                        THEN 'VeryPoor'	
+                WHEN fitness_level_recommendation = 1	
+                        THEN 'Poor'	
+                WHEN fitness_level_recommendation = 2	
+                        THEN 'BelowAverage'	
+                WHEN fitness_level_recommendation = 3	
+                        THEN 'Average'	
+                WHEN fitness_level_recommendation = 4	
+                        THEN 'AboveAverage'	
+                WHEN fitness_level_recommendation = 5	
+                        THEN 'Moderate'	
+                WHEN fitness_level_recommendation = 6	
+                        THEN 'Excelent'	
+            END AS transformed_fitness_level	
+        FROM Sports INNER JOIN Workout on Sports.id = Workout.id """;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class cidoc:E21_Persons;	
+ 	 rr:class workouts:Sports, workouts:Workout;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate cidoc:P113_removed;	
+ 	 rr:predicate rdfs:comment;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
+		 rr:column "description" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:minAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:column "age_recommendation_min" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:maxAgeRecommandation;	
+	 rr:objectMap [	
+		 rr:column "age_recommendation_max" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:duration;	
+	 rr:objectMap [	
+		 rr:datatype xsd:nonNegativeInteger;	
+		 rr:column "duration" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:ratingsOfPerceivedExertion;	
+	 rr:objectMap [	
+		 rr:column "perceived_exertion" ;	
+		 rr:datatype xsd:nonNegativeInteger;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:requires;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{transformed_fitness_level}" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:name;	
+	 rr:objectMap [	
+		 rr:column "name" ;	
+		 rr:datatype xsd:string;	
 		]; 	
  ];	
 .	
 	
-<#TriplesMap8>	
+<#Symptom>	
+ rdf:type rr:TripesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:tableName "Symptom" ;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:class mqio:MappingDocument;	
-	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:class workouts:Symptom;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
+ ];	
+.	
+	
+<#AchievesGoal>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery "SELECT name, goal_name FROM WorkoutAchievesGoal INNER JOIN Workout on WorkoutAchievesGoal.physical_workout_id = Workout.id" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.virtualworkout.com/{name}" ;	
+	 rr:class workouts:Workout;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate mqio:usedQuery;	
+ 	 rr:predicate workouts:achieves;	
 	 rr:objectMap [	
-		 rr:datatype xsd:sss;	
-		 rr:column "ENAME" ;	
+		 rr:template "http://data.virtualworkout.com/{goal_name}" ;	
 		]; 	
  ];	
 .	
 	
-<#TriplesMap99>	
+<#AllienateSymptom>	
+ rdf:type rr:TriplesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery "SELECT name, symptom_name FROM WorkoutAmelioratesSymptom INNER JOIN Workout on WorkoutAmelioratesSymptom.physical_workout_id = Workout.id" ;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
-	 rr:class fvc:Patients;	
+ 	 rr:class workouts:Workout;	
+	 rr:template "http://data.virtualworkout.com/{name}" ;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate rdfs:label;	
+ 	 rr:predicate workouts:allienate;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
+		 rr:template "http://data.virtualworkout.com/{symptom_name}" ;	
+		]; 	
+ ];	
+.	
+	
+<#PreventsHealthIssue>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery "SELECT name, health_issue_name FROM WorkoutPreventsHealthIssue INNER JOIN Workout on WorkoutPreventsHealthIssue.physical_workout_id = Workout.id" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.virtualworkout.com/{name}" ;	
+	 rr:class workouts:Workout;	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:prevents;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{health_issue_name}" ;	
+		]; 	
+ ];	
+.	
+	
+<#HasSymptoms>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:tableName "HealthIssueHasSymptom" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.virtualworkout.com/{health_issue_name}" ;	
+	 rr:class workouts:HealthIssue;	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:manifests;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{symptom_name}" ;	
+		]; 	
+ ];	
+.	
+	
+<#TrainsBodyPart>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery "SELECT name, body_part_name FROM PhysicalWorkoutTrainsBodyPart INNER JOIN Workout on PhysicalWorkoutTrainsBodyPart.workout_id = Workout.id" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.virtualworkout.com/{name}" ;	
+	 rr:class workouts:Workout;	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:trains;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{body_part_name}" ;	
+		]; 	
+ ];	
+.	
+	
+<#CausesInjury>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery "SELECT name, body_part FROM PhysicalWorkoutCausesInjury INNER JOIN Workout on PhysicalWorkoutCausesInjury.workout_id = Workout.id" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.virtualworkout.com/{name}" ;	
+	 rr:class workouts:Workout;	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:causesInjuries;	
+	 rr:objectMap [	
+		 rr:template "http://data.virtualworkout.com/{body_part}" ;	
+		]; 	
+ ];	
+.	
+	
+<#WeightWorkoutEquipment>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery "SELECT DISTINCT equipment FROM WeightWorkout" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.virtualworkout.com/{equipment}" ;	
+	 rr:class workouts:Equipment;	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:name;	
+	 rr:objectMap [	
+		 rr:column "equipment" ;	
+		]; 	
+ ];	
+.	
+	
+<#CardioWorkoutEquipment>	
+ rdf:type rr:TripesMap;	
+	
+ rr:logicalTable[ 	
+ 	 rr:sqlQuery "SELECT DISTINCT equipment FROM CardioWorkout" ;	
+ ];	
+	
+ rr:subjectMap[ 	
+ 	 rr:class workouts:Equipment;	
+	 rr:template "http://data.virtualworkout.com/{equipment}" ;	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate workouts:name;	
+	 rr:objectMap [	
+		 rr:column "equipment" ;	
 		]; 	
  ];	
 .	

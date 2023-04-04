@@ -1,0 +1,840 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.foodreport.be/ontology"
+     xml:base="http://www.foodreport.be/ontology"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:foodreport="http://www.foodreport.be/ontology#">
+    <owl:Ontology rdf:about="http://www.foodreport.be/ontology"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.foodreport.be/ontology#appliesToFoodType -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#appliesToFoodType">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Law"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#FoodType"/>
+        <rdfs:comment xml:lang="en">A law applies to one or multiple types of food whereas a specific food type doesn&apos;t necessarily have to be involved in a law. It can however be influenced by one or multiple laws.</rdfs:comment>
+        <rdfs:label xml:lang="en">appliesToFoodType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#describesRecipe -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#describesRecipe">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Step"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Recipe"/>
+        <rdfs:comment xml:lang="en">A step describes (part of) one specific recipe and a recipe can be described by one or multiple steps.</rdfs:comment>
+        <rdfs:label xml:lang="en">describesRecipe</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#hasFoodType -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#hasFoodType">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#FoodType"/>
+        <rdfs:comment xml:lang="en">An ingredient has exactly one food type while a food type contains one or multiple ingredients. Note that a food type can also contain no ingredients at all, in the case that none are defined.</rdfs:comment>
+        <rdfs:label xml:lang="en">hasFoodType</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#imposes -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#imposes">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Law"/>
+        <rdfs:comment xml:lang="en">A country can impose none or multiple laws and a law can be imposed by one or multiple countries.</rdfs:comment>
+        <rdfs:label xml:lang="en">imposes</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#isPartOf -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#isPartOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Continent"/>
+        <rdfs:comment xml:lang="en">A country is part of exactly one continent and a continent consist of one or more countries.</rdfs:comment>
+        <rdfs:label xml:lang="en">isPartOf</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#isPartOfSameContinent -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#isPartOfSameContinent">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:label xml:lang="en">isPartOfSameContinent</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#manufactoredFrom -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#manufactoredFrom">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:comment xml:lang="en">An ingredient is manufactured in one or more countries whereas a country doesn&apos;t necessarily manufactures ingredients. However it can also manufacture multiple ingredients.</rdfs:comment>
+        <rdfs:label xml:lang="en">manufactoredFrom</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#needsIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#needsIngredient">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Recipe"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:comment xml:lang="en">A recipe needs one or multiple ingredients while an ingredient isn&apos;t always used in a recipe. Nevertheless it can be needed by multiple different recipes.</rdfs:comment>
+        <rdfs:label xml:lang="en">needsIngredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#ships -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#ships">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:comment xml:lang="en">A specific trajectory only ships one ingredient and an ingredient can be shipped using one or multiple trajectories.</rdfs:comment>
+        <rdfs:label xml:lang="en">ships</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#trajectoryFrom -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#trajectoryFrom">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:comment xml:lang="en">A trajectory ships ingredients from exactly one country but a country is not necessarily a part of a trajectory. A country can be part of multiple trajectories.</rdfs:comment>
+        <rdfs:label xml:lang="en">trajectoryFrom</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#trajectoryTo -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology#trajectoryTo">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:comment xml:lang="en">A trajectory ships ingredients to exactly one country but a country is not necessarily a part of a trajectory. A country can be part of multiple trajectories.</rdfs:comment>
+        <rdfs:label xml:lang="en">trajectoryTo</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology/alternativeTrajectory -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology/alternativeTrajectory">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:comment xml:lang="en">A trajectory can be an alternative trajectory of one or multiple other trajectories. Alternative trajectories ship the same ingredient from the same origin to the same destination. This object property is automatically inferred using defined rules.</rdfs:comment>
+        <rdfs:label xml:lang="en">alternativeTrajectory</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology/appliesToIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.foodreport.be/ontology/appliesToIngredient">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Law"/>
+        <rdfs:range rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:comment xml:lang="en">A law applies to one or multiple ingredients whereas a specific ingredient doesn&apos;t necessarily have to be involved in a law. It can however be influenced by one or multiple laws.</rdfs:comment>
+        <rdfs:label xml:lang="en">appliesToIngredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.foodreport.be/ontology#calcium -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#calcium">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">Calcium is a reactive metal that forms a dark oxide-nitride layer when exposed to air that can be found in food.  The amount will be given in grams per 100 grams of the ingredient (per 100 milliliters if it is present in a liquid).</rdfs:comment>
+        <rdfs:label xml:lang="en">Calcium</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#calories -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#calories">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">Calories are a unit of energy which can be found in food. The amount will be given in kcal per 100 grams of the ingredient (per 100 milliliters if it is present in a liquid).</rdfs:comment>
+        <rdfs:label xml:lang="en">Calories</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#carbohydrates -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#carbohydrates">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">Carbohydrates are biomolecules consisting of carbon (C), hydrogen (H) and oxygen (O) atoms which can be found in food. The amount will be given in grams per 100 grams of the ingredient (per 100 milliliters if it is present in a liquid).</rdfs:comment>
+        <rdfs:label xml:lang="en">Carbohydrates</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#continentName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#continentName">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Continent"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A ContinentName indicates the (unique) name of a Continent.</rdfs:comment>
+        <rdfs:label xml:lang="en">ContinentName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#countryName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#countryName">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Country"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A CountryName indicates the (unique) name of a Country.</rdfs:comment>
+        <rdfs:label xml:lang="en">CountryName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#description -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#description">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Step"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A Description is the written human-readable text that corresponds with the instructions of a Step</rdfs:comment>
+        <rdfs:label xml:lang="en">Description</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#distance -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#distance">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">A distance is a numerical indicator of the distance a trajectory covers. This is not the straight line distance between the origin and destination, but the actual distance the trajectory covers.</rdfs:comment>
+        <rdfs:label xml:lang="en">Distance</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#environmentScore -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#environmentScore">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Law"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">An EnvironmentScore is a numerical indicator on a scale of 0 to 100, with 0 being worst and 100 being best, of the environmental impact of this law.</rdfs:comment>
+        <rdfs:label xml:lang="en">EnvironmentScore</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#fat -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#fat">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">Fat: Fat is the sum of saturated, monounsaturated and polyunsaturated fats which can be found in food. The amount will be given in grams per 100 grams of the ingredient (per 100 milliliters if it is present in a liquid).</rdfs:comment>
+        <rdfs:label xml:lang="en">Fat</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#foodTypeName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#foodTypeName">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#FoodType"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A FoodTypeName indicates the (unique) name of a FoodType.</rdfs:comment>
+        <rdfs:label xml:lang="en">FoodTypeName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#ingredientName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#ingredientName">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A IngredientName indicates the (unique) name of a Ingredient.</rdfs:comment>
+        <rdfs:label xml:lang="en">IngredientName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#labourScore -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#labourScore">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Law"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">A LabourScore is a numerical indicator on a scale of 0 to 100, with 0 being worst and 100 being best, of the impact on labour of this law.</rdfs:comment>
+        <rdfs:label xml:lang="en">LabourScore</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#lawName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#lawName">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Law"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A LawName indicates the (unique) name of a Law.</rdfs:comment>
+        <rdfs:label xml:lang="en">LawName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#orderNumber -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#orderNumber">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Step"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+        <rdfs:comment xml:lang="en">An OrderNumber is the relative place of occurrence of a step in a Recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">OrderNumber</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#proteins -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#proteins">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">Proteins are large biomolecules consisting of one or more long chains of amino acid residues which can be found in food. The amount will be given in grams per 100 grams of the ingredient (per 100 milliliters if it is present in a liquid).</rdfs:comment>
+        <rdfs:label xml:lang="en">Proteins</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#recipeName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#recipeName">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A RecipeName indicates the (unique) name of a Recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">RecipeName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#sodium -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#sodium">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">Sodium is a soft, silvery-white, highly reactive metal which can be found in food. The amount will be given in grams per 100 grams of the ingredient (per 100 milliliters if it is present in a liquid).</rdfs:comment>
+        <rdfs:label xml:lang="en">Sodium</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#sugar -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#sugar">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">Sugar is the generic name for sweet-tasting, soluble carbohydrates, which can be found in food. The amount will be given in grams per 100 grams of the ingredient (per 100 milliliters if it is present in a liquid).</rdfs:comment>
+        <rdfs:label xml:lang="en">Sugar</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#text -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#text">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Law"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A Text is the law text that corresponds with a Law.</rdfs:comment>
+        <rdfs:label xml:lang="en">Text</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#trajectoryName -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#trajectoryName">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A TrajectoryName indicates the (unique) name of a Trajectory.</rdfs:comment>
+        <rdfs:label xml:lang="en">TrajectoryName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#trajectoryScore -->
+
+    <owl:DatatypeProperty rdf:about="http://www.foodreport.be/ontology#trajectoryScore">
+        <rdfs:domain rdf:resource="http://www.foodreport.be/ontology#Trajectory"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment xml:lang="en">A TrajectoryScore is a numerical indicator on a scale of 0 to 100, with 0 being worst and 100 being best, of the environmental impact of this transport.</rdfs:comment>
+        <rdfs:label xml:lang="en">TrajectoryScore</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.foodreport.be/ontology#Continent -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#Continent">
+        <rdfs:comment xml:lang="en">A Continent is any of the world&apos;s main continuous expanses of land.</rdfs:comment>
+        <rdfs:label xml:lang="en">Continent</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#Country -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#Country">
+        <rdfs:comment xml:lang="en">A Country is a nation with its own government, occupying a particular territory.</rdfs:comment>
+        <rdfs:label xml:lang="en">Country</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#FoodType -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#FoodType">
+        <rdfs:comment xml:lang="en">A FoodType is a group of related ingredients.</rdfs:comment>
+        <rdfs:label xml:lang="en">FoodType</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#Ingredient -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#Ingredient">
+        <rdfs:comment xml:lang="en">An ingredient is a specific piece of food required to prepare recipies.</rdfs:comment>
+        <rdfs:label xml:lang="en">Ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#Law -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#Law">
+        <rdfs:comment xml:lang="en">A Law is a rule that is created and enforced through social or governmental institutions to regulate behavior.</rdfs:comment>
+        <rdfs:label xml:lang="en">Law</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#Recipe -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#Recipe">
+        <rdfs:comment xml:lang="en">A Recipe is a set of instructions that describe how to prepare or make a meal, requiring certain ingredients.</rdfs:comment>
+        <rdfs:label xml:lang="en">Recipe</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#Step -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#Step">
+        <rdfs:comment xml:lang="en">A Step is a specific instruction in the preparation of a recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">Step</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.foodreport.be/ontology#Trajectory -->
+
+    <owl:Class rdf:about="http://www.foodreport.be/ontology#Trajectory">
+        <rdfs:comment xml:lang="en">A Trajectory runs from one country to another, transporting a certain ingredient. It does may or may not encapsulate the use of multiple types of transport.</rdfs:comment>
+        <rdfs:label xml:lang="en">Trajectory</rdfs:label>
+    </owl:Class>
+    
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="urn:swrl:var#l">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#t">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#c">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#i">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#p1">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#p2">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#n1">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#n2">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#t1">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#cf">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#ct">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#t2">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#appliesToFoodType"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#l"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#t"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#imposes"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#c"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#l"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#hasFoodType"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl:var#i"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl:var#t"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#manufactoredFrom"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl:var#i"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl:var#c"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology/appliesToIngredient"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#l"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#i"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#isPartOf"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#p1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#c"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#isPartOf"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#p2"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#c"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#countryName"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl:var#p1"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl:var#n1"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#countryName"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl:var#p2"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl:var#n2"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#notEqual"/>
+                                                        <swrl:arguments rdf:parseType="Collection">
+                                                            <rdf:Description rdf:about="urn:swrl:var#n1"/>
+                                                            <rdf:Description rdf:about="urn:swrl:var#n2"/>
+                                                        </swrl:arguments>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#isPartOfSameContinent"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#p1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#p2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#trajectoryFrom"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#t1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#cf"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#trajectoryTo"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#t1"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#ct"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#ships"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl:var#t1"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl:var#i"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#trajectoryFrom"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl:var#t2"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl:var#cf"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                <rdf:first>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#trajectoryTo"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl:var#t2"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl:var#ct"/>
+                                                    </rdf:Description>
+                                                </rdf:first>
+                                                <rdf:rest>
+                                                    <rdf:Description>
+                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                        <rdf:first>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#ships"/>
+                                                                <swrl:argument1 rdf:resource="urn:swrl:var#t2"/>
+                                                                <swrl:argument2 rdf:resource="urn:swrl:var#i"/>
+                                                            </rdf:Description>
+                                                        </rdf:first>
+                                                        <rdf:rest>
+                                                            <rdf:Description>
+                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                <rdf:first>
+                                                                    <rdf:Description>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#trajectoryName"/>
+                                                                        <swrl:argument1 rdf:resource="urn:swrl:var#t1"/>
+                                                                        <swrl:argument2 rdf:resource="urn:swrl:var#n1"/>
+                                                                    </rdf:Description>
+                                                                </rdf:first>
+                                                                <rdf:rest>
+                                                                    <rdf:Description>
+                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                        <rdf:first>
+                                                                            <rdf:Description>
+                                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#DatavaluedPropertyAtom"/>
+                                                                                <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology#trajectoryName"/>
+                                                                                <swrl:argument1 rdf:resource="urn:swrl:var#t2"/>
+                                                                                <swrl:argument2 rdf:resource="urn:swrl:var#n2"/>
+                                                                            </rdf:Description>
+                                                                        </rdf:first>
+                                                                        <rdf:rest>
+                                                                            <rdf:Description>
+                                                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                                                                <rdf:first>
+                                                                                    <rdf:Description>
+                                                                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#BuiltinAtom"/>
+                                                                                        <swrl:builtin rdf:resource="http://www.w3.org/2003/11/swrlb#notEqual"/>
+                                                                                        <swrl:arguments rdf:parseType="Collection">
+                                                                                            <rdf:Description rdf:about="urn:swrl:var#n1"/>
+                                                                                            <rdf:Description rdf:about="urn:swrl:var#n2"/>
+                                                                                        </swrl:arguments>
+                                                                                    </rdf:Description>
+                                                                                </rdf:first>
+                                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                                            </rdf:Description>
+                                                                        </rdf:rest>
+                                                                    </rdf:Description>
+                                                                </rdf:rest>
+                                                            </rdf:Description>
+                                                        </rdf:rest>
+                                                    </rdf:Description>
+                                                </rdf:rest>
+                                            </rdf:Description>
+                                        </rdf:rest>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.foodreport.be/ontology/alternativeTrajectory"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#t1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#t2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

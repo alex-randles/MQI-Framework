@@ -1,39 +1,214 @@
-@prefix daq: <http://purl.org/eis/vocab/daq#> .
 @prefix ex: <http://example.org/> .
+@prefix gym: <http://ontology.smartfitgym.eu#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <mappingDAQobservation_2nd_Dump.ttl> ;
+    mqio:assessedMapping <gym-mapping2.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
+
+<gym-mapping2.ttl> a mqio:MappingArtefact .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
-        ex:violation-2 .
+        ex:violation-10,
+        ex:violation-11,
+        ex:violation-12,
+        ex:violation-13,
+        ex:violation-14,
+        ex:violation-15,
+        ex:violation-16,
+        ex:violation-17,
+        ex:violation-18,
+        ex:violation-19,
+        ex:violation-2,
+        ex:violation-20,
+        ex:violation-21,
+        ex:violation-22,
+        ex:violation-23,
+        ex:violation-24,
+        ex:violation-3,
+        ex:violation-4,
+        ex:violation-5,
+        ex:violation-6,
+        ex:violation-7,
+        ex:violation-8,
+        ex:violation-9 .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue daq:MetricProfile ;
+    mqio:hasObjectValue gym:bodyparts ;
     mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#Profiling> ;
+    mqio:inTripleMap <#bodyparts> ;
     mqio:isDescribedBy mqio-metrics:D1 .
 
 ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue daq:totalDatasetTriplesAssessed ;
+    mqio:hasObjectValue gym:name ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Profiling> ;
+    mqio:inTripleMap <#bodyparts> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-9"^^xsd:string ;
-    mqio:hasObjectValue prov:generated ;
+ex:violation-10 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue gym:name ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#exercise> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-11 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue gym:calories ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#exercise> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-12 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue gym:achieve ;
     mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Observations> ;
+    mqio:inTripleMap <#exercise> ;
     mqio:isDescribedBy mqio-metrics:D3 .
 
-<mappingDAQobservation_2nd_Dump.ttl> a mqio:MappingArtefact .
+ex:violation-13 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:workout ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-14 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:workout ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-15 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:workout ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-16 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue gym:calories ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-17 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
+    mqio:hasObjectValue gym:hastypes ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-18 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue gym:name ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-19 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue gym:achieve ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:goal ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#goal> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-20 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue gym:tool ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#workout> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+ex:violation-21 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:exercisetypes ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#exercisetypes> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-22 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue gym:type ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#exercisetypes> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-23 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:workouttypes ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#workouttypes> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-24 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue gym:type ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#workouttypes> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:goal ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#goal> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-4 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue gym:name ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#goal> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-5 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue gym:helpstobuild ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#goal> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+ex:violation-6 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:exercise ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#exercise> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-7 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:exercise ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#exercise> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-8 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue gym:exercise ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#exercise> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-9 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue gym:hastypes ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#exercise> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
 

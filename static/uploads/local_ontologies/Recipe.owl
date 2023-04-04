@@ -1,0 +1,616 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/farhaparveen/ontologies/2019/10/untitled-ontology-9#"
+     xml:base="http://www.semanticweb.org/farhaparveen/ontologies/2019/10/untitled-ontology-9"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:obda="https://w3id.org/obda/vocabulary#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/FlavourTown"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#belongs_to -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#belongs_to">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/FlavourTown#includes"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#Cuisine"/>
+        <rdfs:comment>The property belong_to means recipe belongs to cuisine</rdfs:comment>
+        <rdfs:label>belongsTo</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#consists_of -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#consists_of">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/FlavourTown#makes_up"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#PreparationStep"/>
+        <rdfs:comment>The property consists_of means the recipe consists of preparation step</rdfs:comment>
+        <rdfs:label>consistsOf</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#has_flavour -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#has_flavour">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#FlavourRelation"/>
+        <rdfs:comment>The property has_flavour is used to describe the flavour and flavour intensity of a recipe</rdfs:comment>
+        <rdfs:label>hasFlavor</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#has_ingredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#has_ingredient">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#IngredientRelation"/>
+        <rdfs:comment>The property has_ingredient describes the ingredient and ingredient amount used in a recipe</rdfs:comment>
+        <rdfs:label>hasIngredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#includes -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#includes">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Cuisine"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:comment>The property includes notes which recipes are included in a cuisine</rdfs:comment>
+        <rdfs:label>includes</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#includes_ingredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#includes_ingredient">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Cuisine"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:comment>The property includes_ingredient notes which ingredients are used in the recipes of a cuisine</rdfs:comment>
+        <rdfs:label>includesIngredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#makes_up -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#makes_up">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#PreparationStep"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:comment>The property makes_up records the exact steps mentioned in a recipe</rdfs:comment>
+        <rdfs:label>makesUp</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#provides_flavour -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#provides_flavour">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#FlavourRelation"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#Flavour"/>
+        <rdfs:comment>The property provides_flavour records the relationship between flavour name and flavour intensity</rdfs:comment>
+        <rdfs:label>provideFlavour</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#provides_ingredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#provides_ingredient">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#IngredientRelation"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:comment>The property provides_ingredient records the relationship between ingredient and the amount of ingredient</rdfs:comment>
+        <rdfs:label>provideIngredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#tastes_like -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/FlavourTown#tastes_like">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/FlavourTown#FlavourRelation"/>
+        <rdfs:comment>The property tastes_like records the flavour of an ingredient</rdfs:comment>
+        <rdfs:label>tastesLike</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#Ingredient_name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#Ingredient_name">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The property Ingredient_name records the name of ingredients</rdfs:comment>
+        <rdfs:label>ingredientName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#amount -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#amount">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#IngredientRelation"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment>The property amount records the amount of used ingredients</rdfs:comment>
+        <rdfs:label>amount</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#calories -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#calories">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:comment>The property calories records the number of calories per 100 grams of ingredients</rdfs:comment>
+        <rdfs:label>calories</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#carbohydrates -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#carbohydrates">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment>The property carbohydrates records the number of calories per 100 grams of ingredients</rdfs:comment>
+        <rdfs:label>carbohydrates</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#cuisine_name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#cuisine_name">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Cuisine"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The property records the name of cuisines</rdfs:comment>
+        <rdfs:label>cuisineName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#fat -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#fat">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment>The property calories records the number of fat per 100 grams of ingredients</rdfs:comment>
+        <rdfs:label>fat</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#flavour_name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#flavour_name">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Flavour"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The property records the name of flavour</rdfs:comment>
+        <rdfs:label>flavourName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#instruction_set -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#instruction_set">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#PreparationStep"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The property instruction_set records what should do in the step</rdfs:comment>
+        <rdfs:label>instructionSet</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#intensity -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#intensity">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#FlavourRelation"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:comment>The property intensity records the intensity of flavour</rdfs:comment>
+        <rdfs:label>intensity</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#protein -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#protein">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+        <rdfs:comment>The property calories records the number of protein per 100 grams of ingredients</rdfs:comment>
+        <rdfs:label>protein</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#recipe_name -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#recipe_name">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>The property recipe_name records the name of recipes</rdfs:comment>
+        <rdfs:label>recipeName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#recipe_serves -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#recipe_serves">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+        <rdfs:comment>The property recipe_serves records how many people the recipe could serve</rdfs:comment>
+        <rdfs:label>recipeServes</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#step_number -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/FlavourTown#step_number">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/FlavourTown#PreparationStep"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <rdfs:comment>The property step_number means the id of instruction step</rdfs:comment>
+        <rdfs:label>stepNumber</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#Cuisine -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/FlavourTown#Cuisine">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:comment>The class cuisine includes many recipes and ingredients, and it has the cuisine name</rdfs:comment>
+        <rdfs:label>Cuisine</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#Flavour -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/FlavourTown#Flavour">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/FlavourTown#FlavourRelation"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#FlavourRelation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/FlavourTown#FlavourRelation">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/FlavourTown#Ingredient"/>
+        <rdfs:comment>The class FlavourRelation records the flavour intensity of the ingredient or the recipe</rdfs:comment>
+        <rdfs:label>FlavourRelation</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#Ingredient -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/FlavourTown#Ingredient">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/FlavourTown#IngredientRelation"/>
+        <rdfs:comment>The class Ingredient records the name, fat, calories, carbohydrates and protein of the ingredient</rdfs:comment>
+        <rdfs:label>ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#IngredientRelation -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/FlavourTown#IngredientRelation">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:comment>The class IngredientRelation records the amount of ingredient used in the recipe</rdfs:comment>
+        <rdfs:label>ingredientRelation</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#PreparationStep -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/FlavourTown#PreparationStep">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/FlavourTown#Recipe"/>
+        <rdfs:comment>The subclass PreparationStep means the specific steps of the recipe</rdfs:comment>
+        <rdfs:label>preparationStep</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#Recipe -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/FlavourTown#Recipe"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#Flavour -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/FlavourTown#Flavour"/>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#Recipe -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/FlavourTown#Recipe"/>
+    
+
+
+    <!-- http://www.semanticweb.org/FlavourTown#ingredient -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/FlavourTown#ingredient"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/FlavourTown#Flavour">
+        <rdfs:label>flavour</rdfs:label>
+        <rdfs:comment>The class flavour has the flavour name</rdfs:comment>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="urn:swrl:var#x4">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#x2">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#x1">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#x3">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#has_flavour"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#x4"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#x2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#provides_flavour"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#x1"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#x2"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#tastes_like"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl:var#x3"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl:var#x1"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#includes_ingredient"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#x4"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#x3"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#has_ingredient"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#x1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#x2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#provides_ingredient"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#x2"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#x3"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#tastes_like"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl:var#x3"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl:var#x4"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#has_flavour"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#x1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#x4"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#includes"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#x1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#x2"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#has_ingredient"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#x2"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#x3"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#provides_ingredient"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl:var#x3"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl:var#x4"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/FlavourTown#includes_ingredient"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#x1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#x4"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
