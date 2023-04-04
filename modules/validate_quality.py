@@ -800,10 +800,13 @@ class ValidateQuality:
 
 
     @staticmethod
-    def is_excluded_domain(domains):
+    def is_excluded_domain(classes, domains):
         excluded_domains = ["http://www.w3.org/2000/01/rdf-schema#Class",
                             "http://www.w3.org/2000/01/rdf-schema#Resource",
                             "http://www.w3.org/2002/07/owl#Thing"]
+        for class_name in [str(v["class"]) for k,v in classes.items()]:
+            if class_name in excluded_domains:
+                return True
         for class_name in domains:
             if class_name in excluded_domains:
                 return True
@@ -812,13 +815,14 @@ class ValidateQuality:
     def validate_domain(self, property_identifier, subject_identifier, metric_identifier):
         domain = self.get_domain(property_identifier)
         # The hierarchical inference ignores the universal super-concepts, i.e. owl:Thing and rdfs:Resource
-        excluded_domain = ValidateQuality.is_excluded_domain(domain)
-        if domain and not excluded_domain:
+        if domain:
             classes = self.get_classes()
-            match_domain = [v["class"] for k,v in classes.items() if str(v["class"]) in domain]
-            if not match_domain:
-                result_message = "Usage of incorrect domain."
-                return [metric_identifier, result_message, property_identifier, subject_identifier]
+            excluded_domain = ValidateQuality.is_excluded_domain(classes, domain)
+            if not excluded_domain:
+                match_domain = [v["class"] for k,v in classes.items() if str(v["class"]) in domain]
+                if not match_domain:
+                    result_message = "Usage of incorrect domain."
+                    return [metric_identifier, result_message, property_identifier, subject_identifier]
         else:
             return None
 
