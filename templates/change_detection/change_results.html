@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends "change_detection/base.html" %}
+{% extends "change_detection/base_home.html" %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,31 +12,31 @@
 
 
 {% if change_process_executed != false %}
-<div class="alert alert-success text-center" role="alert">
+<div class="alert alert-success text-center fw-bold" role="alert">
     Change Detection process successfully added!
 </div>
 {% endif %}
 
 {% if mapping_uploaded == true %}
-<div class="alert alert-success text-center" role="alert">
+<div class="alert alert-success text-center fw-bold" role="alert">
     Mapping successfully added!
 </div>
 {% endif %}
 
 {% if mapping_uploaded == false %}
-<div class="alert alert-danger text-center" role="alert">
+<div class="alert alert-danger text-center fw-bold" role="alert">
     No Mapping Uploaded!
 </div>
 {% endif %}
 
 {% if mapping_deleted == true %}
-<div class="alert alert-success text-center" role="alert">
+<div class="alert alert-success text-center fw-bold" role="alert">
     Mapping successfully deleted!
 </div>
 {% endif %}
 
 {% if process_removed == true %}
-<div class="alert alert-success text-center" role="alert">
+<div class="alert alert-success text-center fw-bold" role="alert">
     Process successfully removed!
 </div>
 {% endif %}
@@ -274,8 +274,9 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
             {% endif %}
         </td>
         <td>
-            <a>
-                <button class="btn btn-sm btn-secondary">Download Mapping</button>
+            <a href="{{ url_for('static', filename='uploads/mappings/%s' % (value['filename'])) }}"
+            class="btn btn-sm btn-secondary mr-2">
+                Download Mapping
             </a>
         </td>
         <td>
