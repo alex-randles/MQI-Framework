@@ -3,33 +3,68 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ex: <http://example.com/ns#> . 
-@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix dqv: <http://www.w3.org/ns/dqv#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
 @prefix cidoc: <http://erlangen-crm.org/current/> . 
-@prefix mqio: <https://www.w3id.org/MQIO/#> . 
-@prefix fvc: <http://www.w3id.org/FAIRVASC#> . 
-@prefix bevon: <http://rdfs.co/bevon/> . 
+@prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
 
 	
-<#TriplesMap8>	
+<#Organisation>	
+ rdf:type rr:TriplesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery""" 	
+	SELECT 	
+		D.ID,	
+		D.NAME,	
+		D.COUNTRY,	
+		D.COMMENT,	
+		X.ORGANISATIONTYPE	
+	FROM	
+		DATA D	
+		LEFT OUTER JOIN (	
+			WITH RECURSIVE ORGANISATIONTYPESPLITTED(ID, ORGANISATIONTYPE, REST) AS (	
+				SELECT ID, NULL, ORGANISATIONTYPE || ';'	
+				FROM (SELECT ID, ORGANISATIONTYPE FROM DATA) WHERE ORGANISATIONTYPE IS NOT NULL	
+				UNION ALL	
+				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM ORGANISATIONTYPESPLITTED WHERE REST <> ''	
+			) SELECT ID, ORGANISATIONTYPE FROM ORGANISATIONTYPESPLITTED WHERE ORGANISATIONTYPE IS NOT NULL	
+		) X ON D.ID = X.ID	
+	
+	 """;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:class mqio:MappingDocument;	
-	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:template "https://kb.beyond2022.ie/organisation/{COUNTRY}/{NAME}" ;	
+	 rr:class cidoc:E74_Group;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate prov:generatedAtTime;	
+ 	 rr:predicate cidoc:P2_has_type;	
+	 rr:object b2022:Organisation;	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate cidoc:P1_is_identified_by;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
-		 rr:datatype bevon:kddkdkd;	
+		 rr:parentTriplesMap <#Appellation> ;	
+		 rr:joinCondition [	
+			 rr:parent "ID" ;	
+			 rr:child "ID" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate cidoc:P3_has_note;	
+	 rr:objectMap [	
+		 rr:datatype xsd:string;	
+		 rr:column "COMMENT" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate cidoc:P111_added;	
+	 rr:objectMap [	
+		 rr:template "https://ont.beyond2022.ie/ontology#{ORGANISATIONTYPE}" ;	
 		]; 	
  ];	
 .	
