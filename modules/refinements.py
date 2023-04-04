@@ -502,9 +502,10 @@ class Refinements:
                 DELETE { ?subject rr:termType ?currentTermType  } 
                 INSERT { ?subject rr:termType <%s> } 
                 WHERE { 
-                    SELECT ?subject 
+                    SELECT ?subject ?currentTermType
                     WHERE {
                           ?subject ?p ?o . 
+                          ?subject rr:termType ?currentTermType
                           FILTER(str(?subject) = "%s").
                     }
                 }; 

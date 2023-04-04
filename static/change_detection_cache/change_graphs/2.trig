@@ -38,7 +38,7 @@
             <https://w3id.org/OSCD#hasDetectionEnd>
                     "2022-12-31 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
             <https://w3id.org/OSCD#hasDetectionStart>
-                    "2023-04-04 22:22:43.885557"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+                    "2023-04-04 22:59:30.350225"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     
     <http://www.example.com/updateChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
@@ -102,2914 +102,484 @@
 }
 
 <http://www.example.com/changesGraph/user-1> {
-    <http://www.example.com/changedData/32>
+    <http://www.example.com/changedData/2>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "177.0" .
-    
-    <http://www.example.com/insertChange/106>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/106> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/122>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "K Hagberg/M Hagberg" .
-    
-    <http://www.example.com/changedData/0>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "11" .
-    
-    <http://www.example.com/insertChange/178>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/178> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/194>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "114" .
-    
-    <http://www.example.com/insertChange/77>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/77> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/74>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "395.0" .
-    
-    <http://www.example.com/insertChange/148>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/148> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/164>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "John/Jonas/Petrus/Paul/Caroline" .
-    
-    <http://www.example.com/insertChange/47>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/47> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/insertChange/203>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/203> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/44>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "EKEDALEN" .
-    
-    <http://www.example.com/insertChange/118>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/118> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/134>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/17>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/17> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/14>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "12" .
-    
-    <http://www.example.com/insertChange/7>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/7> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/104>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/89>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/89> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/86>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "KULLABERG" .
-    
-    <http://www.example.com/changeLog/user-1>
-            a       <https://w3id.org/OSCD#ChangeLog> ;
-            <https://w3id.org/OSCD#hasChange>
-                    <http://www.example.com/insertChange/169> , <http://www.example.com/insertChange/70> , <http://www.example.com/insertChange/127> , <http://www.example.com/insertChange/14> , <http://www.example.com/insertChange/159> , <http://www.example.com/insertChange/186> , <http://www.example.com/insertChange/9> , <http://www.example.com/insertChange/122> , <http://www.example.com/insertChange/190> , <http://www.example.com/insertChange/50> , <http://www.example.com/insertChange/107> , <http://www.example.com/insertChange/97> , <http://www.example.com/insertChange/35> , <http://www.example.com/insertChange/139> , <http://www.example.com/insertChange/166> , <http://www.example.com/insertChange/158> , <http://www.example.com/insertChange/82> , <http://www.example.com/insertChange/124> , <http://www.example.com/insertChange/143> , <http://www.example.com/insertChange/10> , <http://www.example.com/insertChange/207> , <http://www.example.com/insertChange/30> , <http://www.example.com/insertChange/71> , <http://www.example.com/insertChange/170> , <http://www.example.com/insertChange/5> , <http://www.example.com/insertChange/15> , <http://www.example.com/insertChange/119> , <http://www.example.com/insertChange/187> , <http://www.example.com/insertChange/103> , <http://www.example.com/insertChange/94> , <http://www.example.com/insertChange/162> , <http://www.example.com/insertChange/51> , <http://www.example.com/insertChange/155> , <http://www.example.com/insertChange/167> , <http://www.example.com/insertChange/203> , <http://www.example.com/insertChange/199> , <http://www.example.com/insertChange/11> , <http://www.example.com/insertChange/115> , <http://www.example.com/insertChange/183> , <http://www.example.com/insertChange/208> , <http://www.example.com/insertChange/6> , <http://www.example.com/insertChange/100> , <http://www.example.com/insertChange/90> , <http://www.example.com/insertChange/151> , <http://www.example.com/insertChange/179> , <http://www.example.com/insertChange/95> , <http://www.example.com/insertChange/136> , <http://www.example.com/insertChange/163> , <http://www.example.com/insertChange/156> , <http://www.example.com/insertChange/195> , <http://www.example.com/insertChange/204> , <http://www.example.com/insertChange/131> , <http://www.example.com/insertChange/3> , <http://www.example.com/insertChange/116> , <http://www.example.com/insertChange/101> , <http://www.example.com/insertChange/175> , <http://www.example.com/insertChange/91> , <http://www.example.com/insertChange/29> , <http://www.example.com/insertChange/152> , <http://www.example.com/insertChange/65> , <http://www.example.com/insertChange/201> , <http://www.example.com/insertChange/196> , <http://www.example.com/insertChange/113> , <http://www.example.com/insertChange/132> , <http://www.example.com/insertChange/176> , <http://www.example.com/insertChange/47> , <http://www.example.com/insertChange/66> , <http://www.example.com/insertChange/0> , <http://www.example.com/insertChange/182> , <http://www.example.com/insertChange/172> , <http://www.example.com/insertChange/89> , <http://www.example.com/insertChange/68> , <http://www.example.com/insertChange/27> , <http://www.example.com/insertChange/78> , <http://www.example.com/insertChange/63> , <http://www.example.com/insertChange/48> , <http://www.example.com/insertChange/23> , <http://www.example.com/insertChange/42> , <http://www.example.com/insertChange/18> , <http://www.example.com/insertChange/79> , <http://www.example.com/insertChange/44> , <http://www.example.com/insertChange/148> , <http://www.example.com/insertChange/54> , <http://www.example.com/insertChange/39> , <http://www.example.com/insertChange/86> , <http://www.example.com/insertChange/24> , <http://www.example.com/insertChange/128> , <http://www.example.com/insertChange/56> , <http://www.example.com/insertChange/75> , <http://www.example.com/insertChange/19> , <http://www.example.com/insertChange/60> , <http://www.example.com/insertChange/191> , <http://www.example.com/insertChange/108> , <http://www.example.com/insertChange/149> , <http://www.example.com/insertChange/98> , <http://www.example.com/insertChange/36> , <http://www.example.com/insertChange/55> , <http://www.example.com/insertChange/83> , <http://www.example.com/insertChange/20> , <http://www.example.com/insertChange/40> , <http://www.example.com/insertChange/144> , <http://www.example.com/insertChange/171> , <http://www.example.com/insertChange/72> , <http://www.example.com/insertChange/129> , <http://www.example.com/insertChange/57> , <http://www.example.com/insertChange/16> , <http://www.example.com/insertChange/188> , <http://www.example.com/insertChange/104> , <http://www.example.com/insertChange/32> , <http://www.example.com/insertChange/192> , <http://www.example.com/insertChange/52> , <http://www.example.com/insertChange/109> , <http://www.example.com/insertChange/99> , <http://www.example.com/insertChange/37> , <http://www.example.com/insertChange/140> , <http://www.example.com/insertChange/168> , <http://www.example.com/insertChange/84> , <http://www.example.com/insertChange/125> , <http://www.example.com/insertChange/12> , <http://www.example.com/insertChange/145> , <http://www.example.com/insertChange/184> , <http://www.example.com/insertChange/31> , <http://www.example.com/insertChange/73> , <http://www.example.com/insertChange/209> , <http://www.example.com/insertChange/7> , <http://www.example.com/insertChange/120> , <http://www.example.com/insertChange/189> , <http://www.example.com/insertChange/105> , <http://www.example.com/insertChange/96> , <http://www.example.com/insertChange/33> , <http://www.example.com/insertChange/137> , <http://www.example.com/insertChange/164> , <http://www.example.com/insertChange/157> , <http://www.example.com/insertChange/80> , <http://www.example.com/insertChange/141> , <http://www.example.com/insertChange/205> , <http://www.example.com/insertChange/13> , <http://www.example.com/insertChange/117> , <http://www.example.com/insertChange/185> , <http://www.example.com/insertChange/102> , <http://www.example.com/insertChange/8> , <http://www.example.com/insertChange/121> , <http://www.example.com/insertChange/92> , <http://www.example.com/insertChange/153> , <http://www.example.com/insertChange/138> , <http://www.example.com/insertChange/165> , <http://www.example.com/insertChange/123> , <http://www.example.com/insertChange/197> , <http://www.example.com/insertChange/206> , <http://www.example.com/insertChange/133> , <http://www.example.com/insertChange/4> , <http://www.example.com/insertChange/118> , <http://www.example.com/insertChange/177> , <http://www.example.com/insertChange/93> , <http://www.example.com/insertChange/135> , <http://www.example.com/insertChange/161> , <http://www.example.com/insertChange/154> , <http://www.example.com/insertChange/202> , <http://www.example.com/insertChange/67> , <http://www.example.com/insertChange/198> , <http://www.example.com/insertChange/1> , <http://www.example.com/insertChange/114> , <http://www.example.com/insertChange/134> , <http://www.example.com/insertChange/173> , <http://www.example.com/insertChange/69> , <http://www.example.com/insertChange/150> , <http://www.example.com/insertChange/178> , <http://www.example.com/insertChange/194> , <http://www.example.com/insertChange/49> , <http://www.example.com/insertChange/111> , <http://www.example.com/insertChange/130> , <http://www.example.com/insertChange/2> , <http://www.example.com/insertChange/43> , <http://www.example.com/insertChange/174> , <http://www.example.com/insertChange/28> , <http://www.example.com/insertChange/110> , <http://www.example.com/insertChange/45> , <http://www.example.com/insertChange/64> , <http://www.example.com/insertChange/200> , <http://www.example.com/insertChange/112> , <http://www.example.com/insertChange/180> , <http://www.example.com/insertChange/87> , <http://www.example.com/insertChange/25> , <http://www.example.com/insertChange/76> , <http://www.example.com/insertChange/61> , <http://www.example.com/insertChange/160> , <http://www.example.com/insertChange/46> , <http://www.example.com/insertChange/21> , <http://www.example.com/insertChange/41> , <http://www.example.com/insertChange/181> , <http://www.example.com/insertChange/88> , <http://www.example.com/insertChange/26> , <http://www.example.com/insertChange/58> , <http://www.example.com/insertChange/77> , <http://www.example.com/insertChange/62> , <http://www.example.com/insertChange/193> , <http://www.example.com/insertChange/38> , <http://www.example.com/insertChange/85> , <http://www.example.com/insertChange/22> , <http://www.example.com/insertChange/126> , <http://www.example.com/insertChange/146> , <http://www.example.com/insertChange/74> , <http://www.example.com/insertChange/17> , <http://www.example.com/insertChange/59> , <http://www.example.com/insertChange/106> , <http://www.example.com/insertChange/147> , <http://www.example.com/insertChange/34> , <http://www.example.com/insertChange/53> , <http://www.example.com/insertChange/81> , <http://www.example.com/insertChange/142> ;
-            <https://w3id.org/OSCD#hasCurrentVersion>
-                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/products.csv> ;
-            <https://w3id.org/OSCD#hasPreviousVersion>
-                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/products.csv> .
-    
-    <http://www.example.com/changedData/176>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/59>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/59> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/56>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "15" .
-    
-    <http://www.example.com/changedData/146>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/29>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/29> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/insertChange/191>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/191> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/insertChange/90>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/90> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/26>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "103" .
-    
-    <http://www.example.com/changedData/201>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/changedData/116>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "149.0" .
-    
-    <http://www.example.com/insertChange/161>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/161> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/insertChange/60>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/60> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/98>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "18" .
-    
-    <http://www.example.com/insertChange/131>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/131> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/insertChange/30>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/30> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/188>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/changedData/68>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "105" .
-    
-    <http://www.example.com/insertChange/101>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/101> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/158>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "595.0" .
-    
-    <http://www.example.com/changedData/38>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Nicholai Wiig Hansen" .
-    
-    <http://www.example.com/changedData/128>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "EKEDALEN" .
-    
-    <http://www.example.com/insertChange/173>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/173> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/6>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/72>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/72> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/insertChange/143>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/143> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/insertChange/42>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/42> .
-    
-    <http://www.example.com/insertChange/113>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/113> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/insertChange/12>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/12> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/insertChange/209>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/209> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/insertChange/2>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/2> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/insertChange/185>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/185> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/insertChange/84>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/84> .
-    
-    <http://www.example.com/changedData/81>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "51" .
-    
-    <http://www.example.com/insertChange/155>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/155> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/171>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/54>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/54> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/51>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest,          75 cm" .
-    
-    <http://www.example.com/insertChange/125>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/125> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/141>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "30352246" .
-    
-    <http://www.example.com/insertChange/24>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/24> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/21>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/norraryd-bar-stool-with-backrest-black-00397736/" .
-    
-    <http://www.example.com/changedData/111>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "38" .
-    
-    <http://www.example.com/insertChange/197>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/197> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/insertChange/96>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/96> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/207>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "52" .
-    
-    <http://www.example.com/changedData/93>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Stool" .
-    
-    <http://www.example.com/insertChange/167>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/167> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/183>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "400545" .
-    
-    <http://www.example.com/insertChange/66>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/66> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/63>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/tommaryd-table-anthracite-s29304826/" .
-    
-    <http://www.example.com/insertChange/137>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/137> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/153>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "44" .
-    
-    <http://www.example.com/insertChange/36>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/36> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/33>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "SR 295" .
-    
-    <http://www.example.com/insertChange/107>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/107> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/123>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "44" .
-    
-    <http://www.example.com/changedData/1>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "121766" .
-    
-    <http://www.example.com/insertChange/179>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/179> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/195>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "43" .
-    
-    <http://www.example.com/insertChange/78>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/78> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/75>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/insertChange/149>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/149> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/165>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "36" .
-    
-    <http://www.example.com/insertChange/48>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/48> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/insertChange/204>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/204> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/45>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/119>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/119> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/135>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar table,          120x80 cm" .
-    
-    <http://www.example.com/insertChange/18>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/18> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/insertChange/180>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/180> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
+                    "Tennis" .
     
     <http://www.example.com/changedData/15>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "397736" .
-    
-    <http://www.example.com/insertChange/8>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/8> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/105>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/janinge-bar-stool-white-70246089/" .
-    
-    <http://www.example.com/insertChange/150>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/150> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/87>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/120>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/120> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/177>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar table,          120x80 cm" .
-    
-    <http://www.example.com/changedData/57>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "29304826" .
-    
-    <http://www.example.com/changedData/147>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/raskog-bar-stool-black-30352246/" .
-    
-    <http://www.example.com/insertChange/192>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/192> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/insertChange/91>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/91> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/202>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/changedData/27>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "46" .
-    
-    <http://www.example.com/changedData/117>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/insertChange/162>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/162> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/insertChange/61>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/61> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/99>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "70246089" .
-    
-    <http://www.example.com/insertChange/132>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/132> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/189>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/ekedalen-bar-stool-with-backrest-white-orrsta-light-grey-00400545/" .
-    
-    <http://www.example.com/insertChange/31>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/31> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/69>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "70" .
-    
-    <http://www.example.com/insertChange/102>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/102> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/159>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/changedData/39>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "53" .
-    
-    <http://www.example.com/insertChange/174>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/174> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/129>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/changedData/7>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/ingolf-bar-stool-with-backrest-white-00121766/" .
-    
-    <http://www.example.com/changedData/190>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/73>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/73> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/70>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "16" .
-    
-    <http://www.example.com/insertChange/144>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/144> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/160>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/43>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/43> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/40>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "104" .
-    
-    <http://www.example.com/insertChange/114>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/114> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/130>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "995.0" .
-    
-    <http://www.example.com/insertChange/13>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/13> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/10>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Carina Bengs" .
-    
-    <http://www.example.com/insertChange/3>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/3> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/100>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "JANINGE" .
-    
-    <http://www.example.com/insertChange/186>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/186> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/insertChange/85>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/85> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/82>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "102" .
-    
-    <http://www.example.com/insertChange/156>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/156> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/172>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "796.0" .
-    
-    <http://www.example.com/insertChange/55>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/55> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/52>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Ehlén Johansson" .
-    
-    <http://www.example.com/insertChange/126>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/126> .
-    
-    <http://www.example.com/changedData/142>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "RÅSKOG" .
-    
-    <http://www.example.com/insertChange/25>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/25> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/22>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/changedData/112>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "19" .
-    
-    <http://www.example.com/insertChange/198>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/198> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/insertChange/97>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/97> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/208>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "114" .
-    
-    <http://www.example.com/changedData/94>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Sarah Fager" .
-    
-    <http://www.example.com/insertChange/168>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/168> .
-    
-    <http://www.example.com/changedData/184>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "EKEDALEN" .
-    
-    <http://www.example.com/insertChange/67>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/67> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/64>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/138>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/138> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/154>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "22" .
-    
-    <http://www.example.com/insertChange/37>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/37> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/34>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/108>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/108> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/124>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "103" .
-    
-    <http://www.example.com/changedData/2>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "INGOLF" .
-    
-    <http://www.example.com/changedData/196>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "25" .
-    
-    <http://www.example.com/insertChange/79>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/79> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/76>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/changedData/166>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "84" .
-    
-    <http://www.example.com/insertChange/49>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/49> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/insertChange/205>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/205> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/46>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "345.0" .
-    
-    <http://www.example.com/changedData/136>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Ehlén Johansson" .
-    
-    <http://www.example.com/insertChange/19>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/19> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/insertChange/181>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/181> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/insertChange/80>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/80> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/16>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "NORRARYD" .
-    
-    <http://www.example.com/insertChange/9>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/9> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/106>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/151>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/151> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/insertChange/50>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/50> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/88>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "140.0" .
-    
-    <http://www.example.com/insertChange/121>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/121> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/insertChange/20>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/20> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/178>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Ehlén Johansson" .
-    
-    <http://www.example.com/changedData/58>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "TOMMARYD" .
-    
-    <http://www.example.com/changedData/148>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/193>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/193> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/insertChange/92>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/92> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
+                    "Brooklyn" .
     
     <http://www.example.com/changedData/28>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "13" .
-    
-    <http://www.example.com/changedData/203>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/ekedalen-bar-stool-with-backrest-dark-brown-orrsta-light-grey-10400540/" .
-    
-    <http://www.example.com/changedData/118>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/163>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/163> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/insertChange/62>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/62> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/insertChange/133>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/133> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/insertChange/32>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/32> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/insertChange/103>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/103> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/insertChange/175>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/175> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/8>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/changedData/191>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest,          75 cm" .
-    
-    <http://www.example.com/insertChange/74>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/74> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/71>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "40426138" .
-    
-    <http://www.example.com/insertChange/145>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/145> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/161>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/janinge-bar-stool-grey-10281354/" .
-    
-    <http://www.example.com/insertChange/44>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/44> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/insertChange/200>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/200> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/41>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "43" .
-    
-    <http://www.example.com/insertChange/115>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/115> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/131>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
+                    "Test" .
     
     <http://www.example.com/insertChange/14>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/14> .
-    
-    <http://www.example.com/changedData/11>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "45" .
-    
-    <http://www.example.com/insertChange/4>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/4> ;
+                    <http://www.example.com/changedData/14> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/101>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/187>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/187> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/insertChange/86>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/86> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/83>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "40" .
-    
-    <http://www.example.com/insertChange/157>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/157> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/173>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "SR 995" .
-    
-    <http://www.example.com/insertChange/56>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/56> .
-    
-    <http://www.example.com/changedData/53>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "52" .
-    
-    <http://www.example.com/insertChange/127>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/127> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/143>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/26>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/26> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/23>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest,          74 cm" .
-    
-    <http://www.example.com/changedData/113>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "60406785" .
-    
-    <http://www.example.com/insertChange/199>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/199> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/insertChange/98>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/98> .
-    
-    <http://www.example.com/changedData/209>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "43" .
-    
-    <http://www.example.com/changedData/95>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "36" .
-    
-    <http://www.example.com/insertChange/169>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/169> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/185>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/68>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/68> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/65>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Table,          130x70/105 cm" .
-    
-    <http://www.example.com/insertChange/139>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/139> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/155>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "10281354" .
-    
-    <http://www.example.com/insertChange/38>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/38> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/35>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/frekvens-bar-stool-with-backrest-in-outdoor-black-50420329/" .
-    
-    <http://www.example.com/insertChange/109>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/109> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/125>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "52" .
-    
-    <http://www.example.com/insertChange/170>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/170> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/3>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/140>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/140> .
-    
-    <http://www.example.com/changedData/197>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "10400540" .
-    
-    <http://www.example.com/changedData/77>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/henriksdal-bar-stool-with-backrest-frame-dark-brown-40426138/" .
-    
-    <http://www.example.com/insertChange/110>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/110> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/167>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "38" .
-    
-    <http://www.example.com/insertChange/206>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/206> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/47>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/changedData/137>
-            a       <https://w3id.org/OSCD#ChangedData> .
-    
-    <http://www.example.com/insertChange/182>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/182> .
-    
-    <http://www.example.com/insertChange/81>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/81> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/17>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/changedData/107>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool,          76 cm" .
-    
-    <http://www.example.com/insertChange/152>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/152> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/insertChange/51>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/51> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/89>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "SR 175" .
-    
-    <http://www.example.com/insertChange/122>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/122> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/179>
-            a       <https://w3id.org/OSCD#ChangedData> .
-    
-    <http://www.example.com/insertChange/21>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/21> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/59>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/changedData/149>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool,          63 cm" .
-    
-    <http://www.example.com/insertChange/194>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/194> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/insertChange/93>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/93> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/29>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "50420329" .
-    
-    <http://www.example.com/changedData/204>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/changedData/90>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/changedData/119>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/franklin-bar-stool-with-backrest-foldable-black-black-60406785/" .
-    
-    <http://www.example.com/insertChange/164>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/164> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/180>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "105" .
-    
-    <http://www.example.com/insertChange/63>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/63> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/60>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "695.0" .
-    
-    <http://www.example.com/insertChange/134>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/134> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/150>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Nike Karlsson" .
-    
-    <http://www.example.com/insertChange/33>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/33> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/30>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "FREKVENS" .
-    
-    <http://www.example.com/insertChange/104>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/104> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/120>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/176>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/176> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/192>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Ehlén Johansson" .
-    
-    <http://www.example.com/changedData/9>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest,          74 cm" .
-    
-    <http://www.example.com/insertChange/75>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/75> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/72>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "HENRIKSDAL" .
-    
-    <http://www.example.com/insertChange/146>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/146> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/162>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/45>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/45> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/insertChange/201>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/201> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/42>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "14" .
-    
-    <http://www.example.com/insertChange/116>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/116> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/132>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/15>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/15> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/12>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "102" .
-    
-    <http://www.example.com/insertChange/5>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/5> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/102>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "595.0" .
-    
-    <http://www.example.com/insertChange/188>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/188> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/insertChange/87>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/87> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/84>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "17" .
-    
-    <http://www.example.com/insertChange/158>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/158> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/174>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/57>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/57> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/54>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "114" .
-    
-    <http://www.example.com/insertChange/128>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/128> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/144>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "175.0" .
+                    "Sport" .
     
     <http://www.example.com/insertChange/27>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/27> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
+            <https://w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
     
-    <http://www.example.com/changedData/24>
+    <http://www.example.com/changedData/22>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Nike Karlsson" .
-    
-    <http://www.example.com/changedData/114>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "FRANKLIN" .
-    
-    <http://www.example.com/insertChange/99>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/99> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/96>
-            a       <https://w3id.org/OSCD#ChangedData> .
-    
-    <http://www.example.com/changedData/186>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "345.0" .
-    
-    <http://www.example.com/insertChange/69>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/69> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/66>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Maja Ganszyniec" .
-    
-    <http://www.example.com/changedData/156>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "JANINGE" .
-    
-    <http://www.example.com/insertChange/39>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/39> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/36>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/changedData/126>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "20" .
-    
-    <http://www.example.com/insertChange/171>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/171> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
-    
-    <http://www.example.com/changedData/4>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "395.0" .
-    
-    <http://www.example.com/insertChange/70>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/70> .
-    
-    <http://www.example.com/insertChange/141>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/141> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/insertChange/40>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/40> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/198>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "EKEDALEN" .
-    
-    <http://www.example.com/changedData/78>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
-    
-    <http://www.example.com/insertChange/111>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/111> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/168>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "23" .
-    
-    <http://www.example.com/insertChange/10>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/10> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/insertChange/207>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/207> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/48>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
-    
-    <http://www.example.com/insertChange/0>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/0> .
-    
-    <http://www.example.com/changedData/138>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "105" .
-    
-    <http://www.example.com/insertChange/183>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/183> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/insertChange/82>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/82> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/18>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "395.0" .
-    
-    <http://www.example.com/changedData/108>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "John/Jonas/Petrus/Paul/Caroline" .
-    
-    <http://www.example.com/insertChange/153>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/153> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/insertChange/52>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/52> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/insertChange/123>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/123> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/insertChange/22>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/22> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/insertChange/195>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/195> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/insertChange/94>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/94> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
-    
-    <http://www.example.com/changedData/205>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest,          75 cm" .
-    
-    <http://www.example.com/changedData/91>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/kullaberg-stool-black-50363649/" .
-    
-    <http://www.example.com/insertChange/165>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/165> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/181>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "80" .
-    
-    <http://www.example.com/insertChange/64>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/64> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/61>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/insertChange/135>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/135> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/151>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "44" .
-    
-    <http://www.example.com/insertChange/34>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/34> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/31>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/105>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/105> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/121>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest, foldable,          74 cm" .
-    
-    <http://www.example.com/insertChange/177>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/177> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/193>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "51" .
-    
-    <http://www.example.com/insertChange/76>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/76> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/73>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/147>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/147> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
-    
-    <http://www.example.com/changedData/163>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool,          76 cm" .
-    
-    <http://www.example.com/insertChange/46>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/46> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/insertChange/202>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/202> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/43>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "400550" .
-    
-    <http://www.example.com/insertChange/117>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/117> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
-    
-    <http://www.example.com/changedData/133>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/ekedalen-bar-table-white-00340759/" .
-    
-    <http://www.example.com/insertChange/16>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/16> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/13>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "40" .
+                    "fff" .
     
     <http://www.example.com/insertChange/6>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/6> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
+                    "FirstName" .
     
-    <http://www.example.com/changedData/103>
+    <http://www.example.com/changedData/7>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
+                    "Ronaldo" .
     
-    <http://www.example.com/insertChange/189>
+    <http://www.example.com/insertChange/21>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/189> ;
+                    <http://www.example.com/changedData/21> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
+                    "City" .
     
-    <http://www.example.com/insertChange/88>
+    <http://www.example.com/insertChange/0>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/88> ;
+                    <http://www.example.com/changedData/0> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
+                    "FirstName" .
     
-    <http://www.example.com/changedData/85>
+    <http://www.example.com/changedData/1>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "50363649" .
+                    "Williams" .
     
-    <http://www.example.com/insertChange/159>
+    <http://www.example.com/insertChange/19>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/159> ;
+                    <http://www.example.com/changedData/19> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "old_price" .
+                    "LastName" .
     
-    <http://www.example.com/changedData/175>
+    <http://www.example.com/changedData/14>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/ekedalen-bar-table-dark-brown-90400517/" .
+                    "Basketball" .
     
-    <http://www.example.com/insertChange/58>
+    <http://www.example.com/changedData/27>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "FirstName" .
+    
+    <http://www.example.com/insertChange/13>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/58> ;
+                    <http://www.example.com/changedData/13> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
+                    "LastName" .
     
-    <http://www.example.com/changedData/55>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "43" .
+    <http://www.example.com/deleteChange/33>
+            a       <https://w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/33> .
     
-    <http://www.example.com/insertChange/129>
+    <http://www.example.com/insertChange/26>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/129> ;
+                    <http://www.example.com/changedData/26> ;
+            <https://w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/21>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "San Mateo" .
+    
+    <http://www.example.com/insertChange/5>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/5> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "category" .
+                    "TT" .
     
-    <http://www.example.com/changedData/145>
+    <http://www.example.com/changedData/6>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
+                    "Cristiano" .
     
-    <http://www.example.com/insertChange/28>
+    <http://www.example.com/insertChange/20>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/28> .
-    
-    <http://www.example.com/insertChange/190>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/190> ;
+                    <http://www.example.com/changedData/20> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "other_colors" .
-    
-    <http://www.example.com/changedData/200>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "345.0" .
-    
-    <http://www.example.com/changedData/25>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "47" .
-    
-    <http://www.example.com/changedData/115>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/insertChange/160>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/160> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "sellable_online" .
-    
-    <http://www.example.com/changedData/97>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "36" .
-    
-    <http://www.example.com/insertChange/130>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/130> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/187>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/changedData/67>
-            a       <https://w3id.org/OSCD#ChangedData> .
-    
-    <http://www.example.com/insertChange/100>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/100> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/changedData/157>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/changedData/37>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest, in/outdoor,          74 cm" .
-    
-    <http://www.example.com/changedData/127>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "340759" .
-    
-    <http://www.example.com/insertChange/172>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/172> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "price" .
-    
-    <http://www.example.com/changedData/5>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
-    
-    <http://www.example.com/insertChange/71>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/71> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/insertChange/142>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/142> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/insertChange/41>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/41> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
-    
-    <http://www.example.com/changedData/199>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Bar furniture" .
-    
-    <http://www.example.com/changedData/79>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "        Bar stool with backrest frame,          74 cm" .
-    
-    <http://www.example.com/insertChange/112>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/112> .
-    
-    <http://www.example.com/insertChange/11>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/11> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
-    
-    <http://www.example.com/changedData/169>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "90400517" .
-    
-    <http://www.example.com/insertChange/208>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/208> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
-    
-    <http://www.example.com/changedData/49>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "https://www.ikea.com/sa/en/p/ekedalen-bar-stool-with-backrest-brown-orrsta-light-grey-00400550/" .
-    
-    <http://www.example.com/insertChange/1>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/1> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "item_id" .
-    
-    <http://www.example.com/changedData/139>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "80" .
-    
-    <http://www.example.com/insertChange/184>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/184> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "name" .
-    
-    <http://www.example.com/insertChange/83>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/83> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "width" .
+                    "Sport" .
     
     <http://www.example.com/changedData/19>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No old price" .
+                    "Brady" .
     
-    <http://www.example.com/changedData/80>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Karl Malmvall" .
-    
-    <http://www.example.com/changedData/109>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "36" .
-    
-    <http://www.example.com/insertChange/154>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
+    <http://www.example.com/deleteChange/25>
+            a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/154> .
-    
-    <http://www.example.com/changedData/170>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "EKEDALEN" .
-    
-    <http://www.example.com/insertChange/53>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/53> ;
+                    <http://www.example.com/changedData/25> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
+                    "Name" .
     
-    <http://www.example.com/changedData/50>
+    <http://www.example.com/changedData/0>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "No" .
+                    "Venus" .
     
-    <http://www.example.com/insertChange/124>
+    <http://www.example.com/insertChange/18>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/124> ;
+                    <http://www.example.com/changedData/18> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
+                    "FirstName" .
     
-    <http://www.example.com/changedData/140>
+    <http://www.example.com/changedData/13>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "21" .
+                    "Jordan" .
     
-    <http://www.example.com/insertChange/23>
+    <http://www.example.com/changedData/26>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Sport" .
+    
+    <http://www.example.com/insertChange/12>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/23> ;
+                    <http://www.example.com/changedData/12> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
+                    "FirstName" .
+    
+    <http://www.example.com/deleteChange/32>
+            a       <https://w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/32> .
     
     <http://www.example.com/changedData/20>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
+                    "Football" .
     
-    <http://www.example.com/changedData/110>
-            a       <https://w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "84" .
-    
-    <http://www.example.com/insertChange/196>
+    <http://www.example.com/insertChange/4>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/196> .
-    
-    <http://www.example.com/insertChange/95>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/95> ;
+                    <http://www.example.com/changedData/4> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "depth" .
+                    "Test" .
     
-    <http://www.example.com/changedData/206>
+    <http://www.example.com/changedData/33>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Ehlén Johansson" .
+                    "Name" .
     
-    <http://www.example.com/changedData/92>
+    <http://www.example.com/changedData/5>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "Yes" .
+                    "TT" .
     
-    <http://www.example.com/insertChange/166>
+    <http://www.example.com/changedData/18>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Tom" .
+    
+    <http://www.example.com/deleteChange/24>
+            a       <https://w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/24> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "ID" .
+    
+    <http://www.example.com/changeLog/user-1>
+            a       <https://w3id.org/OSCD#ChangeLog> ;
+            <https://w3id.org/OSCD#hasChange>
+                    <http://www.example.com/insertChange/28> , <http://www.example.com/insertChange/17> , <http://www.example.com/insertChange/14> , <http://www.example.com/insertChange/6> , <http://www.example.com/insertChange/3> , <http://www.example.com/insertChange/13> , <http://www.example.com/insertChange/2> , <http://www.example.com/insertChange/5> , <http://www.example.com/insertChange/23> , <http://www.example.com/deleteChange/25> , <http://www.example.com/insertChange/12> , <http://www.example.com/insertChange/4> , <http://www.example.com/insertChange/1> , <http://www.example.com/insertChange/22> , <http://www.example.com/deleteChange/32> , <http://www.example.com/deleteChange/24> , <http://www.example.com/insertChange/11> , <http://www.example.com/insertChange/0> , <http://www.example.com/insertChange/9> , <http://www.example.com/insertChange/30> , <http://www.example.com/insertChange/27> , <http://www.example.com/insertChange/21> , <http://www.example.com/insertChange/19> , <http://www.example.com/insertChange/16> , <http://www.example.com/insertChange/8> , <http://www.example.com/insertChange/10> , <http://www.example.com/insertChange/26> , <http://www.example.com/deleteChange/33> , <http://www.example.com/insertChange/20> , <http://www.example.com/insertChange/15> , <http://www.example.com/insertChange/29> , <http://www.example.com/insertChange/18> , <http://www.example.com/insertChange/7> , <http://www.example.com/insertChange/31> ;
+            <https://w3id.org/OSCD#hasCurrentVersion>
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v3.csv> ;
+            <https://w3id.org/OSCD#hasPreviousVersion>
+                    <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv> .
+    
+    <http://www.example.com/insertChange/17>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/166> ;
+                    <http://www.example.com/changedData/17> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "height" .
+                    "TT" .
     
-    <http://www.example.com/changedData/182>
+    <http://www.example.com/changedData/12>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "24" .
+                    "Michael" .
     
-    <http://www.example.com/insertChange/65>
-            a       <https://w3id.org/OSCD#InsertSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/65> ;
-            <https://w3id.org/OSCD#hasDataReference>
-                    "short_description" .
-    
-    <http://www.example.com/changedData/62>
+    <http://www.example.com/changedData/25>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "True" .
+                    "Venus" .
     
-    <http://www.example.com/insertChange/136>
+    <http://www.example.com/insertChange/9>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/136> ;
+                    <http://www.example.com/changedData/9> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "designer" .
+                    "City" .
     
-    <http://www.example.com/changedData/152>
+    <http://www.example.com/insertChange/11>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/11> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "TT" .
+    
+    <http://www.example.com/insertChange/3>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/3> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "City" .
+    
+    <http://www.example.com/changedData/32>
             a       <https://w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "63" .
+                    "ID" .
     
-    <http://www.example.com/insertChange/35>
+    <http://www.example.com/changedData/4>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Tests" .
+    
+    <http://www.example.com/changedData/17>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "TT" .
+    
+    <http://www.example.com/insertChange/31>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-04 22:22:42.880545"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/35> ;
+                    <http://www.example.com/changedData/31> ;
+            <https://w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/insertChange/16>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/16> ;
             <https://w3id.org/OSCD#hasDataReference>
-                    "link" .
+                    "Test" .
+    
+    <http://www.example.com/changedData/11>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "TT" .
+    
+    <http://www.example.com/insertChange/29>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/29> ;
+            <https://w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/24>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "10" .
+    
+    <http://www.example.com/insertChange/8>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/8> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "Sport" .
+    
+    <http://www.example.com/insertChange/10>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/10> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "Test" .
+    
+    <http://www.example.com/changedData/9>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Funchal" .
+    
+    <http://www.example.com/insertChange/23>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/23> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "TT" .
+    
+    <http://www.example.com/insertChange/2>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/2> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "Sport" .
+    
+    <http://www.example.com/changedData/31>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "LastName" .
+    
+    <http://www.example.com/changedData/3>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "California" .
+    
+    <http://www.example.com/changedData/16>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "xxx" .
+    
+    <http://www.example.com/insertChange/30>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/30> ;
+            <https://w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/29>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "TT" .
+    
+    <http://www.example.com/insertChange/15>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/15> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "City" .
+    
+    <http://www.example.com/changedData/10>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "ddd" .
+    
+    <http://www.example.com/insertChange/28>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/28> ;
+            <https://w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/23>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "TT" .
+    
+    <http://www.example.com/insertChange/7>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/7> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "LastName" .
+    
+    <http://www.example.com/changedData/8>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Soccer" .
+    
+    <http://www.example.com/insertChange/22>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/22> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "Test" .
+    
+    <http://www.example.com/insertChange/1>
+            a       <https://w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-04 22:59:30.183135"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/1> ;
+            <https://w3id.org/OSCD#hasDataReference>
+                    "LastName" .
+    
+    <http://www.example.com/changedData/30>
+            a       <https://w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "City" .
 }
