@@ -36,6 +36,7 @@ def analyse_mapping_impact():
     mappings_impacted = detect_mapping_impact()
     get_structural_changes(mappings_impacted)
 
+
 def detect_mapping_impact():
     query = """
         PREFIX oscd: <https://w3id.org/OSCD#>
@@ -133,8 +134,7 @@ def get_structural_changes(mappings_impacted):
             if change_type in values_impacted.keys():
                 mappings_impacted[change_graph][mapping_identifier][change_type]["structural_changes"] = defaultdict(dict)
                 mappings_impacted[change_graph][mapping_identifier][change_type]["structural_changes"][data_reference] = changed_data
-
-    dic = mappings_impacted["1.trig"][3]
+    dic = mappings_impacted["1.trig"][0]
     print(json.dumps(dic, indent = 4))
     exit()
     query = """

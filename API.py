@@ -269,10 +269,12 @@ class API:
         participant_id = session.get("participant_id")
         notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, participant_id)
         graph_id =  "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
+        change_graph_details = session.get("graph_details")
         return render_template("change_detection/notification_thresholds.html",
                                participant_id=participant_id,
                                graph_id=1,
                                graph_filename=graph_filename,
+                               change_graph_details=user_graph_details,
                                notification_thresholds=notification_thresholds)
 
     # view change detection processes running by a user
