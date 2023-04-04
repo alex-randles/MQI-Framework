@@ -13,15 +13,15 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
-
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
 
 <#TriplesMap8>
     rr:logicalTable [ rr:tableName "EMP" ];
     rr:subjectMap [
         rr:template "http://data.example.com/employee/{EMPNO}";
-        rr:class ex:MappingDocumehhnt;
+        rr:class dcat:MetricResult;
     ];
     rr:predicateObjectMap [
-        rr:predicate <https://ibclo.ericsson.com/#hasMetricQuery> ;
-        rr:objectMap [ rr:column "ENAME"; rr:datatype xsd:sss; rr:termType rr:Literal; ];
+        rr:predicate dcat:hasResultStatus ;
+        rr:objectMap [ rr:column "ENAME";; ];
     ].

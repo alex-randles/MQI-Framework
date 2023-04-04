@@ -254,10 +254,10 @@ class ValidateQuality:
             if term_type:
                 resource_type = self.get_type(property)
                 if OWL.DatatypeProperty in resource_type and term_type != URIRef("http://www.w3.org/ns/r2rml#Literal"):
-                    result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property))
+                    result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
                 elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
-                    result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property))
+                    result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
     def validate_D7(self):

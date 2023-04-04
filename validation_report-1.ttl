@@ -1,41 +1,30 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping61.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping61.ttl> ;
+    mqio:assessedMapping <sample_mapping17.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-04T21:39:34.377967"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:termType ?currentTermType  } 
-                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRI> } 
-                WHERE { 
-                    SELECT ?subject 
-                    WHERE {
-                          ?subject ?p ?o . 
-                          FILTER(str(?subject) = "ub9bL32C16").
-                    }
-                }; 
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Change Term Type"^^xsd:string .
+    mqio:hasViolation ex:violation-0,
+        ex:violation-1 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property ' ibclo:hasMetricQuery '."^^xsd:string ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue dcat:MetricResult ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D6 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue dcat:hasResultStatus ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+<sample_mapping17.ttl> a mqio:MappingArtefact .
 
