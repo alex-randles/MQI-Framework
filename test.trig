@@ -1,86 +1,76 @@
-@prefix ns1: <http://www.example.com/mappingGraph/> .
-@prefix ns10: <http://linkedevents.org/ontology/> .
+@prefix ns1: <http://www.example.com/notificationGraph/> .
+@prefix ns10: <http://semweb.mmlab.be/ns/rml#> .
 @prefix ns11: <http://www.example.com/contactDetailsGraph/> .
 @prefix ns12: <http://xmlns.com/foaf/0.1/> .
-@prefix ns2: <http://semweb.mmlab.be/ns/rml#> .
-@prefix ns3: <http://www.w3.org/ns/r2rml#> .
-@prefix ns4: <http://www.example.com/notificationGraph/> .
-@prefix ns5: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
-@prefix ns6: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
-@prefix ns7: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
-@prefix ns8: <https://w3id.org/OSCD#> .
-@prefix ns9: <http://www.example.com/changesGraph/> .
+@prefix ns2: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
+@prefix ns3: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
+@prefix ns4: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
+@prefix ns5: <https://w3id.org/OSCD#> .
+@prefix ns6: <http://www.example.com/changesGraph/> .
+@prefix ns7: <http://linkedevents.org/ontology/> .
+@prefix ns8: <http://www.example.com/mappingGraph/> .
+@prefix ns9: <http://www.w3.org/ns/r2rml#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ns1:sample_mapping26.ttl {
-    <file:///home/alex/MQI-Framework/static/uploads/mappings/sample_mapping26.ttl#TriplesMap8> ns2:logicalSource [ ns2:source "products.csv" ] ;
-        ns3:predicateObjectMap [ ns3:objectMap [ ns3:column "name" ] ;
-                ns3:predicate <http://example.com/ns#hasName> ],
-            [ ns3:objectMap [ ns3:column "price" ] ;
-                ns3:predicate <http://example.com/ns#hasPrice> ] ;
-        ns3:subjectMap [ ns3:class <http://example.com/ns#MappingDocumehhnt> ;
-                ns3:template "http://data.example.com/product/{item_id}" ] .
-}
+ns1:user-1 {
+    <http://www.example.com/notificationPolicy/1> a ns3:Policy ;
+        ns3:desc "Notification policy for user 1" ;
+        ns3:grants <http://www.example.com/policyObligation/1> ;
+        ns5:hasDetectionEnd "2022-12-31 00:00:00.0000"^^xsd:dateTime ;
+        ns5:hasDetectionStart "2023-04-05 10:46:38.333811"^^xsd:dateTime .
 
-ns4:user-1 {
-    <http://www.example.com/notificationPolicy/1> a ns7:Policy ;
-        ns7:desc "Notification policy for user 1" ;
-        ns7:grants <http://www.example.com/policyObligation/1> ;
-        ns8:hasDetectionEnd "2022-12-31 00:00:00.0000"^^xsd:dateTime ;
-        ns8:hasDetectionStart "2023-04-05 10:46:38.333811"^^xsd:dateTime .
+    <http://www.example.com/datatypeChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object "0" ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:DatatypeSourceData .
 
-    <http://www.example.com/datatypeChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:object "0" ;
-        ns5:predicate ns8:hasThreshold ;
-        ns5:subject ns8:DatatypeSourceData .
+    <http://www.example.com/deleteChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object "0" ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:DeleteSourceData .
 
-    <http://www.example.com/deleteChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:object "0" ;
-        ns5:predicate ns8:hasThreshold ;
-        ns5:subject ns8:DeleteSourceData .
+    <http://www.example.com/insertChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object "0" ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:InsertSourceData .
 
-    <http://www.example.com/insertChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:object "0" ;
-        ns5:predicate ns8:hasThreshold ;
-        ns5:subject ns8:InsertSourceData .
+    <http://www.example.com/mergeChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object "0" ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:MergeSourceData .
 
-    <http://www.example.com/mergeChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:object "0" ;
-        ns5:predicate ns8:hasThreshold ;
-        ns5:subject ns8:MergeSourceData .
+    <http://www.example.com/moveChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object "0" ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:MoveSourceData .
 
-    <http://www.example.com/moveChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:object "0" ;
-        ns5:predicate ns8:hasThreshold ;
-        ns5:subject ns8:MoveSourceData .
+    <http://www.example.com/notificationConstraint/1> a ns2:And ;
+        ns2:fifth <http://www.example.com/mergeChangeConstraint/1> ;
+        ns2:first <http://www.example.com/insertChangeConstraint/1> ;
+        ns2:fourth <http://www.example.com/updateChangeConstraint/1> ;
+        ns2:second <http://www.example.com/deleteChangeConstraint/1> ;
+        ns2:sixth <http://www.example.com/datatypeChangeConstraint/1> ;
+        ns2:third <http://www.example.com/moveChangeConstraint/1> .
 
-    <http://www.example.com/notificationConstraint/1> a ns5:And ;
-        ns5:fifth <http://www.example.com/mergeChangeConstraint/1> ;
-        ns5:first <http://www.example.com/insertChangeConstraint/1> ;
-        ns5:fourth <http://www.example.com/updateChangeConstraint/1> ;
-        ns5:second <http://www.example.com/deleteChangeConstraint/1> ;
-        ns5:sixth <http://www.example.com/datatypeChangeConstraint/1> ;
-        ns5:third <http://www.example.com/moveChangeConstraint/1> .
+    <http://www.example.com/policyObligation/1> a ns4:Obligation ;
+        ns4:action ns5:sendNotification ;
+        ns4:obligedTo ns5:softwareAgent ;
+        ns4:startingConstraint <http://www.example.com/notificationConstraint/1> ;
+        ns3:actor <http://www.example.com/userActor/1>,
+            ns5:softwareAgent .
 
-    <http://www.example.com/policyObligation/1> a ns6:Obligation ;
-        ns6:action ns8:sendNotification ;
-        ns6:obligedTo ns8:softwareAgent ;
-        ns6:startingConstraint <http://www.example.com/notificationConstraint/1> ;
-        ns7:actor <http://www.example.com/userActor/1>,
-            ns8:softwareAgent .
-
-    <http://www.example.com/updateChangeConstraint/1> a ns5:SimpleConstraint ;
-        ns5:object "0" ;
-        ns5:predicate ns8:hasThreshold ;
-        ns5:subject ns8:UpdateSourceData .
+    <http://www.example.com/updateChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object "0" ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:UpdateSourceData .
 
     <http://www.example.com/userActor/1> a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
 }
 
-ns9:user-1 {
-    <http://www.example.com/changeLog/user-1> a ns8:ChangeLog ;
-        ns8:hasChange <http://www.example.com/deleteChange/182>,
+ns6:user-1 {
+    <http://www.example.com/changeLog/user-1> a ns5:ChangeLog ;
+        ns5:hasChange <http://www.example.com/deleteChange/182>,
             <http://www.example.com/deleteChange/183>,
             <http://www.example.com/deleteChange/184>,
             <http://www.example.com/deleteChange/185>,
@@ -336,2023 +326,2033 @@ ns9:user-1 {
             <http://www.example.com/insertChange/97>,
             <http://www.example.com/insertChange/98>,
             <http://www.example.com/insertChange/99> ;
-        ns8:hasCurrentVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/products.csv> ;
-        ns8:hasPreviousVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/products.csv> .
+        ns5:hasCurrentVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/products.csv> ;
+        ns5:hasPreviousVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/products.csv> .
 
-    <http://www.example.com/changedData/0> a ns8:ChangedData ;
+    <http://www.example.com/changedData/0> a ns5:ChangedData ;
         rdfs:comment "0" .
 
-    <http://www.example.com/changedData/1> a ns8:ChangedData ;
+    <http://www.example.com/changedData/1> a ns5:ChangedData ;
         rdfs:comment "90420332" .
 
-    <http://www.example.com/changedData/10> a ns8:ChangedData ;
+    <http://www.example.com/changedData/10> a ns5:ChangedData ;
         rdfs:comment "Nicholai Wiig Hansen" .
 
-    <http://www.example.com/changedData/100> a ns8:ChangedData ;
+    <http://www.example.com/changedData/100> a ns5:ChangedData ;
         rdfs:comment "DALFRED" .
 
-    <http://www.example.com/changedData/101> a ns8:ChangedData ;
+    <http://www.example.com/changedData/101> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/102> a ns8:ChangedData ;
+    <http://www.example.com/changedData/102> a ns5:ChangedData ;
         rdfs:comment "195.0" .
 
-    <http://www.example.com/changedData/103> a ns8:ChangedData ;
+    <http://www.example.com/changedData/103> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/104> a ns8:ChangedData ;
+    <http://www.example.com/changedData/104> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/105> a ns8:ChangedData ;
+    <http://www.example.com/changedData/105> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/dalfred-bar-stool-black-60155602/" .
 
-    <http://www.example.com/changedData/106> a ns8:ChangedData ;
+    <http://www.example.com/changedData/106> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/107> a ns8:ChangedData ;
+    <http://www.example.com/changedData/107> a ns5:ChangedData ;
         rdfs:comment "        Bar stool,          63-74 cm" .
 
-    <http://www.example.com/changedData/108> a ns8:ChangedData ;
+    <http://www.example.com/changedData/108> a ns5:ChangedData ;
         rdfs:comment "Sarah Fager" .
 
-    <http://www.example.com/changedData/109> a ns8:ChangedData ;
+    <http://www.example.com/changedData/109> a ns5:ChangedData ;
         rdfs:comment "50" .
 
-    <http://www.example.com/changedData/11> a ns8:ChangedData .
+    <http://www.example.com/changedData/11> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/110> a ns8:ChangedData .
+    <http://www.example.com/changedData/110> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/111> a ns8:ChangedData ;
+    <http://www.example.com/changedData/111> a ns5:ChangedData ;
         rdfs:comment "50" .
 
-    <http://www.example.com/changedData/112> a ns8:ChangedData ;
+    <http://www.example.com/changedData/112> a ns5:ChangedData ;
         rdfs:comment "8" .
 
-    <http://www.example.com/changedData/113> a ns8:ChangedData ;
+    <http://www.example.com/changedData/113> a ns5:ChangedData ;
         rdfs:comment "50406465" .
 
-    <http://www.example.com/changedData/114> a ns8:ChangedData ;
+    <http://www.example.com/changedData/114> a ns5:ChangedData ;
         rdfs:comment "FRANKLIN" .
 
-    <http://www.example.com/changedData/115> a ns8:ChangedData ;
+    <http://www.example.com/changedData/115> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/116> a ns8:ChangedData ;
+    <http://www.example.com/changedData/116> a ns5:ChangedData ;
         rdfs:comment "129.0" .
 
-    <http://www.example.com/changedData/117> a ns8:ChangedData ;
+    <http://www.example.com/changedData/117> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/118> a ns8:ChangedData ;
+    <http://www.example.com/changedData/118> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/119> a ns8:ChangedData ;
+    <http://www.example.com/changedData/119> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/franklin-bar-stool-with-backrest-foldable-black-black-50406465/" .
 
-    <http://www.example.com/changedData/12> a ns8:ChangedData ;
+    <http://www.example.com/changedData/12> a ns5:ChangedData ;
         rdfs:comment "99" .
 
-    <http://www.example.com/changedData/120> a ns8:ChangedData ;
+    <http://www.example.com/changedData/120> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/121> a ns8:ChangedData ;
+    <http://www.example.com/changedData/121> a ns5:ChangedData ;
         rdfs:comment "        Bar stool with backrest, foldable,          63 cm" .
 
-    <http://www.example.com/changedData/122> a ns8:ChangedData ;
+    <http://www.example.com/changedData/122> a ns5:ChangedData ;
         rdfs:comment "K Hagberg/M Hagberg" .
 
-    <http://www.example.com/changedData/123> a ns8:ChangedData ;
+    <http://www.example.com/changedData/123> a ns5:ChangedData ;
         rdfs:comment "44" .
 
-    <http://www.example.com/changedData/124> a ns8:ChangedData ;
+    <http://www.example.com/changedData/124> a ns5:ChangedData ;
         rdfs:comment "95" .
 
-    <http://www.example.com/changedData/125> a ns8:ChangedData ;
+    <http://www.example.com/changedData/125> a ns5:ChangedData ;
         rdfs:comment "50" .
 
-    <http://www.example.com/changedData/126> a ns8:ChangedData ;
+    <http://www.example.com/changedData/126> a ns5:ChangedData ;
         rdfs:comment "9" .
 
-    <http://www.example.com/changedData/127> a ns8:ChangedData ;
+    <http://www.example.com/changedData/127> a ns5:ChangedData ;
         rdfs:comment "69304221" .
 
-    <http://www.example.com/changedData/128> a ns8:ChangedData ;
+    <http://www.example.com/changedData/128> a ns5:ChangedData ;
         rdfs:comment "EKEDALEN / EKEDALEN" .
 
-    <http://www.example.com/changedData/129> a ns8:ChangedData ;
+    <http://www.example.com/changedData/129> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/13> a ns8:ChangedData ;
+    <http://www.example.com/changedData/13> a ns5:ChangedData ;
         rdfs:comment "51" .
 
-    <http://www.example.com/changedData/130> a ns8:ChangedData ;
+    <http://www.example.com/changedData/130> a ns5:ChangedData ;
         rdfs:comment "2176.0" .
 
-    <http://www.example.com/changedData/131> a ns8:ChangedData ;
+    <http://www.example.com/changedData/131> a ns5:ChangedData ;
         rdfs:comment "SR 2,375" .
 
-    <http://www.example.com/changedData/132> a ns8:ChangedData ;
+    <http://www.example.com/changedData/132> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/133> a ns8:ChangedData ;
+    <http://www.example.com/changedData/133> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/ekedalen-ekedalen-bar-table-and-4-bar-stools-dark-brown-orrsta-light-grey-s69304221/" .
 
-    <http://www.example.com/changedData/134> a ns8:ChangedData ;
+    <http://www.example.com/changedData/134> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/135> a ns8:ChangedData ;
+    <http://www.example.com/changedData/135> a ns5:ChangedData ;
         rdfs:comment "Bar table and 4 bar stools" .
 
-    <http://www.example.com/changedData/136> a ns8:ChangedData ;
+    <http://www.example.com/changedData/136> a ns5:ChangedData ;
         rdfs:comment "Ehlén Johansson" .
 
-    <http://www.example.com/changedData/137> a ns8:ChangedData .
+    <http://www.example.com/changedData/137> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/138> a ns8:ChangedData .
+    <http://www.example.com/changedData/138> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/139> a ns8:ChangedData .
+    <http://www.example.com/changedData/139> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/14> a ns8:ChangedData ;
+    <http://www.example.com/changedData/14> a ns5:ChangedData ;
         rdfs:comment "1" .
 
-    <http://www.example.com/changedData/140> a ns8:ChangedData ;
+    <http://www.example.com/changedData/140> a ns5:ChangedData ;
         rdfs:comment "10" .
 
-    <http://www.example.com/changedData/141> a ns8:ChangedData ;
+    <http://www.example.com/changedData/141> a ns5:ChangedData ;
         rdfs:comment "90404879" .
 
-    <http://www.example.com/changedData/142> a ns8:ChangedData ;
+    <http://www.example.com/changedData/142> a ns5:ChangedData ;
         rdfs:comment "FRANKLIN" .
 
-    <http://www.example.com/changedData/143> a ns8:ChangedData ;
+    <http://www.example.com/changedData/143> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/144> a ns8:ChangedData ;
+    <http://www.example.com/changedData/144> a ns5:ChangedData ;
         rdfs:comment "149.0" .
 
-    <http://www.example.com/changedData/145> a ns8:ChangedData ;
+    <http://www.example.com/changedData/145> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/146> a ns8:ChangedData ;
+    <http://www.example.com/changedData/146> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/147> a ns8:ChangedData ;
+    <http://www.example.com/changedData/147> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/franklin-bar-stool-with-backrest-foldable-white-white-90404879/" .
 
-    <http://www.example.com/changedData/148> a ns8:ChangedData ;
+    <http://www.example.com/changedData/148> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/149> a ns8:ChangedData ;
+    <http://www.example.com/changedData/149> a ns5:ChangedData ;
         rdfs:comment "        Bar stool with backrest, foldable,          74 cm" .
 
-    <http://www.example.com/changedData/15> a ns8:ChangedData ;
+    <http://www.example.com/changedData/15> a ns5:ChangedData ;
         rdfs:comment "368814" .
 
-    <http://www.example.com/changedData/150> a ns8:ChangedData ;
+    <http://www.example.com/changedData/150> a ns5:ChangedData ;
         rdfs:comment "K Hagberg/M Hagberg" .
 
-    <http://www.example.com/changedData/151> a ns8:ChangedData ;
+    <http://www.example.com/changedData/151> a ns5:ChangedData ;
         rdfs:comment "44" .
 
-    <http://www.example.com/changedData/152> a ns8:ChangedData ;
+    <http://www.example.com/changedData/152> a ns5:ChangedData ;
         rdfs:comment "103" .
 
-    <http://www.example.com/changedData/153> a ns8:ChangedData ;
+    <http://www.example.com/changedData/153> a ns5:ChangedData ;
         rdfs:comment "52" .
 
-    <http://www.example.com/changedData/154> a ns8:ChangedData ;
+    <http://www.example.com/changedData/154> a ns5:ChangedData ;
         rdfs:comment "11" .
 
-    <http://www.example.com/changedData/155> a ns8:ChangedData ;
+    <http://www.example.com/changedData/155> a ns5:ChangedData ;
         rdfs:comment "121766" .
 
-    <http://www.example.com/changedData/156> a ns8:ChangedData ;
+    <http://www.example.com/changedData/156> a ns5:ChangedData ;
         rdfs:comment "INGOLF" .
 
-    <http://www.example.com/changedData/157> a ns8:ChangedData ;
+    <http://www.example.com/changedData/157> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/158> a ns8:ChangedData ;
+    <http://www.example.com/changedData/158> a ns5:ChangedData ;
         rdfs:comment "395.0" .
 
-    <http://www.example.com/changedData/159> a ns8:ChangedData ;
+    <http://www.example.com/changedData/159> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/16> a ns8:ChangedData ;
+    <http://www.example.com/changedData/16> a ns5:ChangedData ;
         rdfs:comment "NORDVIKEN" .
 
-    <http://www.example.com/changedData/160> a ns8:ChangedData ;
+    <http://www.example.com/changedData/160> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/161> a ns8:ChangedData ;
+    <http://www.example.com/changedData/161> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/ingolf-bar-stool-with-backrest-white-00121766/" .
 
-    <http://www.example.com/changedData/162> a ns8:ChangedData ;
+    <http://www.example.com/changedData/162> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/163> a ns8:ChangedData ;
+    <http://www.example.com/changedData/163> a ns5:ChangedData ;
         rdfs:comment "        Bar stool with backrest,          74 cm" .
 
-    <http://www.example.com/changedData/164> a ns8:ChangedData ;
+    <http://www.example.com/changedData/164> a ns5:ChangedData ;
         rdfs:comment "Carina Bengs" .
 
-    <http://www.example.com/changedData/165> a ns8:ChangedData ;
+    <http://www.example.com/changedData/165> a ns5:ChangedData ;
         rdfs:comment "45" .
 
-    <http://www.example.com/changedData/166> a ns8:ChangedData ;
+    <http://www.example.com/changedData/166> a ns5:ChangedData ;
         rdfs:comment "102" .
 
-    <http://www.example.com/changedData/167> a ns8:ChangedData ;
+    <http://www.example.com/changedData/167> a ns5:ChangedData ;
         rdfs:comment "40" .
 
-    <http://www.example.com/changedData/168> a ns8:ChangedData ;
+    <http://www.example.com/changedData/168> a ns5:ChangedData ;
         rdfs:comment "12" .
 
-    <http://www.example.com/changedData/169> a ns8:ChangedData ;
+    <http://www.example.com/changedData/169> a ns5:ChangedData ;
         rdfs:comment "397736" .
 
-    <http://www.example.com/changedData/17> a ns8:ChangedData ;
+    <http://www.example.com/changedData/17> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/170> a ns8:ChangedData ;
+    <http://www.example.com/changedData/170> a ns5:ChangedData ;
         rdfs:comment "NORRARYD" .
 
-    <http://www.example.com/changedData/171> a ns8:ChangedData ;
+    <http://www.example.com/changedData/171> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/172> a ns8:ChangedData ;
+    <http://www.example.com/changedData/172> a ns5:ChangedData ;
         rdfs:comment "395.0" .
 
-    <http://www.example.com/changedData/173> a ns8:ChangedData ;
+    <http://www.example.com/changedData/173> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/174> a ns8:ChangedData ;
+    <http://www.example.com/changedData/174> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/175> a ns8:ChangedData ;
+    <http://www.example.com/changedData/175> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/norraryd-bar-stool-with-backrest-black-00397736/" .
 
-    <http://www.example.com/changedData/176> a ns8:ChangedData ;
+    <http://www.example.com/changedData/176> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/177> a ns8:ChangedData ;
+    <http://www.example.com/changedData/177> a ns5:ChangedData ;
         rdfs:comment "        Bar stool with backrest,          74 cm" .
 
-    <http://www.example.com/changedData/178> a ns8:ChangedData ;
+    <http://www.example.com/changedData/178> a ns5:ChangedData ;
         rdfs:comment "Nike Karlsson" .
 
-    <http://www.example.com/changedData/179> a ns8:ChangedData ;
+    <http://www.example.com/changedData/179> a ns5:ChangedData ;
         rdfs:comment "47" .
 
-    <http://www.example.com/changedData/18> a ns8:ChangedData ;
+    <http://www.example.com/changedData/18> a ns5:ChangedData ;
         rdfs:comment "995.0" .
 
-    <http://www.example.com/changedData/180> a ns8:ChangedData ;
+    <http://www.example.com/changedData/180> a ns5:ChangedData ;
         rdfs:comment "103" .
 
-    <http://www.example.com/changedData/181> a ns8:ChangedData ;
+    <http://www.example.com/changedData/181> a ns5:ChangedData ;
         rdfs:comment "46" .
 
-    <http://www.example.com/changedData/182> a ns8:ChangedData ;
+    <http://www.example.com/changedData/182> a ns5:ChangedData ;
         rdfs:comment "0" .
 
-    <http://www.example.com/changedData/183> a ns8:ChangedData ;
+    <http://www.example.com/changedData/183> a ns5:ChangedData ;
         rdfs:comment "90420332" .
 
-    <http://www.example.com/changedData/184> a ns8:ChangedData ;
+    <http://www.example.com/changedData/184> a ns5:ChangedData ;
         rdfs:comment "FREKVENS" .
 
-    <http://www.example.com/changedData/185> a ns8:ChangedData ;
+    <http://www.example.com/changedData/185> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/186> a ns8:ChangedData ;
+    <http://www.example.com/changedData/186> a ns5:ChangedData ;
         rdfs:comment "265.0" .
 
-    <http://www.example.com/changedData/187> a ns8:ChangedData ;
+    <http://www.example.com/changedData/187> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/188> a ns8:ChangedData ;
+    <http://www.example.com/changedData/188> a ns5:ChangedData ;
         rdfs:comment "1" .
 
-    <http://www.example.com/changedData/189> a ns8:ChangedData ;
+    <http://www.example.com/changedData/189> a ns5:ChangedData ;
         rdfs:comment "368814" .
 
-    <http://www.example.com/changedData/19> a ns8:ChangedData ;
+    <http://www.example.com/changedData/19> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/190> a ns8:ChangedData ;
+    <http://www.example.com/changedData/190> a ns5:ChangedData ;
         rdfs:comment "NORDVIKEN" .
 
-    <http://www.example.com/changedData/191> a ns8:ChangedData ;
+    <http://www.example.com/changedData/191> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/192> a ns8:ChangedData ;
+    <http://www.example.com/changedData/192> a ns5:ChangedData ;
         rdfs:comment "995.0" .
 
-    <http://www.example.com/changedData/193> a ns8:ChangedData ;
+    <http://www.example.com/changedData/193> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/194> a ns8:ChangedData ;
+    <http://www.example.com/changedData/194> a ns5:ChangedData ;
         rdfs:comment "2" .
 
-    <http://www.example.com/changedData/195> a ns8:ChangedData ;
+    <http://www.example.com/changedData/195> a ns5:ChangedData ;
         rdfs:comment "9333523" .
 
-    <http://www.example.com/changedData/196> a ns8:ChangedData ;
+    <http://www.example.com/changedData/196> a ns5:ChangedData ;
         rdfs:comment "NORDVIKEN / NORDVIKEN" .
 
-    <http://www.example.com/changedData/197> a ns8:ChangedData ;
+    <http://www.example.com/changedData/197> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/198> a ns8:ChangedData ;
+    <http://www.example.com/changedData/198> a ns5:ChangedData ;
         rdfs:comment "2095.0" .
 
-    <http://www.example.com/changedData/199> a ns8:ChangedData ;
+    <http://www.example.com/changedData/199> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/2> a ns8:ChangedData ;
+    <http://www.example.com/changedData/2> a ns5:ChangedData ;
         rdfs:comment "FREKVENS" .
 
-    <http://www.example.com/changedData/20> a ns8:ChangedData ;
+    <http://www.example.com/changedData/20> a ns5:ChangedData ;
         rdfs:comment "False" .
 
-    <http://www.example.com/changedData/200> a ns8:ChangedData ;
+    <http://www.example.com/changedData/200> a ns5:ChangedData ;
         rdfs:comment "3" .
 
-    <http://www.example.com/changedData/201> a ns8:ChangedData ;
+    <http://www.example.com/changedData/201> a ns5:ChangedData ;
         rdfs:comment "80155205" .
 
-    <http://www.example.com/changedData/202> a ns8:ChangedData ;
+    <http://www.example.com/changedData/202> a ns5:ChangedData ;
         rdfs:comment "STIG" .
 
-    <http://www.example.com/changedData/203> a ns8:ChangedData ;
+    <http://www.example.com/changedData/203> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/204> a ns8:ChangedData ;
+    <http://www.example.com/changedData/204> a ns5:ChangedData ;
         rdfs:comment "69.0" .
 
-    <http://www.example.com/changedData/205> a ns8:ChangedData ;
+    <http://www.example.com/changedData/205> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/206> a ns8:ChangedData ;
+    <http://www.example.com/changedData/206> a ns5:ChangedData ;
         rdfs:comment "4" .
 
-    <http://www.example.com/changedData/207> a ns8:ChangedData ;
+    <http://www.example.com/changedData/207> a ns5:ChangedData ;
         rdfs:comment "30180504" .
 
-    <http://www.example.com/changedData/208> a ns8:ChangedData ;
+    <http://www.example.com/changedData/208> a ns5:ChangedData ;
         rdfs:comment "NORBERG" .
 
-    <http://www.example.com/changedData/209> a ns8:ChangedData ;
+    <http://www.example.com/changedData/209> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/21> a ns8:ChangedData ;
+    <http://www.example.com/changedData/21> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/nordviken-bar-table-black-00368814/" .
 
-    <http://www.example.com/changedData/210> a ns8:ChangedData ;
+    <http://www.example.com/changedData/210> a ns5:ChangedData ;
         rdfs:comment "225.0" .
 
-    <http://www.example.com/changedData/211> a ns8:ChangedData ;
+    <http://www.example.com/changedData/211> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/212> a ns8:ChangedData ;
+    <http://www.example.com/changedData/212> a ns5:ChangedData ;
         rdfs:comment "5" .
 
-    <http://www.example.com/changedData/213> a ns8:ChangedData ;
+    <http://www.example.com/changedData/213> a ns5:ChangedData ;
         rdfs:comment "10122647" .
 
-    <http://www.example.com/changedData/214> a ns8:ChangedData ;
+    <http://www.example.com/changedData/214> a ns5:ChangedData ;
         rdfs:comment "INGOLF" .
 
-    <http://www.example.com/changedData/215> a ns8:ChangedData ;
+    <http://www.example.com/changedData/215> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/216> a ns8:ChangedData ;
+    <http://www.example.com/changedData/216> a ns5:ChangedData ;
         rdfs:comment "345.0" .
 
-    <http://www.example.com/changedData/217> a ns8:ChangedData ;
+    <http://www.example.com/changedData/217> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/218> a ns8:ChangedData ;
+    <http://www.example.com/changedData/218> a ns5:ChangedData ;
         rdfs:comment "6" .
 
-    <http://www.example.com/changedData/219> a ns8:ChangedData ;
+    <http://www.example.com/changedData/219> a ns5:ChangedData ;
         rdfs:comment "70404875" .
 
-    <http://www.example.com/changedData/22> a ns8:ChangedData ;
+    <http://www.example.com/changedData/22> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/220> a ns8:ChangedData ;
+    <http://www.example.com/changedData/220> a ns5:ChangedData ;
         rdfs:comment "FRANKLIN" .
 
-    <http://www.example.com/changedData/221> a ns8:ChangedData ;
+    <http://www.example.com/changedData/221> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/222> a ns8:ChangedData ;
+    <http://www.example.com/changedData/222> a ns5:ChangedData ;
         rdfs:comment "129.0" .
 
-    <http://www.example.com/changedData/223> a ns8:ChangedData ;
+    <http://www.example.com/changedData/223> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/224> a ns8:ChangedData ;
+    <http://www.example.com/changedData/224> a ns5:ChangedData ;
         rdfs:comment "7" .
 
-    <http://www.example.com/changedData/225> a ns8:ChangedData ;
+    <http://www.example.com/changedData/225> a ns5:ChangedData ;
         rdfs:comment "60155602" .
 
-    <http://www.example.com/changedData/226> a ns8:ChangedData ;
+    <http://www.example.com/changedData/226> a ns5:ChangedData ;
         rdfs:comment "DALFRED" .
 
-    <http://www.example.com/changedData/227> a ns8:ChangedData ;
+    <http://www.example.com/changedData/227> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/228> a ns8:ChangedData ;
+    <http://www.example.com/changedData/228> a ns5:ChangedData ;
         rdfs:comment "195.0" .
 
-    <http://www.example.com/changedData/229> a ns8:ChangedData ;
+    <http://www.example.com/changedData/229> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/23> a ns8:ChangedData ;
+    <http://www.example.com/changedData/23> a ns5:ChangedData ;
         rdfs:comment "        Bar table,          140x80 cm" .
 
-    <http://www.example.com/changedData/230> a ns8:ChangedData ;
+    <http://www.example.com/changedData/230> a ns5:ChangedData ;
         rdfs:comment "8" .
 
-    <http://www.example.com/changedData/231> a ns8:ChangedData ;
+    <http://www.example.com/changedData/231> a ns5:ChangedData ;
         rdfs:comment "50406465" .
 
-    <http://www.example.com/changedData/232> a ns8:ChangedData ;
+    <http://www.example.com/changedData/232> a ns5:ChangedData ;
         rdfs:comment "FRANKLIN" .
 
-    <http://www.example.com/changedData/233> a ns8:ChangedData ;
+    <http://www.example.com/changedData/233> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/234> a ns8:ChangedData ;
+    <http://www.example.com/changedData/234> a ns5:ChangedData ;
         rdfs:comment "129.0" .
 
-    <http://www.example.com/changedData/235> a ns8:ChangedData ;
+    <http://www.example.com/changedData/235> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/236> a ns8:ChangedData ;
+    <http://www.example.com/changedData/236> a ns5:ChangedData ;
         rdfs:comment "9" .
 
-    <http://www.example.com/changedData/237> a ns8:ChangedData ;
+    <http://www.example.com/changedData/237> a ns5:ChangedData ;
         rdfs:comment "69304221" .
 
-    <http://www.example.com/changedData/238> a ns8:ChangedData ;
+    <http://www.example.com/changedData/238> a ns5:ChangedData ;
         rdfs:comment "EKEDALEN / EKEDALEN" .
 
-    <http://www.example.com/changedData/239> a ns8:ChangedData ;
+    <http://www.example.com/changedData/239> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/24> a ns8:ChangedData ;
+    <http://www.example.com/changedData/24> a ns5:ChangedData ;
         rdfs:comment "Francis Cayouette" .
 
-    <http://www.example.com/changedData/240> a ns8:ChangedData ;
+    <http://www.example.com/changedData/240> a ns5:ChangedData ;
         rdfs:comment "2176.0" .
 
-    <http://www.example.com/changedData/241> a ns8:ChangedData ;
+    <http://www.example.com/changedData/241> a ns5:ChangedData ;
         rdfs:comment "SR 2,375" .
 
-    <http://www.example.com/changedData/242> a ns8:ChangedData ;
+    <http://www.example.com/changedData/242> a ns5:ChangedData ;
         rdfs:comment "10" .
 
-    <http://www.example.com/changedData/243> a ns8:ChangedData ;
+    <http://www.example.com/changedData/243> a ns5:ChangedData ;
         rdfs:comment "90404879" .
 
-    <http://www.example.com/changedData/244> a ns8:ChangedData ;
+    <http://www.example.com/changedData/244> a ns5:ChangedData ;
         rdfs:comment "FRANKLIN" .
 
-    <http://www.example.com/changedData/245> a ns8:ChangedData ;
+    <http://www.example.com/changedData/245> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/246> a ns8:ChangedData ;
+    <http://www.example.com/changedData/246> a ns5:ChangedData ;
         rdfs:comment "149.0" .
 
-    <http://www.example.com/changedData/247> a ns8:ChangedData ;
+    <http://www.example.com/changedData/247> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/248> a ns8:ChangedData ;
+    <http://www.example.com/changedData/248> a ns5:ChangedData ;
         rdfs:comment "other_colors" .
 
-    <http://www.example.com/changedData/249> a ns8:ChangedData ;
+    <http://www.example.com/changedData/249> a ns5:ChangedData ;
         rdfs:comment "designer" .
 
-    <http://www.example.com/changedData/25> a ns8:ChangedData .
+    <http://www.example.com/changedData/25> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/250> a ns8:ChangedData ;
+    <http://www.example.com/changedData/250> a ns5:ChangedData ;
         rdfs:comment "sellable_online" .
 
-    <http://www.example.com/changedData/251> a ns8:ChangedData ;
+    <http://www.example.com/changedData/251> a ns5:ChangedData ;
         rdfs:comment "short_description" .
 
-    <http://www.example.com/changedData/252> a ns8:ChangedData ;
+    <http://www.example.com/changedData/252> a ns5:ChangedData ;
         rdfs:comment "depth" .
 
-    <http://www.example.com/changedData/253> a ns8:ChangedData ;
+    <http://www.example.com/changedData/253> a ns5:ChangedData ;
         rdfs:comment "height" .
 
-    <http://www.example.com/changedData/254> a ns8:ChangedData ;
+    <http://www.example.com/changedData/254> a ns5:ChangedData ;
         rdfs:comment "width" .
 
-    <http://www.example.com/changedData/255> a ns8:ChangedData ;
+    <http://www.example.com/changedData/255> a ns5:ChangedData ;
         rdfs:comment "link" .
 
-    <http://www.example.com/changedData/26> a ns8:ChangedData ;
+    <http://www.example.com/changedData/26> a ns5:ChangedData ;
         rdfs:comment "105" .
 
-    <http://www.example.com/changedData/27> a ns8:ChangedData ;
+    <http://www.example.com/changedData/27> a ns5:ChangedData ;
         rdfs:comment "80" .
 
-    <http://www.example.com/changedData/28> a ns8:ChangedData ;
+    <http://www.example.com/changedData/28> a ns5:ChangedData ;
         rdfs:comment "2" .
 
-    <http://www.example.com/changedData/29> a ns8:ChangedData ;
+    <http://www.example.com/changedData/29> a ns5:ChangedData ;
         rdfs:comment "9333523" .
 
-    <http://www.example.com/changedData/3> a ns8:ChangedData ;
+    <http://www.example.com/changedData/3> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/30> a ns8:ChangedData ;
+    <http://www.example.com/changedData/30> a ns5:ChangedData ;
         rdfs:comment "NORDVIKEN / NORDVIKEN" .
 
-    <http://www.example.com/changedData/31> a ns8:ChangedData ;
+    <http://www.example.com/changedData/31> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/32> a ns8:ChangedData ;
+    <http://www.example.com/changedData/32> a ns5:ChangedData ;
         rdfs:comment "2095.0" .
 
-    <http://www.example.com/changedData/33> a ns8:ChangedData ;
+    <http://www.example.com/changedData/33> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/34> a ns8:ChangedData ;
+    <http://www.example.com/changedData/34> a ns5:ChangedData ;
         rdfs:comment "False" .
 
-    <http://www.example.com/changedData/35> a ns8:ChangedData ;
+    <http://www.example.com/changedData/35> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/nordviken-nordviken-bar-table-and-4-bar-stools-black-black-s09333523/" .
 
-    <http://www.example.com/changedData/36> a ns8:ChangedData ;
+    <http://www.example.com/changedData/36> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/37> a ns8:ChangedData ;
+    <http://www.example.com/changedData/37> a ns5:ChangedData ;
         rdfs:comment "Bar table and 4 bar stools" .
 
-    <http://www.example.com/changedData/38> a ns8:ChangedData ;
+    <http://www.example.com/changedData/38> a ns5:ChangedData ;
         rdfs:comment "Francis Cayouette" .
 
-    <http://www.example.com/changedData/39> a ns8:ChangedData .
+    <http://www.example.com/changedData/39> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/4> a ns8:ChangedData ;
+    <http://www.example.com/changedData/4> a ns5:ChangedData ;
         rdfs:comment "265.0" .
 
-    <http://www.example.com/changedData/40> a ns8:ChangedData .
+    <http://www.example.com/changedData/40> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/41> a ns8:ChangedData .
+    <http://www.example.com/changedData/41> a ns5:ChangedData .
 
-    <http://www.example.com/changedData/42> a ns8:ChangedData ;
+    <http://www.example.com/changedData/42> a ns5:ChangedData ;
         rdfs:comment "3" .
 
-    <http://www.example.com/changedData/43> a ns8:ChangedData ;
+    <http://www.example.com/changedData/43> a ns5:ChangedData ;
         rdfs:comment "80155205" .
 
-    <http://www.example.com/changedData/44> a ns8:ChangedData ;
+    <http://www.example.com/changedData/44> a ns5:ChangedData ;
         rdfs:comment "STIG" .
 
-    <http://www.example.com/changedData/45> a ns8:ChangedData ;
+    <http://www.example.com/changedData/45> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/46> a ns8:ChangedData ;
+    <http://www.example.com/changedData/46> a ns5:ChangedData ;
         rdfs:comment "69.0" .
 
-    <http://www.example.com/changedData/47> a ns8:ChangedData ;
+    <http://www.example.com/changedData/47> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/48> a ns8:ChangedData ;
+    <http://www.example.com/changedData/48> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/49> a ns8:ChangedData ;
+    <http://www.example.com/changedData/49> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/stig-bar-stool-with-backrest-black-silver-colour-80155205/" .
 
-    <http://www.example.com/changedData/5> a ns8:ChangedData ;
+    <http://www.example.com/changedData/5> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/50> a ns8:ChangedData ;
+    <http://www.example.com/changedData/50> a ns5:ChangedData ;
         rdfs:comment "Yes" .
 
-    <http://www.example.com/changedData/51> a ns8:ChangedData ;
+    <http://www.example.com/changedData/51> a ns5:ChangedData ;
         rdfs:comment "        Bar stool with backrest,          74 cm" .
 
-    <http://www.example.com/changedData/52> a ns8:ChangedData ;
+    <http://www.example.com/changedData/52> a ns5:ChangedData ;
         rdfs:comment "Henrik Preutz" .
 
-    <http://www.example.com/changedData/53> a ns8:ChangedData ;
+    <http://www.example.com/changedData/53> a ns5:ChangedData ;
         rdfs:comment "50" .
 
-    <http://www.example.com/changedData/54> a ns8:ChangedData ;
+    <http://www.example.com/changedData/54> a ns5:ChangedData ;
         rdfs:comment "100" .
 
-    <http://www.example.com/changedData/55> a ns8:ChangedData ;
+    <http://www.example.com/changedData/55> a ns5:ChangedData ;
         rdfs:comment "60" .
 
-    <http://www.example.com/changedData/56> a ns8:ChangedData ;
+    <http://www.example.com/changedData/56> a ns5:ChangedData ;
         rdfs:comment "4" .
 
-    <http://www.example.com/changedData/57> a ns8:ChangedData ;
+    <http://www.example.com/changedData/57> a ns5:ChangedData ;
         rdfs:comment "30180504" .
 
-    <http://www.example.com/changedData/58> a ns8:ChangedData ;
+    <http://www.example.com/changedData/58> a ns5:ChangedData ;
         rdfs:comment "NORBERG" .
 
-    <http://www.example.com/changedData/59> a ns8:ChangedData ;
+    <http://www.example.com/changedData/59> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/6> a ns8:ChangedData ;
+    <http://www.example.com/changedData/6> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/60> a ns8:ChangedData ;
+    <http://www.example.com/changedData/60> a ns5:ChangedData ;
         rdfs:comment "225.0" .
 
-    <http://www.example.com/changedData/61> a ns8:ChangedData ;
+    <http://www.example.com/changedData/61> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/62> a ns8:ChangedData ;
+    <http://www.example.com/changedData/62> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/63> a ns8:ChangedData ;
+    <http://www.example.com/changedData/63> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/norberg-wall-mounted-drop-leaf-table-white-30180504/" .
 
-    <http://www.example.com/changedData/64> a ns8:ChangedData ;
+    <http://www.example.com/changedData/64> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/65> a ns8:ChangedData ;
+    <http://www.example.com/changedData/65> a ns5:ChangedData ;
         rdfs:comment "        Wall-mounted drop-leaf table,          74x60 cm" .
 
-    <http://www.example.com/changedData/66> a ns8:ChangedData ;
+    <http://www.example.com/changedData/66> a ns5:ChangedData ;
         rdfs:comment "Marcus Arvonen" .
 
-    <http://www.example.com/changedData/67> a ns8:ChangedData ;
+    <http://www.example.com/changedData/67> a ns5:ChangedData ;
         rdfs:comment "60" .
 
-    <http://www.example.com/changedData/68> a ns8:ChangedData ;
+    <http://www.example.com/changedData/68> a ns5:ChangedData ;
         rdfs:comment "43" .
 
-    <http://www.example.com/changedData/69> a ns8:ChangedData ;
+    <http://www.example.com/changedData/69> a ns5:ChangedData ;
         rdfs:comment "74" .
 
-    <http://www.example.com/changedData/7> a ns8:ChangedData ;
+    <http://www.example.com/changedData/7> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/frekvens-bar-table-in-outdoor-black-90420332/" .
 
-    <http://www.example.com/changedData/70> a ns8:ChangedData ;
+    <http://www.example.com/changedData/70> a ns5:ChangedData ;
         rdfs:comment "5" .
 
-    <http://www.example.com/changedData/71> a ns8:ChangedData ;
+    <http://www.example.com/changedData/71> a ns5:ChangedData ;
         rdfs:comment "10122647" .
 
-    <http://www.example.com/changedData/72> a ns8:ChangedData ;
+    <http://www.example.com/changedData/72> a ns5:ChangedData ;
         rdfs:comment "INGOLF" .
 
-    <http://www.example.com/changedData/73> a ns8:ChangedData ;
+    <http://www.example.com/changedData/73> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/74> a ns8:ChangedData ;
+    <http://www.example.com/changedData/74> a ns5:ChangedData ;
         rdfs:comment "345.0" .
 
-    <http://www.example.com/changedData/75> a ns8:ChangedData ;
+    <http://www.example.com/changedData/75> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/76> a ns8:ChangedData ;
+    <http://www.example.com/changedData/76> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/77> a ns8:ChangedData ;
+    <http://www.example.com/changedData/77> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/ingolf-bar-stool-with-backrest-white-10122647/" .
 
-    <http://www.example.com/changedData/78> a ns8:ChangedData ;
+    <http://www.example.com/changedData/78> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/79> a ns8:ChangedData ;
+    <http://www.example.com/changedData/79> a ns5:ChangedData ;
         rdfs:comment "        Bar stool with backrest,          63 cm" .
 
-    <http://www.example.com/changedData/8> a ns8:ChangedData ;
+    <http://www.example.com/changedData/8> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/80> a ns8:ChangedData ;
+    <http://www.example.com/changedData/80> a ns5:ChangedData ;
         rdfs:comment "Carina Bengs" .
 
-    <http://www.example.com/changedData/81> a ns8:ChangedData ;
+    <http://www.example.com/changedData/81> a ns5:ChangedData ;
         rdfs:comment "45" .
 
-    <http://www.example.com/changedData/82> a ns8:ChangedData ;
+    <http://www.example.com/changedData/82> a ns5:ChangedData ;
         rdfs:comment "91" .
 
-    <http://www.example.com/changedData/83> a ns8:ChangedData ;
+    <http://www.example.com/changedData/83> a ns5:ChangedData ;
         rdfs:comment "40" .
 
-    <http://www.example.com/changedData/84> a ns8:ChangedData ;
+    <http://www.example.com/changedData/84> a ns5:ChangedData ;
         rdfs:comment "6" .
 
-    <http://www.example.com/changedData/85> a ns8:ChangedData ;
+    <http://www.example.com/changedData/85> a ns5:ChangedData ;
         rdfs:comment "70404875" .
 
-    <http://www.example.com/changedData/86> a ns8:ChangedData ;
+    <http://www.example.com/changedData/86> a ns5:ChangedData ;
         rdfs:comment "FRANKLIN" .
 
-    <http://www.example.com/changedData/87> a ns8:ChangedData ;
+    <http://www.example.com/changedData/87> a ns5:ChangedData ;
         rdfs:comment "Bar furniture" .
 
-    <http://www.example.com/changedData/88> a ns8:ChangedData ;
+    <http://www.example.com/changedData/88> a ns5:ChangedData ;
         rdfs:comment "129.0" .
 
-    <http://www.example.com/changedData/89> a ns8:ChangedData ;
+    <http://www.example.com/changedData/89> a ns5:ChangedData ;
         rdfs:comment "No old price" .
 
-    <http://www.example.com/changedData/9> a ns8:ChangedData ;
+    <http://www.example.com/changedData/9> a ns5:ChangedData ;
         rdfs:comment "        Bar table, in/outdoor,          51x51 cm" .
 
-    <http://www.example.com/changedData/90> a ns8:ChangedData ;
+    <http://www.example.com/changedData/90> a ns5:ChangedData ;
         rdfs:comment "True" .
 
-    <http://www.example.com/changedData/91> a ns8:ChangedData ;
+    <http://www.example.com/changedData/91> a ns5:ChangedData ;
         rdfs:comment "https://www.ikea.com/sa/en/p/franklin-bar-stool-with-backrest-foldable-white-white-70404875/" .
 
-    <http://www.example.com/changedData/92> a ns8:ChangedData ;
+    <http://www.example.com/changedData/92> a ns5:ChangedData ;
         rdfs:comment "No" .
 
-    <http://www.example.com/changedData/93> a ns8:ChangedData ;
+    <http://www.example.com/changedData/93> a ns5:ChangedData ;
         rdfs:comment "        Bar stool with backrest, foldable,          63 cm" .
 
-    <http://www.example.com/changedData/94> a ns8:ChangedData ;
+    <http://www.example.com/changedData/94> a ns5:ChangedData ;
         rdfs:comment "K Hagberg/M Hagberg" .
 
-    <http://www.example.com/changedData/95> a ns8:ChangedData ;
+    <http://www.example.com/changedData/95> a ns5:ChangedData ;
         rdfs:comment "44" .
 
-    <http://www.example.com/changedData/96> a ns8:ChangedData ;
+    <http://www.example.com/changedData/96> a ns5:ChangedData ;
         rdfs:comment "95" .
 
-    <http://www.example.com/changedData/97> a ns8:ChangedData ;
+    <http://www.example.com/changedData/97> a ns5:ChangedData ;
         rdfs:comment "50" .
 
-    <http://www.example.com/changedData/98> a ns8:ChangedData ;
+    <http://www.example.com/changedData/98> a ns5:ChangedData ;
         rdfs:comment "7" .
 
-    <http://www.example.com/changedData/99> a ns8:ChangedData ;
+    <http://www.example.com/changedData/99> a ns5:ChangedData ;
         rdfs:comment "60155602" .
 
-    <http://www.example.com/deleteChange/182> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/182> .
-
-    <http://www.example.com/deleteChange/183> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/183> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/184> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/184> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/185> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/185> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/186> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/186> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/187> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/187> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/188> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/188> .
-
-    <http://www.example.com/deleteChange/189> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/189> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/190> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/190> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/191> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/191> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/192> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/192> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/193> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/193> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/194> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/194> .
-
-    <http://www.example.com/deleteChange/195> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/195> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/196> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/196> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/197> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/197> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/198> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/198> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/199> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/199> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/200> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/200> .
-
-    <http://www.example.com/deleteChange/201> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/201> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/202> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/202> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/203> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/203> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/204> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/204> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/205> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/205> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/206> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/206> .
-
-    <http://www.example.com/deleteChange/207> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/207> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/208> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/208> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/209> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/209> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/210> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/210> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/211> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/211> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/212> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/212> .
-
-    <http://www.example.com/deleteChange/213> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/213> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/214> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/214> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/215> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/215> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/216> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/216> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/217> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/217> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/218> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/218> .
-
-    <http://www.example.com/deleteChange/219> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/219> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/220> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/220> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/221> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/221> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/222> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/222> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/223> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/223> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/224> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/224> .
-
-    <http://www.example.com/deleteChange/225> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/225> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/226> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/226> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/227> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/227> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/228> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/228> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/229> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/229> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/230> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/230> .
-
-    <http://www.example.com/deleteChange/231> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/231> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/232> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/232> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/233> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/233> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/234> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/234> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/235> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/235> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/236> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/236> .
-
-    <http://www.example.com/deleteChange/237> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/237> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/238> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/238> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/239> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/239> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/240> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/240> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/241> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/241> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/deleteChange/242> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/242> .
-
-    <http://www.example.com/deleteChange/243> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/243> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/deleteChange/244> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/244> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/deleteChange/245> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/245> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/deleteChange/246> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/246> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/deleteChange/247> a ns8:DeleteSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/247> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/0> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/0> .
-
-    <http://www.example.com/insertChange/1> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/1> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/10> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/10> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/100> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/100> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/101> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/101> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/102> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/102> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/103> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/103> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/104> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/104> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/105> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/105> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/106> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/106> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/107> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/107> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/108> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/108> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/109> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/109> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/11> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/11> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/110> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/110> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/111> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/111> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/112> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/112> .
-
-    <http://www.example.com/insertChange/113> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/113> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/114> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/114> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/115> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/115> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/116> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/116> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/117> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/117> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/118> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/118> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/119> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/119> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/12> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/12> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/120> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/120> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/121> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/121> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/122> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/122> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/123> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/123> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/124> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/124> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/125> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/125> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/126> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/126> .
-
-    <http://www.example.com/insertChange/127> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/127> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/128> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/128> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/129> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/129> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/13> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/13> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/130> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/130> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/131> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/131> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/132> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/132> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/133> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/133> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/134> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/134> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/135> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/135> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/136> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/136> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/137> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/137> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/138> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/138> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/139> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/139> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/14> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/14> .
-
-    <http://www.example.com/insertChange/140> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/140> .
-
-    <http://www.example.com/insertChange/141> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/141> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/142> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/142> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/143> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/143> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/144> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/144> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/145> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/145> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/146> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/146> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/147> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/147> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/148> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/148> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/149> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/149> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/15> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/15> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/150> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/150> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/151> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/151> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/152> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/152> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/153> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/153> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/154> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/154> .
-
-    <http://www.example.com/insertChange/155> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/155> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/156> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/156> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/157> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/157> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/158> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/158> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/159> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/159> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/16> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/16> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/160> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/160> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/161> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/161> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/162> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/162> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/163> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/163> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/164> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/164> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/165> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/165> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/166> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/166> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/167> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/167> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/168> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/168> .
-
-    <http://www.example.com/insertChange/169> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/169> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/17> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/17> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/170> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/170> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/171> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/171> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/172> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/172> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/173> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/173> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/174> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/174> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/175> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/175> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/176> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/176> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/177> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/177> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/178> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/178> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/179> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/179> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/18> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/18> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/180> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/180> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/181> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/181> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/19> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/19> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/2> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/2> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/20> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/20> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/21> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/21> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/22> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/22> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/23> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/23> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/24> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/24> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/248> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/248> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/249> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/249> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/25> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/25> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/250> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/250> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/251> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/251> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/252> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/252> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/253> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/253> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/254> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/254> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/255> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/255> ;
-        ns8:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/26> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/26> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/27> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/27> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/28> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/28> .
-
-    <http://www.example.com/insertChange/29> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/29> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/3> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/3> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/30> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/30> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/31> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/31> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/32> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/32> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/33> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/33> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/34> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/34> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/35> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/35> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/36> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/36> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/37> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/37> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/38> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/38> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/39> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/39> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/4> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/4> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/40> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/40> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/41> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/41> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/42> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/42> .
-
-    <http://www.example.com/insertChange/43> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/43> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/44> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/44> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/45> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/45> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/46> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/46> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/47> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/47> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/48> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/48> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/49> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/49> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/5> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/5> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/50> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/50> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/51> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/51> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/52> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/52> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/53> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/53> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/54> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/54> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/55> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/55> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/56> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/56> .
-
-    <http://www.example.com/insertChange/57> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/57> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/58> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/58> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/59> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/59> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/6> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/6> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/60> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/60> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/61> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/61> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/62> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/62> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/63> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/63> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/64> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/64> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/65> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/65> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/66> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/66> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/67> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/67> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/68> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/68> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/69> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/69> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/7> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/7> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/70> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/70> .
-
-    <http://www.example.com/insertChange/71> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/71> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/72> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/72> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/73> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/73> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/74> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/74> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/75> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/75> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/76> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/76> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/77> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/77> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/78> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/78> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/79> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/79> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/8> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/8> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/80> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/80> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/81> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/81> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/82> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/82> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/83> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/83> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/84> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/84> .
-
-    <http://www.example.com/insertChange/85> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/85> ;
-        ns8:hasDataReference "item_id" .
-
-    <http://www.example.com/insertChange/86> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/86> ;
-        ns8:hasDataReference "name" .
-
-    <http://www.example.com/insertChange/87> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/87> ;
-        ns8:hasDataReference "category" .
-
-    <http://www.example.com/insertChange/88> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/88> ;
-        ns8:hasDataReference "price" .
-
-    <http://www.example.com/insertChange/89> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/89> ;
-        ns8:hasDataReference "old_price" .
-
-    <http://www.example.com/insertChange/9> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/9> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/90> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/90> ;
-        ns8:hasDataReference "sellable_online" .
-
-    <http://www.example.com/insertChange/91> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/91> ;
-        ns8:hasDataReference "link" .
-
-    <http://www.example.com/insertChange/92> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/92> ;
-        ns8:hasDataReference "other_colors" .
-
-    <http://www.example.com/insertChange/93> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/93> ;
-        ns8:hasDataReference "short_description" .
-
-    <http://www.example.com/insertChange/94> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/94> ;
-        ns8:hasDataReference "designer" .
-
-    <http://www.example.com/insertChange/95> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/95> ;
-        ns8:hasDataReference "depth" .
-
-    <http://www.example.com/insertChange/96> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/96> ;
-        ns8:hasDataReference "height" .
-
-    <http://www.example.com/insertChange/97> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/97> ;
-        ns8:hasDataReference "width" .
-
-    <http://www.example.com/insertChange/98> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/98> .
-
-    <http://www.example.com/insertChange/99> a ns8:InsertSourceData ;
-        ns10:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
-        ns8:hasChangedData <http://www.example.com/changedData/99> ;
-        ns8:hasDataReference "item_id" .
+    <http://www.example.com/deleteChange/182> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/182> .
+
+    <http://www.example.com/deleteChange/183> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/183> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/184> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/184> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/185> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/185> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/186> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/186> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/187> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/187> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/188> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/188> .
+
+    <http://www.example.com/deleteChange/189> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/189> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/190> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/190> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/191> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/191> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/192> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/192> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/193> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/193> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/194> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/194> .
+
+    <http://www.example.com/deleteChange/195> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/195> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/196> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/196> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/197> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/197> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/198> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/198> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/199> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/199> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/200> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/200> .
+
+    <http://www.example.com/deleteChange/201> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/201> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/202> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/202> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/203> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/203> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/204> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/204> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/205> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/205> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/206> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/206> .
+
+    <http://www.example.com/deleteChange/207> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/207> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/208> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/208> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/209> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/209> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/210> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/210> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/211> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/211> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/212> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/212> .
+
+    <http://www.example.com/deleteChange/213> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/213> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/214> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/214> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/215> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/215> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/216> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/216> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/217> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/217> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/218> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/218> .
+
+    <http://www.example.com/deleteChange/219> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/219> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/220> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/220> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/221> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/221> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/222> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/222> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/223> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/223> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/224> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/224> .
+
+    <http://www.example.com/deleteChange/225> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/225> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/226> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/226> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/227> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/227> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/228> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/228> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/229> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/229> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/230> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/230> .
+
+    <http://www.example.com/deleteChange/231> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/231> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/232> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/232> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/233> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/233> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/234> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/234> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/235> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/235> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/236> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/236> .
+
+    <http://www.example.com/deleteChange/237> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/237> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/238> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/238> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/239> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/239> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/240> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/240> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/241> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/241> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/deleteChange/242> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/242> .
+
+    <http://www.example.com/deleteChange/243> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/243> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/deleteChange/244> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/244> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/deleteChange/245> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/245> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/deleteChange/246> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/246> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/deleteChange/247> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/247> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/0> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/0> .
+
+    <http://www.example.com/insertChange/1> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/1> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/10> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/10> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/100> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/100> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/101> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/101> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/102> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/102> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/103> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/103> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/104> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/104> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/105> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/105> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/106> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/106> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/107> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/107> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/108> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/108> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/109> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/109> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/11> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/11> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/110> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/110> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/111> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/111> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/112> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/112> .
+
+    <http://www.example.com/insertChange/113> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/113> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/114> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/114> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/115> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/115> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/116> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/116> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/117> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/117> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/118> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/118> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/119> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/119> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/12> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/12> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/120> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/120> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/121> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/121> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/122> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/122> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/123> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/123> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/124> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/124> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/125> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/125> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/126> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/126> .
+
+    <http://www.example.com/insertChange/127> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/127> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/128> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/128> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/129> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/129> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/13> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/13> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/130> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/130> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/131> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/131> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/132> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/132> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/133> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/133> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/134> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/134> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/135> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/135> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/136> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/136> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/137> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/137> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/138> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/138> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/139> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/139> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/14> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/14> .
+
+    <http://www.example.com/insertChange/140> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/140> .
+
+    <http://www.example.com/insertChange/141> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/141> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/142> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/142> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/143> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/143> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/144> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/144> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/145> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/145> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/146> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/146> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/147> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/147> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/148> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/148> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/149> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/149> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/15> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/15> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/150> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/150> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/151> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/151> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/152> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/152> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/153> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/153> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/154> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/154> .
+
+    <http://www.example.com/insertChange/155> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/155> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/156> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/156> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/157> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/157> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/158> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/158> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/159> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/159> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/16> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/16> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/160> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/160> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/161> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/161> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/162> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/162> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/163> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/163> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/164> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/164> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/165> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/165> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/166> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/166> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/167> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/167> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/168> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/168> .
+
+    <http://www.example.com/insertChange/169> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/169> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/17> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/17> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/170> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/170> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/171> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/171> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/172> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/172> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/173> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/173> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/174> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/174> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/175> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/175> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/176> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/176> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/177> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/177> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/178> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/178> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/179> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/179> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/18> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/18> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/180> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/180> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/181> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/181> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/19> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/19> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/2> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/2> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/20> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/20> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/21> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/21> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/22> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/22> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/23> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/23> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/24> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/24> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/248> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/248> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/249> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/249> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/25> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/25> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/250> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/250> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/251> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/251> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/252> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/252> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/253> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/253> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/254> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/254> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/255> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/255> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/26> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/26> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/27> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/27> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/28> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/28> .
+
+    <http://www.example.com/insertChange/29> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/29> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/3> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/3> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/30> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/30> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/31> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/31> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/32> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/32> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/33> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/33> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/34> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/34> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/35> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/35> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/36> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/36> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/37> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/37> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/38> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/38> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/39> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/39> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/4> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/4> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/40> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/40> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/41> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/41> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/42> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/42> .
+
+    <http://www.example.com/insertChange/43> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/43> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/44> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/44> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/45> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/45> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/46> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/46> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/47> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/47> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/48> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/48> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/49> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/49> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/5> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/5> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/50> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/50> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/51> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/51> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/52> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/52> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/53> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/53> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/54> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/54> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/55> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/55> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/56> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/56> .
+
+    <http://www.example.com/insertChange/57> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/57> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/58> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/58> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/59> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/59> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/6> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/6> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/60> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/60> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/61> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/61> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/62> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/62> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/63> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/63> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/64> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/64> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/65> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/65> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/66> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/66> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/67> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/67> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/68> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/68> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/69> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/69> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/7> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/7> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/70> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/70> .
+
+    <http://www.example.com/insertChange/71> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/71> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/72> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/72> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/73> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/73> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/74> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/74> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/75> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/75> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/76> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/76> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/77> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/77> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/78> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/78> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/79> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/79> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/8> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/8> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/80> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/80> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/81> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/81> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/82> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/82> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/83> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/83> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/84> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/84> .
+
+    <http://www.example.com/insertChange/85> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/85> ;
+        ns5:hasDataReference "item_id" .
+
+    <http://www.example.com/insertChange/86> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/86> ;
+        ns5:hasDataReference "name" .
+
+    <http://www.example.com/insertChange/87> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/87> ;
+        ns5:hasDataReference "category" .
+
+    <http://www.example.com/insertChange/88> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/88> ;
+        ns5:hasDataReference "price" .
+
+    <http://www.example.com/insertChange/89> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/89> ;
+        ns5:hasDataReference "old_price" .
+
+    <http://www.example.com/insertChange/9> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/9> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/90> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/90> ;
+        ns5:hasDataReference "sellable_online" .
+
+    <http://www.example.com/insertChange/91> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/91> ;
+        ns5:hasDataReference "link" .
+
+    <http://www.example.com/insertChange/92> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/92> ;
+        ns5:hasDataReference "other_colors" .
+
+    <http://www.example.com/insertChange/93> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/93> ;
+        ns5:hasDataReference "short_description" .
+
+    <http://www.example.com/insertChange/94> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/94> ;
+        ns5:hasDataReference "designer" .
+
+    <http://www.example.com/insertChange/95> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/95> ;
+        ns5:hasDataReference "depth" .
+
+    <http://www.example.com/insertChange/96> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/96> ;
+        ns5:hasDataReference "height" .
+
+    <http://www.example.com/insertChange/97> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/97> ;
+        ns5:hasDataReference "width" .
+
+    <http://www.example.com/insertChange/98> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/98> .
+
+    <http://www.example.com/insertChange/99> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-05 10:46:36.235105"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/99> ;
+        ns5:hasDataReference "item_id" .
+}
+
+ns8:sample_mappingqq.ttl {
+    <file:///home/alex/MQI-Framework/static/uploads/mappings/sample_mappingqq.ttl#TriplesMap8> ns10:logicalSource [ ns10:source "products.csv" ] ;
+        ns9:predicateObjectMap [ ns9:objectMap [ ns9:column "depth" ] ;
+                ns9:predicate <http://example.com/ns#hasName> ],
+            [ ns9:objectMap [ ns9:column "short_description" ] ;
+                ns9:predicate <http://example.com/ns#hasPrice> ] ;
+        ns9:subjectMap [ ns9:class <http://example.com/ns#MappingDocumehhnt> ;
+                ns9:template "http://data.example.com/product/{sellable_online}" ] .
 }
 
 ns11:user-1 {

@@ -21,7 +21,8 @@ class DetectMappingImpact:
         print(json.dumps(self.mapping_impact, sort_keys = True, indent = 4))
 
     def get_data_reference_changes(self):
-        mapping_references = ["'item_id'", "'name'", "'price'"]
+        mapping_references = self.mapping_details.get("data_references")
+        mapping_references = ["'{}'".format(reference) for reference in mapping_references]
         query = """
             PREFIX oscd: <https://w3id.org/OSCD#>
             PREFIX rml: <http://semweb.mmlab.be/ns/rml#>

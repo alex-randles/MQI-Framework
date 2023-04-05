@@ -1,0 +1,19 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix ex: <http://example.com/ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+
+<#TriplesMap8>
+    rml:logicalSource [ rml:source "products.csv" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/product/{sellable_online}";
+        rr:class ex:MappingDocumehhnt;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate ex:hasName ;
+        rr:objectMap [ rr:column "depth";  ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate ex:hasPrice ;
+        rr:objectMap [ rr:column "short_description";  ];
+    ].
