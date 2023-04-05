@@ -188,7 +188,7 @@ class API:
     def store_ontology_file(ontology_file):
         for file in ontology_file:
             filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'] + "local_ontologies/", filename)
+            file_path = "./static/uploads/local_ontologies/" + filename
             file.save(file_path)
             # if uploaded file is not valid RDF
             error_message = FetchVocabularies.store_local_vocabulary(file_path)
@@ -729,13 +729,13 @@ class API:
         if mapping_identifier:
             mapping_identifier = int(mapping_identifier)
             if mapping_identifier == 1:
-                graph_location = "./static/sample_mappings/1.ttl"
+                graph_location = "./static/sample_mappings/student_mapping.ttl"
             elif mapping_identifier == 2:
-                graph_location = "./static/sample_mappings/1.ttl"
+                graph_location = "./static/sample_mappings/student_mapping.ttl"
             elif mapping_identifier == 2:
-                graph_location = "./static/sample_mappings/1.ttl"
+                graph_location = "./static/sample_mappings/student_mapping.ttl"
             else:
-                graph_location = "./static/sample_mappings/1.ttl"
+                graph_location = "./static/sample_mappings/student_mapping.ttl"
             return send_file(graph_location, attachment_filename="student-mapping.ttl", as_attachment=True, cache_timeout=0)
 
         return render_template("mapping_quality/sample_mappings.html")
