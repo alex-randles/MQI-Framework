@@ -211,8 +211,29 @@ class DisplayChanges:
         # lists as could be more than 1 triple map
         source_data = []
         for row in qres:
-            source_data.append(str(row[0]))
-        self.mapping_details[self.current_graph_version]["source_data"] = source_data
+            source_data.append(str(row.get("sourceData")))
+        if source_data:
+            self.mapping_details[self.current_graph_version]["source_data"] = source_data
+        else:
+            self.extract_sql_query()
+
+    def extract_sql_query(self):
+        query = """
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
+            SELECT DISTINCT ?sourceData
+            WHERE
+            {
+                ?subject rr:sqlQuery ?sourceData
+            }
+        """
+        qres = self.current_graph.query(query)
+        source_data = []
+        for row in qres:
+            sql_query = str(row.get("sourceData")).split()
+            if "FROM" in sql_query:
+                source_data.append(sql_query[sql_query.index("FROM") + 1])
+        self.mapping_details[self.current_graph_version]["source_data"] = list(set(source_data))
 
     def get_iterator(self):
         # get detection time for notification policy to check if still valid

@@ -20,41 +20,8 @@ class ValidateNotificationPolicy:
         self.detection_period = self.get_detection_period()
         self.changes_count = self.get_changes_count()
         self.notification_thresholds = self.get_notification_thresholds()
-        self.user_email = self.get_user_email()
         self.validate_policy()
-
-    def get_detection_period(self):
-        # get detection time for notification policy to check if still valid
-        query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        
-        SELECT ?detectionEnd
-        WHERE
-        {
-          # QUERY NOTIFICATION GRAPH
-          GRAPH notification-graph:%s  {
-            # GET DETECTION PERIOD END
-            ?policy a rei-policy:Policy ;
-                    cdo:detectionEnd ?detectionEnd .
-          }
-        }
-        
-        """ % (self.user_id)
-        qres = self.user_graph.query(query)
-        detection_time = None
-        for row in qres:
-            detection_time = row[0]
-        # convert detection period into datetime format
-        detection_time = parser.parse(detection_time)
-        return detection_time
+        self.user_email = self.get_user_email()
 
     def get_changes_count(self):
         # query to get notification thresholds
@@ -166,26 +133,6 @@ class ValidateNotificationPolicy:
             user_email = str(row[0])
         return user_email
 
-    def validate_policy(self):
-        current_date =  datetime.now()
-        # validate detection period
-        print("VALIDATING POLICY FOR USER", self.user_id)
-        if current_date < self.detection_period:
-            # policy still active - iterate the change counts
-            for change_type, change_count in self.changes_count.items():
-                change_threshold = int(self.notification_thresholds[change_type])
-                if change_count > change_threshold != 0:
-                    print("THRESHOLD REACHED FOR", change_type)
-                    self.send_notification_email()
-                    print("NOTIFICATION EMAIL SENT")
-                    return
-                else:
-                    # run change detection  again
-                    print("POLICY STILL VALID")
-        else:
-            print("DETECTION PERIOD OVER")
-            # self.void_policy()
-
     def send_notification_email(self):
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
@@ -219,18 +166,6 @@ class ValidateNotificationPolicy:
         text = msg.as_string()
         server.sendmail(sender_email, receiver_email, text)
         server.quit()
-
-    @staticmethod
-    def iterate_user_graphs():
-        user_graph_directory = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/graphs"
-        directory = os.fsencode(user_graph_directory)
-        while True:
-            for file in os.listdir(directory):
-                filename = os.fsdecode(file)
-                user_graph_file = user_graph_directory + "/" + filename
-                # get user ID from file
-                user_id = filename.split("_")[-1].split(".")[0]
-                ValidateNotificationPolicy(user_graph_file, user_id)
 
 if __name__ == "__main__":
     ValidateNotificationPolicy.iterate_user_graphs()
