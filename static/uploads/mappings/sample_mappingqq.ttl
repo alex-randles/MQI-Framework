@@ -4,9 +4,9 @@
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 
 <#TriplesMap8>
-    rml:logicalSource [ rml:source "products.csv" ];
+    rml:logicalSource [ rml:source "employee.csv" ];
     rr:subjectMap [
-        rr:template "http://data.example.com/product/{sellable_online}";
+        rr:template "http://data.example.com/product/{DEPARTMENT_ID}";
         rr:class ex:MappingDocumehhnt;
     ];
     rr:predicateObjectMap [
