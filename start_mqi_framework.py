@@ -294,6 +294,7 @@ class API:
             change_process_executed = session.get("change_process_executed")
             session["change_process_executed"] = False
             # get graph details for user
+            # try:
             display_changes = DisplayChanges(participant_id)
             error_code = display_changes.error_code
             if error_code == 0:
@@ -310,6 +311,9 @@ class API:
                     mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                     # mappings_impacted = mappings_impacted,
                 )
+            # this is the error for when an uploaded file is not valid mapping
+            # except rdflib.plugins.parsers.notation3.BadSyntax as e:
+            # pass
             else:
                 return "<h1>Error!!!!!</h1>"
         else:

@@ -285,7 +285,7 @@ a rr:TriplesMap ;
 
 <#CITATION2URI>
 a rr:TriplesMap ;
-	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION2 FROM DATA WHERE REGEXP_LIKE(CITATION2, '^http(s)?://')""" ] ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION2 FROM testtststst WHERE REGEXP_LIKE(CITATION2, '^http(s)?://')""" ] ;
 
 	rr:subjectMap [
 		rr:column "CITATION2" ;
@@ -311,7 +311,7 @@ a rr:TriplesMap ;
 
 <#CITATION2TEXT>
 a rr:TriplesMap ;
-	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION2 FROM DATA WHERE CITATION2 IS NOT NULL AND NOT REGEXP_LIKE(CITATION2, '^http(s)?://')""" ] ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION2 FROM EMPLOYEES WHERE CITATION2 IS NOT NULL AND NOT REGEXP_LIKE(CITATION2, '^http(s)?://')""" ] ;
 
 	rr:subjectMap [
 		rr:template "https://kb.beyond2022.ie/reference/{CITATION2}" ;
