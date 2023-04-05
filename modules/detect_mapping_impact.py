@@ -5,15 +5,16 @@ import json
 
 class DetectMappingImpact:
 
-    def __init__(self, mapping_file, changes_file):
+    def __init__(self, mapping_details, changes_file):
         self.changes_graph = ConjunctiveGraph()
-        self.changes_graph.parse(changes_file, format="trig")
+        self.changes_graph.parse("./static/change_detection_cache/change_graphs/" + changes_file, format="trig")
+        self.mapping_details = mapping_details
+        mapping_file = mapping_details.get("filename")
         mapping_graph_identifier = URIRef("http://www.example.com/mappingGraph/" + mapping_file)
-        mapping_graph = Graph().parse(mapping_file, format="ttl")
+        mapping_graph = Graph().parse("./static/uploads/mappings/" + mapping_file, format="ttl")
         for s, p, o in mapping_graph.triples((None, None, None)):
             self.changes_graph.add((s,p,o, mapping_graph_identifier))
         self.changes_graph.serialize(destination="test.trig", format="trig")
-        self.mapping_details = {1: {'filename': 'sample_mapping26.ttl', 'display_filename': 'sample_mapping26.ttl', 'source_data': ['products.csv'], 'data_references': ['item_id', 'name', 'price']}}
         self.mapping_impact = defaultdict(dict)
         self.get_data_reference_changes()
         self.get_structural_changes()

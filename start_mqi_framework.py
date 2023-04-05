@@ -259,11 +259,15 @@ class API:
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
         mapping_graph = "/home/alex/MQI-Framework/static/uploads/mappings/sample_mapping26.ttl"
         changes_graph = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/1.trig"
-        impact = DetectMappingImpact(mapping_graph, changes_graph)
-        mapping_impact =  impact.mapping_impact
+        mapping_graph = session.get("mapping_details").get(int(mapping_unique_id))
+        graph_id = int(graph_id.split(".")[0])
+        change_graph_details = session.get("graph_details").get(graph_id)
+        impact = DetectMappingImpact(mapping_graph, change_graph_details.get("filename"))
+        mapping_impact = impact.mapping_impact
         return render_template("change_detection/mappings_impacted.html",
                                mapping_id=mapping_unique_id,
-                               mapping_impact=mapping_impact)
+                               mapping_impact=mapping_impact,
+                               change_graph_details=change_graph_details)
 
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
