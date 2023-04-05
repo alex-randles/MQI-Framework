@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% extends "mapping_quality/base.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sample Mappings{% endblock %}</title>
+</head>
+<body>
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card border-dark" style="max-width: 40rem;margin:5%;">
+                <div class="card-header">R2RML Mapping</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Provenance Mapping</h5>
+                    <p class="card-text">This mapping uses the <a href="#">Provenance Ontology (PROV-O)</a> to transform generation time of a dataset (GENERATION_TIME). This mapping contains the following quality issues:</p>
+                    <ul>
+                        <li><strong>Usage of undefined property.</strong> prov:genratedAtTime is undefined in PROV-O.</li>
+                    </ul>
+                    <a href="{{ url_for('download_sample_mappings', mapping_identifier=1) }}" class="btn btn-primary">Download Mapping</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card border-dark" style="max-width: 40rem;margin:5%;">
+                <div class="card-header">R2RML Mapping</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Product Mapping</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{{ url_for('download_sample_mappings', mapping_identifier=1) }}" class="btn btn-primary">Download Mapping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="card border-dark" style="max-width: 40rem;margin:5%;">
+                <div class="card-header">RML Mapping</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Employee Mapping</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{{ url_for('download_sample_mappings', mapping_identifier=1) }}" class="btn btn-primary">Download Mapping</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card border-dark" style="max-width: 40rem;margin:5%;">
+                <div class="card-header">RML Mapping</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Student Mapping</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="{{ url_for('download_sample_mappings', mapping_identifier=1) }}" class="btn btn-primary">Download Mapping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+</body>
+</html>

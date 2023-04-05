@@ -723,6 +723,23 @@ class API:
                          attachment_filename="change_graph.trig",
                          as_attachment=True, cache_timeout=0)
 
+    @app.route("/display-sample-mappings", methods=['GET', 'POST'])
+    @app.route("/display-sample-mappings/<mapping_identifier>", methods=['GET', 'POST'])
+    def download_sample_mappings(mapping_identifier=None):
+        if mapping_identifier:
+            mapping_identifier = int(mapping_identifier)
+            if mapping_identifier == 1:
+                graph_location = "./static/sample_mappings/1.ttl"
+            elif mapping_identifier == 2:
+                graph_location = "./static/sample_mappings/1.ttl"
+            elif mapping_identifier == 2:
+                graph_location = "./static/sample_mappings/1.ttl"
+            else:
+                graph_location = "./static/sample_mappings/1.ttl"
+            return send_file(graph_location, attachment_filename="student-mapping.ttl", as_attachment=True, cache_timeout=0)
+
+        return render_template("mapping_quality/sample_mappings.html")
+
 if __name__ == "__main__":
     # start api
     API()
