@@ -38,7 +38,7 @@
             <https://w3id.org/OSCD#hasDetectionEnd>
                     "2022-12-31 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
             <https://w3id.org/OSCD#hasDetectionStart>
-                    "2023-04-05 09:50:32.417651"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+                    "2023-04-05 10:46:38.333811"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     
     <http://www.example.com/updateChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
@@ -115,7 +115,7 @@
     <http://www.example.com/insertChange/106>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/106> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -134,7 +134,7 @@
     <http://www.example.com/deleteChange/236>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/236> .
     
@@ -146,7 +146,7 @@
     <http://www.example.com/insertChange/178>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/178> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -160,7 +160,7 @@
     <http://www.example.com/insertChange/77>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/77> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -169,7 +169,7 @@
     <http://www.example.com/deleteChange/206>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/206> .
     
@@ -181,7 +181,7 @@
     <http://www.example.com/insertChange/148>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/148> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -190,7 +190,7 @@
     <http://www.example.com/deleteChange/182>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/182> .
     
@@ -202,7 +202,7 @@
     <http://www.example.com/insertChange/47>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/47> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -216,7 +216,7 @@
     <http://www.example.com/insertChange/118>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/118> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -230,7 +230,7 @@
     <http://www.example.com/insertChange/17>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/17> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -244,7 +244,7 @@
     <http://www.example.com/insertChange/7>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/7> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -258,7 +258,7 @@
     <http://www.example.com/insertChange/89>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/89> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -267,7 +267,7 @@
     <http://www.example.com/deleteChange/218>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/218> .
     
@@ -288,7 +288,7 @@
     <http://www.example.com/deleteChange/194>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/194> .
     
@@ -300,7 +300,7 @@
     <http://www.example.com/insertChange/59>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/59> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -324,7 +324,7 @@
     <http://www.example.com/insertChange/29>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/29> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -333,7 +333,7 @@
     <http://www.example.com/insertChange/90>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/90> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -357,7 +357,7 @@
     <http://www.example.com/insertChange/161>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/161> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -366,7 +366,7 @@
     <http://www.example.com/insertChange/60>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/60> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -380,7 +380,7 @@
     <http://www.example.com/insertChange/131>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/131> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -389,7 +389,7 @@
     <http://www.example.com/insertChange/30>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/30> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -413,7 +413,7 @@
     <http://www.example.com/insertChange/101>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/101> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -432,7 +432,7 @@
     <http://www.example.com/deleteChange/231>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/231> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -451,7 +451,7 @@
     <http://www.example.com/insertChange/173>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/173> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -465,7 +465,7 @@
     <http://www.example.com/insertChange/72>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/72> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -474,7 +474,7 @@
     <http://www.example.com/deleteChange/201>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/201> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -483,7 +483,7 @@
     <http://www.example.com/insertChange/143>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/143> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -492,7 +492,7 @@
     <http://www.example.com/insertChange/42>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/42> .
     
@@ -504,7 +504,7 @@
     <http://www.example.com/insertChange/113>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/113> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -513,14 +513,14 @@
     <http://www.example.com/deleteChange/188>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/188> .
     
     <http://www.example.com/insertChange/12>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/12> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -529,7 +529,7 @@
     <http://www.example.com/deleteChange/243>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/243> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -543,7 +543,7 @@
     <http://www.example.com/insertChange/2>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/2> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -552,14 +552,14 @@
     <http://www.example.com/insertChange/84>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/84> .
     
     <http://www.example.com/deleteChange/213>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/213> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -573,7 +573,7 @@
     <http://www.example.com/insertChange/155>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/155> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -587,7 +587,7 @@
     <http://www.example.com/insertChange/54>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/54> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -601,7 +601,7 @@
     <http://www.example.com/insertChange/125>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/125> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -615,7 +615,7 @@
     <http://www.example.com/insertChange/24>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/24> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -639,7 +639,7 @@
     <http://www.example.com/insertChange/96>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/96> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -648,7 +648,7 @@
     <http://www.example.com/deleteChange/225>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/225> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -662,7 +662,7 @@
     <http://www.example.com/insertChange/252>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/252> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -676,7 +676,7 @@
     <http://www.example.com/insertChange/167>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/167> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -690,7 +690,7 @@
     <http://www.example.com/insertChange/66>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/66> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -704,7 +704,7 @@
     <http://www.example.com/insertChange/137>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/137> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -718,7 +718,7 @@
     <http://www.example.com/insertChange/36>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/36> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -737,7 +737,7 @@
     <http://www.example.com/insertChange/107>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/107> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -756,7 +756,7 @@
     <http://www.example.com/deleteChange/237>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/237> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -770,7 +770,7 @@
     <http://www.example.com/insertChange/179>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/179> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -784,7 +784,7 @@
     <http://www.example.com/insertChange/78>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/78> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -793,7 +793,7 @@
     <http://www.example.com/deleteChange/207>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/207> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -812,7 +812,7 @@
     <http://www.example.com/insertChange/149>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/149> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -821,7 +821,7 @@
     <http://www.example.com/deleteChange/183>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/183> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -835,7 +835,7 @@
     <http://www.example.com/insertChange/48>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/48> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -854,7 +854,7 @@
     <http://www.example.com/insertChange/119>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/119> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -868,7 +868,7 @@
     <http://www.example.com/insertChange/18>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/18> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -877,7 +877,7 @@
     <http://www.example.com/insertChange/180>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/180> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -891,7 +891,7 @@
     <http://www.example.com/insertChange/8>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/8> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -905,7 +905,7 @@
     <http://www.example.com/insertChange/150>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/150> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -914,7 +914,7 @@
     <http://www.example.com/deleteChange/219>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/219> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -928,7 +928,7 @@
     <http://www.example.com/insertChange/120>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/120> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -937,7 +937,7 @@
     <http://www.example.com/deleteChange/195>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/195> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -966,7 +966,7 @@
     <http://www.example.com/insertChange/91>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/91> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -980,7 +980,7 @@
     <http://www.example.com/deleteChange/220>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/220> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -999,7 +999,7 @@
     <http://www.example.com/insertChange/162>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/162> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1008,7 +1008,7 @@
     <http://www.example.com/insertChange/61>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/61> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1022,7 +1022,7 @@
     <http://www.example.com/insertChange/132>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/132> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1031,7 +1031,7 @@
     <http://www.example.com/insertChange/31>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/31> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1055,7 +1055,7 @@
     <http://www.example.com/insertChange/102>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/102> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1072,7 +1072,7 @@
     <http://www.example.com/deleteChange/232>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/232> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1086,7 +1086,7 @@
     <http://www.example.com/insertChange/174>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/174> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1110,7 +1110,7 @@
     <http://www.example.com/insertChange/73>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/73> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1119,7 +1119,7 @@
     <http://www.example.com/deleteChange/202>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/202> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1133,7 +1133,7 @@
     <http://www.example.com/insertChange/144>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/144> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1147,7 +1147,7 @@
     <http://www.example.com/insertChange/43>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/43> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1159,7 +1159,7 @@
     <http://www.example.com/insertChange/114>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/114> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1168,7 +1168,7 @@
     <http://www.example.com/deleteChange/189>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/189> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1182,7 +1182,7 @@
     <http://www.example.com/insertChange/13>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/13> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1191,7 +1191,7 @@
     <http://www.example.com/deleteChange/244>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/244> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1210,7 +1210,7 @@
     <http://www.example.com/insertChange/3>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/3> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1224,7 +1224,7 @@
     <http://www.example.com/insertChange/85>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/85> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1233,7 +1233,7 @@
     <http://www.example.com/deleteChange/214>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/214> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1247,7 +1247,7 @@
     <http://www.example.com/insertChange/156>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/156> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1256,7 +1256,7 @@
     <http://www.example.com/deleteChange/190>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/190> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1270,7 +1270,7 @@
     <http://www.example.com/insertChange/55>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/55> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1284,7 +1284,7 @@
     <http://www.example.com/insertChange/126>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/126> .
     
@@ -1296,7 +1296,7 @@
     <http://www.example.com/insertChange/25>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/25> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1320,7 +1320,7 @@
     <http://www.example.com/insertChange/97>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/97> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1329,7 +1329,7 @@
     <http://www.example.com/deleteChange/226>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/226> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1343,7 +1343,7 @@
     <http://www.example.com/insertChange/253>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/253> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -1357,7 +1357,7 @@
     <http://www.example.com/insertChange/168>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/168> .
     
@@ -1369,7 +1369,7 @@
     <http://www.example.com/insertChange/67>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/67> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1383,7 +1383,7 @@
     <http://www.example.com/insertChange/138>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/138> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1397,7 +1397,7 @@
     <http://www.example.com/insertChange/37>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/37> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1411,7 +1411,7 @@
     <http://www.example.com/insertChange/108>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/108> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1430,7 +1430,7 @@
     <http://www.example.com/deleteChange/238>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/238> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1444,7 +1444,7 @@
     <http://www.example.com/insertChange/79>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/79> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1453,7 +1453,7 @@
     <http://www.example.com/deleteChange/208>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/208> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1472,7 +1472,7 @@
     <http://www.example.com/deleteChange/184>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/184> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1486,7 +1486,7 @@
     <http://www.example.com/insertChange/49>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/49> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1510,7 +1510,7 @@
     <http://www.example.com/insertChange/19>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/19> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1519,7 +1519,7 @@
     <http://www.example.com/insertChange/181>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/181> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1528,7 +1528,7 @@
     <http://www.example.com/insertChange/80>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/80> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1542,7 +1542,7 @@
     <http://www.example.com/insertChange/9>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/9> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1556,7 +1556,7 @@
     <http://www.example.com/insertChange/151>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/151> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1565,7 +1565,7 @@
     <http://www.example.com/insertChange/50>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/50> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1574,7 +1574,7 @@
     <http://www.example.com/insertChange/121>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/121> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1588,7 +1588,7 @@
     <http://www.example.com/insertChange/20>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/20> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1597,7 +1597,7 @@
     <http://www.example.com/deleteChange/196>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/196> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1626,7 +1626,7 @@
     <http://www.example.com/insertChange/92>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/92> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1635,7 +1635,7 @@
     <http://www.example.com/deleteChange/221>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/221> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1659,7 +1659,7 @@
     <http://www.example.com/insertChange/163>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/163> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1668,7 +1668,7 @@
     <http://www.example.com/insertChange/62>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/62> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1677,7 +1677,7 @@
     <http://www.example.com/insertChange/133>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/133> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1686,7 +1686,7 @@
     <http://www.example.com/insertChange/32>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/32> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1700,7 +1700,7 @@
     <http://www.example.com/insertChange/103>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/103> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1709,7 +1709,7 @@
     <http://www.example.com/deleteChange/233>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/233> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1723,7 +1723,7 @@
     <http://www.example.com/insertChange/175>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/175> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1742,7 +1742,7 @@
     <http://www.example.com/insertChange/74>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/74> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1751,7 +1751,7 @@
     <http://www.example.com/deleteChange/203>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/203> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1765,7 +1765,7 @@
     <http://www.example.com/insertChange/145>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/145> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1779,7 +1779,7 @@
     <http://www.example.com/insertChange/44>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/44> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1791,7 +1791,7 @@
     <http://www.example.com/insertChange/115>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/115> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1805,7 +1805,7 @@
     <http://www.example.com/insertChange/14>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/14> .
     
@@ -1815,7 +1815,7 @@
     <http://www.example.com/deleteChange/245>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/245> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1829,7 +1829,7 @@
     <http://www.example.com/insertChange/4>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/4> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1843,7 +1843,7 @@
     <http://www.example.com/insertChange/86>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/86> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1852,7 +1852,7 @@
     <http://www.example.com/deleteChange/215>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/215> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1866,7 +1866,7 @@
     <http://www.example.com/insertChange/157>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/157> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1875,7 +1875,7 @@
     <http://www.example.com/deleteChange/191>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/191> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1889,7 +1889,7 @@
     <http://www.example.com/insertChange/56>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/56> .
     
@@ -1901,7 +1901,7 @@
     <http://www.example.com/insertChange/127>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/127> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1915,7 +1915,7 @@
     <http://www.example.com/insertChange/26>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/26> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1939,14 +1939,14 @@
     <http://www.example.com/insertChange/98>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/98> .
     
     <http://www.example.com/deleteChange/227>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/227> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1960,7 +1960,7 @@
     <http://www.example.com/insertChange/254>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/254> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -1974,7 +1974,7 @@
     <http://www.example.com/insertChange/169>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/169> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -1988,7 +1988,7 @@
     <http://www.example.com/insertChange/68>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/68> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2007,7 +2007,7 @@
     <http://www.example.com/insertChange/139>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/139> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2021,7 +2021,7 @@
     <http://www.example.com/insertChange/38>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/38> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2040,7 +2040,7 @@
     <http://www.example.com/insertChange/109>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/109> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2054,7 +2054,7 @@
     <http://www.example.com/insertChange/170>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/170> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2068,7 +2068,7 @@
     <http://www.example.com/deleteChange/239>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/239> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2077,7 +2077,7 @@
     <http://www.example.com/insertChange/140>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/140> .
     
@@ -2089,7 +2089,7 @@
     <http://www.example.com/deleteChange/209>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/209> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2108,7 +2108,7 @@
     <http://www.example.com/insertChange/110>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/110> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2117,7 +2117,7 @@
     <http://www.example.com/deleteChange/185>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/185> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2136,7 +2136,7 @@
     <http://www.example.com/deleteChange/240>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/240> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2153,7 +2153,7 @@
     <http://www.example.com/insertChange/81>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/81> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2162,7 +2162,7 @@
     <http://www.example.com/deleteChange/210>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/210> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2181,7 +2181,7 @@
     <http://www.example.com/insertChange/152>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/152> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2190,7 +2190,7 @@
     <http://www.example.com/insertChange/51>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/51> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2199,7 +2199,7 @@
     <http://www.example.com/insertChange/248>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/248> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -2208,7 +2208,7 @@
     <http://www.example.com/insertChange/122>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/122> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2222,7 +2222,7 @@
     <http://www.example.com/insertChange/21>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/21> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2231,7 +2231,7 @@
     <http://www.example.com/deleteChange/197>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/197> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2260,7 +2260,7 @@
     <http://www.example.com/insertChange/93>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/93> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2274,7 +2274,7 @@
     <http://www.example.com/deleteChange/222>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/222> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2298,7 +2298,7 @@
     <http://www.example.com/insertChange/164>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/164> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2312,7 +2312,7 @@
     <http://www.example.com/insertChange/63>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/63> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2326,7 +2326,7 @@
     <http://www.example.com/insertChange/134>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/134> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2340,7 +2340,7 @@
     <http://www.example.com/insertChange/33>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/33> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2359,7 +2359,7 @@
     <http://www.example.com/insertChange/104>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/104> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2373,7 +2373,7 @@
     <http://www.example.com/deleteChange/234>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/234> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2387,7 +2387,7 @@
     <http://www.example.com/insertChange/176>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/176> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2406,7 +2406,7 @@
     <http://www.example.com/insertChange/75>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/75> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2415,7 +2415,7 @@
     <http://www.example.com/deleteChange/204>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/204> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2429,7 +2429,7 @@
     <http://www.example.com/insertChange/146>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/146> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2443,7 +2443,7 @@
     <http://www.example.com/insertChange/45>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/45> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2457,7 +2457,7 @@
     <http://www.example.com/insertChange/116>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/116> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2471,7 +2471,7 @@
     <http://www.example.com/insertChange/15>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/15> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2480,7 +2480,7 @@
     <http://www.example.com/deleteChange/246>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/246> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2499,7 +2499,7 @@
     <http://www.example.com/insertChange/5>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/5> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2513,7 +2513,7 @@
     <http://www.example.com/insertChange/87>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/87> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2522,7 +2522,7 @@
     <http://www.example.com/deleteChange/216>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/216> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2536,7 +2536,7 @@
     <http://www.example.com/insertChange/158>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/158> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2545,7 +2545,7 @@
     <http://www.example.com/deleteChange/192>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/192> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2559,7 +2559,7 @@
     <http://www.example.com/insertChange/57>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/57> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2573,7 +2573,7 @@
     <http://www.example.com/insertChange/128>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/128> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2587,7 +2587,7 @@
     <http://www.example.com/insertChange/27>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/27> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2606,7 +2606,7 @@
     <http://www.example.com/insertChange/99>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/99> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2615,7 +2615,7 @@
     <http://www.example.com/deleteChange/228>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/228> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2624,7 +2624,7 @@
     <http://www.example.com/insertChange/255>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/255> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -2643,7 +2643,7 @@
     <http://www.example.com/insertChange/69>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/69> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2667,7 +2667,7 @@
     <http://www.example.com/insertChange/39>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/39> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2691,7 +2691,7 @@
     <http://www.example.com/insertChange/171>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/171> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2705,14 +2705,14 @@
     <http://www.example.com/insertChange/70>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/70> .
     
     <http://www.example.com/insertChange/141>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/141> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2721,7 +2721,7 @@
     <http://www.example.com/insertChange/40>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/40> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2735,7 +2735,7 @@
     <http://www.example.com/insertChange/111>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/111> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2754,7 +2754,7 @@
     <http://www.example.com/insertChange/10>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/10> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2763,7 +2763,7 @@
     <http://www.example.com/deleteChange/186>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/186> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2782,7 +2782,7 @@
     <http://www.example.com/deleteChange/241>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/241> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2796,7 +2796,7 @@
     <http://www.example.com/insertChange/0>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/0> .
     
@@ -2806,7 +2806,7 @@
     <http://www.example.com/insertChange/82>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/82> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2815,7 +2815,7 @@
     <http://www.example.com/deleteChange/211>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/211> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2834,7 +2834,7 @@
     <http://www.example.com/insertChange/153>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/153> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2843,7 +2843,7 @@
     <http://www.example.com/insertChange/52>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/52> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2852,7 +2852,7 @@
     <http://www.example.com/insertChange/249>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/249> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -2861,7 +2861,7 @@
     <http://www.example.com/insertChange/123>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/123> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2870,7 +2870,7 @@
     <http://www.example.com/deleteChange/198>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/198> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2879,7 +2879,7 @@
     <http://www.example.com/insertChange/22>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/22> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2893,7 +2893,7 @@
     <http://www.example.com/insertChange/94>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/94> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2902,7 +2902,7 @@
     <http://www.example.com/deleteChange/223>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/223> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2916,7 +2916,7 @@
     <http://www.example.com/insertChange/250>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/250> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -2930,7 +2930,7 @@
     <http://www.example.com/insertChange/165>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/165> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2944,7 +2944,7 @@
     <http://www.example.com/insertChange/64>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/64> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2958,7 +2958,7 @@
     <http://www.example.com/insertChange/135>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/135> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2972,7 +2972,7 @@
     <http://www.example.com/insertChange/34>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/34> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -2991,7 +2991,7 @@
     <http://www.example.com/insertChange/105>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/105> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3005,7 +3005,7 @@
     <http://www.example.com/deleteChange/235>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/235> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3019,7 +3019,7 @@
     <http://www.example.com/insertChange/177>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/177> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3033,7 +3033,7 @@
     <http://www.example.com/insertChange/76>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/76> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3042,7 +3042,7 @@
     <http://www.example.com/deleteChange/205>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/205> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3056,7 +3056,7 @@
     <http://www.example.com/insertChange/147>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/147> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3070,7 +3070,7 @@
     <http://www.example.com/insertChange/46>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/46> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3084,7 +3084,7 @@
     <http://www.example.com/insertChange/117>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/117> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3098,7 +3098,7 @@
     <http://www.example.com/insertChange/16>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/16> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3107,7 +3107,7 @@
     <http://www.example.com/deleteChange/247>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/247> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3126,7 +3126,7 @@
     <http://www.example.com/insertChange/6>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/6> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3140,7 +3140,7 @@
     <http://www.example.com/insertChange/88>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/88> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3149,7 +3149,7 @@
     <http://www.example.com/deleteChange/217>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/217> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3163,7 +3163,7 @@
     <http://www.example.com/insertChange/159>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/159> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3172,7 +3172,7 @@
     <http://www.example.com/deleteChange/193>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/193> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3186,7 +3186,7 @@
     <http://www.example.com/insertChange/58>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/58> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3205,7 +3205,7 @@
     <http://www.example.com/insertChange/129>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/129> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3219,7 +3219,7 @@
     <http://www.example.com/insertChange/28>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/28> .
     
@@ -3239,7 +3239,7 @@
     <http://www.example.com/insertChange/160>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/160> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3248,7 +3248,7 @@
     <http://www.example.com/deleteChange/229>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/229> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3262,7 +3262,7 @@
     <http://www.example.com/insertChange/130>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/130> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3286,7 +3286,7 @@
     <http://www.example.com/insertChange/100>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/100> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3305,7 +3305,7 @@
     <http://www.example.com/deleteChange/230>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/230> .
     
@@ -3322,7 +3322,7 @@
     <http://www.example.com/insertChange/172>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/172> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3336,7 +3336,7 @@
     <http://www.example.com/insertChange/71>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/71> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3345,14 +3345,14 @@
     <http://www.example.com/deleteChange/200>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/200> .
     
     <http://www.example.com/insertChange/142>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/142> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3361,7 +3361,7 @@
     <http://www.example.com/insertChange/41>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/41> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3375,7 +3375,7 @@
     <http://www.example.com/insertChange/112>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/112> .
     
@@ -3392,7 +3392,7 @@
     <http://www.example.com/insertChange/11>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/11> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3401,7 +3401,7 @@
     <http://www.example.com/deleteChange/187>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/187> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3415,7 +3415,7 @@
     <http://www.example.com/deleteChange/242>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/242> .
     
@@ -3432,7 +3432,7 @@
     <http://www.example.com/insertChange/1>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/1> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3444,7 +3444,7 @@
     <http://www.example.com/insertChange/83>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/83> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3453,7 +3453,7 @@
     <http://www.example.com/deleteChange/212>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/212> .
     
@@ -3475,7 +3475,7 @@
     <http://www.example.com/insertChange/154>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/154> .
     
@@ -3487,7 +3487,7 @@
     <http://www.example.com/insertChange/53>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/53> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3501,7 +3501,7 @@
     <http://www.example.com/insertChange/124>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/124> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3510,7 +3510,7 @@
     <http://www.example.com/deleteChange/199>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/199> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3524,7 +3524,7 @@
     <http://www.example.com/insertChange/23>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/23> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3546,7 +3546,7 @@
     <http://www.example.com/insertChange/95>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/95> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3555,7 +3555,7 @@
     <http://www.example.com/deleteChange/224>
             a       <https://w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/224> .
     
@@ -3567,7 +3567,7 @@
     <http://www.example.com/insertChange/251>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/251> ;
             <https://w3id.org/OSCD#hasStructuralReference>
@@ -3581,7 +3581,7 @@
     <http://www.example.com/insertChange/166>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/166> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3595,7 +3595,7 @@
     <http://www.example.com/insertChange/65>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/65> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3609,7 +3609,7 @@
     <http://www.example.com/insertChange/136>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/136> ;
             <https://w3id.org/OSCD#hasDataReference>
@@ -3623,7 +3623,7 @@
     <http://www.example.com/insertChange/35>
             a       <https://w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-05 09:50:30.183129"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-05 10:46:36.235105"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/35> ;
             <https://w3id.org/OSCD#hasDataReference>

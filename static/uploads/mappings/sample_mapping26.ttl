@@ -4,7 +4,7 @@
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 
 <#TriplesMap8>
-    rr:logicalSource [ rml:source "products.csv" ];
+    rml:logicalSource [ rml:source "products.csv" ];
     rr:subjectMap [
         rr:template "http://data.example.com/product/{item_id}";
         rr:class ex:MappingDocumehhnt;

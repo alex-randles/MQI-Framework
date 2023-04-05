@@ -17,8 +17,8 @@ class DisplayChanges:
         self.current_graph = None
         # stores version of graph being queried
         self.current_graph_version = None
-        self.graph_details = {}
-        self.mapping_details = {}
+        self.graph_details = defaultdict(dict)
+        self.mapping_details = defaultdict(dict)
         self.complete_graph = ConjunctiveGraph()
         # error code
         # no error = 0
