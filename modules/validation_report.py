@@ -68,12 +68,14 @@ class ValidationReport:
             mapping = mapping_file_IRI
             # adding creator name
             creator_name = self.form_data.get('creator-name')
-            creator_name_IRI = URIRef("http://example.org/" + creator_name)
-            self.validation_graph.add((mapping, self.MQIO.wasCreatedBy, creator_name_IRI))
+            if creator_name:
+                creator_name_IRI = URIRef("http://example.org/" + creator_name)
+                self.validation_graph.add((mapping, self.MQIO.wasCreatedBy, creator_name_IRI))
             # adding the person who performed the assessment
             performed_by_name = self.form_data["performed-by-name"]
-            performed_by_IRI = URIRef("http://example.org/" + performed_by_name)
-            self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, performed_by_IRI))
+            if performed_by_name:
+                performed_by_IRI = URIRef("http://example.org/" + performed_by_name)
+                self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, performed_by_IRI))
             # add agent who performed the refinement of the mapping
             # refinement_agent = self.form_data["refined-by-name"]
             # refinement_agent_identifier = URIRef("http://example.org/" + refinement_agent)

@@ -31,10 +31,6 @@ from modules.parse_mapping_graph import ParseMapping
 # from fetch_vocabularies import FetchVocabularies
 # from parse_mapping_graph import ParseMapping
 
-# program gets thread locked if declared as class variable
-current_FS = OSFS(".")
-
-
 class ValidateQuality:
 
     def __init__(self, file_name):
@@ -127,11 +123,15 @@ class ValidateQuality:
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.validate_data_metrics()
-            # self.validate_mapping_metrics()
+            self.validate_mapping_metrics()
+
             # self.validate_data_metrics()
             # self.update_progress_bar()
         # each triple map is tested otherwise
         # self.validate_vocabulary_metrics()
+        self.validate_VOC3()
+        self.validate_VOC4()
+        self.validate_VOC5()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -292,8 +292,8 @@ class ValidateQuality:
         if is_defined_concept is False:
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_identifier)
             qres = self.vocabularies.query_local_graph(property_identifier, query)
-            is_defined_concept = qres["boolean"]
-            if is_defined_concept is True:
+            graph_exists = qres["boolean"]
+            if graph_exists is True:
                 return [metric_identifier, result_message, property_identifier, subject_identifier]
 
     def validate_VOC1(self):
@@ -355,13 +355,16 @@ class ValidateQuality:
                      "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
                      "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
                     "PREFIX dct: <http://purl.org/dc/terms/> " \
-                     "ASK { ?subject a owl:Ontology; " \
-                    "              %s ?label } " % ("|".join(provenance_predicates))
+                     "ASK { GRAPH <%s> { ?subject a owl:Ontology; " \
+                    "              %s ?label . } } " % (namespace, "|".join(provenance_predicates))
             qres = self.vocabularies.query_local_graph(namespace, query)
-            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
-                for row in qres:
-                    if row is False:
-                        self.add_violation([metric_identifier, result_message, namespace, None])
+            has_license = qres["boolean"]
+            if not has_license:
+                query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
+                qres = self.vocabularies.query_local_graph(namespace, query)
+                graph_exists = qres["boolean"]
+                if graph_exists:
+                    self.add_violation([metric_identifier, result_message, namespace, None])
 
     def validate_VOC4(self):
         # A function to validate basic provenance information
@@ -370,7 +373,6 @@ class ValidateQuality:
         # returning true for now as testing mappings
         # return True
         unique_namespaces = list(set(self.unique_namespaces))
-        print("VALIDATING NAMESPACES", unique_namespaces)
         for namespace in unique_namespaces:
             query = """
             PREFIX dct: <http://purl.org/dc/terms/>
@@ -379,15 +381,17 @@ class ValidateQuality:
             PREFIX cc: <http://creativecommons.org/ns#>
             PREFIX doap: <http://usefulinc.com/ns/doap#>
             PREFIX schema: <http://schema.org/>
-            SELECT ?subject ?predicate ?object
-            WHERE {
-              ?subject ?predicate ?object
-              FILTER(?predicate IN (dct:license, dct:rights, dc:rights, xhtml:license, cc:license, dc:license, doap:license, schema:license))
+            ASK {
+              ?subject dct:license|dct:rights|dc:rights|xhtml:license|cc:license|dc:license|doap:license|schema:license ?object
             }
             """
             qres = self.vocabularies.query_local_graph(namespace, query)
-            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
-                if not qres:
+            has_license = qres["boolean"]
+            if not has_license:
+                query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
+                qres = self.vocabularies.query_local_graph(namespace, query)
+                graph_exists = qres["boolean"]
+                if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
     def validate_VOC5(self):
@@ -399,15 +403,22 @@ class ValidateQuality:
         unique_namespaces = list(set(self.unique_namespaces))
         for namespace in unique_namespaces:
             query = """
-            SELECT ?subject ?predicate ?object
+            ASK
             WHERE {
-              ?subject ?predicate ?object
-              FILTER(CONTAINS(?object, "license")) 
+              GRAPH <%s> {
+                  ?subject ?predicate ?object
+                  FILTER(CONTAINS(?object, "license")) 
+              }
             }
-            """
+            """ % namespace
             qres = self.vocabularies.query_local_graph(namespace, query)
-            if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
-                if not qres:
+            print(query)
+            has_license = qres["boolean"]
+            if not has_license:
+                query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
+                qres = self.vocabularies.query_local_graph(namespace, query)
+                graph_exists = qres["boolean"]
+                if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
     def get_triple_maps_identifier(self):
@@ -894,6 +905,7 @@ class ValidateQuality:
                               FILTER (!isBlank(?domainClass))
                             }
                             OPTIONAL { ?superClass rdfs:subClassOf ?domainClass. } 
+                            OPTIONAL { ?superClass rdfs:subClassOf ?domainClass. ?superClass2 rdfs:subClassOf ?superClass . } 
                             OPTIONAL { ?superClass rdfs:subClassOf ?domainClass.  ?superClass2 rdfs:subClassOf ?superClass . ?superClass3 rdfs:subClassOf ?superClass2 . }
     OPTIONAL { ?superClass rdfs:subClassOf ?domainClass.  ?superClass2 rdfs:subClassOf ?superClass . ?superClass3 rdfs:subClassOf ?superClass2 . ?superClass3 rdfs:subClassOf ?superClass2 }
                           }
@@ -910,7 +922,7 @@ class ValidateQuality:
                         if "superClass2" in row:
                             domain.append(row["superClass2"]["value"])
                         if "superClass3" in row:
-                            domain.append(row["superClass3"]["value"])
+                            domain.append("http://www.w3.org/2000/01/rdf-schema#Resource")
                 self.domain_cache[IRI] = list(set(domain))
                 return domain
             return domain

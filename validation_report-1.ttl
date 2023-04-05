@@ -1,11 +1,39 @@
 @prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
+@prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <sample_mapping26.ttl> ;
+    mqio:assessedMapping <sample_mapping28.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
-ex:mappingValidationReport-0 a mqio:MappingValidationReport .
+ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
+    mqio:hasViolation ex:violation-0,
+        ex:violation-1,
+        ex:violation-2 .
 
-<sample_mapping26.ttl> a mqio:MappingArtefact .
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue foaf:Document,
+        foaf:Person ;
+    mqio:hasResultMessage "Class  foaf:Document  is disjoint with  foaf:Person "^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:D5 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue foaf: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue foaf: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+<sample_mapping28.ttl> a mqio:MappingArtefact .
 

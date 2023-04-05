@@ -82,7 +82,7 @@ class FetchVocabularies:
                      SELECT DISTINCT ?ns
                      WHERE   
                      { 
-                        ?s rr:class|rr:predicate ?o.
+                        ?s rr:class|rr:predicate|rr:object ?o.
                         BIND(REPLACE(str(?o), "(#|/)[^#/]*$", "$1") AS ?ns)
                         # FILTER OUT KNOWN NS WHICH WILL NOT BE NEEDED (xsd, rr)
                         Filter(isURI(?o) && isBlank(?s) && !(STRSTARTS(STR(?o), STR(xsd:))) 

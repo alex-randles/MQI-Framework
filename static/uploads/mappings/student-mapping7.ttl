@@ -1,0 +1,40 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix cidoc: <http://erlangen-crm.org/current/> .
+
+@prefix b2022: <https://ont.beyond2022.ie/ontology#> .
+
+
+<#Organisation>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, ORGANISATION, COUNTRY, COMMENT FROM DATA""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/organisation/{COUNTRY}/{ORGANISATION}" ;
+		rr:class cidoc:E74_Group ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P2_has_type ;
+		rr:object b2022:Organisation ; # Note that it is implied that this class is an instance of cidoc:E55_Type
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P1_is_identified_by ;
+		rr:objectMap [
+			rr:parentTriplesMap <#OrganisationAppellation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P3_has_note ;
+		rr:objectMap [
+			rr:column "COMMENT" ;
+			rr:datatype xsd:string ;
+		] ;
+	] ;
+.
+
