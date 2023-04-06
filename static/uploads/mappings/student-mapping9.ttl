@@ -15,5 +15,5 @@
     ];
     rr:predicateObjectMap [
         rr:predicate ex:hasPrice ;
-        rr:objectMap [ rr:column "price";  ];
+        rr:objectMap [ rr:column "link";  ];
     ].

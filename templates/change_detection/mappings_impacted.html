@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 {% extends "change_detection/base.html" %}
 <html lang="en">
 <head>
@@ -27,55 +26,56 @@
         </h4>
     </div>
 
-    {% set outer_div_counter = 0 %}
-    {% set inner_div_counter = 0 %}
-    {% set middle_div_counter = 0 %}
-    {% set accordion_counter = 0 %}
+    {% set accordion_counter = namespace(value=0) %}
+    {% set middle_div_counter = namespace(value=0) %}
+    {% set inner_div_counter = namespace(value=0) %}
+    {% set outer_div_counter = namespace(value=0) %}
     {% for captured_change_type, captured_changes in mapping_impact.items() %}
     <div class="row">
-        <div id="accordion-{{accordion_counter}}">
+        <div id="accordion-{{accordion_counter.value}}">
             <div class="card-0">
-                <div class="card-header" id="sourceDataHeading-{{outer_div_counter}}">
+                <div class="card-header" id="sourceDataHeading-{{outer_div_counter.value}}">
                     <h5 class="mb-0">
-                        <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{outer_div_counter}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{outer_div_counter}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{outer_div_counter}}">
+                        <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{outer_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{outer_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{outer_div_counter.value}}">
                             <strong>Source Data: </strong>
                             {{ change_graph_details.get("change_sources").get("current_version").split("/")[-1] }}
-                            <i id="icon-sourceDataHeading-{{outer_div_counter}}" class="bi bi-plus-circle px-3"></i>
+                            <i id="icon-sourceDataHeading-{{outer_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                         </button>
                     </h5>
                 </div>
-                <div id="sourceDataCollapse-{{outer_div_counter}}" class="collapse" aria-labelledby="dataReferenceHeading-{{outer_div_counter}}" data-bs-parent="#dataReferenceCollapse-{{outer_div_counter}}">
+                <div id="sourceDataCollapse-{{outer_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{outer_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{outer_div_counter.value}}">
 
-                    {% set middle_div_counter = outer_div_counter + 1 %}
+
 
 
                     <div class="card-body">
                         {% for change_type, changes in captured_changes.items() %}
+                        {% set middle_div_counter.value = outer_div_counter.value + 1 %}
                         <div class="card-2">
-                            <div class="card-header" id="sourceDataHeading-{{middle_div_counter}}">
+                            <div class="card-header" id="sourceDataHeading-{{middle_div_counter.value}}">
                                 <h5 class="mb-0">
-                                    <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{middle_div_counter}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{middle_div_counter}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{middle_div_counter}}">
+                                    <button class="btn btn-success collapsed" onclick="return changeIcon('sourceDataHeading-{{middle_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{middle_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{middle_div_counter.value}}">
                                         <strong>Insert: {{ change_type }} </strong>
-                                        <i id="icon-sourceDataHeading-{{middle_div_counter}}" class="bi bi-plus-circle px-3"></i>
+                                        <i id="icon-sourceDataHeading-{{middle_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                                     </button>
                                 </h5>
                             </div>
-                            {% set inner_div_counter = middle_div_counter + 1 %}
-                            <div id="sourceDataCollapse-{{middle_div_counter}}" class="collapse" aria-labelledby="dataReferenceHeading-{{middle_div_counter}}" data-bs-parent="#dataReferenceCollapse-{{middle_div_counter}}">
+                            {% set inner_div_counter.value = middle_div_counter.value + 1 %}
+                            <div id="sourceDataCollapse-{{middle_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{middle_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{middle_div_counter.value}}">
                                 <div class="card-body">
                                     {% set reference_changes = mapping_impact.get(captured_change_type) %}
                                     {% for reference, values in reference_changes.get("insert").items() %}
-                                    <div class="card-{{inner_div_counter}}">
+                                    <div class="card-{{inner_div_counter.value}}">
 
-                                        <div class="card-header" id="sourceDataHeading-{{inner_div_counter}}">
+                                        <div class="card-header" id="sourceDataHeading-{{inner_div_counter.value}}">
                                             <h5 class="mb-0">
-                                                <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-1');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{inner_div_counter}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{inner_div_counter}}">
-                                                    <strong>{{reference}}</strong>
-                                                    <i id="icon-sourceDataHeading-{{inner_div_counter}}" class="bi bi-plus-circle px-3"></i>
+                                                <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{inner_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{inner_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{inner_div_counter.value}}">
+                                                    <strong>{{reference}} | Change Count: {{values|length}}</strong>
+                                                    <i id="icon-sourceDataHeading-{{inner_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                                                 </button>
                                             </h5>
                                         </div>
-                                        <div id="sourceDataCollapse-{{inner_div_counter}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter}}">
+                                        <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
                                                 <ul class="list-group">
                                                     {% for changed_value in values %}
@@ -85,15 +85,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {% set inner_div_counter = inner_div_counter + 1 %}
-                            {% set middle_div_counter = middle_div_counter + 1 %}
+                                    {% set inner_div_counter.value = inner_div_counter.value + 1 %}
 
                                     {% endfor %}
 
 
                                 </div>
                             </div>
-                            {% set outer_div_counter = inner_div_counter  %}
+                            {% set outer_div_counter.value = inner_div_counter.value  + 1  %}
                             {% endfor %}
                         </div>
 
@@ -105,8 +104,7 @@
 
         </div>
     </div>
-    {% set accordion_counter = accordion_counter + 1 %}
-
+  {% set accordion_counter.value = accordion_counter.value + 1 %}
     {% endfor %}
 
     <script>
