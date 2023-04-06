@@ -794,8 +794,8 @@ class ValidateQuality:
                     SELECT ?subject ?class
                     WHERE {
                         {
-                          ?tripleMap rr:subjectMap ?sm .
-                          ?sm rr:class ?class . 
+                          ?tripleMap rr:subjectMap ?subject .
+                          ?subject rr:class ?class . 
                         }
                         FILTER (isIRI(?class)) .
                     }

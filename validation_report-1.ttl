@@ -1,30 +1,59 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix ont: <http://ontologies.geohive.ie/osi#> .
+@prefix pmo: <https://ibclo.ericsson.com/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <Townland_20m.ttl> ;
-    mqio:hasValidationReport ex:mappingValidationReport-0 .
+<file:///home/alex/MQI-Framework/sample_mapping30.ttl> a mqio:MappingArtefact .
 
-<Townland_20m.ttl> a mqio:MappingArtefact .
+ex:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <sample_mapping30.ttl> ;
+    mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
-        ex:violation-1 .
+        ex:violation-1,
+        ex:violation-2 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-06T11:32:36.354385"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:termType ?currentTermType  } 
+                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRI> } 
+                WHERE { 
+                    SELECT ?subject ?currentTermType
+                    WHERE {
+                          ?subject ?p ?o . 
+                          ?subject rr:termType ?currentTermType
+                          FILTER(str(?subject) = "ub43bL476C44").
+                    }
+                }; 
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-2 ;
+    mqio:refinementName "Change Term Type"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ont:logainmId ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue pmo:hasQueryInformation ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:inTripleMap <#Metric> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLiteralValue "ga"^^xsd:string ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasResultMessage "Language tag not defined in RFC 5646."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
+    mqio:hasLocation "predicateObjectMap-27"^^xsd:string ;
+    mqio:hasObjectValue pmo:hasCPU ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'pmo:hasResult'."^^xsd:string ;
+    mqio:inTripleMap <#MetricResultSet> ;
+    mqio:isDescribedBy mqio-metrics:D6 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
