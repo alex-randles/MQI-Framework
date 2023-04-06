@@ -2,7 +2,7 @@
 @prefix ex: <http://example.com/ns#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
-@prefix oscd: <https://w3id.org/OSCD#> .
+
 <#TriplesMap8>
     rr:logicalSource [ rml:source "products.csv" ];
     rr:subjectMap [
@@ -10,10 +10,10 @@
         rr:class ex:MappingDocumehhnt;
     ];
     rr:predicateObjectMap [
-        rr:predicate oscd:hasDataReference ;
-        rr:objectMap [ rr:column "name"; rr:datatype xsd:djdjd ;  ];
+        rr:predicate ex:hasName ;
+        rr:objectMap [ rr:column "name";  ];
     ];
     rr:predicateObjectMap [
         rr:predicate ex:hasPrice ;
-        rr:objectMap [ rr:column "link";  ];
+        rr:objectMap [ rr:column "price";  ];
     ].
