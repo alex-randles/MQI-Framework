@@ -18,19 +18,20 @@
             <a href="{{ url_for('download_impacted_mapping', mapping_filename='sample_mapping.ttl') }}" class="btn btn-secondary">Download Mapping</a>
         </div>
     </div>
-    <div class="row">
-        <h4>Structural Changes
-            <span class="tt" data-bs-placement="top" title="Changes to the columns of the source data">
-                    <i class="bi bi-info-circle" ></i>
-                </span>
-        </h4>
-    </div>
+
 
     {% set accordion_counter = namespace(value=0) %}
     {% set middle_div_counter = namespace(value=0) %}
     {% set inner_div_counter = namespace(value=0) %}
     {% set outer_div_counter = namespace(value=0) %}
     {% for captured_change_type, captured_changes in mapping_impact.items() %}
+    <div class="row mt-4">
+        <h4>{{captured_change_type}}
+            <span class="tt" data-bs-placement="top" title="Changes to the columns of the source data">
+                    <i class="bi bi-info-circle W-50" style="font-size: 20px;"></i>
+                </span>
+        </h4>
+    </div>
     <div class="row">
         <div id="accordion-{{accordion_counter.value}}">
             <div class="card-0">
@@ -54,8 +55,8 @@
                         <div class="card-2">
                             <div class="card-header" id="sourceDataHeading-{{middle_div_counter.value}}">
                                 <h5 class="mb-0">
-                                    <button class="btn btn-success collapsed" onclick="return changeIcon('sourceDataHeading-{{middle_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{middle_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{middle_div_counter.value}}">
-                                        <strong>Insert: {{ change_type }} </strong>
+                                    <button class="btn btn-{{change_template_colors.get(change_type)}} collapsed" onclick="return changeIcon('sourceDataHeading-{{middle_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{middle_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{middle_div_counter.value}}">
+                                        <strong>{{ change_type }} changes</strong>
                                         <i id="icon-sourceDataHeading-{{middle_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                                     </button>
                                 </h5>
@@ -64,7 +65,7 @@
                             <div id="sourceDataCollapse-{{middle_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{middle_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{middle_div_counter.value}}">
                                 <div class="card-body">
                                     {% set reference_changes = mapping_impact.get(captured_change_type) %}
-                                    {% for reference, values in reference_changes.get("insert").items() %}
+                                    {% for reference, values in reference_changes.get(change_type).items() %}
                                     <div class="card-{{inner_div_counter.value}}">
 
                                         <div class="card-header" id="sourceDataHeading-{{inner_div_counter.value}}">
@@ -77,11 +78,17 @@
                                         </div>
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
+                                                {% if values|length > 0 %}
                                                 <ul class="list-group">
                                                     {% for changed_value in values %}
                                                     <li class="list-group-item">{{changed_value}}</li>
                                                     {% endfor %}
                                                 </ul>
+                                                {% else %}
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">No values</li>
+                                                </ul>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

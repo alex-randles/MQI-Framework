@@ -1,5 +1,6 @@
 # class which displays the change detection processes being run by a user
 from rdflib import *
+import rdflib
 import os
 import re
 from collections import defaultdict
@@ -103,20 +104,23 @@ class DisplayChanges:
         directory = os.fsencode(self.mappings_directory)
         self.current_graph_version = 1
         for file in os.listdir(directory):
-            filename = os.fsdecode(file)
-            # get user ID from file
-            # graph version e.g version 1 user_1-1.trig
-            # graph_version = filename.split("_")[-1].split("-")[1].split(".")[0]
-            self.mapping_details[self.current_graph_version] = {}
-            # create dictionary to store version details
-            self.mapping_details[self.current_graph_version]["filename"] = filename
-            self.mapping_details[self.current_graph_version]["display_filename"] = filename
-            user_graph_file = self.mappings_directory + filename
-            # set current graph
-            self.current_graph = Graph()
-            self.current_graph.parse(user_graph_file, format="ttl")
-            self.get_mappings_details()
-            self.current_graph_version += 1
+            try:
+                filename = os.fsdecode(file)
+                # get user ID from file
+                # graph version e.g version 1 user_1-1.trig
+                # graph_version = filename.split("_")[-1].split("-")[1].split(".")[0]
+                self.mapping_details[self.current_graph_version] = {}
+                # create dictionary to store version details
+                self.mapping_details[self.current_graph_version]["filename"] = filename
+                self.mapping_details[self.current_graph_version]["display_filename"] = filename
+                user_graph_file = self.mappings_directory + filename
+                # set current graph
+                self.current_graph = Graph()
+                self.current_graph.parse(user_graph_file, format="ttl")
+                self.get_mappings_details()
+                self.current_graph_version += 1
+            except rdflib.plugins.parsers.notation3.BadSyntax as e:
+                pass
 
     def get_graph_details(self):
         # get details from change graphs

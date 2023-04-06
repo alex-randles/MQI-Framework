@@ -257,14 +257,17 @@ class API:
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mapping-impacted', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
-        mapping_graph = "/home/alex/MQI-Framework/static/uploads/mappings/sample_mapping26.ttl"
-        changes_graph = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/1.trig"
         mapping_graph = session.get("mapping_details").get(int(mapping_unique_id))
         graph_id = int(graph_id.split(".")[0])
         change_graph_details = session.get("graph_details").get(graph_id)
         impact = DetectMappingImpact(mapping_graph, change_graph_details.get("filename"))
         mapping_impact = impact.mapping_impact
+        change_template_colors = {
+            "insert": "success",
+            "delete": "danger",
+        }
         return render_template("change_detection/mappings_impacted.html",
+                               change_template_colors=change_template_colors,
                                mapping_id=mapping_unique_id,
                                mapping_impact=mapping_impact,
                                change_graph_details=change_graph_details)
@@ -535,9 +538,11 @@ class API:
                         #     flash("Check the mapping and upload again. Validate with http://ttl.summerofcode.be/")
                         #     return render_template("mapping_quality/index.html")
                     else:
+                        os.remove(mapping_file)
                         flash("Mapping file contains invalid RDF. Validate with http://ttl.summerofcode.be/")
                         return render_template("mapping_quality/index.html")
                 else:
+                    os.remove(mapping_file)
                     flash("File must be turtle (ttl) format")
                     return render_template("mapping_quality/index.html")
 
