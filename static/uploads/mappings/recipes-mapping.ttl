@@ -1,0 +1,205 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix www: <http://ontology.recipepicker.eu#> .
+@prefix Ingredient: <http://ontology.recipepicker.eu/Ingredient#> .
+@prefix Recipe: <http://ontology.recipepicker.eu/Recipe#> .
+@prefix Nutrients: <http://ontology.recipepicker.eu/Ingredient/Nutrients#> .
+@prefix Category: <http://ontology.recipepicker.eu/Category#> .
+@prefix Uses: <http://ontology.recipepicker.eu/Uses#> .
+@prefix Step: <http://ontology.recipepicker.eu/Recipe/Step#> .
+
+<#Ingredients>
+	a rr:TriplesMap ;
+	
+	rr:logicalTable [ rr:tableName "Ingredient" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.recipepicker.eu#Ingredient_{name}" ;
+		rr:class www:Ingredient ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Ingredient:ingredientName ;
+		rr:objectMap [ rr:column "name" ] ;
+	] ;	
+	
+	.
+
+<#Nutrients>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:tableName "Nutrients" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.recipepicker.eu#Nutrients_{id}" ;
+		rr:class www:Nutrients ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Nutrients:energy ;
+		rr:objectMap [ rr:column "energy" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Nutrients:fat ;
+		rr:objectMap [ rr:column "fat" ] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate Nutrients:carbohydrate ;
+		rr:objectMap [ rr:column "carbohydrate" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Nutrients:protein ;
+		rr:objectMap [ rr:column "protein" ] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate Nutrients:sugar ;
+		rr:objectMap [ rr:column "sugar" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Nutrients:fibre ;
+		rr:objectMap [ rr:column "fibre" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Nutrients:salt ;
+		rr:objectMap [ rr:column "salt" ] ;
+	] ;	
+
+	rr:predicateObjectMap [
+		rr:predicate www:isContainedBy ;
+		rr:objectMap [
+            rr:parentTriplesMap <#Ingredients> ;
+            rr:joinCondition [
+                rr:child "ingredient_id" ;
+                rr:parent "id" ;
+            ] ;
+        ] ;
+	] ;
+	.
+
+<#Recipes>
+	a rr:TriplesMap ;
+	
+	rr:logicalTable [ rr:tableName "Recipe" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.recipepicker.eu#Recipe_{id}" ;
+		rr:class www:Recipe ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Recipe:recipeName ;
+		rr:objectMap [ rr:column "name" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Recipe:preparationTime ;
+		rr:objectMap [ rr:column "time" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Recipe:preparationDifficulty ;
+		rr:objectMap [ rr:column "difficulty" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+        rr:predicate www:isPartOf ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Categories>;
+            rr:joinCondition [
+                rr:child "category_id";
+                rr:parent "id";
+            ];
+        ];
+    ] ;
+	.
+
+<#Categories>
+	a rr:TriplesMap ;
+	
+	rr:logicalTable [ rr:tableName "Category" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.recipepicker.eu#Category_{category_name}" ;
+		rr:class www:Category ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Category:categoryName ;
+		rr:objectMap [ rr:column "category_name" ] ;
+	] ;
+	.
+
+<#Steps>
+	a rr:TriplesMap ;
+	
+	rr:logicalTable [ rr:tableName "Step" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.recipepicker.eu#Step_{recipe_id}_{step_number}" ;
+		rr:class www:Step ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Step:description ;
+		rr:objectMap [ rr:column "description" ] ;
+	] ;
+
+    rr:predicateObjectMap [
+        rr:predicate www:isProvidedBy ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Recipes>;
+            rr:joinCondition [
+                rr:child "recipe_id";
+                rr:parent "id";
+            ];
+        ];
+    ] ;
+	.
+
+<#Uses>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:tableName "Ingredient_Recipe" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.recipepicker.eu#Uses_{id}" ;
+		rr:class www:Uses ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Uses:quantity ;
+		rr:objectMap [ rr:column "quantity" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate Uses:unit ;
+		rr:objectMap [ rr:column "unit" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate www:getsUsedByFromUses ;
+		rr:objectMap [
+            rr:parentTriplesMap <#Recipes> ;
+            rr:joinCondition [
+                rr:child "recipe_id" ;
+                rr:parent "id" ;
+            ] ;
+        ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate www:usesFromUses ;
+		rr:objectMap [
+            rr:parentTriplesMap <#Ingredients> ;
+            rr:joinCondition [
+                rr:child "ingredient_id" ;
+                rr:parent "id" ;
+            ] ;
+        ] ;
+	] ;
+	.

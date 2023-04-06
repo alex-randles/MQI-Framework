@@ -6,28 +6,25 @@
 @prefix ex: <http://example.com/ns#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix oscd: <https://w3id.org/OSCD#> . 
-@prefix lode: <http://linkedevents.org/ontology/> . 
-@prefix evset: <http://purl.org/dsnotify/vocab/eventset/0.1.1/> . 
-@prefix dct: <http://purl.org/dc/terms/> . 
 
 	
 <#TriplesMap8>	
 	
  rr:subjectMap[ 	
- 	 rr:class lode:Event, ex:MappingDocumehhnt;	
-	 rr:template "http://data.example.com/product/{item_id}" ;	
+ 	 rr:template "http://data.example.com/product/{item_id}" ;	
+	 rr:class ex:MappingDocumehhnt;	
  ];	
 	
  rr:predicateObjectMap[ 	
  	 rr:predicate oscd:hasDataReference;	
 	 rr:objectMap [	
-		 rr:datatype xsd:string;	
 		 rr:column "name" ;	
+		 rr:datatype xsd:string;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate dct:created;	
+ 	 rr:predicate ex:hasPrice;	
 	 rr:objectMap [	
 		 rr:column "price" ;	
 		]; 	

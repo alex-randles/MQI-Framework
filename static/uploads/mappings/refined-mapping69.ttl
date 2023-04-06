@@ -10,7 +10,6 @@
 @prefix evset: <http://purl.org/dsnotify/vocab/eventset/0.1.1/> . 
 @prefix dct: <http://purl.org/dc/terms/> . 
 
-	
 <#TriplesMap8>	
 	
  rr:subjectMap[ 	
@@ -21,13 +20,13 @@
  rr:predicateObjectMap[ 	
  	 rr:predicate oscd:hasDataReference;	
 	 rr:objectMap [	
-		 rr:datatype xsd:string;	
 		 rr:column "name" ;	
+		 rr:datatype xsd:string;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate dct:created;	
+ 	 rr:predicate dct:atTime;	
 	 rr:objectMap [	
 		 rr:column "price" ;	
 		]; 	

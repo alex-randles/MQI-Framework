@@ -129,9 +129,9 @@ class ValidateQuality:
             # self.update_progress_bar()
         # each triple map is tested otherwise
         # self.validate_vocabulary_metrics()
-        self.validate_VOC3()
-        self.validate_VOC4()
-        self.validate_VOC5()
+        # self.validate_VOC3()
+        # self.validate_VOC4()
+        # self.validate_VOC5()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -281,8 +281,10 @@ class ValidateQuality:
                     if datatype in excluded_datatypes:
                         continue
                     if self.is_datatype_range(range):
-                        if datatype != range:
-                            self.add_violation([metric_identifier, result_message, property, objectMap])
+                        # non positive integer
+                        if "integer" not in datatype.lower() and "integer" not in range.lower():
+                            if datatype != range:
+                                self.add_violation([metric_identifier, result_message, property, objectMap])
 
     def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
@@ -382,9 +384,11 @@ class ValidateQuality:
             PREFIX doap: <http://usefulinc.com/ns/doap#>
             PREFIX schema: <http://schema.org/>
             ASK {
-              ?subject dct:license|dct:rights|dc:rights|xhtml:license|cc:license|dc:license|doap:license|schema:license ?object
+              GRAPH <%s> {
+                ?subject dct:license|dct:rights|dc:rights|xhtml:license|cc:license|dc:license|doap:license|schema:license ?object  .
+               }
             }
-            """
+            """ % namespace
             qres = self.vocabularies.query_local_graph(namespace, query)
             has_license = qres["boolean"]
             if not has_license:
@@ -791,12 +795,7 @@ class ValidateQuality:
                     WHERE {
                         {
                           ?tripleMap rr:subjectMap ?sm .
-                          ?subject rr:class ?class . 
-                        }
-                        UNION {
-                          ?pom rr:predicate rdf:type ;
-                               rr:objectMap ?subject . 
-                          ?subject  rr:constant ?class . 
+                          ?sm rr:class ?class . 
                         }
                         FILTER (isIRI(?class)) .
                     }
@@ -904,10 +903,7 @@ class ValidateQuality:
                               OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
                               FILTER (!isBlank(?domainClass))
                             }
-                            OPTIONAL { ?superClass rdfs:subClassOf ?domainClass. } 
-                            OPTIONAL { ?superClass rdfs:subClassOf ?domainClass. ?superClass2 rdfs:subClassOf ?superClass . } 
-                            OPTIONAL { ?superClass rdfs:subClassOf ?domainClass.  ?superClass2 rdfs:subClassOf ?superClass . ?superClass3 rdfs:subClassOf ?superClass2 . }
-    OPTIONAL { ?superClass rdfs:subClassOf ?domainClass.  ?superClass2 rdfs:subClassOf ?superClass . ?superClass3 rdfs:subClassOf ?superClass2 . ?superClass3 rdfs:subClassOf ?superClass2 }
+                            OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. } 
                           }
                        }   
                        """ % (self.get_namespace(IRI), IRI, IRI)

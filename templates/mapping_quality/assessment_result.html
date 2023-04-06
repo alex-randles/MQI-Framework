@@ -203,8 +203,8 @@
     <div class="container">
         <div class="row my-3">
             <div class="col text-center">
-                <div class="alert alert-danger my-3" id="manual-refinements-warning" style="display:none;" role="alert">
-                    <strong>All refinements selected are 'Manual'</strong>
+                <div class="alert alert-danger my-3 text-center" id="manual-refinements-warning" style="display:none;" role="alert">
+                    <strong>All refinements selected are 'Manual'. You will need to complete refinements and reassess the mapping.</strong>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3 mb-2">Create Refinements</button>
                 <span class="tt" data-bs-placement="top" title="This button will generate the refinements you have selected. If you change refinements after pressing the button, press this button again.">
@@ -221,7 +221,6 @@
         </div>
     </div>
 </form>
-
 
 {% block refinements %}
 {% endblock %}
@@ -263,12 +262,12 @@ function validateRefinementSelection() {
         if (inputs[i].nodeName == "SELECT"){
            var value = inputs[i].value.toLocaleUpperCase();
            if (value != "MANUAL"){
-              all_manual_refinements = false;
+                   all_manual_refinements = false;
            }
         }
     }
     if (all_manual_refinements == true){
-       document.getElementById('manual-refinements-warning').style.display == 'block';
+       document.getElementById('manual-refinements-warning').style.display = "block";;
        return false;
     }
     else {
