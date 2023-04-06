@@ -1,0 +1,493 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://ontology.recipepicker.eu#"
+     xml:base="http://ontology.recipepicker.eu"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:www="http://ontology.recipepicker.eu#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:Step="http://ontology.recipepicker.eu/Recipe/Step#"
+     xmlns:Uses="http://ontology.recipepicker.eu/Uses#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:Recipe="http://ontology.recipepicker.eu/Recipe#"
+     xmlns:Category="http://ontology.recipepicker.eu/Category#"
+     xmlns:Nutrients="http://ontology.recipepicker.eu/Ingredient/Nutrients#"
+     xmlns:Ingredient="http://ontology.recipepicker.eu/Ingredient#">
+    <owl:Ontology rdf:about="http://ontology.recipepicker.eu"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.recipepicker.eu#contains -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#contains">
+        <owl:inverseOf rdf:resource="http://ontology.recipepicker.eu#isContainedBy"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Ingredient"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#getsUsedByFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#getsUsedByToUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isContainedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isProvidedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#provides"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationship between an ingredient an its nutritional value</rdfs:comment>
+        <rdfs:label xml:lang="en">contains</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#getsUsedByFromUses -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#getsUsedByFromUses">
+        <owl:inverseOf rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#getsUsedByToUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isContainedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isProvidedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#provides"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between a recipe and the specifications of quantity and unit of a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">getsUsedByFromUses</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#getsUsedByToUses -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#getsUsedByToUses">
+        <owl:inverseOf rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Ingredient"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isContainedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isProvidedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#provides"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between an ingredient and its use in a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">getsUsedByToUses</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#isContainedBy -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#isContainedBy">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Ingredient"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isProvidedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#provides"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between an ingredient and the nutrients it contains</rdfs:comment>
+        <rdfs:label xml:lang="en">isContainedBy</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#isPartOf -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#isPartOf">
+        <owl:inverseOf rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Category"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#isProvidedBy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#provides"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between a recipe and the category it belongs to</rdfs:comment>
+        <rdfs:label xml:lang="en">isPartOf</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#isProvidedBy -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#isProvidedBy">
+        <owl:inverseOf rdf:resource="http://ontology.recipepicker.eu#provides"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#provides"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between steps provided by a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">isProvidedBy</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#provides -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#provides">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#reverseIsPartOf"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between the recipe and the steps it provides</rdfs:comment>
+        <rdfs:label xml:lang="en">provides</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#reverseIsPartOf -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#reverseIsPartOf">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Category"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesFromUses"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between a category and the recipes it belongs to</rdfs:comment>
+        <rdfs:label xml:lang="en">reverseOfIsPartOf</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#usesFromUses -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#usesFromUses">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Ingredient"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu#usesToUses"/>
+        <rdfs:comment xml:lang="en">Relationsip between the specific ingredient used in a recipe to the general ingredient</rdfs:comment>
+        <rdfs:label xml:lang="en">usesFromUses</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#usesToUses -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.recipepicker.eu#usesToUses">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <rdfs:range rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <rdfs:comment xml:lang="en">Relationsip between the specific recipe used to the general recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">usesToUses</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Category#categoryName -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Category#categoryName">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Category"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">Name of a category of a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">categoryName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient#ingredientName -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient#ingredientName">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Ingredient"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Ingredient/Nutrients#energy"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Ingredient/Nutrients#fat"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#preparationDifficulty"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#preparationTime"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#recipeName"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#quantity"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#unit"/>
+        <rdfs:comment xml:lang="en">Name of ingredient</rdfs:comment>
+        <rdfs:label xml:lang="en">ingredientName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient/Nutrients#carbohydrate -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient/Nutrients#carbohydrate">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">Carbohydrate value of an ingredient for 100 grams</rdfs:comment>
+        <rdfs:label xml:lang="en">carbohydrate</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient/Nutrients#energy -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient/Nutrients#energy">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Ingredient/Nutrients#fat"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#preparationDifficulty"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#preparationTime"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#recipeName"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#quantity"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#unit"/>
+        <rdfs:comment xml:lang="en">Energy value of an ingredient for 100 grams</rdfs:comment>
+        <rdfs:label xml:lang="en">energy</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient/Nutrients#fat -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient/Nutrients#fat">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#preparationDifficulty"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#preparationTime"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#recipeName"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#quantity"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#unit"/>
+        <rdfs:comment xml:lang="en">Amount of fat in an ingredient for 100 grams</rdfs:comment>
+        <rdfs:label xml:lang="en">fat</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient/Nutrients#fibre -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient/Nutrients#fibre">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">Fibre value of an ingredient for 100 grams</rdfs:comment>
+        <rdfs:label xml:lang="en">fibre</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient/Nutrients#protein -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient/Nutrients#protein">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">Protein value of an ingredient for 100 grams</rdfs:comment>
+        <rdfs:label xml:lang="en">protein</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient/Nutrients#salt -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient/Nutrients#salt">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">Salt contained in 100 grams of an ingredient</rdfs:comment>
+        <rdfs:label xml:lang="en">salt</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient/Nutrients#sugar -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Ingredient/Nutrients#sugar">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">Sugar value of an ingredient for 100 grams</rdfs:comment>
+        <rdfs:label xml:lang="en">sugar</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Recipe#preparationDifficulty -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Recipe#preparationDifficulty">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#preparationTime"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#recipeName"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#quantity"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#unit"/>
+        <rdfs:comment xml:lang="en">Difficulty to prepare recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">preparationDifficulty</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Recipe#preparationTime -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Recipe#preparationTime">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#recipeName"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#quantity"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#unit"/>
+        <rdfs:comment xml:lang="en">Minutes needed to prepare recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">preparationTime</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Recipe#recipeName -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Recipe#recipeName">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#quantity"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#unit"/>
+        <rdfs:comment xml:lang="en">Name of a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">recipeName</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Recipe/Step#description -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Recipe/Step#description">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe/Step#stepNumber"/>
+        <rdfs:comment xml:lang="en">Textual description of a step</rdfs:comment>
+        <rdfs:label xml:lang="en">description</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Recipe/Step#stepNumber -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Recipe/Step#stepNumber">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+        <rdfs:comment xml:lang="en">Number of a step</rdfs:comment>
+        <rdfs:label xml:lang="en">stepNumber</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Uses#quantity -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Uses#quantity">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <owl:propertyDisjointWith rdf:resource="http://ontology.recipepicker.eu/Uses#unit"/>
+        <rdfs:comment xml:lang="en">Quantity needed of an ingredient for a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">quantity</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Uses#unit -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.recipepicker.eu/Uses#unit">
+        <rdfs:domain rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">Unit in which the quantity of an ingredient is given</rdfs:comment>
+        <rdfs:label xml:lang="en">unit</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.recipepicker.eu#Category -->
+
+    <owl:Class rdf:about="http://ontology.recipepicker.eu#Category">
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu#Ingredient"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:comment xml:lang="en">Category of a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">Category</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#Ingredient -->
+
+    <owl:Class rdf:about="http://ontology.recipepicker.eu#Ingredient">
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu#Recipe"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:comment xml:lang="en">Ingredient Class</rdfs:comment>
+        <rdfs:label xml:lang="en">Ingredient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#Recipe -->
+
+    <owl:Class rdf:about="http://ontology.recipepicker.eu#Recipe">
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu#Uses"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:comment xml:lang="en">Recipe Class</rdfs:comment>
+        <rdfs:label xml:lang="en">Recipe</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.recipepicker.eu#Uses -->
+
+    <owl:Class rdf:about="http://ontology.recipepicker.eu#Uses">
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Ingredient#Nutrients"/>
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:comment xml:lang="en">This class represents the attributed relation between Ingredient and Recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">Uses</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Ingredient#Nutrients -->
+
+    <owl:Class rdf:about="http://ontology.recipepicker.eu/Ingredient#Nutrients">
+        <owl:disjointWith rdf:resource="http://ontology.recipepicker.eu/Recipe#Step"/>
+        <rdfs:comment xml:lang="en">Nutrients of an ingredient</rdfs:comment>
+        <rdfs:label xml:lang="en">Nutrient</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://ontology.recipepicker.eu/Recipe#Step -->
+
+    <owl:Class rdf:about="http://ontology.recipepicker.eu/Recipe#Step">
+        <rdfs:comment xml:lang="en">Step of a recipe</rdfs:comment>
+        <rdfs:label xml:lang="en">Step</rdfs:label>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

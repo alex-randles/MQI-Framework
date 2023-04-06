@@ -1,0 +1,5 @@
+<http://ontologies.geohive.ie/osi#ElectoralDivision> a <http://www.w3.org/2002/07/owl#Class> .
+<http://ontologies.geohive.ie/osi#LocalElectoralArea> a <http://www.w3.org/2002/07/owl#Class> .
+<http://ontologies.geohive.ie/osi#Townland> a <http://www.w3.org/2002/07/owl#Class> .
+<http://ontologies.geohive.ie/osi#County> a <http://www.w3.org/2002/07/owl#Class> .
+

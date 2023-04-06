@@ -313,6 +313,7 @@ class API:
                 )
             # this is the error for when an uploaded file is not valid mapping
             # except rdflib.plugins.parsers.notation3.BadSyntax as e:
+            # SPARQLWrapper.SPARQLExceptions.QueryBadFormed - incorrect SPARQL query
             # pass
             else:
                 return "<h1>Error!!!!!</h1>"
