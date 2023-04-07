@@ -30,15 +30,16 @@ class DisplayChanges:
     def analyse_mapping_impact(self):
         for change_graph, changed_values in self.graph_details.items():
             # split which fails?
-            change_graph_sources = [changed_values.get("change_sources").get("previous_version").split("/")[-1], changed_values.get("change_sources").get("current_version").split("/")[-1]]
-            for change_source in change_graph_sources:
-                for mapping_graph, mapping_values in self.mapping_details.items():
-                    mapping_sources = mapping_values.get("source_data")
-                    if change_source in mapping_sources:
-                        if "impacts_mapping" not in self.graph_details[change_graph].keys():
-                            self.graph_details[change_graph]["impacts_mapping"] = [mapping_graph]
-                        else:
-                            self.graph_details[change_graph]["impacts_mapping"].append(mapping_graph)
+            if changed_values:
+                change_graph_sources = [changed_values.get("change_sources").get("previous_version").split("/")[-1], changed_values.get("change_sources").get("current_version").split("/")[-1]]
+                for change_source in change_graph_sources:
+                    for mapping_graph, mapping_values in self.mapping_details.items():
+                        mapping_sources = mapping_values.get("source_data")
+                        if change_source in mapping_sources:
+                            if "impacts_mapping" not in self.graph_details[change_graph].keys():
+                                self.graph_details[change_graph]["impacts_mapping"] = [mapping_graph]
+                            else:
+                                self.graph_details[change_graph]["impacts_mapping"].append(mapping_graph)
 
     def get_mapping_identifier(self, mapping_filename):
         mapping_identifier = [key for key, values in self.mapping_details.items() if values["filename"] == mapping_filename.strip()]
