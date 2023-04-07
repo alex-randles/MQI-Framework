@@ -28,7 +28,8 @@
     {% set outer_div_counter = namespace(value=0) %}
     {% for captured_change_type, captured_changes in mapping_impact.items() %}
     <div class="row mt-4">
-        <h4>{{captured_change_type}}
+        {% set change_type_title = captured_change_type.split('_')|join(' ') %}
+        <h4>{{ change_type_title | title}}
             <span class="tt" data-bs-placement="top" title="Changes to the columns of the source data">
                     <i class="bi bi-info-circle W-50" style="font-size: 20px;"></i>
                 </span>
@@ -41,7 +42,7 @@
                     <h5 class="mb-0">
                         <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{outer_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{outer_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{outer_div_counter.value}}">
                             <strong>Source Data: </strong>
-                            {{ change_graph_details.get("change_sources").get("current_version").split("/")[-1] }}
+                            {{ change_graph_details.get("change_sources").get("previous_version").split("/")[-1] }}, {{ change_graph_details.get("change_sources").get("current_version").split("/")[-1] }}
                             <i id="icon-sourceDataHeading-{{outer_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                         </button>
                     </h5>
@@ -67,7 +68,9 @@
                             <div id="sourceDataCollapse-{{middle_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{middle_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{middle_div_counter.value}}">
                                 <div class="card-body">
                                     {% set reference_changes = mapping_impact.get(captured_change_type) %}
-                                    {% for reference, values in reference_changes.get(change_type).items() %}
+                                    {% set current_changes = reference_changes.get(change_type).items() %}
+                                    {% if current_changes %}
+                                    {% for reference, values in current_changes %}
                                     <div class="card-{{inner_div_counter.value}}">
 
                                         <div class="card-header" id="sourceDataHeading-{{inner_div_counter.value}}">
@@ -97,6 +100,9 @@
                                     {% set inner_div_counter.value = inner_div_counter.value + 1 %}
 
                                     {% endfor %}
+                                    {% else %}
+                                        No changes
+                                    {% endif %}
 
 
                                 </div>
@@ -112,6 +118,9 @@
 
 
         </div>
+    </div>
+    <div class="row my-4">
+
     </div>
 
 </div>
