@@ -352,6 +352,8 @@ class Refinements:
                           ?classOnto a ?type . 
                           OPTIONAL { ?classOnto  rdfs:comment|skos:definition|prov:definition ?commentOnto . } 
                           FILTER(?type IN (owl:Class, rdfs:Class) && !isBlank(?classOnto) )
+                          BIND(lang(?commentProperty) AS ?languageTag ) 
+                         FILTER (?languageTag = 'en' || !bound(?languageTag))
                       }
                     }
                     GROUP BY ?classOnto
@@ -857,12 +859,14 @@ class Refinements:
                 domain_identifier = new_blank_nodes.pop(0)
         return domain_values
 
-    def get_namespace(self, IRI):
-        if "#" in IRI:
-            IRI = IRI[:IRI.rfind("#") + 1]
+    def get_namespace(self, identifier):
+        if identifier.startswith("http://dbpedia.org/ontology/"):
+            return identifier
+        if "#" in identifier:
+            namespace = identifier[:identifier.rfind("#") + 1]
         else:
-            IRI = IRI[:IRI.rfind("/") + 1]
-        return IRI
+            namespace = identifier[:identifier.rfind("/") + 1]
+        return namespace
 
     def find_domain(self, IRI):
         property_IRI = self.validation_results[IRI]["value"]

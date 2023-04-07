@@ -8,28 +8,27 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
 @prefix geo: <http://www.opengis.net/ont/geosparql#> . 
 @prefix oscd: <https://w3id.org/OSCD#> . 
-@prefix dbo: <http://dbpedia.org/ontology/> . 
-
+@prefix dbo: <http://dbpedia.org/ontology/> .
 	
 <#artist_area>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:sqlQuery"""  SELECT artist.gid, area.gid AS area		
-       FROM artist		
-            INNER JOIN area ON artist.area = area.id  """;	
+ 	 rr:sqlQuery""" SELECT artist.gid, area.gid AS area	
+       FROM artist	
+            INNER JOIN area ON artist.area = area.id """;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:template "http://musicbrainz.org/artist/{gid}#_" ;	
-	 rr:class dbo:Artist, dbo:Person;	
+ 	 rr:class dbo:Artist;	
+	 rr:template "http://musicbrainz.org/artist/{gid}#_" ;	
  ];	
 	
  rr:predicateObjectMap[ 	
  	 rr:predicate dbo:school;	
 	 rr:objectMap [	
-		 rr:termType rr:IRI;	
 		 rr:column "djdjdj" ;	
+		 rr:termType rr:IRI;	
 		]; 	
  ];	
 .	
