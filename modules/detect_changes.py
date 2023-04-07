@@ -18,6 +18,7 @@ from collections import defaultdict
 from csv_diff import load_csv, compare
 from modules.r2rml import *
 import modules.r2rml as r2rml
+from modules.validate_notification_policy import ValidateNotificationPolicy
 # from r2rml import *
 # import r2rml as r2rml
 
@@ -29,10 +30,12 @@ class DetectChanges:
         self.user_id = user_id
         self.error_code = 0
         self.graph_version = self.find_graph_version()
+        self.output_file = r2rml.r2rml_output_file.format(self.graph_version)
         self.execute_change_detection()
         self.create_notification_csv()
         self.update_r2rml_config()
         self.execute_r2rml()
+        self.validate_notification_policy()
 
     def find_graph_version(self):
         # find the version number of the graph being created
@@ -215,11 +218,13 @@ class DetectChanges:
 
 
     def update_r2rml_config(self):
-        r2rml_output_file = r2rml.r2rml_output_file.format(self.graph_version)
-        config_details = r2rml_config.format(r2rml.mapping_file, r2rml.r2rml_input_files, r2rml_output_file).strip()
+        config_details = r2rml_config.format(r2rml.mapping_file, r2rml.r2rml_input_files, self.output_file).strip()
         # write config file generated for user which include their input data
         open(r2rml.r2rml_config_file, "w").write(config_details)
         print("R2RML CONFIG FILE UPDATED")
+
+    def validate_notification_policy(self):
+        ValidateNotificationPolicy(self.output_file, "11")
 
     @staticmethod
     def execute_r2rml():

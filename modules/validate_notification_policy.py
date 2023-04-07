@@ -18,10 +18,15 @@ class ValidateNotificationPolicy:
         self.user_graph = Dataset()
         self.user_graph.parse(graph_file, format="trig")
         self.detection_period = self.get_detection_period()
+        print(self.detection_period)
+        exit()
         self.changes_count = self.get_changes_count()
         self.notification_thresholds = self.get_notification_thresholds()
         self.validate_policy()
         self.user_email = self.get_user_email()
+
+    def get_detection_period(self):
+        return "shshs"
 
     def get_changes_count(self):
         # query to get notification thresholds
@@ -168,9 +173,4 @@ class ValidateNotificationPolicy:
         server.quit()
 
 if __name__ == "__main__":
-    ValidateNotificationPolicy.iterate_user_graphs()
-    # user_graph_file = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/graphs/user_1.trig"
-    # while True:
-    #     time.sleep(20)
-    #     print("VALIDATING POLICIES......")
-    #     ValidateNotificationPolicy(user_graph_file)
+    ValidateNotificationPolicy("/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/10.trig", "11")
