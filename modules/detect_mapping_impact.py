@@ -58,8 +58,6 @@ class DetectMappingImpact:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference].append(changed_data)
 
     def get_structural_changes(self):
-        mapping_references = self.mapping_details.get("data_references")
-        mapping_references = ["'{}'".format(reference) for reference in mapping_references]
         query = """
             PREFIX oscd: <https://w3id.org/OSCD#> 
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>

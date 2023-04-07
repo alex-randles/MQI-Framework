@@ -140,6 +140,10 @@ class DetectChanges:
                                 "change_reason": changes,
                             }
                         change_id += 1
+        version_1_url = self.form_details.get("CSV-URL-1").split("/")[-1]
+        version_2_url = self.form_details.get("CSV-URL-2").split("/")[-1]
+        if version_1_url.strip() !=  version_2_url.strip():
+            output_changes["move"][change_id + 1] = {"new_location" : version_2_url}
         return output_changes
 
     def output_changes(self, output_changes):
@@ -151,6 +155,7 @@ class DetectChanges:
                      "DESCRIPTION",
                      "STRUCTURAL_REFERENCE",
                      "DATA_REFERENCE",
+                     "NEW_LOCATION",
                      "USER_ID",
                      "VERSION_1",
                      "VERSION_2"]
@@ -159,11 +164,18 @@ class DetectChanges:
         version_2 = self.form_details.get("CSV-URL-2")
         detection_time = datetime.now()
         for change_type, changes in output_changes.items():
-            for change_id, changed_values in changes.items():
-                data_reference = changed_values.get("data_reference")
-                structural_reference = changed_values.get("structural_reference")
-                changed_data = changed_values.get("change_reason")
-                new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, self.user_id, version_1, version_2]
+            if change_type != "move":
+                for change_id, changed_values in changes.items():
+                    data_reference = changed_values.get("data_reference")
+                    structural_reference = changed_values.get("structural_reference")
+                    changed_data = changed_values.get("change_reason")
+                    new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, None, self.user_id, version_1, version_2]
+                    df.loc[len(df)] = new_row
+            else:
+                change_id = list(changes.keys())[0]
+                new_location = changes.get(change_id).get("new_location")
+                new_row = [change_id, change_type, detection_time, "location", None, "location",
+                           new_location, self.user_id, version_1, version_2]
                 df.loc[len(df)] = new_row
         df.to_csv(changes_detected_csv)
 
