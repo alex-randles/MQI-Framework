@@ -95,6 +95,8 @@ class DetectChanges:
         return csv_tuples
 
     def format_csv_changes(self, csv_diff):
+        print(csv_diff)
+        exit()
         output_changes = defaultdict(dict)
         output_changes["insert"] = defaultdict(dict)
         output_changes["delete"] = defaultdict(dict)
