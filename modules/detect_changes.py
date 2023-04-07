@@ -16,6 +16,7 @@ from datetime import datetime
 from xmldiff import main, formatting
 from collections import defaultdict
 from csv_diff import load_csv, compare
+import csv
 from modules.r2rml import *
 import modules.r2rml as r2rml
 from modules.validate_notification_policy import ValidateNotificationPolicy
@@ -71,7 +72,29 @@ class DetectChanges:
         return csv_diff
 
     @staticmethod
-    def format_csv_changes(csv_diff):
+    def fitem(item):
+        item = item.strip()
+        try:
+            item = float(item)
+        except ValueError:
+            pass
+        return item
+
+    def detect_duplicates(self, csv_data):
+        with io.StringIO(csv_data) as csvin:
+            reader = csv.DictReader(csvin)
+            data = {k.strip(): [DetectChanges.fitem(v)] for k, v in next(reader).items()}
+            for line in reader:
+                for k, v in line.items():
+                    k = k.strip()
+                    data[k].append(DetectChanges.fitem(v))
+        csv_tuples = []
+        for k, v in data.items():
+            for value in v:
+                csv_tuples.append((k, value))
+        return csv_tuples
+
+    def format_csv_changes(self, csv_diff):
         output_changes = defaultdict(dict)
         output_changes["insert"] = defaultdict(dict)
         output_changes["delete"] = defaultdict(dict)
@@ -82,15 +105,22 @@ class DetectChanges:
                 if isinstance(changes, dict):
                     for data_reference, change_reason in changes.items():
                         if change_type == "added":
-                            output_changes["insert"][change_id] = {
-                                "data_reference": data_reference,
-                                "change_reason": change_reason
-                            }
+                            if (data_reference, change_reason) not in self.detect_duplicates(self.version_1_csv):
+                                output_changes["insert"][change_id] = {
+                                    "data_reference": data_reference,
+                                    "change_reason": change_reason
+                                }
+                            else:
+                                pass
                         else:
-                            output_changes["delete"][change_id] = {
-                                "data_reference": data_reference,
-                                "change_reason": change_reason
-                            }
+                            if (data_reference, change_reason) not in self.detect_duplicates(self.version_2_csv):
+                                # print(self.detect_duplicates(self.version_1_csv))
+                                output_changes["delete"][change_id] = {
+                                    "data_reference": data_reference,
+                                    "change_reason": change_reason
+                                }
+                            else:
+                                pass
                         change_id += 1
                 else:
                     if isinstance(changes, str):
