@@ -1,0 +1,107 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix daq:     <http://purl.org/eis/vocab/daq#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ex: <http://example.com/ns#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+
+
+<#Class-ValidationRule-View>
+    rr:sqlQuery """
+    SELECT DISTINCT CATEGORY, DIMENSION,
+                SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) as VAL_RULE_ID,
+                SUBSTR(VALIDATION_RULE, INSTR(validation_rule, ' ') + 1) as VAL_RULE_LABEL
+                FROM VALIDATION_FEATURE inner join MAPPING on SUBSTR(VALIDATION_RULE, 0, INSTR(validation_rule, ' ') - 1) = MAPPING.METRIC
+        """;
+    rr:sqlVersion rr:Oracle .
+
+    <#OracleCategory>
+        rr:logicalTable <#Class-ValidationRule-View> ;
+        rr:subjectMap [
+            rr:template "http://data.example.com/category/{CATEGORY}" ;
+            rr:class rdfs:Class ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:label ;
+            rr:objectMap [ rr:column "CATEGORY" ];
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:subClassOf ;
+            rr:objectMap [ rr:constant daq:Category ] ;
+        ] .
+
+    <#TriplesMapForDimensionClass>
+        rr:logicalTable <#Class-ValidationRule-View> ;
+        rr:subjectMap [
+            rr:template "http://data.example.com/dimension/{DIMENSION}";
+            rr:class rdfs:Class ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:label ;
+            rr:objectMap [ rr:column "DIMENSION" ];
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:subClassOf ;
+            rr:objectMap [ rr:constant daq:Dimension ] ;
+        ] .
+
+    <#TriplesMapForDimensionProperty>
+        rr:logicalTable <#Class-ValidationRule-View> ;
+        rr:subjectMap [
+            rr:template "http://data.example.com/dimension/has{DIMENSION}Dimension";
+            rr:class rdf:Property ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:subPropertyOf ;
+            rr:objectMap [ rr:constant daq:hasDimension ] ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:domain ;
+            rr:objectMap [ rr:template "http://data.example.com/category/{CATEGORY}" ] ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:range ;
+            rr:objectMap [ rr:template "http://data.example.com/dimension/{DIMENSION}" ] ;
+        ] .
+
+    <#TriplesMapForMetricClass>
+        rr:logicalTable <#Class-ValidationRule-View> ;
+        rr:subjectMap [
+            rr:template "http://data.example.com/metric/{VAL_RULE_ID}";
+            rr:class rdfs:Class ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:label ;
+            rr:objectMap [ rr:column "VAL_RULE_ID" ];
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:subClassOf ;
+            rr:objectMap [ rr:constant daq:Metric ] ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:comment ;
+            rr:objectMap [ rr:column "VAL_RULE_LABEL" ] ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate daq:expectedDataType ;
+            rr:objectMap [ rr:constant xsd:double ] ;
+        ] .
+
+    <#TriplesMapForMetricProperty>
+        rr:logicalTable <#Class-ValidationRule-View> ;
+        rr:subjectMap [
+            rr:template "http://data.example.com/metric/has{VAL_RULE_ID}Metric";
+            rr:class rdf:Property ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:subPropertyOf ;
+            rr:objectMap [ rr:constant daq:hasMetric ] ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:domain ;
+            rr:objectMap [ rr:template "http://data.example.com/dimension/{DIMENSION}" ] ;
+        ] ;
+        rr:predicateObjectMap [
+            rr:predicate rdfs:range ;
+            rr:objectMap [ rr:template "http://data.example.com/metric/{VAL_RULE_ID}" ] ;
+        ] .

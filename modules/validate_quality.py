@@ -253,12 +253,14 @@ class ValidateQuality:
             #     term_type = URIRef("http://www.w3.org/ns/r2rml#Literal")
             if term_type:
                 resource_type = self.get_type(property)
-                if OWL.DatatypeProperty in resource_type and term_type != URIRef("http://www.w3.org/ns/r2rml#Literal"):
+                if (OWL.DatatypeProperty in resource_type) and (term_type != URIRef("http://www.w3.org/ns/r2rml#Literal")):
                     result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
-                elif OWL.ObjectProperty in resource_type and term_type == URIRef("http://www.w3.org/ns/r2rml#Literal"):
-                    result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property).strip())
-                    self.add_violation([metric_identifier, result_message, term_type, objectMap])
+                elif (OWL.ObjectProperty in resource_type or RDF.Property in resource_type) and (term_type == URIRef("http://www.w3.org/ns/r2rml#Literal")):
+                    range = self.get_range(property).strip()
+                    if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith("http://www.w3.org/2001/XMLSchema#"):
+                        result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property).strip())
+                        self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
     def validate_D7(self):
         metric_identifier = "D7"
@@ -749,24 +751,34 @@ class ValidateQuality:
 
     def get_properties_range(self):
         # A function to retrieve all properties in the mapping with term types related
-        query = """SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?object
+        query = """
+SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiteralType
                     WHERE {
                       ?subject rr:predicateObjectMap ?pom . 
                       ?pom        rr:predicate ?property . 
                       ?pom         rr:objectMap ?objectMap . 
+                      OPTIONAL { ?objectMap rr:column ?column }. 
                       OPTIONAL { ?objectMap rr:termType ?termType }. 
                       OPTIONAL { ?objectMap rr:datatype ?dataType }. 
                       OPTIONAL { ?objectMap rr:constant ?constant }. 
-                      # OPTIONAL { ?pom rr:object ?object }. 
+                      BIND(BOUND(?column) AS ?hasColumn)
+                      BIND(BOUND(?termType) AS ?hasTermType)
+                     BIND((?hasColumn && !?hasTermType) AS ?hasLiteralType )
+
                     }
+      
                """
         qres = self.current_graph.query(query)
         properties = {}
         counter = 0
         for row in qres:
             # properties.append([row[0], row[1], row[2]])
+            if row["hasLiteralType"] and not row["termType"]:
+                term_type = rdflib.term.URIRef('http://www.w3.org/ns/r2rml#Literal')
+            else:
+                term_type = row["termType"]
             properties[counter] = {"property": row["property"], "predicateObjectMap": row["pom"],
-                                   "objectMap": row["objectMap"], "termType": row["termType"],
+                                   "objectMap": row["objectMap"], "termType": term_type,
                                    "datatype": row["dataType"], "constant": row["constant"],
                                    "subject": row["pom"]
                                    }

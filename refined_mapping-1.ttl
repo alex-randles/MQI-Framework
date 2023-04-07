@@ -3,35 +3,32 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ex: <http://example.com/ns#> . 
-@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix dqv: <http://www.w3.org/ns/dqv#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
-@prefix cidoc: <http://erlangen-crm.org/current/> . 
-@prefix mqio: <https://www.w3id.org/MQIO/#> . 
-@prefix fvc: <http://www.w3id.org/FAIRVASC#> . 
-@prefix airo: <https://www.w3id.org/airo/#> . 
+@prefix lb: <https://github.com/LinkedBrainz/r2rml/v0.1#> . 
 @prefix owl: <http://www.w3.org/2002/07/owl#> . 
-@prefix ibclo: <https://ibclo.ericsson.com/#> . 
-@prefix skos: <http://www.w3.org/2004/02/skos/core#> . 
-@prefix dcat: <http://www.w3.org/ns/dcat#> . 
+@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
+@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
+@prefix oscd: <https://w3id.org/OSCD#> . 
 
 	
-<#TriplesMap8>	
+<#artist_area>	
+ rdf:type rr:TriplesMap;	
 	
  rr:logicalTable[ 	
- 	 rr:tableName "EMP" ;	
+ 	 rr:sqlQuery""" SELECT artist.gid, area.gid AS area	
+       FROM artist	
+            INNER JOIN area ON artist.area = area.id """;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:template "http://data.example.com/employee/{EMPNO}" ;	
+ 	 rr:template "http://musicbrainz.org/artist/{gid}#_" ;	
+	 rr:class geo:SpatialThings, foaf:Person;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate dcat:hasResultStatus;	
+ 	 rr:predicate oscd:hasDataReference;	
 	 rr:objectMap [	
-		 rr:column "ENAME" ;	
+		 rr:column "djdjdj" ;	
+		 rr:termType rr:Literal;	
 		]; 	
  ];	
 .	
