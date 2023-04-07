@@ -75,7 +75,7 @@ class DetectChanges:
     def fitem(item):
         item = item.strip()
         try:
-            item = float(item)
+            item = str(item)
         except ValueError:
             pass
         return item
@@ -117,12 +117,14 @@ class DetectChanges:
                         else:
                             if (data_reference, change_reason) not in csv_tuples_2:
                                 # print(self.detect_duplicates(self.version_1_csv))
+                                print(type(data_reference), type(change_reason))
                                 output_changes["delete"][change_id] = {
                                     "data_reference": data_reference,
                                     "change_reason": change_reason
                                 }
                             else:
-                                csv_tuples_2.remove((data_reference, change_reason))
+                                pass
+
                         change_id += 1
                 else:
                     if isinstance(changes, str):
