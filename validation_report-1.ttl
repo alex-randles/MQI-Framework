@@ -5,7 +5,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <sample_mapping18.ttl> ;
+    mqio:assessedMapping <sample_mapping31.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -18,5 +18,5 @@ ex:violation-0 a mqio:MappingViolation ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-<sample_mapping18.ttl> a mqio:MappingArtefact .
+<sample_mapping31.ttl> a mqio:MappingArtefact .
 
