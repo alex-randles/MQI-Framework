@@ -95,34 +95,34 @@ class DetectChanges:
         return csv_tuples
 
     def format_csv_changes(self, csv_diff):
-        print(csv_diff)
-        exit()
         output_changes = defaultdict(dict)
         output_changes["insert"] = defaultdict(dict)
         output_changes["delete"] = defaultdict(dict)
         change_id = 0
         # process output from csv diff library
+        csv_tuples_1 = self.detect_duplicates(self.version_1_csv)
+        csv_tuples_2 = self.detect_duplicates(self.version_2_csv)
         for change_type, related_changes in csv_diff.items():
             for changes in related_changes:
                 if isinstance(changes, dict):
                     for data_reference, change_reason in changes.items():
                         if change_type == "added":
-                            if (data_reference, change_reason) not in self.detect_duplicates(self.version_1_csv):
+                            if (data_reference, change_reason) not in csv_tuples_1:
                                 output_changes["insert"][change_id] = {
                                     "data_reference": data_reference,
                                     "change_reason": change_reason
                                 }
                             else:
-                                pass
+                                csv_tuples_1.remove((data_reference, change_reason))
                         else:
-                            if (data_reference, change_reason) not in self.detect_duplicates(self.version_2_csv):
+                            if (data_reference, change_reason) not in csv_tuples_2:
                                 # print(self.detect_duplicates(self.version_1_csv))
                                 output_changes["delete"][change_id] = {
                                     "data_reference": data_reference,
                                     "change_reason": change_reason
                                 }
                             else:
-                                pass
+                                csv_tuples_2.remove((data_reference, change_reason))
                         change_id += 1
                 else:
                     if isinstance(changes, str):
