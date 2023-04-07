@@ -58,7 +58,8 @@ class DetectMappingImpact:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference].append(changed_data)
 
     def get_structural_changes(self):
-        mapping_references = ["'item_id'", "'name'", "'price'"]
+        mapping_references = self.mapping_details.get("data_references")
+        mapping_references = ["'{}'".format(reference) for reference in mapping_references]
         query = """
             PREFIX oscd: <https://w3id.org/OSCD#>
             PREFIX rml: <http://semweb.mmlab.be/ns/rml#>

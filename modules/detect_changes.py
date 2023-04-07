@@ -18,6 +18,8 @@ from collections import defaultdict
 from csv_diff import load_csv, compare
 from modules.r2rml import *
 import modules.r2rml as r2rml
+# from r2rml import *
+# import r2rml as r2rml
 
 
 class DetectChanges:
@@ -46,8 +48,8 @@ class DetectChanges:
 
     def fetch_csv_data(self):
         # retrieve csv data from
-        version_1_url = self.form_details.get("CSV_URL_1")
-        version_2_url = self.form_details.get("CSV_URL_2")
+        version_1_url = self.form_details.get("CSV-URL-1")
+        version_2_url = self.form_details.get("CSV-URL-2")
         self.version_1_csv = requests.get(version_1_url).text
         self.version_2_csv = requests.get(version_2_url).text
         csv_diff = self.detect_csv_changes()
@@ -97,8 +99,8 @@ class DetectChanges:
                             }
                         else:
                             output_changes["delete"][change_id] = {
-                                "structural" : structural_reference,
-                                "change_reason" : changes,
+                                "structural_reference": structural_reference,
+                                "change_reason": changes,
                             }
                         change_id += 1
         return output_changes
@@ -116,8 +118,8 @@ class DetectChanges:
                      "VERSION_1",
                      "VERSION_2"]
         )
-        version_1 = self.form_details.get("CSV_URL_1")
-        version_2 = self.form_details.get("CSV_URL_2")
+        version_1 = self.form_details.get("CSV-URL-1")
+        version_2 = self.form_details.get("CSV-URL-2")
         detection_time = datetime.now()
         for change_type, changes in output_changes.items():
             for change_id, changed_values in changes.items():
@@ -225,12 +227,11 @@ class DetectChanges:
         print("EXECUTING R2RML ENGINE")
 
 if __name__ == '__main__':
-    csv_file_1 = "https://raw.githubusercontent.com/kg-construct/" \
-                 "rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv"
-    csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v2.csv"
+    csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
+    csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v2.csv"
     form_details = {
-        'CSV-URL_1': csv_file_1,
-        'CSV-URL_2': csv_file_2,
+        'CSV-URL-1': csv_file_1,
+        'CSV-URL-2': csv_file_2,
         'insert-threshold': '10', 'delete-threshold': '0',
         'move-threshold': '0', 'datatype-threshold': '0',
         'merge-threshold': '0', 'update-threshold': '0',
