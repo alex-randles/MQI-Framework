@@ -1,27 +1,29 @@
-@prefix dbo: <http://dbpedia.org/ontology/> .
 @prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping74.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/test_mapping.ttl> a mqio:MappingArtefact ;
+    mqio:wasCreatedBy ex:fff .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping74.ttl> ;
+    prov:wasAssociatedWith ex:ff ;
+    mqio:assessedMapping <test_mapping.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-07T11:14:30.029689"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-07T18:32:41.450423"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
             INSERT {
-                ?subject rr:class <http://dbpedia.org/ontology/Person> .
+                ?subject rr:class <http://xmlns.com/foaf/0.1/Person> .
             }
             WHERE {
-              <file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping74.ttl#artist_area> rr:subjectMap ?subject
+              <http://example.com/base/TriplesMap1> rr:subjectMap ?subject
             }
             """^^xsd:string ;
     mqio:refinedViolation ex:violation-0 ;
@@ -29,9 +31,9 @@ ex:refinement-0 a mqio:MappingRefinement ;
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue dbo:school ;
+    mqio:hasObjectValue foaf:knows ;
     mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#artist_area> ;
+    mqio:inTripleMap <TriplesMap1> ;
     mqio:isDescribedBy mqio-metrics:D3 ;
     mqio:wasRefinedBy ex:refinement-0 .
 

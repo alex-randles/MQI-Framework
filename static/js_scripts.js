@@ -132,6 +132,10 @@ function addSampleSourceData(sample_data_identifier){
      document.getElementById('CSV-URL-1').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv";
      document.getElementById('CSV-URL-2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee.csv";
   }
+  else if (sample_data_identifier == 4){
+     document.getElementById('CSV-URL-1').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/loans-v1.csv";
+     document.getElementById('CSV-URL-2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/loans-v1.csv";
+  }
 }
 
 $('.collapse').collapse()

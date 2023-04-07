@@ -65,21 +65,31 @@ class ValidationReport:
         if self.form_data.get("add-information"):
             mapping_file_IRI = URIRef(self.mapping_file.split("/")[-1])
             self.validation_graph.add((URIRef(self.mapping_file.split("/")[-1]), RDF.type, self.MQIO.MappingArtefact))
-            mapping = mapping_file_IRI
-            # adding creator name
-            creator_name = self.form_data.get('creator-name')
-            if creator_name:
-                creator_name_IRI = URIRef("http://example.org/" + creator_name)
-                self.validation_graph.add((mapping, self.MQIO.wasCreatedBy, creator_name_IRI))
-            # adding the person who performed the assessment
-            performed_by_name = self.form_data["performed-by-name"]
-            if performed_by_name:
-                performed_by_IRI = URIRef("http://example.org/" + performed_by_name)
-                self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, performed_by_IRI))
-            # add agent who performed the refinement of the mapping
-            # refinement_agent = self.form_data["refined-by-name"]
-            # refinement_agent_identifier = URIRef("http://example.org/" + refinement_agent)
-            # self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, refinement_agent_identifier))
+            mapping_identifier = mapping_file_IRI
+            self.add_creator_agent(mapping_identifier)
+            self.add_performer_agent()
+            self.add_refinement_agent()
+
+    def add_creator_agent(self, mapping_identifier):
+        # adding creator name
+        creator_name = self.form_data.get('creator-name')
+        if creator_name:
+            creator_name_IRI = URIRef("http://example.org/" + creator_name)
+            self.validation_graph.add((mapping_identifier, self.MQIO.wasCreatedBy, creator_name_IRI))
+
+    def add_performer_agent(self):
+        # adding the person who performed the assessment
+        performed_by_name = self.form_data["performed-by-name"]
+        if performed_by_name:
+            performed_by_IRI = URIRef("http://example.org/" + performed_by_name)
+            self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, performed_by_IRI))
+
+    def add_refinement_agent(self):
+        pass
+        # add agent who performed the refinement of the mapping
+        # refinement_agent = self.form_data["refined-by-name"]
+        # refinement_agent_identifier = URIRef("http://example.org/" + refinement_agent)
+        # self.validation_graph.add((self.assessment_IRI, self.PROV.wasAssociatedWith, refinement_agent_identifier))
 
     def add_assessment_time(self):
         # time the mapping information was generated - prov:startedAtTime

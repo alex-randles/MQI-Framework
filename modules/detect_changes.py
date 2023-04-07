@@ -224,12 +224,15 @@ class DetectChanges:
         print("R2RML CONFIG FILE UPDATED")
 
     def validate_notification_policy(self):
-        ValidateNotificationPolicy(self.output_file, "11")
+        pass
+        # ValidateNotificationPolicy(self.output_file, "11")
 
     @staticmethod
     def execute_r2rml():
         os.system(run_command)
         print("EXECUTING R2RML ENGINE")
+        print()
+        print("dhdhhdhdhhdhdhdhdh")
 
 if __name__ == '__main__':
     csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"

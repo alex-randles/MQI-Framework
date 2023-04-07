@@ -1,0 +1,125 @@
+@prefix ex: <http://example.org/> .
+@prefix mqio: <https://w3id.org/MQIO#> .
+@prefix mqio-metric: <https://w3id.org/MQIO-metrics#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dqv: <http://www.w3.org/ns/dqv#>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix geo: <http://www.opengis.net/ont/geosparql#>.
+
+###############################
+#       Mapping Artefact      #
+###############################
+
+<osi-mapping.ttl> a mqio:MappingArtefact ;
+    mqio:wasCreatedBy ex:user-1;
+    mqio:hasPurpose "Research Project" ; 
+    prov:generatedAtTime  "2022-01-18T17:31:01.286820"^^xsd:dateTime . 
+    
+ex:user-1 a prov:Agent; 
+    foaf:name "Alex Randles" . 
+       
+###############################
+#     Mapping Assessment      #
+###############################
+
+ex:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <osi-mapping.ttl> ;
+    mqio:wasExecuted mqio-metric:D1, 
+					mqio-metric:D2, 
+					mqio-metric:D3, 
+					mqio-metric:D4, 
+					mqio-metric:D5, 
+					mqio-metric:D6, 
+					mqio-metric:D7, 
+					mqio-metric:MP1, 
+					mqio-metric:MP2, 
+					mqio-metric:MP3, 
+					mqio-metric:MP4, 
+					mqio-metric:MP5, 
+					mqio-metric:MP6, 
+					mqio-metric:MP7, 
+					mqio-metric:MP8, 
+					mqio-metric:VOC1, 
+					mqio-metric:VOC2, 
+					mqio-metric:VOC3, 
+					mqio-metric:VOC4, 
+					mqio-metric:VOC5;
+    mqio:usedTool "TopBraid Composer";
+    prov:wasAssociatedWith ex:user-1; 
+    prov:endedAtTime  "2022-10-18T17:31:01.286820"^^xsd:dateTime;
+    mqio:hasQualityRequirement ex:qualityRequirement; 
+    mqio:hasValidationReport ex:mappingValidationReport .
+
+ex:mappingValidationReport a mqio:MappingValidationReport ;
+    prov:generatedAtTime  "2022-10-18T17:31:01.286820"^^xsd:dateTime;
+    mqio:hasViolation ex:violation-0 . 
+    
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1" ;
+    mqio:hasObjectValue geo:asWTK ;
+    mqio:inTripleMap <#TripleMap1> ;
+    mqio:isDescribedBy mqio:metric-D2 ;
+    mqio:hasResultMessage "Usage of undefined property." ;
+    mqio:wasRefinedBy ex:refinement-0 .
+
+###############################
+#     Mapping Refinement      #
+###############################
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    mqio:usedQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                DELETE { ?predicateObjectMap rr:predicate ?property }
+                INSERT { ?predicateObjectMap rr:predicate <http://www.opengis.net/ont/geosparql#asWKT> }
+                WHERE {
+                SELECT ?predicateObjectMap ?property
+                WHERE {
+                      ?predicateObjectMap rr:predicate ?property.
+                      FILTER(str(?predicateObjectMap) = <BLANK_ID>).
+                    }
+                }
+               """ ;
+    mqio:hasConfidence "0.75"^^xsd:double; 
+    prov:endedAtTime  "2022-10-18T17:31:01.286820"^^xsd:dateTime;
+    prov:wasAssociatedWith ex:user-1; 
+    mqio:hasRefinementName "Find Similar Predicates"; 
+    mqio:refinedViolation ex:violation-0 .
+    
+###############################
+#     Mapping Validation      #
+###############################
+
+ex:qualityRequirement a mqio:QualityRequirement;
+	rdfs:comment "Quality requirement associated with the mapping."; 
+	mqio:isSatisifed  "true"^^xsd:boolean ;
+	dqv:hasQualityMeasurement ex:qualityMeasurement-1, ex:qualityMeasurement-2 . 
+	
+ex:qualityMeasurement-1 
+    a dqv:QualityMeasurement ;
+    rdfs:comment "No mapping consistency issues remaining in the mapping."; 
+    dqv:computedOn  <osi-mapping.ttl> ;
+    dqv:isMeasurementOf  mqio-metric:D1, mqio-metric:D2, 
+                         mqio-metric:D3, mqio-metric:D4, 
+                         mqio-metric:D4, mqio-metric:D5,
+                         mqio-metric:D7;
+    dqv:value "1.0"^^xsd:double  ;
+    prov:wasAttributedTo ex:user-1 ;
+    prov:generatedAtTime "2022-10-18T17:31:01.286820"^^xsd:dateTime ;
+    prov:wasGeneratedBy ex:mappingQualityAssessment .
+
+ex:qualityMeasurement-2
+    a dqv:QualityMeasurement ;
+    rdfs:comment "No representational conciseness issues remaining in the mapping."; 
+    dqv:computedOn  <osi-mapping.ttl> ;
+    dqv:isMeasurementOf mqio-metric:D4;
+    dqv:value "1.0"^^xsd:double  ;
+    prov:wasAttributedTo ex:user-1 ;
+    prov:generatedAtTime "2022-10-18T17:31:01.286820"^^xsd:dateTime ;
+    prov:wasGeneratedBy ex:mappingQualityAssessment .
+
+

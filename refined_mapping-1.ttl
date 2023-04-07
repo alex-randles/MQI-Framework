@@ -3,33 +3,29 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix lb: <https://github.com/LinkedBrainz/r2rml/v0.1#> . 
-@prefix owl: <http://www.w3.org/2002/07/owl#> . 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
-@prefix oscd: <https://w3id.org/OSCD#> . 
-@prefix dbo: <http://dbpedia.org/ontology/> . 
+@prefix ex: <http://example.com/> . 
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> . 
 
 	
-<#artist_area>	
+<TriplesMap1>	
  rdf:type rr:TriplesMap;	
 	
- rr:logicalTable[ 	
- 	 rr:sqlQuery"""  SELECT artist.gid, area.gid AS area		
-       FROM artist		
-            INNER JOIN area ON artist.area = area.id  """;	
+ rml:logicalSource[ 	
+ 	 rml:source "student.csv" ;	
+	 rml:referenceFormulation ql:CSV;	
  ];	
 	
  rr:subjectMap[ 	
- 	 rr:template "http://musicbrainz.org/artist/{gid}#_" ;	
-	 rr:class dbo:Artist, dbo:Person;	
+ 	 rr:template "http://example.com/{Name}" ;	
+	 rr:class foaf:Person;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate dbo:school;	
+ 	 rr:predicate foaf:knows;	
 	 rr:objectMap [	
-		 rr:termType rr:IRI;	
-		 rr:column "djdjdj" ;	
+		 rml:reference "Name" ;	
 		]; 	
  ];	
 .	
