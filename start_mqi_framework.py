@@ -22,7 +22,7 @@ from os.path import isfile, join
 
 import rdflib
 from flask import Flask, render_template, request, send_file, session, url_for, \
-    flash
+    flash, Markup
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename, redirect
@@ -541,7 +541,7 @@ class API:
                         #     return render_template("mapping_quality/index.html")
                     else:
                         os.remove(mapping_file)
-                        flash("Mapping file contains invalid RDF. Validate with http://ttl.summerofcode.be/")
+                        flash(Markup('Mapping file contains invalid RDF. Validate your mapping <a href="http://ttl.summerofcode.be/" target="_blank" class="alert-link">here</a>'))
                         return render_template("mapping_quality/index.html")
                 else:
                     os.remove(mapping_file)
