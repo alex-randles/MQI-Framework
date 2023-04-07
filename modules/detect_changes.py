@@ -61,8 +61,8 @@ class DetectChanges:
             load_csv(version_1_file_object),
             load_csv(version_2_file_object),
         )
-        print(csv_diff)
-        exit()
+        # print(csv_diff)
+        # exit()
         return csv_diff
 
     @staticmethod

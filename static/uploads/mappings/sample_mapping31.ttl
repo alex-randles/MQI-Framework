@@ -1,0 +1,20 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix ex: <http://example.com/ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+<#TriplesMap8>
+    rr:logicalSource [ rml:source "employee.csv" ];
+    rr:subjectMap [
+        rr:template "http://data.example.com/product/{item_id}";
+        rr:class foaf:Person;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:firstName ;
+        rr:objectMap [ rr:column "name";  ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:lastName ;
+        rr:objectMap [ rr:column "price";  ];
+    ].
