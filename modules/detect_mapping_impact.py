@@ -61,24 +61,33 @@ class DetectMappingImpact:
         mapping_references = self.mapping_details.get("data_references")
         mapping_references = ["'{}'".format(reference) for reference in mapping_references]
         query = """
-            PREFIX oscd: <https://w3id.org/OSCD#>
-            PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
-            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            PREFIX oscd: <https://w3id.org/OSCD#> 
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-
-            SELECT DISTINCT ?changesGraph ?source ?change ?reference ?changedData ?data
+            SELECT ?change ?data ?changedValue
             WHERE {
-              GRAPH ?changesGraph {    			 
-                ?changeLog a oscd:ChangeLog;
-                        oscd:hasChange ?change;
-                        oscd:hasCurrentVersion ?currentVersion .
-                ?change oscd:hasDataReference ?reference;
-                        oscd:hasChangedData ?changedData .
-                ?changedData rdfs:comment ?data . 
-                FILTER (?reference NOT IN (%s))
-              }
+              
+                  GRAPH ?changesGraph {    			 
+                     ?changeLog1 a oscd:ChangeLog;
+                             oscd:hasChange ?change1 .
+                     ?change1 oscd:hasDataReference ?data ;
+                              oscd:hasChangedData ?changedData1 .
+                     ?changedData1 rdfs:comment ?changedValue . 
+                            
+                  {
+                  SELECT ?data ?change
+                  WHERE {
+                          ?changeLog a oscd:ChangeLog;
+                                     oscd:hasChange ?change;
+                                     oscd:hasCurrentVersion ?currentVersion .
+                          ?change oscd:hasStructuralReference ?reference;
+                                  oscd:hasChangedData ?changedData .
+                          ?changedData rdfs:comment ?data . 
+                        }
+                
+                }
+               }
             }
-        """ % ", ".join(mapping_references)
+        """
         qres = self.changes_graph.query(query)
         mapping_impact_key = "structural_changes"
         self.mapping_impact[mapping_impact_key] = defaultdict(dict)
@@ -86,8 +95,8 @@ class DetectMappingImpact:
         self.mapping_impact[mapping_impact_key]["delete"] = defaultdict(dict)
         for row in qres:
             change_identifier = str(row.get("change"))
-            data_reference = str(row.get("reference"))
-            changed_data = str(row.get("data"))
+            data_reference = str(row.get("data"))
+            changed_data = str(row.get("changedValue"))
             change_type = self.get_change_type(change_identifier)
             if data_reference not in self.mapping_impact[mapping_impact_key][change_type]:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference] = [changed_data]

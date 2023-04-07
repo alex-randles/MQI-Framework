@@ -266,10 +266,12 @@ class API:
             "insert": "success",
             "delete": "danger",
         }
+        mapping_filename = mapping_graph.get("filename")
         return render_template("change_detection/mappings_impacted.html",
                                change_template_colors=change_template_colors,
                                mapping_id=mapping_unique_id,
                                mapping_impact=mapping_impact,
+                               mapping_filename=mapping_filename,
                                change_graph_details=change_graph_details)
 
     # generate a html file with all the thresholds for a specific process
@@ -719,8 +721,10 @@ class API:
 
     @app.route("/return-impacted-mapping/<mapping_filename>", methods=['GET', 'POST'])
     def download_impacted_mapping(mapping_filename):
-        mapping_path = "./static/uploads/" + mapping_filename
+        filename = session.get("mapping_details").get(int(mapping_filename)).get("filename")
+        mapping_path = "./static/uploads/" + filename
         if os.path.exists(mapping_path):
+            exit()
             return send_file(mapping_path, as_attachment=True, cache_timeout=0)
         else:
             mapping_path = "./static/sample_mapping.ttl"
