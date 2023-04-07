@@ -539,6 +539,8 @@ class ValidateQuality:
         return IRI
 
     def get_namespace(self, IRI):
+        if IRI.startswith("http://dbpedia.org/ontology/"):
+            return IRI
         if "#" in IRI:
             IRI = IRI[:IRI.rfind("#") + 1]
         else:

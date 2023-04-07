@@ -23,10 +23,6 @@ class FetchVocabularies:
 
     # retrieves and queries local graph
     def query_local_graph(self, property_IRI, query):
-        if "#" in property_IRI:
-            property_namespace = property_IRI[:property_IRI.rfind("#") + 1]
-        else:
-            property_namespace = property_IRI[:property_IRI.rfind("/") + 1]
         sparql = SPARQLWrapper(self.localhost)
         sparql.setQuery(query)
         sparql.setReturnFormat(JSON)
@@ -34,9 +30,19 @@ class FetchVocabularies:
         # check if results from query - otherwise graph does not exist
         if "results" in qres.keys():
             results = qres["results"]["bindings"]
-            if results == []:
-                self.http_retrieval(property_namespace)
+            if not results:
+                namespace = self.get_identifier_namespace(property_IRI)
+                self.http_retrieval(namespace)
         return qres
+
+    def get_identifier_namespace(self, identifier):
+        if identifier.startswith("http://dbpedia.org/ontology/"):
+            return identifier
+        if "#" in identifier:
+            namespace = identifier[:identifier.rfind("#") + 1]
+        else:
+            namespace = identifier[:identifier.rfind("/") + 1]
+        return namespace
 
     # uses rdflib to retrieve graph
     def rdflib_retrieval(self, url):

@@ -1,60 +1,37 @@
+@prefix dbo: <http://dbpedia.org/ontology/> .
 @prefix ex: <http://example.org/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix oscd: <https://w3id.org/OSCD#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/demo_mapping.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/refined-mapping74.ttl> a mqio:MappingArtefact .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <demo_mapping.ttl> ;
+    mqio:assessedMapping <refined-mapping74.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2 .
+    mqio:hasViolation ex:violation-0 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-07T01:16:05.491073"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-07T11:14:30.029689"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:termType ?currentTermType  } 
-                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#Literal> } 
-                WHERE { 
-                    SELECT ?subject ?currentTermType
-                    WHERE {
-                          ?subject ?p ?o . 
-                          ?subject rr:termType ?currentTermType
-                          FILTER(str(?subject) = "ub18bL19C19").
-                    }
-                }; 
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Change Term Type"^^xsd:string .
+            INSERT {
+                ?subject rr:class <http://dbpedia.org/ontology/Person> .
+            }
+            WHERE {
+              <file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping74.ttl#artist_area> rr:subjectMap ?subject
+            }
+            """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Add Domain Class"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue geo:SpatialThings ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#artist_area> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue oscd:hasDataReference ;
+    mqio:hasObjectValue dbo:school ;
     mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
     mqio:inTripleMap <#artist_area> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:IRI ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:Literal' for property 'oscd:hasDataReference'."^^xsd:string ;
-    mqio:inTripleMap <#artist_area> ;
-    mqio:isDescribedBy mqio-metrics:D6 ;
+    mqio:isDescribedBy mqio-metrics:D3 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
