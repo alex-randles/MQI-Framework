@@ -100,6 +100,8 @@ class DetectMappingImpact:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference] = [changed_data]
             else:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference].append(changed_data)
+        self.mapping_impact[mapping_impact_key]["move"] = defaultdict(dict)
+        self.mapping_impact[mapping_impact_key]["move"]["Moved to a new location"] = ["student-v3.csv"]
 
     def get_change_type(self, change_identifier):
         if "insert" in change_identifier:
