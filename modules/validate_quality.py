@@ -405,7 +405,9 @@ class ValidateQuality:
     def validate_MP6(self):
         result_message = "No logical table in this triple map."
         metric_identifier = "MP6"
-        query = """ASK { ?subject rr:logicalTable ?object } """
+        query = """
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        ASK { ?subject rr:logicalTable|rml:logicalSource ?object } """
         qres = self.current_graph.query(query)
         for row in qres:
             if not row:
@@ -465,7 +467,19 @@ class ValidateQuality:
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP9(self):
-        pass
+        result_message = "Predicate must be a valid IRI."
+        metric_identifier = "M9"
+        query = """SELECT ?predicate ?sm
+                     WHERE { 
+                             ?subject rr:predicateObjectMap ?pom . 
+                             ?pom rr:predicate ?predicate . 
+                             FILTER(!isIRI(?predicate))
+                     }
+                     """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            object_identifier = row["predicate"]
+            self.add_violation([metric_identifier, result_message, object_identifier, None])
 
     def validate_MP10(self):
         result_message = "Named graph must be a valid IRI."
