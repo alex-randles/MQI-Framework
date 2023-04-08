@@ -158,7 +158,7 @@
                 {% if current_refinements|length > 0 %}
                 <select class="form-select form-select-sm" id={{violation_ID}} name={{violation_ID}}>
                     <option value="Manual">Manual</option>
-                    <option value="description" disabled>Manaul refinements are completed by you using a text editor</option>
+                    <option value="description" disabled>Refine using text editor</option>
                     {% for refinement in current_refinements %}
                     <option value={{refinement}}>{{split_camel_case(refinement)}}</option>
                     <option value="description" disabled>{{refinement_descriptions[refinement]}}</option>
