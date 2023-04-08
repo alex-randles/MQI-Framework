@@ -157,7 +157,7 @@
 
 	rr:subjectMap [
 		rr:template "http://www.example.com/moveChange/{ID}";
-		rr:class oscd:DeleteSourceData;
+		rr:class oscd:MoveSourceData;
 	    rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
 	];
 
