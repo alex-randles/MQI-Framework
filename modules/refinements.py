@@ -42,9 +42,11 @@ class Refinements:
             "MP3": ["ChangeTermType", "RemoveTermType"],
             "MP4": ["ChangeTermType", "RemoveTermType"],
             "MP5": ["ChangeClass"],
-            "MP6": ["ChangeLanguageTag", "RemoveLanguageTag"],
-            "MP7": ["AddChildColumn"],
-            "MP8": ["AddParentColumn"],
+            "MP6": ["AddLogicalTable"],
+            "MP5_1": ["AddChildColumn"],
+            "MP5_2": ["AddParentColumn"],
+            "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
+            "MP13": ["AddSubjectMap"],
 
             # data metric refinenements
             "D1": ["FindSimilarClasses", "ChangeClass", "RemoveClass"],  # Usage of undefined classes
@@ -70,6 +72,12 @@ class Refinements:
 
             "AddChildColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": [self.R2RML + "child"]},
+
+            "AddSubjectMap": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
+                               "user_input_values": [self.R2RML + "class"]},
+
+            "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
+                              "user_input_values": [self.R2RML + "tableName"]},
 
             "ChangePredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
                                 "user_input_values": [self.R2RML + "predicate"]},
@@ -129,8 +137,8 @@ class Refinements:
         self.refinement_descriptions = self.create_refinement_descriptions()
         self.refinement_functions = {"AddDomainClass": self.add_domain,
                                      "AddCorrectRange": self.add_correct_range,
+                                     "AddSubjectMap": self.add_subject_map,
                                      "RemoveLanguageTag": self.remove_language_tag,
-                                     'AddSubjectMap': self.add_subject_map,
                                      'ChangeLanguageTag': self.change_language_tag,
                                      "ChangeClass": self.change_class,
                                      "RemoveDisjointClass": self.remove_class,
@@ -179,6 +187,7 @@ class Refinements:
             classes.append("%s" % row)
         output = {"Classes": classes}
         return output
+
 
     def remove_duplicate_triples(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
@@ -473,23 +482,22 @@ class Refinements:
         return update_query
 
     def change_IRI(self, query_values, mapping_graph, violation_ID):
-        print(query_values)
         new_IRI = query_values["URI"]
         current_result = self.validation_results[violation_ID]
         subject_IRI = current_result["location"]
         old_IRI = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?subject rr:class <%s>  }
-                INSERT { ?subject rr:class <%s> }
+                DELETE { ?subject ?predicate <%s>  }
+                INSERT { ?subject ?predicate <%s> }
                 WHERE {
-                SELECT ?subject
+                SELECT ?subject ?predicate
                 WHERE {
-                      ?subject rr:class <%s> .
+                      ?subject ?predicate <%s> .
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (old_IRI, new_IRI, old_IRI, subject_IRI)
+               """ % (URIRef(str(old_IRI).replace("\/", "")), new_IRI, old_IRI, subject_IRI)
         print("Changing IRI query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -704,6 +712,24 @@ class Refinements:
             processUpdate(mapping_graph, update_query)
             return update_query
 
+    def add_subject_map(self, query_values, mapping_graph, violation_ID):
+        print(query_values)
+        for property, value in query_values.items():
+            print(property, value)
+            triple_map = URIRef(self.validation_results[violation_ID]["triple_map"])
+            example_namespace = URIRef("http://example.org/test")
+            update_query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT DATA { <%s> rr:subjectMap _:b1 . 
+                                  _:b1 rr:class rr:test .}
+            
+            """ % triple_map
+            processUpdate(mapping_graph, update_query)
+            # print(update_query)
+            # print(list(mapping_graph.triples((None, None, None))))
+            # exit()
+            return update_query
+
     def add_child_column(self, query_values, mapping_graph, violation_ID):
         child_column = list(query_values.values())[0]
         if child_column:
@@ -723,24 +749,6 @@ class Refinements:
             print("Adding child column query\n" + update_query)
             processUpdate(mapping_graph, update_query)
             return update_query
-
-    def add_subject_map(self, query_values, mapping_graph, violation_ID):
-        triple_map_IRI = self.validation_results[violation_ID]["triple_map"]
-        subjectBlankNode = BNode("_:b1")
-        # generate SPARQL query triples with user input for each property with input
-        user_values = "\n\t\t\t".join(
-            ["{} <{}> <{}> .".format(subjectBlankNode, p, o) for (p, o) in query_values.items() if o])
-        updateQuery = """
-                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                    INSERT DATA { <%s> rr:subjectMap  %s .
-                                   %s 
-                    }
-                    """ % (triple_map_IRI, subjectBlankNode, user_values)
-        print("UPDATE QUERY", updateQuery)
-        print(mapping_graph.serialize(format="turtle").decode("utf-8"))
-        processUpdate(mapping_graph, updateQuery)
-        print(mapping_graph.serialize(format="turtle").decode("utf-8"))
-        return updateQuery
 
     def find_properties(self, IRI):
         # A function to retrieve the domain of an IRI

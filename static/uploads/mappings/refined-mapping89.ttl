@@ -5,8 +5,6 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
 @prefix cidoc: <http://erlangen-crm.org/current/> . 
 @prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
-@prefix assoc: <https://w3id.org/associations/vocab#> . 
-@prefix akts: <http://www.aktors.org/ontology/support#> . 
 
 	
 <#STARTDATEEVENT>	
@@ -17,14 +15,12 @@
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate assoc:aws;	
+ 	 rr:predicate cidoc:P4_has_time-spanss;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#STARTDATETIMESPAN> ;	
-		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
+		 rr:column "xhdhd"; 
+		 rr:datatype xsd:integer;	
+		 
+     ]; 
  ];	
 	
  rr:predicateObjectMap[ 	
@@ -32,9 +28,10 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#Organisation> ;	
 		 rr:joinCondition [	
-			 rr:parent "iii" ;	
-			 rr:child "ID" , "kkk" ;	
+			 rr:child "ID" ;	
+			 rr:parent "ID" ;	
 			 ];	
  		]; 	
  ];	
 .	
+

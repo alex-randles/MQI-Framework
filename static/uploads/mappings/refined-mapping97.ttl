@@ -32,8 +32,7 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#Organisation> ;	
 		 rr:joinCondition [	
-			 rr:parent "iii" ;	
-			 rr:child "ID" , "kkk" ;	
+			 rr:child "ID" ;	
 			 ];	
  		]; 	
  ];	
