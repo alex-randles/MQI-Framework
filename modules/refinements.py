@@ -315,8 +315,6 @@ class Refinements:
                       ?property a ?type;
                                  rdfs:comment|skos:definition ?commentProperty . 
                       FILTER(?type IN (rdf:Property, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty))
-                      BIND(lang(?commentProperty) AS ?languageTag ) 
-                      FILTER (?languageTag = 'en' || !bound(?languageTag))
                       }
                     }
                     GROUP BY ?property

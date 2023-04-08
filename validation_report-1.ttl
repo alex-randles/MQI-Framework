@@ -2,21 +2,37 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<file:///home/alex/MQI-Framework/refined-mapping78.ttl> a mqio:MappingArtefact .
+
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <sample_mapping182.ttl> ;
+    mqio:assessedMapping <refined-mapping78.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-07T23:59:27.581153"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/lastName>  .  }
+                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/thumbnail> .     }
+                WHERE {
+                    ?pom rr:predicate <http://xmlns.com/foaf/0.1/lastName>  .
+                    FILTER(str(?pom) = "ub2bL28C23").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Find Similar Predicates"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
     mqio:hasObjectValue foaf:lastName ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-<sample_mapping182.ttl> a mqio:MappingArtefact .
+    mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

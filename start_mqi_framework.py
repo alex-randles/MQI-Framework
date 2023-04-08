@@ -265,6 +265,7 @@ class API:
         change_template_colors = {
             "insert": "success",
             "delete": "danger",
+            "move": "primary",
         }
         mapping_filename = mapping_graph.get("filename")
         return render_template("change_detection/mappings_impacted.html",

@@ -11,8 +11,8 @@
 <#TriplesMap8>	
 	
  rr:subjectMap[ 	
- 	 rr:class foaf:Person;	
-	 rr:template "http://data.example.com/product/{JOB_ID}" ;	
+ 	 rr:template "http://data.example.com/product/{JOB_ID}" ;	
+	 rr:class foaf:Person;	
  ];	
 	
  rr:predicateObjectMap[ 	
@@ -20,14 +20,13 @@
 	 rr:objectMap [	
 		 rr:column "FIRST_NAME" ;	
 		 rr:joinCondition [	
-			 rr:parent "u89oyivyiv8ivgf86" ;	
 			 rr:child "bhyguygyu" ;	
 			 ];	
  		]; 	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate foaf:thumbnail;	
+ 	 rr:predicate foaf:lastName;	
 	 rr:objectMap [	
 		 rr:column "LAST_NAME" ;	
 		]; 	

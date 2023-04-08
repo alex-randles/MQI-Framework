@@ -185,6 +185,32 @@
 
 .
 
+<#MoveChangedData>
+
+	rr:logicalTable [
+	                  rr:sqlQuery """
+						  Select ID, OPERATION, USER_ID, DESCRIPTION, DETECTION_TIME, NEW_LOCATION
+						  FROM changes_detected
+						  WHERE OPERATION IN ('LOP_DELETE_ROWS', 'move')
+				       	""";
+				    	rr:sqlVersion rr:SQL2008;
+	];
+
+	rr:subjectMap [
+		rr:template "http://www.example.com/changedData/{ID}";
+		rr:class oscd:ChangedData;
+        rr:graphMap [ rr:template "http://www.example.com/changesGraph/user-{USER_ID}" ];
+
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate oscd:hasNewLocation ;
+		rr:objectMap  [
+		    rr:column "NEW_LOCATION";
+  	    ];
+   ];
+.
+
 <#UpdateChanges>
 
 	rr:logicalTable [
