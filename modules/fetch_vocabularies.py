@@ -71,6 +71,8 @@ class FetchVocabularies:
             pass
         except requests.exceptions.ConnectionError as e:
             pass
+        except requests.exceptions.MissingSchema as e:
+            pass
         ##
         # filename = self.hash_filename(url)
         # file_location = self.cache_directory + filename

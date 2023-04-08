@@ -5,14 +5,14 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
 
 <#TriplesMap8>
-    rr:logicalSource [ rml:source "employee.csv" ];
+    rml:logicalSources [ rml:source "employee.csv" ];
     rr:subjectMap [
         rr:template "http://data.example.com/product/{JOB_ID}";
         rr:class foaf:Person;
-        rr:graph "djdjdj"; 
+        rr:graph xsd:string; 
     ];
     rr:predicateObjectMap [
-        rr:predicate foaf:firstName ;
+        rr:predicate "hdhdhhd" ;
         rr:objectMap [ rr:column "FIRST_NAME";  ];
     ];
     rr:predicateObjectMap [
