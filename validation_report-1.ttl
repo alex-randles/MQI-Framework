@@ -2,10 +2,13 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<file:///home/alex/MQI-Framework/sample_mapping181.ttl> a mqio:MappingArtefact .
+
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <sample_mapping1821.ttl> ;
+    mqio:assessedMapping <sample_mapping181.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -13,25 +16,54 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-1,
         ex:violation-2 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue foaf:lastName ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-08T19:52:46.768520"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/lastName>  .  }
+                INSERT {   ?pom rr:predicate <http://www.snik.eu/ontology/bb/kmdoiook> .     }
+                WHERE {
+                    ?pom rr:predicate <http://xmlns.com/foaf/0.1/lastName>  .
+                    FILTER(str(?pom) = "ub42bL19C27").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Change Predicate"^^xsd:string .
 
-ex:violation-1 a mqio:MappingViolation ;
+ex:refinement-1 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-08T19:52:46.799361"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:child "dddd" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "ub42bL15C26").
+                        }
+                    }
+                   """^^xsd:string ;
+    mqio:refinedViolation ex:violation-1 ;
+    mqio:refinementName "Add Child Column"^^xsd:string .
+
+ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "None"^^xsd:string ;
     mqio:hasResultMessage "No logical table in this triple map."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:MP6 .
 
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLiteralValue "hdhdhhd"^^xsd:string ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasResultMessage "Predicate must be a valid IRI."^^xsd:string ;
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue foaf:lastName ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:M9 .
+    mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
-<sample_mapping1821.ttl> a mqio:MappingArtefact .
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "Join condition should have a child column."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:MP5_1 ;
+    mqio:wasRefinedBy ex:refinement-1 .
 

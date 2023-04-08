@@ -1,19 +1,19 @@
 REFINEMENT NAME,DESCRIPTION
-AddDomainClass,The correct domain for this property will replace current
+AddDomainClass,Suggest domain of property
 ChangeLanguageTag,Valid language tags can be selected
-AddParentColumn,The parent column you enter will be added 
-AddChildColumn,The child column you enter will be added
+AddParentColumn,Enter a parent column
+AddChildColumn,Enter a child column
 AddSubjectMap,Add a subject map to the triple map
-ChangePredicate,The property you enter will replace the current property
-FindSimilarPredicates,Defined properties in the same namespace will be suggested
-FindSimilarClasses,Defined classes within the same namespace will be suggested
-RemoveClass,The class value you select will be removed
-ChangeClass,The current class value will be replaced by the new class value you enter 
-ChangeTermType,The current term type can be replaced by a valid term type 
-RemoveTermType,The current term type can be removed 
-AddCorrectDatatype,The correct datatype will be fetched and replaced by the current datatype
-ChangeDatatype,The datatype entered will replace the current datatype
-RemoveLanguageTag,The language tag will be removed
-RemoveDatatype,The datatype will be removed 
-ChangeURI,The current URI will be replaced by the new URI you enter
+ChangePredicate,Replace current property
+FindSimilarPredicates,Suggest properties in same namespace
+FindSimilarClasses,Suggest classes in same namespace
+RemoveClass,Remove current class
+ChangeClass,Enter a new class URI
+ChangeTermType,Replace with a valid term type
+RemoveTermType,Remove current term type
+AddCorrectDatatype,Suggest range of property
+ChangeDatatype,Replace current datatype
+RemoveLanguageTag,Remove current language tag
+RemoveDatatype,Remove current datatype
+ChangeURI,Enter a new URI
 Manual,Refined using text editor

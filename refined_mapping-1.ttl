@@ -3,38 +3,34 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix cidoc: <http://erlangen-crm.org/current/> . 
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
-@prefix assoc: <https://w3id.org/associations/vocab#> . 
-@prefix akts: <http://www.aktors.org/ontology/support#> . 
+@prefix ex: <http://example.com/ns#> . 
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
+@prefix bb: <http://www.snik.eu/ontology/bb/> . 
 
 	
-<#STARTDATEEVENT>	
- rdf:type rr:TriplesMap;	
+<#TriplesMap8>	
 	
- rr:logicalTable[ 	
- 	 rr:sqlQuery "SELECT ID, NAME, COUNTRY FROM DATA WHERE STARTDATELOWER IS NOT NULL;" ;	
+ rr:subjectMap[ 	
+ 	 rr:class foaf:Person;	
+	 rr:template "http://data.example.com/product/{JOB_ID}" ;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate assoc:aws;	
+ 	 rr:predicate foaf:firstName;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#STARTDATETIMESPAN> ;	
+		 rr:column "FIRST_NAME" ;	
 		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
+			 rr:child "dddd" ;	
+			 rr:parent "DEPTNO" ;	
 			 ];	
  		]; 	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate cidoc:P92_brought_into_existence;	
+ 	 rr:predicate bb:kmdoiook;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:parent "iii" ;	
-			 rr:child "ID" , "kkk" ;	
-			 ];	
- 		]; 	
+		 rr:column "LAST_NAME" ;	
+		]; 	
  ];	
 .	
