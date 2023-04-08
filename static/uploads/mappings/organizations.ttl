@@ -1,0 +1,62 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix cidoc: <http://erlangen-crm.org/current/> .
+
+@prefix b2022: <https://ont.beyond2022.ie/ontology#> .
+
+<#STARTDATEEVENT>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, NAME, COUNTRY FROM DATA WHERE STARTDATELOWER IS NOT NULL;""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/start-of-organisation/{COUNTRY}/{NAME}" ;
+		rr:class cidoc:E63_Beginning_of_Existence ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P4_has_time-spanss ;
+		rr:objectMap [
+			rr:parentTriplesMap <#STARTDATETIMESPAN> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P92_brought_into_existence ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
+
+<#STARTDATEEVENT222>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, NAME, COUNTRY FROM DATA WHERE STARTDATELOWER IS NOT NULL;""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/start-of-organisation/{COUNTRY}/{NAME}" ;
+		rr:class cidoc:E63_Beginning_of_Existence ;
+		rr:termType rr:Literal;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P4_has_time-spanss ;
+		rr:objectMap [
+			rr:parentTriplesMap <#STARTDATETIMESPAN> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P92_brought_into_existence ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
