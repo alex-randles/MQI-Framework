@@ -267,12 +267,18 @@ class API:
             "delete": "danger",
             "move": "primary",
         }
+        change_type_banners = {
+            "insert": "Column inserted",
+            "delete": "Column deleted",
+            "move": "Source data moved",
+        }
         mapping_filename = mapping_graph.get("filename")
         return render_template("change_detection/mappings_impacted.html",
                                change_template_colors=change_template_colors,
                                mapping_id=mapping_unique_id,
                                mapping_impact=mapping_impact,
                                mapping_filename=mapping_filename,
+                               change_type_banners=change_type_banners,
                                change_graph_details=change_graph_details)
 
     # generate a html file with all the thresholds for a specific process
