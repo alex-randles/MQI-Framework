@@ -76,6 +76,7 @@
                                         <div class="card-header" id="sourceDataHeading-{{inner_div_counter.value}}">
                                             <h5 class="mb-0">
                                                 <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{inner_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{inner_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{inner_div_counter.value}}">
+                                                    {% if captured_change_type == "structural_changes" %} {{change_type_banners.get(change_type)}}:{% endif %}
                                                     <strong>{{reference}}</strong> | Change Count: {{values|length}}
                                                     <i id="icon-sourceDataHeading-{{inner_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                                                 </button>
@@ -83,6 +84,7 @@
                                         </div>
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
+                                                <strong>Values</strong>
                                                 {% if values|length > 0 %}
                                                 <ul class="list-group">
                                                     {% for changed_value in values %}

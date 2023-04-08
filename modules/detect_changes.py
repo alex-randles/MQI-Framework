@@ -143,7 +143,7 @@ class DetectChanges:
         version_1_url = self.form_details.get("CSV-URL-1").split("/")[-1]
         version_2_url = self.form_details.get("CSV-URL-2").split("/")[-1]
         if version_1_url.strip() !=  version_2_url.strip():
-            output_changes["move"][change_id + 1] = {"new_location" : version_2_url}
+            output_changes["move"][change_id + 1] = {"new_location": version_2_url}
         return output_changes
 
     def output_changes(self, output_changes):
@@ -242,7 +242,13 @@ class DetectChanges:
     def output_XML_changes(self, results):
         # create a dataframe with changes
         changes_df = pd.DataFrame(
-            columns=["ID", "OPERATION", "DETECTION_TIME", "DESCRIPTION", "USER_ID", "VERSION_1", "VERSION_2"])
+            columns=["ID",
+                     "OPERATION",
+                     "DETECTION_TIME",
+                     "DESCRIPTION",
+                     "USER_ID",
+                     "VERSION_1",
+                     "VERSION_2"])
         change_ID = 1
         detection_time = datetime.now()
         # add each change to dataframe
