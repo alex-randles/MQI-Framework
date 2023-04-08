@@ -16,7 +16,7 @@
         </div>
         <div class="col-2 p-3">
             <a href="{{ url_for('static', filename='uploads/mappings/%s' % (mapping_filename)) }}">
-                <button class="btn btn-sm btn-secondary">Download Graph</button>
+                <button class="btn btn-sm btn-secondary">Download Mapping</button>
             </a>
         </div>
     </div>
@@ -76,7 +76,7 @@
                                         <div class="card-header" id="sourceDataHeading-{{inner_div_counter.value}}">
                                             <h5 class="mb-0">
                                                 <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{inner_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{inner_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{inner_div_counter.value}}">
-                                                    <strong>{{reference}} | Change Count: {{values|length}}</strong>
+                                                    <strong>{{reference}}</strong> | Change Count: {{values|length}}
                                                     <i id="icon-sourceDataHeading-{{inner_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                                                 </button>
                                             </h5>
