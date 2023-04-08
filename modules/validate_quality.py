@@ -154,6 +154,8 @@ class ValidateQuality:
         self.validate_MP6()
         self.validate_MP7()
         self.validate_MP8()
+        self.validate_MP13() # valid subject map
+        self.validate_MP14() # valid predicate object map
 
     def validate_vocabulary_metrics(self):
         # pass
@@ -565,6 +567,29 @@ class ValidateQuality:
             term_type = row[1]
             self.add_violation([metric_identifier, result_message, term_type, subject])
 
+    def validate_MP13(self):
+        result_message = "No subjectMap defined in this triple map."
+        metric_identifier = "MP13"
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    ASK { ?subject rr:subjectMap ?sm . } 
+                """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            if not row:
+                self.add_violation([metric_identifier, result_message, None, None])
+
+    def validate_MP14(self):
+        result_message = "No predicateObjectMap defined in this triple map."
+        metric_identifier = "MP14"
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    ASK { ?subject rr:predicateObjectMap ?pom . } 
+                """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            if not row:
+                self.add_violation([metric_identifier, result_message, None, None])
+
+
     def validate_MP3(self):
         result_message = "Term type for predicate map should be an IRI."
         metric_identifier = "MP3"
@@ -917,14 +942,19 @@ SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiter
                               OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
                               FILTER (!isBlank(?domainClass))
                             }
-                            OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. } 
+                      OPTIONAL { ?domainClass rdfs:subClassOf ?superClass.  } 
+                      OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . } 
+                      OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . 
+                                ?superClass3 rdfs:subClassOf ?superClass2 . } 
+                      FILTER(!isBlank(?superClass) && !isBlank(?superClass2)  && !isBlank(?superClass3))
                           }
                        }   
                        """ % (self.get_namespace(IRI), IRI, IRI)
             qres = self.vocabularies.query_local_graph(IRI, query)
             domain = []
-            if qres["results"]["bindings"]:
-                for row in qres["results"]["bindings"]:
+            result_bindings = qres["results"]["bindings"]
+            if result_bindings:
+                for row in result_bindings:
                     if "domainClass" in row:
                         domain.append(row["domainClass"]["value"])
                         if "superClass" in row:

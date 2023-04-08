@@ -1,38 +1,59 @@
+@prefix cidoc: <http://erlangen-crm.org/current/> .
 @prefix ex: <http://example.org/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping78.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/organizations.ttl> a mqio:MappingArtefact .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping78.ttl> ;
+    mqio:assessedMapping <organizations.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0 .
+    mqio:hasViolation ex:violation-0,
+        ex:violation-1,
+        ex:violation-2 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-07T23:59:27.581153"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-08T14:49:02.717295"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/lastName>  .  }
-                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/thumbnail> .     }
-                WHERE {
-                    ?pom rr:predicate <http://xmlns.com/foaf/0.1/lastName>  .
-                    FILTER(str(?pom) = "ub2bL28C23").
-                }
-                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+                DELETE { ?subject rr:termType ?currentTermType  } 
+                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRI> } 
+                WHERE { 
+                    SELECT ?subject ?currentTermType
+                    WHERE {
+                          ?subject ?p ?o . 
+                          ?subject rr:termType ?currentTermType
+                          FILTER(str(?subject) = "ub2bL40C16").
+                    }
+                }; 
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-2 ;
+    mqio:refinementName "Change Term Type"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue foaf:lastName ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue cidoc:P4_has_time-spanss ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:inTripleMap <#STARTDATEEVENT> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue cidoc:P4_has_time-spanss ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#STARTDATEEVENT222> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Term type for subject map should be an IRI or Blank Node"^^xsd:string ;
+    mqio:inTripleMap <#STARTDATEEVENT222> ;
+    mqio:isDescribedBy mqio-metrics:MP2 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
