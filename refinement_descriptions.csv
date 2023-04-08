@@ -1,11 +1,12 @@
 REFINEMENT NAME,DESCRIPTION
-AddDomainClass,The correct domain for this property will be added to class type of the subject map
-ChangeLanguageTag,The current language tag value will be replaced by a valid language tag you choose
+AddDomainClass,The correct domain for this property will replace current
+ChangeLanguageTag,Valid language tags can be selected
 AddParentColumn,The parent column you enter will be added 
-AddChildColumn,The child column you enter will be added 
-ChangePredicate,The property you enter will replace the current property 
-FindSimilarPredicates,Defined properties within the same namespace will be retrieved and can be selected
-FindSimilarClasses,Defined classes within the same namespace will be retrieved and can be selected
+AddChildColumn,The child column you enter will be added
+AddSubjectMap,Add a subject map to the triple map
+ChangePredicate,The property you enter will replace the current property
+FindSimilarPredicates,Defined properties in the same namespace will be suggested
+FindSimilarClasses,Defined classes within the same namespace will be suggested
 RemoveClass,The class value you select will be removed
 ChangeClass,The current class value will be replaced by the new class value you enter 
 ChangeTermType,The current term type can be replaced by a valid term type 
@@ -15,4 +16,4 @@ ChangeDatatype,The datatype entered will replace the current datatype
 RemoveLanguageTag,The language tag will be removed
 RemoveDatatype,The datatype will be removed 
 ChangeURI,The current URI will be replaced by the new URI you enter
-Manual,Manaul refinements are completed by you using a text editor
+Manual,Refined using text editor

@@ -10,10 +10,6 @@
 
 	rr:logicalTable [ rr:sqlQuery """SELECT ID, NAME, COUNTRY FROM DATA WHERE STARTDATELOWER IS NOT NULL;""" ] ;
 
-	rr:subjectMap [
-		rr:template "https://kb.beyond2022.ie/start-of-organisation/{COUNTRY}/{NAME}" ;
-		rr:class cidoc:E63_Beginning_of_Existence ;
-	] ;
 
 	rr:predicateObjectMap [
 		rr:predicate cidoc:P4_has_time-spanss ;

@@ -92,24 +92,24 @@ class ValidateQuality:
             metric_descriptions[metric_identifier] = metric_description.replace("\n", " ")
         return metric_descriptions
 
-    def find_prefix(self, IRI):
+    def find_prefix(self, identifier):
         # find prefix with longest matching prefix
-        if IRI:
+        if identifier:
             match = []
             # create dictionary with prefix as key and namespace as value
             for (prefix, namespace) in self.namespaces.items():
-                if namespace in IRI:
+                if namespace in identifier:
                     match.append(namespace)
             # if matching namesapce, return the longest
             if match:
                 match_namespace = max(match)
                 prefix = [prefix for (prefix, namespace) in self.namespaces.items() if namespace == match_namespace][0]
-                IRI = IRI.replace(match_namespace, prefix + ":")
-                return " %s " % (IRI)
-            elif type(IRI) is tuple:
-                result = "".join(([self.find_prefix(current_identifier) for current_identifier in IRI]))
+                identifier = identifier.replace(match_namespace, prefix + ":")
+                return " %s " % (identifier)
+            elif type(identifier) is tuple:
+                result = "".join(([self.find_prefix(current_identifier) for current_identifier in identifier]))
                 return result
-            return IRI
+            return identifier
 
     def validate_triple_maps(self):
         # metrics = [self.validate_]
@@ -150,12 +150,17 @@ class ValidateQuality:
         self.validate_MP2()
         self.validate_MP3()
         self.validate_MP4()
-        self.validate_MP5()
+        self.validate_MP5_1()
+        self.validate_MP5_2()
         self.validate_MP6()
-        self.validate_MP7()
+        self.validate_MP7_1()
+        self.validate_M7_2()
         self.validate_MP8()
-        self.validate_MP13() # valid subject map
-        self.validate_MP14() # valid predicate object map
+        self.validate_MP9()
+        self.validate_MP10()
+        self.validate_MP11()
+        self.validate_MP12()
+        self.validate_MP13()
 
     def validate_vocabulary_metrics(self):
         # pass
@@ -191,6 +196,18 @@ class ValidateQuality:
                 del self.properties[key]
                 self.add_violation(metric_result)
 
+    def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
+        result_message = "Usage of undefined %s." % value_type
+        query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_identifier
+        qres = self.vocabularies.query_local_graph(property_identifier, query)
+        is_defined_concept = qres["boolean"]
+        if is_defined_concept is False:
+            query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_identifier)
+            qres = self.vocabularies.query_local_graph(property_identifier, query)
+            graph_exists = qres["boolean"]
+            if graph_exists is True:
+                return [metric_identifier, result_message, property_identifier, subject_identifier]
+
     def validate_D3(self):
         # A function to validate the usage of correct domain definitions
         metric_identifier = "D3"
@@ -203,6 +220,7 @@ class ValidateQuality:
                 self.add_violation(metric_result)
 
     def validate_D4(self):
+        # A function to validate the prescence of query parameters in URIs
         result_message = "Query parameters in URI."
         metric_identifier = "D4"
         query = """SELECT ?object ?subject
@@ -213,8 +231,8 @@ class ValidateQuality:
                """
         qres = self.current_graph.query(query)
         for row in qres:
-            object_identifier = row[0]
-            subject_identifier = row[1]
+            object_identifier = row["object"]
+            subject_identifier = row["subject"]
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_D5(self):
@@ -243,16 +261,12 @@ class ValidateQuality:
                     #     continue
 
     def validate_D6(self):
-        # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
+        # A function to validate the usage of correct range
         metric_identifier = "D6"
-        result_message = "Usage of incorrect range."
         for key in list(self.properties):
             property = self.properties[key]["property"]
             term_type = self.properties[key]["termType"]
             objectMap = self.properties[key]["objectMap"]
-            # only retrieve range if term type to speed up execution time
-            # if not term_type:
-            #     term_type = URIRef("http://www.w3.org/ns/r2rml#Literal")
             if term_type:
                 resource_type = self.get_type(property)
                 if (OWL.DatatypeProperty in resource_type) and (term_type != URIRef("http://www.w3.org/ns/r2rml#Literal")):
@@ -264,7 +278,18 @@ class ValidateQuality:
                         result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property).strip())
                         self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
+    @staticmethod
+    def validate_sub_type(datatype, range):
+        sub_types = [URIRef("http://www.w3.org/2001/XMLSchema#long"),
+                     URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
+                     URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
+                     URIRef("http://www.w3.org/2001/XMLSchema#noninteger"),]
+        if range in sub_types and datatype in sub_types:
+            return True
+        return False
+
     def validate_D7(self):
+        # A function to validate the usage of correct datatype
         metric_identifier = "D7"
         result_message = "Usage of incorrect datatype."
         # xsd:anySimpleType, xsd:anyType could be declared as datatypes in the vocabulary
@@ -286,21 +311,232 @@ class ValidateQuality:
                         continue
                     if self.is_datatype_range(range):
                         # non positive integer
-                        if "integer" not in datatype.lower() and "integer" not in range.lower():
+                        sub_type = ValidateQuality.validate_sub_type(datatype, range)
+                        if not sub_type:
                             if datatype != range:
                                 self.add_violation([metric_identifier, result_message, property, objectMap])
 
-    def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
-        result_message = "Usage of undefined %s." % value_type
-        query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_identifier
-        qres = self.vocabularies.query_local_graph(property_identifier, query)
-        is_defined_concept = qres["boolean"]
-        if is_defined_concept is False:
-            query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_identifier)
-            qres = self.vocabularies.query_local_graph(property_identifier, query)
-            graph_exists = qres["boolean"]
-            if graph_exists is True:
-                return [metric_identifier, result_message, property_identifier, subject_identifier]
+    def validate_MP1(self):
+        result_message = "An object map with a language tag and datatype."
+        metric_identifier = "MP1"
+        query = """SELECT ?om ?pm 
+               WHERE {
+                  ?s rr:predicateObjectMap ?pm .
+                  ?pm rr:objectMap ?om .
+                  ?om rr:datatype ?value1;
+                      rr:language ?value2.
+               }
+               """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            self.add_violation([metric_identifier, result_message, None, row[0]])
+
+    def validate_MP2(self):
+        result_message = "Term type for subject map should be an IRI or Blank Node"
+        metric_identifier = "MP2"
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?subjectMap ?termType
+                    WHERE {
+                      ?subject rr:subjectMap ?subjectMap .
+                      ?subjectMap rr:termType ?termType . 
+                      FILTER(?termType NOT IN (rr:IRI, rr:BlankNode))
+                    }
+                """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            subject = row[0]
+            term_type = row[1]
+            self.add_violation([metric_identifier, result_message, term_type, subject])
+
+    def validate_MP3(self):
+        result_message = "No subjectMap defined in this triple map."
+        metric_identifier = "MP3"
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    ASK { ?subject rr:subjectMap ?sm . } 
+                """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            if not row:
+                self.add_violation([metric_identifier, result_message, None, None])
+
+    def validate_MP4(self):
+        result_message = "No predicateObjectMap defined in this triple map."
+        metric_identifier = "MP4"
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    ASK { ?subject rr:predicateObjectMap ?pom . } 
+                """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            if not row:
+                self.add_violation([metric_identifier, result_message, None, None])
+
+    def validate_MP5_1(self):
+        result_message = "Join condition should have a child column."
+        metric_identifier = "MP5_1"
+        query = """
+                 SELECT ?joinCondition 
+                 WHERE {
+                    ?objectMap rr:joinCondition ?joinCondition .
+                    FILTER NOT EXISTS {
+                      ?joinCondition rr:child ?child . 
+                    }
+                 }"""
+        qres = self.current_graph.query(query)
+        for row in qres:
+            subject = row["joinCondition"]
+            self.add_violation([metric_identifier, result_message, None, subject])
+
+    def validate_MP5_2(self):
+        result_message = "Join condition should have a parent column."
+        metric_identifier = "MP5_2"
+        query = """
+                 SELECT ?joinCondition 
+                 WHERE {
+                    ?objectMap rr:joinCondition ?joinCondition .
+                    FILTER NOT EXISTS {
+                      ?joinCondition rr:parent ?parent . 
+                    }
+                 }"""
+        qres = self.current_graph.query(query)
+        for row in qres:
+            subject = row["joinCondition"]
+            self.add_violation([metric_identifier, result_message, None, subject])
+
+    def validate_MP6(self):
+        result_message = "No logical table in this triple map."
+        metric_identifier = "MP6"
+        query = """ASK { ?subject rr:logicalTable ?object } """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            if not row:
+                self.add_violation([metric_identifier, result_message, None, None])
+
+    def validate_MP7_1(self):
+        result_message = "Term type for predicate map should be an IRI."
+        metric_identifier = "MP7_1"
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?predicateMap ?termType
+                    WHERE {
+                      ?subject rr:predicateObjectMap ?pom . 
+                      ?pom rr:predicateMap ?predicateMap . 
+                      ?predicateMap rr:termType ?termType . 
+                      FILTER(?termType NOT IN (rr:IRI))
+                    }
+                """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            subject = row["predicateMap"]
+            term_type = row["termType"]
+            self.add_violation([metric_identifier, result_message, term_type, subject])
+
+    def validate_M7_2(self):
+        # The user may spell one of the term types incorrect e.g rr:Literal(s)
+        result_message = "Term type for object map should be an IRI, Blank Node or Literal."
+        metric_identifier = "MP7_2"
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?objectMap ?termType
+                    WHERE {
+                      ?subject rr:predicateObjectMap ?pom . 
+                      ?pom rr:objectMap ?objectMap . 
+                      ?objectMap rr:termType ?termType . 
+                      FILTER(?termType NOT IN (rr:IRI, rr:BlankNode, rr:Literal))
+                    }
+                """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            subject = row["objectMap"]
+            term_type = row["termType"]
+            self.add_violation([metric_identifier, result_message, term_type, subject])
+
+    def validate_MP8(self):
+        result_message = "Subject map class must be a valid IRI."
+        metric_identifier = "MP8"
+        query = """SELECT ?class ?subjectMap
+                     WHERE { 
+                             ?subject rr:subjectMap ?subjectMap .
+                             ?subjectMap rr:class ?class 
+                             FILTER(!isIRI(?class))
+                     }
+                     """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            object_identifier = row[0]
+            subject_identifier = row[1]
+            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
+
+    def validate_MP9(self):
+        pass
+
+    def validate_MP10(self):
+        result_message = "Named graph must be a valid IRI."
+        metric_identifier = "M10"
+        query = """SELECT ?graph ?sm
+                     WHERE { 
+                             ?subject rr:subjectMap ?sm . 
+                             ?sm rr:graph ?graph . 
+                             FILTER(!isIRI(?graph))
+                     }
+                     """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            object_identifier = row["graph"]
+            self.add_violation([metric_identifier, result_message, object_identifier, None])
+
+    def validate_MP11(self):
+        result_message = "Datatype must be a valid IRI."
+        metric_identifier = "M11"
+        query = """SELECT ?datatype ?pom
+                     WHERE { 
+                             ?subject rr:predicateObjectMap ?pom .
+                             ?pom rr:objectMap ?om . 
+                             ?om rr:datatype ?datatype . 
+                             FILTER(!isIRI(?datatype))
+                     }
+                     """
+        qres = self.current_graph.query(query)
+        for row in qres:
+            object_identifier = row["datatype"]
+            subject_identifier = row["datatype"]
+            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
+
+    def validate_MP12(self):
+        result_message = "Language tag not defined in RFC 5646."
+        metric_identifier = "MP12"
+        language_tags = (
+        'af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY', 'ar-MA',
+        'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg', 'bg-BG',
+        'bs-BA', 'ca', 'ca-ES', 'cs', 'cs-CZ', 'cy', 'cy-GB', 'da', 'da-DK', 'de', 'de-AT', 'de-CH', 'de-DE', 'de-LI',
+        'de-LU', 'dv', 'dv-MV', 'el', 'el-GR', 'en', 'en-AU', 'en-BZ', 'en-CA', 'en-CB', 'en-GB', 'en-IE', 'en-JM',
+        'en-NZ', 'en-PH', 'en-TT', 'en-US', 'en-ZA', 'en-ZW', 'eo', 'es', 'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR',
+        'es-DO', 'es-EC', 'es-ES', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV',
+        'es-UY', 'es-VE', 'et', 'et-EE', 'eu', 'eu-ES', 'fa', 'fa-IR', 'fi', 'fi-FI', 'fo', 'fo-FO', 'fr', 'fr-BE',
+        'fr-CA', 'fr-CH', 'fr-FR', 'fr-LU', 'fr-MC', 'gl', 'gl-ES', 'gu', 'gu-IN', 'he', 'he-IL', 'hi', 'hi-IN', 'hr',
+        'hr-BA', 'hr-HR', 'hu', 'hu-HU', 'hy', 'hy-AM', 'id', 'id-ID', 'is', 'is-IS', 'it', 'it-CH', 'it-IT', 'ja',
+        'ja-JP', 'ka', 'ka-GE', 'kk', 'kk-KZ', 'kn', 'kn-IN', 'ko', 'ko-KR', 'kok', 'kok-IN', 'ky', 'ky-KG', 'lt',
+        'lt-LT', 'lv', 'lv-LV', 'mi', 'mi-NZ', 'mk', 'mk-MK', 'mn', 'mn-MN', 'mr', 'mr-IN', 'ms', 'ms-BN', 'ms-MY',
+        'mt', 'mt-MT', 'nb', 'nb-NO', 'nl', 'nl-BE', 'nl-NL', 'nn-NO', 'ns', 'ns-ZA', 'pa', 'pa-IN', 'pl', 'pl-PL',
+        'ps', 'ps-AR', 'pt', 'pt-BR', 'pt-PT', 'qu', 'qu-BO', 'qu-EC', 'qu-PE', 'ro', 'ro-RO', 'ru', 'ru-RU', 'sa',
+        'sa-IN', 'se', 'se-FI', 'se-NO', 'se-SE', 'sk', 'sk-SK', 'sl', 'sl-SI', 'sq', 'sq-AL', 'sr-BA', 'sr-Cyrl-BA',
+        'sr-SP', 'sr-Cyrl-SP', 'sv', 'sv-FI', 'sv-SE', 'sw', 'sw-KE', 'syr', 'syr-SY', 'ta', 'ta-IN', 'te', 'te-IN',
+        'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur', 'ur-PK',
+        'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW',
+        'zu', 'zu-ZA')
+        query = """SELECT ?objectMap ?languageTag
+                    WHERE {
+                         ?subject rr:predicateObjectMap ?pom.
+                         ?pom rr:objectMap ?objectMap .  
+                         ?objectMap rr:language ?languageTag .
+                         FILTER (?languageTag NOT IN  %s) .
+                       }
+                """ % (language_tags,)
+        qres = self.current_graph.query(query)
+        for row in qres:
+            object_map = row["objectMap"]
+            language_tag = row["languageTag"]
+            self.add_violation([metric_identifier, result_message, language_tag, object_map])
+
+    def validate_MP13(self):
+        pass
 
     def validate_VOC1(self):
         # A function to validate no human readable labelling and comments
@@ -376,8 +612,6 @@ class ValidateQuality:
         # A function to validate basic provenance information
         result_message = "No Machine-Readable license."
         metric_identifier = "VOC4"
-        # returning true for now as testing mappings
-        # return True
         unique_namespaces = list(set(self.unique_namespaces))
         for namespace in unique_namespaces:
             query = """
@@ -440,10 +674,8 @@ class ValidateQuality:
 
     def assign_triples_to_each_map(self):
         # returns a dic with the triple map as key and the triples within that triple map as values
-        # it will only include triples linked to the triple map IRI
         triple_maps_identifier = self.get_triple_maps_identifier()
         # iterate each triple map and find triples which have blank nodes
-        # e.g #ORGANISATIONOFOFFICE http://www.w3.org/ns/r2rml#predicateObjectMap ub1bL248C24
         triple_map_triples = {}
         for IRI in triple_maps_identifier:
             # empty dictionary assign triples to this triple map
@@ -526,108 +758,31 @@ class ValidateQuality:
         # ( http://www.w3.org/ns/r2rml#predicateObjectMap , 1) -> predicateObjectMap1
         # making it easier for the user to read
         if predicate != URIRef("http://www.w3.org/ns/r2rml#subjectMap"):
-            location_predicate = self.strip_identifier(predicate)
+            location_predicate = ValidateQuality.strip_identifier(predicate)
             location = "%s-%s" % (location_predicate, location_num)
         else:
-            location = self.strip_identifier(predicate)
+            location = ValidateQuality.strip_identifier(predicate)
         return location
 
-    def strip_identifier(self, IRI):
+    @staticmethod
+    def strip_identifier(identifier):
         # (http://www.w3.org/ns/r2rml#predicateObjectMap) -> #predicateObjectMap
-        if "#" in IRI:
-            return IRI.split("#")[-1]
-        elif "/" in IRI:
-            return IRI.split("/")[-1]
-        return IRI
+        if "#" in identifier:
+            return identifier.split("#")[-1]
+        elif "/" in identifier:
+            return identifier.split("/")[-1]
+        return identifier
 
-    def get_namespace(self, IRI):
-        if IRI.startswith("http://dbpedia.org/ontology/"):
-            return IRI
-        if "#" in IRI:
-            IRI = IRI[:IRI.rfind("#") + 1]
+    def get_namespace(self, identifier):
+        if identifier.startswith("http://dbpedia.org/ontology/"):
+            return identifier
+        if "#" in identifier:
+            identifier = identifier[:identifier.rfind("#") + 1]
         else:
-            IRI = IRI[:IRI.rfind("/") + 1]
-        return IRI
+            identifier = identifier[:identifier.rfind("/") + 1]
+        return identifier
 
-
-    def validate_MP2(self):
-        result_message = "Term type for subject map should be an IRI or Blank Node"
-        metric_identifier = "MP2"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    SELECT ?subjectMap ?termType
-                    WHERE {
-                      ?subject rr:subjectMap ?subjectMap .
-                      ?subjectMap rr:termType ?termType . 
-                      FILTER(?termType NOT IN (rr:IRI, rr:BlankNode))
-                    }
-                """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            term_type = row[1]
-            self.add_violation([metric_identifier, result_message, term_type, subject])
-
-    def validate_MP13(self):
-        result_message = "No subjectMap defined in this triple map."
-        metric_identifier = "MP13"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    ASK { ?subject rr:subjectMap ?sm . } 
-                """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            if not row:
-                self.add_violation([metric_identifier, result_message, None, None])
-
-    def validate_MP14(self):
-        result_message = "No predicateObjectMap defined in this triple map."
-        metric_identifier = "MP14"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    ASK { ?subject rr:predicateObjectMap ?pom . } 
-                """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            if not row:
-                self.add_violation([metric_identifier, result_message, None, None])
-
-
-    def validate_MP3(self):
-        result_message = "Term type for predicate map should be an IRI."
-        metric_identifier = "MP3"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    SELECT ?predicateMap ?termType
-                    WHERE {
-                      ?subject rr:predicateObjectMap ?pom . 
-                      ?pom rr:predicateMap ?predicateMap . 
-                      ?predicateMap rr:termType ?termType . 
-                      FILTER(?termType NOT IN (rr:IRI))
-                    }
-                """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            term_type = row[1]
-            self.add_violation([metric_identifier, result_message, term_type, subject])
-
-    def validate_MP4(self):
-        # The user may spell one of the term types incorrect e.g rr:Literal(s)
-        result_message = "Term type for object map should be an IRI, Blank Node or Literal."
-        metric_identifier = "MP4"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    SELECT ?objectMap ?termType
-                    WHERE {
-                      ?subject rr:predicateObjectMap ?pom . 
-                      ?pom rr:objectMap ?objectMap . 
-                      ?objectMap rr:termType ?termType . 
-                      FILTER(?termType NOT IN (rr:IRI, rr:BlankNode, rr:Literal))
-                    }
-                """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            term_type = row[1]
-            self.add_violation([metric_identifier, result_message, term_type, subject])
-
-    def find_disjoint_classes(self, IRI):
+    def find_disjoint_classes(self, identifier):
         # a function which finds the classes disjoint to IRI argument (if any)
         query = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
                    SELECT DISTINCT ?disjointClass
@@ -636,8 +791,8 @@ class ValidateQuality:
                           <%s> owl:disjointWith ?disjointClass .
                       }
                    }
-                """ % (self.get_namespace(IRI), IRI)
-        qres = self.vocabularies.query_local_graph(IRI, query)
+                """ % (self.get_namespace(identifier), identifier)
+        qres = self.vocabularies.query_local_graph(identifier, query)
         disjoint_classes = []
         for binding in qres.get("results").values():
             for result in binding:
@@ -670,6 +825,7 @@ class ValidateQuality:
             for (reference_item, bnode) in current_blank_node_references.items():
                 if bnode == violation_location:
                     return reference_item
+
     @staticmethod
     def order_blank_node_identifiers(triple_references):
         # wokring on values such as <DEPT_VIEW>
@@ -779,7 +935,7 @@ class ValidateQuality:
     def get_properties_range(self):
         # A function to retrieve all properties in the mapping with term types related
         query = """
-SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiteralType
+           SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiteralType
                     WHERE {
                       ?subject rr:predicateObjectMap ?pom . 
                       ?pom        rr:predicate ?property . 
@@ -875,17 +1031,17 @@ SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiter
         else:
             return None
 
-    def get_type(self, IRI):
+    def get_type(self, identifier):
         # get the type of the specified IRI E.G owl:ObjectProperty or owl:DatatypeProperty
-        if isinstance(IRI, URIRef) and IRI not in self.undefined_values:
+        if isinstance(identifier, URIRef) and identifier not in self.undefined_values:
             query = """
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT ?type
                         WHERE {
                           GRAPH <%s> { <%s> rdf:type ?type . }
                         }   
-                   """ % (self.get_namespace(IRI), IRI)
-            qres = self.vocabularies.query_local_graph(IRI, query)
+                   """ % (self.get_namespace(identifier), identifier)
+            qres = self.vocabularies.query_local_graph(identifier, query)
             resource_type = []
             if qres["results"]["bindings"]:
                 for row in qres["results"]["bindings"]:
@@ -895,8 +1051,8 @@ SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiter
         else:
             return []
 
-    def get_range(self, IRI):
-        if IRI not in self.range_cache.keys():
+    def get_range(self, identifier):
+        if identifier not in self.range_cache.keys():
             query = """
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX dcam: <http://purl.org/dc/dcam/>
@@ -906,21 +1062,21 @@ SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiter
                 GRAPH <%s>
                     { <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range . }
                 }
-                """ % (self.get_namespace(IRI), IRI)
-            qres = self.vocabularies.query_local_graph(IRI, query)
+                """ % (self.get_namespace(identifier), identifier)
+            qres = self.vocabularies.query_local_graph(identifier, query)
             range = None
             query_bindings = qres["results"]["bindings"]
             # if a range returned
             if query_bindings:
                 for row in query_bindings:
                     range = URIRef(row["range"]["value"])
-            self.range_cache[IRI] = range
+            self.range_cache[identifier] = range
             return range
         else:
-            return self.range_cache[IRI]
+            return self.range_cache[identifier]
 
-    def get_domain(self, IRI):
-        if IRI not in self.domain_cache.keys():
+    def get_domain(self, identifier):
+        if identifier not in self.domain_cache.keys():
             query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                        PREFIX schema: <http://schema.org/> 
@@ -949,8 +1105,8 @@ SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiter
                       FILTER(!isBlank(?superClass) && !isBlank(?superClass2)  && !isBlank(?superClass3))
                           }
                        }   
-                       """ % (self.get_namespace(IRI), IRI, IRI)
-            qres = self.vocabularies.query_local_graph(IRI, query)
+                       """ % (self.get_namespace(identifier), identifier, identifier)
+            qres = self.vocabularies.query_local_graph(identifier, query)
             domain = []
             result_bindings = qres["results"]["bindings"]
             if result_bindings:
@@ -963,92 +1119,11 @@ SELECT ?property ?pom ?objectMap ?termType ?dataType ?constant ?column ?hasLiter
                             domain.append(row["superClass2"]["value"])
                         if "superClass3" in row:
                             domain.append("http://www.w3.org/2000/01/rdf-schema#Resource")
-                self.domain_cache[IRI] = list(set(domain))
+                self.domain_cache[identifier] = list(set(domain))
                 return domain
             return domain
         else:
-            return self.domain_cache[IRI]
-
-    def validate_MP1(self):
-        result_message = "An object map with a language tag and datatype."
-        metric_identifier = "MP1"
-        query = """SELECT ?om ?pm 
-               WHERE {
-                  ?s rr:predicateObjectMap ?pm .
-                  ?pm rr:objectMap ?om .
-                  ?om rr:datatype ?value1;
-                      rr:language ?value2.
-               }
-               """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            self.add_violation([metric_identifier, result_message, None, row[0]])
-
-    def validate_MP5(self):
-        result_message = "Subject map class must be a valid IRI."
-        metric_identifier = "MP5"
-        query = """SELECT ?class ?subjectMap
-                    WHERE { 
-                            ?subject rr:subjectMap ?subjectMap .
-                            ?subjectMap rr:class ?class 
-                            FILTER(!isIRI(?class))
-                    }
-                    """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            object_identifier = row[0]
-            subject_identifier = row[1]
-            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
-
-    def validate_MP6(self):
-        result_message = "Language tag not defined in RFC 5646."
-        metric_identifier = "MP6"
-        language_tags = ('af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY', 'ar-MA', 'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg', 'bg-BG', 'bs-BA', 'ca', 'ca-ES', 'cs', 'cs-CZ', 'cy', 'cy-GB', 'da', 'da-DK', 'de', 'de-AT', 'de-CH', 'de-DE', 'de-LI', 'de-LU', 'dv', 'dv-MV', 'el', 'el-GR', 'en', 'en-AU', 'en-BZ', 'en-CA', 'en-CB', 'en-GB', 'en-IE', 'en-JM', 'en-NZ', 'en-PH', 'en-TT', 'en-US', 'en-ZA', 'en-ZW', 'eo', 'es', 'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR', 'es-DO', 'es-EC', 'es-ES', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV', 'es-UY', 'es-VE', 'et', 'et-EE', 'eu', 'eu-ES', 'fa', 'fa-IR', 'fi', 'fi-FI', 'fo', 'fo-FO', 'fr', 'fr-BE', 'fr-CA', 'fr-CH', 'fr-FR', 'fr-LU', 'fr-MC', 'gl', 'gl-ES', 'gu', 'gu-IN', 'he', 'he-IL', 'hi', 'hi-IN', 'hr', 'hr-BA', 'hr-HR', 'hu', 'hu-HU', 'hy', 'hy-AM', 'id', 'id-ID', 'is', 'is-IS', 'it', 'it-CH', 'it-IT', 'ja', 'ja-JP', 'ka', 'ka-GE', 'kk', 'kk-KZ', 'kn', 'kn-IN', 'ko', 'ko-KR', 'kok', 'kok-IN', 'ky', 'ky-KG', 'lt', 'lt-LT', 'lv', 'lv-LV', 'mi', 'mi-NZ', 'mk', 'mk-MK', 'mn', 'mn-MN', 'mr', 'mr-IN', 'ms', 'ms-BN', 'ms-MY', 'mt', 'mt-MT', 'nb', 'nb-NO', 'nl', 'nl-BE', 'nl-NL', 'nn-NO', 'ns', 'ns-ZA', 'pa', 'pa-IN', 'pl', 'pl-PL', 'ps', 'ps-AR', 'pt', 'pt-BR', 'pt-PT', 'qu', 'qu-BO', 'qu-EC', 'qu-PE', 'ro', 'ro-RO', 'ru', 'ru-RU', 'sa', 'sa-IN', 'se', 'se-FI', 'se-NO', 'se-SE', 'sk', 'sk-SK', 'sl', 'sl-SI', 'sq', 'sq-AL', 'sr-BA', 'sr-Cyrl-BA', 'sr-SP', 'sr-Cyrl-SP', 'sv', 'sv-FI', 'sv-SE', 'sw', 'sw-KE', 'syr', 'syr-SY', 'ta', 'ta-IN', 'te', 'te-IN', 'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur', 'ur-PK', 'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW', 'zu', 'zu-ZA')
-        query = """SELECT ?objectMap ?languageTag
-                   WHERE {
-                        ?subject rr:predicateObjectMap ?pom.
-                        ?pom rr:objectMap ?objectMap .  
-                        ?objectMap rr:language ?languageTag .
-                        FILTER (?languageTag NOT IN  %s) .
-                      }
-               """ % (language_tags,)
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            language_tag = row[1]
-            self.add_violation([metric_identifier, result_message, language_tag, subject])
-
-    def validate_MP7(self):
-        result_message = "Join condition should have a child column."
-        metric_identifier = "MP7"
-        query = """
-                        SELECT ?joinCondition 
-                        WHERE {
-                           ?objectMap rr:joinCondition ?joinCondition .
-                           FILTER NOT EXISTS {
-                             ?joinCondition rr:child ?child . 
-                           }
-                        }"""
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            self.add_violation([metric_identifier, result_message, None, subject])
-
-    def validate_MP8(self):
-        result_message = "Join condition should have a parent column."
-        metric_identifier = "MP8"
-        query = """
-                        SELECT ?joinCondition 
-                        WHERE {
-                           ?objectMap rr:joinCondition ?joinCondition .
-                           FILTER NOT EXISTS {
-                             ?joinCondition rr:parent ?parent . 
-                           }
-                        }"""
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            self.add_violation([metric_identifier, result_message, None, subject])
+            return self.domain_cache[identifier]
 
     def display_validation_results(self):
         for (violation_identifier, metric_identifier, result_message, value, triple_) in self.validation_results:
