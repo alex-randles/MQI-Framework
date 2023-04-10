@@ -12,6 +12,7 @@
 @prefix aprov: <http://purl.org/a-proc#> . 
 @prefix alice: <http://example.org/> . 
 @prefix ali: <http://www.niso.org/schemas/ali/1.0/> . 
+@prefix akt: <http://www.aktors.org/ontology/portal#> . 
 
 	
 <#TriplesMap8>	
@@ -26,7 +27,6 @@
 		 rr:column "Term" ;	
 		 rr:joinCondition [	
 			 rr:parent "DEPTNOs" ;	
-			 rr:child "78g8g87" ;	
 			 ];	
  		]; 	
  ];	

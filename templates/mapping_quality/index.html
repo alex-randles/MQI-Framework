@@ -100,19 +100,7 @@
                 <p></p>
             </div>
         </div>
-        <div class="row d-flex justify-content-center my-1">
-            <div class="col-sm-12 text-center">
-                <input   class="my-2 btn btn-primary" id="button-style" type = "submit" value="Assess Mapping Quality" />
-            </div>
-        </div>
-        <div class="row d-flex justify-content-center py-1">
-            <div class="col-4">
-                <div class="progress" id="myProgress" >
-                    <div class="progress-bar" id="myBar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row d-flex justify-content-center py-1">
+                <div class="row d-flex justify-content-center py-1">
             <div class="col-sm-4 text-center">
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -125,6 +113,18 @@
                 </div>
                 {% endif %}
                 {% endwith %}
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center my-1">
+            <div class="col-sm-12 text-center">
+                <input   class="my-2 btn btn-primary" id="button-style" type = "submit" value="Assess Mapping Quality" />
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center py-1">
+            <div class="col-4">
+                <div class="progress" id="myProgress" >
+                    <div class="progress-bar" id="myBar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
         </div>
     </div>

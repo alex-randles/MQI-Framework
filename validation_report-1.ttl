@@ -1,51 +1,53 @@
-@prefix alice: <http://example.org/> .
+@prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping116.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/refined-mapping119.ttl> a mqio:MappingArtefact .
 
-alice:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping116.ttl> ;
-    mqio:hasValidationReport alice:mappingValidationReport-0 .
+ex:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <refined-mapping119.ttl> ;
+    mqio:hasValidationReport ex:mappingValidationReport-0 .
 
-alice:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation alice:violation-0,
-        alice:violation-1,
-        alice:violation-2 .
+ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
+    mqio:hasViolation ex:violation-0,
+        ex:violation-1,
+        ex:violation-2 .
 
-alice:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-10T17:28:55.303848"^^xsd:dateTime ;
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-10T21:51:32.830476"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <hshs>  .  }
-                INSERT {   ?pom rr:predicate <http://www.niso.org/schemas/ali/1.0/fffff> .     }
-                WHERE {
-                    ?pom rr:predicate <hshs>  .
-                    FILTER(str(?pom) = "ub2bL21C23").
-                }
-                """^^xsd:string ;
-    mqio:refinedViolation alice:violation-2 ;
-    mqio:refinementName "Change Predicate"^^xsd:string .
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:child "78g8g87" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "ub18bL26C21").
+                        }
+                    }
+                   """^^xsd:string ;
+    mqio:refinedViolation ex:violation-1 ;
+    mqio:refinementName "Add Child Column"^^xsd:string .
 
-alice:violation-0 a mqio:MappingViolation ;
+ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "None"^^xsd:string ;
     mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:MP3 .
 
-alice:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasResultMessage "Join condition should have a child column."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:MP5_1 .
-
-alice:violation-2 a mqio:MappingViolation ;
+ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLiteralValue "hshs"^^xsd:string ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
     mqio:hasResultMessage "Predicate must be a valid IRI."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:MP9 ;
-    mqio:wasRefinedBy alice:refinement-0 .
+    mqio:isDescribedBy mqio-metrics:MP9 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "Join condition should have a child column."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:MP5_1 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

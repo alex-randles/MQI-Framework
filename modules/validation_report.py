@@ -233,9 +233,10 @@ class ValidationReport:
 
     def bind_mapping_namespaces(self):
         # bind the namespaces used in the original/refined mapping
+        validation_report_namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         for (prefix, namespace) in self.mapping_namespaces.items():
-            print(prefix, namespace)
-            self.validation_graph.bind(prefix, namespace)
+            if (prefix, namespace) not in validation_report_namespaces.items():
+                self.validation_graph.bind(prefix, namespace)
 
     def print_graph(self):
         print(self.validation_graph.serialize(format='turtle').decode('utf-8'))

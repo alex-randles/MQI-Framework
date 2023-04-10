@@ -28,6 +28,8 @@ class DetectChanges:
 
     def __init__(self, user_id, form_details):
         self.form_details = form_details
+        self.version_1_csv = requests.get(self.form_details.get("CSV-URL-1")).text
+        self.version_2_csv = requests.get(self.form_details.get("CSV-URL-2")).text
         self.user_id = user_id
         self.error_code = 0
         self.graph_version = self.find_graph_version()
@@ -51,11 +53,6 @@ class DetectChanges:
         self.fetch_csv_data()
 
     def fetch_csv_data(self):
-        # retrieve csv data from
-        version_1_url = self.form_details.get("CSV-URL-1")
-        version_2_url = self.form_details.get("CSV-URL-2")
-        self.version_1_csv = requests.get(version_1_url).text
-        self.version_2_csv = requests.get(version_2_url).text
         csv_diff = self.detect_csv_changes()
         output_changes = self.format_csv_changes(csv_diff)
         self.output_changes(output_changes)
@@ -171,6 +168,8 @@ class DetectChanges:
                     changed_data = changed_values.get("change_reason")
                     new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, None, self.user_id, version_1, version_2]
                     df.loc[len(df)] = new_row
+                    print(new_row)
+                    exit()
             else:
                 change_id = list(changes.keys())[0]
                 new_location = changes.get(change_id).get("new_location")
@@ -282,10 +281,6 @@ class DetectChanges:
     @staticmethod
     def execute_r2rml():
         os.system(run_command)
-        exit()
-        print("EXECUTING R2RML ENGINE")
-        print()
-        print("dhdhhdhdhhdhdhdhdh")
 
 if __name__ == '__main__':
     csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
