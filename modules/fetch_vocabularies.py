@@ -118,11 +118,11 @@ class FetchVocabularies:
     @staticmethod
     def store_local_vocabulary(file_path):
         # rdflib.plugins.parsers.notation3.BadSyntax
-        if str(file_path).split(".")[-1] == "owl":
-            format = "xml"
-        else:
-            format = "ttl"
-        ontology_graph = Graph().parse(file_path, format=format)
+        # if str(file_path).split(".")[-1] == "owl":
+        #     format = "xml"
+        # else:
+        #     format = "ttl"
+        ontology_graph = Graph().parse(file_path, format=rdflib.util.guess_format() )
         query = """
             SELECT ?ns (COUNT(?ns) AS ?count)
             WHERE {

@@ -139,6 +139,7 @@ class Refinements:
         self.refinement_functions = {"AddDomainClass": self.add_domain,
                                      "AddCorrectRange": self.add_correct_range,
                                      "AddSubjectMap": self.add_subject_map,
+                                     "AddLogicalTable": self.add_logical_table,
                                      "RemoveLanguageTag": self.remove_language_tag,
                                      'ChangeLanguageTag': self.change_language_tag,
                                      "ChangeClass": self.change_class,
@@ -161,6 +162,8 @@ class Refinements:
                                      "ChangeConstantValue": self.change_constant_range,
                                      "RemoveDuplicateTriples": self.remove_duplicate_triples,
                                      }
+        # print(mapping_graph.serialize(format="ttl").decode("utf-8"))
+        # exit()
 
     @staticmethod
     def create_refinement_descriptions():
@@ -188,6 +191,35 @@ class Refinements:
             classes.append("%s" % row)
         output = {"Classes": classes}
         return output
+
+    def add_logical_table(self, query_values, mapping_graph, violation_ID):
+        current_result = self.validation_results[violation_ID]
+        join_identifier = current_result["location"]
+        update_query = """
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                INSERT { ?subject rr:subjectMap [rr:class rr:test ] } 
+                WHERE { 
+                SELECT ?subject
+                WHERE {
+                      ?subject rr:predicateObjectMap ?pom.
+                    }
+                }
+
+               """
+        print("Adding child column query\n" + update_query)
+        # exit()
+        processUpdate(mapping_graph, update_query)
+        return update_query
+        # subject = list(mapping_graph.subjects(URIRef("http://www.w3.org/ns/r2rml#predicateObjectMap"), None))[0]
+        # subject_map_identifier = BNode()
+        # mapping_graph.add((subject, URIRef("http://www.w3.org/ns/r2rml#subjectMap"), subject_map_identifier))
+        # mapping_graph.add((subject_map_identifier, URIRef("http://www.w3.org/ns/r2rml#class"), URIRef("http://www.w3.org/ns/sss#subjectMap")))
+        # print(mapping_graph.serialize(format="ttl").decode("utf-8"))
+        # return "dhdh"
+
+
+
+
 
     def remove_duplicate_triples(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]

@@ -21,8 +21,8 @@
 	 rr:objectMap [	
 		 rr:column "Term" ;	
 		 rr:joinCondition [	
-			 rr:child "ugug" ;	
 			 rr:parent "DEPTNOs" ;	
+			 rr:child "ugug" ;	
 			 ];	
  		]; 	
  ];	
