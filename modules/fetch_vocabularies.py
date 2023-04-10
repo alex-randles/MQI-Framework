@@ -117,8 +117,7 @@ class FetchVocabularies:
 
     @staticmethod
     def store_local_vocabulary(file_path):
-        # print(str(file_path).split(".")[-1])
-        # exit()
+        # rdflib.plugins.parsers.notation3.BadSyntax
         if str(file_path).split(".")[-1] == "owl":
             format = "xml"
         else:

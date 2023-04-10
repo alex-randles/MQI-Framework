@@ -282,6 +282,7 @@ class DetectChanges:
     @staticmethod
     def execute_r2rml():
         os.system(run_command)
+        exit()
         print("EXECUTING R2RML ENGINE")
         print()
         print("dhdhhdhdhhdhdhdhdh")

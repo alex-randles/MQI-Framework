@@ -11,7 +11,6 @@
 @prefix asn: <http://purl.org/ASN/schema/core/> . 
 @prefix aprov: <http://purl.org/a-proc#> . 
 @prefix alice: <http://example.org/> . 
-@prefix ali: <http://www.niso.org/schemas/ali/1.0/> . 
 
 	
 <#TriplesMap8>	

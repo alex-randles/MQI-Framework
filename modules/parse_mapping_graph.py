@@ -1,6 +1,4 @@
-###############################################################
-### Parses mappings into individuals graphs of triple maps #####
-###############################################################
+# Parses mappings into individuals graphs of triple maps
 from rdflib import Graph, BNode, URIRef, Namespace
 
 
@@ -42,7 +40,6 @@ class ParseMapping:
                 new_graph = self.add_values(o, new_graph)
             new_graph.bind("rr", "http://www.w3.org/ns/r2rml#")
             self.triple_map_graphs.append((str(subject), new_graph))
-
 
     def print_graphs(self):
         for (triple_map_ID, graph) in self.triple_map_graphs:

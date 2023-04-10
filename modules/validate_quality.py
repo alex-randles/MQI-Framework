@@ -468,8 +468,8 @@ class ValidateQuality:
 
     def validate_MP9(self):
         result_message = "Predicate must be a valid IRI."
-        metric_identifier = "M9"
-        query = """SELECT ?predicate ?sm
+        metric_identifier = "MP9"
+        query = """SELECT ?predicate ?pom
                      WHERE { 
                              ?subject rr:predicateObjectMap ?pom . 
                              ?pom rr:predicate ?predicate . 
@@ -479,11 +479,12 @@ class ValidateQuality:
         qres = self.current_graph.query(query)
         for row in qres:
             object_identifier = row["predicate"]
-            self.add_violation([metric_identifier, result_message, object_identifier, None])
+            subject_identifier = row["pom"]
+            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP10(self):
         result_message = "Named graph must be a valid IRI."
-        metric_identifier = "M10"
+        metric_identifier = "MP10"
         query = """SELECT ?graph ?sm
                      WHERE { 
                              ?subject rr:subjectMap ?sm . 
@@ -498,7 +499,7 @@ class ValidateQuality:
 
     def validate_MP11(self):
         result_message = "Datatype must be a valid IRI."
-        metric_identifier = "M11"
+        metric_identifier = "MP11"
         query = """SELECT ?datatype ?pom
                      WHERE { 
                              ?subject rr:predicateObjectMap ?pom .
@@ -1112,19 +1113,20 @@ class ValidateQuality:
                               OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
                               FILTER (!isBlank(?domainClass))
                             }
-                      OPTIONAL { ?domainClass rdfs:subClassOf ?superClass.  } 
-                      OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . } 
-                      OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . 
-                                ?superClass3 rdfs:subClassOf ?superClass2 . } 
-                      FILTER(!isBlank(?superClass) && !isBlank(?superClass2)  && !isBlank(?superClass3))
+                          OPTIONAL { ?domainClass rdfs:subClassOf ?superClass.  } 
+                          OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . } 
+                          OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . 
+                                    ?superClass3 rdfs:subClassOf ?superClass2 . } 
                           }
                        }   
                        """ % (self.get_namespace(identifier), identifier, identifier)
             qres = self.vocabularies.query_local_graph(identifier, query)
             domain = []
+            print(query, qres)
             result_bindings = qres["results"]["bindings"]
             if result_bindings:
                 for row in result_bindings:
+                    print(row)
                     if "domainClass" in row:
                         domain.append(row["domainClass"]["value"])
                         if "superClass" in row:
