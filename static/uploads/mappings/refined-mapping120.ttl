@@ -16,17 +16,13 @@
 	
 <#TriplesMap8>	
 	
- rml:logicalSource[ 	
- 	 rml:source "loans-v1.csv" ;	
- ];	
-	
  rr:predicateObjectMap[ 	
  	 rr:predicate "hshs" ;	
 	 rr:objectMap [	
 		 rr:column "Term" ;	
 		 rr:joinCondition [	
 			 rr:parent "DEPTNOs" ;	
-			 rr:child "78g8g87" ;	
+			 rr:child "ugug" ;	
 			 ];	
  		]; 	
  ];	

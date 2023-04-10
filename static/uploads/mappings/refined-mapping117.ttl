@@ -26,7 +26,6 @@
 		 rr:column "Term" ;	
 		 rr:joinCondition [	
 			 rr:parent "DEPTNOs" ;	
-			 rr:child "78g8g87" ;	
 			 ];	
  		]; 	
  ];	

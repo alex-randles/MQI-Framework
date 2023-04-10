@@ -1,10 +1,11 @@
 REFINEMENT NAME,DESCRIPTION
+AddLogicalTable, Input table or source details
 AddDomainClass,Suggest domain of property
 ChangeLanguageTag,Valid language tags can be selected
 AddParentColumn,Enter a parent column
 AddChildColumn,Enter a child column
 AddSubjectMap,Add a subject map to the triple map
-ChangePredicate,Replace current property
+ChangePredicate,Input a new property
 FindSimilarPredicates,Suggest properties in same namespace
 FindSimilarClasses,Suggest classes in same namespace
 RemoveClass,Remove current class
