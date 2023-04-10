@@ -47,6 +47,7 @@ class ValidateQuality:
         self.violation_counter = 0
         self.validation_results = {}
         self.undefined_values = []
+        self.undefined_namespaces = set()
         self.test_count = 0
         # store the range and domain in cache to speed execution
         self.range_cache = {}
@@ -80,6 +81,8 @@ class ValidateQuality:
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
+        print(self.undefined_namespaces)
+        print("\n\nUNDEFINED NAMESPACES")
 
     @staticmethod
     def create_metric_descriptions():
@@ -175,8 +178,8 @@ class ValidateQuality:
         # A function to validate the usage of undefined classes
         metric_identifier = "D1"
         for key in list(self.classes):
-            class_identifier = self.classes[key]["class"]
-            subject_identifier = self.classes[key]["subject"]
+            class_identifier = self.classes[key].get("class")
+            subject_identifier = self.classes[key].get("subject")
             metric_result = self.validate_undefined(class_identifier, subject_identifier, "class", metric_identifier)
             # if class is undefined
             if metric_result:
@@ -187,8 +190,8 @@ class ValidateQuality:
         # A function to validate the usage of undefined properties
         metric_identifier = "D2"
         for key in list(self.properties):
-            property_identifier = self.properties[key]["property"]
-            subject_identifier = self.properties[key]["subject"]
+            property_identifier = self.properties[key].get("property")
+            subject_identifier = self.properties[key].get("subject")
             metric_result = self.validate_undefined(property_identifier, subject_identifier, "property", metric_identifier)
             # if property is undefined
             if metric_result:
@@ -199,21 +202,24 @@ class ValidateQuality:
     def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
         query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_identifier
-        qres = self.vocabularies.query_local_graph(property_identifier, query)
-        is_defined_concept = qres["boolean"]
+        query_results = self.vocabularies.query_local_graph(property_identifier, query)
+        is_defined_concept = query_results.get("boolean")
         if is_defined_concept is False:
-            query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % self.get_namespace(property_identifier)
-            qres = self.vocabularies.query_local_graph(property_identifier, query)
-            graph_exists = qres["boolean"]
+            property_namespace = self.get_namespace(property_identifier)
+            query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
+            query_results = self.vocabularies.query_local_graph(property_identifier, query)
+            graph_exists = query_results.get("boolean")
             if graph_exists is True:
                 return [metric_identifier, result_message, property_identifier, subject_identifier]
+            else:
+                self.undefined_namespaces.add(property_namespace)
 
     def validate_D3(self):
         # A function to validate the usage of correct domain definitions
         metric_identifier = "D3"
         for key in list(self.properties):
-            property_identifier = self.properties[key]["property"]
-            subject_identifier = self.properties[key]["subject"]
+            property_identifier = self.properties[key].get("property")
+            subject_identifier = self.properties[key].get("subject")
             metric_result = self.validate_domain(property_identifier, subject_identifier, metric_identifier)
             # if domain is not present
             if metric_result:
@@ -229,10 +235,10 @@ class ValidateQuality:
                       FILTER(isIRI(?object) && CONTAINS(STR(?object), "?"))
                     }   
                """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            object_identifier = row["object"]
-            subject_identifier = row["subject"]
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            object_identifier = row.get("object")
+            subject_identifier = row.get("subject")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_D5(self):
@@ -293,11 +299,9 @@ class ValidateQuality:
         metric_identifier = "D7"
         result_message = "Usage of incorrect datatype."
         # xsd:anySimpleType, xsd:anyType could be declared as datatypes in the vocabulary
-        # these can be any datatypes so not need to check
         excluded_datatypes = [URIRef("http://www.w3.org/2001/XMLSchema#anyType"),
                               URIRef("http://www.w3.org/2001/XMLSchema#anySimpleType")]
         # only if datatype
-        # datatype_properties = {key:value for (key,value) in properties.items() if value["datatype"] is not None}
         for key in list(self.properties):
             property = self.properties[key]["property"]
             objectMap = self.properties[key]["objectMap"]
@@ -327,8 +331,8 @@ class ValidateQuality:
                       rr:language ?value2.
                }
                """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             self.add_violation([metric_identifier, result_message, None, row[0]])
 
     def validate_MP2(self):
@@ -342,10 +346,10 @@ class ValidateQuality:
                       FILTER(?termType NOT IN (rr:IRI, rr:BlankNode))
                     }
                 """
-        qres = self.current_graph.query(query)
-        for row in qres:
-            subject = row[0]
-            term_type = row[1]
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            subject = row.get("subjectMap")
+            term_type = row,get("termType")
             self.add_violation([metric_identifier, result_message, term_type, subject])
 
     def validate_MP3(self):
@@ -354,8 +358,8 @@ class ValidateQuality:
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     ASK { ?subject rr:subjectMap ?sm . } 
                 """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
@@ -365,8 +369,8 @@ class ValidateQuality:
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     ASK { ?subject rr:predicateObjectMap ?pom . } 
                 """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
@@ -381,8 +385,8 @@ class ValidateQuality:
                       ?joinCondition rr:child ?child . 
                     }
                  }"""
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             subject = row["joinCondition"]
             self.add_violation([metric_identifier, result_message, None, subject])
 
@@ -397,8 +401,8 @@ class ValidateQuality:
                       ?joinCondition rr:parent ?parent . 
                     }
                  }"""
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             subject = row["joinCondition"]
             self.add_violation([metric_identifier, result_message, None, subject])
 
@@ -408,8 +412,8 @@ class ValidateQuality:
         query = """
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
         ASK { ?subject rr:logicalTable|rml:logicalSource ?object } """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
@@ -425,8 +429,8 @@ class ValidateQuality:
                       FILTER(?termType NOT IN (rr:IRI))
                     }
                 """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             subject = row["predicateMap"]
             term_type = row["termType"]
             self.add_violation([metric_identifier, result_message, term_type, subject])
@@ -444,8 +448,8 @@ class ValidateQuality:
                       FILTER(?termType NOT IN (rr:IRI, rr:BlankNode, rr:Literal))
                     }
                 """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             subject = row["objectMap"]
             term_type = row["termType"]
             self.add_violation([metric_identifier, result_message, term_type, subject])
@@ -460,8 +464,8 @@ class ValidateQuality:
                              FILTER(!isIRI(?class))
                      }
                      """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             object_identifier = row[0]
             subject_identifier = row[1]
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
@@ -476,8 +480,8 @@ class ValidateQuality:
                              FILTER(!isIRI(?predicate))
                      }
                      """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             object_identifier = row["predicate"]
             subject_identifier = row["pom"]
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
@@ -492,8 +496,8 @@ class ValidateQuality:
                              FILTER(!isIRI(?graph))
                      }
                      """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             object_identifier = row["graph"]
             self.add_violation([metric_identifier, result_message, object_identifier, None])
 
@@ -508,8 +512,8 @@ class ValidateQuality:
                              FILTER(!isIRI(?datatype))
                      }
                      """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             object_identifier = row["datatype"]
             subject_identifier = row["datatype"]
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
@@ -544,10 +548,10 @@ class ValidateQuality:
                          FILTER (?languageTag NOT IN  %s) .
                        }
                 """ % (language_tags,)
-        qres = self.current_graph.query(query)
-        for row in qres:
-            object_map = row["objectMap"]
-            language_tag = row["languageTag"]
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            object_map = row.get("objectMap")
+            language_tag = row.get("languageTag")
             self.add_violation([metric_identifier, result_message, language_tag, object_map])
 
     def validate_MP13(self):
@@ -578,9 +582,9 @@ class ValidateQuality:
                          "PREFIX schema: <http://schema.org/> \n" \
                          "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
                          "ASK { <%s> %s ?label } " % (class_identifier, "|".join(human_label_predicates))
-                qres = self.vocabularies.query_local_graph(class_identifier, query)
-                if isinstance(qres, rdflib.plugins.sparql.processor.SPARQLResult):
-                    for row in qres:
+                query_results = self.vocabularies.query_local_graph(class_identifier, query)
+                if isinstance(query_results, rdflib.plugins.sparql.processor.SPARQLResult):
+                    for row in query_results:
                         if row is False:
                             self.add_violation([metric_identifier, result_message, class_identifier, subject_identifier])
 
@@ -614,12 +618,12 @@ class ValidateQuality:
                     "PREFIX dct: <http://purl.org/dc/terms/> " \
                      "ASK { GRAPH <%s> { ?subject a owl:Ontology; " \
                     "              %s ?label . } } " % (namespace, "|".join(provenance_predicates))
-            qres = self.vocabularies.query_local_graph(namespace, query)
-            has_license = qres["boolean"]
+            query_results = self.vocabularies.query_local_graph(namespace, query)
+            has_license = query_results["boolean"]
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
-                qres = self.vocabularies.query_local_graph(namespace, query)
-                graph_exists = qres["boolean"]
+                query_results = self.vocabularies.query_local_graph(namespace, query)
+                graph_exists = query_results["boolean"]
                 if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
@@ -642,12 +646,12 @@ class ValidateQuality:
                }
             }
             """ % namespace
-            qres = self.vocabularies.query_local_graph(namespace, query)
-            has_license = qres["boolean"]
+            query_results = self.vocabularies.query_local_graph(namespace, query)
+            has_license = query_results["boolean"]
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
-                qres = self.vocabularies.query_local_graph(namespace, query)
-                graph_exists = qres["boolean"]
+                query_results = self.vocabularies.query_local_graph(namespace, query)
+                graph_exists = query_results["boolean"]
                 if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
@@ -668,13 +672,13 @@ class ValidateQuality:
               }
             }
             """ % namespace
-            qres = self.vocabularies.query_local_graph(namespace, query)
+            query_results = self.vocabularies.query_local_graph(namespace, query)
             print(query)
-            has_license = qres["boolean"]
+            has_license = query_results["boolean"]
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
-                qres = self.vocabularies.query_local_graph(namespace, query)
-                graph_exists = qres["boolean"]
+                query_results = self.vocabularies.query_local_graph(namespace, query)
+                graph_exists = query_results["boolean"]
                 if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
@@ -807,9 +811,9 @@ class ValidateQuality:
                       }
                    }
                 """ % (self.get_namespace(identifier), identifier)
-        qres = self.vocabularies.query_local_graph(identifier, query)
+        query_results = self.vocabularies.query_local_graph(identifier, query)
         disjoint_classes = []
-        for binding in qres.get("results").values():
+        for binding in query_results.get("results").values():
             for result in binding:
                 current_class = URIRef(result["disjointClass"]["value"])
                 disjoint_classes.append(current_class)
@@ -893,10 +897,10 @@ class ValidateQuality:
                       ?objectMap rr:datatype ?dataType . 
                     }
                """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         properties = {}
         counter = 0
-        for row in qres:
+        for row in query_results:
             # properties.append([row[0], row[1], row[2]])
             properties[counter] = {"predicateObjectMap": row[0], "objectMap": row[1],
                                    "property": row[2],
@@ -913,9 +917,9 @@ class ValidateQuality:
                       ?subject rr:predicate ?property .
                     }
                """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         counter = 0
-        for row in qres:
+        for row in query_results:
             # properties.append([row[0], row[1]])
             properties[counter] = {"subject": row[0], "property": row[1]}
             counter += 1
@@ -966,10 +970,10 @@ class ValidateQuality:
                     }
       
                """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         properties = {}
         counter = 0
-        for row in qres:
+        for row in query_results:
             # properties.append([row[0], row[1], row[2]])
             if row["hasLiteralType"] and not row["termType"]:
                 term_type = rdflib.term.URIRef('http://www.w3.org/ns/r2rml#Literal')
@@ -1010,9 +1014,9 @@ class ValidateQuality:
                         FILTER (isIRI(?class)) .
                     }
                """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         counter = 0
-        for row in qres:
+        for row in query_results:
             # class related functions remove whitespace and recreate IRI
             classes[counter] = {"subject": row[0], "class": URIRef("".join(str(row[1]).split()))}
             counter += 1
@@ -1056,10 +1060,10 @@ class ValidateQuality:
                           GRAPH <%s> { <%s> rdf:type ?type . }
                         }   
                    """ % (self.get_namespace(identifier), identifier)
-            qres = self.vocabularies.query_local_graph(identifier, query)
+            query_results = self.vocabularies.query_local_graph(identifier, query)
             resource_type = []
-            if qres["results"]["bindings"]:
-                for row in qres["results"]["bindings"]:
+            if query_results["results"]["bindings"]:
+                for row in query_results["results"]["bindings"]:
                     print(row)
                     resource_type.append(URIRef(row["type"]["value"]))
             return resource_type
@@ -1078,9 +1082,9 @@ class ValidateQuality:
                     { <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range . }
                 }
                 """ % (self.get_namespace(identifier), identifier)
-            qres = self.vocabularies.query_local_graph(identifier, query)
+            query_results = self.vocabularies.query_local_graph(identifier, query)
             range = None
-            query_bindings = qres["results"]["bindings"]
+            query_bindings = query_results["results"]["bindings"]
             # if a range returned
             if query_bindings:
                 for row in query_bindings:
@@ -1120,10 +1124,10 @@ class ValidateQuality:
                           }
                        }   
                        """ % (self.get_namespace(identifier), identifier, identifier)
-            qres = self.vocabularies.query_local_graph(identifier, query)
+            query_results = self.vocabularies.query_local_graph(identifier, query)
             domain = []
-            print(query, qres)
-            result_bindings = qres["results"]["bindings"]
+            print(query, query_results)
+            result_bindings = query_results["results"]["bindings"]
             if result_bindings:
                 for row in result_bindings:
                     print(row)
