@@ -39,12 +39,13 @@ class Refinements:
             # mapping metric refinements #
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP2": ["ChangeTermType", "RemoveTermType"],
-            "MP3": ["ChangeTermType", "RemoveTermType"],
+            "MP3": ["AddSubjectMap"],
             "MP4": ["ChangeTermType", "RemoveTermType"],
             "MP5": ["ChangeClass"],
             "MP6": ["AddLogicalTable"],
             "MP5_1": ["AddChildColumn"],
             "MP5_2": ["AddParentColumn"],
+            "MP9": ["ChangePredicate"],
             "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP13": ["AddSubjectMap"],
 
@@ -143,13 +144,13 @@ class Refinements:
                                      "ChangeClass": self.change_class,
                                      "RemoveDisjointClass": self.remove_class,
                                      "ChangePredicate": self.change_predicate,
-                                     "ChangeURI": self.change_IRI,
-                                     "ChangeClassIRI": self.change_class_IRI,
+                                     "ChangeURI": self.change_identifier,
+                                     "ChangeClassIRI": self.change_class_identifier,
                                      "AddParentColumn": self.add_parent_column,
                                      "AddChildColumn": self.add_child_column,
                                      "FindSimilarPredicates": self.change_predicate,
                                      "FindSimilarClasses": self.change_class,
-                                     "RemoveIRI": self.remove_IRI,
+                                     "RemoveIRI": self.remove_identifier,
                                      "RemoveClass": self.remove_class,
                                      #  ("ChangeTermType", "ChangeOMTermType") : self.change_term_type,
                                      "ChangeTermType": self.change_term_type,
@@ -188,12 +189,11 @@ class Refinements:
         output = {"Classes": classes}
         return output
 
-
     def remove_duplicate_triples(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
-        mapping_graph.remove((None, None, subject_IRI))
-        mapping_graph.remove((subject_IRI, None, None))
+        subject_identifier = current_result["location"]
+        mapping_graph.remove((None, None, subject_identifier))
+        mapping_graph.remove((subject_identifier, None, None))
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject ?p2 ?o1 .
@@ -208,7 +208,7 @@ class Refinements:
                     }
 
                 }
-                """ % subject_IRI
+                """ % subject_identifier
         print("Remove duplicate triple query\n" + update_query)
         return update_query
 
@@ -368,7 +368,8 @@ class Refinements:
         # violation_value = violation_value[:violation_value.rfind("#")+1]
         qres = FetchVocabularies().query_local_graph(violation_value, query)
         classes = []
-        for binding in qres.get("results").values():
+        result_bindings = qres.get("results").values()
+        for binding in result_bindings:
             for result in binding:
                 current_class = result["classOnto"]["value"]
                 if "comment" in result:
@@ -402,26 +403,26 @@ class Refinements:
             return violation_triple_map.split("/")[-1]
         return violation_triple_map
 
-    def find_prefix(self, IRI):
+    def find_prefix(self, identifier):
         # this is different from validate_quality find_prefix as it requires the graph
         # find prefix with longest matching prefix
-        if IRI:
+        if identifier:
             match = []
             # create dictionary with prefix as key and namespace as value
             for (prefix, namespace) in self.namespaces.items():
-                if namespace in IRI:
+                if namespace in identifier:
                     match.append(namespace)
             # if matching namesapce, return the longest
             if match:
                 match_namespace = max(match)
                 prefix = [prefix for (prefix, namespace) in self.namespaces.items() if namespace == match_namespace][0]
-                IRI = IRI.replace(match_namespace, prefix + ":")
-                return " %s " % (IRI)
-            return IRI
+                identifier = identifier.replace(match_namespace, prefix + ":")
+                return " %s " % (identifier)
+            return identifier
 
-    def remove_IRI(self, query_values, mapping_graph, violation_ID):
+    def remove_identifier(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[int(violation_ID)]
-        subject_IRI = current_result["location"]
+        subject_identifier = current_result["location"]
         current_value = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -433,16 +434,16 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (current_value, current_value, subject_IRI)
+               """ % (current_value, current_value, subject_identifier)
         print("Remove IRI query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_class_IRI(self, query_values, mapping_graph, violation_ID):
-        new_IRI = self.get_user_input(query_values)
+    def change_class_identifier(self, query_values, mapping_graph, violation_ID):
+        new_identifier = self.get_user_input(query_values)
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
-        old_IRI = self.parse_mapping_value(current_result["value"])
+        subject_identifier = current_result["location"]
+        old_identifier = self.parse_mapping_value(current_result["value"])
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:class %s }
@@ -454,17 +455,17 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (old_IRI, new_IRI, old_IRI, subject_IRI)
+               """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
         # print("Changing IRI query\n" + update_query)
         # exit()
         processUpdate(mapping_graph, update_query)
         return update_query
 
     def change_constant_range(self, query_values, mapping_graph, violation_ID):
-        new_IRI = query_values["IRI"]
+        new_identifier = query_values["IRI"]
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
-        old_IRI = current_result["value"]
+        subject_identifier = current_result["location"]
+        old_identifier = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject rr:class "%s"  }
@@ -476,16 +477,16 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (old_IRI, new_IRI, old_IRI, subject_IRI)
+               """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
         print("Changing IRI query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_IRI(self, query_values, mapping_graph, violation_ID):
-        new_IRI = query_values["URI"]
+    def change_identifier(self, query_values, mapping_graph, violation_ID):
+        new_identifier = query_values["URI"]
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
-        old_IRI = current_result["value"]
+        subject_identifier = current_result["location"]
+        old_identifier = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject ?predicate <%s>  }
@@ -497,7 +498,7 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (URIRef(str(old_IRI).replace("\/", "")), new_IRI, old_IRI, subject_IRI)
+               """ % (URIRef(str(old_identifier).replace("\/", "")), new_identifier, old_identifier, subject_identifier)
         print("Changing IRI query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -505,7 +506,7 @@ class Refinements:
     def change_term_type(self, query_values, mapping_graph, violation_ID):
         new_term_type = list(query_values.values())[0]
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
+        subject_identifier = current_result["location"]
         # delete current term type (if applicable)
         # then insert term type input
         update_query = """
@@ -520,14 +521,14 @@ class Refinements:
                           FILTER(str(?subject) = "%s").
                     }
                 }; 
-               """ % (new_term_type, subject_IRI)
+               """ % (new_term_type, subject_identifier)
         print("Changing term type query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
 
     def remove_term_type(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
+        subject_identifier = current_result["location"]
         term_type_value = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -539,14 +540,14 @@ class Refinements:
                           FILTER(str(?subject) = "%s").
                         }
                 }
-               """ % (term_type_value, term_type_value, subject_IRI)
+               """ % (term_type_value, term_type_value, subject_identifier)
         print("Removing term type query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
 
     def remove_datatype(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
-        object_map_IRI = current_result["location"]
+        object_map_identifier = current_result["location"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject rr:datatype ?datatype .  }
@@ -557,7 +558,7 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (object_map_IRI)
+               """ % (object_map_identifier)
         print("Removing data type query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -565,7 +566,7 @@ class Refinements:
     # not remove class IRI as the value is a literal
     def remove_class(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
+        subject_identifier = current_result["location"]
         # this value is most likely a literal
         old_class_value = self.get_user_input(query_values)
         print(old_class_value, "OLD CLASS VALUE")
@@ -580,7 +581,7 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (old_class_value, old_class_value, subject_IRI)
+               """ % (old_class_value, old_class_value, subject_identifier)
         print("Remove class query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -632,7 +633,7 @@ class Refinements:
 
     def change_language_tag(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[int(violation_ID)]
-        pom_IRI = current_result["location"]
+        pom_identifier = current_result["location"]
         old_language_tag = current_result["value"]
         new_language_tag = list(query_values.values())[0]
         update_query = """
@@ -646,7 +647,7 @@ class Refinements:
                       FILTER(str(?objectMap) = "%s").
                     }
                 }
-               """ % (old_language_tag, new_language_tag, old_language_tag, pom_IRI)
+               """ % (old_language_tag, new_language_tag, old_language_tag, pom_identifier)
         print("Changing language query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -654,7 +655,7 @@ class Refinements:
     def change_datatype(self, query_values, mapping_graph, violation_ID):
         correct_datatype = self.get_user_input(query_values)
         current_result = self.validation_results[violation_ID]
-        object_map_IRI = current_result["location"]
+        object_map_identifier = current_result["location"]
         old_datatype = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
@@ -667,7 +668,7 @@ class Refinements:
                           FILTER(str(?objectMap) = "%s").
                     }
                 }
-               """ % (correct_datatype, object_map_IRI)
+               """ % (correct_datatype, object_map_identifier)
         print("Changing datatype query\n" + update_query)
         print("OLD DATATYPE", old_datatype)
         processUpdate(mapping_graph, update_query)
@@ -675,7 +676,7 @@ class Refinements:
 
     def add_correct_range(self, correct_range, mapping_graph, violation_ID):
         current_result = self.validation_results[int(violation_ID)]
-        object_map_IRI = current_result["location"]
+        object_map_identifier = current_result["location"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?objectMap rr:constant ?range }
@@ -687,16 +688,16 @@ class Refinements:
                       FILTER(str(?objectMap) = "%s").
                     }
                 }
-               """ % (correct_range, object_map_IRI)
+               """ % (correct_range, object_map_identifier)
         print("Changing range query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
 
     def add_parent_column(self, query_values, mapping_graph, violation_ID):
-        parent_column = list(query_values.values())[0]
+        parent_column = query_values.get("http://www.w3.org/ns/r2rml#parent")
         if parent_column:
             current_result = self.validation_results[violation_ID]
-            join_IRI = current_result["location"]
+            join_identifier = current_result["location"]
             update_query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                     INSERT { ?joinCondition rr:parent "%s" } 
@@ -707,7 +708,7 @@ class Refinements:
                           FILTER(str(?joinCondition) = "%s").
                         }
                     }
-                   """ % (parent_column, join_IRI)
+                   """ % (parent_column, join_identifier)
             print("Adding parent column query\n" + update_query)
             processUpdate(mapping_graph, update_query)
             return update_query
@@ -715,26 +716,27 @@ class Refinements:
     def add_subject_map(self, query_values, mapping_graph, violation_ID):
         print(query_values)
         for property, value in query_values.items():
-            print(property, value)
-            triple_map = URIRef(self.validation_results[violation_ID]["triple_map"])
-            example_namespace = URIRef("http://example.org/test")
             update_query = """
-                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                    INSERT DATA { <%s> rr:subjectMap _:b1 . 
-                                  _:b1 rr:class rr:test .}
-            
-            """ % triple_map
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            INSERT 
+            { 
+              ?tripleMap rr:subjectMap [ rr:class rr:test ]
+            }
+            WHERE {
+              ?tripleMap rr:predicateObjectMap ?pom . 
+            }
+            """
+            print(update_query)
             processUpdate(mapping_graph, update_query)
-            # print(update_query)
-            # print(list(mapping_graph.triples((None, None, None))))
-            # exit()
+            print(mapping_graph.serialize(format="ttl").decode("utf-8"))
             return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_ID):
-        child_column = list(query_values.values())[0]
+        child_column = query_values.get("http://www.w3.org/ns/r2rml#child")
         if child_column:
             current_result = self.validation_results[violation_ID]
-            join_IRI = current_result["location"]
+            join_identifier = current_result["location"]
             update_query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                     INSERT { ?joinCondition rr:child "%s" } 
@@ -745,30 +747,30 @@ class Refinements:
                           FILTER(str(?joinCondition) = "%s").
                         }
                     }
-                   """ % (child_column, join_IRI)
+                   """ % (child_column, join_identifier)
             print("Adding child column query\n" + update_query)
             processUpdate(mapping_graph, update_query)
             return update_query
 
-    def find_properties(self, IRI):
-        # A function to retrieve the domain of an IRI
+    def find_properties(self, identifier):
+        # A function to retrieve the domain of an identifier
         domain = []
         query = """SELECT ?subject 
                     WHERE {
-                      { ?subject rdfs:domain ?IRI . }
+                      { ?subject rdfs:domain ?identifier . }
                       UNION
                       { ?subject rdfs:domain <http://www.w3.org/ns/r2rml#TermMap> }
                     }
                """
-        query_IRI = URIRef(IRI)
-        qres = Graph().parse("http://www.w3.org/ns/r2rml#").query(query, initBindings={'IRI': query_IRI})
+        query_identifier = URIRef(identifier)
+        qres = Graph().parse("http://www.w3.org/ns/r2rml#").query(query, initBindings={'IRI': query_identifier})
         for row in qres:
             domain.append("%s" % row)
         return domain
 
     def remove_language_tag(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
-        subject_IRI = current_result["location"]
+        subject_identifier = current_result["location"]
         # this value is most likely a literal
         language_tag = current_result["value"]
         update_query = """
@@ -781,16 +783,16 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % subject_IRI
+               """ % subject_identifier
         print("Removing language tag\n" + update_query)
         processUpdate(mapping_graph, update_query)
         print(mapping_graph.serialize(format="turtle").decode("utf-8"))
         return update_query
 
     def add_domain(self, query_values, mapping_graph, violation_ID):
-        domain_IRI = list(query_values.values())[0]
-        triple_map_IRI = self.validation_results[violation_ID]["triple_map"]
-        print("ADDING DOMAIN" + domain_IRI)
+        domain_identifier = list(query_values.values())[0]
+        triple_map_identifier = self.validation_results[violation_ID]["triple_map"]
+        print("ADDING DOMAIN" + domain_identifier)
         update_query = """
             INSERT {
                 ?subject rr:class <%s> .
@@ -798,7 +800,7 @@ class Refinements:
             WHERE {
               <%s> rr:subjectMap ?subject
             }
-            """ % (domain_IRI, triple_map_IRI)
+            """ % (domain_identifier, triple_map_identifier)
         print(update_query)
         mapping_graph.update(update_query)
         return update_query
@@ -847,9 +849,9 @@ class Refinements:
                                                  "values": selected_refinement}
         return refinements
 
-    def get_complex_domain(self, IRI, g):
-        IRI = URIRef(IRI)
-        domain = list(g.objects(IRI, RDFS.domain))[0]
+    def get_complex_domain(self, identifier, g):
+        identifier = URIRef(identifier)
+        domain = list(g.objects(identifier, RDFS.domain))[0]
         domain_identifier = list(g.objects(domain, OWL.unionOf))[0]
         domain_values = []
         new_blank_nodes = []
@@ -874,8 +876,8 @@ class Refinements:
             namespace = identifier[:identifier.rfind("/") + 1]
         return namespace
 
-    def find_domain(self, IRI):
-        property_IRI = self.validation_results[IRI]["value"]
+    def find_domain(self, identifier):
+        property_identifier = self.validation_results[identifier]["value"]
         query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                    PREFIX schema: <http://schema.org/> 
@@ -900,8 +902,8 @@ class Refinements:
                       }
                    }   
                    GROUP BY ?domainClass ?comment
-                   """% (self.get_namespace(property_IRI), property_IRI, property_IRI)
-        qres = FetchVocabularies().query_local_graph(property_IRI, query)
+                   """% (self.get_namespace(property_identifier), property_identifier, property_identifier)
+        qres = FetchVocabularies().query_local_graph(property_identifier, query)
         domain = []
         for row in qres["results"]["bindings"]:
             current_domain = row["domainClass"]["value"]
@@ -913,8 +915,8 @@ class Refinements:
         output = {"Choose class value: ": domain}
         return output
 
-    def find_range(self, IRI):
-        # returns  domain for IRI if applicable
+    def find_range(self, identifier):
+        # returns  domain for identifier if applicable
         query = """PREFIX dcam: <http://purl.org/dc/dcam/>
                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                    PREFIX schema: <http://schema.org/>  
@@ -924,18 +926,18 @@ class Refinements:
                             <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range . 
                       }
                     }   
-               """ % (self.get_namespace(IRI), IRI)
-        qres = FetchVocabularies().query_local_graph(IRI, query)
+               """ % (self.get_namespace(identifier), identifier)
+        qres = FetchVocabularies().query_local_graph(identifier, query)
         for binding in qres.get("results").values():
             for result in binding:
                 correct_range = result["range"]["value"]
                 return URIRef(correct_range)
 
 
-    def create_filename(self, IRI):
+    def create_filename(self, identifier):
         # A function which will create a filename from a URI
-        filename = "./modules/cache/" + ''.join(e for e in IRI if e.isalnum()) + ".xml"
-        # filename = "./cache/" + ''.join(e for e in IRI if e.isalnum()) + ".xml"
+        filename = "./modules/cache/" + ''.join(e for e in identifier if e.isalnum()) + ".xml"
+        # filename = "./cache/" + ''.join(e for e in identifier if e.isalnum()) + ".xml"
         return filename
 
     def provide_suggested_refinements(self):
@@ -1018,7 +1020,7 @@ class Refinements:
         self.create_refinement_report(validation_report_file)
 
     def create_refinement_report(self, validation_report_file):
-        self.format_file_name_IRI()
+        self.format_file_name_identifier()
         # self.save_graph_to_file(mapping_graph, "comparison_mapping.ttl")
         # remove full file path from validation report
         # add information is set to true
@@ -1047,12 +1049,12 @@ class Refinements:
             # self.refinement_graph.remove((None, prov_generated, None))
             # self.refinement_graph.add((mapping, prov_generated, generationTime))
 
-    def format_file_name_IRI(self):
+    def format_file_name_identifier(self):
         # remove local file name from IRI's
         # e.g <file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/
         for (s, p, o) in self.refinement_graph.triples((None, None, None)):
             if str(o).startswith("file"):
-                new_object = ValidationReport.format_triple_map_IRI(o)
+                new_object = ValidationReport.format_triple_map_identifier(o)
                 self.refinement_graph.remove((s, p, o))
                 self.refinement_graph.add((s, p, new_object))
 
@@ -1064,21 +1066,20 @@ class Refinements:
 
     def add_refinement_information(self, violation_ID, refinement_query, refinement_name):
         # each refinement has a unique IRI and is associated with a refinement query
-        refinement_IRI = URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
-        self.refinement_graph.add((refinement_IRI, RDF.type, self.MQV.MappingRefinement))
-        self.refinement_graph.add((refinement_IRI, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
+        refinement_identifier = URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
+        self.refinement_graph.add((refinement_identifier, RDF.type, self.MQV.MappingRefinement))
+        self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
         # adding the SPARQL query used for the refinement
         refinement_query = Literal(refinement_query, datatype=XSD.string)
-        self.refinement_graph.add((refinement_IRI, self.MQV.hasRefinementQuery, refinement_query))
+        self.refinement_graph.add((refinement_identifier, self.MQV.hasRefinementQuery, refinement_query))
         # adding the refinement name e.g FindSimilarClasses
         refinement_name = Literal(self.split_camel_case(refinement_name), datatype=XSD.string)
-        self.refinement_graph.add(
-            (refinement_IRI, self.MQV.refinementName, refinement_name))
+        self.refinement_graph.add((refinement_identifier, self.MQV.refinementName, refinement_name))
         # adding the wasRefinedBy property related to the previously defined refinement
-        violation_IRI = URIRef(self.EX + "violation" + "-" + str(violation_ID))
-        self.refinement_graph.add((violation_IRI, self.MQV.wasRefinedBy, refinement_IRI))
+        violation_identifier = URIRef(self.EX + "violation" + "-" + str(violation_ID))
+        self.refinement_graph.add((violation_identifier, self.MQV.wasRefinedBy, refinement_identifier))
         # add inverse property for mqv:refinedViolation, relating this refinement to the violation
-        self.refinement_graph.add((refinement_IRI, self.MQV.refinedViolation, violation_IRI))
+        self.refinement_graph.add((refinement_identifier, self.MQV.refinedViolation, violation_identifier))
 
     def process_prefix_values(self, user_input, mapping_file):
         # a function to concatenate the prefix with the user input value provided

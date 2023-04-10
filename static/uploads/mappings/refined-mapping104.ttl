@@ -6,27 +6,29 @@
 @prefix ex: <http://example.com/ns#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix dcterms: <http://purl.org/dc/terms/> . 
-@prefix mo: <http://purl.org/ontology/mo/> . 
-@prefix asn: <http://purl.org/ASN/schema/core/> . 
-@prefix aprov: <http://purl.org/a-proc#> . 
-@prefix alice: <http://example.org/> . 
-@prefix ali: <http://www.niso.org/schemas/ali/1.0/> . 
-
+@prefix dcterms: <http://purl.org/dc/terms/>.
 	
 <#TriplesMap8>	
 	
- rml:logicalSource[ 	
- 	 rml:source "loans-v1.csv" ;	
+ rr:subjectMap[ 	
+ 	 rr:template "http://data.example.com/product/{JOB_ID}" ;	
+	 rr:class foaf:Person;	
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate "hshs" ;	
+ 	 rr:predicate dcterms:firstName;	
 	 rr:objectMap [	
-		 rr:column "Term" ;	
+		 rr:column "FIRST_NAME" ;	
 		 rr:joinCondition [	
 			 rr:parent "DEPTNOs" ;	
 			 ];	
  		]; 	
+ ];	
+	
+ rr:predicateObjectMap[ 	
+ 	 rr:predicate foaf:fundedBy;	
+	 rr:objectMap [	
+		 rr:column "LAST_NAME" ;	
+		]; 	
  ];	
 .	

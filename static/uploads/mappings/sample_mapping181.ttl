@@ -14,7 +14,7 @@
         rr:predicate foaf:firstName ;
         rr:objectMap [ rr:column "FIRST_NAME";         
         rr:joinCondition [
-            rr:parent "DEPTNO";
+            rr:parent "DEPTNOs";
         ];  ];
     ];
     rr:predicateObjectMap [

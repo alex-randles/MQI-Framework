@@ -8,10 +8,6 @@
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
 @prefix dcterms: <http://purl.org/dc/terms/> . 
 @prefix mo: <http://purl.org/ontology/mo/> . 
-@prefix asn: <http://purl.org/ASN/schema/core/> . 
-@prefix aprov: <http://purl.org/a-proc#> . 
-@prefix alice: <http://example.org/> . 
-@prefix ali: <http://www.niso.org/schemas/ali/1.0/> . 
 
 	
 <#TriplesMap8>	
@@ -21,7 +17,7 @@
  ];	
 	
  rr:predicateObjectMap[ 	
- 	 rr:predicate "hshs" ;	
+ 	 rr:predicate "hshs";	
 	 rr:objectMap [	
 		 rr:column "Term" ;	
 		 rr:joinCondition [	

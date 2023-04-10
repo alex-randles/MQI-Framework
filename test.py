@@ -1,3 +1,27 @@
-dic = {'added': [{'FIRST_NAME': 'Donald', 'LAST_NAME': 'OConnell', 'EMAIL': 'DOCONNEL', 'PHONE_NUMBER': '650.507.9833', 'HIRE_DATE': '21-JUN-07', 'JOB_ID': 'SH_CLERK', 'SALARY': '2600', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '124', 'DEPARTMENT_ID': '50'}, {'FIRST_NAME': 'Douglas', 'LAST_NAME': 'Grant', 'EMAIL': 'DGRANT', 'PHONE_NUMBER': '650.507.9844', 'HIRE_DATE': '13-JAN-08', 'JOB_ID': 'SH_CLERK', 'SALARY': '2600', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '124', 'DEPARTMENT_ID': '50'}, {'FIRST_NAME': 'Jennifer', 'LAST_NAME': 'Whalen', 'EMAIL': 'JWHALEN', 'PHONE_NUMBER': '515.123.4444', 'HIRE_DATE': '17-SEP-03', 'JOB_ID': 'AD_ASST', 'SALARY': '4400', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '101', 'DEPARTMENT_ID': '10'}, {'FIRST_NAME': 'Michael', 'LAST_NAME': 'Hartstein', 'EMAIL': 'MHARTSTE', 'PHONE_NUMBER': '515.123.5555', 'HIRE_DATE': '17-FEB-04', 'JOB_ID': 'MK_MAN', 'SALARY': '13000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '100', 'DEPARTMENT_ID': '20'}, {'FIRST_NAME': 'Pat', 'LAST_NAME': 'Fay', 'EMAIL': 'PFAY', 'PHONE_NUMBER': '603.123.6666', 'HIRE_DATE': '17-AUG-05', 'JOB_ID': 'MK_REP', 'SALARY': '6000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '201', 'DEPARTMENT_ID': '20'}, {'FIRST_NAME': 'Susan', 'LAST_NAME': 'Mavris', 'EMAIL': 'SMAVRIS', 'PHONE_NUMBER': '515.123.7777', 'HIRE_DATE': '07-JUN-02', 'JOB_ID': 'HR_REP', 'SALARY': '6500', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '101', 'DEPARTMENT_ID': '40'}, {'FIRST_NAME': 'Hermann', 'LAST_NAME': 'Baer', 'EMAIL': 'HBAER', 'PHONE_NUMBER': '515.123.8888', 'HIRE_DATE': '07-JUN-02', 'JOB_ID': 'PR_REP', 'SALARY': '10000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '101', 'DEPARTMENT_ID': '70'}, {'FIRST_NAME': 'Shelley', 'LAST_NAME': 'Higgins', 'EMAIL': 'SHIGGINS', 'PHONE_NUMBER': '515.123.8080', 'HIRE_DATE': '07-JUN-02', 'JOB_ID': 'AC_MGR', 'SALARY': '12008', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '101', 'DEPARTMENT_ID': '110'}, {'FIRST_NAME': 'William', 'LAST_NAME': 'Gietz', 'EMAIL': 'WGIETZ', 'PHONE_NUMBER': '515.123.8181', 'HIRE_DATE': '07-JUN-02', 'JOB_ID': 'AC_ACCOUNT', 'SALARY': '8300', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '205', 'DEPARTMENT_ID': '110'}, {'FIRST_NAME': 'Steven', 'LAST_NAME': 'King', 'EMAIL': 'SKING', 'PHONE_NUMBER': '515.123.4567', 'HIRE_DATE': '17-JUN-03', 'JOB_ID': 'AD_PRES', 'SALARY': '24000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': ' - ', 'DEPARTMENT_ID': '90'}, {'FIRST_NAME': 'Neena', 'LAST_NAME': 'Kochhar', 'EMAIL': 'NKOCHHAR', 'PHONE_NUMBER': '515.123.4568', 'HIRE_DATE': '21-SEP-05', 'JOB_ID': 'AD_VP', 'SALARY': '17000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '100', 'DEPARTMENT_ID': '90'}, {'FIRST_NAME': 'Lex', 'LAST_NAME': 'De Haan', 'EMAIL': 'LDEHAAN', 'PHONE_NUMBER': '515.123.4569', 'HIRE_DATE': '13-JAN-01', 'JOB_ID': 'AD_VP', 'SALARY': '17000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '100', 'DEPARTMENT_ID': '90'}, {'FIRST_NAME': 'Alexander', 'LAST_NAME': 'Hunold', 'EMAIL': 'AHUNOLD', 'PHONE_NUMBER': '590.423.4567', 'HIRE_DATE': '03-JAN-06', 'JOB_ID': 'IT_PROG', 'SALARY': '9000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '102', 'DEPARTMENT_ID': '60'}, {'FIRST_NAME': 'Bruce', 'LAST_NAME': 'Ernst', 'EMAIL': 'BERNST', 'PHONE_NUMBER': '590.423.4568', 'HIRE_DATE': '21-MAY-07', 'JOB_ID': 'IT_PROG', 'SALARY': '6000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '103', 'DEPARTMENT_ID': '60'}, {'FIRST_NAME': 'David', 'LAST_NAME': 'Austin', 'EMAIL': 'DAUSTIN', 'PHONE_NUMBER': '590.423.4569', 'HIRE_DATE': '25-JUN-05', 'JOB_ID': 'IT_PROG', 'SALARY': '4800', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '103', 'DEPARTMENT_ID': '60'}], 'removed': [{'EMPLOYEE_ID': '198', 'FIRST_NAME': 'Donald', 'LAST_NAME': 'OConnell', 'EMAIL': 'DOCONNEL', 'PHONE_NUMBER': '650.507.9833', 'HIRE_DATE': '21-JUN-07', 'JOB_ID': 'SH_CLERK', 'SALARY': '2600', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '124', 'DEPARTMENT_ID': '50'}, {'EMPLOYEE_ID': '199', 'FIRST_NAME': 'Douglas', 'LAST_NAME': 'Grant', 'EMAIL': 'DGRANT', 'PHONE_NUMBER': '650.507.9844', 'HIRE_DATE': '13-JAN-08', 'JOB_ID': 'SH_CLERK', 'SALARY': '2600', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '124', 'DEPARTMENT_ID': '50'}, {'EMPLOYEE_ID': '200', 'FIRST_NAME': 'Jennifer', 'LAST_NAME': 'Whalen', 'EMAIL': 'JWHALEN', 'PHONE_NUMBER': '515.123.4444', 'HIRE_DATE': '17-SEP-03', 'JOB_ID': 'AD_ASST', 'SALARY': '4400', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '101', 'DEPARTMENT_ID': '10'}, {'EMPLOYEE_ID': '201', 'FIRST_NAME': 'Michael', 'LAST_NAME': 'Hartstein', 'EMAIL': 'MHARTSTE', 'PHONE_NUMBER': '515.123.5555', 'HIRE_DATE': '17-FEB-04', 'JOB_ID': 'MK_MAN', 'SALARY': '13000', 'COMMISSION_PCT': ' - ', 'MANAGER_ID': '100', 'DEPARTMENT_ID': '20'}, {}], 'changed': [], 'columns_added': [], 'columns_removed': ['EMPLOYEE_ID']}
-for values in dic.get("removed"):
-    print(values)
+from rdflib.plugins.sparql import *
+from rdflib import *
+import urllib.parse
+g = Graph().parse("/home/alex/Downloads/refined-mapping(82).ttl", format="ttl")
+import urllib
+
+# print(urllib.parse.quote_plus("refined-mapping82.ttl#STARTDATEEVENT"))
+#
+# # triple_map_identifier = urllib.parse.urlencode("refined-mapping82.ttl#STARTDATEEVENT")
+# # print(triple_map_identifier)
+# exit()
+query = """
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rr: <http://www.w3.org/ns/r2rml#>
+INSERT 
+{ 
+  ?tripleMap rr:subjectMap _:b1 .
+  _:b1 rr:class rr:test .
+}
+WHERE {
+  ?tripleMap rr:predicateObjectMap ?pom . 
+}
+"""
+print(len(g))
+processUpdate(g, query)
+print(len(g))
+print(g.serialize(format="ttl").decode("utf-8"))

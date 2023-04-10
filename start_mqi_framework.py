@@ -292,7 +292,7 @@ class API:
         change_graph_details = session.get("graph_details")
         return render_template("change_detection/notification_thresholds.html",
                                participant_id=participant_id,
-                               graph_id=1,
+                               graph_id=graph_id,
                                graph_filename=graph_filename,
                                change_graph_details=change_graph_details,
                                notification_thresholds=notification_thresholds)

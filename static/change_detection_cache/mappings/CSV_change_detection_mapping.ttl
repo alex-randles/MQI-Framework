@@ -5,7 +5,7 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix testv: <http://www.txample.com/people/voc/>.
 @prefix testd: <http://www.txample.com/people/data/>.
-@prefix oscd: <https://w3id.org/OSCD#> .
+@prefix oscd: <https://www.w3id.org/OSCD#> .
 @prefix lode: <http://linkedevents.org/ontology/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix time: <http://www.w3.org/2006/time#> . 
@@ -66,6 +66,17 @@
 		rr:predicate oscd:hasChange ;
 		rr:objectMap  [
 				rr:parentTriplesMap <#InsertChanges> ;
+			    rr:joinCondition [
+						rr:child "USER_ID";
+						rr:parent "USER_ID";
+				];
+        ];
+   ];
+
+	rr:predicateObjectMap [
+	rr:predicate oscd:hasChange ;
+	rr:objectMap  [
+				rr:parentTriplesMap <#MoveChanges> ;
 			    rr:joinCondition [
 						rr:child "USER_ID";
 						rr:parent "USER_ID";

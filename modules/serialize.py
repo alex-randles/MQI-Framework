@@ -1,16 +1,7 @@
 from rdflib import Namespace
 from rdflib.term import *
 from rdflib.term import _castPythonToLiteral
-
-# try:
-#     from modules.validate_quality import ValidateQuality
-# except:
-#     from validate_quality import ValidateQuality
-
 import re
-
-
-# import modules.validate_quality
 
 
 class TurtleSerializer:
@@ -318,9 +309,9 @@ class TurtleSerializer:
         # check if query parameter for matching violation
         violation_value = TurtleSerializer.check_query_parameter(violation_value)
         if type(violation_value) is tuple:
-            return violation_value[0]
+            return violation_value[0].strip()
         else:
-            return violation_value
+            return violation_value.strip()
 
     def add_prefix(self, IRI):
         # find prefix with longest matching prefix
