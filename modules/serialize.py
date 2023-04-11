@@ -167,7 +167,7 @@ class TurtleSerializer:
             # iterates through each values related to predicates
             for current_bNode in bNodes:
                 bNode_objects = []
-                self.output += "\n" + self.format_identifier(predicate) + "[ \n "
+                self.output += "\n" + self.format_identifier(predicate) + " [ \n "
                 # remove duplicate predicates
                 predicates = list(set(self.mapping_graph.predicates(current_bNode, None)))
                 # iterate each predicate and if more than object for a predicate join with "," and end with ";"s if not a blank node

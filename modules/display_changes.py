@@ -60,7 +60,7 @@ class DisplayChanges:
     def get_changes_count(self):
         # query to get notification thresholds
         query = """
-            PREFIX oscd: <https://w3id.org/OSCD#>
+            PREFIX oscd: <https://www.w3id.org/OSCD#>
             
             # GET COUNT FOR EACH CHANGE TYPE
             SELECT ?changeType (COUNT(?change) AS ?count)
@@ -145,7 +145,7 @@ class DisplayChanges:
         change_graph = Dataset()
         change_graph.parse(graph_filename, format="trig")
         query = """
-            PREFIX oscd: <https://w3id.org/OSCD#>
+            PREFIX oscd: <https://www.w3id.org/OSCD#>
             PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
             SELECT ?changeType ?threshold 
             WHERE
@@ -160,7 +160,7 @@ class DisplayChanges:
             """
         qres = change_graph.query(query)
         # change type human readable
-        oscd_namespace = "https://w3id.org/OSCD#"
+        oscd_namespace = "https://www.w3id.org/OSCD#"
         change_types = {
             oscd_namespace + 'DatatypeSourceData': "Datatype Change",
             oscd_namespace + 'MoveSourceData': "Move Change",
@@ -181,7 +181,7 @@ class DisplayChanges:
     def get_detection_period(self):
         # get detection time for notification policy to check if still valid
         query = """
-        PREFIX oscd: <https://w3id.org/OSCD#>
+        PREFIX oscd: <https://www.w3id.org/OSCD#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         SELECT ?detectionStart ?detectionEnd
         WHERE
@@ -347,7 +347,7 @@ class DisplayChanges:
         # change_graph.parse(graph_filename, format="trig")
         # change_graph.parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
         # query = """
-        #     PREFIX oscd: <https://w3id.org/OSCD#>
+        #     PREFIX oscd: <https://www.w3id.org/OSCD#>
         #     PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
         #     PREFIX rr: <http://www.w3.org/ns/r2rml#>
         #
@@ -383,7 +383,7 @@ class DisplayChanges:
         PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
         PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
         PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX oscd: <https://w3id.org/OSCD#>
+        PREFIX oscd: <https://www.w3id.org/OSCD#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
         PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>

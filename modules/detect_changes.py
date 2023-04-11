@@ -168,8 +168,6 @@ class DetectChanges:
                     changed_data = changed_values.get("change_reason")
                     new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, None, self.user_id, version_1, version_2]
                     df.loc[len(df)] = new_row
-                    print(new_row)
-                    exit()
             else:
                 change_id = list(changes.keys())[0]
                 new_location = changes.get(change_id).get("new_location")
@@ -283,16 +281,19 @@ class DetectChanges:
         os.system(run_command)
 
 if __name__ == '__main__':
-    csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
-    csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v2.csv"
-    form_details = {
-        'CSV-URL-1': csv_file_1,
-        'CSV-URL-2': csv_file_2,
-        'insert-threshold': '10', 'delete-threshold': '0',
-        'move-threshold': '0', 'datatype-threshold': '0',
-        'merge-threshold': '0', 'update-threshold': '0',
-        'detection-end': '2022-07-10',
-        'email-address': 'alexrandles0@gmail.com',
-        "user-id": "2",
-                }
-    cd = DetectChanges(user_id=2, form_details=form_details)
+    import time
+    while True:
+        csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
+        csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v6.csv"
+        form_details = {
+            'CSV-URL-1': csv_file_1,
+            'CSV-URL-2': csv_file_2,
+            'insert-threshold': '10', 'delete-threshold': '0',
+            'move-threshold': '0', 'datatype-threshold': '0',
+            'merge-threshold': '0', 'update-threshold': '0',
+            'detection-end': '2022-07-10',
+            'email-address': 'alexrandles0@gmail.com',
+            "user-id": "2",
+                    }
+        cd = DetectChanges(user_id=2, form_details=form_details)
+        time.sleep(300)

@@ -100,8 +100,29 @@ class DetectMappingImpact:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference] = [changed_data]
             else:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference].append(changed_data)
+        self.detect_move_change()
+
+
+    def detect_move_change(self):
+        query = """
+            PREFIX oscd: <https://www.w3id.org/OSCD#> 
+            SELECT ?newLocation
+            WHERE {
+              GRAPH ?changesGraph {
+                ?changeLog a oscd:ChangeLog;
+                           oscd:hasChange ?change .
+                ?change a oscd:MoveSourceData ;
+                        oscd:hasChangedData ?changedData .
+                ?changedData oscd:hasNewLocation ?newLocation . 
+              }
+            }     
+        """
+        mapping_impact_key = "structural_changes"
         self.mapping_impact[mapping_impact_key]["move"] = defaultdict(dict)
-        self.mapping_impact[mapping_impact_key]["move"]["Moved to a new location"] = ["student-v3.csv"]
+        qres = self.changes_graph.query(query)
+        for row in qres:
+            new_location = str(row.get("newLocation"))
+            self.mapping_impact[mapping_impact_key]["move"]["Moved to a new location"] = [new_location]
 
     def get_change_type(self, change_identifier):
         if "insert" in change_identifier:

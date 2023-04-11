@@ -194,10 +194,9 @@ class Refinements:
 
     def add_logical_table(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
-        join_identifier = current_result["location"]
         update_query = """
         PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                INSERT { ?subject rr:subjectMap [rr:class rr:test ] } 
+                INSERT { ?subject rr:subjectMap rr:class . } 
                 WHERE { 
                 SELECT ?subject
                 WHERE {

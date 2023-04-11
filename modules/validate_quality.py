@@ -4,6 +4,7 @@ import re
 import pandas as pd
 from fs.osfs import OSFS
 import json
+import multiprocessing
 from rdflib import Graph, URIRef, BNode, RDFS, RDF, OWL
 
 # try:
@@ -45,15 +46,20 @@ class ValidateQuality:
         self.unique_namespaces = self.vocabularies.get_unique_namespaces()
         self.unique_namespaces = [namespace for namespace in self.unique_namespaces]
         self.violation_counter = 0
-        self.validation_results = {}
+        self.manager = multiprocessing.Manager()
+        self.validation_results = self.manager.Queue()  # Shared Proxy to a list
+        # self.validation_results.put({"a":2, "b": 2})
+        # print(self.validation_results.get())
+        # exit()
         self.undefined_values = []
         self.undefined_namespaces = set()
         self.test_count = 0
         # store the range and domain in cache to speed execution
-        self.range_cache = {}
-        self.domain_cache = {}
-        self.refinements = []
+        self.range_cache = self.manager.dict()
+        self.domain_cache = self.manager.dict()
+        self.refinements = self.manager.list()
         self.current_graph = None
+        self.classes = None
         self.current_triple_identifier = None
         self.detailed_metric_information = {
             # data quality aspect metrics
@@ -81,8 +87,8 @@ class ValidateQuality:
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
-        print(self.undefined_namespaces)
-        print("\n\nUNDEFINED NAMESPACES")
+        self.manager = None
+
 
     @staticmethod
     def create_metric_descriptions():
@@ -118,23 +124,30 @@ class ValidateQuality:
         # metrics = [self.validate_]
         # iterate each triple map
         # self.update_progress_bar()
+        processes = []
         for (triple_map_identifier, graph) in self.triple_maps:
             # self.blank_node_references[triple_map_identifier] = self.generate_triple_references(graph)
             self.current_graph = graph
             self.current_triple_identifier = triple_map_identifier
-            print(self.current_triple_identifier)
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
-            self.validate_data_metrics()
-            self.validate_mapping_metrics()
+            pr2 = multiprocessing.Process(target=self.validate_data_metrics)
+            pr2.start()
+            processes.append(pr2)
+            pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
+            pr1.start()
+            processes.append(pr1)
+            print(self.validation_results, "Validation report")
+            # self.validation_results = dict(self.validation_results)
 
-            # self.validate_data_metrics()
-            # self.update_progress_bar()
-        # each triple map is tested otherwise
-        # self.validate_vocabulary_metrics()
-        # self.validate_VOC3()
-        # self.validate_VOC4()
-        # self.validate_VOC5()
+        pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
+        pr3.start()
+        processes.append(pr3)
+        for process in processes:
+            process.join()
+        # pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
+        # pr3.start()
+        # pr3.join()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -149,6 +162,27 @@ class ValidateQuality:
 
     def validate_mapping_metrics(self):
         # A function to validate each of the mapping related quality metrics
+        # pr1 = multiprocessing.Process(target=self.validate_MP1)
+        # pr2 = multiprocessing.Process(target=self.validate_MP2)
+        # pr3 = multiprocessing.Process(target=self.validate_MP3)
+        # pr4 = multiprocessing.Process(target=self.validate_MP4)
+        # pr5 = multiprocessing.Process(target=self.validate_MP7_1)
+        # pr6 = multiprocessing.Process(target=self.validate_MP9)
+        # # pr7 = multiprocessing.Process(target=self.validate_D7)
+        # pr1.start()
+        # pr2.start()
+        # pr3.start()
+        # pr4.start()
+        # pr5.start()
+        # pr6.start()
+        # # pr7.start()
+        # pr1.join()
+        # pr2.join()
+        # pr3.join()
+        # pr4.join()
+        # pr5.join()
+        # pr6.join()
+        # pr7.join()
         self.validate_MP1()
         self.validate_MP2()
         self.validate_MP3()
@@ -172,7 +206,7 @@ class ValidateQuality:
         self.validate_VOC3()
         self.validate_VOC4()
         self.validate_VOC5()
-        self.validate_VOC6()
+        # self.validate_VOC6()
 
     def validate_D1(self):
         # A function to validate the usage of undefined classes
@@ -182,9 +216,11 @@ class ValidateQuality:
             subject_identifier = self.classes[key].get("subject")
             metric_result = self.validate_undefined(class_identifier, subject_identifier, "class", metric_identifier)
             # if class is undefined
+            # print("VALIDATING UNDEFINED", class_identifier, metric_result)
             if metric_result:
+                print("VALIDATING UNDEFINED", class_identifier)
                 del self.classes[key]
-                self.add_violation(metric_result)
+                self.add_violation(["D1", "Usage of undefined class", class_identifier, subject_identifier])
 
     def validate_D2(self):
         # A function to validate the usage of undefined properties
@@ -193,6 +229,7 @@ class ValidateQuality:
             property_identifier = self.properties[key].get("property")
             subject_identifier = self.properties[key].get("subject")
             metric_result = self.validate_undefined(property_identifier, subject_identifier, "property", metric_identifier)
+            print("Validating undefined", property_identifier, metric_result)
             # if property is undefined
             if metric_result:
                 # remove if undefined
@@ -209,10 +246,13 @@ class ValidateQuality:
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
             query_results = self.vocabularies.query_local_graph(property_identifier, query)
             graph_exists = query_results.get("boolean")
+            print(graph_exists, "shshhs")
             if graph_exists is True:
+                print(graph_exists, "shshhs - 2")
                 return [metric_identifier, result_message, property_identifier, subject_identifier]
             else:
                 self.undefined_namespaces.add(property_namespace)
+                return False
 
     def validate_D3(self):
         # A function to validate the usage of correct domain definitions
@@ -353,23 +393,23 @@ class ValidateQuality:
             self.add_violation([metric_identifier, result_message, term_type, subject])
 
     def validate_MP3(self):
-        result_message = "No subjectMap defined in this triple map."
+        result_message = "No subjectMap defined in this mapping."
         metric_identifier = "MP3"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     ASK { ?subject rr:subjectMap ?sm . } 
                 """
-        query_results = self.current_graph.query(query)
+        query_results = self.mapping_graph.query(query)
         for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
     def validate_MP4(self):
-        result_message = "No predicateObjectMap defined in this triple map."
+        result_message = "No predicateObjectMap defined in this mapping."
         metric_identifier = "MP4"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     ASK { ?subject rr:predicateObjectMap ?pom . } 
                 """
-        query_results = self.current_graph.query(query)
+        query_results = self.mapping_graph.query(query)
         for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
@@ -673,7 +713,6 @@ class ValidateQuality:
             }
             """ % namespace
             query_results = self.vocabularies.query_local_graph(namespace, query)
-            print(query)
             has_license = query_results["boolean"]
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
@@ -836,7 +875,8 @@ class ValidateQuality:
         # adding violation to report using violation ID as key which is mapped to a dictionary with the below keys
         violation_identifier = metric_results[0]
         key_values = ["metric_identifier", "result_message", "value", "location", "triple_map"]
-        self.validation_results[violation_identifier] = {key:value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+        # self.validation_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+        self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
 
     def find_blank_node_reference(self, violation_location, triple_map_identifier):
         if isinstance(violation_location, BNode):
@@ -1064,7 +1104,6 @@ class ValidateQuality:
             resource_type = []
             if query_results["results"]["bindings"]:
                 for row in query_results["results"]["bindings"]:
-                    print(row)
                     resource_type.append(URIRef(row["type"]["value"]))
             return resource_type
         else:
@@ -1072,6 +1111,7 @@ class ValidateQuality:
 
     def get_range(self, identifier):
         if identifier not in self.range_cache.keys():
+            # print(self.range_cache, "False Range", identifier, type(identifier))
             query = """
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX dcam: <http://purl.org/dc/dcam/>
@@ -1092,10 +1132,12 @@ class ValidateQuality:
             self.range_cache[identifier] = range
             return range
         else:
+            # print(self.range_cache, "True", identifier)
             return self.range_cache[identifier]
 
     def get_domain(self, identifier):
         if identifier not in self.domain_cache.keys():
+            # print(self.range_cache, "False Domain", identifier, type(identifier))
             query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
                        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                        PREFIX schema: <http://schema.org/> 
@@ -1126,11 +1168,9 @@ class ValidateQuality:
                        """ % (self.get_namespace(identifier), identifier, identifier)
             query_results = self.vocabularies.query_local_graph(identifier, query)
             domain = []
-            print(query, query_results)
             result_bindings = query_results["results"]["bindings"]
             if result_bindings:
                 for row in result_bindings:
-                    print(row)
                     if "domainClass" in row:
                         domain.append(row["domainClass"]["value"])
                         if "superClass" in row:
@@ -1141,13 +1181,15 @@ class ValidateQuality:
                             domain.append("http://www.w3.org/2000/01/rdf-schema#Resource")
                 self.domain_cache[identifier] = list(set(domain))
                 return domain
+            self.domain_cache[identifier] = list(set(domain))
             return domain
         else:
             return self.domain_cache[identifier]
 
     def display_validation_results(self):
         for (violation_identifier, metric_identifier, result_message, value, triple_) in self.validation_results:
-            print(violation_identifier, metric_identifier, result_message, value)
+            pass
+            # print(violation_identifier, metric_identifier, result_message, value)
             # self.query_validation_results(value)
 
 
