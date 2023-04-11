@@ -13,7 +13,7 @@ class VisualiseResults:
                                   "with no conflicting information.",
               "Mapping Consistency": "The dimension refers to the extent to which a mapping is conformant"
                                      " to its mapping language. ",
-              "RDF term correctness": "The dimension refers to the extent to which a mapping correctly"
+              "Syntactic Validity": "The dimension refers to the extent to which a mapping correctly"
                                       " defines RDF terms.",
               "Interpretability": "The dimension is concerned to information being represented in an "
                                   "appropriate notation, and whether it is machine-processable.",
@@ -39,12 +39,11 @@ class VisualiseResults:
         dimensions_metrics = {
               "Data Consistency": ["D5", "D6", "D7"],
               "Mapping Consistency": ["MP1", "MP2", "MP3", "MP4", "MP6", "MP7"],
-              "RDF term correctness": ["MP9", "MP10", "MP11", "MP12"],
+              "Syntactic Validity": ["MP9", "MP10", "MP11", "MP12"],
               "Interpretability": ["D3", "D4"],
               "Representational Conciseness": ["MP13", "D1", "D2"],
               "Trustworthiness": ["VOC3"],
-              "Understandability": ["VOC1", "VOC2", "VOC7", "VOC8"],
-              "Availability": ["VOC6"],
+              "Understandability": ["VOC1", "VOC2"],
               "Licensing": ["VOC4", "VOC5"],
                              }
         # takes the validation result and counts violations in each dimension

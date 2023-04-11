@@ -19,28 +19,25 @@
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery"""         SELECT work.gid, url									
-       FROM work									
-         INNER JOIN l_url_work ON work.id = l_url_work.entity1									
-         INNER JOIN link ON l_url_work.link = link.id									
-         INNER JOIN link_type ON link_type = link_type.id									
-         INNER JOIN url on l_url_work.entity0 = url.id									
-       WHERE link_type.gid='e38e65aa-75e0-42ba-ace0-072aeb91a538'         """;	
+ 	 rr:sqlQuery"""      SELECT work.gid, url						
+       FROM work						
+         INNER JOIN l_url_work ON work.id = l_url_work.entity1						
+         INNER JOIN link ON l_url_work.link = link.id						
+         INNER JOIN link_type ON link_type = link_type.id						
+         INNER JOIN url on l_url_work.entity0 = url.id						
+       WHERE link_type.gid='e38e65aa-75e0-42ba-ace0-072aeb91a538'      """;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "http://musicbrainz.org/work/{gid}#_" ;	
-	 rr:class anca:kkkkkkk, mo:MusicalWork;	
+ 	 rr:class mo:MusicalWork;	
+	 rr:template "http://musicbrainz.org/work/{gid}#_" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate arpfo:ff;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#TriplesMap2> ;	
-		 rr:joinCondition [	
-			 rr:child "DEPTNO" ;	
-			 rr:parent "kkkkkkkk" ;	
-			 ];	
- 		]; 	
+		 rr:column "url" ;	
+		 rr:termType rr:Lrrlrlr ; 
+		]; 	
  ];	
 .	
