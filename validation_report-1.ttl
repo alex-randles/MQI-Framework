@@ -1,134 +1,55 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<file:///home/alex/MQI-Framework/refined-mapping145.ttl> a mqio:MappingArtefact .
+
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <organizations.ttl> ;
+    mqio:assessedMapping <refined-mapping145.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
-        ex:violation-10,
-        ex:violation-11,
-        ex:violation-12,
-        ex:violation-13,
-        ex:violation-14,
-        ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5,
-        ex:violation-6,
-        ex:violation-7,
-        ex:violation-8,
-        ex:violation-9 .
+        ex:violation-2 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-11T22:16:37.603496"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                DELETE { ?subject rr:datatype ?datatype .  }
+                WHERE {
+                SELECT ?subject ?datatype
+                WHERE {
+                      ?subject rr:datatype ?datatype.
+                      FILTER(str(?subject) = "ub6bL37C16").
+                    }
+                }
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-1 ;
+    mqio:refinementName "Remove Datatype"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P81b_begin_of_the_end> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P82b_end_of_the_end> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-10 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <https://ont.beyond2022.ie/ontology#> ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-11 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-12 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/> ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-13 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <https://ont.beyond2022.ie/ontology#> ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-14 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P82a_begin_of_the_begin> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P81a_end_of_the_begin> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ENDDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P82b_end_of_the_end> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P81b_begin_of_the_end> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P82a_begin_of_the_begin> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/P81a_end_of_the_begin> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#STARTDATETIMESPAN> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-8 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue <http://erlangen-crm.org/current/E81_Actor_Appellation> ;
+    mqio:hasObjectValue <http://purl.org/ontology/mo/AudioFiles> ;
     mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
+    mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:D1 .
 
-ex:violation-9 a mqio:MappingViolation ;
+ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <https://ont.beyond2022.ie/ontology#> ;
-    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC3 .
+    mqio:hasObjectValue <http://purl.org/ontology/mo/> ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
-<organizations.ttl> a mqio:MappingArtefact .
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLiteralValue "hdhd"^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "Datatype must be a valid IRI."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:MP11 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

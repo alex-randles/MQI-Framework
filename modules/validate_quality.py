@@ -55,9 +55,9 @@ class ValidateQuality:
         self.undefined_namespaces = set()
         self.test_count = 0
         # store the range and domain in cache to speed execution
-        # self.data_quality_results = self.manager.dict()
-        # self.mapping_quality_results = self.manager.dict()
-        self.range_cache = self.manager.dict()
+        self.data_quality_results = self.manager.dict()
+        self.mapping_quality_results = self.manager.dict()
+        self.vocabulary_quality_results = self.manager.dict()
         self.range_cache = self.manager.dict()
         self.domain_cache = self.manager.dict()
         self.refinements = self.manager.list()
@@ -92,7 +92,6 @@ class ValidateQuality:
         self.validate_triple_maps()
         # self.validate_vocabulary_metrics()
         self.manager = None
-
 
     @staticmethod
     def create_metric_descriptions():
@@ -139,18 +138,13 @@ class ValidateQuality:
             self.validate_data_metrics()
             self.validate_mapping_metrics()
             # pr2 = multiprocessing.Process(target=self.validate_data_metrics)
-            # pr2.start()
-            # processes.append(pr2)
             # pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
             # pr1.start()
+            # pr2.start()
             # pr1.join()
             # pr2.join()
             # processes.append(pr1)
         self.validate_vocabulary_metrics()
-        # for process in processes:
-        #     process.join()
-        # print(self.validation_results)
-        # exit()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -165,27 +159,6 @@ class ValidateQuality:
 
     def validate_mapping_metrics(self):
         # A function to validate each of the mapping related quality metrics
-        # pr1 = multiprocessing.Process(target=self.validate_MP1)
-        # pr2 = multiprocessing.Process(target=self.validate_MP2)
-        # pr3 = multiprocessing.Process(target=self.validate_MP3)
-        # pr4 = multiprocessing.Process(target=self.validate_MP4)
-        # pr5 = multiprocessing.Process(target=self.validate_MP7_1)
-        # pr6 = multiprocessing.Process(target=self.validate_MP9)
-        # # pr7 = multiprocessing.Process(target=self.validate_D7)
-        # pr1.start()
-        # pr2.start()
-        # pr3.start()
-        # pr4.start()
-        # pr5.start()
-        # pr6.start()
-        # # pr7.start()
-        # pr1.join()
-        # pr2.join()
-        # pr3.join()
-        # pr4.join()
-        # pr5.join()
-        # pr6.join()
-        # pr7.join()
         self.validate_MP1()
         self.validate_MP2()
         self.validate_MP3()
@@ -507,8 +480,8 @@ class ValidateQuality:
                      """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            object_identifier = row[0]
-            subject_identifier = row[1]
+            object_identifier = row["class"]
+            subject_identifier = row["subjectMap"]
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP9(self):
@@ -545,7 +518,7 @@ class ValidateQuality:
     def validate_MP11(self):
         result_message = "Datatype must be a valid IRI."
         metric_identifier = "MP11"
-        query = """SELECT ?datatype ?pom
+        query = """SELECT ?datatype ?om
                      WHERE { 
                              ?subject rr:predicateObjectMap ?pom .
                              ?pom rr:objectMap ?om . 
@@ -556,7 +529,7 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             object_identifier = row["datatype"]
-            subject_identifier = row["datatype"]
+            subject_identifier = row["om"]
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP12(self):
@@ -876,6 +849,13 @@ class ValidateQuality:
         # adding violation to report using violation ID as key which is mapped to a dictionary with the below keys
         violation_identifier = metric_results[0]
         key_values = ["metric_identifier", "result_message", "value", "location", "triple_map"]
+        # if metric_results[1].startswith("D"):
+        #     self.data_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+        # elif metric_results[1].startswith("M"):
+        #     self.mapping_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+        # else:
+        #     self.vocabulary_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+
         self.validation_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
         # self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
 
@@ -965,32 +945,6 @@ class ValidateQuality:
             properties[counter] = {"subject": row[0], "property": row[1]}
             counter += 1
         return properties
-
-    # def validate_D6(self):
-    #     # CHECKING THE TYPE OF THE PROPERTY IS ANOTHER OPTION COULD BE SLOWER
-    #     metric_identifier = "D6"
-    #     result_message = "Usage of incorrect range."
-    #     properties = self.get_properties_range()
-    #     for key in properties.keys():
-    #         property = properties[key]["property"]
-    #         if property not in self.undefined_values:
-    #             term_type = properties[key]["termType"]
-    #             objectMap = properties[key]["objectMap"]
-    #             # only retrieve range if term type to speed up execution time
-    #             if not term_type:
-    #                 term_type = URIRef("http://www.w3.org/ns/r2rml#Literal")
-    #             range = self.get_range(property)
-    #             if range:
-    #                 # if literal range
-    #                 if range.startswith("http://www.w3.org/2001/XMLSchema#") or \
-    #                         range == URIRef("http://www.w3.org/2000/01/rdf-schema#Literal"):
-    #                     correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#Literal")]
-    #                 else:
-    #                     correct_term_type = [URIRef("http://www.w3.org/ns/r2rml#IRI"), URIRef("http://www.w3.org/ns/r2rml#BlankNode")]
-    #                 if term_type not in correct_term_type:
-    #                     result_message = "Usage of incorrect range. Term type should be {} for property {}.".format(self.find_prefix(correct_term_type[0]), self.find_prefix(property))
-    #                     self.add_violation([metric_identifier, result_message, term_type, properties[key]["objectMap"]])
-
 
     def get_properties_range(self):
         # A function to retrieve all properties in the mapping with term types related

@@ -46,6 +46,7 @@ class Refinements:
             "MP5_1": ["AddChildColumn"],
             "MP5_2": ["AddParentColumn"],
             "MP9": ["ChangePredicate"],
+            "MP11": ["ChangeDatatype", "RemoveDatatype"],
             "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP13": ["AddSubjectMap"],
 
@@ -195,7 +196,8 @@ class Refinements:
     def add_logical_table(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
         update_query = """
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+        PREFIX rr: <http:        processUpdate(mapping_graph, update_query)
+//www.w3.org/ns/r2rml#> 
                 INSERT { ?subject rr:subjectMap rr:class . } 
                 WHERE { 
                 SELECT ?subject
@@ -647,13 +649,18 @@ class Refinements:
         if new_predicate:
             violation_info = self.validation_results[violation_ID]
             violation_location = violation_info["location"]
-            old_predicate = violation_info["value"]
+            old_predicate = violation_info.get("value")
+            print(old_predicate, type(old_predicate))
+            if type(old_predicate) == rdflib.term.Literal:
+                old_predicate = "'%s'" % old_predicate
+            else:
+                old_predicate = "<%s>" % old_predicate
             update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <%s>  .  }
+                DELETE {   ?pom rr:predicate %s  .  }
                 INSERT {   ?pom rr:predicate %s .     }
                 WHERE {
-                    ?pom rr:predicate <%s>  .
+                    ?pom rr:predicate %s  .
                     FILTER(str(?pom) = "%s").
                 }
                 """ % (old_predicate, new_predicate, old_predicate, violation_location)
@@ -759,7 +766,7 @@ class Refinements:
             }
             """
             print(update_query)
-            processUpdate(mapping_graph, update_query)
+            processUpdate(self.mapping_graph, update_query)
             print(mapping_graph.serialize(format="ttl").decode("utf-8"))
             return update_query
 
