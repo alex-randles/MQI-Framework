@@ -55,6 +55,9 @@ class ValidateQuality:
         self.undefined_namespaces = set()
         self.test_count = 0
         # store the range and domain in cache to speed execution
+        # self.data_quality_results = self.manager.dict()
+        # self.mapping_quality_results = self.manager.dict()
+        self.range_cache = self.manager.dict()
         self.range_cache = self.manager.dict()
         self.domain_cache = self.manager.dict()
         self.refinements = self.manager.list()

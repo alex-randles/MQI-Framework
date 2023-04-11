@@ -27,16 +27,17 @@ class FetchVocabularies:
         sparql = SPARQLWrapper(self.localhost)
         sparql.setQuery(query)
         sparql.setReturnFormat(JSON)
-        qres = sparql.queryAndConvert()
+        query_results = sparql.queryAndConvert()
         # check if results from query - otherwise graph does not exist
-        if "results" in qres.keys():
-            results = qres["results"]["bindings"]
+        if "results" in query_results.keys():
+            results = query_results["results"].get("bindings")
             if not results:
-                namespace = self.get_identifier_namespace(property_IRI)
+                namespace = FetchVocabularies.get_identifier_namespace(property_IRI)
                 self.http_retrieval(namespace)
-        return qres
+        return query_results
 
-    def get_identifier_namespace(self, identifier):
+    @staticmethod
+    def get_identifier_namespace(identifier):
         if identifier.startswith("http://dbpedia.org/ontology/"):
             return identifier
         if "#" in identifier:
@@ -56,7 +57,8 @@ class FetchVocabularies:
         g.serialize(destination=file_location)
         return True
 
-    def http_retrieval(self, url):
+    @staticmethod
+    def http_retrieval(url):
         headers = {'Accept': 'application/rdf+xml'}
         graph_name = urllib.parse.quote(url)
         try:
@@ -101,15 +103,15 @@ class FetchVocabularies:
                      }
 
              """
-        qres = self.mapping_graph.query(query)
-        for row in qres:
+        query_results = self.mapping_graph.query(query)
+        for row in query_results:
             unqiue_namespaces.append("%s" % row)
         print(unqiue_namespaces)
         return unqiue_namespaces
 
     # attempts to retrieve ontology using rdflib and request module
     def retrieve_ontology(self, url):
-        for func in [self.http_retrieval]:  # change list order to change execution order.
+        for func in [FetchVocabularies.http_retrieval]:  # change list order to change execution order.
             try:
                 len = func(url)
                 return len
@@ -120,10 +122,6 @@ class FetchVocabularies:
     @staticmethod
     def store_local_vocabulary(file_path):
         # rdflib.plugins.parsers.notation3.BadSyntax
-        # if str(file_path).split(".")[-1] == "owl":
-        #     format = "xml"
-        # else:
-        #     format = "ttl"
         graph_format = rdflib.util.guess_format(file_path)
         ontology_graph = Graph().parse(file_path, format=graph_format)
         query = """
@@ -134,9 +132,9 @@ class FetchVocabularies:
             }
             GROUP BY ?ns
         """
-        qres = ontology_graph.query(query)
+        query_results = ontology_graph.query(query)
         max_value = (None, -1)
-        for row in qres:
+        for row in query_results:
             count = int(row["count"])
             namespace = str(row["ns"])
             if count > max_value[1]:
