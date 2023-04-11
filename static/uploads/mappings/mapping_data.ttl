@@ -1,0 +1,1284 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ofri: <http://openfridge.eu/ontology#> .
+
+# connection to dbpedia
+@prefix voc: <http://open.vocab.org/terms/> .
+@prefix db: <http://dbpedia.org/resource/> .
+
+### Recipes
+###########
+
+<#CuisineTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(name), ' ', '_') as name,
+                name as text,
+                description
+            FROM cuisine
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Cuisine/{name}" ;
+        rr:class ofri:Cuisine
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # description (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+        ]
+    ] ;
+
+    # description @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+            rr:language "en"
+        ]
+    ] ;
+.
+
+<#RecipeTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [
+        # note: de fk's moet ook omgezet worden naar dezelfde syntax als de PK (anders wordt de relatie niet gemapt)
+        rr:sqlQuery """
+            SELECT
+                REPLACE(LOWER(name), ' ', '_') as name,
+                name as text,
+                REPLACE(LOWER(fk_meal_type), ' ', '_') as fk_meal_type,
+                REPLACE(LOWER(fk_cuisine), ' ', '_') as fk_cuisine,
+                REPLACE(LOWER(fk_recipe), ' ', '_') as fk_recipe,
+                source,
+                description,
+                cooking_time,
+                is_hot_meal
+            FROM recipe
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Recipe/{name}" ;
+        rr:class ofri:Recipe
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # description (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+        ]
+    ] ;
+
+    # description @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # source
+    rr:predicateObjectMap [
+        rr:predicate ofri:source ;
+        rr:objectMap [ 
+            rr:column "source" ;
+        ]
+    ] ;
+
+    # cookingTime
+    rr:predicateObjectMap [
+        rr:predicate ofri:cookingTime ;
+        rr:objectMap [ 
+            rr:column "cooking_time" ;
+            rr:datatype xsd:positiveInteger
+        ]
+    ] ;
+
+    # isHotMeal
+    rr:predicateObjectMap [
+        rr:predicate ofri:isHotMeal ;
+        rr:objectMap [ 
+            rr:column "is_hot_meal" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+
+    ### FK's
+    #===================================================
+    # isMealType
+    rr:predicateObjectMap [
+        rr:predicate ofri:isMealType ;
+        rr:objectMap [ 
+            rr:template "http://openfridge.eu/ontology#MealType/{fk_meal_type}"
+        ]
+    ] ;
+
+    # isCuisine
+    rr:predicateObjectMap [
+        rr:predicate ofri:isCuisine ;
+        rr:objectMap [ 
+            rr:parentTriplesMap <#CuisineTriplesMap> ;
+            rr:joinCondition [
+                rr:child "fk_cuisine" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+
+    # variantOf
+    rr:predicateObjectMap [
+        rr:predicate ofri:variantOf ;
+        rr:objectMap [ 
+            rr:parentTriplesMap <#RecipeTriplesMap> ;
+            rr:joinCondition [
+                rr:child "fk_recipe" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+.
+
+# Without connection to steps
+<#CookingUtensilTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(name), ' ', '_') as name,
+                name as text,
+                description
+            FROM cooking_utensil
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "CookingUtensil/{name}" ;
+        rr:class ofri:CookingUtensil
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # description (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+        ]
+    ] ;
+
+    # description @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+            rr:language "en"
+        ]
+    ] ;
+
+.
+
+# Without connection to steps
+<#CookingTechniqueTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(name), ' ', '_') as name,
+                name as text,
+                description
+            FROM cooking_technique
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "CookingTechnique/{name}" ;
+        rr:class ofri:CookingTechnique
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # description (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+        ]
+    ] ;
+
+    # description @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+            rr:language "en"
+        ]
+    ] ;
+.
+
+# without connection to cooking_technique/utensil
+<#StepTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT
+                step_nr,
+                REPLACE(LOWER(fk_recipe_name), ' ', '_') as fk_recipe_name,
+                is_optional as is_optional,
+                description as description
+            FROM step
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Recipe/{fk_recipe_name}/{step_nr}" ; # todo: check if good url?
+        rr:class ofri:Step
+    ] ;
+    
+    # stepNr
+    rr:predicateObjectMap [
+        rr:predicate ofri:stepNr ;
+        rr:objectMap [ 
+            rr:column "step_nr" ;
+            rr:datatype xsd:positiveInteger
+        ]
+    ] ;
+
+    # isOptional
+    rr:predicateObjectMap [
+        rr:predicate ofri:isOptional ;
+        rr:objectMap [ 
+            rr:column "is_optional" ;
+            rr:datatype xsd:boolean
+        ]
+    ] ;
+    
+    # description
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    ### FK's
+    #===================================================
+    # isStepOf
+    rr:predicateObjectMap [
+        rr:predicate ofri:isStepOf ;
+        rr:objectMap [ 
+            rr:parentTriplesMap <#RecipeTriplesMap> ;
+            rr:joinCondition [
+                rr:child "fk_recipe_name" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+.
+
+# joint-table between step and cooking_utensil
+<#StepToUtensilTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT
+                REPLACE(LOWER(fk_cooking_utensil), ' ', '_') as cooking_utensil,
+                fk_step_nr as step_nr,
+                REPLACE(LOWER(fk_step_recipe_name), ' ', '_') as fk_recipe_name
+            FROM jt_cooking_utensil_step
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Recipe/{fk_recipe_name}/{step_nr}" ; # todo: check if good url?
+        rr:class ofri:Step
+    ] ;
+
+    ### FK's
+    #===================================================
+    # requiresCookingUtensil
+    rr:predicateObjectMap [
+        rr:predicate ofri:requiresCookingUtensil ;
+        rr:objectMap [ 
+            rr:parentTriplesMap <#CookingUtensilTriplesMap> ;
+            rr:joinCondition [
+                rr:child "cooking_utensil" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+.
+
+# joint-table between cooking_technique
+<#StepToTechniqueTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT
+                REPLACE(LOWER(fk_cooking_technique_name), ' ', '_') as cooking_technique,
+                fk_step_nr as step_nr,
+                REPLACE(LOWER(fk_step_recipe_name), ' ', '_') as fk_recipe_name
+            FROM jt_cooking_technique_step
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Recipe/{fk_recipe_name}/{step_nr}" ; # todo: check if good url?
+        rr:class ofri:Step
+    ] ;
+
+    ### FK's
+    #===================================================
+    # usesCookingTechnique
+    rr:predicateObjectMap [
+        rr:predicate ofri:usesCookingTechnique ; # todo: nakijken met ontology
+        rr:objectMap [ 
+            rr:parentTriplesMap <#CookingTechniqueTriplesMap> ;
+            rr:joinCondition [
+                rr:child "cooking_technique" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+.
+
+### Ingredients
+###############
+<#IngredientTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(name), ' ', '_') as name,
+                REPLACE(name, ' ', '_') as dbpedia,
+                name as text,
+                quantity_type,
+                description
+            FROM ingredient
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Ingredient/{name}" ;
+        rr:class ofri:Ingredient
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # description (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+        ]
+    ] ;
+
+    # description @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # quantity (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:quantity_type ;
+        rr:objectMap [ 
+            rr:column "quantity_type" ;
+        ]
+    ] ;
+
+    # quantity @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:quantity_type ;
+        rr:objectMap [ 
+            rr:column "quantity_type" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    ### Connect to other ontologies
+    ###############################
+    rr:predicateObjectMap [
+        rr:predicate voc:similarTo ;
+        rr:objectMap [ 
+            rr:template "http://dbpedia.org/resource/{dbpedia}"
+        ]
+    ] ;
+.
+
+<#RequiredIngredientTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(fk_ingredient_name), ' ', '_') as name,
+                REPLACE(LOWER(fk_step_recipe_name), ' ', '_') as recipe_name,
+                fk_step_nr as step_nr,
+                amount
+            FROM required_ingredient
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "RequiredIngredient/{recipe_name}/{step_nr}/{name}/{amount}" ;
+        rr:class ofri:RequiredIngredient
+    ] ;
+
+    # amount
+    rr:predicateObjectMap [
+        rr:predicate ofri:amount ;
+
+        rr:objectMap [
+            rr:column "amount" ;
+            rr:datatype xsd:decimal
+        ]
+    ] ;
+
+    ### FK's
+    #===================================================
+    # descripesRequiredAmountOf
+    rr:predicateObjectMap [
+        rr:predicate ofri:describesRequiredAmountOf ; # todo: nakijken met ontology
+        rr:objectMap [ 
+            rr:parentTriplesMap <#IngredientTriplesMap> ;
+            rr:joinCondition [
+                rr:child "name" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+
+    # requiredByStep
+    rr:predicateObjectMap [
+        rr:predicate ofri:requiredByStep ; # todo: nakijken met ontology
+        rr:objectMap [ 
+            rr:template "Recipe/{recipe_name}/{step_nr}"
+        ]
+    ] ;
+.
+
+## joint-table
+<#AllergenIngredientTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT
+                REPLACE(LOWER(fk_ingredient_name), ' ', '_') as ingredient_name,
+                REPLACE(LOWER(fk_allergen_name), ' ', '_') as allergen_name
+            FROM jt_ingredient_allergen
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Ingredient/{ingredient_name}" ; # todo: check if good url?
+        rr:class ofri:Ingredient
+    ] ;
+
+    ### FK's
+    #===================================================
+    # containsAllergen
+    rr:predicateObjectMap [
+        rr:predicate ofri:containsAllergen ;
+        rr:objectMap [ 
+            rr:template "http://openfridge.eu/ontology#Allergen/{allergen_name}"
+        ]
+    ] ;
+.
+
+## joint-table
+<#CategoryIngredientTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [ 
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(fk_ingredient_category_name), ' ', '_') as category_name,
+                REPLACE(LOWER(fk_ingredient_name), ' ', '_') as ingredient_name
+            FROM jt_ingredient_category_ingredient
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Ingredient/{ingredient_name}" ; # todo: check if good url?
+        rr:class ofri:Ingredient
+    ] ;
+
+    ### FK's
+    #===================================================
+    # hasCategory
+    rr:predicateObjectMap [
+        rr:predicate ofri:hasCategory ;
+        rr:objectMap [ 
+            rr:template "http://openfridge.eu/ontology#IngredientCategory/{category_name}"
+        ]
+    ] ;
+.
+
+### Stores
+##########
+<#BrandTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(name), ' ', '_') as name,
+                name as text,
+                REPLACE(name, ' ', '_') as dbpedia
+            FROM brand
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Brand/{name}" ;
+        rr:class ofri:Brand
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    ### Connect to other ontologies
+    ###############################
+    rr:predicateObjectMap [
+        rr:predicate voc:similarTo ;
+        rr:objectMap [ 
+            rr:template "http://dbpedia.org/resource/{dbpedia}"
+        ]
+    ] ;
+.
+
+<#CityTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(name), ' ', '_') as name,
+                name as text,
+                REPLACE(LOWER(country), ' ', '_') as country,
+                postal_code
+            FROM city
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "City/{country}/{name}" ; # todo: check if good url?
+        rr:class ofri:City
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # postal_code
+    rr:predicateObjectMap [
+        rr:predicate ofri:postalCode ;
+        rr:objectMap [
+            rr:column "postal_code" ;
+        ]
+    ] ;
+
+    # country
+    rr:predicateObjectMap [
+        rr:predicate ofri:country ;
+        rr:objectMap [
+            rr:column "country" ;
+        ]
+    ] ;
+.
+
+<#AddressTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(house_number), ' ', '_') as nr,
+                house_number as nr_text,
+                REPLACE(LOWER(street_name), ' ', '_') as street_name,
+                street_name as street_name_text,
+                REPLACE(LOWER(fk_city_country), ' ', '_') as city_country,
+                REPLACE(LOWER(fk_city_name), ' ', '_') as city_name
+            FROM address
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Address/{city_country}/{city_name}/{street_name}/{nr}" ; # todo: check if good url?
+        rr:class ofri:Address
+    ] ;
+
+    # houseNumber
+    rr:predicateObjectMap [
+        rr:predicate ofri:houseNumber ;
+        rr:objectMap [
+            rr:column "nr_text" ;
+        ]
+    ] ;
+
+    # streetName
+    rr:predicateObjectMap [
+        rr:predicate ofri:streetName ;
+        rr:objectMap [
+            rr:column "street_name_text" ;
+        ]
+    ] ;
+
+    ### FK's
+    #===================================================
+    rr:predicateObjectMap [
+        rr:predicate ofri:isLocatedIn ; # todo: nakijken met ontology
+        rr:objectMap [ 
+            rr:template "http://openfridge.eu/resource/City/{city_country}/{city_name}"
+        ]
+    ] ;
+.
+
+<#StoreTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [
+        rr:sqlQuery """
+            SELECT 
+                REPLACE(LOWER(name), ' ', '_') as name,
+                name as text,
+                REPLACE(name, ' ', '_') as dbpedia,
+                REPLACE(LOWER(fk_address_house_number), ' ', '_') as nr,
+                REPLACE(LOWER(fk_address_street_name), ' ', '_') as street_name,
+                REPLACE(LOWER(fk_address_city_country), ' ', '_') as city_country,
+                REPLACE(LOWER(fk_address_city_name), ' ', '_') as city_name
+            FROM store
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "Store/{name}/{city_country}/{city_name}/{street_name}/{nr}" ; # todo: check if good url?
+        rr:class ofri:Store
+    ] ;
+
+    # ofri:name (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # ofri:name @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # rdfs:label (default)
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # rdfs:label @en
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # foaf:name (default)
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+        ]
+    ] ;
+
+    # foaf:name @en
+    rr:predicateObjectMap [
+        rr:predicate foaf:name ;
+
+        rr:objectMap [
+            rr:column "text" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    ### FK's
+    #===================================================
+    # hasAddress
+    rr:predicateObjectMap [
+        rr:predicate ofri:hasAddress ; # todo: nakijken met ontology
+        rr:objectMap [ 
+            rr:template "http://openfridge.eu/resource/Address/{city_country}/{city_name}/{street_name}/{nr}"
+        ]
+    ] ;
+
+    ### Connect to other ontologies
+    ###############################
+    rr:predicateObjectMap [
+        rr:predicate voc:similarTo ;
+        rr:objectMap [ 
+            rr:template "http://dbpedia.org/resource/{dbpedia}"
+        ]
+    ] ;
+.
+
+<#OpeningPeriodTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [
+        rr:sqlQuery """
+            SELECT 
+                opening_time,
+                closing_time,
+                REPLACE(LOWER(fk_day_of_week), ' ', '_') as day_of_week,
+                REPLACE(LOWER(fk_store_name), ' ', '_') as store,
+                REPLACE(LOWER(fk_store_city_country), ' ', '_') as city_country,
+                REPLACE(LOWER(fk_store_city_name), ' ', '_') as city_name,
+                REPLACE(LOWER(fk_store_street_name), ' ', '_') as street_name,
+                REPLACE(LOWER(fk_store_house_number), ' ', '_') as nr
+            FROM opening_period
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "OpeningPeriod/{store}/{city_country}/{city_name}/{street_name}/{nr}/{day_of_week}/{opening_time}" ; # todo: check if good url?
+        rr:class ofri:OpeningPeriod
+    ] ;
+
+    #openingTime
+    rr:predicateObjectMap [
+        rr:predicate ofri:openingTime ;
+        rr:objectMap [
+            rr:column "opening_time" ;
+            rr:datatype rdfs:Literal
+        ]
+    ] ;
+
+    # closingTime
+    rr:predicateObjectMap [
+        rr:predicate ofri:closingTime ;
+        rr:objectMap [
+            rr:column "closing_time" ;
+            rr:datatype rdfs:Literal
+        ]
+    ] ;
+
+    ### FK's
+    #===================================================
+    # openOnDay
+    rr:predicateObjectMap [
+        rr:predicate ofri:openOnDay ;
+        rr:objectMap [ 
+            rr:template "http://openfridge.eu/ontology#DayOfWeek/{day_of_week}" ;
+        ]
+    ] ;
+
+    # isOpeningPeriodOf
+    rr:predicateObjectMap [
+        rr:predicate ofri:isOpeningPeriodOf ; # todo: nakijken met ontology
+        rr:objectMap [ 
+            rr:template "Store/{store}/{city_country}/{city_name}/{street_name}/{nr}" ;
+        ]
+    ] ;
+
+.
+
+<#ProductEntryTriplesMap>
+    a rr:TriplesMap ;
+    rr:logicalTable [
+        rr:sqlQuery """
+            SELECT 
+                description,
+                price,
+                quantity,
+                REPLACE(LOWER(fk_store_name), ' ', '_') as store,
+                REPLACE(LOWER(fk_store_city_country), ' ', '_') as country,
+                REPLACE(LOWER(fk_store_city_name), ' ', '_') as city,
+                REPLACE(LOWER(fk_store_address_streetname), ' ', '_') as street,
+                REPLACE(LOWER(fk_store_address_housenumber), ' ', '_') as nr,
+                REPLACE(LOWER(fk_brand_name), ' ', '_') as brand,
+                REPLACE(LOWER(fk_ingredient_name), ' ', '_') as ingredient
+            FROM product_entry
+        """
+    ] ;
+
+    rr:subjectMap [
+        rr:template "ProductEntry/{store}/{country}/{city}/{street}/{nr}/{brand}/{ingredient}" ; # todo: check if good url?
+        rr:class ofri:ProductEntry
+    ] ;
+
+    # description (default)
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+        ]
+    ] ;
+
+    # description @en
+    rr:predicateObjectMap [
+        rr:predicate ofri:description ;
+        rr:objectMap [ 
+            rr:column "description" ;
+            rr:language "en"
+        ]
+    ] ;
+
+    # price
+    rr:predicateObjectMap [
+        rr:predicate ofri:price ;
+        rr:objectMap [ 
+            rr:column "price" ;
+            rr:datatype xsd:decimal
+        ]
+    ] ;
+
+    # quantity
+    rr:predicateObjectMap [
+        rr:predicate ofri:quantity ;
+        rr:objectMap [ 
+            rr:column "quantity" ;
+            rr:datatype xsd:decimal
+        ]
+    ] ;
+
+    ### FK's
+    #===================================================
+    # isOfferedBy
+    rr:predicateObjectMap [
+        rr:predicate ofri:isOfferedBy ;
+        rr:objectMap [ 
+            rr:template "http://openfridge.eu/resource/Store/{store}/{country}/{city}/{street}/{nr}"
+        ]
+    ] ;
+    
+    # isProducedBy
+    rr:predicateObjectMap [
+        rr:predicate ofri:isProducedBy ;
+        rr:objectMap [ 
+            rr:parentTriplesMap <#BrandTriplesMap> ;
+            rr:joinCondition [
+                rr:child "brand" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+
+    # isProductOfIngredient
+    rr:predicateObjectMap [
+        rr:predicate ofri:isProductOfIngredient ;
+        rr:objectMap [ 
+            rr:parentTriplesMap <#IngredientTriplesMap> ;
+            rr:joinCondition [
+                rr:child "ingredient" ;
+                rr:parent "name"
+            ]
+        ]
+    ] ;
+
+.

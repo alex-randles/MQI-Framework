@@ -1,0 +1,472 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix recipes: <http://ontology.foodlog.eu#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<#Recipe>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	Recipe.recipeId,
+			Recipe.recipeName,
+			Recipe.description,
+			Recipe.cuisine,
+			Recipe.date,
+			Recipe.serving,
+			RecipeVariant.recipeId AS variantId
+	FROM Recipe JOIN RecipeVariant ON (Recipe.recipeId = variantId)
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/recipe_{recipeId}" ;
+		rr:class recipes:Recipe ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:recipeName ;
+		rr:objectMap [
+			rr:column "recipeName" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:description ;
+		rr:objectMap [
+			rr:column "description" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:cuisine ;
+		rr:objectMap [
+			rr:column "cuisine" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:date ;
+		rr:objectMap [
+			rr:column "date" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:serving ;
+		rr:objectMap [
+			rr:column "serving" ;
+			rr:datatype xsd:integer
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+        rr:predicate recipes:hasVariant;
+        rr:objectMap [
+            rr:parentTriplesMap <#RecipeVariant>;
+            rr:joinCondition [
+                rr:child "variantId";
+                rr:parent "recipeId";
+            ];
+        ];
+    ];
+
+.
+
+<#RecipeVariant>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RecipeVariant.recipeId,
+			RecipeVariant.variant,
+			RecipeStep.recipeId AS stepId,
+			RecipeStep.variant AS stepVariant,
+			RecipeStep.stepNumber,
+			RecipeStep.instruction
+	FROM RecipeVariant JOIN RecipeStep
+		ON 	(RecipeVariant.recipeId = stepId) AND
+			(RecipeVariant.variant = stepVariant)
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/recipe_{recipeId}/{variant}" ;
+		rr:class recipes:RecipeVariant ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:variantName ;
+		rr:objectMap [
+			rr:column "variant" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+        rr:predicate recipes:hasStep;
+        rr:objectMap [
+            rr:parentTriplesMap <#RecipeStep>;
+            rr:joinCondition [
+                rr:child "stepId";
+                rr:parent "recipeId";
+            ];
+            rr:joinCondition [
+                rr:child "stepVariant";
+                rr:parent "variant";
+            ];
+        ];
+    ];
+
+.
+
+<#RecipeStep>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RecipeStep.recipeId,
+			RecipeStep.variant,
+			RecipeStep.stepNumber,
+			RecipeStep.instruction,
+			Uses.recipeId AS usesId,
+			Uses.variant AS usesVariant,
+			Uses.stepNumber AS usesNumber,
+			Uses.ingredientName
+	FROM RecipeStep JOIN Uses ON
+			(RecipeStep.recipeId = usesId) AND
+			(RecipeStep.variant = usesVariant) AND
+			(RecipeStep.stepNumber = usesNumber)
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/recipe_{recipeId}/{variant}/step_{stepNumber}" ;
+		rr:class recipes:RecipeStep ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:stepNumber ;
+		rr:objectMap [
+			rr:column "stepNumber" ;
+			rr:datatype xsd:integer
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:instruction ;
+		rr:objectMap [
+			rr:column "instruction" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+        rr:predicate recipes:usesAmount;
+        rr:objectMap [
+            rr:template "BlankUsesIngredient{recipeId}{variant}{stepNumber}{ingredientName}" ;
+            rr:termType rr:BlankNode ;
+        ];
+    ];
+
+	.
+
+<#RecipeStepNoIng>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	RecipeStep.recipeId,
+			RecipeStep.variant,
+			RecipeStep.stepNumber,
+			RecipeStep.instruction
+	FROM RecipeStep
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/recipe_{recipeId}/{variant}/step_{stepNumber}" ;
+		rr:class recipes:RecipeStep ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:stepNumber ;
+		rr:objectMap [
+			rr:column "stepNumber" ;
+			rr:datatype xsd:integer
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:instruction ;
+		rr:objectMap [
+			rr:column "instruction" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	.
+
+<#UsesIngredient>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	Uses.amount,
+			Uses.unit,
+			Uses.ingredientName AS usesName,
+			Uses.recipeId,
+			Uses.variant,
+			Uses.stepNumber,
+			Ingredient.ingredientName
+	FROM Uses JOIN Ingredient
+		ON 	(usesName = Ingredient.ingredientName)
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "BlankUsesIngredient{recipeId}{variant}{stepNumber}{ingredientName}" ;
+		rr:termType rr:BlankNode ;
+		rr:class recipes:UsesIngredient ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:amount ;
+		rr:objectMap [
+			rr:column "amount" ;
+			rr:datatype xsd:integer
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:unit ;
+		rr:objectMap [
+			rr:column "unit" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+        rr:predicate recipes:amountOf;
+        rr:objectMap [
+            rr:parentTriplesMap <#Ingredient>;
+            rr:joinCondition [
+                rr:child "usesName";
+                rr:parent "ingredientName";
+            ];
+        ];
+    ];
+
+	.
+
+<#Ingredient>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	Ingredient.ingredientName,
+			Ingredient.foodTypeName,
+			FoodType.foodTypeName AS foodType,
+			FoodType.parentName
+	FROM Ingredient JOIN FoodType
+		ON 	(Ingredient.foodTypeName = foodType)
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/{ingredientName}" ;
+		rr:class recipes:Ingredient ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:ingredientName ;
+		rr:objectMap [
+			rr:column "ingredientName" ;
+			rr:datatype xsd:string
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+        rr:predicate recipes:belongsTo;
+        rr:objectMap [
+            rr:parentTriplesMap <#FoodType>;
+            rr:joinCondition [
+                rr:child "foodType";
+                rr:parent "foodTypeName";
+            ];
+        ];
+    ];
+
+		rr:predicateObjectMap [
+					rr:predicate recipes:belongsTo;
+					rr:objectMap [
+							rr:parentTriplesMap <#FoodType>;
+							rr:joinCondition [
+									rr:child "parentName";
+									rr:parent "foodTypeName";
+							];
+					];
+			];
+
+    rr:predicateObjectMap [
+        rr:predicate recipes:hasNutritionFacts;
+        rr:objectMap [
+            rr:template "BlankNutritionFacts{ingredientName}";
+            rr:termType rr:BlankNode ;
+        ];
+    ];
+
+	.
+
+
+<#FoodType>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	FoodType.foodTypeName,
+			FoodType.parentName
+	FROM FoodType
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/FoodType/{foodTypeName}" ;
+		rr:class recipes:FoodType ;
+	] ;
+
+	.
+
+<#Vegetable>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	FoodType.foodTypeName,
+			FoodType.parentName
+	FROM FoodType WHERE foodTypeName = 'vegetables'
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/FoodType/{foodTypeName}" ;
+		rr:class recipes:Vegetable ;
+	] ;
+	.
+
+<#Fruit>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	FoodType.foodTypeName,
+			FoodType.parentName
+	FROM FoodType WHERE foodTypeName = 'fruit'
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/FoodType/{foodTypeName}" ;
+		rr:class recipes:Fruit ;
+	] ;
+	.
+
+<#PlantOrigin>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	FoodType.foodTypeName,
+			FoodType.parentName
+	FROM FoodType WHERE foodTypeName = 'plantOrigin'
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/FoodType/{foodTypeName}" ;
+		rr:class recipes:PlantOrigin ;
+	] ;
+	.
+
+<#AnimalOrigin>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	FoodType.foodTypeName,
+			FoodType.parentName
+	FROM FoodType WHERE foodTypeName = 'animalOrigin'
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/FoodType/{foodTypeName}" ;
+		rr:class recipes:AnimalOrigin ;
+	] ;
+	.
+
+<#FungusOrigin>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	FoodType.foodTypeName,
+			FoodType.parentName
+	FROM FoodType WHERE foodTypeName = 'fungusOrigin'
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "http://data.foodlog.eu/FoodType/{foodTypeName}" ;
+		rr:class recipes:FungusOrigin ;
+	] ;
+	.
+
+<#NutritionFacts>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 	Ingredient.ingredientName,
+			Ingredient.energy,
+			Ingredient.carbohydrates,
+			Ingredient.protein,
+			Ingredient.fat,
+			Ingredient.salt,
+			Ingredient.fiber
+	FROM Ingredient
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "BlankNutritionFacts{ingredientName}";
+		rr:termType rr:BlankNode ;
+		rr:class recipes:NutritionFacts ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:energy ;
+		rr:objectMap [
+			rr:column "energy" ;
+			rr:datatype xsd:float
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:carbohydrates ;
+		rr:objectMap [
+			rr:column "carbohydrates" ;
+			rr:datatype xsd:float
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:protein ;
+		rr:objectMap [
+			rr:column "protein" ;
+			rr:datatype xsd:float
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:fat ;
+		rr:objectMap [
+			rr:column "fat" ;
+			rr:datatype xsd:float
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:salt ;
+		rr:objectMap [
+			rr:column "salt" ;
+			rr:datatype xsd:float
+			] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate recipes:fiber ;
+		rr:objectMap [
+			rr:column "fiber" ;
+			rr:datatype xsd:float
+			] ;
+	] ;
+.

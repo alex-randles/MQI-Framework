@@ -37,8 +37,7 @@ members of disjoint classes","Individuals of one class cannot be
 simultaneously members
 of another class"
 D6,Usage of incorrect Range,"The term type for this property does not 
-match the range. If the range is a Literal,
-the term type should be a Literal, otherwise IRI"
+match the range. A literal type is inferred for column-value term maps."
 D7,Usage of incorrect datatype,"The datatype assigned to the object does not 
 match the datatype range for this property "
 VOC1,No Human readable labels/comments,"Humans consuming the information should be able

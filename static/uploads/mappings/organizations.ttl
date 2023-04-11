@@ -5,14 +5,393 @@
 
 @prefix b2022: <https://ont.beyond2022.ie/ontology#> .
 
+<#Appellation>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT X.ID, X.LABEL, Y.COUNTRY 
+		FROM (
+			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 
+			UNION 
+			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (
+				SELECT ID, NULL, SYNONYMS || ';'
+				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL
+	  			UNION ALL
+	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''
+			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL
+		) X INNER JOIN DATA Y ON X.ID = Y.ID 
+		""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}" ;
+		rr:class cidoc:E81_Actor_Appellation, cidoc:E41_Appellation ; ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:Literal ; ] ;
+	] ;
+	.
+
+<#Organisation>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 
+		D.ID,
+		D.NAME,
+		D.COUNTRY,
+		D.COMMENT,
+		X.ORGANISATIONTYPE
+	FROM
+		DATA D
+		LEFT OUTER JOIN (
+			WITH RECURSIVE ORGANISATIONTYPESPLITTED(ID, ORGANISATIONTYPE, REST) AS (
+				SELECT ID, NULL, ORGANISATIONTYPE || ';'
+				FROM (SELECT ID, ORGANISATIONTYPE FROM DATA) WHERE ORGANISATIONTYPE IS NOT NULL
+				UNION ALL
+				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM ORGANISATIONTYPESPLITTED WHERE REST <> ''
+			) SELECT ID, ORGANISATIONTYPE FROM ORGANISATIONTYPESPLITTED WHERE ORGANISATIONTYPE IS NOT NULL
+		) X ON D.ID = X.ID
+
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/organisation/{COUNTRY}/{NAME}" ;
+		rr:class cidoc:E74_Group ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P2_has_type ;
+		rr:object b2022:Organisation ; # Note that it is implied that this class is an instance of cidoc:E55_Type
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P1_is_identified_by ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Appellation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P3_has_note ;
+		rr:objectMap [
+			rr:column "COMMENT" ;
+			rr:datatype xsd:string ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P2_has_type ;
+		rr:objectMap [ rr:template "https://ont.beyond2022.ie/ontology#{ORGANISATIONTYPE}" ] ;
+	] ;
+.
+
+<#PartOf>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 
+		F.ID AS FROMID,
+		F.NAME AS FROMNAME,
+		F.COUNTRY AS COUNTRY,
+		CASEWHEN(REGEXP_LIKE(D.PARTOF, '^http(s)?://'), D.PARTOF, NULL) AS TO_URI,
+		CASEWHEN(REGEXP_LIKE(D.PARTOF, '^http(s)?://'), NULL, D.PARTOF) AS TOID,
+		COALESCE(T.NAME, D.PARTOF) AS TONAME
+	FROM
+		(
+			WITH recursive splittedpartof (id, PARTOF, rest) AS 
+			( 
+				SELECT id, NULL, PARTOF || ';' FROM  (SELECT id, PARTOF FROM data WHERE PARTOF IS NOT NULL) 
+				UNION ALL 
+				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM splittedpartof WHERE rest <> '' 
+			)
+			SELECT DISTINCT id, PARTOF FROM splittedpartof WHERE PARTOF IS NOT NULL
+		) AS D
+		JOIN DATA F ON D.ID = F.ID
+		LEFT OUTER JOIN DATA T ON D.PARTOF = T.ID
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/part-of/{COUNTRY}/{FROMNAME}-{TONAME}" ;
+		rr:class cidoc:E89_Propositional_Object ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P2_has_type ;
+		rr:object b2022:Composition ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:part_of ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "FROMID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+    ] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:composed_of ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "TOID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+		rr:objectMap [
+			rr:column "TO_URI" ;
+			rr:termType rr:IRI ;
+		] ;
+    ] ;
+
+.
+
+<#AccountsTo>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 
+		F.ID AS FROMID,
+		F.NAME AS FROMNAME,
+		F.COUNTRY AS COUNTRY,
+		CASEWHEN(REGEXP_LIKE(D.ACCOUNTSTO, '^http(s)?://'), D.ACCOUNTSTO, NULL) AS TO_URI,
+		CASEWHEN(REGEXP_LIKE(D.ACCOUNTSTO, '^http(s)?://'), NULL, D.ACCOUNTSTO) AS TOID,
+		COALESCE(T.NAME, D.ACCOUNTSTO) AS TONAME
+	FROM
+		(
+			WITH recursive splittedaccountsto (id, ACCOUNTSTO, rest) AS 
+			( 
+				SELECT id, NULL, ACCOUNTSTO || ';' FROM  (SELECT id, ACCOUNTSTO FROM data WHERE ACCOUNTSTO IS NOT NULL) 
+				UNION ALL 
+				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM splittedaccountsto WHERE rest <> '' 
+			)
+			SELECT DISTINCT id, ACCOUNTSTO FROM splittedaccountsto WHERE ACCOUNTSTO IS NOT NULL
+		) AS D
+		JOIN DATA F ON D.ID = F.ID
+		LEFT OUTER JOIN DATA T ON D.ACCOUNTSTO = T.ID
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/accounts-to/{COUNTRY}/{FROMNAME}-{TONAME}" ;
+		rr:class cidoc:E89_Propositional_Object ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P2_has_type ;
+		rr:object b2022:Accountability ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:subjects ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "FROMID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+    ] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:reports_to ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "TOID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+		rr:objectMap [
+			rr:column "TO_URI" ;
+			rr:termType rr:IRI ;
+		] ;
+    ] ;
+
+.
+
+<#appealsto>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 
+		F.ID AS FROMID,
+		F.NAME AS FROMNAME,
+		F.COUNTRY AS COUNTRY,
+		CASEWHEN(REGEXP_LIKE(D.APPEALSTO, '^http(s)?://'), D.APPEALSTO, NULL) AS TO_URI,
+		CASEWHEN(REGEXP_LIKE(D.APPEALSTO, '^http(s)?://'), NULL, D.APPEALSTO) AS TOID,
+		COALESCE(T.NAME, D.APPEALSTO) AS TONAME
+	FROM
+		(
+			WITH recursive APPEALSTOSPLITTED (id, APPEALSTO, rest) AS 
+			( 
+				SELECT id, NULL, APPEALSTO || ';' FROM  (SELECT id, APPEALSTO FROM data WHERE APPEALSTO IS NOT NULL) 
+				UNION ALL 
+				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM APPEALSTOSPLITTED WHERE rest <> '' 
+			)
+			SELECT DISTINCT id, APPEALSTO FROM APPEALSTOSPLITTED WHERE APPEALSTO IS NOT NULL
+		) AS D
+		JOIN DATA F ON D.ID = F.ID
+		LEFT OUTER JOIN DATA T ON D.APPEALSTO = T.ID
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/appeals-to/{COUNTRY}/{FROMNAME}-{TONAME}" ;
+		rr:class cidoc:E89_Propositional_Object ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P2_has_type ;
+		rr:object b2022:Appeal ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:appealer ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "FROMID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+    ] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:appealee ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "TOID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+		rr:objectMap [
+			rr:column "TO_URI" ;
+			rr:termType rr:IRI ;
+		] ;
+    ] ;
+
+.
+
+<#succeeds>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+	SELECT 
+		F.ID AS FROMID,
+		F.NAME AS FROMNAME,
+		F.COUNTRY AS COUNTRY,
+		CASEWHEN(REGEXP_LIKE(D.SUCCEEDS, '^http(s)?://'), D.SUCCEEDS, NULL) AS TO_URI,
+		CASEWHEN(REGEXP_LIKE(D.SUCCEEDS, '^http(s)?://'), NULL, D.SUCCEEDS) AS TOID,
+		COALESCE(T.NAME, D.SUCCEEDS) AS TONAME
+	FROM
+		(
+			WITH recursive SUCCEEDSSPLITTED (id, SUCCEEDS, rest) AS 
+			( 
+				SELECT id, NULL, SUCCEEDS || ';' FROM  (SELECT id, SUCCEEDS FROM data WHERE SUCCEEDS IS NOT NULL) 
+				UNION ALL 
+				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM SUCCEEDSSPLITTED WHERE rest <> '' 
+			)
+			SELECT DISTINCT id, SUCCEEDS FROM SUCCEEDSSPLITTED WHERE SUCCEEDS IS NOT NULL
+		) AS D
+		JOIN DATA F ON D.ID = F.ID
+		LEFT OUTER JOIN DATA T ON D.SUCCEEDS = T.ID
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/succeeds/{COUNTRY}/{FROMNAME}-{TONAME}" ;
+		rr:class cidoc:E89_Propositional_Object ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P2_has_type ;
+		rr:object b2022:Succession ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:successor ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "FROMID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+    ] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P67_refers_to, b2022:predecessor ;
+		rr:objectMap [
+ 	       rr:parentTriplesMap <#Organisation> ;
+    	    rr:joinCondition [
+            	rr:child "TOID" ;
+            	rr:parent "ID" ;
+        	];
+		] ;
+		rr:objectMap [
+			rr:column "TO_URI" ;
+			rr:termType rr:IRI ;
+		] ;
+    ] ;
+
+.
+
+<#SOURCE>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """
+		SELECT
+			D.ID,
+			CONCAT(D.SOURCE, ', pp. ' || E.PAGENUMBERS) AS REFERENCE
+		FROM DATA D 
+		LEFT OUTER JOIN 
+		(
+			WITH RECURSIVE SPLITTEDPAGENUMBERS (ID, PAGENUMBERS, REST) AS 
+			( 
+				SELECT ID, NULL, PAGENUMBERS || ';' FROM  (SELECT ID, PAGENUMBERS FROM DATA WHERE PAGENUMBERS IS NOT NULL) 
+				UNION ALL 
+				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SPLITTEDPAGENUMBERS WHERE REST <> '' 
+			) SELECT DISTINCT ID, PAGENUMBERS FROM SPLITTEDPAGENUMBERS WHERE PAGENUMBERS IS NOT NULL
+		) E ON D.ID = E.ID
+	""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/reference/{REFERENCE}" ;
+		rr:class cidoc:E32_Authority_Document ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "REFERENCE" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P71_lists ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
 <#STARTDATEEVENT>
 	a rr:TriplesMap ;
 
 	rr:logicalTable [ rr:sqlQuery """SELECT ID, NAME, COUNTRY FROM DATA WHERE STARTDATELOWER IS NOT NULL;""" ] ;
 
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/start-of-organisation/{COUNTRY}/{NAME}" ;
+		rr:class cidoc:E63_Beginning_of_Existence ;
+	] ;
 
 	rr:predicateObjectMap [
-		rr:predicate cidoc:P4_has_time-spanss ;
+		rr:predicate cidoc:P4_has_time-span ;
 		rr:objectMap [
 			rr:parentTriplesMap <#STARTDATETIMESPAN> ;
 			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
@@ -28,28 +407,197 @@
 	] ;
 .
 
-
-<#STARTDATEEVENT222>
+<#STARTDATETIMESPAN>
 	a rr:TriplesMap ;
 
-	rr:logicalTable [ rr:sqlQuery """SELECT ID, NAME, COUNTRY FROM DATA WHERE STARTDATELOWER IS NOT NULL;""" ] ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, STARTDATELOWER, STARTDATEUPPER FROM DATA WHERE STARTDATELOWER IS NOT NULL;""" ] ;
 
 	rr:subjectMap [
-		rr:template "https://kb.beyond2022.ie/start-of-organisation/{COUNTRY}/{NAME}" ;
-		rr:class cidoc:E63_Beginning_of_Existence ;
-		rr:termType rr:Literal;
+		rr:template "https://kb.beyond2022.ie/time-span/{STARTDATELOWER}_{STARTDATEUPPER}" ;
+		rr:class cidoc:E52_Time-Span ;
 	] ;
 
 	rr:predicateObjectMap [
-		rr:predicate cidoc:P4_has_time-spanss ;
+		rr:predicate cidoc:P82a_begin_of_the_begin, cidoc:P81a_end_of_the_begin ;
+		rr:objectMap [ rr:column "STARTDATELOWER" ; rr:datatype xsd:date ; ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P81b_begin_of_the_end, cidoc:P82b_end_of_the_end ;
+		rr:objectMap [ rr:column "STARTDATEUPPER"  ; rr:datatype xsd:date ; ] ;
+	] ;
+.
+
+<#ENDDATEEVENT>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, COUNTRY, NAME FROM DATA WHERE ENDDATELOWER IS NOT NULL;""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/end-of-organisation/{COUNTRY}/{NAME}" ;
+		rr:class cidoc:E64_End_of_Existence ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P4_has_time-span ;
 		rr:objectMap [
-			rr:parentTriplesMap <#STARTDATETIMESPAN> ;
+			rr:parentTriplesMap <#ENDDATETIMESPAN> ;
 			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
 		] ;
 	] ;
 
 	rr:predicateObjectMap [
-		rr:predicate cidoc:P92_brought_into_existence ;
+		rr:predicate cidoc:P93_took_out_of_existence ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
+<#ENDDATETIMESPAN>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, ENDDATELOWER, ENDDATEUPPER FROM DATA WHERE ENDDATELOWER IS NOT NULL;""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/time-span/{ENDDATELOWER}_{ENDDATEUPPER}" ;
+		rr:class cidoc:E52_Time-Span ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P82a_begin_of_the_begin, cidoc:P81a_end_of_the_begin ;
+		rr:objectMap [ rr:column "ENDDATELOWER" ; rr:datatype xsd:date ; ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P81b_begin_of_the_end, cidoc:P82b_end_of_the_end ;
+		rr:objectMap [ rr:column "ENDDATEUPPER"  ; rr:datatype xsd:date ; ] ;
+	] ;
+.
+
+<#CITATION1URI>
+a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION1 FROM DATA WHERE REGEXP_LIKE(CITATION1, '^http(s)?://')""" ] ;
+
+	rr:subjectMap [
+		rr:column "CITATION1" ;
+		rr:class cidoc:E32_Authority_Document ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P71_lists ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
+<#CITATION1TEXT>
+a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION1 FROM DATA WHERE CITATION1 IS NOT NULL AND NOT REGEXP_LIKE(CITATION1, '^http(s)?://')""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/reference/{CITATION1}" ;
+		rr:class cidoc:E32_Authority_Document ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "CITATION1" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P71_lists ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
+<#CITATION2URI>
+a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION2 FROM DATA WHERE REGEXP_LIKE(CITATION2, '^http(s)?://')""" ] ;
+
+	rr:subjectMap [
+		rr:column "CITATION2" ;
+		rr:class cidoc:E32_Authority_Document ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P71_lists ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
+<#CITATION2TEXT>
+a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION2 FROM DATA WHERE CITATION2 IS NOT NULL AND NOT REGEXP_LIKE(CITATION2, '^http(s)?://')""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/reference/{CITATION2}" ;
+		rr:class cidoc:E32_Authority_Document ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "CITATION2" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P71_lists ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
+<#CITATION3URI>
+a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION3 FROM DATA WHERE REGEXP_LIKE(CITATION3, '^http(s)?://')""" ] ;
+
+	rr:subjectMap [
+		rr:column "CITATION3" ;
+		rr:class cidoc:E32_Authority_Document ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P71_lists ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Organisation> ;
+			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
+		] ;
+	] ;
+.
+
+<#CITATION3TEXT>
+a rr:TriplesMap ;
+	rr:logicalTable [ rr:sqlQuery """SELECT ID, CITATION3 FROM DATA WHERE CITATION3 IS NOT NULL AND NOT REGEXP_LIKE(CITATION3, '^http(s)?://')""" ] ;
+
+	rr:subjectMap [
+		rr:template "https://kb.beyond2022.ie/reference/{CITATION3}" ;
+		rr:class cidoc:E32_Authority_Document ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [ 
+			rr:column "CITATION3" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate cidoc:P71_lists ;
 		rr:objectMap [
 			rr:parentTriplesMap <#Organisation> ;
 			rr:joinCondition [ rr:child "ID" ; rr:parent "ID" ; ] ;
