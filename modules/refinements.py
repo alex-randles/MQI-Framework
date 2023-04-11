@@ -41,10 +41,10 @@ class Refinements:
             "MP2": ["ChangeTermType", "RemoveTermType"],
             "MP3": ["AddSubjectMap"],
             "MP4": ["ChangeTermType", "RemoveTermType"],
-            "MP5": ["ChangeClass"],
             "MP6": ["AddLogicalTable"],
-            "MP5_1": ["AddChildColumn"],
-            "MP5_2": ["AddParentColumn"],
+            "MP5": ["AddChildColumn", "AddParentColumn"],
+            "MP7": ["ChangeTermType"],
+            "MP8": ["ChangeClass"],
             "MP9": ["ChangePredicate"],
             "MP11": ["ChangeDatatype", "RemoveDatatype"],
             "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
@@ -218,10 +218,6 @@ class Refinements:
         # print(mapping_graph.serialize(format="ttl").decode("utf-8"))
         # return "dhdh"
 
-
-
-
-
     def remove_duplicate_triples(self, query_values, mapping_graph, violation_ID):
         current_result = self.validation_results[violation_ID]
         subject_identifier = current_result["location"]
@@ -251,9 +247,11 @@ class Refinements:
         all_term_types = [self.R2RML + "IRI", self.R2RML + "BlankNode", self.R2RML + "Literal"]
         print(violation_value, "VIOLATION VALUE", str(self.R2RML + "Literal") != violation_value)
         # M4 -> objectMap,  M12 -> subjectMap, M15 -> IRI
-        correct_term_types = {"MP4": [self.R2RML + "IRI", self.R2RML + "BlankNode", self.R2RML + "Literal"],
-                              "MP2": [self.R2RML + "IRI", self.R2RML + "BlankNode"],
-                              "MP8": [self.R2RML + "IRI"],
+        # correct_term_types = {"MP4": [self.R2RML + "IRI", self.R2RML + "BlankNode", self.R2RML + "Literal"],
+        #                       "MP2": [self.R2RML + "IRI", self.R2RML + "BlankNode"],
+        #                       "MP8": [self.R2RML + "IRI"],
+        #                       "D6": [value for value in all_term_types if value != str(violation_value)]}
+        correct_term_types = {"MP7": [value for value in all_term_types if value != str(violation_value)],
                               "D6": [value for value in all_term_types if value != str(violation_value)]}
 
         select_placeholder = "Choose a valid term type"

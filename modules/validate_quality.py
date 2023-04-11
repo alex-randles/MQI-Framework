@@ -163,11 +163,9 @@ class ValidateQuality:
         self.validate_MP2()
         self.validate_MP3()
         self.validate_MP4()
-        self.validate_MP5_1()
-        self.validate_MP5_2()
+        self.validate_MP5()
         self.validate_MP6()
-        self.validate_MP7_1()
-        self.validate_M7_2()
+        self.validate_MP7()
         self.validate_MP8()
         self.validate_MP9()
         self.validate_MP10()
@@ -388,9 +386,9 @@ class ValidateQuality:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
-    def validate_MP5_1(self):
-        result_message = "Join condition should have a child column."
-        metric_identifier = "MP5_1"
+    def validate_MP5(self):
+        result_message = "Join condition should have a parent and child column."
+        metric_identifier = "MP5"
         query = """
                  SELECT ?joinCondition 
                  WHERE {
@@ -401,12 +399,8 @@ class ValidateQuality:
                  }"""
         query_results = self.current_graph.query(query)
         for row in query_results:
-            subject = row["joinCondition"]
-            self.add_violation([metric_identifier, result_message, None, subject])
-
-    def validate_MP5_2(self):
-        result_message = "Join condition should have a parent column."
-        metric_identifier = "MP5_2"
+            subject = row.get("joinCondition")
+            self.add_violation([metric_identifier, result_message, URIRef("http://www.w3.org/ns/r2rml#child"), subject])
         query = """
                  SELECT ?joinCondition 
                  WHERE {
@@ -417,8 +411,8 @@ class ValidateQuality:
                  }"""
         query_results = self.current_graph.query(query)
         for row in query_results:
-            subject = row["joinCondition"]
-            self.add_violation([metric_identifier, result_message, None, subject])
+            subject = row.get("joinCondition")
+            self.add_violation([metric_identifier, result_message, URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
 
     def validate_MP6(self):
         result_message = "No logical table in this triple map."
@@ -431,28 +425,28 @@ class ValidateQuality:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
-    def validate_MP7_1(self):
-        result_message = "Term type for predicate map should be an IRI."
-        metric_identifier = "MP7_1"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    SELECT ?predicateMap ?termType
-                    WHERE {
-                      ?subject rr:predicateObjectMap ?pom . 
-                      ?pom rr:predicateMap ?predicateMap . 
-                      ?predicateMap rr:termType ?termType . 
-                      FILTER(?termType NOT IN (rr:IRI))
-                    }
-                """
-        query_results = self.current_graph.query(query)
-        for row in query_results:
-            subject = row["predicateMap"]
-            term_type = row["termType"]
-            self.add_violation([metric_identifier, result_message, term_type, subject])
+    # def validate_MP7_1(self):
+    #     result_message = "Term type for predicate map should be an IRI."
+    #     metric_identifier = "MP7_1"
+    #     query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+    #                 SELECT ?predicateMap ?termType
+    #                 WHERE {
+    #                   ?subject rr:predicateObjectMap ?pom .
+    #                   ?pom rr:predicateMap ?predicateMap .
+    #                   ?predicateMap rr:termType ?termType .
+    #                   FILTER(?termType NOT IN (rr:IRI))
+    #                 }
+    #             """
+    #     query_results = self.current_graph.query(query)
+    #     for row in query_results:
+    #         subject = row["predicateMap"]
+    #         term_type = row["termType"]
+    #         self.add_violation([metric_identifier, result_message, term_type, subject])
 
-    def validate_M7_2(self):
+    def validate_MP7(self):
         # The user may spell one of the term types incorrect e.g rr:Literal(s)
-        result_message = "Term type for object map should be an IRI, Blank Node or Literal."
-        metric_identifier = "MP7_2"
+        result_message = "Invalid term type definition."
+        metric_identifier = "MP7"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?objectMap ?termType
                     WHERE {
@@ -464,8 +458,22 @@ class ValidateQuality:
                 """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            subject = row["objectMap"]
-            term_type = row["termType"]
+            subject = row.get("objectMap")
+            term_type = row.get("termType")
+            self.add_violation([metric_identifier, result_message, term_type, subject])
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?predicateMap ?termType
+                    WHERE {
+                      ?subject rr:predicateObjectMap ?pom . 
+                      ?pom rr:predicateMap ?predicateMap . 
+                      ?predicateMap rr:termType ?termType . 
+                      FILTER(?termType NOT IN (rr:IRI))
+                    }
+                """
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            subject = row.get("objectMap")
+            term_type = row.get("termType")
             self.add_violation([metric_identifier, result_message, term_type, subject])
 
     def validate_MP8(self):
@@ -480,8 +488,8 @@ class ValidateQuality:
                      """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            object_identifier = row["class"]
-            subject_identifier = row["subjectMap"]
+            object_identifier = row.get("class")
+            subject_identifier = row.get("subjectMap")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP9(self):
@@ -496,8 +504,8 @@ class ValidateQuality:
                      """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            object_identifier = row["predicate"]
-            subject_identifier = row["pom"]
+            object_identifier = row.get("predicate")
+            subject_identifier = row.get("pom")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP10(self):
@@ -512,7 +520,7 @@ class ValidateQuality:
                      """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            object_identifier = row["graph"]
+            object_identifier = row.get("graph")
             self.add_violation([metric_identifier, result_message, object_identifier, None])
 
     def validate_MP11(self):
@@ -528,8 +536,8 @@ class ValidateQuality:
                      """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            object_identifier = row["datatype"]
-            subject_identifier = row["om"]
+            object_identifier = row.get("datatype")
+            subject_identifier = row.get("om")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP12(self):

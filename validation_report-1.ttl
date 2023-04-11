@@ -2,54 +2,47 @@
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping145.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/refined-mapping149.ttl> a mqio:MappingArtefact .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping145.ttl> ;
+    mqio:assessedMapping <refined-mapping149.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2 .
+        ex:violation-1 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-11T22:16:37.603496"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-11T23:07:15.913960"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?subject rr:datatype ?datatype .  }
-                WHERE {
-                SELECT ?subject ?datatype
-                WHERE {
-                      ?subject rr:datatype ?datatype.
-                      FILTER(str(?subject) = "ub6bL37C16").
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:parent "kkkkkkkk" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "ub2bL39C30").
+                        }
                     }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Remove Datatype"^^xsd:string .
+                   """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Add Parent Column"^^xsd:string .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue <http://purl.org/ontology/mo/AudioFiles> ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-2 a mqio:MappingViolation ;
+ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "None"^^xsd:string ;
     mqio:hasObjectValue <http://purl.org/ontology/mo/> ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLiteralValue "hdhd"^^xsd:string ;
+ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasResultMessage "Datatype must be a valid IRI."^^xsd:string ;
+    mqio:hasObjectValue rr:parent ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:MP11 ;
+    mqio:isDescribedBy mqio-metrics:MP5 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
