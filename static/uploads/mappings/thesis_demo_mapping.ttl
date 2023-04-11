@@ -24,5 +24,4 @@ lb:work_lyrics a rr:TriplesMap ;
                   rr:class mo:AudioFiles, mo:MusicalWork ]  ;
   rr:predicateObjectMap
     [rr:predicate mo:lyrics ;
-     rr:objectMap [rr:column "url" ;
-                   rr:termType rr:Literal]] .
+     rr:objectMap [rr:column "url" ;]] .
