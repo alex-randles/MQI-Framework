@@ -47,7 +47,7 @@ class ValidateQuality:
         self.unique_namespaces = [namespace for namespace in self.unique_namespaces]
         self.violation_counter = 0
         self.manager = multiprocessing.Manager()
-        self.validation_results = self.manager.Queue()  # Shared Proxy to a list
+        self.validation_results = {}  # Shared Proxy to a list
         # self.validation_results.put({"a":2, "b": 2})
         # print(self.validation_results.get())
         # exit()
@@ -87,6 +87,7 @@ class ValidateQuality:
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
+        # self.validate_vocabulary_metrics()
         self.manager = None
 
 
@@ -124,6 +125,7 @@ class ValidateQuality:
         # metrics = [self.validate_]
         # iterate each triple map
         # self.update_progress_bar()
+        # pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
         processes = []
         for (triple_map_identifier, graph) in self.triple_maps:
             # self.blank_node_references[triple_map_identifier] = self.generate_triple_references(graph)
@@ -131,23 +133,21 @@ class ValidateQuality:
             self.current_triple_identifier = triple_map_identifier
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
-            pr2 = multiprocessing.Process(target=self.validate_data_metrics)
-            pr2.start()
-            processes.append(pr2)
-            pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
-            pr1.start()
-            processes.append(pr1)
-            print(self.validation_results, "Validation report")
-            # self.validation_results = dict(self.validation_results)
-
-        pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
-        pr3.start()
-        processes.append(pr3)
-        for process in processes:
-            process.join()
-        # pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
-        # pr3.start()
-        # pr3.join()
+            self.validate_data_metrics()
+            self.validate_mapping_metrics()
+            # pr2 = multiprocessing.Process(target=self.validate_data_metrics)
+            # pr2.start()
+            # processes.append(pr2)
+            # pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
+            # pr1.start()
+            # pr1.join()
+            # pr2.join()
+            # processes.append(pr1)
+        self.validate_vocabulary_metrics()
+        # for process in processes:
+        #     process.join()
+        # print(self.validation_results)
+        # exit()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -201,7 +201,7 @@ class ValidateQuality:
 
     def validate_vocabulary_metrics(self):
         # pass
-        self.validate_VOC1()
+        # self.validate_VOC1()
         # self.validate_VOC2()
         self.validate_VOC3()
         self.validate_VOC4()
@@ -218,7 +218,6 @@ class ValidateQuality:
             # if class is undefined
             # print("VALIDATING UNDEFINED", class_identifier, metric_result)
             if metric_result:
-                print("VALIDATING UNDEFINED", class_identifier)
                 del self.classes[key]
                 self.add_violation(["D1", "Usage of undefined class", class_identifier, subject_identifier])
 
@@ -229,7 +228,6 @@ class ValidateQuality:
             property_identifier = self.properties[key].get("property")
             subject_identifier = self.properties[key].get("subject")
             metric_result = self.validate_undefined(property_identifier, subject_identifier, "property", metric_identifier)
-            print("Validating undefined", property_identifier, metric_result)
             # if property is undefined
             if metric_result:
                 # remove if undefined
@@ -246,9 +244,7 @@ class ValidateQuality:
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
             query_results = self.vocabularies.query_local_graph(property_identifier, query)
             graph_exists = query_results.get("boolean")
-            print(graph_exists, "shshhs")
             if graph_exists is True:
-                print(graph_exists, "shshhs - 2")
                 return [metric_identifier, result_message, property_identifier, subject_identifier]
             else:
                 self.undefined_namespaces.add(property_namespace)
@@ -319,17 +315,19 @@ class ValidateQuality:
                     result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
                 elif (OWL.ObjectProperty in resource_type or RDF.Property in resource_type) and (term_type == URIRef("http://www.w3.org/ns/r2rml#Literal")):
-                    range = self.get_range(property).strip()
-                    if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith("http://www.w3.org/2001/XMLSchema#"):
-                        result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property).strip())
-                        self.add_violation([metric_identifier, result_message, term_type, objectMap])
+                    range = self.get_range(property)
+                    if range:
+                        range = range.strip()
+                        if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith("http://www.w3.org/2001/XMLSchema#"):
+                            result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property).strip())
+                            self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
     @staticmethod
     def validate_sub_type(datatype, range):
         sub_types = [URIRef("http://www.w3.org/2001/XMLSchema#long"),
                      URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
                      URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
-                     URIRef("http://www.w3.org/2001/XMLSchema#noninteger"),]
+                     URIRef("http://www.w3.org/2001/XMLSchema#integer"),]
         if range in sub_types and datatype in sub_types:
             return True
         return False
@@ -875,8 +873,8 @@ class ValidateQuality:
         # adding violation to report using violation ID as key which is mapped to a dictionary with the below keys
         violation_identifier = metric_results[0]
         key_values = ["metric_identifier", "result_message", "value", "location", "triple_map"]
-        # self.validation_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
-        self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
+        self.validation_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+        # self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
 
     def find_blank_node_reference(self, violation_location, triple_map_identifier):
         if isinstance(violation_location, BNode):
@@ -1081,8 +1079,26 @@ class ValidateQuality:
         # The hierarchical inference ignores the universal super-concepts, i.e. owl:Thing and rdfs:Resource
         if domain:
             classes = self.get_classes()
+            super_classes = []
             excluded_domain = ValidateQuality.is_excluded_domain(classes, domain)
             if not excluded_domain:
+                for k,v in classes.items():
+                    identifier = str(v["class"])
+                    query = """
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    SELECT ?superClass
+                                WHERE {
+                                  GRAPH <%s> { <%s> rdfs:subClassOf ?superClass . }
+                                }   
+                           """ % (self.get_namespace(identifier), identifier)
+                    query_results = self.vocabularies.query_local_graph(identifier, query)
+                    if query_results.get("results").get("bindings"):
+                        for result in query_results.get("results").get("bindings"):
+                            super_classes.append(result.get("superClass").get("value"))
+                for class_identifier in super_classes:
+                    if class_identifier in domain:
+                        return
                 match_domain = [v["class"] for k,v in classes.items() if str(v["class"]) in domain]
                 if not match_domain:
                     result_message = "Usage of incorrect domain."
@@ -1144,7 +1160,7 @@ class ValidateQuality:
                        PREFIX prov: <http://www.w3.org/ns/prov#> 
                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
                        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                       SELECT DISTINCT ?domainClass ?superClass ?superClass2 ?superClass3 ?comment
+                       SELECT DISTINCT ?domainClass ?superClass ?superClass2 ?superClass3 ?subClass ?comment
                        WHERE {
                           GRAPH <%s> {
                             {
@@ -1159,10 +1175,12 @@ class ValidateQuality:
                               OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
                               FILTER (!isBlank(?domainClass))
                             }
-                          OPTIONAL { ?domainClass rdfs:subClassOf ?superClass.  } 
-                          OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . } 
-                          OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . 
-                                    ?superClass3 rdfs:subClassOf ?superClass2 . } 
+                        OPTIONAL { ?domainClass rdfs:subClassOf ?superClass.  } 
+                        OPTIONAL { ?subClass rdfs:subClassOf ?domainClass.  } 
+                        #  OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . } 
+                         #  OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . 
+                        #          ?superClass3 rdfs:subClassOf ?superClass2 . } 
+                      #  FILTER(!isBlank(?superClass)) 
                           }
                        }   
                        """ % (self.get_namespace(identifier), identifier, identifier)
@@ -1177,6 +1195,8 @@ class ValidateQuality:
                             domain.append(row["superClass"]["value"])
                         if "superClass2" in row:
                             domain.append(row["superClass2"]["value"])
+                        if "subClass" in row:
+                            domain.append(row["subClass"]["value"])
                         if "superClass3" in row:
                             domain.append("http://www.w3.org/2000/01/rdf-schema#Resource")
                 self.domain_cache[identifier] = list(set(domain))
@@ -1184,6 +1204,7 @@ class ValidateQuality:
             self.domain_cache[identifier] = list(set(domain))
             return domain
         else:
+            print("IN CACHE", identifier, self.domain_cache[identifier])
             return self.domain_cache[identifier]
 
     def display_validation_results(self):

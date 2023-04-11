@@ -1,0 +1,71 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix ont: <http://ontologies.geohive.ie/osi#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<#TriplesMap1>
+	rr:logicalTable [
+		rr:tableName "PARISH_CBD2019_20M" ;
+	] ;
+
+	rr:subjectMap [
+		rr:template "http://data.geohive.ie/resource/civilparish/{GUID}" ;
+		rr:class ont:CivilParish ;
+		rr:class geo:Feature ;
+    ] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "ENGLISH" ;
+			rr:language "en" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "ENGLISH" ;
+		] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate rdfs:label ;
+		rr:objectMap [
+			rr:column "GAEILGE" ;
+			rr:language "ga" ;
+		] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate ont:logainmId ;
+		rr:objectMap [
+			rr:template "https://www.logainm.ie/ga/{LOGAINM_ID}" ;
+			];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate geo:hasGeometry ;
+		rr:objectMap [
+			rr:template "urn:osi:boundary:geom:{GUID}" ;
+		] ;
+    ] ;
+	.
+
+<#TriplesMap2>
+	rr:logicalTable [
+		rr:tableName "PARISH_CBD2019_20M" ;
+	] ;
+
+	rr:subjectMap [
+		rr:class geo:Geometry ;
+		rr:template "urn:osi:boundary:geom:{GUID}" ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate geo:asWKT ;
+		rr:objectMap [
+			rr:column "GEOMETRY" ;
+		] ;
+	] ;
+	.

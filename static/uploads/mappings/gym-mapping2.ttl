@@ -1,0 +1,195 @@
+# This is the vocabulary for creating R2RML
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+# This is the Ontology Vocabulary
+@prefix gym: <http://ontology.smartfitgym.eu#> .
+
+#exercise Mapping
+<#exercise>
+	a rr:TriplesMap; 
+
+	rr:logicalTable [ rr:tableName "exercise" ]; 
+	# Create a new subject for each exercise in our table
+	rr:subjectMap [
+		# Construct our URI, {id} will replace with the value in the column "id"
+		rr:template "http://data.smartfitgym.eu#exercise_{ID}";
+		# Specify the class that this URI belongs to
+		rr:class gym:exercise ;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:name;
+		rr:objectMap [ rr:column "Name" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate gym:calories ;
+		rr:objectMap [ rr:column "Calories" ] ;
+	] ;
+	
+	# object predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:achieve ;
+		rr:objectMap [
+            rr:parentTriplesMap <#goal> ;
+            rr:joinCondition [
+                rr:child "GoalID" ;
+                rr:parent "ID" ;
+            ] ;
+        ] ;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:hastypes ;
+		rr:objectMap [
+            rr:parentTriplesMap <#exercisetypes> ;
+            rr:joinCondition [
+                rr:child "ExerciseTypeID" ;
+                rr:parent "ID" ;
+            ] ;
+        ] ;
+	] ;
+	.
+
+#Workout Mapping
+<#workout>
+	a rr:TriplesMap; 
+
+	rr:logicalTable [ rr:tableName "workout" ]; 
+	# Create a new subject for each workout in our table
+	rr:subjectMap [
+		# Construct our URI, {id} will replace with the value in the column "id"
+		rr:template "http://data.smartfitgym.eu#workout_{ID}";
+		# Specify the class that this URI belongs to
+		rr:class gym:workout ;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:name;
+		rr:objectMap [ rr:column "Name" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate gym:calories ;
+		rr:objectMap [ rr:column "Calories" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate gym:tool ;
+		rr:objectMap [ rr:column "Tool" ] ;
+	] ;
+	
+		# object predicates mapping
+		rr:predicateObjectMap [
+		rr:predicate gym:achieve ;
+		rr:objectMap [
+            rr:parentTriplesMap <#goal> ;
+            rr:joinCondition [
+                rr:child "GoalsID" ;
+                rr:parent "ID" ;
+            ] ;
+        ] ;
+	] ;
+	
+		rr:predicateObjectMap [
+		rr:predicate gym:hastypes;
+		rr:objectMap [
+            rr:parentTriplesMap <#workouttypes> ;
+            rr:joinCondition [
+                rr:child "WorkoutTypesID" ;
+                rr:parent "ID" ;
+            ] ;
+        ] ;
+	] ;
+	.
+
+#goal Mapping
+<#goal>
+	a rr:TriplesMap;
+
+	rr:logicalTable [ rr:tableName "goal" ]; 
+	# Create a new subject for each goal in our table
+	rr:subjectMap [
+		# Construct our URI, {id} will replace with the value in the column "id"
+		rr:template "http://data.smartfitgym.eu#goal_{ID}";
+		# Specify the class that this URI belongs to
+		rr:class gym:goal;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:name;
+		rr:objectMap [ rr:column "Name" ] ;
+	] ;
+
+	# object predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:helpstobuild;
+		rr:objectMap [
+            rr:parentTriplesMap <#bodyparts> ;
+            rr:joinCondition [
+                rr:child "BodypartsID" ;
+                rr:parent "ID" ;
+            ] ;
+        ] ;
+	] ;
+	.
+
+#bodyparts Mapping
+<#bodyparts>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:tableName "bodyparts" ]; 
+	# Create a new subject for each bodypart in our table
+	rr:subjectMap [
+		# Construct our URI, {id} will replace with the value in the column "id"
+		rr:template "http://data.smartfitgym.eu#bodyparts_{ID}";
+		# Specify the class that this URI belongs to
+		rr:class gym:bodyparts;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:name;
+		rr:objectMap [ rr:column "Name" ] ;
+	] ;
+	.
+
+#Exercisetypes Mapping
+<#exercisetypes>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:tableName "exercisetypes" ]; 
+	# Create a new subject for each exercisetype in our table
+	rr:subjectMap [
+		# Construct our URI, {id} will replace with the value in the column "id"
+		rr:template "http://data.smartfitgym.eu#exercisetypes_{ID}";
+		# Specify the class that this URI belongs to
+		rr:class gym:exercisetypes;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:type;
+		rr:objectMap [ rr:column "Type" ] ;
+	] ;
+	.
+
+#Workouttypes Mapping
+<#workouttypes>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:tableName "workouttypes" ]; 
+	# Create a new subject for each workouttype in our table
+	rr:subjectMap [
+		# Construct our URI, {id} will replace with the value in the column "id"
+		rr:template "http://data.smartfitgym.eu#workouttypes_{ID}";
+		# Specify the class that this URI belongs to
+		rr:class gym:workouttypes;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate gym:type;
+		rr:objectMap [ rr:column "Types" ] ;
+	] ;
+	.
