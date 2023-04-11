@@ -1,0 +1,282 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix openfit: <http://ontology.openfit.org#>.
+
+#TriplesMap for the goals of exercises
+<#Goal>
+    
+	a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id, Goal.description, Goal.type, Goal.type_id FROM Goal""" ] ;
+    
+	#a class were not specified,because already created in the subject of the subclasses.
+	rr:subjectMap [
+        rr:template "http://data.ontology.openfit.org#goal_{id}" ; 
+   
+    ];
+    rr:predicateObjectMap [
+        rr:predicate openfit:goal_id ;
+        rr:objectMap [ rr:column "id" ] ;
+    ];
+	
+    rr:predicateObjectMap [
+        rr:predicate openfit:descriptions ;
+        rr:objectMap [ rr:column "description" ] ;
+    ];
+    .
+
+<#MuscleGain>
+	a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id,Goal.description,Goal.type,Goal.type_id, MuscleGainTargetMuscles.targetMuscle_id FROM (MuscleGain JOIN MuscleGainTargetMuscles ON (MuscleGain.id = MuscleGainTargetMuscles.muscleGain_id))JOIN Goal ON (Goal.type_id = MuscleGain.id) WHERE Goal.type = 'muscleGain'""" ] ;
+    rr:subjectMap [
+        rr:template "http://data.ontology.openfit.org#goal_{id}" ; 
+		rr:class openfit:MuscleGain ;
+    ] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:muscle_gain_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+	
+	#Object propreties mapping
+
+		rr:predicateObjectMap [
+			rr:predicate openfit:has_target_muscle;
+			rr:objectMap [
+            	rr:parentTriplesMap <#TargetMuscle> ;
+            	rr:joinCondition [
+                	rr:child "targetMuscle_id" ;
+                	rr:parent "id" ;
+            	] ;
+        	] ;
+		] ;
+	
+	.
+	
+<#Conditioning>
+	a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id,Goal.description,Goal.type,Goal.type_id, Conditioning.id FROM Goal JOIN Conditioning ON (Goal.type_id = Conditioning.id) WHERE goal.type='conditioning'""" ] ;
+    rr:subjectMap [
+        rr:template "http://data.ontology.openfit.org#goal_{id}" ; 
+		rr:class openfit:Conditioning ;
+    ] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:conditioning_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+	.
+	
+<#WeightLoss>
+	a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id,Goal.description,Goal.type,Goal.type_id, WeightLossTargetAreas.targetArea_id FROM (WeightLoss JOIN WeightLossTargetAreas ON (WeightLoss.id = WeightLossTargetAreas.weightLoss_id))JOIN Goal ON (Goal.type_id = WeightLoss.id) WHERE Goal.type = 'weightLoss'""" ] ;
+    rr:subjectMap [
+        rr:template "http://data.ontology.openfit.org#goal_{id}" ; 
+		rr:class openfit:WeightLoss ;
+    ] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:weight_loss_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+	
+	#Object propreties mapping
+
+		rr:predicateObjectMap [
+			rr:predicate openfit:has_target_area;
+			rr:objectMap [
+            	rr:parentTriplesMap <#TargetArea> ;
+            	rr:joinCondition [
+                	rr:child "targetArea_id" ;
+                	rr:parent "id" ;
+            	] ;
+        	] ;
+		] ;
+	.
+
+	
+#Triple map for the sessions
+
+<#Session>
+	a rr:TriplesMap ;
+	
+	rr:logicalTable [ rr:sqlQuery """SELECT Session.id,Session.description,Session.avgCals,SessionExercises.exercise_id FROM Session JOIN SessionExercises ON (SessionExercises.session_id = session.id)""" ] ;
+	
+	# Create a new subject for each session in our table
+	rr:subjectMap [
+		rr:template "http://data.ontology.openfit.org#session_{id}" ;
+		# Specify the class that this URI belongs to
+		rr:class openfit:Session ;
+	] ;
+	
+	# Data predicates mapping
+	rr:predicateObjectMap [
+		rr:predicate openfit:session_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:description ;
+		rr:objectMap [ rr:column "description" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:avg_cals ;
+		rr:objectMap [ rr:column "avgCals" ] ;
+	] ;
+	
+	
+	#Object propreties mapping
+
+		rr:predicateObjectMap [
+			rr:predicate openfit:consists_of;
+			rr:objectMap [
+            	rr:parentTriplesMap <#Exercise> ;
+            	rr:joinCondition [
+                	rr:child "exercise_id" ;
+                	rr:parent "id" ;
+            	] ;
+        	] ;
+		] ;
+	.
+	
+# Triple maps for the exercises
+<#Exercise>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT Exercise.id,Exercise.description,Exercise.AvgCals,Exercise.name,Exercise.type,Exercise.type_id,ExerciseGoals.goal_id FROM Exercise JOIN ExerciseGoals ON (ExerciseGoals.exercise_id = Exercise.id)""" ];
+
+	#a class were not specified,because already created in the subject of the subclasses.
+	rr:subjectMap [
+		rr:template "http://data.ontology.openfit.org#exercise_{id}" ;
+	];	
+	
+	#data propreties mapping
+	rr:predicateObjectMap [
+		rr:predicate openfit:exercise_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:description ;
+		rr:objectMap [ rr:column "description" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:avg_cals ;
+		rr:objectMap [ rr:column "avgCals" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:name;
+		rr:objectMap [ rr:column "name" ] ;
+	] ;
+
+	#Object propreties mapping
+
+		rr:predicateObjectMap [
+			rr:predicate openfit:has_goal;
+			rr:objectMap [
+            	rr:parentTriplesMap <#Goal> ;
+            	rr:joinCondition [
+                	rr:child "goal_id" ;
+                	rr:parent "id" ;
+            	] ;
+        	] ;
+		] ;
+		.
+		
+<#StrengthExercise>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT Exercise.id,Exercise.description,Exercise.avgCals,Exercise.name,Exercise.type,Exercise.type_id,ExerciseGoals.goal_id, StrengthExercise.weight, StrengthExercise.sets, StrengthExercise.repetitions  FROM Exercise JOIN ExerciseGoals ON (Exercise.id = ExerciseGoals.exercise_id) JOIN StrengthExercise ON (Exercise.type_id = StrengthExercise.id) WHERE Exercise.type='strength'""" ];
+
+	rr:subjectMap [
+		rr:template "http://data.ontology.openfit.org#exercise_{id}" ;
+		rr:class openfit:StrengthExercise;
+	];	
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:strength_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate openfit:weigth;
+		rr:objectMap [ rr:column "weight" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:sets;
+		rr:objectMap [ rr:column "sets" ] ;
+	] ;
+	rr:predicateObjectMap [
+		rr:predicate openfit:repetitions;
+		rr:objectMap [ rr:column "repetitions" ] ;
+	] ;
+	.
+	
+	
+<#CardioExercise>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT Exercise.id,Exercise.description,Exercise.avgCals,Exercise.name,Exercise.type,Exercise.type_id,ExerciseGoals.goal_id, CardioExercise.duration 
+	FROM (Exercise JOIN ExerciseGoals ON (Exercise.id = ExerciseGoals.exercise_id)) 
+	JOIN CardioExercise ON (Exercise.type_id = CardioExercise.id) WHERE Exercise.type='cardio'""" ];
+	
+	rr:subjectMap [
+		rr:template "http://data.ontology.openfit.org#exercise_{id}" ;
+		rr:class openfit:CardioExercise;
+	];	
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:cardio_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:duration;
+		rr:objectMap [ rr:column "duration" ] ;
+	] ;
+	.
+	
+#Triple maps for the target muscle of a muscle gain goal
+<#TargetMuscle>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT  * FROM TargetMuscle"""];	
+
+	rr:subjectMap [
+		rr:template "http://data.ontology.openfit.org#target_muscle_{id}" ;
+		rr:class openfit:Target_Muscle;
+	];	
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:target_muscle_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate openfit:name ;
+		rr:objectMap [ rr:column "name" ] ;
+	] ;
+	.
+
+#Triple maps for the target area of a weight loss goal
+<#TargetArea>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT  * FROM TargetArea""" ];	
+
+	rr:subjectMap [
+		rr:template "http://data.ontology.openfit.org#target_area_{id}" ;
+		rr:class openfit:Target_Area;
+	];	
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:target_area_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate openfit:name ;
+		rr:objectMap [ rr:column "name" ] ;
+	] ;
+	.
+	
+
+
+
+	
+

@@ -3,694 +3,372 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix cidoc: <http://erlangen-crm.org/current/> . 
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
+@prefix foodreport: <http://www.foodreport.be/ontology#> . 
 
 	
-<#Appellation>	
+<#Recipe>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
+ 	 rr:sqlQuery "SELECT Recipe.recipeName, NeedsIngredient.ingredient FROM Recipe JOIN NeedsIngredient ON (NeedsIngredient.recipe = Recipe.recipeName)" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class cidoc:E81_Actor_Appellation, cidoc:E41_Appellation;	
-	 rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}" ;	
+ 	 rr:class foodreport:Recipe;	
+	 rr:template "http://www.foodreport.be/data#{recipeName}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
+ 	 rr:predicate foodreport:recipeName;	
 	 rr:objectMap [	
-		 rr:termType rr:Literal;	
-		 rr:template "{LABEL}" ;	
-		]; 	
- ];	
-.	
-	
-<#Organisation>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-	SELECT 	
-		D.ID,	
-		D.NAME,	
-		D.COUNTRY,	
-		D.COMMENT,	
-		X.ORGANISATIONTYPE	
-	FROM	
-		DATA D	
-		LEFT OUTER JOIN (	
-			WITH RECURSIVE ORGANISATIONTYPESPLITTED(ID, ORGANISATIONTYPE, REST) AS (	
-				SELECT ID, NULL, ORGANISATIONTYPE || ';'	
-				FROM (SELECT ID, ORGANISATIONTYPE FROM DATA) WHERE ORGANISATIONTYPE IS NOT NULL	
-				UNION ALL	
-				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM ORGANISATIONTYPESPLITTED WHERE REST <> ''	
-			) SELECT ID, ORGANISATIONTYPE FROM ORGANISATIONTYPESPLITTED WHERE ORGANISATIONTYPE IS NOT NULL	
-		) X ON D.ID = X.ID	
-	
-	 """;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/organisation/{COUNTRY}/{NAME}" ;	
-	 rr:class cidoc:E74_Group;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:object b2022:Organisation;	
-	 rr:predicate cidoc:P2_has_type;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P1_is_identified_by;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Appellation> ;	
-		 rr:joinCondition [	
-			 rr:parent "ID" ;	
-			 rr:child "ID" ;	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P3_has_note;	
-	 rr:objectMap [	
-		 rr:datatype xsd:string;	
-		 rr:column "COMMENT" ;	
+		 rr:column "recipeName" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P2_has_type;	
+ 	 rr:predicate foodreport:needsIngredient;	
 	 rr:objectMap [	
-		 rr:template "https://ont.beyond2022.ie/ontology#{ORGANISATIONTYPE}" ;	
-		]; 	
- ];	
-.	
-	
-<#PartOf>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-	SELECT 	
-		F.ID AS FROMID,	
-		F.NAME AS FROMNAME,	
-		F.COUNTRY AS COUNTRY,	
-		CASEWHEN(REGEXP_LIKE(D.PARTOF, '^http(s)?://'), D.PARTOF, NULL) AS TO_URI,	
-		CASEWHEN(REGEXP_LIKE(D.PARTOF, '^http(s)?://'), NULL, D.PARTOF) AS TOID,	
-		COALESCE(T.NAME, D.PARTOF) AS TONAME	
-	FROM	
-		(	
-			WITH recursive splittedpartof (id, PARTOF, rest) AS 	
-			( 	
-				SELECT id, NULL, PARTOF || ';' FROM  (SELECT id, PARTOF FROM data WHERE PARTOF IS NOT NULL) 	
-				UNION ALL 	
-				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM splittedpartof WHERE rest <> '' 	
-			)	
-			SELECT DISTINCT id, PARTOF FROM splittedpartof WHERE PARTOF IS NOT NULL	
-		) AS D	
-		JOIN DATA F ON D.ID = F.ID	
-		LEFT OUTER JOIN DATA T ON D.PARTOF = T.ID	
-	 """;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/part-of/{COUNTRY}/{FROMNAME}-{TONAME}" ;	
-	 rr:class cidoc:E89_Propositional_Object;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:object b2022:Composition;	
-	 rr:predicate cidoc:P2_has_type;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P67_refers_to, b2022:part_of;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
+		 rr:parentTriplesMap <#Ingredient> ;	
 		 rr:joinCondition [	
-			 rr:parent "ID" ;	
-			 rr:child "FROMID" ;	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P67_refers_to, b2022:composed_of;	
-	 rr:objectMap [	
-		 rr:column "TO_URI" ;	
-		 rr:termType rr:IRI;	
-		]; 	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "TOID" ;	
-			 rr:parent "ID" ;	
+			 rr:parent "ingredientName" ;	
+			 rr:child "ingredient" ;	
 			 ];	
  		]; 	
  ];	
 .	
 	
-<#AccountsTo>	
+<#Law>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-	SELECT 	
-		F.ID AS FROMID,	
-		F.NAME AS FROMNAME,	
-		F.COUNTRY AS COUNTRY,	
-		CASEWHEN(REGEXP_LIKE(D.ACCOUNTSTO, '^http(s)?://'), D.ACCOUNTSTO, NULL) AS TO_URI,	
-		CASEWHEN(REGEXP_LIKE(D.ACCOUNTSTO, '^http(s)?://'), NULL, D.ACCOUNTSTO) AS TOID,	
-		COALESCE(T.NAME, D.ACCOUNTSTO) AS TONAME	
-	FROM	
-		(	
-			WITH recursive splittedaccountsto (id, ACCOUNTSTO, rest) AS 	
-			( 	
-				SELECT id, NULL, ACCOUNTSTO || ';' FROM  (SELECT id, ACCOUNTSTO FROM data WHERE ACCOUNTSTO IS NOT NULL) 	
-				UNION ALL 	
-				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM splittedaccountsto WHERE rest <> '' 	
-			)	
-			SELECT DISTINCT id, ACCOUNTSTO FROM splittedaccountsto WHERE ACCOUNTSTO IS NOT NULL	
-		) AS D	
-		JOIN DATA F ON D.ID = F.ID	
-		LEFT OUTER JOIN DATA T ON D.ACCOUNTSTO = T.ID	
-	 """;	
+ 	 rr:sqlQuery "SELECT * FROM Law LEFT JOIN AppliesToFoodType ON (Law.lawName = AppliesToFoodType.law) LEFT JOIN AppliesToIngredient ON (Law.lawName = AppliesToIngredient.law)" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class cidoc:E89_Propositional_Object;	
-	 rr:template "https://kb.beyond2022.ie/accounts-to/{COUNTRY}/{FROMNAME}-{TONAME}" ;	
+ 	 rr:template "http://www.foodreport.be/data#{lawName}" ;	
+	 rr:class foodreport:Law;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:object b2022:Accountability;	
-	 rr:predicate cidoc:P2_has_type;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P67_refers_to, b2022:subjects;	
+ 	 rr:predicate foodreport:lawName;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:parent "ID" ;	
-			 rr:child "FROMID" ;	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P67_refers_to, b2022:reports_to;	
-	 rr:objectMap [	
-		 rr:termType rr:IRI;	
-		 rr:column "TO_URI" ;	
-		]; 	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "TOID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-.	
-	
-<#appealsto>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-	SELECT 	
-		F.ID AS FROMID,	
-		F.NAME AS FROMNAME,	
-		F.COUNTRY AS COUNTRY,	
-		CASEWHEN(REGEXP_LIKE(D.APPEALSTO, '^http(s)?://'), D.APPEALSTO, NULL) AS TO_URI,	
-		CASEWHEN(REGEXP_LIKE(D.APPEALSTO, '^http(s)?://'), NULL, D.APPEALSTO) AS TOID,	
-		COALESCE(T.NAME, D.APPEALSTO) AS TONAME	
-	FROM	
-		(	
-			WITH recursive APPEALSTOSPLITTED (id, APPEALSTO, rest) AS 	
-			( 	
-				SELECT id, NULL, APPEALSTO || ';' FROM  (SELECT id, APPEALSTO FROM data WHERE APPEALSTO IS NOT NULL) 	
-				UNION ALL 	
-				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM APPEALSTOSPLITTED WHERE rest <> '' 	
-			)	
-			SELECT DISTINCT id, APPEALSTO FROM APPEALSTOSPLITTED WHERE APPEALSTO IS NOT NULL	
-		) AS D	
-		JOIN DATA F ON D.ID = F.ID	
-		LEFT OUTER JOIN DATA T ON D.APPEALSTO = T.ID	
-	 """;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:class cidoc:E89_Propositional_Object;	
-	 rr:template "https://kb.beyond2022.ie/appeals-to/{COUNTRY}/{FROMNAME}-{TONAME}" ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P2_has_type;	
-	 rr:object b2022:Appeal;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate b2022:appealer, cidoc:P67_refers_to;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "FROMID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P67_refers_to, b2022:appealee;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "TOID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
-	 rr:objectMap [	
-		 rr:termType rr:IRI;	
-		 rr:column "TO_URI" ;	
-		]; 	
- ];	
-.	
-	
-<#succeeds>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-	SELECT 	
-		F.ID AS FROMID,	
-		F.NAME AS FROMNAME,	
-		F.COUNTRY AS COUNTRY,	
-		CASEWHEN(REGEXP_LIKE(D.SUCCEEDS, '^http(s)?://'), D.SUCCEEDS, NULL) AS TO_URI,	
-		CASEWHEN(REGEXP_LIKE(D.SUCCEEDS, '^http(s)?://'), NULL, D.SUCCEEDS) AS TOID,	
-		COALESCE(T.NAME, D.SUCCEEDS) AS TONAME	
-	FROM	
-		(	
-			WITH recursive SUCCEEDSSPLITTED (id, SUCCEEDS, rest) AS 	
-			( 	
-				SELECT id, NULL, SUCCEEDS || ';' FROM  (SELECT id, SUCCEEDS FROM data WHERE SUCCEEDS IS NOT NULL) 	
-				UNION ALL 	
-				SELECT id, trim(substr(rest, 0, instr(rest, ';') - 1)), substr(rest, instr(rest, ';') + 1) FROM SUCCEEDSSPLITTED WHERE rest <> '' 	
-			)	
-			SELECT DISTINCT id, SUCCEEDS FROM SUCCEEDSSPLITTED WHERE SUCCEEDS IS NOT NULL	
-		) AS D	
-		JOIN DATA F ON D.ID = F.ID	
-		LEFT OUTER JOIN DATA T ON D.SUCCEEDS = T.ID	
-	 """;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/succeeds/{COUNTRY}/{FROMNAME}-{TONAME}" ;	
-	 rr:class cidoc:E89_Propositional_Object;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P2_has_type;	
-	 rr:object b2022:Succession;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P67_refers_to, b2022:successor;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "FROMID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P67_refers_to, b2022:predecessor;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "TOID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
-	 rr:objectMap [	
-		 rr:termType rr:IRI;	
-		 rr:column "TO_URI" ;	
-		]; 	
- ];	
-.	
-	
-<#SOURCE>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT	
-			D.ID,	
-			CONCAT(D.SOURCE, ', pp. ' || E.PAGENUMBERS) AS REFERENCE	
-		FROM DATA D 	
-		LEFT OUTER JOIN 	
-		(	
-			WITH RECURSIVE SPLITTEDPAGENUMBERS (ID, PAGENUMBERS, REST) AS 	
-			( 	
-				SELECT ID, NULL, PAGENUMBERS || ';' FROM  (SELECT ID, PAGENUMBERS FROM DATA WHERE PAGENUMBERS IS NOT NULL) 	
-				UNION ALL 	
-				SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SPLITTEDPAGENUMBERS WHERE REST <> '' 	
-			) SELECT DISTINCT ID, PAGENUMBERS FROM SPLITTEDPAGENUMBERS WHERE PAGENUMBERS IS NOT NULL	
-		) E ON D.ID = E.ID	
-	 """;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:class cidoc:E32_Authority_Document;	
-	 rr:template "https://kb.beyond2022.ie/reference/{REFERENCE}" ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
-	 rr:objectMap [	
-		 rr:column "REFERENCE" ;	
+		 rr:column "lawName" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P71_lists;	
+ 	 rr:predicate foodreport:description;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:parent "ID" ;	
-			 rr:child "ID" ;	
-			 ];	
- 		]; 	
- ];	
-.	
-	
-<#STARTDATEEVENT>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, NAME, COUNTRY FROM DATA WHERE STARTDATELOWER IS NOT NULL;" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:class cidoc:E63_Beginning_of_Existence;	
-	 rr:template "https://kb.beyond2022.ie/start-of-organisation/{COUNTRY}/{NAME}" ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P4_has_time-span;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#STARTDATETIMESPAN> ;	
-		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P92_brought_into_existence;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-.	
-	
-<#STARTDATETIMESPAN>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, STARTDATELOWER, STARTDATEUPPER FROM DATA WHERE STARTDATELOWER IS NOT NULL;" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:class cidoc:E52_Time-Span;	
-	 rr:template "https://kb.beyond2022.ie/time-span/{STARTDATELOWER}_{STARTDATEUPPER}" ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P82a_begin_of_the_begin, cidoc:P189_approximates;	
-	 rr:objectMap [	
-		 rr:column "STARTDATELOWER" ;	
-		 rr:datatype xsd:date;	
+		 rr:column "lawText" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P82b_end_of_the_end, cidoc:P81b_begin_of_the_end;	
+ 	 rr:predicate foodreport:labourScore;	
 	 rr:objectMap [	
-		 rr:datatype xsd:date;	
-		 rr:column "STARTDATEUPPER" ;	
-		]; 	
- ];	
-.	
-	
-<#ENDDATEEVENT>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, COUNTRY, NAME FROM DATA WHERE ENDDATELOWER IS NOT NULL;" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/end-of-organisation/{COUNTRY}/{NAME}" ;	
-	 rr:class cidoc:E64_End_of_Existence;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P4_has_time-span;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#ENDDATETIMESPAN> ;	
-		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P93_took_out_of_existence;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-.	
-	
-<#ENDDATETIMESPAN>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, ENDDATELOWER, ENDDATEUPPER FROM DATA WHERE ENDDATELOWER IS NOT NULL;" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/time-span/{ENDDATELOWER}_{ENDDATEUPPER}" ;	
-	 rr:class cidoc:E52_Time-Span;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P82a_begin_of_the_begin, cidoc:P81a_end_of_the_begin;	
-	 rr:objectMap [	
-		 rr:column "ENDDATELOWER" ;	
-		 rr:datatype xsd:date;	
+		 rr:column "labourScore" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P81b_begin_of_the_end, cidoc:P82b_end_of_the_end;	
+ 	 rr:predicate foodreport:environmentScore;	
 	 rr:objectMap [	
-		 rr:datatype xsd:date;	
-		 rr:column "ENDDATEUPPER" ;	
-		]; 	
- ];	
-.	
-	
-<#CITATION1URI>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, CITATION1 FROM DATA WHERE REGEXP_LIKE(CITATION1, '^http(s)?://')" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:column "CITATION1" ;	
-	 rr:class cidoc:E32_Authority_Document;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P71_lists;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
- ];	
-.	
-	
-<#CITATION1TEXT>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, CITATION1 FROM DATA WHERE CITATION1 IS NOT NULL AND NOT REGEXP_LIKE(CITATION1, '^http(s)?://')" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:class cidoc:E32_Authority_Document;	
-	 rr:template "https://kb.beyond2022.ie/reference/{CITATION1}" ;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
-	 rr:objectMap [	
-		 rr:column "CITATION1" ;	
+		 rr:column "environmentScore" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P71_lists;	
+ 	 rr:predicate foodreport:appliesToFoodType;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
+		 rr:parentTriplesMap <#FoodType> ;	
 		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
+			 rr:child "foodType" ;	
+			 rr:parent "foodTypeName" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:appliesToIngredient;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#Ingredient> ;	
+		 rr:joinCondition [	
+			 rr:parent "ingredientName" ;	
+			 rr:child "ingredient" ;	
 			 ];	
  		]; 	
  ];	
 .	
 	
-<#CITATION2URI>	
+<#Continent>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, CITATION2 FROM DATA WHERE REGEXP_LIKE(CITATION2, '^http(s)?://')" ;	
+ 	 rr:tableName "Continent" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:column "CITATION2" ;	
-	 rr:class cidoc:E32_Authority_Document;	
+ 	 rr:class foodreport:Continent;	
+	 rr:template "http://www.foodreport.be/data#{continentName}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P71_lists;	
+ 	 rr:predicate foodreport:continentName;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
-			 ];	
- 		]; 	
+		 rr:column "continentName" ;	
+		]; 	
  ];	
 .	
 	
-<#CITATION2TEXT>	
+<#Country>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, CITATION2 FROM DATA WHERE CITATION2 IS NOT NULL AND NOT REGEXP_LIKE(CITATION2, '^http(s)?://')" ;	
+ 	 rr:sqlQuery "SELECT * FROM Country LEFT JOIN Imposes ON (Country.countryName = Imposes.country)" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/reference/{CITATION2}" ;	
-	 rr:class cidoc:E32_Authority_Document;	
+ 	 rr:template "http://www.foodreport.be/data#{countryName}" ;	
+	 rr:class foodreport:Country;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
+ 	 rr:predicate foodreport:countryName;	
 	 rr:objectMap [	
-		 rr:column "CITATION2" ;	
+		 rr:column "countryName" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P71_lists;	
+ 	 rr:predicate foodreport:isPartOf;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
+		 rr:parentTriplesMap <#Continent> ;	
 		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
+			 rr:child "continent" ;	
+			 rr:parent "continentName" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:imposes;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#Law> ;	
+		 rr:joinCondition [	
+			 rr:parent "lawName" ;	
+			 rr:child "law" ;	
 			 ];	
  		]; 	
  ];	
 .	
 	
-<#CITATION3URI>	
+<#FoodType>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, CITATION3 FROM DATA WHERE REGEXP_LIKE(CITATION3, '^http(s)?://')" ;	
+ 	 rr:tableName "FoodType" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:column "CITATION3" ;	
-	 rr:class cidoc:E32_Authority_Document;	
+ 	 rr:template "http://www.foodreport.be/data#{foodTypeName}" ;	
+	 rr:class foodreport:FoodType;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P71_lists;	
+ 	 rr:predicate foodreport:foodTypeName;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
-		 rr:joinCondition [	
-			 rr:parent "ID" ;	
-			 rr:child "ID" ;	
-			 ];	
- 		]; 	
+		 rr:column "foodTypeName" ;	
+		]; 	
  ];	
 .	
 	
-<#CITATION3TEXT>	
+<#Step>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID, CITATION3 FROM DATA WHERE CITATION3 IS NOT NULL AND NOT REGEXP_LIKE(CITATION3, '^http(s)?://')" ;	
+ 	 rr:tableName "Step" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/reference/{CITATION3}" ;	
-	 rr:class cidoc:E32_Authority_Document;	
+ 	 rr:template "http://www.foodreport.be/data#{describesRecipe}-{orderNumber}" ;	
+	 rr:class foodreport:Step;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
+ 	 rr:predicate foodreport:orderNumber;	
 	 rr:objectMap [	
-		 rr:column "CITATION3" ;	
+		 rr:column "orderNumber" ;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate cidoc:P71_lists;	
+ 	 rr:predicate foodreport:describesRecipe;	
 	 rr:objectMap [	
-		 rr:parentTriplesMap <#Organisation> ;	
+		 rr:parentTriplesMap <#Recipe> ;	
 		 rr:joinCondition [	
-			 rr:child "ID" ;	
-			 rr:parent "ID" ;	
+			 rr:child "describesRecipe" ;	
+			 rr:parent "recipeName" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:description;	
+	 rr:objectMap [	
+		 rr:column "description" ;	
+		]; 	
+ ];	
+.	
+	
+<#Ingredient>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery "SELECT * FROM Ingredient LEFT JOIN ManufacturedFrom ON (Ingredient.ingredientName = ManufacturedFrom.ingredient)" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:class foodreport:Ingredient;	
+	 rr:template "http://www.foodreport.be/data#{ingredientName}" ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:ingredientName;	
+	 rr:objectMap [	
+		 rr:column "ingredientName" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:calcium;	
+	 rr:objectMap [	
+		 rr:column "calcium" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:calories;	
+	 rr:objectMap [	
+		 rr:column "calories" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:carbohydrates;	
+	 rr:objectMap [	
+		 rr:column "carbohydrates" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:fat;	
+	 rr:objectMap [	
+		 rr:column "fat" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:proteins;	
+	 rr:objectMap [	
+		 rr:column "proteins" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:sodium;	
+	 rr:objectMap [	
+		 rr:column "sodium" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:sugar;	
+	 rr:objectMap [	
+		 rr:column "sugar" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:hasFoodType;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#FoodType> ;	
+		 rr:joinCondition [	
+			 rr:child "foodType" ;	
+			 rr:parent "foodTypeName" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:manufacturedFrom;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#Country> ;	
+		 rr:joinCondition [	
+			 rr:child "country" ;	
+			 rr:parent "countryName" ;	
+			 ];	
+ 		]; 	
+ ];	
+.	
+	
+<#Trajectory>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable [ 	
+ 	 rr:tableName "Trajectory" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:class foodreport:Trajectory;	
+	 rr:template "http://www.foodreport.be/data#{trajectoryName}-{countryFrom}-{countryTo}" ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:trajectoryName;	
+	 rr:objectMap [	
+		 rr:column "trajectoryName" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:distance;	
+	 rr:objectMap [	
+		 rr:column "distance" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:trajectoryScore;	
+	 rr:objectMap [	
+		 rr:column "trajectoryScore" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:trajectoryFrom;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#Country> ;	
+		 rr:joinCondition [	
+			 rr:parent "countryName" ;	
+			 rr:child "countryFrom" ;	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:trajectoryTo;	
+	 rr:objectMap [	
+		 rr:template "http://www.foodreport.be/data#{countryTo}" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate foodreport:ships;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#Ingredient> ;	
+		 rr:joinCondition [	
+			 rr:child "ingredient" ;	
+			 rr:parent "ingredientName" ;	
 			 ];	
  		]; 	
  ];	

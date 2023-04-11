@@ -3,6 +3,7 @@ import os
 import hashlib
 import requests
 import urllib
+import rdflib
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
@@ -59,7 +60,8 @@ class FetchVocabularies:
         headers = {'Accept': 'application/rdf+xml'}
         graph_name = urllib.parse.quote(url)
         try:
-            r = requests.get(url, headers=headers)
+            print("test")
+            r = requests.get(url, headers=headers, timeout=5)
             if r.status_code == 200:
                 localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
                 # if host returns xml or turtle RDF data
@@ -122,7 +124,8 @@ class FetchVocabularies:
         #     format = "xml"
         # else:
         #     format = "ttl"
-        ontology_graph = Graph().parse(file_path, format=rdflib.util.guess_format() )
+        graph_format = rdflib.util.guess_format(file_path)
+        ontology_graph = Graph().parse(file_path, format=graph_format)
         query = """
             SELECT ?ns (COUNT(?ns) AS ?count)
             WHERE {
@@ -138,43 +141,13 @@ class FetchVocabularies:
             namespace = str(row["ns"])
             if count > max_value[1]:
                 max_value = (namespace, count)
-        headers = {'Accept': 'application/rdf+xml'}
         graph_name = urllib.parse.quote(max_value[0])
         localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
         # if host returns xml or turtle RDF data
-        if format == "xml":
+        if graph_format == "xml":
             requests.post(localhost, data=open(file_path).read(), headers={"content-type": "application/rdf+xml"})
-        if format == "ttl":
-            print("whshashshsh")
+        if graph_format == "turtle":
             requests.post(localhost, data=open(file_path).read().encode('utf-8'), headers={"content-type": "text/turtle"})
-
-    # checks if ontology already saved
-    def check_cache(self, namespace):
-        # returns True if file exists in cache
-        filename = self.cache_directory + self.hash_filename(namespace)
-        return os.path.isfile(filename)
-
-    # attempts to fetch each ontology in the mapping
-    def fetch_mapping_ontologies(self):
-        namespaces = self.get_unique_namespaces()
-        for ns in namespaces:
-            # if not already cached
-            ontology_cached = self.check_cache(ns)
-            if not ontology_cached:
-                # different ontology storage methods
-                exceptions = {
-                    "http://xmlns.com/foaf/0.1/": "http://xmlns.com/foaf/0.1/index.rdf",
-                    "http://ont.virtualtreasury.ie/ontology#": "https://ont.virtualtreasury.ie/ontology/ontology.ttl",
-                }
-                if ns in exceptions.keys():
-                    ns = exceptions[ns]
-                # if success returned
-                return_value = self.retrieve_ontology(ns)
-                if return_value is True:
-                    print("Ontology saved: ", ns)
-            else:
-                print("Ontology ALREADY saved", ns)
-
 
 if __name__ == "__main__":
     f = FetchVocabularies("/home/alex/Desktop/testing_mapping.ttl")

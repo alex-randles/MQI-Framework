@@ -1,0 +1,528 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://recipes.workingclass.org#"
+     xml:base="http://recipes.workingclass.org"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#">
+    <owl:Ontology rdf:about="http://recipes.workingclass.org"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://recipes.workingclass.org#hasAllergy -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#hasAllergy">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#Allergy"/>
+        <rdfs:comment xml:lang="en">A relation that indicates the existence of allergies with regards to a product, i.e. whether there exists a medical condition that does not allow to consume a given product</rdfs:comment>
+        <rdfs:label xml:lang="en">hasAllergy</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#hasAlternative -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#hasAlternative">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:comment xml:lang="en">A relationship that indicates whether a product being used in a given step can be replaced by its alternatives.</rdfs:comment>
+        <rdfs:label xml:lang="en">hasAlternative</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#hasIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#hasIngredient">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Recipe"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:comment xml:lang="en">Indicated that in a recipe, a product is processed and added.</rdfs:comment>
+        <rdfs:label xml:lang="en">hasIngredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#hasMaterial -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#hasMaterial">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Recipe"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#Material"/>
+        <rdfs:comment xml:lang="en">Indicates that preparing a dish by following a recipe requires a certain material.</rdfs:comment>
+        <rdfs:label xml:lang="en">hasMaterial</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#hasStep -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#hasStep">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Recipe"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#Step"/>
+        <rdfs:comment xml:lang="en">Indicates that preparing a dish requires performing the action as described by Step.</rdfs:comment>
+        <rdfs:label xml:lang="en">hasStep</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#usedInStep -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#usedInStep">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:comment xml:lang="en">Indicates that a certain product is necessary to perform a  given step.</rdfs:comment>
+        <rdfs:label xml:lang="en">usedInStep</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#usesIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#usesIngredient">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Step"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:comment xml:lang="en">Indicates that in a step, a product is processed and added into the intermediary result.</rdfs:comment>
+        <rdfs:label xml:lang="en">usesIngredient</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#usesMaterial -->
+
+    <owl:ObjectProperty rdf:about="http://recipes.workingclass.org#usesMaterial">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Step"/>
+        <rdfs:range rdf:resource="http://recipes.workingclass.org#Material"/>
+        <rdfs:comment xml:lang="en">Indicates that a step requires a specific kitchen utensil or piece of hardware.</rdfs:comment>
+        <rdfs:label xml:lang="en">usesMaterial</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://recipes.workingclass.org#amount -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#amount">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The quantity of the ingredient that will be used. (This is of course expressed in units. The unit can be retrieved on the Product instance).</rdfs:comment>
+        <rdfs:label xml:lang="en">amount</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#carbohydrates -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#carbohydrates">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of carbohydrates, in grams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">carbohydrates</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#cholesterol -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#cholesterol">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of cholesterol, in milligrams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">cholesterol</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#energy -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#energy">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The nutritional energy for every 100 grams of the product expressed in kilocalories.</rdfs:comment>
+        <rdfs:label xml:lang="en">energy</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#fibre -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#fibre">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of dietary fibre (fiber), in grams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">fibre</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#name -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#name">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">The word that identifies the individual.</rdfs:comment>
+        <rdfs:label xml:lang="en">name</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#preparationTime -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#preparationTime">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+        <rdfs:comment xml:lang="en">The estimated time it takes to prepare a recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">preparationTime</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#protein -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#protein">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of proteins, in grams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">protein</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#recipeDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#recipeDescription">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Recipe"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A short description of the recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">recipeDescription</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#saturatedFat -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#saturatedFat">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of saturated fat, in grams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">saturatedFat</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#sortingValue -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#sortingValue">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Step"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#positiveInteger"/>
+        <rdfs:comment xml:lang="en">This value indicates the relative position of a step in the complete sequence of steps for a recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">sortingValue</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#stepDescription -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#stepDescription">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Step"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">A description of the actions that should be executed to perform a step.</rdfs:comment>
+        <rdfs:label xml:lang="en">stepDescription</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#sugar -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#sugar">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of sugar, in grams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">sugar</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#unit -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#unit">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="en">The standard measure that is used to express amounts of a certain product.</rdfs:comment>
+        <rdfs:label xml:lang="en">unit</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#unsaturatedFat -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#unsaturatedFat">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of unsaturated fat, in grams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">unsaturatedFat</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#vegan -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#vegan">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment xml:lang="en">Indicates whether a product is suitable for a vegan diet.</rdfs:comment>
+        <rdfs:label xml:lang="en">vegan</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#vegetarian -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#vegetarian">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+        <rdfs:comment xml:lang="en">Indicates whether a product is suitable for a vegetarian diet.</rdfs:comment>
+        <rdfs:label xml:lang="en">vegetarian</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://recipes.workingclass.org#water -->
+
+    <owl:DatatypeProperty rdf:about="http://recipes.workingclass.org#water">
+        <rdfs:domain rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+        <rdfs:comment xml:lang="en">The amount of water, in grams, the product contains for every 100 grams.</rdfs:comment>
+        <rdfs:label xml:lang="en">water</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://recipes.workingclass.org#Allergy -->
+
+    <owl:Class rdf:about="http://recipes.workingclass.org#Allergy">
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#Material"/>
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#Product"/>
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#Step"/>
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:comment xml:lang="en">The intolerance for certain products. When a person has an allergy to a certain product, this person cannot consume food which could contain traces of this product. In this ontology we only focus on the more well-known allergies.</rdfs:comment>
+        <rdfs:label xml:lang="en">Allergy</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://recipes.workingclass.org#Material -->
+
+    <owl:Class rdf:about="http://recipes.workingclass.org#Material">
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#Product"/>
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#Step"/>
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:comment xml:lang="en">A kitchen utensil or piece of hardware used for preparing food products.</rdfs:comment>
+        <rdfs:label xml:lang="en">Material</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://recipes.workingclass.org#Product -->
+
+    <owl:Class rdf:about="http://recipes.workingclass.org#Product">
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#Step"/>
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:comment xml:lang="en">A food article or dish that can be consumed by humans.</rdfs:comment>
+        <rdfs:label xml:lang="en">Product</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://recipes.workingclass.org#Recipe -->
+
+    <owl:Class rdf:about="http://recipes.workingclass.org#Recipe">
+        <rdfs:subClassOf rdf:resource="http://recipes.workingclass.org#Product"/>
+        <rdfs:comment xml:lang="en">A sequence of steps that, when correctly followed, results in a product.</rdfs:comment>
+        <rdfs:label xml:lang="en">Recipe</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://recipes.workingclass.org#Step -->
+
+    <owl:Class rdf:about="http://recipes.workingclass.org#Step">
+        <owl:disjointWith rdf:resource="http://recipes.workingclass.org#StepProduct"/>
+        <rdfs:comment xml:lang="en">A particular action that is performed on the intermediary product with the goal of preparing a product by following a recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">Step</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://recipes.workingclass.org#StepProduct -->
+
+    <owl:Class rdf:about="http://recipes.workingclass.org#StepProduct">
+        <rdfs:comment xml:lang="en">A particular action that is performed on the intermediary product with the goal of preparing a product by following a recipe.</rdfs:comment>
+        <rdfs:label xml:lang="en">StepProduct</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="urn:swrl:var#step">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#stepProduct">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#recipe">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#product">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="urn:swrl:var#material">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://recipes.workingclass.org#usesIngredient"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#step"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#stepProduct"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://recipes.workingclass.org#hasStep"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#recipe"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#step"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://recipes.workingclass.org#usedInStep"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl:var#product"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl:var#stepProduct"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://recipes.workingclass.org#hasIngredient"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#recipe"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#product"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://recipes.workingclass.org#hasStep"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#recipe"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#step"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://recipes.workingclass.org#usesMaterial"/>
+                                <swrl:argument1 rdf:resource="urn:swrl:var#step"/>
+                                <swrl:argument2 rdf:resource="urn:swrl:var#material"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://recipes.workingclass.org#hasMaterial"/>
+                        <swrl:argument1 rdf:resource="urn:swrl:var#recipe"/>
+                        <swrl:argument2 rdf:resource="urn:swrl:var#material"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

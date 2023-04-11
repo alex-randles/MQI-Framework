@@ -485,11 +485,11 @@ class API:
                             i = 0
                             new_results = defaultdict(dict)
                             print("hdhdh")
-                            i = 0
-                            while i <= validation_result.qsize() + 1:
-                                new_results[i] = validation_result.get()
-                                i += 1
-                            validation_result = new_results
+                            # i = 0
+                            # while i <= validation_result.qsize() + 1:
+                            #     new_results[i] = validation_result.get()
+                            #     i += 1
+                            # validation_result = new_results
                             session["validation_result"] = validation_result
                             triple_references = assessment_result.triple_references
                             session["triple_references"] = triple_references
