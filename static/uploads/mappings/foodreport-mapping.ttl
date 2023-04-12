@@ -1,0 +1,329 @@
+# This is the vocabulary for creating R2RML
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+# This is the vocabulary of our ontology
+@prefix foodreport: <http://www.foodreport.be/ontology#> .
+
+<#Recipe>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:sqlQuery """SELECT Recipe.recipeName, NeedsIngredient.ingredient FROM Recipe JOIN NeedsIngredient ON (NeedsIngredient.recipe = Recipe.recipeName)""" ] ;
+
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{recipeName}" ;
+    rr:class foodreport:Recipe ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:recipeName ;
+    rr:objectMap [ rr:column "recipeName" ] ;
+    ] ;
+
+	rr:predicateObjectMap [
+		rr:predicate foodreport:needsIngredient ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Ingredient> ;
+            rr:joinCondition [
+                rr:child "ingredient" ;
+                rr:parent "ingredientName" ;
+            ] ;
+        ] ;
+	] ;
+
+    .
+
+<#Law>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:sqlQuery """SELECT * FROM Law LEFT JOIN AppliesToFoodType ON (Law.lawName = AppliesToFoodType.law) LEFT JOIN AppliesToIngredient ON (Law.lawName = AppliesToIngredient.law)""" ] ;
+
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{lawName}" ;
+    rr:class foodreport:Law ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:lawName ;
+    rr:objectMap [ rr:column "lawName" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:lawText ;
+    rr:objectMap [ rr:column "lawText" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:labourScore ;
+    rr:objectMap [ rr:column "labourScore" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:environmentScore ;
+    rr:objectMap [ rr:column "environmentScore" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:appliesToFoodType ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#FoodType> ;
+            rr:joinCondition [
+                rr:child "foodType" ;
+                rr:parent "foodTypeName" ;
+            ] ;
+        ] ;
+	] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:appliesToIngredient ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Ingredient> ;
+            rr:joinCondition [
+                rr:child "ingredient" ;
+                rr:parent "ingredientName" ;
+            ] ;
+        ] ;
+	] ;
+
+    .
+
+<#Continent>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:tableName "Continent" ] ;
+
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{continentName}" ;
+    rr:class foodreport:Continent ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:continentName ;
+    rr:objectMap [ rr:column "continentName" ] ;
+    ] ;
+
+    .
+
+<#Country>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:sqlQuery """SELECT * FROM Country LEFT JOIN Imposes ON (Country.countryName = Imposes.country)""" ] ;
+
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{countryName}" ;
+    rr:class foodreport:Country ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:countryName ;
+    rr:objectMap [ rr:column "countryName" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:isPartOf ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Continent> ;
+            rr:joinCondition [
+                rr:child "continent" ;
+                rr:parent "continentName" ;
+            ] ;
+        ] ;
+	] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:imposes ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Law> ;
+            rr:joinCondition [
+                rr:child "law" ;
+                rr:parent "lawName" ;
+            ] ;
+        ] ;
+	] ;
+
+    .
+
+<#FoodType>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:tableName "FoodType" ] ;
+
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{foodTypeName}" ;
+    rr:class foodreport:FoodType ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:foodTypeName ;
+    rr:objectMap [ rr:column "foodTypeName" ] ;
+    ] ;
+
+    .
+
+<#Step>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:tableName "Step" ] ;
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{describesRecipe}-{orderNumber}" ;
+    rr:class foodreport:Step ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:orderNumber ;
+    rr:objectMap [ rr:column "orderNumber" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:describesRecipe ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Recipe> ;
+            rr:joinCondition [
+                rr:child "describesRecipe" ;
+                rr:parent "recipeName" ;
+            ] ;
+        ] ;
+	] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:description ;
+    rr:objectMap [ rr:column "description" ] ;
+    ] ;
+
+    .
+
+<#Ingredient>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:sqlQuery """SELECT * FROM Ingredient LEFT JOIN ManufacturedFrom ON (Ingredient.ingredientName = ManufacturedFrom.ingredient)""" ] ;
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{ingredientName}" ;
+    rr:class foodreport:Ingredient ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:ingredientName ;
+    rr:objectMap [ rr:column "ingredientName" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:calcium ;
+    rr:objectMap [ rr:column "calcium" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:calories ;
+    rr:objectMap [ rr:column "calories" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:carbohydrates ;
+    rr:objectMap [ rr:column "carbohydrates" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:fat ;
+    rr:objectMap [ rr:column "fat" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:proteins ;
+    rr:objectMap [ rr:column "proteins" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:sodium ;
+    rr:objectMap [ rr:column "sodium" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:sugar ;
+    rr:objectMap [ rr:column "sugar" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:hasFoodType ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#FoodType> ;
+            rr:joinCondition [
+                rr:child "foodType" ;
+                rr:parent "foodTypeName" ;
+            ] ;
+        ] ;
+	] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:manufacturedFrom ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Country> ;
+            rr:joinCondition [
+                rr:child "country" ;
+                rr:parent "countryName" ;
+            ] ;
+        ] ;
+	] ;
+
+    .
+
+<#Trajectory>
+    a rr:TriplesMap ;
+
+    rr:logicalTable [ rr:tableName "Trajectory" ] ;
+
+    rr:subjectMap [
+    rr:template "http://www.foodreport.be/data#{trajectoryName}-{countryFrom}-{countryTo}" ;
+    rr:class foodreport:Trajectory ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:trajectoryName ;
+    rr:objectMap [ rr:column "trajectoryName" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:distance ;
+    rr:objectMap [ rr:column "distance" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+    rr:predicate foodreport:trajectoryScore ;
+    rr:objectMap [ rr:column "trajectoryScore" ] ;
+    ] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:trajectoryFrom ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Country> ;
+            rr:joinCondition [
+                rr:child "countryFrom" ;
+                rr:parent "countryName" ;
+            ] ;
+        ] ;
+	] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:trajectoryTo ;
+        rr:objectMap [ rr:template "http://www.foodreport.be/data#{countryTo}" ] ;
+	] ;
+
+    rr:predicateObjectMap [
+		rr:predicate foodreport:ships ;
+
+		rr:objectMap [
+            rr:parentTriplesMap <#Ingredient> ;
+            rr:joinCondition [
+                rr:child "ingredient" ;
+                rr:parent "ingredientName" ;
+            ] ;
+        ] ;
+	] ;
+
+    .
+

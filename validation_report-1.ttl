@@ -1,10 +1,13 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <latest_mapping.ttl> ;
+    mqio:assessedMapping <mappingDAQobservation_2nd_Dump.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -15,21 +18,7 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-12,
         ex:violation-13,
         ex:violation-14,
-        ex:violation-15,
-        ex:violation-16,
-        ex:violation-17,
-        ex:violation-18,
-        ex:violation-19,
         ex:violation-2,
-        ex:violation-20,
-        ex:violation-21,
-        ex:violation-22,
-        ex:violation-23,
-        ex:violation-24,
-        ex:violation-25,
-        ex:violation-26,
-        ex:violation-27,
-        ex:violation-28,
         ex:violation-3,
         ex:violation-4,
         ex:violation-5,
@@ -39,207 +28,109 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-9 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#target_area_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TargetArea> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:hasLocation "predicateObjectMap-9"^^xsd:string ;
+    mqio:hasObjectValue prov:generated ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#Observations> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#CardioExercise> ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#CardioExercise> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'sdmx-dimension:timePeriod'."^^xsd:string ;
+    mqio:inTripleMap <#Observations> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
 
 ex:violation-10 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#WeightLoss> ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#WeightLoss> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-11 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#weight_loss_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#WeightLoss> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-12 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#has_target_area> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#WeightLoss> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-13 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#session_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Session> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-14 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#avg_cals> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Session> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-15 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#descriptions> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Goal> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-16 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#goal_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Goal> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-17 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#StrengthExercise> ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#StrengthExercise> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-18 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#weigth> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#StrengthExercise> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-19 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#strength_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#StrengthExercise> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#cardio_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#CardioExercise> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-20 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#sets> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#StrengthExercise> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-21 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#repetitions> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#StrengthExercise> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-22 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#MuscleGain> ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#MuscleGain> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-23 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#muscle_gain_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MuscleGain> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-24 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#has_target_muscle> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#MuscleGain> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-25 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#conditioning_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Conditioning> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-26 a mqio:MappingViolation ;
     mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#> ;
-    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
-    mqio:inTripleMap <#Conditioning> ;
-    mqio:isDescribedBy mqio-metrics:VOC3 .
-
-ex:violation-27 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#> ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Conditioning> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-28 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#> ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#> ;
     mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Conditioning> ;
+    mqio:inTripleMap <#Category-Instance> ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
+ex:violation-11 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/sdmx/2009/dimension#> ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-12 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue rdf: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-13 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue prov: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-14 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/cube#> ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#Observation> ;
+    mqio:hasResultMessage "No domain definition or range definition."^^xsd:string ;
+    mqio:inTripleMap <#Metric-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC2 .
+
 ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#duration> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#CardioExercise> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#MetricProfile> ;
+    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+    mqio:inTripleMap <#Profiling> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
 
 ex:violation-4 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#target_muscle_id> ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#totalDatasetTriplesAssessed> ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TargetMuscle> ;
+    mqio:inTripleMap <#Profiling> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#avg_cals> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Exercise> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/sdmx/2009/dimension#> ;
+    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC3 .
 
 ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#exercise_id> ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Exercise> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#> ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#name> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Exercise> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/sdmx/2009/dimension#> ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#description> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Exercise> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue rdf: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-9 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
-    mqio:hasObjectValue <http://ontology.openfit.org#has_goal> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Exercise> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue prov: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Category-Instance> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
-<latest_mapping.ttl> a mqio:MappingArtefact .
+<mappingDAQobservation_2nd_Dump.ttl> a mqio:MappingArtefact .
 

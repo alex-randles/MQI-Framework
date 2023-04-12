@@ -23,8 +23,8 @@ class FetchVocabularies:
             # self.fetch_mapping_ontologies()
 
     # retrieves and queries local graph
-    def query_local_graph(self, property_IRI, query):
-        sparql = SPARQLWrapper(self.localhost)
+    def query_local_graph(self, property_identifier, query):
+        sparql = SPARQLWrapper("http://127.0.0.1:3030/MQI-Framework-Ontologies")
         sparql.setQuery(query)
         sparql.setReturnFormat(JSON)
         query_results = sparql.queryAndConvert()
@@ -32,7 +32,7 @@ class FetchVocabularies:
         if "results" in query_results.keys():
             results = query_results["results"].get("bindings")
             if not results:
-                namespace = FetchVocabularies.get_identifier_namespace(property_IRI)
+                namespace = FetchVocabularies.get_identifier_namespace(property_identifier)
                 self.http_retrieval(namespace)
         return query_results
 
@@ -86,7 +86,7 @@ class FetchVocabularies:
 
     # A function which returns a list containing unique namespaces in the object position
     def get_unique_namespaces(self):
-        unqiue_namespaces = []
+        unique_namespaces = []
         query = """
                      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
                      PREFIX rr: <http://www.w3.org/ns/r2rml#>
@@ -105,12 +105,13 @@ class FetchVocabularies:
              """
         query_results = self.mapping_graph.query(query)
         for row in query_results:
-            unqiue_namespaces.append("%s" % row)
-        print(unqiue_namespaces)
-        return unqiue_namespaces
+            unique_namespaces.append("%s" % row)
+        print(unique_namespaces)
+        return unique_namespaces
 
     # attempts to retrieve ontology using rdflib and request module
-    def retrieve_ontology(self, url):
+    @staticmethod
+    def retrieve_ontology(url):
         for func in [FetchVocabularies.http_retrieval]:  # change list order to change execution order.
             try:
                 len = func(url)
