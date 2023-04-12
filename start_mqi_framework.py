@@ -227,6 +227,7 @@ class API:
     def detect_CSV_changes():
         participant_id = session.get("participant_id")
         if request.method == "GET":
+            session["change_process_executed"] = False
             return render_template("change_detection/CSV_file_details.html", participant_id=participant_id)
         elif request.method == "POST":
             # create a graph with 3 named graphs for user

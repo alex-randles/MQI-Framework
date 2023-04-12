@@ -37,12 +37,12 @@ class Refinements:
             ## No triple map metric - we are not a mapping editor
             ##
             # mapping metric refinements #
-            "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
-            "MP2": ["ChangeTermType", "RemoveTermType"],
+            "MP1": ["RemoveLanguageTag"],
+            "MP2": ["RemoveDatatype"],
             "MP3": ["AddSubjectMap"],
-            "MP4": ["ChangeTermType", "RemoveTermType"],
-            "MP6": ["AddLogicalTable"],
+            "MP4": ["AddPredicateObjectMap"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
+            "MP6": ["AddLogicalTable"],
             "MP7": ["ChangeTermType"],
             "MP8": ["ChangeClass"],
             "MP9": ["ChangePredicate"],
@@ -162,7 +162,7 @@ class Refinements:
                                      "AddCorrectDatatype": self.change_datatype,
                                      "RemoveDatatype": self.remove_datatype,
                                      "ChangeConstantValue": self.change_constant_range,
-                                     "RemoveDuplicateTriples": self.remove_duplicate_triples,
+                                     # "RemoveDuplicateTriples": self.remove_duplicate_triples,
                                      }
         # print(mapping_graph.serialize(format="ttl").decode("utf-8"))
         # exit()
@@ -178,10 +178,10 @@ class Refinements:
             refinement_descriptions[refinement_name] = refinement_description.replace("\n", "")
         return refinement_descriptions
 
-    def get_classes(self, violation_ID):
+    def get_classes(self, violation_identifier):
         # get classes from triple map for removing disjoint
         classes = []
-        triple_map = self.validation_results[violation_ID]["triple_map"]
+        triple_map = self.validation_results[violation_identifier]["triple_map"]
         query = """SELECT ?class
                     WHERE {
                       <%s> rr:subjectMap ?subjectMap .
@@ -194,11 +194,10 @@ class Refinements:
         output = {"Classes": classes}
         return output
 
-    def add_logical_table(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[violation_ID]
+    def add_logical_table(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
         update_query = """
-        PREFIX rr: <http:        processUpdate(mapping_graph, update_query)
-//www.w3.org/ns/r2rml#> 
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 INSERT { ?subject rr:subjectMap rr:class . } 
                 WHERE { 
                 SELECT ?subject
@@ -219,32 +218,9 @@ class Refinements:
         # print(mapping_graph.serialize(format="ttl").decode("utf-8"))
         # return "dhdh"
 
-    def remove_duplicate_triples(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[violation_ID]
-        subject_identifier = current_result["location"]
-        mapping_graph.remove((None, None, subject_identifier))
-        mapping_graph.remove((subject_identifier, None, None))
-        update_query = """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?subject ?p2 ?o1 .
-                         ?s1 ?p1 ?subject .
-                       }
-                WHERE {
-                SELECT ?subject ?s1 ?p1 ?o1 ?p2
-                WHERE {
-                         ?subject ?p2 ?o1 .
-                         ?s1 ?p1 ?subject .
-                         FILTER(str(?subject) = "%s").
-                    }
-
-                }
-                """ % subject_identifier
-        print("Remove duplicate triple query\n" + update_query)
-        return update_query
-
-    def get_correct_term_types(self, violation_ID):
-        metric_ID = self.validation_results[violation_ID]["metric_identifier"]
-        violation_value = self.validation_results[violation_ID]["value"]
+    def get_correct_term_types(self, violation_identifier):
+        metric_identifier = self.validation_results[violation_identifier]["metric_identifier"]
+        violation_value = self.validation_results[violation_identifier]["value"]
         all_term_types = [self.R2RML + "IRI", self.R2RML + "BlankNode", self.R2RML + "Literal"]
         print(violation_value, "VIOLATION VALUE", str(self.R2RML + "Literal") != violation_value)
         # M4 -> objectMap,  M12 -> subjectMap, M15 -> IRI
@@ -256,25 +232,25 @@ class Refinements:
                               "D6": [value for value in all_term_types if value != str(violation_value)]}
 
         select_placeholder = "Choose a valid term type"
-        term_types = correct_term_types[metric_ID]
+        term_types = correct_term_types[metric_identifier]
         print(term_types)
         output = {select_placeholder: term_types}
         return output
 
-    def create_refinement(self, refinement_name, refinement_values, violation_ID):
+    def create_refinement(self, refinement_name, refinement_values, violation_identifier):
         user_input_values = refinement_values["user_input_values"]
         user_input = refinement_values["user_input"]
         requires_prefixes = refinement_values["requires_prefixes"]
         restricted_values = refinement_values["restricted_values"]
         optional_values = refinement_values.get("optional_values")
-        violation_value = self.get_violation_value(violation_ID)
+        violation_value = self.get_violation_value(violation_identifier)
         if not callable(user_input_values) and not callable(restricted_values):
             refinement = {"name": refinement_name, "user_input": user_input, "requires_prefixes": requires_prefixes,
                           "restricted_values": restricted_values, "values": user_input_values,
                           "optional_values": optional_values}
         elif callable(user_input_values) and callable(restricted_values):
             refinement = {"name": refinement_name, "user_input": user_input, "requires_prefixes": requires_prefixes,
-                          "restricted_values": restricted_values(violation_ID),
+                          "restricted_values": restricted_values(violation_identifier),
                           "values": user_input_values(violation_value), "optional_values": optional_values}
         elif callable(user_input_values):
             refinement = {"name": refinement_name, "user_input": user_input, "requires_prefixes": requires_prefixes,
@@ -282,7 +258,7 @@ class Refinements:
                           "optional_values": optional_values}
         elif callable(restricted_values):
             refinement = {"name": refinement_name, "user_input": user_input, "requires_prefixes": requires_prefixes,
-                          "restricted_values": restricted_values(violation_ID), "values": user_input_values,
+                          "restricted_values": restricted_values(violation_identifier), "values": user_input_values,
                           "optional_values": optional_values}
         else:
             refinement = {"name": refinement_name, "user_input": user_input, "requires_prefixes": requires_prefixes,
@@ -327,9 +303,9 @@ class Refinements:
         output = {select_placeholder: language_tags}
         return output
 
-    def get_vocabulary_properties(self, violation_ID):
+    def get_vocabulary_properties(self, violation_identifier):
         # returns similar predicates from the vocabulary which caused the violation
-        violation_value = self.validation_results[violation_ID]["value"]
+        violation_value = self.validation_results[violation_identifier]["value"]
         select_placeholder = "Choose a new predicate"
         # query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         #             PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -377,9 +353,9 @@ class Refinements:
         most_similar = closest_matches + ordered_predicates
         return most_similar
 
-    def get_vocabulary_classes(self, violation_ID):
+    def get_vocabulary_classes(self, violation_identifier):
         # returns similar predicates from the vocabulary which caused the violation
-        violation_value = self.validation_results[violation_ID]["value"]
+        violation_value = self.validation_results[violation_identifier]["value"]
         select_placeholder = "Choose a new class"
         query = """ PREFIX owl: <http://www.w3.org/2002/07/owl#>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -412,22 +388,22 @@ class Refinements:
         classes = self.order_similar_matches(classes, violation_value)
         return {select_placeholder: classes}
 
-    def find_violation_triple_map_ID(self, violation_ID):
-        violation_triple_map = self.validation_results[violation_ID]["triple_map"]
+    def find_violation_triple_map_identifier(self, violation_identifier):
+        violation_triple_map = self.validation_results[violation_identifier]["triple_map"]
         for key in self.triple_references:
             if violation_triple_map == key.split("/")[-1]:
                 return key
 
     ################################################################################################
-    # Refinement functions need the following parameters (query_values, mapping_graph, violation_ID)
+    # Refinement functions need the following parameters (query_values, mapping_graph, violation_identifier)
     #################################################################################################
     ##### Validation report format
-    # {'location': 'ub2bL24C24', 'metric_ID': 'M9', 'result_message': 'Language tag not defined in RFC 5646.',
+    # {'location': 'ub2bL24C24', 'metric_identifier': 'M9', 'result_message': 'Language tag not defined in RFC 5646.',
     #  'triple_map': 'file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/static/uploads/TripleMap1',
     #  'value': 'dhhdhd'
 
-    def find_triple_map(self, violation_ID):
-        violation_triple_map = self.validation_results[violation_ID]["triple_map"]
+    def find_triple_map(self, violation_identifier):
+        violation_triple_map = self.validation_results[violation_identifier]["triple_map"]
         # find triple map for a violation and return formatted output which is easier to read
         if len(violation_triple_map.split("#")) > 1:
             return violation_triple_map.split("#")[-1]
@@ -452,8 +428,8 @@ class Refinements:
                 return " %s " % (identifier)
             return identifier
 
-    def remove_identifier(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[int(violation_ID)]
+    def remove_identifier(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[int(violation_identifier)]
         subject_identifier = current_result["location"]
         current_value = current_result["value"]
         update_query = """
@@ -471,9 +447,9 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_graph_identifier(self, query_values, mapping_graph, violation_ID):
+    def change_graph_identifier(self, query_values, mapping_graph, violation_identifier):
         new_identifier = self.get_user_input(query_values)
-        current_result = self.validation_results[violation_ID]
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         old_identifier = self.parse_mapping_value(current_result["value"])
         update_query = """
@@ -493,9 +469,9 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_class_identifier(self, query_values, mapping_graph, violation_ID):
+    def change_class_identifier(self, query_values, mapping_graph, violation_identifier):
         new_identifier = self.get_user_input(query_values)
-        current_result = self.validation_results[violation_ID]
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         old_identifier = self.parse_mapping_value(current_result["value"])
         update_query = """
@@ -515,9 +491,9 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_constant_range(self, query_values, mapping_graph, violation_ID):
+    def change_constant_range(self, query_values, mapping_graph, violation_identifier):
         new_identifier = query_values["IRI"]
-        current_result = self.validation_results[violation_ID]
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         old_identifier = current_result["value"]
         update_query = """
@@ -536,9 +512,9 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_identifier(self, query_values, mapping_graph, violation_ID):
+    def change_identifier(self, query_values, mapping_graph, violation_identifier):
         new_identifier = query_values["URI"]
-        current_result = self.validation_results[violation_ID]
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         old_identifier = current_result["value"]
         update_query = """
@@ -557,9 +533,9 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_term_type(self, query_values, mapping_graph, violation_ID):
+    def change_term_type(self, query_values, mapping_graph, violation_identifier):
         new_term_type = list(query_values.values())[0]
-        current_result = self.validation_results[violation_ID]
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         # delete current term type (if applicable)
         # then insert term type input
@@ -580,8 +556,8 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def remove_term_type(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[violation_ID]
+    def remove_term_type(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         term_type_value = current_result["value"]
         update_query = """
@@ -599,8 +575,8 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def remove_datatype(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[violation_ID]
+    def remove_datatype(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
         object_map_identifier = current_result["location"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
@@ -618,8 +594,8 @@ class Refinements:
         return update_query
 
     # not remove class IRI as the value is a literal
-    def remove_class(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[violation_ID]
+    def remove_class(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         # this value is most likely a literal
         old_class_value = self.get_user_input(query_values)
@@ -640,11 +616,11 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_class(self, query_values, mapping_graph, violation_ID):
+    def change_class(self, query_values, mapping_graph, violation_identifier):
         new_class = self.get_user_input(query_values)
-        current_result = self.validation_results[violation_ID]
+        current_result = self.validation_results[violation_identifier]
         triple_map = current_result["triple_map"]
-        old_class = self.validation_results[violation_ID]["value"]
+        old_class = self.validation_results[violation_identifier]["value"]
         old_class = self.parse_mapping_value(current_result["value"])
         update_query = """
             PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -665,10 +641,10 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_predicate(self, query_values, mapping_graph, violation_ID):
+    def change_predicate(self, query_values, mapping_graph, violation_identifier):
         new_predicate = self.get_user_input(query_values)
         if new_predicate:
-            violation_info = self.validation_results[violation_ID]
+            violation_info = self.validation_results[violation_identifier]
             violation_location = violation_info["location"]
             old_predicate = violation_info.get("value")
             print(old_predicate, type(old_predicate))
@@ -690,8 +666,8 @@ class Refinements:
             processUpdate(mapping_graph, update_query)
             return update_query
 
-    def change_language_tag(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[int(violation_ID)]
+    def change_language_tag(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[int(violation_identifier)]
         pom_identifier = current_result["location"]
         old_language_tag = current_result["value"]
         new_language_tag = list(query_values.values())[0]
@@ -711,9 +687,9 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def change_datatype(self, query_values, mapping_graph, violation_ID):
+    def change_datatype(self, query_values, mapping_graph, violation_identifier):
         correct_datatype = self.get_user_input(query_values)
-        current_result = self.validation_results[violation_ID]
+        current_result = self.validation_results[violation_identifier]
         object_map_identifier = current_result["location"]
         old_datatype = current_result["value"]
         update_query = """
@@ -733,8 +709,8 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def add_correct_range(self, correct_range, mapping_graph, violation_ID):
-        current_result = self.validation_results[int(violation_ID)]
+    def add_correct_range(self, correct_range, mapping_graph, violation_identifier):
+        current_result = self.validation_results[int(violation_identifier)]
         object_map_identifier = current_result["location"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
@@ -752,10 +728,10 @@ class Refinements:
         processUpdate(mapping_graph, update_query)
         return update_query
 
-    def add_parent_column(self, query_values, mapping_graph, violation_ID):
+    def add_parent_column(self, query_values, mapping_graph, violation_identifier):
         parent_column = query_values.get("http://www.w3.org/ns/r2rml#parent")
         if parent_column:
-            current_result = self.validation_results[violation_ID]
+            current_result = self.validation_results[violation_identifier]
             join_identifier = current_result["location"]
             update_query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -772,7 +748,7 @@ class Refinements:
             processUpdate(mapping_graph, update_query)
             return update_query
 
-    def add_subject_map(self, query_values, mapping_graph, violation_ID):
+    def add_subject_map(self, query_values, mapping_graph, violation_identifier):
         print(query_values)
         for property, value in query_values.items():
             update_query = """
@@ -791,10 +767,10 @@ class Refinements:
             print(mapping_graph.serialize(format="ttl").decode("utf-8"))
             return update_query
 
-    def add_child_column(self, query_values, mapping_graph, violation_ID):
+    def add_child_column(self, query_values, mapping_graph, violation_identifier):
         child_column = query_values.get("http://www.w3.org/ns/r2rml#child")
         if child_column:
-            current_result = self.validation_results[violation_ID]
+            current_result = self.validation_results[violation_identifier]
             join_identifier = current_result["location"]
             update_query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -827,8 +803,8 @@ class Refinements:
             domain.append("%s" % row)
         return domain
 
-    def remove_language_tag(self, query_values, mapping_graph, violation_ID):
-        current_result = self.validation_results[violation_ID]
+    def remove_language_tag(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
         # this value is most likely a literal
         language_tag = current_result["value"]
@@ -848,9 +824,9 @@ class Refinements:
         print(mapping_graph.serialize(format="turtle").decode("utf-8"))
         return update_query
 
-    def add_domain(self, query_values, mapping_graph, violation_ID):
+    def add_domain(self, query_values, mapping_graph, violation_identifier):
         domain_identifier = list(query_values.values())[0]
-        triple_map_identifier = self.validation_results[violation_ID]["triple_map"]
+        triple_map_identifier = self.validation_results[violation_identifier]["triple_map"]
         print("ADDING DOMAIN" + domain_identifier)
         update_query = """
             INSERT {
@@ -886,25 +862,25 @@ class Refinements:
         else:
             return "<%s>" % values
 
-    def get_violation_value(self, violation_ID):
-        violation_value = self.validation_results[violation_ID]["value"]
+    def get_violation_value(self, violation_identifier):
+        violation_value = self.validation_results[violation_identifier]["value"]
         return str(violation_value)
 
     def provide_refinements(self, selected_refinements):
         refinements = {}
         print(selected_refinements, "SELECTED REFINEMETS")
         # Provides values/inputs for the refinements suggested by the user
-        for (violation_ID, selected_refinement) in selected_refinements.items():
+        for (violation_identifier, selected_refinement) in selected_refinements.items():
             # Find which values will be displayed to the user, input boxes or fetched values
-            violation_ID = int(violation_ID)
+            violation_identifier = int(violation_identifier)
             if selected_refinement != "Manual":
                 if selected_refinement in self.refinement_options:
                     refinement_name = selected_refinement
                     refinement_values = self.refinement_options[selected_refinement]
-                    refinement = self.create_refinement(refinement_name, refinement_values, violation_ID)
-                    refinements[violation_ID] = refinement
+                    refinement = self.create_refinement(refinement_name, refinement_values, violation_identifier)
+                    refinements[violation_identifier] = refinement
                 else:
-                    refinements[violation_ID] = {"name": selected_refinement, "user_input": False,
+                    refinements[violation_identifier] = {"name": selected_refinement, "user_input": False,
                                                  "values": selected_refinement}
         return refinements
 
@@ -1001,41 +977,41 @@ class Refinements:
 
     def provide_suggested_refinements(self):
         # Provides a list of suggested refinements which could fix a violation caused by a particular metric
-        # Maps the refinement to the violation ID
+        # Maps the refinement to the violation identifier
         # e.g {0: ['RemoveTermType', 'ChangeOMTermType'], 1: ['AddDomainClass']}
         suggested_refinements = {}
-        for violation_ID in self.validation_results.keys():
-            metric_ID = self.validation_results[violation_ID]["metric_identifier"]
-            if metric_ID in self.suggested_refinements.keys():
-                suggested_refinements[violation_ID] = self.suggested_refinements[metric_ID]
+        for violation_identifier in self.validation_results.keys():
+            metric_identifier = self.validation_results[violation_identifier]["metric_identifier"]
+            if metric_identifier in self.suggested_refinements.keys():
+                suggested_refinements[violation_identifier] = self.suggested_refinements[metric_identifier]
         print(suggested_refinements, "SUGGESTED REFINEEMNTS")
         return suggested_refinements
 
     def process_user_input(self, refinements_values, refinements, mapping_file, mapping_graph, validation_report_file):
         # iterate each refinement which has been selected to be executed and capture user input
-        selected_violation_ID = self.get_selected_refinements(refinements_values)
+        selected_violation_identifier = self.get_selected_refinements(refinements_values)
         refinement_input = {}
         # concatenate the prefix value to the user input
         self.process_prefix_values(refinements_values, mapping_file)
         print(refinements, "early refinement values")
         print(self.process_prefix_values(refinements_values, mapping_file))
-        for violation_ID in selected_violation_ID:
+        for violation_identifier in selected_violation_identifier:
             for dic_key in refinements_values.keys():
                 # if current key is associated with input
-                # e.g '0-http://www.w3.org/ns/r2rml#template' is with violation ID
+                # e.g '0-http://www.w3.org/ns/r2rml#template' is with violation identifier
                 print(dic_key, "dic key")
-                if self.is_violation_input(dic_key, violation_ID):
+                if self.is_violation_input(dic_key, violation_identifier):
                     current_input_value = refinements_values[dic_key].strip()
                     property_name = self.get_property_name(dic_key)
                     # if an input has been associated with the violation
-                    if violation_ID in refinement_input.keys():
-                        refinement_input[violation_ID][property_name] = current_input_value
+                    if violation_identifier in refinement_input.keys():
+                        refinement_input[violation_identifier][property_name] = current_input_value
                     else:
-                        refinement_input[violation_ID] = {property_name: current_input_value}
+                        refinement_input[violation_identifier] = {property_name: current_input_value}
         print(refinement_input, "refinement input earlier")
         print(refinements, "refinements earlier")
-        # refinement input associates each input value with the violation ID it is refining
-        self.execute_refinements(selected_violation_ID, refinements, refinement_input, validation_report_file)
+        # refinement input associates each input value with the violation identifier it is refining
+        self.execute_refinements(selected_violation_identifier, refinements, refinement_input, validation_report_file)
 
     def get_function_name(self, refinement_name):
         # returns the correct function name which relates to the refinement_function dictionary, some values may be tuples
@@ -1047,34 +1023,34 @@ class Refinements:
         if tuple_check:
             return self.refinement_functions[tuple(tuple_check[0])]
 
-    def execute_refinements(self, selected_violation_ID, refinements, refinement_input, validation_report_file):
+    def execute_refinements(self, selected_violation_identifier, refinements, refinement_input, validation_report_file):
         # refinement graph updates the validation report graph
         self.refinement_graph = self.refinement_graph.parse(validation_report_file, format="ttl")
         # execute each refinement selected to be executed with or without user input
-        print("SELECTED REFINEMENTS", selected_violation_ID)
+        print("SELECTED REFINEMENTS", selected_violation_identifier)
         print(refinements)
         print(type(list(refinements.keys())[0]))
-        for violation_ID in selected_violation_ID:
+        for violation_identifier in selected_violation_identifier:
             # html forms store values as strings
-            int_violation_ID = int(violation_ID)
-            user_input_required = refinements[int_violation_ID]["user_input"]
+            int_violation_identifier = int(violation_identifier)
+            user_input_required = refinements[int_violation_identifier]["user_input"]
             print("CHECKING USER INPUT LINE 860")
             print(user_input_required)
             print(refinements)
-            refinement_name = refinements[int_violation_ID]["name"]
+            refinement_name = refinements[int_violation_identifier]["name"]
             print(refinements, "REFINEMENT INPUT")
             if user_input_required:
-                function_input = refinement_input[violation_ID]
+                function_input = refinement_input[violation_identifier]
             else:
-                function_input = refinements[int_violation_ID]["values"]
+                function_input = refinements[int_violation_identifier]["values"]
             function_name = self.get_function_name(refinement_name)
             print(function_name)
             refinement_query = function_name(function_input, self.mapping_graph,
-                                             int_violation_ID)
+                                             int_violation_identifier)
             # the function from self.refinement functions is called with the refinement name, user input and the mapping graph
             print(refinement_query)
             #             exit()
-            self.add_refinement_information(int_violation_ID, refinement_query, refinement_name)
+            self.add_refinement_information(int_violation_identifier, refinement_query, refinement_name)
             self.refinement_count += 1
         self.create_refinement_report(validation_report_file)
 
@@ -1123,7 +1099,7 @@ class Refinements:
         result = " ".join(splitted)
         return result
 
-    def add_refinement_information(self, violation_ID, refinement_query, refinement_name):
+    def add_refinement_information(self, violation_identifier, refinement_query, refinement_name):
         # each refinement has a unique IRI and is associated with a refinement query
         refinement_identifier = URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
         self.refinement_graph.add((refinement_identifier, RDF.type, self.MQV.MappingRefinement))
@@ -1135,7 +1111,7 @@ class Refinements:
         refinement_name = Literal(self.split_camel_case(refinement_name), datatype=XSD.string)
         self.refinement_graph.add((refinement_identifier, self.MQV.refinementName, refinement_name))
         # adding the wasRefinedBy property related to the previously defined refinement
-        violation_identifier = URIRef(self.EX + "violation" + "-" + str(violation_ID))
+        violation_identifier = URIRef(self.EX + "violation" + "-" + str(violation_identifier))
         self.refinement_graph.add((violation_identifier, self.MQV.wasRefinedBy, refinement_identifier))
         # add inverse property for mqv:refinedViolation, relating this refinement to the violation
         self.refinement_graph.add((refinement_identifier, self.MQV.refinedViolation, violation_identifier))
@@ -1216,36 +1192,36 @@ class Refinements:
 
     @staticmethod
     def get_selected_refinements(refinement_values):
-        # return the violation IDs which have been selected to be executed
-        selected_violation_ID = []
-        for (violation_ID, value) in refinement_values.items():
+        # return the violation identifiers which have been selected to be executed
+        selected_violation_identifier = []
+        for (violation_identifier, value) in refinement_values.items():
             if value == "Execute":
-                selected_violation_ID.append(violation_ID)
+                selected_violation_identifier.append(violation_identifier)
         # sort list as refinements have ordering
-        selected_violation_ID.sort()
-        return selected_violation_ID
+        selected_violation_identifier.sort()
+        return selected_violation_identifier
 
     def get_property_name(self, input_value):
         # '0-http://www.w3.org/ns/r2rml#template' returns http://www.w3.org/ns/r2rml#template
         return input_value.split("-")[1]
 
-    def is_violation_input(self, dic_key, violation_ID):
-        # violation ID = 0 and dic_key '0-http://www.w3.org/ns/r2rml#template', this means the input is associated
+    def is_violation_input(self, dic_key, violation_identifier):
+        # violation identifier = 0 and dic_key '0-http://www.w3.org/ns/r2rml#template', this means the input is associated
         if len(dic_key.split("-")) == 1:
             return False
-        elif dic_key.split("-")[0] == violation_ID:
+        elif dic_key.split("-")[0] == violation_identifier:
             return True
         return False
 
     @staticmethod
-    def reformat_user_input(user_input, violation_ID):
-        # 'input_values' is the user input values associated with 'violation_ID'
+    def reformat_user_input(user_input, violation_identifier):
+        # 'input_values' is the user input values associated with 'violation_identifier'
         input_values = {}
         for (key, value) in user_input.items():
-            # group each input based on violation ID
-            current_violation_ID = key.split("-")[0]
+            # group each input based on violation identifier
+            current_violation_identifier = key.split("-")[0]
             property_name = key.split("-")[1]
-            if current_violation_ID == violation_ID:
+            if current_violation_identifier == violation_identifier:
                 # each value is associated with the property outlined in the form and strip whitespace
                 input_values[property_name] = value.strip()
         return input_values
