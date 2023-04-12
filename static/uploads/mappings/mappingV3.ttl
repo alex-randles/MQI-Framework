@@ -1,0 +1,293 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix wclass: <http://recipes.workingclass.org#> .
+
+<#Recipe>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [rr:sqlQuery """SELECT r.name, s.recipe, CAST(r.prep_time as integer) as prep_time , r.description, s.name as stepname, CAST(s.sorting_value as integer) as sorting_value, s.description as stepdescription
+									FROM RECIPE r
+									JOIN STEP s ON s.recipe = r.name
+									"""] ;
+
+	rr:subjectMap [
+		rr:template "http://recipes.workingclass.org#recipe_{NAME}" ;
+		rr:class wclass:Recipe ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:name ;
+		rr:objectMap [ rr:column "NAME" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:recipeDescription ;
+		rr:objectMap [ rr:column "DESCRIPTION" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:preparationTime ;
+		rr:objectMap [ rr:column "PREP_TIME" ] ;
+	] ;
+
+
+	rr:predicateObjectMap [
+	rr:predicate wclass:hasStep ;
+		rr:objectMap [
+            	rr:parentTriplesMap <#Step> ;
+				rr:joinCondition [
+					rr:child "SORTING_VALUE";
+					rr:parent "SORTING_VALUE" ;
+				] ;
+				rr:joinCondition [
+					rr:child "NAME";
+					rr:parent "RECIPE" ;
+				] ;
+		] ;
+	] ;
+
+	.
+
+<#Step>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [rr:sqlQuery """SELECT s.name,s.description,CAST(s.sorting_value AS int) as sorting_value, r.name as recipe, sp.product, sm.material as material
+									FROM STEP s 
+									JOIN RECIPE r on (s.recipe = r.name) 
+									LEFT JOIN STEP_PRODUCT sp on (s.sorting_value= sp.step_sorting_value AND sp.recipe=s.recipe)
+									LEFT JOIN STEP_MATERIAL sm on (sm.recipe_name = r.name AND sm.step_sorting_value = s.sorting_value)""" ];
+
+	rr:subjectMap [
+		rr:template "http://recipes.workingclass.org#step_{RECIPE}_{SORTING_VALUE}" ;
+		rr:class wclass:Step ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:name ;
+		rr:objectMap [ rr:column "NAME" ] ;
+	] ;
+	
+	
+	rr:predicateObjectMap [
+		rr:predicate wclass:stepDescription ;
+		rr:objectMap [ rr:column "DESCRIPTION" ] ;
+	] ;
+	
+	rr:predicateObjectMap [
+		rr:predicate wclass:sortingValue ;
+		rr:objectMap [ rr:column "SORTING_VALUE" ] ;
+	] ;
+
+	
+	rr:predicateObjectMap [
+		rr:predicate wclass:usesIngredient ;
+		rr:objectMap [
+			rr:parentTriplesMap <#StepProduct> ;
+            rr:joinCondition [
+                rr:child "RECIPE";
+                rr:parent "RECIPE" ;
+            ] ;
+			rr:joinCondition [
+                rr:child "SORTING_VALUE";
+                rr:parent "STEP_SORTING_VALUE" ;
+            ] ;
+    	] ;
+	] ;
+
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:usesMaterial ;
+		rr:objectMap [
+            rr:parentTriplesMap <#Material> ;
+            rr:joinCondition [
+                rr:child "MATERIAL";
+                rr:parent "NAME" ;
+            ] ;
+        ] ;
+	] ;
+
+	.
+
+<#StepProduct>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [rr:sqlQuery """SELECT sp.product, sp.recipe, sp.step_sorting_value, CAST(sp.amount as double) as amount, alt.name as alternative, CONCAT(sp.product, '_', sp.recipe, '_', sp.step_sorting_value) as name
+									FROM STEP_PRODUCT sp
+									LEFT JOIN STEP_ALTERNATIVE_PRODUCT ap ON (ap.recipe=sp.recipe AND ap.step_sorting_value=sp.step_sorting_value AND sp.product=ap.product)
+									LEFT JOIN PRODUCT alt ON (alt.name = ap.alternative_product) """] ; 
+									#not necessary here, but shown as an example how to include additional information
+
+	rr:subjectMap [
+		rr:template "http://recipes.workingclass.org#stepproduct_{PRODUCT}_{RECIPE}_{STEP_SORTING_VALUE}" ;
+		rr:class wclass:StepProduct ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:name ;
+		rr:objectMap [ rr:column "NAME" ] ;
+	] ;
+
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:amount ;
+		rr:objectMap [ rr:column "AMOUNT" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:hasAlternative ;
+		rr:objectMap [
+			rr:parentTriplesMap <#Product> ;
+			rr:joinCondition [
+                rr:child "ALTERNATIVE";
+                rr:parent "NAME" ;
+            ] ; 
+		];
+	]
+
+	
+.
+
+<#Product>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [rr:sqlQuery """SELECT sp.recipe, sp.step_sorting_value, p.name, p.unit, CAST(p.energy_kcal as double) as energy_kcal, pdp.dietary_preference,
+									CAST(pn.water as double) as water, CAST(pn.protein as double) as protein, CAST(pn.carbs as double) as carbs, CAST(pn.sugar as double) as sugar, CAST(pn.non_saturated_fat as double) as non_saturated_fat, CAST(pn.saturated_fat as double) as saturated_fat, CAST(pn.cholesterol AS double) as cholesterol, CAST(pn.fibre as double) as fibre,
+									CAST((CASE WHEN (SELECT COUNT(pdp_.product) FROM PRODUCT_DIETARY_PREFERENCE pdp_ WHERE pdp_.product = p.name AND pdp_.dietary_preference = 'Vegan') < 1 THEN 'FALSE' ELSE 'TRUE' END) as boolean) as isVegan,
+									CAST((CASE WHEN (SELECT COUNT(pdp_.product) FROM PRODUCT_DIETARY_PREFERENCE pdp_ WHERE pdp_.product = p.name AND pdp_.dietary_preference = 'Vegetarian') < 1 THEN 'FALSE' ELSE 'TRUE' END)  as boolean) as isVegetarian
+									FROM PRODUCT p
+									LEFT JOIN STEP_PRODUCT sp ON (sp.product = p.name) 
+									JOIN PRODUCT_NUTRIENTS pn ON (pn.product = p.name) 
+									LEFT JOIN PRODUCT_DIETARY_PREFERENCE pdp ON (pdp.product = p.name)
+									"""] ;
+
+	rr:subjectMap [
+		rr:template "http://recipes.workingclass.org#product_{NAME}" ;
+		rr:class wclass:Product ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:name ;
+		rr:objectMap [ rr:column "NAME" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:unit ;
+		rr:objectMap [ rr:column "UNIT" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:energy ;
+		rr:objectMap [ rr:column "ENERGY_KCAL" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:protein ;
+		rr:objectMap [ rr:column "PROTEIN" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:water ;
+		rr:objectMap [ rr:column "WATER" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:sugar ;
+		rr:objectMap [ rr:column "SUGAR" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:cabrohydrates ;
+		rr:objectMap [ rr:column "CARBS" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:saturatedFat ;
+		rr:objectMap [ rr:column "SATURATED_FAT" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:fibre ;
+		rr:objectMap [ rr:column "FIBRE" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:unsaturatedFat ;
+		rr:objectMap [ rr:column "NON_SATURATED_FAT" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:cholesterol ;
+		rr:objectMap [ rr:column "CHOLESTEROL" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:vegan ;
+		rr:objectMap [ rr:column "ISVEGAN" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:vegetarian ;
+		rr:objectMap [ rr:column "ISVEGETARIAN" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:usedInStep ;
+		rr:objectMap [
+            rr:parentTriplesMap <#StepProduct> ;
+			rr:joinCondition [
+                rr:child "NAME";
+                rr:parent "PRODUCT" ;
+            ] ;
+        ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:hasAllergy ;
+		rr:objectMap [
+           rr:parentTriplesMap <#Allergy> ;
+           rr:joinCondition [
+               rr:child "DIETARY_PREFERENCE";
+               rr:parent "NAME" ;
+           ] ;
+       ] ;
+	] ;
+	
+
+	.
+
+<#Material>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [rr:sqlQuery """SELECT NAME FROM MATERIAL"""] ;
+
+	rr:subjectMap [
+		rr:template "http://recipes.workingclass.org#material_{NAME}" ;
+		rr:class wclass:Material ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:name ;
+		rr:objectMap [ rr:column "NAME" ] ;
+	] ;
+
+	.
+
+<#Allergy>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [rr:sqlQuery """SELECT NAME
+									FROM DIETARY_PREFERENCE
+									WHERE NAME != 'Vegan' 
+									AND 
+									NAME != 'Vegetarian' """] ;
+
+	rr:subjectMap [
+		rr:template "http://recipes.workingclass.org#allergy_{NAME}" ;
+		rr:class wclass:Allergy ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate wclass:name ;
+		rr:objectMap [ rr:column "NAME" ] ;
+	] ;
+
+	.

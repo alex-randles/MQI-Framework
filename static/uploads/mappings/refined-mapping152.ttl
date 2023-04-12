@@ -40,7 +40,7 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class openfit:Muscle_Gain, openfit:MuscleGain;	
+ 	 rr:class openfit:MuscleGain, openfit:Muscle_Gain;	
 	 rr:template "http://data.ontology.openfit.org#goal_{id}" ;	
  ];	
 	
@@ -56,8 +56,8 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#TargetMuscle> ;	
 		 rr:joinCondition [	
-			 rr:child "targetMuscle_id" ;	
 			 rr:parent "id" ;	
+			 rr:child "targetMuscle_id" ;	
 			 ];	
  		]; 	
  ];	
@@ -71,8 +71,8 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "http://data.ontology.openfit.org#goal_{id}" ;	
-	 rr:class openfit:Conditioning;	
+ 	 rr:class openfit:Conditioning;	
+	 rr:template "http://data.ontology.openfit.org#goal_{id}" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -91,8 +91,8 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class openfit:WeightLoss;	
-	 rr:template "http://data.ontology.openfit.org#goal_{id}" ;	
+ 	 rr:template "http://data.ontology.openfit.org#goal_{id}" ;	
+	 rr:class openfit:WeightLoss;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -107,8 +107,8 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#TargetArea> ;	
 		 rr:joinCondition [	
-			 rr:child "targetArea_id" ;	
 			 rr:parent "id" ;	
+			 rr:child "targetArea_id" ;	
 			 ];	
  		]; 	
  ];	
@@ -152,8 +152,8 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#Exercise> ;	
 		 rr:joinCondition [	
-			 rr:child "exercise_id" ;	
 			 rr:parent "id" ;	
+			 rr:child "exercise_id" ;	
 			 ];	
  		]; 	
  ];	
@@ -203,8 +203,8 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#Goal> ;	
 		 rr:joinCondition [	
-			 rr:child "goal_id" ;	
 			 rr:parent "id" ;	
+			 rr:child "goal_id" ;	
 			 ];	
  		]; 	
  ];	
@@ -218,7 +218,7 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class openfit:StrengthExercise, openfit:Strength_Exercise;	
+ 	 rr:class openfit:StrengthExercise;	
 	 rr:template "http://data.ontology.openfit.org#exercise_{id}" ;	
  ];	
 	
@@ -255,18 +255,18 @@
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery"""   SELECT Exercise.id,Exercise.description,Exercise.avgCals,Exercise.name,Exercise.type,Exercise.type_id,ExerciseGoals.goal_id, CardioExercise.duration 			
-	FROM (Exercise JOIN ExerciseGoals ON (Exercise.id = ExerciseGoals.exercise_id)) 			
-	JOIN CardioExercise ON (Exercise.type_id = CardioExercise.id) WHERE Exercise.type='cardio'   """;	
+ 	 rr:sqlQuery""" SELECT Exercise.id,Exercise.description,Exercise.avgCals,Exercise.name,Exercise.type,Exercise.type_id,ExerciseGoals.goal_id, CardioExercise.duration 	
+	FROM (Exercise JOIN ExerciseGoals ON (Exercise.id = ExerciseGoals.exercise_id)) 	
+	JOIN CardioExercise ON (Exercise.type_id = CardioExercise.id) WHERE Exercise.type='cardio' """;	
  ];	
 	
  rr:subjectMap [ 	
  	 rr:template "http://data.ontology.openfit.org#exercise_{id}" ;	
-	 rr:class openfit:Cardio_Exercise;	
+	 rr:class openfit:CardioExercise;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate openfit:has_target_area;	
+ 	 rr:predicate openfit:cardio_id;	
 	 rr:objectMap [	
 		 rr:column "id" ;	
 		]; 	
@@ -293,7 +293,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate openfit:avg_calories_burnt;	
+ 	 rr:predicate openfit:target_muscle_id;	
 	 rr:objectMap [	
 		 rr:column "id" ;	
 		]; 	

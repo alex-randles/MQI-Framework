@@ -43,10 +43,24 @@ class ValidateQuality:
         self.namespaces = {prefix:namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.vocabularies = FetchVocabularies(file_name)
         # mainly used for vocabulary metrics
-        self.unique_namespaces = self.vocabularies.get_unique_namespaces()
-        self.unique_namespaces = [namespace for namespace in self.unique_namespaces]
+        excluded_namespaces = ["http://ontology.openfit.org#",
+                               "http://recipes.workingclass.org#",
+                               "http://ontology.foodlog.eu#",
+                               "http://ontology.recipepicker.eu#",
+                               "http://www.foodreport.be/ontology#",
+                               "http://data.virtualworkout.com/",
+                               "http://openfridge.eu/ontology#",
+                               "http://www.semanticweb.org/FlavourTown#",
+                               "http://ontology.smartfitgym.eu#",
+                               "http://ontology.wearehungry.be#",
+
+
+
+
+                               ]
+        self.unique_namespaces = [namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in excluded_namespaces]
         self.violation_counter = 0
-        self.manager = multiprocessing.Manager()
+        # self.manager = multiprocessing.Manager()
         self.validation_results = {}  # Shared Proxy to a list
         # self.validation_results.put({"a":2, "b": 2})
         # print(self.validation_results.get())
@@ -55,12 +69,12 @@ class ValidateQuality:
         self.undefined_namespaces = set()
         self.test_count = 0
         # store the range and domain in cache to speed execution
-        self.data_quality_results = self.manager.dict()
-        self.mapping_quality_results = self.manager.dict()
-        self.vocabulary_quality_results = self.manager.dict()
-        self.range_cache = self.manager.dict()
-        self.domain_cache = self.manager.dict()
-        self.refinements = self.manager.list()
+        # self.data_quality_results = self.manager.dict()
+        # self.mapping_quality_results = self.manager.dict()
+        # self.vocabulary_quality_results = self.manager.dict()
+        self.range_cache = {}
+        self.domain_cache = {}
+        self.refinements = []
         self.current_graph = None
         self.classes = None
         self.current_triple_identifier = None
@@ -156,6 +170,7 @@ class ValidateQuality:
         self.validate_D5()
         self.validate_D6()
         self.validate_D7()
+        self.validate_VOC2()
 
     def validate_mapping_metrics(self):
         # A function to validate each of the mapping related quality metrics
@@ -176,7 +191,6 @@ class ValidateQuality:
     def validate_vocabulary_metrics(self):
         # pass
         # self.validate_VOC1()
-        # self.validate_VOC2()
         self.validate_VOC3()
         self.validate_VOC4()
         self.validate_VOC5()
@@ -280,9 +294,9 @@ class ValidateQuality:
         # A function to validate the usage of correct range
         metric_identifier = "D6"
         for key in list(self.properties):
-            property = self.properties[key]["property"]
-            term_type = self.properties[key]["termType"]
-            objectMap = self.properties[key]["objectMap"]
+            property = self.properties[key].get("property")
+            term_type = self.properties[key].get("termType")
+            objectMap = self.properties[key].get("objectMap")
             if term_type:
                 resource_type = self.get_type(property)
                 if (OWL.DatatypeProperty in resource_type) and (term_type != URIRef("http://www.w3.org/ns/r2rml#Literal")):
@@ -325,7 +339,7 @@ class ValidateQuality:
                     # if any of the datatypes can be any datatype, skip this iteration
                     if datatype in excluded_datatypes:
                         continue
-                    if self.is_datatype_range(range):
+                    if ValidateQuality.is_datatype_range(range):
                         # non positive integer
                         sub_type = ValidateQuality.validate_sub_type(datatype, range)
                         if not sub_type:
@@ -585,8 +599,7 @@ class ValidateQuality:
         result_message = "No Human Readable Labelling and Comments."
         metric_identifier = "VOC1"
         # validate only classes to speed up execution
-        classes = self.get_classes()
-        for key in classes.keys():
+        for key in self.classes.keys():
             class_identifier = classes[key]["class"]
             subject_identifier = classes[key]["subject"]
             if class_identifier not in self.undefined_values:
@@ -611,20 +624,41 @@ class ValidateQuality:
                         if row is False:
                             self.add_violation([metric_identifier, result_message, class_identifier, subject_identifier])
 
-    # def validate_VOC2(self):
-    #     metric_identifier = "VOC2"
-    #     result_message = "No domain definition ."
-    #     properties = self.get_properties()
-    #     for key in properties.keys():
-    #         property_identifier = properties[key]["property"]
-    #         subject_identifier = properties[key]["subject"]
-    #         print("VALIDATIN DOMAIN DEFINITION", property_identifier, self.domain_cache, "\n", self.domain_cache.get(property_identifier))
-    #         if property_identifier not in self.undefined_values:
-    #             print("DOMAIN FROM CACHE")
-    #             domain_defintion = self.domain_cache.get(property_identifier)
-    #             print(domain_defintion)
-    #             print("DOMAIN FROM VOCABULARIES")
-    #             print(self.get_domain(property_identifier))
+    def validate_VOC2(self):
+        metric_identifier = "VOC2"
+        result_message = "No domain definition or range definition."
+        print(self.properties)
+        print("CURRENT PROPERTIES\n\n\n")
+        for key in list(self.properties):
+            property_identifier = self.properties[key].get("property")
+            subject_identifier = self.properties[key].get("subject")
+            namespace = self.get_namespace(property_identifier)
+            query = """
+                       PREFIX dcam: <http://purl.org/dc/dcam/> 
+                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                       PREFIX schema: <http://schema.org/> 
+                       PREFIX prov: <http://www.w3.org/ns/prov#> 
+                       PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                       ASK
+                       WHERE {
+                          GRAPH <%s> {
+                            {
+                              <%s> a rdf:Property|owl:ObjectProperty|owl:DataProperty|owl:FunctionalProperty|owl:DatatypeProperty ;
+                                   rdfs:domain|dcam:domainIncludes|schema:domainIncludes|rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?object .
+                            }
+                        }
+                      }
+            """ % (namespace,  property_identifier)
+            print(query)
+            exit()
+            query_results = self.vocabularies.query_local_graph(namespace, query)
+            has_domain_range = query_results.get("boolean")
+            print(query)
+            print(has_domain_range)
+            print("\n\n")
+            if has_domain_range is False:
+                self.add_violation([metric_identifier, result_message, property_identifier, None])
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
@@ -646,7 +680,7 @@ class ValidateQuality:
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
                 query_results = self.vocabularies.query_local_graph(namespace, query)
-                graph_exists = query_results["boolean"]
+                graph_exists = query_results.get("boolean")
                 if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
@@ -919,12 +953,12 @@ class ValidateQuality:
 
     def get_properties_datatype(self):
         # A function to retrieve all properties in the mapping with data types related
-        query = """SELECT ?pom ?objectMap ?property ?dataType
+        query = """SELECT ?pom ?om ?property ?dataType
                     WHERE {
                       ?subject rr:predicateObjectMap ?pom . 
-                      ?pom    rr:predicate ?property .
-                      ?pom    rr:objectMap ?objectMap . 
-                      ?objectMap rr:datatype ?dataType . 
+                      ?pom     rr:predicate ?property .
+                      ?pom     rr:objectMap ?om . 
+                      ?om      rr:datatype ?dataType . 
                     }
                """
         query_results = self.current_graph.query(query)
@@ -932,9 +966,10 @@ class ValidateQuality:
         counter = 0
         for row in query_results:
             # properties.append([row[0], row[1], row[2]])
-            properties[counter] = {"predicateObjectMap": row[0], "objectMap": row[1],
-                                   "property": row[2],
-                                   "datatype": row[3]}
+            properties[counter] = {"predicateObjectMap": row.get("pom"),
+                                   "objectMap": row.get("om"),
+                                   "property": row.get("property"),
+                                   "datatype": row.get("dataType")}
             counter += 1
         return properties
 
@@ -951,7 +986,8 @@ class ValidateQuality:
         counter = 0
         for row in query_results:
             # properties.append([row[0], row[1]])
-            properties[counter] = {"subject": row[0], "property": row[1]}
+            properties[counter] = {"subject": row.get("subject"),
+                                   "property": row.get("property")}
             counter += 1
         return properties
 
@@ -983,9 +1019,12 @@ class ValidateQuality:
                 term_type = rdflib.term.URIRef('http://www.w3.org/ns/r2rml#Literal')
             else:
                 term_type = row["termType"]
-            properties[counter] = {"property": row["property"], "predicateObjectMap": row["pom"],
-                                   "objectMap": row["objectMap"], "termType": term_type,
-                                   "datatype": row["dataType"], "constant": row["constant"],
+            properties[counter] = {"property": row["property"],
+                                   "predicateObjectMap": row["pom"],
+                                   "objectMap": row["objectMap"],
+                                   "termType": term_type,
+                                   "datatype": row["dataType"],
+                                   "constant": row["constant"],
                                    "subject": row["pom"]
                                    }
             # if they are using constant shortcut rr:object
@@ -998,7 +1037,8 @@ class ValidateQuality:
         # exit()
         return properties
 
-    def is_datatype_range(self, range):
+    @staticmethod
+    def is_datatype_range(range):
         # if range is datatype such as xsd:date etc
         if range:
             datatype_prefix = "http://www.w3.org/2001/XMLSchema#"

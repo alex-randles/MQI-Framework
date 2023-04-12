@@ -188,8 +188,8 @@ class Refinements:
                       ?subjectMap rr:class ?class .
                     }
                """ % (triple_map)
-        qres = self.mapping_graph.query(query)
-        for row in qres:
+        query_results = self.mapping_graph.query(query)
+        for row in query_results:
             classes.append("%s" % row)
         output = {"Classes": classes}
         return output
@@ -326,23 +326,26 @@ class Refinements:
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                     PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+                    PREFIX prov: <http://www.w3.org/ns/prov#>
                     SELECT ?property (GROUP_CONCAT(?commentProperty ; separator=' ') AS ?comment) 
                     WHERE {
                       GRAPH <%s> { 
-                      ?property a ?type;
-                                 rdfs:comment|skos:definition ?commentProperty . 
+                      ?property a ?type .
+                      OPTIONAL { ?property  rdfs:comment|skos:definition|prov:definition ?commentProperty . } 
                       FILTER(?type IN (rdf:Property, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty))
                       }
                     }
                     GROUP BY ?property
                     """ % (self.get_namespace(violation_value))
-
-        qres = FetchVocabularies().query_local_graph(violation_value, query)
+        query_results = FetchVocabularies().query_local_graph(violation_value, query)
         predicates = []
-        for binding in qres.get("results").values():
+        for binding in query_results.get("results").values():
             for result in binding:
-                current_class = result["property"]["value"]
-                current_comment = result["comment"]["value"].split(".")[0] + "."
+                current_class = result["property"].get("value")
+                if result.get("comment"):
+                    current_comment = result["comment"]["value"].split(".")[0] + "."
+                else:
+                    current_comment = "No description in ontology."
                 predicates.append((current_class, current_comment))
         return {select_placeholder: predicates}
 
@@ -374,9 +377,9 @@ class Refinements:
                     GROUP BY ?classOnto
                     """ % (self.get_namespace(violation_value))
         # violation_value = violation_value[:violation_value.rfind("#")+1]
-        qres = FetchVocabularies().query_local_graph(violation_value, query)
+        query_results = FetchVocabularies().query_local_graph(violation_value, query)
         classes = []
-        result_bindings = qres.get("results").values()
+        result_bindings = query_results.get("results").values()
         for binding in result_bindings:
             for result in binding:
                 current_class = result["classOnto"]["value"]
@@ -798,8 +801,8 @@ class Refinements:
                     }
                """
         query_identifier = URIRef(identifier)
-        qres = Graph().parse("http://www.w3.org/ns/r2rml#").query(query, initBindings={'IRI': query_identifier})
-        for row in qres:
+        query_results = Graph().parse("http://www.w3.org/ns/r2rml#").query(query, initBindings={'IRI': query_identifier})
+        for row in query_results:
             domain.append("%s" % row)
         return domain
 
@@ -938,9 +941,9 @@ class Refinements:
                    }   
                    GROUP BY ?domainClass ?comment
                    """% (self.get_namespace(property_identifier), property_identifier, property_identifier)
-        qres = FetchVocabularies().query_local_graph(property_identifier, query)
+        query_results = FetchVocabularies().query_local_graph(property_identifier, query)
         domain = []
-        for row in qres["results"]["bindings"]:
+        for row in query_results["results"]["bindings"]:
             current_domain = row["domainClass"]["value"]
             if "comment" in row:
                 current_comment = row["comment"]["value"].split(".")[0] + "."
@@ -962,8 +965,8 @@ class Refinements:
                       }
                     }   
                """ % (self.get_namespace(identifier), identifier)
-        qres = FetchVocabularies().query_local_graph(identifier, query)
-        for binding in qres.get("results").values():
+        query_results = FetchVocabularies().query_local_graph(identifier, query)
+        for binding in query_results.get("results").values():
             for result in binding:
                 correct_range = result["range"]["value"]
                 return URIRef(correct_range)

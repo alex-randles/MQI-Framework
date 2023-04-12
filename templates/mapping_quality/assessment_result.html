@@ -254,26 +254,7 @@
 </script>
 
 <script>
-// validate not all refinements are manual
-function validateRefinementSelection() {
-    var inputs = document.getElementById("refinement-selection").elements;
-    var all_manual_refinements = true;
-    for (var i = 0; i < inputs.length; i++) {
-        if (inputs[i].nodeName == "SELECT"){
-           var value = inputs[i].value.toLocaleUpperCase();
-           if (value != "MANUAL"){
-                   all_manual_refinements = false;
-           }
-        }
-    }
-    if (all_manual_refinements == true){
-       document.getElementById('manual-refinements-warning').style.display = "block";;
-       return false;
-    }
-    else {
-       return true;
-    }
-}
+
 </script>
 
 <script>

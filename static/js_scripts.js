@@ -10,6 +10,7 @@ function logout(event){
 
 function myFunction() {
   alert("Only RDF comments (rdfs:comment) will be in the refined mapping and not hash comments (#). Also the ordering of the triples could change as RDF graphs have no order.");
+  return false;
 }
 
 function createPDF() {
@@ -137,6 +138,29 @@ function addSampleSourceData(sample_data_identifier){
      document.getElementById('CSV-URL-2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/loans-v1.csv";
   }
 }
+
+// validate not all refinements are manual
+function validateRefinementSelection() {
+    var inputs = document.getElementById("refinement-selection").elements;
+    var all_manual_refinements = true;
+    for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].nodeName == "SELECT"){
+           var value = inputs[i].value.toLocaleUpperCase();
+           if (value != "MANUAL"){
+                   all_manual_refinements = false;
+           }
+        }
+    }
+    if (all_manual_refinements == true){
+       document.getElementById('manual-refinements-warning').style.display = "block";
+       return false;
+    }
+    else {
+       return true;
+    }
+}
+
+
 
 $('.collapse').collapse()
 
