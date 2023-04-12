@@ -30,7 +30,7 @@ class DetectChanges:
         self.form_details = form_details
         self.version_1_csv = requests.get(self.form_details.get("CSV-URL-1")).text
         self.version_2_csv = requests.get(self.form_details.get("CSV-URL-2")).text
-        self.user_id = user_id
+        self.user_id = "1"
         self.error_code = 0
         self.graph_version = self.find_graph_version()
         self.output_file = r2rml.r2rml_output_file.format(self.graph_version)
@@ -271,6 +271,7 @@ class DetectChanges:
         # write config file generated for user which include their input data
         open(r2rml.r2rml_config_file, "w").write(config_details)
         print("R2RML CONFIG FILE UPDATED")
+
 
     def validate_notification_policy(self):
         pass

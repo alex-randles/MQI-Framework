@@ -333,36 +333,36 @@ class ValidateQuality:
                                 self.add_violation([metric_identifier, result_message, property, objectMap])
 
     def validate_MP1(self):
-        result_message = "An object map with a language tag and datatype."
+        result_message = "An object map with a datatype and language tag."
         metric_identifier = "MP1"
         query = """SELECT ?om ?pm 
                WHERE {
                   ?s rr:predicateObjectMap ?pm .
                   ?pm rr:objectMap ?om .
-                  ?om rr:datatype ?value1;
-                      rr:language ?value2.
+                  ?om rr:datatype ?datatype ;
+                      rr:language ?languageTag .
                }
                """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            self.add_violation([metric_identifier, result_message, None, row[0]])
+            subject_identifier = row.get("om")
+            self.add_violation([metric_identifier, result_message, None, subject_identifier])
 
     def validate_MP2(self):
-        result_message = "Term type for subject map should be an IRI or Blank Node"
+        result_message = "An object map with a language tag and datatype."
         metric_identifier = "MP2"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    SELECT ?subjectMap ?termType
-                    WHERE {
-                      ?subject rr:subjectMap ?subjectMap .
-                      ?subjectMap rr:termType ?termType . 
-                      FILTER(?termType NOT IN (rr:IRI, rr:BlankNode))
-                    }
-                """
+        query = """SELECT ?om ?pm 
+               WHERE {
+                  ?s rr:predicateObjectMap ?pm .
+                  ?pm rr:objectMap ?om .
+                  ?om rr:datatype ?datatype ;
+                      rr:language ?languageTag .
+               }
+               """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            subject = row.get("subjectMap")
-            term_type = row,get("termType")
-            self.add_violation([metric_identifier, result_message, term_type, subject])
+            subject_identifier = row.get("om")
+            self.add_violation([metric_identifier, result_message, None, subject_identifier])
 
     def validate_MP3(self):
         result_message = "No subjectMap defined in this mapping."
@@ -562,12 +562,13 @@ class ValidateQuality:
         'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur', 'ur-PK',
         'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW',
         'zu', 'zu-ZA')
+        language_tags = tuple([tag.lower() for tag in language_tags])
         query = """SELECT ?objectMap ?languageTag
                     WHERE {
                          ?subject rr:predicateObjectMap ?pom.
                          ?pom rr:objectMap ?objectMap .  
                          ?objectMap rr:language ?languageTag .
-                         FILTER (?languageTag NOT IN  %s) .
+                         FILTER (LCASE(STR(?languageTag)) NOT IN  %s) .
                        }
                 """ % (language_tags,)
         query_results = self.current_graph.query(query)
@@ -1054,7 +1055,7 @@ class ValidateQuality:
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     SELECT ?superClass
                                 WHERE {
-                                  GRAPH <%s> { <%s> rdfs:subClassOf ?superClass . }
+                                  GRAPH <%s> {   ?superClass rdfs:subClassOf <%s> .  }
                                 }   
                            """ % (self.get_namespace(identifier), identifier)
                     query_results = self.vocabularies.query_local_graph(identifier, query)
@@ -1125,7 +1126,7 @@ class ValidateQuality:
                        PREFIX prov: <http://www.w3.org/ns/prov#> 
                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
                        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                       SELECT DISTINCT ?domainClass ?superClass ?superClass2 ?superClass3 ?subClass ?comment
+                       SELECT DISTINCT ?domainClass ?subClass ?subClass2 ?subClass3 ?comment
                        WHERE {
                           GRAPH <%s> {
                             {
@@ -1140,29 +1141,26 @@ class ValidateQuality:
                               OPTIONAL { ?domainClass  rdfs:comment|prov:definition ?comment .} 
                               FILTER (!isBlank(?domainClass))
                             }
-                        OPTIONAL { ?domainClass rdfs:subClassOf ?superClass.  } 
-                        OPTIONAL { ?subClass rdfs:subClassOf ?domainClass.  } 
-                        #  OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . } 
-                         #  OPTIONAL { ?domainClass rdfs:subClassOf ?superClass. ?superClass2 rdfs:subClassOf ?superClass . 
-                        #          ?superClass3 rdfs:subClassOf ?superClass2 . } 
-                      #  FILTER(!isBlank(?superClass)) 
+                             OPTIONAL {  ?subClass rdfs:subClassOf ?domainClass } 
+                             OPTIONAL {  ?subClass rdfs:subClassOf ?domainClass . ?subClass2 rdfs:subClassOf ?subClass } 
+                             OPTIONAL {  ?subClass rdfs:subClassOf ?domainClass . ?subClass2 rdfs:subClassOf ?subClass . ?subClass3 rdfs:subClassOf ?subClass2  } 
+
                           }
                        }   
                        """ % (self.get_namespace(identifier), identifier, identifier)
             query_results = self.vocabularies.query_local_graph(identifier, query)
             domain = []
-            result_bindings = query_results["results"]["bindings"]
+            result_bindings = query_results["results"].get("bindings")
             if result_bindings:
                 for row in result_bindings:
                     if "domainClass" in row:
                         domain.append(row["domainClass"]["value"])
-                        if "superClass" in row:
-                            domain.append(row["superClass"]["value"])
-                        if "superClass2" in row:
-                            domain.append(row["superClass2"]["value"])
                         if "subClass" in row:
                             domain.append(row["subClass"]["value"])
-                        if "superClass3" in row:
+                        if "subClass2" in row:
+                            domain.append(row["subClass2"]["value"])
+                        if "subClass3" in row:
+                            domain.append(row["subClass3"]["value"])
                             domain.append("http://www.w3.org/2000/01/rdf-schema#Resource")
                 self.domain_cache[identifier] = list(set(domain))
                 return domain

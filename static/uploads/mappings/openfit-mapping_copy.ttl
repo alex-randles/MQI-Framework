@@ -1,0 +1,71 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix openfit: <http://ontology.openfit.org#>.
+
+#TriplesMap for the goals of exercises
+<#Exercise>
+    
+	a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id, Goal.description, Goal.type, Goal.type_id FROM Goal""" ] ;
+    
+	#a class were not specified,because already created in the subject of the subclasses.
+	rr:subjectMap [
+        rr:template "http://data.ontology.openfit.org#goal_{id}" ; 
+        rr:class openfit:CardioExercise, openfit:StrengthExercise;
+
+   
+    ];
+    rr:predicateObjectMap [
+        rr:predicate openfit:descriptions ;
+        rr:objectMap [ rr:column "description" ] ;
+    ];
+    .
+
+
+
+
+<#MuscleGain>
+	a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id,Goal.description,Goal.type,Goal.type_id, MuscleGainTargetMuscles.targetMuscle_id FROM (MuscleGain JOIN MuscleGainTargetMuscles ON (MuscleGain.id = MuscleGainTargetMuscles.muscleGain_id))JOIN Goal ON (Goal.type_id = MuscleGain.id) WHERE Goal.type = 'muscleGain'""" ] ;
+    rr:subjectMap [
+        rr:template "http://data.ontology.openfit.org#goal_{id}" ; 
+		rr:class openfit:MuscleGain ;
+    ] ;
+	
+	#Object propreties mapping
+
+		rr:predicateObjectMap [
+			rr:predicate openfit:conditioning_id;
+			rr:objectMap [
+            	rr:parentTriplesMap <#TargetMuscle> ;
+            	rr:joinCondition [
+                	rr:child "targetMuscle_id" ;
+                	rr:parent "id" ;
+            	] ;
+        	] ;
+		] ;
+	
+	.
+
+
+	#Triple maps for the target area of a weight loss goal
+<#TargetArea>
+	a rr:TriplesMap ;
+
+	rr:logicalTable [ rr:sqlQuery """SELECT  * FROM TargetArea""" ];	
+
+	rr:subjectMap [
+		rr:template "http://data.ontology.openfit.org#target_area_{id}" ;
+		rr:class openfit:Target_Area;
+	];	
+	
+	rr:predicateObjectMap [
+		rr:predicate openfit:target_area_id ;
+		rr:objectMap [ rr:column "id" ] ;
+	] ;
+
+	rr:predicateObjectMap [
+		rr:predicate openfit:name ;
+		rr:objectMap [ rr:column "name" ] ;
+	] ;
+	.
+	

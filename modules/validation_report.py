@@ -32,7 +32,6 @@ class ValidationReport:
         self.assessment_identifier = None
         self.create_validation_report()
 
-
     def create_unique_report_identifier(self):
         # A unique identifier created for each report
         # mapping_name = self.mapping_file.split("/")[-1]
@@ -104,8 +103,7 @@ class ValidationReport:
 
     def add_creation_date(self, mapping):
         # the date the mapping was created - prov:generatedAtTime dateTime
-        mapping_creation_time = time.ctime(
-            os.path.getctime(self.mapping_file))
+        mapping_creation_time = time.ctime(os.path.getctime(self.mapping_file))
         creation_date_time_format = datetime.strptime(mapping_creation_time, "%a %b %d %H:%M:%S %Y")
         creation_date_identifier = Literal(creation_date_time_format, datatype=XSD.dateTime)
         # self.validation_graph.add((mapping, self.PROV.generatedAtTime, creation_date_identifier))
@@ -138,7 +136,6 @@ class ValidationReport:
         # self.add_assessment_time()
         # self.add_report_time()
         # add agent details
-        name = URIRef(self.EX.alexRandles)
         validation_report_identifier = self.EX.mappingValidationReport + "-0"
         # self.validation_graph.add((name, RDF.type , self.PROV.Agent))
         # self.validation_graph.add((quality_assessment_identifier, self.MQIO.wasPerfomedBy, name))
@@ -162,9 +159,9 @@ class ValidationReport:
         self.insert_violation_information(violation_information, current_violation_identifier)
 
     def insert_violation_information(self, violation_information, current_violation_identifier):
-        metric_identifier = URIRef(self.EX + violation_information["metric_identifier"])
-        mqio_metric_identifier = URIRef(self.MQIO_METRIC + violation_information["metric_identifier"])
-        result_message = Literal(violation_information["result_message"], datatype=XSD.string)
+        metric_identifier = URIRef(self.EX + violation_information.get("metric_identifier"))
+        mqio_metric_identifier = URIRef(self.MQIO_METRIC + violation_information.get("metric_identifier"))
+        result_message = Literal(violation_information.get("result_message"), datatype=XSD.string)
         self.validation_graph.add((current_violation_identifier, RDF.type, self.MQIO.MappingViolation))
         self.validation_graph.add((current_violation_identifier, self.MQIO.isDescribedBy, mqio_metric_identifier))
         # self.validation_graph.add((metric_identifier, RDF.type, mqv_metric_identifier))
