@@ -420,7 +420,7 @@ class ValidateQuality:
         query = """
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
         ASK { ?subject rr:logicalTable|rml:logicalSource ?object } """
-        query_results = self.current_graph.query(query)
+        query_results = self.mapping_graph.query(query)
         for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])

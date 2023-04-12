@@ -46,6 +46,7 @@ class Refinements:
             "MP7": ["ChangeTermType"],
             "MP8": ["ChangeClass"],
             "MP9": ["ChangePredicate"],
+            "MP10": ["ChangeGraphName"],
             "MP11": ["ChangeDatatype", "RemoveDatatype"],
             "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP13": ["AddSubjectMap"],
@@ -467,6 +468,28 @@ class Refinements:
                 }
                """ % (current_value, current_value, subject_identifier)
         print("Remove IRI query\n" + update_query)
+        processUpdate(mapping_graph, update_query)
+        return update_query
+
+    def change_graph_identifier(self, query_values, mapping_graph, violation_ID):
+        new_identifier = self.get_user_input(query_values)
+        current_result = self.validation_results[violation_ID]
+        subject_identifier = current_result["location"]
+        old_identifier = self.parse_mapping_value(current_result["value"])
+        update_query = """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:graph %s }
+                INSERT { ?subject rr:graph %s }
+                WHERE { 
+                SELECT ?subject
+                WHERE {
+                      ?subject rr:graph %s .
+                      FILTER(str(?subject) = "%s").
+                    }
+                }
+               """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
+        # print("Changing IRI query\n" + update_query)
+        # exit()
         processUpdate(mapping_graph, update_query)
         return update_query
 

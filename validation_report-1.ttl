@@ -2,47 +2,127 @@
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping149.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping149.ttl> ;
+    mqio:assessedMapping <mappingDAQobservation_2nd_Dump.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
-        ex:violation-1 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-11T23:07:15.913960"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                    INSERT { ?joinCondition rr:parent "kkkkkkkk" } 
-                    WHERE { 
-                    SELECT ?joinCondition
-                    WHERE {
-                          ?subject rr:joinCondition ?joinCondition.
-                          FILTER(str(?joinCondition) = "ub2bL39C30").
-                        }
-                    }
-                   """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Add Parent Column"^^xsd:string .
-
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "None"^^xsd:string ;
-    mqio:hasObjectValue <http://purl.org/ontology/mo/> ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
+        ex:violation-1,
+        ex:violation-10,
+        ex:violation-11,
+        ex:violation-12,
+        ex:violation-13,
+        ex:violation-2,
+        ex:violation-3,
+        ex:violation-4,
+        ex:violation-5,
+        ex:violation-6,
+        ex:violation-7,
+        ex:violation-8,
+        ex:violation-9 .
 
 ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-9"^^xsd:string ;
+    mqio:hasObjectValue prov:generated ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#Observations> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'sdmx-dimension:timePeriod'."^^xsd:string ;
+    mqio:inTripleMap <#Observations> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
+
+ex:violation-10 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue prov: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-11 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#> ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-12 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/sdmx/2009/dimension#> ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-13 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue rdf: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#MetricProfile> ;
+    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+    mqio:inTripleMap <#Profiling> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-3 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:parent ;
-    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:MP5 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#totalDatasetTriplesAssessed> ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Profiling> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-4 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/sdmx/2009/dimension#> ;
+    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC3 .
+
+ex:violation-5 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue prov: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-6 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/eis/vocab/daq#> ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-7 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/sdmx/2009/dimension#> ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-8 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue rdf: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-9 a mqio:MappingViolation ;
+    mqio:hasLocation "None"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/linked-data/cube#> ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CalculateValue> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+<mappingDAQobservation_2nd_Dump.ttl> a mqio:MappingArtefact .
 
