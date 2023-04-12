@@ -24,7 +24,7 @@ class DetectMappingImpact:
         mapping_references = self.mapping_details.get("data_references")
         mapping_references = ["'{}'".format(reference) for reference in mapping_references]
         query = """
-            PREFIX oscd: <https://w3id.org/OSCD#>
+            PREFIX oscd: <https://www.w3id.org/OSCD#>
             PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
             PREFIX rr: <http://www.w3.org/ns/r2rml#>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -59,7 +59,7 @@ class DetectMappingImpact:
 
     def get_structural_changes(self):
         query = """
-            PREFIX oscd: <https://w3id.org/OSCD#> 
+            PREFIX oscd: <https://www.w3id.org/OSCD#> 
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT ?change ?data ?changedValue
             WHERE {

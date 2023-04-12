@@ -1,56 +1,24 @@
-import time
-from modules.detect_changes import DetectChanges
-
-def main():
-    while True:
-        csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
-        csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v6.csv"
-        form_details = {
-            'CSV-URL-1': csv_file_1,
-            'CSV-URL-2': csv_file_2,
-            'insert-threshold': '10', 'delete-threshold': '0',
-            'move-threshold': '0', 'datatype-threshold': '0',
-            'merge-threshold': '0', 'update-threshold': '0',
-            'detection-end': '2022-07-10',
-            'email-address': 'alexrandles0@gmail.com',
-            "user-id": "2",
-                    }
-        cd = DetectChanges(user_id=2, form_details=form_details)
-        time.sleep(300)
-
-main()
-
-exit()
+import requests
+version_1_file = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0001a-JSON/student.json"
+json_1 = requests.get(version_1_file).json()
+version_2_file = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0009a-JSON/student.json"
+json_2 = requests.get(version_2_file).json()
 
 
+import jsondiff as jd
+from jsondiff import diff
+# print(json_1)
+# print(json_2)
+diff_result = diff(json_1, json_2)
 
-
-
-
-from rdflib.plugins.sparql import *
-from rdflib import *
-import urllib.parse
-g = Graph().parse("/home/alex/Downloads/refined-mapping(82).ttl", format="ttl")
-import urllib
-
-# print(urllib.parse.quote_plus("refined-mapping82.ttl#STARTDATEEVENT"))
-#
-# # triple_map_identifier = urllib.parse.urlencode("refined-mapping82.ttl#STARTDATEEVENT")
-# # print(triple_map_identifier)
-# exit()
-query = """
-PREFIX dc: <http://purl.org/dc/elements/1.1/>
-PREFIX rr: <http://www.w3.org/ns/r2rml#>
-INSERT 
-{ 
-  ?tripleMap rr:subjectMap _:b1 .
-  _:b1 rr:class rr:test .
-}
-WHERE {
-  ?tripleMap rr:predicateObjectMap ?pom . 
-}
-"""
-print(len(g))
-processUpdate(g, query)
-print(len(g))
-print(g.serialize(format="ttl").decode("utf-8"))
+for result in diff_result:
+    for change_type in (diff_result.get(result)):
+        current_result = diff_result.get(result).get(change_type)
+        if isinstance(current_result, list):
+            for entry in current_result:
+                changed_values = entry[1]
+                print(change_type, changed_values)
+        else:
+            for key, values in current_result.items():
+                print(result)
+                pass
