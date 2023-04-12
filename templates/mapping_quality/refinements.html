@@ -104,7 +104,6 @@ function validateRefinementExecution() {
         {% set violation_value = find_prefix(validation_result[violation_ID|int]["value"]) %}
         {% set violation_location = assessment_report %}
         {% set violation_location = find_violation_location(assessment_report[violation_ID| int]["location"]) %}
-
         <tr>
 
             <td>
@@ -260,7 +259,7 @@ function validateRefinementExecution() {
     <div class="row my-3 justify-content-center">
         <div class="col-6 text-center">
             <div class="alert alert-danger my-3 text-center" id="no-refinements-executed" style="display:none;" role="alert">
-                <strong>No refinements are selected to be executed.</strong>
+                <strong>No refinements are selected to be executed. Please check atleast one checkbox.</strong>
             </div>
         </div>
     </div>

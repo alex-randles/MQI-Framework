@@ -172,8 +172,10 @@ class ValidationReport:
     def insert_violation_location(self, violation_information, current_violation_identifier):
         # the triple map and location within the triple map
         self.insert_triple_map(violation_information, current_violation_identifier)
-        violation_location = Literal(violation_information["location"], datatype=XSD.string)
-        self.validation_graph.add((current_violation_identifier, self.MQIO.hasLocation, violation_location))
+        violation_location = violation_information.get("location")
+        if violation_location:
+            location_literal = Literal(violation_location, datatype=XSD.string)
+            self.validation_graph.add((current_violation_identifier, self.MQIO.hasLocation, location_literal))
 
     @staticmethod
     def format_triple_map_identifier(triple_map_name):

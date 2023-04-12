@@ -170,6 +170,7 @@ class ValidateQuality:
         self.validate_D5()
         self.validate_D6()
         self.validate_D7()
+        self.validate_VOC1()
         self.validate_VOC2()
 
     def validate_mapping_metrics(self):
@@ -189,12 +190,9 @@ class ValidateQuality:
         self.validate_MP13()
 
     def validate_vocabulary_metrics(self):
-        # pass
-        # self.validate_VOC1()
         self.validate_VOC3()
         self.validate_VOC4()
         self.validate_VOC5()
-        # self.validate_VOC6()
 
     def validate_D1(self):
         # A function to validate the usage of undefined classes
@@ -349,7 +347,7 @@ class ValidateQuality:
     def validate_MP1(self):
         result_message = "An object map with a datatype and language tag."
         metric_identifier = "MP1"
-        query = """SELECT ?om ?pm 
+        query = """SELECT ?om ?pm ?languageTag
                WHERE {
                   ?s rr:predicateObjectMap ?pm .
                   ?pm rr:objectMap ?om .
@@ -360,12 +358,13 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             subject_identifier = row.get("om")
-            self.add_violation([metric_identifier, result_message, None, subject_identifier])
+            language_tag = row.get("languageTag")
+            self.add_violation([metric_identifier, result_message, language_tag, subject_identifier])
 
     def validate_MP2(self):
         result_message = "An object map with a language tag and datatype."
         metric_identifier = "MP2"
-        query = """SELECT ?om ?pm 
+        query = """SELECT ?om ?pm ?datatype
                WHERE {
                   ?s rr:predicateObjectMap ?pm .
                   ?pm rr:objectMap ?om .
@@ -376,7 +375,8 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             subject_identifier = row.get("om")
-            self.add_violation([metric_identifier, result_message, None, subject_identifier])
+            datatype = row.get("datatype")
+            self.add_violation([metric_identifier, result_message, datatype, subject_identifier])
 
     def validate_MP3(self):
         result_message = "No subjectMap defined in this mapping."
@@ -599,36 +599,34 @@ class ValidateQuality:
         result_message = "No Human Readable Labelling and Comments."
         metric_identifier = "VOC1"
         # validate only classes to speed up execution
-        for key in self.classes.keys():
-            class_identifier = classes[key]["class"]
-            subject_identifier = classes[key]["subject"]
-            if class_identifier not in self.undefined_values:
-                human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
-                                          "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
-                                          "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
-                                          "skosxl:literalForm", "rdfs:comment",
-                                          "schema:description", "schema:description", "foaf:name"]
-                query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" \
-                         "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" \
-                         "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
-                         "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
-                         "PREFIX ct: <http://data.linkedct.org/resource/linkedct/> \n" \
-                         "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n" \
-                         "PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> \n" \
-                         "PREFIX schema: <http://schema.org/> \n" \
-                         "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
-                         "ASK { <%s> %s ?label } " % (class_identifier, "|".join(human_label_predicates))
-                query_results = self.vocabularies.query_local_graph(class_identifier, query)
-                if isinstance(query_results, rdflib.plugins.sparql.processor.SPARQLResult):
-                    for row in query_results:
-                        if row is False:
-                            self.add_violation([metric_identifier, result_message, class_identifier, subject_identifier])
+        for key, values in self.classes.items():
+            class_identifier = values.get("class")
+            subject_identifier = values.get("subject")
+            namespace = self.get_namespace(class_identifier)
+            human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
+                                      "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
+                                      "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
+                                      "skosxl:literalForm", "rdfs:comment",
+                                      "schema:description", "schema:description", "foaf:name"]
+            query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" \
+                        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" \
+                        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
+                        "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
+                        "PREFIX ct: <http://data.linkedct.org/resource/linkedct/> \n" \
+                        "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n" \
+                        "PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> \n" \
+                        "PREFIX schema: <http://schema.org/> \n" \
+                        "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
+                        "ASK { GRAPH <%s> { <%s> %s ?label } } " % (namespace, class_identifier, "|".join(human_label_predicates))
+            query_results = self.vocabularies.query_local_graph(namespace, query)
+            has_label_comment = query_results.get("boolean")
+            if has_label_comment is False:
+                print(query)
+                self.add_violation([metric_identifier, result_message, class_identifier, None])
 
     def validate_VOC2(self):
         metric_identifier = "VOC2"
         result_message = "No domain definition or range definition."
-        print(self.properties)
-        print("CURRENT PROPERTIES\n\n\n")
         for key in list(self.properties):
             property_identifier = self.properties[key].get("property")
             subject_identifier = self.properties[key].get("subject")
@@ -644,21 +642,22 @@ class ValidateQuality:
                        WHERE {
                           GRAPH <%s> {
                             {
-                              <%s> a rdf:Property|owl:ObjectProperty|owl:DataProperty|owl:FunctionalProperty|owl:DatatypeProperty ;
-                                   rdfs:domain|dcam:domainIncludes|schema:domainIncludes|rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?object .
+                              <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes|rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?object .
                             }
                         }
                       }
             """ % (namespace,  property_identifier)
-            print(query)
-            exit()
             query_results = self.vocabularies.query_local_graph(namespace, query)
             has_domain_range = query_results.get("boolean")
-            print(query)
-            print(has_domain_range)
-            print("\n\n")
             if has_domain_range is False:
-                self.add_violation([metric_identifier, result_message, property_identifier, None])
+                query = """ 
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (self.get_namespace(property_identifier), property_identifier)
+                query_results = self.vocabularies.query_local_graph(namespace, query)
+                is_property = query_results.get("boolean")
+                if is_property:
+                    self.add_violation([metric_identifier, result_message, property_identifier, None])
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
@@ -789,7 +788,6 @@ class ValidateQuality:
 
     def order_triple_maps_triples(self, triple_references):
         # will order triples based on the blank node identifier assigned
-        ordered_triples = {}
         for (triple_map, values) in triple_references.items():
             for (predicate, bNodes) in values.items():
                 if predicate != "not_bNode":
@@ -820,7 +818,7 @@ class ValidateQuality:
         # since we only store blank nodes for logical table, subjectMap, predicateObjectMap
         # this function can tell if the violation is within these
         for bNode in bNode_values:
-            for (s,p,o) in self.mapping_graph.triples((bNode, None, None)):
+            for (s, p, o) in self.mapping_graph.triples((bNode, None, None)):
                 if o == violation_identifier:
                     return bNode
                 # if the violation is contained with a join condition for example
