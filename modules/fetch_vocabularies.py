@@ -13,7 +13,6 @@ class FetchVocabularies:
         self.file_name = file_name
         self.mapping_graph = None
         self.cache_directory = "./modules/cache/"
-        self.localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies"
         self.create_graph()
 
     # runs ontology retrieval process
@@ -77,11 +76,6 @@ class FetchVocabularies:
             pass
         except requests.exceptions.MissingSchema as e:
             pass
-        ##
-        # filename = self.hash_filename(url)
-        # file_location = self.cache_directory + filename
-        # f = open(file_location, "w")
-        # f.write(r.text)
         return True
 
     # A function which returns a list containing unique namespaces in the object position

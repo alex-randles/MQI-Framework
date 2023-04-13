@@ -1,56 +1,27 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/thesis_demo_mapping.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <thesis_demo_mapping.ttl> ;
+    mqio:assessedMapping <refined-mapping164.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2 .
+        ex:violation-1 .
 
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-12T23:59:25.835162"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-            DELETE {
-                ?subject rr:class <http://purl.org/ontology/mo/AudioFiles> . 
-            }
-            INSERT {
-                ?subject rr:class <http://purl.org/ontology/mo/MusicArtist>
-            }
-            WHERE {
-                <https://github.com/LinkedBrainz/r2rml/v0.1#work_lyrics> rr:subjectMap ?subject .
-            }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Find Similar Classes"^^xsd:string .
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasObjectValue <http://users.utcluj.ro/~raluca/rdf_ontologies_ralu/ralu_modified_ontology_pizzas2_0#kkkkkkk> ;
+    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:VOC1 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'mo:lyrics'."^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-2 a mqio:MappingViolation ;
     mqio:hasObjectValue <http://purl.org/ontology/mo/> ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue <http://purl.org/ontology/mo/AudioFiles> ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:D1 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+<refined-mapping164.ttl> a mqio:MappingArtefact .
 

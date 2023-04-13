@@ -1,24 +1,49 @@
-import requests
-version_1_file = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0001a-JSON/student.json"
-json_1 = requests.get(version_1_file).json()
-version_2_file = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0009a-JSON/student.json"
-json_2 = requests.get(version_2_file).json()
+import MySQLdb
 
 
-import jsondiff as jd
-from jsondiff import diff
-# print(json_1)
-# print(json_2)
-diff_result = diff(json_1, json_2)
+# Open database connection ( If database is not created don't give dbname)
+db = MySQLdb.connect("localhost","root","", "test" )
 
-for result in diff_result:
-    for change_type in (diff_result.get(result)):
-        current_result = diff_result.get(result).get(change_type)
-        if isinstance(current_result, list):
-            for entry in current_result:
-                changed_values = entry[1]
-                print(change_type, changed_values)
-        else:
-            for key, values in current_result.items():
-                print(result)
-                pass
+# prepare a cursor object using cursor() method
+cursor = db.cursor()
+
+# For creating create db
+# Below line  is hide your warning
+# create db here....
+cursor.execute("create database IF NOT EXISTS test")
+
+cursor.execute("create table IF NOT EXISTS people (ID varchar(70),FNAME varchar(20));")
+
+
+
+from flask import Flask, render_template, request
+from flask_mysqldb import MySQL
+
+app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'test'
+
+mysql = MySQL(app)
+
+
+@app.route('/form')
+def form():
+    return render_template('form.html')
+
+
+@app.route('/', methods=['POST', 'GET'])
+def login():
+    if request.method == 'GET':
+        name = "request.form['name']"
+        age = "request.form['age']"
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO people VALUES ('1', '2')")
+        mysql.connection.commit()
+        cursor.close()
+        return f"Done!!"
+
+
+app.run(host='localhost', port=5000)
