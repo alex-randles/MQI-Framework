@@ -323,7 +323,7 @@ class Refinements:
                       GRAPH <%s> { 
                       ?property a ?type .
                       OPTIONAL { ?property  rdfs:comment|skos:definition|prov:definition ?commentProperty . } 
-                      FILTER(?type IN (rdf:Property, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty))
+                      FILTER(?type IN (rdf:Property, owl:AnnotationProperty, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty))
                       }
                     }
                     GROUP BY ?property
@@ -631,17 +631,21 @@ class Refinements:
         return update_query
 
     def change_predicate(self, query_values, mapping_graph, violation_identifier):
-        new_predicate = self.get_user_input(query_values)
+        # new_predicate = self.get_user_input(query_values)
+        prefix_namespace = self.get_prefix_value(query_values.get("PREFIX"))
+        remaining_identifier = query_values.get(list(query_values.keys())[1])
+        new_predicate = prefix_namespace + remaining_identifier
+        self.mapping_graph.bind(query_values.get("PREFIX"), prefix_namespace)
         if new_predicate:
             violation_information = self.validation_results.get(violation_identifier)
             violation_location = violation_information.get("location")
-            old_predicate = Refinements.parse_mapping_value(violation_information.get("value"))
+            old_predicate = violation_information.get("value")
             update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate %s  .  }
-                INSERT {   ?pom rr:predicate %s .     }
+                DELETE {   ?pom rr:predicate <%s>  .  }
+                INSERT {   ?pom rr:predicate <%s> .     }
                 WHERE {
-                    ?pom rr:predicate %s  .
+                    ?pom rr:predicate <%s>  .
                     FILTER(str(?pom) = "%s").
                 }
                 """ % (old_predicate, new_predicate, old_predicate, violation_location)
@@ -758,18 +762,7 @@ class Refinements:
             for s, o in self.triple_references.items():
                 print(s, "dhdhhd")
                 print("")
-
-            # self.triple_references[rdflib.term.URIRef("file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping178.ttl#work_lyrics")][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#predicateObjectMap')] = [rdflib.term.BNode('ub4bL27C24')]
             self.triple_references[list(self.triple_references.keys())[0]][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
-            # print(self.triple_references)
-            # exit()
-            # self.triple_references[rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
-            # exit()
-            # # print(self.triple_references.keys(), type(self.triple_references))
-            # # exit()
-            # self.triple_references[rdflib.term.URIRef('file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping173.ttl#work_lyrics')]["not_bNode"][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#logicalTable')] = [row]
-            # print(self.triple_references)
-            # exit()
             return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
@@ -959,7 +952,6 @@ class Refinements:
             metric_identifier = self.validation_results[violation_identifier]["metric_identifier"]
             if metric_identifier in self.suggested_refinements.keys():
                 suggested_refinements[violation_identifier] = self.suggested_refinements[metric_identifier]
-        print(suggested_refinements, "SUGGESTED REFINEEMNTS")
         return suggested_refinements
 
     def process_user_input(self, refinements_values, refinements, mapping_file, mapping_graph, validation_report_file):
@@ -967,9 +959,6 @@ class Refinements:
         selected_violation_identifier = self.get_selected_refinements(refinements_values)
         refinement_input = {}
         # concatenate the prefix value to the user input
-        self.process_prefix_values(refinements_values, mapping_file)
-        print(refinements, "early refinement values")
-        print(self.process_prefix_values(refinements_values, mapping_file))
         for violation_identifier in selected_violation_identifier:
             for dic_key in refinements_values.keys():
                 # if current key is associated with input
@@ -983,8 +972,6 @@ class Refinements:
                         refinement_input[violation_identifier][property_name] = current_input_value
                     else:
                         refinement_input[violation_identifier] = {property_name: current_input_value}
-        print(refinement_input, "refinement input earlier")
-        print(refinements, "refinements earlier")
         # refinement input associates each input value with the violation identifier it is refining
         self.execute_refinements(selected_violation_identifier, refinements, refinement_input, validation_report_file)
 
@@ -1002,26 +989,18 @@ class Refinements:
         # refinement graph updates the validation report graph
         self.refinement_graph = self.refinement_graph.parse(validation_report_file, format="ttl")
         # execute each refinement selected to be executed with or without user input
-        print("SELECTED REFINEMENTS", selected_violation_identifier)
-        print(refinements)
-        print(type(list(refinements.keys())[0]))
         for violation_identifier in selected_violation_identifier:
             # html forms store values as strings
             int_violation_identifier = int(violation_identifier)
-            user_input_required = refinements[int_violation_identifier]["user_input"]
-            print("CHECKING USER INPUT LINE 860")
-            print(user_input_required)
-            print(refinements)
-            refinement_name = refinements[int_violation_identifier]["name"]
-            print(refinements, "REFINEMENT INPUT")
+            user_input_required = refinements[int_violation_identifier].get("user_input")
+            refinement_name = refinements[int_violation_identifier].get("name")
             if user_input_required:
                 function_input = refinement_input[violation_identifier]
             else:
-                function_input = refinements[int_violation_identifier]["values"]
+                function_input = refinements[int_violation_identifier].get("values")
             function_name = self.get_function_name(refinement_name)
             print(function_name)
-            refinement_query = function_name(function_input, self.mapping_graph,
-                                             int_violation_identifier)
+            refinement_query = function_name(function_input, self.mapping_graph, int_violation_identifier)
             # the function from self.refinement functions is called with the refinement name, user input and the mapping graph
             print(refinement_query)
             self.add_refinement_information(int_violation_identifier, refinement_query, refinement_name)
@@ -1043,21 +1022,6 @@ class Refinements:
         # __init__(self, mapping_graph, blank_node_references, output_file)
         # uses custom serializer to keep mapping ordering
         TurtleSerializer(self.mapping_graph, self.triple_references, "refined_mapping-{}.ttl".format(self.participant_id))
-
-    def add_metadata(self, mapping):
-        # adding metadata about the mapping entered by users
-        if self.add_information is not None:
-            # mapping = list(self.refinement_graph.objects(None, self.MQIO.assessedMapping))[0]
-            creator = list(self.refinement_graph.objects(None, self.MQIO.createdBy))[0]
-            # prov_generated = URIRef("http://www.w3.org/ns/prov#generatedAtTime")
-            # prov_generated = self.prov.generatedAtTime
-            # generationTime = list(self.refinement_graph.objects(None, prov_generated))[0]
-            # self.refinement_graph.remove((None, RDF.type, self.MQIO.MappingDocument))
-            # self.refinement_graph.add((mapping, RDF.type, self.MQIO.MappingDocument))
-            self.refinement_graph.remove((None, self.MQIO.createdBy, None))
-            self.refinement_graph.add((mapping, self.MQIO.createdBy, creator))
-            # self.refinement_graph.remove((None, prov_generated, None))
-            # self.refinement_graph.add((mapping, prov_generated, generationTime))
 
     def format_file_name_identifier(self):
         # remove local file name from IRI's
@@ -1098,7 +1062,7 @@ class Refinements:
         if add_metadata:
             refiner_name = self.add_information.get("refined-by-name")
             if refiner_name:
-                refiner_name_identifier = URIRef("http://example.org/" + "".join([name.capitalize() for name in refiner_name.split()]))
+                refiner_name_identifier = URIRef("http://example.org/" + "".join([word.capitalize() for word in refiner_name.split()]))
                 for s,p,o in self.refinement_graph.triples((None, RDF.type, self.MQIO.MappingRefinement)):
                     print(s,p,o)
                     self.refinement_graph.add((s,self.PROV.wasAssociatedWith, refiner_name_identifier))
@@ -1142,7 +1106,7 @@ class Refinements:
     def has_prefix_value(self, form_id, user_input):
         # '0-PREFIX-http://www.w3.org/ns/r2rml#class': 'None'
         # if the prefix value is not set to None
-        prefix_value = user_input[form_id]
+        prefix_value = user_input.get(form_id)
         if prefix_value != "None":
             return True
         return False

@@ -224,11 +224,15 @@ class ValidateQuality:
         query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_identifier
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         is_defined_concept = query_results.get("boolean")
+        print(query_results)
+        print(query)
         if is_defined_concept is False:
             property_namespace = self.get_namespace(property_identifier)
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
             query_results = self.vocabularies.query_local_graph(property_identifier, query)
             graph_exists = query_results.get("boolean")
+            print(query)
+            print(graph_exists)
             if graph_exists is True:
                 return [metric_identifier, result_message, property_identifier, subject_identifier]
             else:
@@ -404,6 +408,7 @@ class ValidateQuality:
         result_message = "Join condition should have a parent and child column."
         metric_identifier = "MP5"
         query = """
+                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                  SELECT ?joinCondition 
                  WHERE {
                     ?objectMap rr:joinCondition ?joinCondition .
@@ -416,6 +421,7 @@ class ValidateQuality:
             subject = row.get("joinCondition")
             self.add_violation([metric_identifier, result_message, URIRef("http://www.w3.org/ns/r2rml#child"), subject])
         query = """
+                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                  SELECT ?joinCondition 
                  WHERE {
                     ?objectMap rr:joinCondition ?joinCondition .
@@ -433,6 +439,7 @@ class ValidateQuality:
         metric_identifier = "MP6"
         query = """
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        PREFIX rr: <http://www.w3.org/ns/r2rml#>
         ASK { ?subject rr:logicalTable|rml:logicalSource ?object } """
         query_results = self.mapping_graph.query(query)
         for row in query_results:
@@ -461,7 +468,8 @@ class ValidateQuality:
         # The user may spell one of the term types incorrect e.g rr:Literal(s)
         result_message = "Invalid term type definition."
         metric_identifier = "MP7"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+        query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?objectMap ?termType
                     WHERE {
                       ?subject rr:predicateObjectMap ?pom . 
@@ -475,7 +483,8 @@ class ValidateQuality:
             subject = row.get("objectMap")
             term_type = row.get("termType")
             self.add_violation([metric_identifier, result_message, term_type, subject])
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+        query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?predicateMap ?termType
                     WHERE {
                       ?subject rr:predicateObjectMap ?pom . 
@@ -493,7 +502,9 @@ class ValidateQuality:
     def validate_MP8(self):
         result_message = "Subject map class must be a valid IRI."
         metric_identifier = "MP8"
-        query = """SELECT ?class ?subjectMap
+        query = """
+                     PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                     SELECT ?class ?subjectMap
                      WHERE { 
                              ?subject rr:subjectMap ?subjectMap .
                              ?subjectMap rr:class ?class 
@@ -509,7 +520,9 @@ class ValidateQuality:
     def validate_MP9(self):
         result_message = "Predicate must be a valid IRI."
         metric_identifier = "MP9"
-        query = """SELECT ?predicate ?pom
+        query = """
+                     PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                     SELECT ?predicate ?pom
                      WHERE { 
                              ?subject rr:predicateObjectMap ?pom . 
                              ?pom rr:predicate ?predicate . 
@@ -525,7 +538,9 @@ class ValidateQuality:
     def validate_MP10(self):
         result_message = "Named graph must be a valid IRI."
         metric_identifier = "MP10"
-        query = """SELECT ?graph ?sm
+        query = """
+                     PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                     SELECT ?graph ?sm
                      WHERE { 
                              ?subject rr:subjectMap ?sm . 
                              ?sm rr:graph ?graph . 
@@ -540,7 +555,9 @@ class ValidateQuality:
     def validate_MP11(self):
         result_message = "Datatype must be a valid IRI."
         metric_identifier = "MP11"
-        query = """SELECT ?datatype ?om
+        query = """
+                     PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                     SELECT ?datatype ?om
                      WHERE { 
                              ?subject rr:predicateObjectMap ?pom .
                              ?pom rr:objectMap ?om . 
@@ -577,7 +594,9 @@ class ValidateQuality:
         'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW',
         'zu', 'zu-ZA')
         language_tags = tuple([tag.lower() for tag in language_tags])
-        query = """SELECT ?objectMap ?languageTag
+        query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?objectMap ?languageTag
                     WHERE {
                          ?subject rr:predicateObjectMap ?pom.
                          ?pom rr:objectMap ?objectMap .  
@@ -608,16 +627,35 @@ class ValidateQuality:
                                       "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
                                       "skosxl:literalForm", "rdfs:comment",
                                       "schema:description", "schema:description", "foaf:name"]
-            query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" \
-                        "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" \
-                        "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
-                        "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
-                        "PREFIX ct: <http://data.linkedct.org/resource/linkedct/> \n" \
-                        "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n" \
-                        "PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> \n" \
-                        "PREFIX schema: <http://schema.org/> \n" \
-                        "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
-                        "ASK { GRAPH <%s> { <%s> %s ?label } } " % (namespace, class_identifier, "|".join(human_label_predicates))
+            # query = "" \
+            #         "    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" \
+            #             "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" \
+            #             "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
+            #             "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
+            #             "PREFIX ct: <http://data.linkedct.org/resource/linkedct/> \n" \
+            #             "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n" \
+            #             "PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> \n" \
+            #             "PREFIX schema: <http://schema.org/> \n" \
+            #             "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
+            #             "ASK { GRAPH <%s> { <%s> %s ?label } } " % (namespace, class_identifier, "|".join(human_label_predicates))
+            # print(query)
+            # exit()
+            query = """
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                PREFIX dcterms: <http://purl.org/dc/terms/> 
+                PREFIX ct: <http://data.linkedct.org/resource/linkedct/> 
+                PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+                PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> 
+                PREFIX schema: <http://schema.org/> 
+                PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> 
+                ASK { 
+                  GRAPH <%s> 
+                     { <%s> %s ?label 
+                     } 
+                }            
+            """  % (namespace, class_identifier, "|".join(human_label_predicates))
             query_results = self.vocabularies.query_local_graph(namespace, query)
             has_label_comment = query_results.get("boolean")
             if has_label_comment is False:
@@ -657,7 +695,7 @@ class ValidateQuality:
                 query = """ 
                 PREFIX owl: <http://www.w3.org/2002/07/owl#>
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (self.get_namespace(property_identifier), property_identifier)
+                ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:AnnotationProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (self.get_namespace(property_identifier), property_identifier)
                 query_results = self.vocabularies.query_local_graph(namespace, query)
                 is_property = query_results.get("boolean")
                 if is_property:
@@ -669,7 +707,8 @@ class ValidateQuality:
         metric_identifier = "VOC3"
         for namespace in self.unique_namespaces:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
-                                "dcterms:publisher", "dc:title", "dc:description", "rdfs:comment", "foaf:maker"]
+                                "dcterms:publisher", "dc:title", "dct:description", "dc:description",
+                                     "rdfs:comment", "foaf:maker"]
             query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
                     "PREFIX dc: <http://purl.org/dc/elements/1.1/> " \
                     "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" \
@@ -710,7 +749,7 @@ class ValidateQuality:
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
                 query_results = self.vocabularies.query_local_graph(namespace, query)
-                graph_exists = query_results["boolean"]
+                graph_exists = query_results.get("boolean")
                 if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
@@ -718,8 +757,6 @@ class ValidateQuality:
         # A function to validate basic provenance information
         result_message = "No Human-Readable license."
         metric_identifier = "VOC5"
-        # returning true for now as testing mappings
-        # return True
         for namespace in self.unique_namespaces:
             query = """
             ASK
