@@ -5,7 +5,7 @@
 <#Exercise>
     
 	a rr:TriplesMap ;
-    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id, Goal.description, Goal.type, Goal.type_id FROM Goal""" ] ;
+    rr:logicalTable [ rr:sqlQuery """SELECT Goal.id, Goal.description, Goal.type, Goal.type_id FROM loans-v1.csv""" ] ;
     
 	#a class were not specified,because already created in the subject of the subclasses.
 	rr:subjectMap [
@@ -16,7 +16,7 @@
     ];
     rr:predicateObjectMap [
         rr:predicate openfit:descriptions ;
-        rr:objectMap [ rr:column "description" ] ;
+        rr:objectMap [ rr:column "Married" ] ;
     ];
     .
 
@@ -60,7 +60,7 @@
 	
 	rr:predicateObjectMap [
 		rr:predicate openfit:target_area_id ;
-		rr:objectMap [ rr:column "id" ] ;
+		rr:objectMap [ rr:column "Dependents" ] ;
 	] ;
 
 	rr:predicateObjectMap [

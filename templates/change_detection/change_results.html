@@ -110,8 +110,8 @@
     <tr>
         <th scope="row">{{key}}</th>
         {% if "change_sources" in value %}
-        {% set current_version = value["change_sources"]["current_version"].split('/')[-1] %}
-        {% set previous_version = value["change_sources"]["previous_version"].split('/')[-1] %}
+        {% set current_version = value["change_sources"].get("current_version").split('/')[-1] %}
+        {% set previous_version = value["change_sources"].get("previous_version").split('/')[-1] %}
         <td>
             <pre>Version 1: <a href={{value["change_sources"]["previous_version"]}}>{{previous_version}}</a>
 Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_version}}</a></pre>
@@ -123,9 +123,9 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
         </td>
         {% endif %}
 
-        {% set detection_end = value["detection_end"]  %}
-        {% set change_count = value["change_count"] %}
-        {% set data_format = value["data_format"]|upper %}
+        {% set detection_end = value.get("detection_end")  %}
+        {% set change_count = value.get("change_count") %}
+        {% set data_format = value.get("data_format")|upper %}
 
         <td>{{ data_format }}</td>
 
@@ -146,7 +146,7 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
         {% endif %}
 
         <td>
-            {% set graph_filename = graph_details[key]["filename"] %}
+            {% set graph_filename = graph_details[key].get("filename") %}
             <a href="{{ url_for('process_thresholds', graph_filename=graph_filename) }}">
                 Threshold Limits
             </a>
@@ -244,9 +244,8 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
 
     {% for key, value in mapping_details.items() %}
     <tr>
-        {% set filename = value["display_filename"] %}
-        {% set iterators = value["iterators"]|join(",   ") %}
-        {% set data_references = value["data_references"]|join(",   ") %}
+        {% set filename = value.get("display_filename") %}
+        {% set data_references = value.get("data_references")|join(",   ") %}
 
         <th scope="row">{{key}}</th>
         <td>
@@ -264,8 +263,9 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
             {% endif %}
         </td>
         <td>
+            {% set iterators = value.get("iterators") %}
             {% if iterators %}
-            {{ iterators }}
+            {{ iterators|join(",   ") }}
             {% else %}
             N/A
             {% endif %}
