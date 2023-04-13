@@ -26,22 +26,13 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class xsd:test, mo:MusicalWork;	
- ];	
+  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate mo:lyrics;	
 	 rr:objectMap [	
-		 rr:datatype xsd:string;	
-		 rr:column "url" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate mo:lyrics;	
-	 rr:objectMap [	
-		 rr:datatype xsd:string;	
-		 rr:column "ursl" ;	
+		 rr:column"url"^^xsd:string ;	
+		 rr:termType rr:Literal;	
 		]; 	
  ];	
 .	

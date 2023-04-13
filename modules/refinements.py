@@ -634,7 +634,7 @@ class Refinements:
         new_predicate = self.get_user_input(query_values)
         if new_predicate:
             violation_information = self.validation_results.get(violation_identifier)
-            violation_location = violation_info.get("location")
+            violation_location = violation_information.get("location")
             old_predicate = Refinements.parse_mapping_value(violation_information.get("value"))
             update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -1098,7 +1098,7 @@ class Refinements:
         if add_metadata:
             refiner_name = self.add_information.get("refined-by-name")
             if refiner_name:
-                refiner_name_identifier = URIRef("http://example.org/" + refiner_name)
+                refiner_name_identifier = URIRef("http://example.org/" + "".join([name.capitalize() for name in refiner_name.split()]))
                 for s,p,o in self.refinement_graph.triples((None, RDF.type, self.MQIO.MappingRefinement)):
                     print(s,p,o)
                     self.refinement_graph.add((s,self.PROV.wasAssociatedWith, refiner_name_identifier))

@@ -276,7 +276,6 @@ class API:
 
     # generate a html file with mapping impacted details
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
-    @app.route('/mapping-impacted', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
         mapping_graph = session.get("mapping_details").get(int(mapping_unique_id))
         graph_id = int(graph_id.split(".")[0])

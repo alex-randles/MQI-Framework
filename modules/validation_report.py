@@ -72,14 +72,14 @@ class ValidationReport:
         # adding creator name
         creator_name = self.form_data.get('creator-name')
         if creator_name:
-            creator_name_identifier = URIRef("http://example.org/" + creator_name)
+            creator_name_identifier = URIRef("http://example.org/" + "".join([name.capitalize() for name in self.form_data.get('creator-name').split()]))
             self.validation_graph.add((mapping_identifier, self.MQIO.wasCreatedBy, creator_name_identifier))
 
     def add_performer_agent(self):
         # adding the person who performed the assessment
         performed_by_name = self.form_data.get("performed-by-name")
         if performed_by_name:
-            performed_by_identifier = URIRef("http://example.org/" + performed_by_name)
+            performed_by_identifier = URIRef("http://example.org/" + "".join([name.capitalize() for name in self.form_data.get("performed-by-name").split()]))
             self.validation_graph.add((self.assessment_identifier, self.PROV.wasAssociatedWith, performed_by_identifier))
 
     def add_assessment_time(self):

@@ -53,10 +53,6 @@ class ValidateQuality:
                                "http://www.semanticweb.org/FlavourTown#",
                                "http://ontology.smartfitgym.eu#",
                                "http://ontology.wearehungry.be#",
-
-
-
-
                                ]
         self.unique_namespaces = list(set([namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in excluded_namespaces]))
         self.violation_counter = 0
@@ -143,6 +139,7 @@ class ValidateQuality:
         # self.update_progress_bar()
         # pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
         processes = []
+        self.validate_mapping_metrics()
         for (triple_map_identifier, graph) in self.triple_maps:
             # self.blank_node_references[triple_map_identifier] = self.generate_triple_references(graph)
             self.current_graph = graph
@@ -150,7 +147,7 @@ class ValidateQuality:
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.validate_data_metrics()
-            self.validate_mapping_metrics()
+            self.validate_term_map_metrics()
             # pr2 = multiprocessing.Process(target=self.validate_data_metrics)
             # pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
             # pr1.start()
@@ -175,10 +172,12 @@ class ValidateQuality:
 
     def validate_mapping_metrics(self):
         # A function to validate each of the mapping related quality metrics
-        self.validate_MP1()
         # self.validate_MP2()
         self.validate_MP3()
         self.validate_MP4()
+
+    def validate_term_map_metrics(self):
+        self.validate_MP1()
         self.validate_MP5()
         self.validate_MP6()
         self.validate_MP7()
@@ -623,7 +622,11 @@ class ValidateQuality:
             has_label_comment = query_results.get("boolean")
             if has_label_comment is False:
                 print(query)
-                self.add_violation([metric_identifier, result_message, class_identifier, None])
+                query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
+                query_results = self.vocabularies.query_local_graph(class_identifier, query)
+                graph_exists = query_results.get("boolean")
+                if graph_exists is True:
+                    self.add_violation([metric_identifier, result_message, class_identifier, None])
 
     def validate_VOC2(self):
         metric_identifier = "VOC2"
@@ -676,7 +679,7 @@ class ValidateQuality:
                      "ASK { GRAPH <%s> { ?subject a owl:Ontology; " \
                     "              %s ?label . } } " % (namespace, "|".join(provenance_predicates))
             query_results = self.vocabularies.query_local_graph(namespace, query)
-            has_license = query_results["boolean"]
+            has_license = query_results.get("boolean")
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
                 query_results = self.vocabularies.query_local_graph(namespace, query)
@@ -703,7 +706,7 @@ class ValidateQuality:
             }
             """ % namespace
             query_results = self.vocabularies.query_local_graph(namespace, query)
-            has_license = query_results["boolean"]
+            has_license = query_results.get("boolean")
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
                 query_results = self.vocabularies.query_local_graph(namespace, query)
@@ -728,7 +731,7 @@ class ValidateQuality:
             }
             """ % namespace
             query_results = self.vocabularies.query_local_graph(namespace, query)
-            has_license = query_results["boolean"]
+            has_license = query_results.get("boolean")
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
                 query_results = self.vocabularies.query_local_graph(namespace, query)

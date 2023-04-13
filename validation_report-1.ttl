@@ -1,69 +1,54 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping189.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping189.ttl> ;
+    mqio:assessedMapping <refined-mapping184.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
-        ex:violation-2 .
+        ex:violation-2,
+        ex:violation-3,
+        ex:violation-4 .
 
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-13T14:59:50.071011"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            INSERT {
-                ?subject rr:class <http://purl.org/ontology/mo/MusicalWork> .
-            }
-            WHERE {
-              <file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping189.ttl#work_lyrics> rr:subjectMap ?subject
-            }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Add Domain Class"^^xsd:string .
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/ontology/mo/lyrics> ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
 
-ex:refinement-1 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-13T14:59:50.092546"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRIs> .  } 
-                WHERE { 
-                    SELECT ?subject
-                    WHERE {
-                          ?subject rr:termType <http://www.w3.org/ns/r2rml#IRIs> .
-                          FILTER(str(?subject) = "ub6bL32C16").
-                        }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Remove Term Type"^^xsd:string .
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/ontology/mo/lyrics> ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
 
 ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'mo:lyrics'."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
+
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'mo:lyrics'."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
+
+ex:violation-4 a mqio:MappingViolation ;
     mqio:hasObjectValue <http://purl.org/ontology/mo/> ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://purl.org/ontology/mo/lyrics> ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:D3 ;
-    mqio:wasRefinedBy ex:refinement-0 .
-
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:IRIs ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:MP7 ;
-    mqio:wasRefinedBy ex:refinement-1 .
+<refined-mapping184.ttl> a mqio:MappingArtefact ;
+    mqio:wasCreatedBy ex:Ddd .
 
