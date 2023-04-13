@@ -78,6 +78,8 @@ class FetchVocabularies:
             pass
         except requests.exceptions.ReadTimeout as e:
             pass
+        except requests.exceptions.InvalidSchema as e:
+            pass
         return True
 
     # A function which returns a list containing unique namespaces in the object position

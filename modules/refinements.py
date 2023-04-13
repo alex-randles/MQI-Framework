@@ -298,21 +298,6 @@ class Refinements:
         # returns similar predicates from the vocabulary which caused the violation
         violation_value = self.validation_results[violation_identifier]["value"]
         select_placeholder = "Choose a new predicate"
-        # query = """PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-        #             PREFIX owl: <http://www.w3.org/2002/07/owl#>
-        #             SELECT ?property
-        #             WHERE {
-        #               { ?property rdf:type rdf:Property. }
-        #               UNION
-        #               {  ?property rdf:type owl:ObjectProperty. }
-        #               UNION
-        #               {  ?property rdf:type owl:DataProperty. }
-        #               UNION
-        #               {  ?property rdf:type owl:FunctionalProperty. }
-        #               UNION
-        #               {  ?property rdf:type owl:DatatypeProperty. }
-        #             }
-        #             """
         query = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -323,7 +308,8 @@ class Refinements:
                       GRAPH <%s> { 
                       ?property a ?type .
                       OPTIONAL { ?property  rdfs:comment|skos:definition|prov:definition ?commentProperty . } 
-                      FILTER(?type IN (rdf:Property, owl:AnnotationProperty, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty))
+                      FILTER(CONTAINS (LCASE(STR(?type)), 'property'))
+                      # FILTER(?type IN (rdf:Property, owl:AnnotationProperty, owl:ObjectProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty))
                       }
                     }
                     GROUP BY ?property
@@ -360,8 +346,9 @@ class Refinements:
                       GRAPH <%s> { 
                           ?classOnto a ?type . 
                           OPTIONAL { ?classOnto  rdfs:comment|skos:definition|prov:definition ?commentOnto . } 
-                          FILTER(?type IN (owl:Class, rdfs:Class) && !isBlank(?classOnto) )
-                          BIND(lang(?commentProperty) AS ?languageTag ) 
+                        #  FILTER(?type IN (owl:Class, rdfs:Class) && !isBlank(?classOnto) )
+                         FILTER(CONTAINS (LCASE(STR(?type)), 'class'  && !isBlank(?classOnto)  ))
+                         BIND(lang(?commentProperty) AS ?languageTag ) 
                          FILTER (?languageTag = 'en' || !bound(?languageTag))
                       }
                     }
