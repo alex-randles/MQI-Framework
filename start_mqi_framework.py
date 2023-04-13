@@ -246,6 +246,25 @@ class API:
             else:
                 return redirect(url_for('change_detection'))
 
+    @app.route(("/xml-changes"), methods=["GET", "POST"])
+    def detect_xml_changes():
+        participant_id = session.get("participant_id")
+        if request.method == "GET":
+            session["change_process_executed"] = False
+            return render_template("change_detection/XML_file_details.html", participant_id=participant_id)
+        elif request.method == "POST":
+            session["change_process_executed"] = True
+            form_details = request.form
+            change_detection = DetectChanges(participant_id, form_details)
+            if change_detection.error_code == 1:
+                flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
+                return redirect(url_for('detect_xml_changes'))
+            elif change_detection.error_code == 2:
+                flash("Incorrect file format.")
+                return redirect(url_for('detect_xml_changes'))
+            else:
+                return redirect(url_for('change_detection'))
+
     @staticmethod
     def mapping(test_dict):
         return isinstance(test_dict, dict)

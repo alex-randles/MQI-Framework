@@ -1,3 +1,55 @@
+from xmldiff import main, formatting
+import xml.etree.ElementTree as ET
+
+import requests
+version_1 = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0001a-XML/student.xml"
+version_2 = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0009a-XML/student.xml"
+version_1 = requests.get(version_1).text
+version_2 = requests.get(version_2).text
+def detect_xml_changes(version_1, version_2):
+    # detect differences between XML file versions
+    diff = main.diff_texts(
+        version_1,
+        version_2,
+        formatter=formatting.XMLFormatter())
+    # output difference to XML file
+    diff_text = open("diff.xml", "w+")
+    diff_text.write(diff)
+    diff_text.close()
+    format_XML_changes()
+
+def format_XML_changes():
+    tree = ET.parse("diff.xml")
+    root = tree.getroot()
+    for child in root.iter():
+        print(child.tag, child.text.strip())
+
+
+detect_xml_changes(version_1, version_2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exit()
 import MySQLdb
 
 

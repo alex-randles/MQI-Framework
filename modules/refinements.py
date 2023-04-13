@@ -39,7 +39,7 @@ class Refinements:
             "MP4": ["AddPredicateObjectMap"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
             "MP6": ["AddLogicalTable"],
-            "MP7": ["ChangeTermType"],
+            "MP7": ["ChangeTermType", "RemoveTermType"],
             "MP8": ["ChangeClass"],
             "MP9": ["ChangePredicate"],
             "MP10": ["ChangeGraphName"],
@@ -613,8 +613,8 @@ class Refinements:
     def change_class(self, query_values, mapping_graph, violation_identifier):
         new_class = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
-        triple_map = current_result["triple_map"]
-        old_class = Refinements.parse_mapping_value(current_result["value"])
+        triple_map = current_result.get("triple_map")
+        old_class = Refinements.parse_mapping_value(current_result.get("value"))
         update_query = """
             PREFIX rr: <http://www.w3.org/ns/r2rml#> 
             DELETE { ?subject rr:class %s .  }
@@ -633,16 +633,9 @@ class Refinements:
     def change_predicate(self, query_values, mapping_graph, violation_identifier):
         new_predicate = self.get_user_input(query_values)
         if new_predicate:
-            violation_info = self.validation_results[violation_identifier]
-            violation_location = violation_info["location"]
-            old_predicate = violation_info.get("value")
-            print(old_predicate, type(old_predicate))
-            if type(old_predicate) == rdflib.term.Literal:
-                old_predicate = "'%s'" % old_predicate
-            else:
-                old_predicate = "<%s>" % old_predicate
-
-            old_predicate = Refinements.parse_mapping_value(violation_info.get("value"))
+            violation_information = self.validation_results.get(violation_identifier)
+            violation_location = violation_info.get("location")
+            old_predicate = Refinements.parse_mapping_value(violation_information.get("value"))
             update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE {   ?pom rr:predicate %s  .  }
@@ -669,7 +662,8 @@ class Refinements:
                 WHERE { 
                 SELECT ?objectMap
                 WHERE {
-                      ?objectMap rr:language "%s" .
+                      ?objectMap ?p ?o .
+                      OPTIONAL { ?objectMap rr:language "%s" . } 
                       FILTER(str(?objectMap) = "%s").
                     }
                 }
@@ -743,37 +737,33 @@ class Refinements:
         print(query_values)
         for property, value in query_values.items():
             violation_information = self.validation_results.get(violation_identifier)
+            subject_map_identifier = BNode()
             update_query = """
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            PREFIX rr: <http://www.w3.org/ns/r2rml#>
-            INSERT 
-            { 
-              ?tripleMap rr:subjectMap _:b1 . 
-              _:b1 rr:class rr:test  . 
-            }
-            WHERE {
-              ?tripleMap rr:predicateObjectMap ?pom . 
-              FILTER(str(?tripleMap) = "%s").
-            }
-            """ % violation_information.get("triple_map")
+                PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                INSERT 
+                { 
+                  ?tripleMap rr:subjectMap _:%s . 
+                  _:%s rr:class rr:test  . 
+                }
+                WHERE {
+                  ?tripleMap rr:predicateObjectMap ?pom . 
+                  FILTER(str(?tripleMap) = "%s").
+                }
+            """ % (subject_map_identifier, subject_map_identifier ,violation_information.get("triple_map"))
             # print(update_query)
             processUpdate(self.mapping_graph, update_query)
             print(mapping_graph.serialize(format="ttl").decode("utf-8"))
-            # exit()
+            print(subject_map_identifier, type(subject_map_identifier))
+            for s, o in self.triple_references.items():
+                print(s, "dhdhhd")
+                print("")
 
-            update_query = """
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            PREFIX rr: <http://www.w3.org/ns/r2rml#>
-            SELECT ?sm 
-            WHERE {
-              ?tripleMap rr:subjectMap ?sm . 
-              FILTER(str(?tripleMap) = "%s").
-            }
-            """ % violation_information.get("triple_map")
-            query_results = self.mapping_graph.query(update_query)
-            for row in query_results:
-                print(row)
-            self.triple_references[rdflib.term.URIRef('file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping174.ttl#work_lyrics')][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [row]
+            # self.triple_references[rdflib.term.URIRef("file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping178.ttl#work_lyrics")][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#predicateObjectMap')] = [rdflib.term.BNode('ub4bL27C24')]
+            self.triple_references[list(self.triple_references.keys())[0]][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
+            # print(self.triple_references)
+            # exit()
+            # self.triple_references[rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
             # exit()
             # # print(self.triple_references.keys(), type(self.triple_references))
             # # exit()
@@ -869,11 +859,6 @@ class Refinements:
             values = values.replace("<", "")
             values = values.replace(">", "")
             return "<%s>" % values
-        # elif type(violation_value) is tuple:
-        #     print("VIOLATION VALUE")
-        #     print(violation_value)
-        #     print(str(violation_value))
-        #     return "<%s>" % violation_value[0]
         else:
             return "<%s>" % values
 
@@ -898,24 +883,6 @@ class Refinements:
                     refinements[violation_identifier] = {"name": selected_refinement, "user_input": False,
                                                          "values": selected_refinement}
         return refinements
-
-    def get_complex_domain(self, identifier, g):
-        identifier = URIRef(identifier)
-        domain = list(g.objects(identifier, RDFS.domain))[0]
-        domain_identifier = list(g.objects(domain, OWL.unionOf))[0]
-        domain_values = []
-        new_blank_nodes = []
-        while True:
-            for (s, p, o) in g.triples((domain_identifier, None, None)):
-                if p == RDF.first:
-                    domain_values.append(o)
-                elif p == RDF.rest:
-                    new_blank_nodes.append(o)
-            if not new_blank_nodes:
-                break
-            else:
-                domain_identifier = new_blank_nodes.pop(0)
-        return domain_values
 
     def get_namespace(self, identifier):
         if identifier.startswith("http://dbpedia.org/ontology/"):

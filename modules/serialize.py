@@ -188,7 +188,7 @@ class TurtleSerializer:
                 self.output += " ];\n"
             return self.output.split("\n")
         except:
-            return "Violation has no triples related."
+            return None
 
     def change_violation_color(self, violation_value):
         # displays the violation value in a red color
