@@ -67,7 +67,6 @@ class ValidationReport:
             mapping_identifier = mapping_file_identifier
             self.add_creator_agent(mapping_identifier)
             self.add_performer_agent()
-            self.add_refinement_agent()
 
     def add_creator_agent(self, mapping_identifier):
         # adding creator name
@@ -78,17 +77,10 @@ class ValidationReport:
 
     def add_performer_agent(self):
         # adding the person who performed the assessment
-        performed_by_name = self.form_data["performed-by-name"]
+        performed_by_name = self.form_data.get("performed-by-name")
         if performed_by_name:
             performed_by_identifier = URIRef("http://example.org/" + performed_by_name)
             self.validation_graph.add((self.assessment_identifier, self.PROV.wasAssociatedWith, performed_by_identifier))
-
-    def add_refinement_agent(self):
-        pass
-        # add agent who performed the refinement of the mapping
-        # refinement_agent = self.form_data["refined-by-name"]
-        # refinement_agent_identifier = URIRef("http://example.org/" + refinement_agent)
-        # self.validation_graph.add((self.assessment_identifier, self.PROV.wasAssociatedWith, refinement_agent_identifier))
 
     def add_assessment_time(self):
         # time the mapping information was generated - prov:startedAtTime
@@ -109,19 +101,6 @@ class ValidationReport:
         # self.validation_graph.add((mapping, self.PROV.generatedAtTime, creation_date_identifier))
         print(creation_date_identifier)
         print(self.mapping_file)
-        # creation_date = self.form_data["creation-date"]
-        # if creation_date:
-        #     # add midnight as the time as prov:generatedAtTime needs date time
-        #     creation_date = creation_date + "T00:00:00Z"
-        #     creation_date = creation_date
-        #     creation_date_identifier = Literal(creation_date, datatype=XSD.dateTime)
-        #     self.validation_graph.add((mapping, self.PROV.generatedAtTime, creation_date_identifier))
-
-    def add_PROV_Agent(self, name):
-        name_identifier = URIRef(self.EX + "".join(name.split()))
-        self.validation_graph.add((name_identifier, RDF.type, self.PROV.Agent))
-        self.validation_graph.add((name_identifier, RDFS.label, Literal(name)))
-        return name_identifier
 
     def insert_assessment_information(self):
         # ex:mappingQualityAssessment a mqv:MappingAssessment ;
@@ -176,6 +155,14 @@ class ValidationReport:
         if violation_location:
             location_literal = Literal(violation_location, datatype=XSD.string)
             self.validation_graph.add((current_violation_identifier, self.MQIO.hasLocation, location_literal))
+
+    def add_refinement_agent(self):
+        refiner_name = self.form_data.get("refined-by-name")
+        if refiner_name:
+            refiner_name_identifier = URIRef("http://example.org/" + refiner_name)
+            for s,p,o in self.validation_graph.triples((None, RDF.type, self.MQIO.MappingRefinement)):
+                print(s,p,o)
+                self.validation_graph.add((s,self.PROV.wasAssociatedWith, refiner_name_identifier))
 
     @staticmethod
     def format_triple_map_identifier(triple_map_name):
@@ -241,6 +228,7 @@ class ValidationReport:
         print(self.validation_graph.serialize(format='turtle').decode('utf-8'))
 
     def save_validation_report(self):
+        self.add_refinement_agent()
         self.validation_graph.serialize(destination=self.output_file, format='ttl')
 
 
