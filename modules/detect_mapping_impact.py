@@ -42,12 +42,12 @@ class DetectMappingImpact:
               }
             }
         """ % ", ".join(mapping_references)
-        qres = self.changes_graph.query(query)
+        query_results = self.changes_graph.query(query)
         mapping_impact_key = "data_reference_changes"
         self.mapping_impact[mapping_impact_key] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["insert"] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["delete"] = defaultdict(dict)
-        for row in qres:
+        for row in query_results:
             change_identifier = str(row.get("change"))
             data_reference = str(row.get("reference"))
             changed_data = str(row.get("data"))
@@ -86,12 +86,12 @@ class DetectMappingImpact:
                }
             }
         """
-        qres = self.changes_graph.query(query)
+        query_results = self.changes_graph.query(query)
         mapping_impact_key = "structural_changes"
         self.mapping_impact[mapping_impact_key] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["insert"] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["delete"] = defaultdict(dict)
-        for row in qres:
+        for row in query_results:
             change_identifier = str(row.get("change"))
             data_reference = str(row.get("data"))
             changed_data = str(row.get("changedValue"))
@@ -119,8 +119,8 @@ class DetectMappingImpact:
         """
         mapping_impact_key = "structural_changes"
         self.mapping_impact[mapping_impact_key]["move"] = defaultdict(dict)
-        qres = self.changes_graph.query(query)
-        for row in qres:
+        query_results = self.changes_graph.query(query)
+        for row in query_results:
             new_location = str(row.get("newLocation"))
             self.mapping_impact[mapping_impact_key]["move"]["Moved to a new location"] = [new_location]
 

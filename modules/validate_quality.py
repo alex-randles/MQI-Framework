@@ -58,7 +58,7 @@ class ValidateQuality:
 
 
                                ]
-        self.unique_namespaces = [namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in excluded_namespaces]
+        self.unique_namespaces = list(set([namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in excluded_namespaces]))
         self.violation_counter = 0
         # self.manager = multiprocessing.Manager()
         self.validation_results = {}  # Shared Proxy to a list
@@ -687,8 +687,7 @@ class ValidateQuality:
         # A function to validate basic provenance information
         result_message = "No Machine-Readable license."
         metric_identifier = "VOC4"
-        unique_namespaces = list(set(self.unique_namespaces))
-        for namespace in unique_namespaces:
+        for namespace in self.unique_namespaces:
             query = """
             PREFIX dct: <http://purl.org/dc/terms/>
             PREFIX dc: <http://purl.org/dc/elements/1.1/>
@@ -717,14 +716,13 @@ class ValidateQuality:
         metric_identifier = "VOC5"
         # returning true for now as testing mappings
         # return True
-        unique_namespaces = list(set(self.unique_namespaces))
-        for namespace in unique_namespaces:
+        for namespace in self.unique_namespaces:
             query = """
             ASK
             WHERE {
               GRAPH <%s> {
                   ?subject ?predicate ?object
-                  FILTER(CONTAINS(?object, "license")) 
+                  FILTER(CONTAINS(LCASE(str(?object)), "license")) 
               }
             }
             """ % namespace
@@ -1012,7 +1010,6 @@ class ValidateQuality:
         properties = {}
         counter = 0
         for row in query_results:
-            # properties.append([row[0], row[1], row[2]])
             if row["hasLiteralType"] and not row["termType"]:
                 term_type = rdflib.term.URIRef('http://www.w3.org/ns/r2rml#Literal')
             else:
@@ -1031,8 +1028,6 @@ class ValidateQuality:
             # elif row["object"]:
             #     properties[counter]["constant"] = row["object"]
             counter += 1
-        # print(properties)
-        # exit()
         return properties
 
     @staticmethod
@@ -1063,7 +1058,6 @@ class ValidateQuality:
             classes[counter] = {"subject": row[0], "class": URIRef("".join(str(row[1]).split()))}
             counter += 1
         return classes
-
 
     @staticmethod
     def is_excluded_domain(classes, domains):

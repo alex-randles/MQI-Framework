@@ -77,10 +77,10 @@ class DisplayChanges:
             GROUP BY ?changeType
         """
 
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         # count of each change type within graph
         change_count = 0
-        for (change_type, count) in qres:
+        for (change_type, count) in query_results:
             change_count += count.value
         self.graph_details[self.current_graph_version]["change_count"] = change_count
         return change_count
@@ -158,7 +158,7 @@ class DisplayChanges:
               }
             }
             """
-        qres = change_graph.query(query)
+        query_results = change_graph.query(query)
         # change type human readable
         oscd_namespace = "https://www.w3id.org/OSCD#"
         change_types = {
@@ -172,7 +172,7 @@ class DisplayChanges:
         # dictionary that maps change type to notification threshold
         notification_thresholds = {}
         total_threshold_count = 0
-        for row in qres:
+        for row in query_results:
             total_threshold_count += int(row[1])
             notification_thresholds[change_types.get(str(row[0]))] = str(row[1])
         notification_thresholds["Total Count"] = total_threshold_count
@@ -193,8 +193,8 @@ class DisplayChanges:
           }
         }
         """
-        qres = self.current_graph.query(query)
-        for row in qres:
+        query_results = self.current_graph.query(query)
+        for row in query_results:
             detection_start = str(row[0]).split(" ")[0]
             detection_end = str(row[1]).split(" ")[0]
             self.graph_details[self.current_graph_version]["detection_start"] = detection_start
@@ -212,10 +212,10 @@ class DisplayChanges:
                 ?subject rr:tableName|rml:source ?sourceData
             }
         """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         # lists as could be more than 1 triple map
         source_data = []
-        for row in qres:
+        for row in query_results:
             source_data.append(str(row.get("sourceData")))
         if source_data:
             self.mapping_details[self.current_graph_version]["source_data"] = source_data
@@ -232,9 +232,9 @@ class DisplayChanges:
                 ?subject rr:sqlQuery ?sourceData
             }
         """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         source_data = []
-        for row in qres:
+        for row in query_results:
             sql_query = str(row.get("sourceData")).split()
             if "FROM" in sql_query:
                 source_data.append(sql_query[sql_query.index("FROM") + 1])
@@ -251,10 +251,10 @@ class DisplayChanges:
               ?subject rml:iterator ?iterator
             }
         """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         # lists as could be more than 1 triple map
         iterator = []
-        for row in qres:
+        for row in query_results:
             iterator.append(str(row[0]))
         if iterator:
             self.mapping_details[self.current_graph_version]["iterators"] = iterator
@@ -280,9 +280,9 @@ class DisplayChanges:
                 ?subject rml:reference|rr:column ?dataReference
             }
         """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         references = []
-        for row in qres:
+        for row in query_results:
             reference = row[0]
             references.append(str(reference))
         return references
@@ -298,9 +298,9 @@ class DisplayChanges:
                       ?subject rr:template ?dataReference
             }
         """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         references = []
-        for row in qres:
+        for row in query_results:
             template = row[0]
             str_template = str(template)
             reference = re.findall('{(.+?)}', str_template)
@@ -325,12 +325,12 @@ class DisplayChanges:
               }
             }
         """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         change_reasons = ["name"]
         change_reasons = {}
         i = 0
         # full and short text for displaying and matching
-        for row in qres:
+        for row in query_results:
             change_reasons[i] = {
                 "match_reason": str(row[0]),
                 "reason": str(row[1]),
@@ -373,8 +373,8 @@ class DisplayChanges:
         #     GROUP BY ?graphName    self.graph_details[self.current_graph_version]["mappings_impacted"] = {"sd":2}
         #
         # """
-        # qres = change_graph.query(query)
-        # print(qres)
+        # query_results = change_graph.query(query)
+        # print(query_results)
 
     # get the location of the change detection source data
     def get_changes_source(self):
@@ -401,10 +401,10 @@ class DisplayChanges:
           }
         }
         """
-        qres = self.current_graph.query(query)
+        query_results = self.current_graph.query(query)
         change_sources = {}
         # convert to lower case
-        for row in qres:
+        for row in query_results:
             change_sources["current_version"] = str(row[0])
             change_sources["previous_version"] = str(row[1])
         if change_sources:
