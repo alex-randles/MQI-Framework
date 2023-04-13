@@ -23,7 +23,7 @@
     <http://www.example.com/insertChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
-                    0 ;
+                    1000 ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
                     <https://www.w3id.org/OSCD#hasThreshold> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
@@ -52,7 +52,7 @@
     <http://www.example.com/moveChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
-                    0 ;
+                    1000 ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
                     <https://www.w3id.org/OSCD#hasThreshold> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
@@ -61,7 +61,7 @@
     <http://www.example.com/deleteChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
-                    0 ;
+                    2 ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
                     <https://www.w3id.org/OSCD#hasThreshold> ;
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>

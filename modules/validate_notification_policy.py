@@ -17,13 +17,63 @@ class ValidateNotificationPolicy:
         self.graph_file = graph_file
         self.user_graph = Dataset()
         self.user_graph.parse(graph_file, format="trig")
+        self.user_email = self.get_user_email()
+        self.validate_notification_thresholds()
+
+        exit()
         self.detection_period = self.get_detection_period()
         print(self.detection_period)
         exit()
         self.changes_count = self.get_changes_count()
         self.notification_thresholds = self.get_notification_thresholds()
         self.validate_policy()
-        self.user_email = self.get_user_email()
+
+    def validate_notification_thresholds(self):
+        query = """
+            PREFIX oscd: <https://www.w3id.org/OSCD#>
+            PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
+            PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
+            PREFIX rei-deontic: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#>
+            SELECT ?changeType ?threshold ?changesCount
+            WHERE {
+              GRAPH ?policyGraph {  
+               ?policy a rei-policy:Policy ;
+                       rei-policy:grants ?policyObligation .
+                ?policyObligation rei-deontic:startingConstraint ?notificationConstraints .
+                ?notificationConstraints ?p ?constraint .
+                ?constraint a rei-constraint:SimpleConstraint;
+                           rei-constraint:subject ?changeType;
+                           rei-constraint:object ?threshold .
+              }
+              {
+                SELECT DISTINCT ?changeType (COUNT(?changeType) AS ?changesCount)
+                WHERE {
+                  GRAPH ?changesGraph {
+                     ?changeLog a oscd:ChangeLog;
+                            oscd:hasChange ?change .
+                    ?change  a ?changeType .
+                 }
+               }
+               GROUP BY ?changeType
+              }
+            }
+            HAVING (?changesCount > ?threshold)
+        """
+        query_results = self.user_graph.query(query)
+        notification_message = ""
+        notification_required = False
+        for row in query_results:
+            changes_count = row.get("changesCount")
+            threshold = row.get("threshold")
+            changes_type = row.get("changeType")
+            print("\n")
+            print("change count:" , changes_count)
+            print("threshold", threshold)
+            print("change type", changes_type)
+            notification_message = notification_message + "Threshold of {} for change type: {} has been reached. {} changes detected".format(threshold, changes_type,changes_count)
+            notification_required = True
+        if notification_required:
+            self.send_notification_email()
 
     def get_detection_period(self):
         return "shshs"
@@ -97,7 +147,7 @@ class ValidateNotificationPolicy:
                rei-constraint:object ?threshold .
           }
         }
-        """ % (self.user_id)
+        """ % self.user_id
 
         qres = self.user_graph.query(query)
         # notification threshold for each change type
@@ -129,13 +179,12 @@ class ValidateNotificationPolicy:
                       foaf:mbox ?email .
               }
             }
-        """ % (self.user_id)
-
+        """ % self.user_id
         qres = self.user_graph.query(query)
         # notification threshold for each change type
         user_email = None
         for row in qres:
-            user_email = str(row[0])
+            user_email = str(row.get("emal"))
         return user_email
 
     def send_notification_email(self):
@@ -173,4 +222,4 @@ class ValidateNotificationPolicy:
         server.quit()
 
 if __name__ == "__main__":
-    ValidateNotificationPolicy("/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/10.trig", "11")
+    ValidateNotificationPolicy("/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/3.trig", "11")

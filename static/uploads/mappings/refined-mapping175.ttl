@@ -10,8 +10,7 @@
 @prefix mo: <http://purl.org/ontology/mo/> . 
 @prefix lb: <https://github.com/LinkedBrainz/r2rml/v0.1#> . 
 @prefix oscd: <https://w3id.org/OSCD#> . 
-@prefix app: <http://jmvanel.free.fr/ontology/software_applications.n3#> . 
-@prefix artstor: <http://simile.mit.edu/2003/10/ontologies/artstor#> . 
+@prefix atomrdf: <http://atomowl.org/ontologies/atomrdf#> . 
 
 	
 <#work_lyrics>	
@@ -27,15 +26,9 @@
        WHERE link_type.gid='e38e65aa-75e0-42ba-ace0-072aeb91a538'      """;	
  ];	
 	
- rr:subjectMap [ 	
- 	 rr:template "http://musicbrainz.org/work/{gid}#_" ;	
-	 rr:class artstor:kkkkkkkkkkkk;	
- ];	
-	
  rr:predicateObjectMap [ 	
- 	 rr:predicate app:jnnjj;	
+ 	 rr:predicate atomrdf:jjjjjjjjjjjj;	
 	 rr:objectMap [	
-		 rr:termType rr:IRI;	
 		 rr:column "url" ;	
 		 rr:datatype xsd:string;	
 		]; 	
