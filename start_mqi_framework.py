@@ -154,7 +154,7 @@ class API:
     def validate_RDF(filename):
         print("testing")
         try:
-            rdflib.Graph().parse(filename, format="ttl")
+            g = rdflib.Graph().parse(filename, format="ttl")
             return True
         except Exception as e:
             return False
