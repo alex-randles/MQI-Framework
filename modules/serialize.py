@@ -8,6 +8,8 @@ class TurtleSerializer:
 
     def __init__(self, mapping_graph, triple_references=None, output_file=None):
         self.triple_references = triple_references
+        # print(triple_references)
+        # exit()
         self.tab_count = 1
         self.mapping_graph = mapping_graph
         self.output_file = output_file
@@ -121,11 +123,12 @@ class TurtleSerializer:
             bNode_objects = []
             non_bNode_objects = []
             self.output += "\n" + self.format_identifier(predicate) + " [ \n "
-            for (s,p,o) in self.mapping_graph.triples((bNode, None, None)):
+            for (s, p, o) in self.mapping_graph.triples((bNode, None, None)):
                 if not isinstance(o, BNode):
                     non_bNode_objects.append((p,o))
                 elif isinstance(o, BNode):
                     bNode_objects.append(o)
+                print(s,p,o, "chhchdfhf")
             self.add_non_bNode_objects(non_bNode_objects)
             self.add_bNode_objects(bNode_objects)
             self.output += " ];\n"

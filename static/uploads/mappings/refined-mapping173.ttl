@@ -10,34 +10,29 @@
 @prefix mo: <http://purl.org/ontology/mo/> . 
 @prefix lb: <https://github.com/LinkedBrainz/r2rml/v0.1#> . 
 @prefix oscd: <https://w3id.org/OSCD#> . 
-@prefix app: <http://jmvanel.free.fr/ontology/software_applications.n3#> . 
-@prefix artstor: <http://simile.mit.edu/2003/10/ontologies/artstor#> . 
+@prefix atomrdf: <http://atomowl.org/ontologies/atomrdf#> . 
 
 	
 <#work_lyrics>	
  rdf:type rr:TriplesMap;	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery"""      SELECT work.gid, url						
-       FROM work						
-         INNER JOIN l_url_work ON work.id = l_url_work.entity1						
-         INNER JOIN link ON l_url_work.link = link.id						
-         INNER JOIN link_type ON link_type = link_type.id						
-         INNER JOIN url on l_url_work.entity0 = url.id						
-       WHERE link_type.gid='e38e65aa-75e0-42ba-ace0-072aeb91a538'      """;	
+ 	 rr:sqlQuery"""    SELECT work.gid, url				
+       FROM work				
+         INNER JOIN l_url_work ON work.id = l_url_work.entity1				
+         INNER JOIN link ON l_url_work.link = link.id				
+         INNER JOIN link_type ON link_type = link_type.id				
+         INNER JOIN url on l_url_work.entity0 = url.id				
+       WHERE link_type.gid='e38e65aa-75e0-42ba-ace0-072aeb91a538'    """;	
  ];	
 	
- rr:subjectMap [ 	
- 	 rr:template "http://musicbrainz.org/work/{gid}#_" ;	
-	 rr:class artstor:kkkkkkkkkkkk;	
- ];	
-	
+
  rr:predicateObjectMap [ 	
- 	 rr:predicate app:jnnjj;	
+ 	 rr:predicate atomrdf:jjjjjjjjjjjj;	
 	 rr:objectMap [	
-		 rr:termType rr:IRI;	
-		 rr:column "url" ;	
+		 rr:language "en-us" ;	
 		 rr:datatype xsd:string;	
+		 rr:column "url" ;	
 		]; 	
  ];	
 .	

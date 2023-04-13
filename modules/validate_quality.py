@@ -176,7 +176,7 @@ class ValidateQuality:
     def validate_mapping_metrics(self):
         # A function to validate each of the mapping related quality metrics
         self.validate_MP1()
-        self.validate_MP2()
+        # self.validate_MP2()
         self.validate_MP3()
         self.validate_MP4()
         self.validate_MP5()
@@ -347,7 +347,7 @@ class ValidateQuality:
     def validate_MP1(self):
         result_message = "An object map with a datatype and language tag."
         metric_identifier = "MP1"
-        query = """SELECT ?om ?pm ?languageTag
+        query = """SELECT ?om ?pm ?languageTag ?datatype
                WHERE {
                   ?s rr:predicateObjectMap ?pm .
                   ?pm rr:objectMap ?om .
@@ -359,24 +359,25 @@ class ValidateQuality:
         for row in query_results:
             subject_identifier = row.get("om")
             language_tag = row.get("languageTag")
-            self.add_violation([metric_identifier, result_message, language_tag, subject_identifier])
-
-    def validate_MP2(self):
-        result_message = "An object map with a language tag and datatype."
-        metric_identifier = "MP2"
-        query = """SELECT ?om ?pm ?datatype
-               WHERE {
-                  ?s rr:predicateObjectMap ?pm .
-                  ?pm rr:objectMap ?om .
-                  ?om rr:datatype ?datatype ;
-                      rr:language ?languageTag .
-               }
-               """
-        query_results = self.current_graph.query(query)
-        for row in query_results:
-            subject_identifier = row.get("om")
             datatype = row.get("datatype")
-            self.add_violation([metric_identifier, result_message, datatype, subject_identifier])
+            self.add_violation([metric_identifier, result_message, (language_tag, datatype), subject_identifier])
+
+    # def validate_MP2(self):
+    #     result_message = "An object map with a language tag and datatype."
+    #     metric_identifier = "MP2"
+    #     query = """SELECT ?om ?pm ?datatype
+    #            WHERE {
+    #               ?s rr:predicateObjectMap ?pm .
+    #               ?pm rr:objectMap ?om .
+    #               ?om rr:datatype ?datatype ;
+    #                   rr:language ?languageTag .
+    #            }
+    #            """
+    #     query_results = self.current_graph.query(query)
+    #     for row in query_results:
+    #         subject_identifier = row.get("om")
+    #         datatype = row.get("datatype")
+    #         self.add_violation([metric_identifier, result_message, datatype, subject_identifier])
 
     def validate_MP3(self):
         result_message = "No subjectMap defined in this mapping."

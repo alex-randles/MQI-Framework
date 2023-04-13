@@ -1,21 +1,31 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<file:///home/alex/MQI-Framework/refined-mapping182.ttl> a mqio:MappingArtefact .
+
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping164.ttl> ;
+    mqio:assessedMapping <refined-mapping182.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasObjectValue <http://users.utcluj.ro/~raluca/rdf_ontologies_ralu/ralu_modified_ontology_pizzas2_0#kkkkkkk> ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-13T13:21:16.744508"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            DELETE { ?subject rr:class <http://purl.org/ontology/mo/Lyricsji> .  }
+            INSERT {   ?subject rr:class <http://simile.mit.edu/2003/10/ontologies/artstor#kkkkkkkkkkkk>  }
+            WHERE {
+                <file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping182.ttl#work_lyrics> rr:subjectMap ?subject .
+            }
+            """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Change Class"^^xsd:string .
 
 ex:violation-1 a mqio:MappingViolation ;
     mqio:hasObjectValue <http://purl.org/ontology/mo/> ;
@@ -23,5 +33,11 @@ ex:violation-1 a mqio:MappingViolation ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
-<refined-mapping164.ttl> a mqio:MappingArtefact .
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue <http://purl.org/ontology/mo/Lyricsji> ;
+    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D1 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

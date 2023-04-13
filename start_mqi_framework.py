@@ -608,12 +608,15 @@ class API:
             cache_refinement_values = session.get("refinement_values")
             print(cache_refinement_values, "CACHE REFINEMENT VALUES ")
             print(cache_mapping_graph.serialize(format="ttl").decode('utf8'))
+
             session["refinements"] = Refinements(cache_validation_result, cache_triple_references,
                                                  cache_mapping_graph,
-                                                 cache_add_information, participant_id)
+                                                 session.get("more_info_data"), participant_id)
             session["refinements"].process_user_input(session["request_form"], cache_refinement_values,
                                                       cache_mapping_file,
                                                       cache_mapping_graph, cache_validation_report_file)
+            session["triple_references"] = session.get("refinements").triple_references
+            print(cache_mapping_graph.serialize(format="ttl").decode('utf8'))
             refinements = session["refinements"]
             find_triple_map = refinements.find_triple_map
             find_violation_location = cache_find_violation

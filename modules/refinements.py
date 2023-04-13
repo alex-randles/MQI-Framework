@@ -17,8 +17,8 @@ class Refinements:
                  mapping_graph=None, add_information=None, participant_id=None):
         self.participant_id = participant_id
         self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
-        self.MQV = Namespace("https://w3id.org/MQIO#")
-        self.MQV_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
+        self.MQIO = Namespace("https://w3id.org/MQIO#")
+        self.MQIO_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
         self.PROV = Namespace("http://www.w3.org/ns/prov#")
         self.EX = Namespace("http://example.org/")
         self.add_information = add_information
@@ -33,11 +33,7 @@ class Refinements:
         self.refinement_graph.bind("prov", Namespace("http://www.w3.org/ns/prov#"))
         # relates to refinements suggested to the users on the dashboard
         self.suggested_refinements = {
-            ##
-            ## No triple map metric - we are not a mapping editor
-            ##
-            # mapping metric refinements #
-            "MP1": ["RemoveLanguageTag"],
+            "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP2": ["RemoveDatatype"],
             "MP3": ["AddSubjectMap"],
             "MP4": ["AddPredicateObjectMap"],
@@ -77,10 +73,10 @@ class Refinements:
                                "user_input_values": [self.R2RML + "child"]},
 
             "AddSubjectMap": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                               "user_input_values": [self.R2RML + "class"]},
+                              "user_input_values": [self.R2RML + "class"]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                              "user_input_values": [self.R2RML + "tableName"]},
+                                "user_input_values": [self.R2RML + "tableName"]},
 
             "ChangePredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
                                 "user_input_values": [self.R2RML + "predicate"]},
@@ -187,7 +183,7 @@ class Refinements:
                       <%s> rr:subjectMap ?subjectMap .
                       ?subjectMap rr:class ?class .
                     }
-               """ % (triple_map)
+               """ % triple_map
         query_results = self.mapping_graph.query(query)
         for row in query_results:
             classes.append("%s" % row)
@@ -211,12 +207,6 @@ class Refinements:
         # exit()
         processUpdate(mapping_graph, update_query)
         return update_query
-        # subject = list(mapping_graph.subjects(URIRef("http://www.w3.org/ns/r2rml#predicateObjectMap"), None))[0]
-        # subject_map_identifier = BNode()
-        # mapping_graph.add((subject, URIRef("http://www.w3.org/ns/r2rml#subjectMap"), subject_map_identifier))
-        # mapping_graph.add((subject_map_identifier, URIRef("http://www.w3.org/ns/r2rml#class"), URIRef("http://www.w3.org/ns/sss#subjectMap")))
-        # print(mapping_graph.serialize(format="ttl").decode("utf-8"))
-        # return "dhdh"
 
     def get_correct_term_types(self, violation_identifier):
         metric_identifier = self.validation_results[violation_identifier]["metric_identifier"]
@@ -266,7 +256,8 @@ class Refinements:
                           "optional_values": optional_values}
         return refinement
 
-    def parse_mapping_value(self, mapping_value):
+    @staticmethod
+    def parse_mapping_value(mapping_value):
         # for inserting into SPARQL query
         # if string return "" or IRI < > or tuple return first IRI
         if isinstance(mapping_value, URIRef):
@@ -454,7 +445,7 @@ class Refinements:
         new_identifier = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
-        old_identifier = self.parse_mapping_value(current_result["value"])
+        old_identifier = Refinements.parse_mapping_value(current_result["value"])
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:graph %s }
@@ -476,7 +467,7 @@ class Refinements:
         new_identifier = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
-        old_identifier = self.parse_mapping_value(current_result["value"])
+        old_identifier = Refinements.parse_mapping_value(current_result["value"])
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:class %s }
@@ -550,7 +541,7 @@ class Refinements:
                     SELECT ?subject ?currentTermType
                     WHERE {
                           ?subject ?p ?o . 
-                          ?subject rr:termType ?currentTermType
+                          OPTIONAL { ?subject rr:termType ?currentTermType }
                           FILTER(str(?subject) = "%s").
                     }
                 }; 
@@ -623,16 +614,11 @@ class Refinements:
         new_class = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
         triple_map = current_result["triple_map"]
-        old_class = self.validation_results[violation_identifier]["value"]
-        old_class = self.parse_mapping_value(current_result["value"])
+        old_class = Refinements.parse_mapping_value(current_result["value"])
         update_query = """
             PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-            DELETE {
-                ?subject rr:class %s . 
-            }
-            INSERT {
-                ?subject rr:class %s
-            }
+            DELETE { ?subject rr:class %s .  }
+            INSERT {   ?subject rr:class %s  }
             WHERE {
                 <%s> rr:subjectMap ?subject .
             }
@@ -655,6 +641,8 @@ class Refinements:
                 old_predicate = "'%s'" % old_predicate
             else:
                 old_predicate = "<%s>" % old_predicate
+
+            old_predicate = Refinements.parse_mapping_value(violation_info.get("value"))
             update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE {   ?pom rr:predicate %s  .  }
@@ -754,20 +742,44 @@ class Refinements:
     def add_subject_map(self, query_values, mapping_graph, violation_identifier):
         print(query_values)
         for property, value in query_values.items():
+            violation_information = self.validation_results.get(violation_identifier)
             update_query = """
             PREFIX dc: <http://purl.org/dc/elements/1.1/>
             PREFIX rr: <http://www.w3.org/ns/r2rml#>
             INSERT 
             { 
-              ?tripleMap rr:subjectMap [ rr:class rr:test ]
+              ?tripleMap rr:subjectMap _:b1 . 
+              _:b1 rr:class rr:test  . 
             }
             WHERE {
               ?tripleMap rr:predicateObjectMap ?pom . 
+              FILTER(str(?tripleMap) = "%s").
             }
-            """
-            print(update_query)
+            """ % violation_information.get("triple_map")
+            # print(update_query)
             processUpdate(self.mapping_graph, update_query)
             print(mapping_graph.serialize(format="ttl").decode("utf-8"))
+            # exit()
+
+            update_query = """
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            SELECT ?sm 
+            WHERE {
+              ?tripleMap rr:subjectMap ?sm . 
+              FILTER(str(?tripleMap) = "%s").
+            }
+            """ % violation_information.get("triple_map")
+            query_results = self.mapping_graph.query(update_query)
+            for row in query_results:
+                print(row)
+            self.triple_references[rdflib.term.URIRef('file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping174.ttl#work_lyrics')][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [row]
+            # exit()
+            # # print(self.triple_references.keys(), type(self.triple_references))
+            # # exit()
+            # self.triple_references[rdflib.term.URIRef('file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping173.ttl#work_lyrics')]["not_bNode"][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#logicalTable')] = [row]
+            # print(self.triple_references)
+            # exit()
             return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
@@ -884,7 +896,7 @@ class Refinements:
                     refinements[violation_identifier] = refinement
                 else:
                     refinements[violation_identifier] = {"name": selected_refinement, "user_input": False,
-                                                 "values": selected_refinement}
+                                                         "values": selected_refinement}
         return refinements
 
     def get_complex_domain(self, identifier, g):
@@ -971,13 +983,6 @@ class Refinements:
                 correct_range = result["range"]["value"]
                 return URIRef(correct_range)
 
-
-    def create_filename(self, identifier):
-        # A function which will create a filename from a URI
-        filename = "./modules/cache/" + ''.join(e for e in identifier if e.isalnum()) + ".xml"
-        # filename = "./cache/" + ''.join(e for e in identifier if e.isalnum()) + ".xml"
-        return filename
-
     def provide_suggested_refinements(self):
         # Provides a list of suggested refinements which could fix a violation caused by a particular metric
         # Maps the refinement to the violation identifier
@@ -1052,9 +1057,9 @@ class Refinements:
                                              int_violation_identifier)
             # the function from self.refinement functions is called with the refinement name, user input and the mapping graph
             print(refinement_query)
-            #             exit()
             self.add_refinement_information(int_violation_identifier, refinement_query, refinement_name)
             self.refinement_count += 1
+        print(self.mapping_graph.serialize(format="ttl").decode("utf-8"))
         self.create_refinement_report(validation_report_file)
 
     def create_refinement_report(self, validation_report_file):
@@ -1062,9 +1067,9 @@ class Refinements:
         # self.save_graph_to_file(mapping_graph, "comparison_mapping.ttl")
         # remove full file path from validation report
         # add information is set to true
-        # mapping = list(self.refinement_graph.objects(None, self.MQV.assessedMapping))[0]
-        # self.refinement_graph.remove((None, RDF.type, self.MQV.MappingDocument))
-        # self.refinement_graph.add((mapping, RDF.type, self.MQV.MappingDocument))
+        # mapping = list(self.refinement_graph.objects(None, self.MQIO.assessedMapping))[0]
+        # self.refinement_graph.remove((None, RDF.type, self.MQIO.MappingDocument))
+        # self.refinement_graph.add((mapping, RDF.type, self.MQIO.MappingDocument))
         # self.add_metadata(mapping)
         # print(validation_report_file)
         self.refinement_graph.serialize(destination=validation_report_file, format="ttl")
@@ -1075,15 +1080,15 @@ class Refinements:
     def add_metadata(self, mapping):
         # adding metadata about the mapping entered by users
         if self.add_information is not None:
-            # mapping = list(self.refinement_graph.objects(None, self.MQV.assessedMapping))[0]
-            creator = list(self.refinement_graph.objects(None, self.MQV.createdBy))[0]
+            # mapping = list(self.refinement_graph.objects(None, self.MQIO.assessedMapping))[0]
+            creator = list(self.refinement_graph.objects(None, self.MQIO.createdBy))[0]
             # prov_generated = URIRef("http://www.w3.org/ns/prov#generatedAtTime")
             # prov_generated = self.prov.generatedAtTime
             # generationTime = list(self.refinement_graph.objects(None, prov_generated))[0]
-            # self.refinement_graph.remove((None, RDF.type, self.MQV.MappingDocument))
-            # self.refinement_graph.add((mapping, RDF.type, self.MQV.MappingDocument))
-            self.refinement_graph.remove((None, self.MQV.createdBy, None))
-            self.refinement_graph.add((mapping, self.MQV.createdBy, creator))
+            # self.refinement_graph.remove((None, RDF.type, self.MQIO.MappingDocument))
+            # self.refinement_graph.add((mapping, RDF.type, self.MQIO.MappingDocument))
+            self.refinement_graph.remove((None, self.MQIO.createdBy, None))
+            self.refinement_graph.add((mapping, self.MQIO.createdBy, creator))
             # self.refinement_graph.remove((None, prov_generated, None))
             # self.refinement_graph.add((mapping, prov_generated, generationTime))
 
@@ -1105,19 +1110,32 @@ class Refinements:
     def add_refinement_information(self, violation_identifier, refinement_query, refinement_name):
         # each refinement has a unique IRI and is associated with a refinement query
         refinement_identifier = URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
-        self.refinement_graph.add((refinement_identifier, RDF.type, self.MQV.MappingRefinement))
+        self.refinement_graph.add((refinement_identifier, RDF.type, self.MQIO.MappingRefinement))
         self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
         # adding the SPARQL query used for the refinement
         refinement_query = Literal(refinement_query, datatype=XSD.string)
-        self.refinement_graph.add((refinement_identifier, self.MQV.hasRefinementQuery, refinement_query))
+        self.refinement_graph.add((refinement_identifier, self.MQIO.hasRefinementQuery, refinement_query))
         # adding the refinement name e.g FindSimilarClasses
         refinement_name = Literal(self.split_camel_case(refinement_name), datatype=XSD.string)
-        self.refinement_graph.add((refinement_identifier, self.MQV.refinementName, refinement_name))
+        self.refinement_graph.add((refinement_identifier, self.MQIO.refinementName, refinement_name))
         # adding the wasRefinedBy property related to the previously defined refinement
         violation_identifier = URIRef(self.EX + "violation" + "-" + str(violation_identifier))
-        self.refinement_graph.add((violation_identifier, self.MQV.wasRefinedBy, refinement_identifier))
+        self.refinement_graph.add((violation_identifier, self.MQIO.wasRefinedBy, refinement_identifier))
         # add inverse property for mqv:refinedViolation, relating this refinement to the violation
-        self.refinement_graph.add((refinement_identifier, self.MQV.refinedViolation, violation_identifier))
+        self.refinement_graph.add((refinement_identifier, self.MQIO.refinedViolation, violation_identifier))
+        # add refinement agent
+        self.add_refinement_agent()
+
+    def add_refinement_agent(self):
+        add_metadata = self.add_information.get("add-information")
+        if add_metadata:
+            refiner_name = self.add_information.get("refined-by-name")
+            if refiner_name:
+                refiner_name_identifier = URIRef("http://example.org/" + refiner_name)
+                for s,p,o in self.refinement_graph.triples((None, RDF.type, self.MQIO.MappingRefinement)):
+                    print(s,p,o)
+                    self.refinement_graph.add((s,self.PROV.wasAssociatedWith, refiner_name_identifier))
+
 
     def process_prefix_values(self, user_input, mapping_file):
         # a function to concatenate the prefix with the user input value provided
@@ -1252,10 +1270,10 @@ if __name__ == "__main__":
             'value': rdflib.term.URIRef('http://xmlns.com/foaf/0.1/publications'), 'location': 'predicateObjectMap1',
             'triple_map': 'TripleMap2'}}
     triple_maps = [(
-                   'file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/static/uploads/TripleMap1',
-                   "TripleMap1"), (
-                   'file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/static/uploads/TripleMap2',
-                   "TripleMap2")]
+        'file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/static/uploads/TripleMap1',
+        "TripleMap1"), (
+        'file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/static/uploads/TripleMap2',
+        "TripleMap2")]
     r = Refinements(validation_result, {
         'file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/static/uploads/TripleMap1': {
             'predicateObjectMap1': BNode('ub2bL17C27')}}, triple_maps)
