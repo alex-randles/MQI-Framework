@@ -1,60 +1,53 @@
 @prefix ex: <http://example.org/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix mo: <http://purl.org/ontology/mo/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix ont: <http://ontologies.geohive.ie/osi#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <Barony_20m.ttl> ;
-    mqio:hasValidationReport ex:mappingValidationReport-0 .
+<file:///home/alex/MQI-Framework/refined-mapping229.ttl> a mqio:MappingArtefact .
 
-<Barony_20m.ttl> a mqio:MappingArtefact .
+ex:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <refined-mapping229.ttl> ;
+    mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
-        ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5 .
+        ex:violation-2 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ont:logainmId ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-14T20:07:19.600639"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            DELETE { ?subject rr:class <http://purl.org/ontology/mo/AudioFiles> .  }
+            INSERT {   ?subject rr:class <http://purl.org/ASN/schema/core/kkkkkkkkkkk>  }
+            WHERE {
+                <file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping229.ttl#work_lyrics> rr:subjectMap ?subject .
+            }
+            """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Change Class"^^xsd:string .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLiteralValue "ga"^^xsd:string ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasResultMessage "Language tag not defined in RFC 5646."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:MP12 .
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'mo:lyrics'."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
 
 ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
+    mqio:hasObjectValue mo: ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue mo:AudioFiles ;
+    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D1 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

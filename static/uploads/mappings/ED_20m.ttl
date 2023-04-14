@@ -5,7 +5,7 @@
 
 <#TriplesMap1>
 	rr:logicalTable [
-		rr:tableName "ED_CBD2019_20M" ;
+		rr:tableName "student.csv" ;
 	] ;
 
 	rr:subjectMap [
@@ -17,7 +17,7 @@
 	rr:predicateObjectMap [
 		rr:predicate rdfs:label ;
 		rr:objectMap [
-			rr:column "ENGLISH" ;
+			rr:column "ID" ;
 			rr:language "en" ;
 		] ;
 	] ;

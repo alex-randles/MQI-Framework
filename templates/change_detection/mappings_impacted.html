@@ -85,25 +85,30 @@
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
 
-                                                <form style="" method="POST" action=".">
-                                                    <div class="row">
-                                                        <div class="col-8">
-                                                            <select class="form-select" name="new-reference-selected" style="background-color: #E6EEF7; width:10%;" aria-label="Default select example">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <form style="" method="POST" action=".">
+                                                            <select class="form-select" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
                                                                 <option selected>Replace with new reference</option>
                                                                 {% for change, values in mapping_impact.get("structural_changes").items() %}
                                                                 {% set new_references = values.keys()|list %}
                                                                 {% if new_references %}
-                                                                <option value="1">{{new_references[0]}}</option>
+                                                                <option value="{{new_references[0]}}-{{reference}}">{{new_references[0]}}</option>
                                                                 {% endif %}
                                                                 {% endfor %}
                                                             </select>
-                                                        </div>
-                                                        <div class="col-2">
-                                                            <input type="submit" class="btn btn-secondary"/>
-                                                        </div>
                                                     </div>
-                                                </form>
+                                                    <div class="col-1">
+                                                        <input type="submit" class="btn btn-secondary"/>
+                                                    </div>
 
+                                                    </form>
+                                                    <div class="col-2">
+                                                        <a href="{{ url_for('static', filename='updated_mapping.ttl') }}">
+                                                            <button class="btn btn-secondary">Download Updated Mapping</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
 
 
                                                 <strong>Values</strong>
