@@ -4,7 +4,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping224.ttl> ;
+    mqio:assessedMapping <refined-mapping216.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -12,20 +12,22 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-1,
         ex:violation-2,
         ex:violation-3,
-        ex:violation-4 .
+        ex:violation-4,
+        ex:violation-5 .
 
 ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue <http://xmlns.com/foaf/0.1/test> ;
+    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
+
+ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue <http://rdfs.org/sioc/ns#email_sha1sss> ;
+    mqio:hasObjectValue <http://rdfs.org/sioc/ns#lyrics> ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasObjectValue <http://rdfs.org/sioc/ns#> ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-2 a mqio:MappingViolation ;
     mqio:hasObjectValue <http://xmlns.com/foaf/0.1/> ;
@@ -35,9 +37,9 @@ ex:violation-2 a mqio:MappingViolation ;
 
 ex:violation-3 a mqio:MappingViolation ;
     mqio:hasObjectValue <http://rdfs.org/sioc/ns#> ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-4 a mqio:MappingViolation ;
     mqio:hasObjectValue <http://xmlns.com/foaf/0.1/> ;
@@ -45,5 +47,11 @@ ex:violation-4 a mqio:MappingViolation ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
-<refined-mapping224.ttl> a mqio:MappingArtefact .
+ex:violation-5 a mqio:MappingViolation ;
+    mqio:hasObjectValue <http://rdfs.org/sioc/ns#> ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+<refined-mapping216.ttl> a mqio:MappingArtefact .
 

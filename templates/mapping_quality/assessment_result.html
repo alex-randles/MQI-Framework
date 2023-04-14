@@ -139,10 +139,11 @@
 
             <td scope="col">{{result_message}}
                 {% set metric_description = metric_descriptions.get(metric_ID) %}
-                <a class="tags"
-                   gloss="{{metric_description}}">
-                    <i class="fa fa-info-circle info-button">
-                    </i></a>
+                <span class="tt" data-bs-placement="top" title="{{metric_description}}">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
+
+
 
             </td>
 

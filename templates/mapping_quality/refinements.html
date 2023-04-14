@@ -114,10 +114,10 @@ function validateRefinementExecution() {
                 {{split_camel_case(refinement_name)}}
 
                 {% set refinement_description = refinement_descriptions.get(refinement_name) %}
-                <a class="tags"
-                   gloss="{{refinement_description}}">
-                    <i class="fa fa-info-circle info-button">
-                    </i></a>
+
+                <span class="tt" data-bs-placement="top" title="{{refinement_description}}">
+                    <i class="bi bi-info-circle" ></i>
+                </span>
 
             </td>
 
@@ -159,8 +159,10 @@ function validateRefinementExecution() {
                     {% endfor  %}
                 </select>
 
-                <input style="width:100%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
-
+                <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
+                <span class="tt" data-bs-placement="top" title="Do not include brackets (<>) for IRIs">
+              <i class="bi bi-info-circle" ></i>
+          </span>
                 {% endfor %}
             </td>
 
@@ -265,8 +267,8 @@ function validateRefinementExecution() {
         </div>
     </div>
 </form>
-    {% endif %}
-    <script>
+{% endif %}
+<script>
  $(document).ready(function () {
   $('body').on('click', '#selectAll', function () {
     if ($(this).hasClass('allChecked')) {
@@ -294,8 +296,8 @@ function selectAllRefinements() {
     }
 }
 </script>
-    {% endblock %}
-    {% block refinement_buttons %}
-    {% endblock %}
+{% endblock %}
+{% block refinement_buttons %}
+{% endblock %}
 </body>
 </html>
