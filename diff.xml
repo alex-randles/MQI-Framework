@@ -1,11 +1,18 @@
 <students xmlns:diff="http://namespaces.shoobx.com/diff">
-  <student>
-    <ID diff:insert="">10</ID><diff:insert>
-    </diff:insert><Name>Venus<diff:insert> Williams</diff:insert></Name>
-  <diff:insert>  </diff:insert><Sport diff:insert="">100</Sport><diff:insert>
-  </diff:insert></student>
-<diff:insert>  </diff:insert><student diff:insert="">
+    <student>
+        <ID diff:insert="">10</ID>
+        <diff:insert> </diff:insert>
+        <Name>Venus<diff:insert> Williams</diff:insert></Name>
+
+        <diff:insert>  </diff:insert><Sport diff:insert="">100</Sport><diff:insert>
+    </diff:insert>
+
+    </student>
+
+
+
+    <diff:insert>  </diff:insert><student diff:insert="">
     <ID diff:insert="">20</ID><diff:insert>
-    </diff:insert><Name diff:insert="">Demi Moore</Name><diff:insert>
-  </diff:insert></student><diff:insert>
+</diff:insert><Name diff:insert="">Demi Moore</Name><diff:insert>
+</diff:insert></student><diff:insert>
 </diff:insert></students>
