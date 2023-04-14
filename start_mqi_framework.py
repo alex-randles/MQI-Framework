@@ -222,8 +222,8 @@ class API:
         return send_file(user_graph_file, attachment_filename="user_graph.trig", as_attachment=True,
                          cache_timeout=0)
 
-    @app.route(("/CSV-changes"), methods=["GET", "POST"])
-    def detect_CSV_changes():
+    @app.route(("/csv-changes"), methods=["GET", "POST"])
+    def detect_csv_changes():
         participant_id = session.get("participant_id")
         if request.method == "GET":
             session["change_process_executed"] = False
@@ -238,10 +238,10 @@ class API:
             # invalid URL
             if change_detection.error_code == 1:
                 flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
-                return redirect(url_for('detect_CSV_changes'))
+                return redirect(url_for('detect_csv_changes'))
             elif change_detection.error_code == 2:
                 flash("Incorrect file format.")
-                return redirect(url_for('detect_CSV_changes'))
+                return redirect(url_for('detect_csv_changes'))
             else:
                 return redirect(url_for('change_detection'))
 
@@ -278,10 +278,10 @@ class API:
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
         if request.method == "GET":
-            mapping_graph = session.get("mapping_details").get(int(mapping_unique_id))
+            mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
             graph_id = int(graph_id.split(".")[0])
             change_graph_details = session.get("graph_details").get(graph_id)
-            impact = DetectMappingImpact(mapping_graph, change_graph_details.get("filename"))
+            impact = DetectMappingImpact(mapping_graph_details, change_graph_details.get("filename"))
             mapping_impact = impact.mapping_impact
             change_template_colors = {
                 "insert": "success",
@@ -293,7 +293,7 @@ class API:
                 "delete": "Column deleted",
                 "move": "Source data moved",
             }
-            mapping_filename = mapping_graph.get("filename")
+            mapping_filename = mapping_graph_details.get("filename")
             return render_template("change_detection/mappings_impacted.html",
                                    change_template_colors=change_template_colors,
                                    mapping_id=mapping_unique_id,
@@ -302,8 +302,25 @@ class API:
                                    change_type_banners=change_type_banners,
                                    change_graph_details=change_graph_details)
         else:
-            print(request.form)
-            return "djdhdh"
+            new_data_reference = request.form.get("new-reference-selected").split("-")[0]
+            old_data_reference = request.form.get("new-reference-selected").split("-")[1]
+            update_query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    DELETE { ?subject rr:column '%s' }
+                    INSERT { ?subject rr:column '%s' }
+                    WHERE { 
+                    SELECT ?subject
+                    WHERE {
+                          ?subject rr:column '%s' .
+                        }
+                    }
+                   """ % (old_data_reference, new_data_reference, old_data_reference)
+            mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
+            mapping_filepath = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
+            mapping_graph = rdflib.Graph().parse(mapping_filepath, format="ttl")
+            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
+            mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
+            return redirect(request.referrer)
 
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
@@ -312,7 +329,7 @@ class API:
         str_graph_filename = str(graph_filename)
         participant_id = session.get("participant_id")
         notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, participant_id)
-        graph_id =  "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
+        graph_id = "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
         change_graph_details = session.get("graph_details")
         return render_template("change_detection/notification_thresholds.html",
                                participant_id=participant_id,
@@ -348,9 +365,7 @@ class API:
                     # mappings_impacted = mappings_impacted,
                 )
             # this is the error for when an uploaded file is not valid mapping
-            # except rdflib.plugins.parsers.notation3.BadSyntax as e:
-            # SPARQLWrapper.SPARQLExceptions.QueryBadFormed - incorrect SPARQL query
-            # pass
+            # except rdflib.plugins.parsers.notation3.BadSyntax as e: - incorrect SPARQL query
             else:
                 return "<h1>Error!!!!!</h1>"
         else:
@@ -509,21 +524,16 @@ class API:
                                 session["validation_report_file"] = validation_report_file
                                 session["namespaces"] = assessment_result.namespaces
                                 # user wants to add more info to reports
-                                add_information = request.form.get("add-information")
-                                session["add_information"] = add_information
+                                session["add_information"] =  request.form.get("add-information")
                                 mapping_graph = assessment_result.mapping_graph
                                 session["mapping_graph"] = assessment_result.mapping_graph
-                                find_violation_location = assessment_result.find_violation_location
-                                session["find_violation_location"] = find_violation_location
+                                session["find_violation_location"] = assessment_result.find_violation_location
                                 detailed_metric_information = assessment_result.detailed_metric_information
-                                metric_descriptions = assessment_result.metric_descriptions
                                 session["refinements"] = Refinements(validation_result, triple_references, mapping_graph)
                                 suggested_refinements = session["refinements"].provide_suggested_refinements()
                                 session["suggested_refinements"] = suggested_refinements
-                                refinement_descriptions = session["refinements"].refinement_descriptions
                                 serializer = TurtleSerializer(mapping_graph)
                                 parse_violation_value = serializer.parse_violation_value
-                                find_prefix = assessment_result.find_prefix
                                 session["find_prefix"] = find_prefix
                                 API.create_validation_report(more_info_data)
                                 get_triple_map_id = assessment_result.get_triple_map_id
@@ -534,15 +544,15 @@ class API:
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
                                     bar_chart_html=bar_chart_html,
-                                    refinement_descriptions=refinement_descriptions,
+                                    refinement_descriptions=session["refinements"].refinement_descriptions,
                                     participant_id=participant_id,
                                     display_violation=serializer.display_violation,
-                                    metric_descriptions=metric_descriptions,
+                                    metric_descriptions=assessment_result.metric_descriptions,
                                     len=len(validation_result),
                                     assessment_report=validation_result,
-                                    find_prefix=find_prefix,
+                                    find_prefix= assessment_result.find_prefix,
                                     suggested_refinements=suggested_refinements,
-                                    find_violation_location=find_violation_location,
+                                    find_violation_location=assessment_result.find_violation_location,
                                     split_camel_case=API.split_camel_case,
                                     detailed_metric_information=detailed_metric_information,
                                     validation_result=session.get("validation_result"),
@@ -606,37 +616,22 @@ class API:
             session["request_form"] = request.form.to_dict()
             # create validation report incase user goes back and then forward,not to include multiple refinement queries
             API.create_validation_report(more_info_data)
-            print(request.form.to_dict(), "REQUEST FORM INFO")
             cache_refinement_values = session.get("refinement_values")
-            print(cache_refinement_values, "CACHE REFINEMENT VALUES ")
-            print(cache_mapping_graph.serialize(format="ttl").decode('utf8'))
-
-            session["refinements"] = Refinements(cache_validation_result, cache_triple_references,
+            session["refinements"] = Refinements(cache_validation_result,
+                                                 cache_triple_references,
                                                  cache_mapping_graph,
-                                                 session.get("more_info_data"), participant_id)
-            session["refinements"].process_user_input(session["request_form"], cache_refinement_values,
+                                                 session.get("more_info_data"),
+                                                 participant_id)
+            session["refinements"].process_user_input(session.get("request_form"),
+                                                      cache_refinement_values,
                                                       cache_mapping_file,
-                                                      cache_mapping_graph, cache_validation_report_file)
+                                                      cache_mapping_graph,
+                                                      cache_validation_report_file)
             session["triple_references"] = session.get("refinements").triple_references
-            print(cache_mapping_graph.serialize(format="ttl").decode('utf8'))
-            refinements = session["refinements"]
-            find_triple_map = refinements.find_triple_map
-            find_violation_location = cache_find_violation
             serializer = TurtleSerializer(cache_mapping_graph)
-            parse_violation_value = serializer.parse_violation_value
-            display_violation = serializer.display_violation
-            get_triple_map_id = session.get("get_triple_map_id")
-            assessment_result = session.get("assessment_result")
-            print(type(assessment_result), "ASSESSMENT result")
-            assessment_result = pickle.loads(assessment_result)
-            metric_descriptions = assessment_result.metric_descriptions
-            refinement_descriptions = session["refinements"].refinement_descriptions
-            detailed_metric_information = assessment_result.detailed_metric_information
-            suggested_refinements = session.get("suggested_refinements")
-            refinement_values = session["refinement_values"]
+            assessment_result = pickle.loads(session.get("assessment_result"))
             # boolean to show export refined mapping button etc
             show_refinement_buttons = True
-            participant_id = session.get("participant_id")
             return render_template(
                 "mapping_quality/refinements.html",
                 participant_id=participant_id,
@@ -646,62 +641,51 @@ class API:
                 find_prefix=find_prefix,
                 validation_result=cache_validation_result,
                 namespaces=cache_namespaces,
-                refinements=refinement_values,
-                prefix_values=refinements.prefix_values,
-                display_violation=display_violation,
-                find_triple_map=find_triple_map,
-                find_violation_location=find_violation_location,
+                refinements=session.get("refinement_values"),
+                prefix_values=session.get("refinements").prefix_values,
+                display_violation=serializer.display_violation,
+                find_triple_map=session.get("refinements").find_triple_map,
+                find_violation_location=cache_find_violation,
                 assessment_report=cache_validation_result,
-                refinement_descriptions=refinement_descriptions,
-                parse_violation_value=parse_violation_value,
-                get_triple_map_ID=get_triple_map_id,
-                metric_descriptions=metric_descriptions,
-                detailed_metric_information=detailed_metric_information,
-                suggested_refinements=suggested_refinements
+                refinement_descriptions=session.get("refinements").refinement_descriptions,
+                parse_violation_value=serializer.parse_violation_value,
+                get_triple_map_ID=session.get("get_triple_map_id"),
+                metric_descriptions=assessment_result.metric_descriptions,
+                detailed_metric_information=assessment_result.detailed_metric_information,
+                suggested_refinements=session.get("suggested_refinements")
             )
         else:
             selected_refinements = request.values
             refinement_options = API.refinements_selected(selected_refinements)
             if refinement_options:
-                refinements = Refinements(cache_validation_result, cache_triple_references,
+                refinements = Refinements(cache_validation_result,
+                                          cache_triple_references,
                                           cache_mapping_graph,
                                           cache_add_information)
                 refinement_values = refinements.provide_refinements(selected_refinements)
                 session["refinement_values"] = refinement_values
-                print("REFINEMENT VALUES", refinement_values)
-                # find_prefix = refinements.find_prefix
-                find_triple_map = refinements.find_triple_map
-                find_violation_location = cache_find_violation
                 serializer = TurtleSerializer(cache_mapping_graph)
-                parse_violation_value = serializer.parse_violation_value
-                display_violation = serializer.display_violation
-                get_triple_map_id = session.get("get_triple_map_id")
-                assessment_result = session.get("assessment_result")
-                print(type(assessment_result), "ASSESSMENT result")
-                assessment_result = pickle.loads(assessment_result)
-                metric_descriptions = assessment_result.metric_descriptions
-                refinement_descriptions = session["refinements"].refinement_descriptions
-                detailed_metric_information = assessment_result.detailed_metric_information
+                assessment_result = pickle.loads(session.get("assessment_result"))
                 suggested_refinements = session.get("suggested_refinements")
                 return render_template(
                     "mapping_quality/refinements.html",
                     participant_id=participant_id,
                     bar_chart_html=session.get("bar_chart_html"),
                     split_camel_case=API.split_camel_case,
-                    refinement_descriptions=refinement_descriptions,
+                    refinement_descriptions=session.get("refinements").refinement_descriptions,
                     find_prefix=find_prefix,
                     validation_result=cache_validation_result,
                     namespaces=cache_namespaces,
                     refinements=refinement_values,
                     prefix_values=refinements.prefix_values,
-                    display_violation=display_violation,
-                    find_triple_map=find_triple_map,
-                    find_violation_location=find_violation_location,
+                    display_violation=serializer.display_violation,
+                    find_triple_map=refinements.find_triple_map,
+                    find_violation_location=cache_find_violation,
                     assessment_report=cache_validation_result,
-                    parse_violation_value=parse_violation_value,
-                    get_triple_map_ID=get_triple_map_id,
-                    metric_descriptions=metric_descriptions,
-                    detailed_metric_information=detailed_metric_information,
+                    parse_violation_value=serializer.parse_violation_value,
+                    get_triple_map_ID=session.get("get_triple_map_id"),
+                    metric_descriptions=assessment_result.metric_descriptions,
+                    detailed_metric_information=assessment_result.detailed_metric_information,
                     suggested_refinements=suggested_refinements
                 )
             else:

@@ -2,47 +2,47 @@
 @prefix ns10: <http://www.example.com/contactDetailsGraph/> .
 @prefix ns11: <http://xmlns.com/foaf/0.1/> .
 @prefix ns2: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
-@prefix ns3: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
-@prefix ns4: <https://www.w3id.org/OSCD#> .
-@prefix ns5: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
-@prefix ns6: <http://www.example.com/mappingGraph/> .
-@prefix ns7: <http://www.w3.org/ns/r2rml#> .
-@prefix ns8: <http://www.example.com/changesGraph/> .
-@prefix ns9: <http://linkedevents.org/ontology/> .
+@prefix ns3: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
+@prefix ns4: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
+@prefix ns5: <https://www.w3id.org/OSCD#> .
+@prefix ns6: <http://www.example.com/changesGraph/> .
+@prefix ns7: <http://linkedevents.org/ontology/> .
+@prefix ns8: <http://www.example.com/mappingGraph/> .
+@prefix ns9: <http://www.w3.org/ns/r2rml#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ns1:user-1 {
-    <http://www.example.com/notificationPolicy/1> a ns5:Policy ;
-        ns5:desc "Notification policy for user 1" ;
-        ns5:grants <http://www.example.com/policyObligation/1> ;
-        ns4:hasDetectionEnd "2022-12-31 00:00:00.0000"^^xsd:dateTime ;
-        ns4:hasDetectionStart "2023-04-13 16:13:11.357865"^^xsd:dateTime .
+    <http://www.example.com/notificationPolicy/1> a ns3:Policy ;
+        ns3:desc "Notification policy for user 1" ;
+        ns3:grants <http://www.example.com/policyObligation/1> ;
+        ns5:hasDetectionEnd "2022-12-31 00:00:00.0000"^^xsd:dateTime ;
+        ns5:hasDetectionStart "2023-04-12 19:12:46.444944"^^xsd:dateTime .
 
     <http://www.example.com/datatypeChangeConstraint/1> a ns2:SimpleConstraint ;
         ns2:object 0 ;
-        ns2:predicate ns4:hasThreshold ;
-        ns2:subject ns4:DatatypeSourceData .
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:DatatypeSourceData .
 
     <http://www.example.com/deleteChangeConstraint/1> a ns2:SimpleConstraint ;
-        ns2:object 0 ;
-        ns2:predicate ns4:hasThreshold ;
-        ns2:subject ns4:DeleteSourceData .
+        ns2:object 2 ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:DeleteSourceData .
 
     <http://www.example.com/insertChangeConstraint/1> a ns2:SimpleConstraint ;
-        ns2:object 0 ;
-        ns2:predicate ns4:hasThreshold ;
-        ns2:subject ns4:InsertSourceData .
+        ns2:object 1000 ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:InsertSourceData .
 
     <http://www.example.com/mergeChangeConstraint/1> a ns2:SimpleConstraint ;
-        ns2:object 1000 ;
-        ns2:predicate ns4:hasThreshold ;
-        ns2:subject ns4:MergeSourceData .
+        ns2:object 0 ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:MergeSourceData .
 
     <http://www.example.com/moveChangeConstraint/1> a ns2:SimpleConstraint ;
-        ns2:object 0 ;
-        ns2:predicate ns4:hasThreshold ;
-        ns2:subject ns4:MoveSourceData .
+        ns2:object 1000 ;
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:MoveSourceData .
 
     <http://www.example.com/notificationConstraint/1> a ns2:And ;
         ns2:fifth <http://www.example.com/mergeChangeConstraint/1> ;
@@ -52,2712 +52,364 @@ ns1:user-1 {
         ns2:sixth <http://www.example.com/datatypeChangeConstraint/1> ;
         ns2:third <http://www.example.com/moveChangeConstraint/1> .
 
-    <http://www.example.com/policyObligation/1> a ns3:Obligation ;
-        ns3:action ns4:sendNotification ;
-        ns3:obligedTo ns4:softwareAgent ;
-        ns3:startingConstraint <http://www.example.com/notificationConstraint/1> ;
-        ns5:actor <http://www.example.com/userActor/1>,
-            ns4:softwareAgent .
+    <http://www.example.com/policyObligation/1> a ns4:Obligation ;
+        ns4:action ns5:sendNotification ;
+        ns4:obligedTo ns5:softwareAgent ;
+        ns4:startingConstraint <http://www.example.com/notificationConstraint/1> ;
+        ns3:actor <http://www.example.com/userActor/1>,
+            ns5:softwareAgent .
 
     <http://www.example.com/updateChangeConstraint/1> a ns2:SimpleConstraint ;
         ns2:object 0 ;
-        ns2:predicate ns4:hasThreshold ;
-        ns2:subject ns4:UpdateSourceData .
+        ns2:predicate ns5:hasThreshold ;
+        ns2:subject ns5:UpdateSourceData .
 
     <http://www.example.com/userActor/1> a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
 }
 
-ns6:openfit-mapping_copy.ttl {
-    <file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#Exercise> a ns7:TriplesMap ;
-        ns7:logicalTable [ ns7:sqlQuery "SELECT Goal.id, Goal.description, Goal.type, Goal.type_id FROM loans-v1.csv" ] ;
-        ns7:predicateObjectMap [ ns7:objectMap [ ns7:column "Married" ] ;
-                ns7:predicate <http://ontology.openfit.org#descriptions> ] ;
-        ns7:subjectMap [ ns7:class <http://ontology.openfit.org#CardioExercise>,
-                    <http://ontology.openfit.org#StrengthExercise> ;
-                ns7:template "http://data.ontology.openfit.org#goal_{id}" ] .
+ns6:user-1 {
+    <http://www.example.com/changeLog/user-1> a ns5:ChangeLog ;
+        ns5:hasChange <http://www.example.com/deleteChange/24>,
+            <http://www.example.com/deleteChange/25>,
+            <http://www.example.com/deleteChange/32>,
+            <http://www.example.com/deleteChange/33>,
+            <http://www.example.com/insertChange/0>,
+            <http://www.example.com/insertChange/1>,
+            <http://www.example.com/insertChange/10>,
+            <http://www.example.com/insertChange/11>,
+            <http://www.example.com/insertChange/12>,
+            <http://www.example.com/insertChange/13>,
+            <http://www.example.com/insertChange/14>,
+            <http://www.example.com/insertChange/15>,
+            <http://www.example.com/insertChange/16>,
+            <http://www.example.com/insertChange/17>,
+            <http://www.example.com/insertChange/18>,
+            <http://www.example.com/insertChange/19>,
+            <http://www.example.com/insertChange/2>,
+            <http://www.example.com/insertChange/20>,
+            <http://www.example.com/insertChange/21>,
+            <http://www.example.com/insertChange/22>,
+            <http://www.example.com/insertChange/23>,
+            <http://www.example.com/insertChange/26>,
+            <http://www.example.com/insertChange/27>,
+            <http://www.example.com/insertChange/28>,
+            <http://www.example.com/insertChange/29>,
+            <http://www.example.com/insertChange/3>,
+            <http://www.example.com/insertChange/30>,
+            <http://www.example.com/insertChange/31>,
+            <http://www.example.com/insertChange/4>,
+            <http://www.example.com/insertChange/5>,
+            <http://www.example.com/insertChange/6>,
+            <http://www.example.com/insertChange/7>,
+            <http://www.example.com/insertChange/8>,
+            <http://www.example.com/insertChange/9>,
+            <http://www.example.com/moveChange/35> ;
+        ns5:hasCurrentVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v3.csv> ;
+        ns5:hasPreviousVersion <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv> .
 
-    <file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#MuscleGain> a ns7:TriplesMap ;
-        ns7:logicalTable [ ns7:sqlQuery "SELECT Goal.id,Goal.description,Goal.type,Goal.type_id, MuscleGainTargetMuscles.targetMuscle_id FROM (MuscleGain JOIN MuscleGainTargetMuscles ON (MuscleGain.id = MuscleGainTargetMuscles.muscleGain_id))JOIN Goal ON (Goal.type_id = MuscleGain.id) WHERE Goal.type = 'muscleGain'" ] ;
-        ns7:predicateObjectMap [ ns7:objectMap [ ns7:joinCondition [ ns7:child "targetMuscle_id" ;
-                                ns7:parent "id" ] ;
-                        ns7:parentTriplesMap <file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#TargetMuscle> ] ;
-                ns7:predicate <http://ontology.openfit.org#conditioning_id> ] ;
-        ns7:subjectMap [ ns7:class <http://ontology.openfit.org#MuscleGain> ;
-                ns7:template "http://data.ontology.openfit.org#goal_{id}" ] .
+    <http://www.example.com/changedData/0> a ns5:ChangedData ;
+        rdfs:comment "Venus" .
 
-    <file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#TargetArea> a ns7:TriplesMap ;
-        ns7:logicalTable [ ns7:sqlQuery "SELECT  * FROM TargetArea" ] ;
-        ns7:predicateObjectMap [ ns7:objectMap [ ns7:column "Dependents" ] ;
-                ns7:predicate <http://ontology.openfit.org#target_area_id> ],
-            [ ns7:objectMap [ ns7:column "name" ] ;
-                ns7:predicate <http://ontology.openfit.org#name> ] ;
-        ns7:subjectMap [ ns7:class <http://ontology.openfit.org#Target_Area> ;
-                ns7:template "http://data.ontology.openfit.org#target_area_{id}" ] .
+    <http://www.example.com/changedData/1> a ns5:ChangedData ;
+        rdfs:comment "Williams" .
+
+    <http://www.example.com/changedData/10> a ns5:ChangedData ;
+        rdfs:comment "ddd" .
+
+    <http://www.example.com/changedData/11> a ns5:ChangedData ;
+        rdfs:comment "TT" .
+
+    <http://www.example.com/changedData/12> a ns5:ChangedData ;
+        rdfs:comment "Michael" .
+
+    <http://www.example.com/changedData/13> a ns5:ChangedData ;
+        rdfs:comment "Jordan" .
+
+    <http://www.example.com/changedData/14> a ns5:ChangedData ;
+        rdfs:comment "Basketball" .
+
+    <http://www.example.com/changedData/15> a ns5:ChangedData ;
+        rdfs:comment "Brooklyn" .
+
+    <http://www.example.com/changedData/16> a ns5:ChangedData ;
+        rdfs:comment "xxx" .
+
+    <http://www.example.com/changedData/17> a ns5:ChangedData ;
+        rdfs:comment "TT" .
+
+    <http://www.example.com/changedData/18> a ns5:ChangedData ;
+        rdfs:comment "Tom" .
+
+    <http://www.example.com/changedData/19> a ns5:ChangedData ;
+        rdfs:comment "Brady" .
+
+    <http://www.example.com/changedData/2> a ns5:ChangedData ;
+        rdfs:comment "Tennis" .
+
+    <http://www.example.com/changedData/20> a ns5:ChangedData ;
+        rdfs:comment "Football" .
+
+    <http://www.example.com/changedData/21> a ns5:ChangedData ;
+        rdfs:comment "San Mateo" .
+
+    <http://www.example.com/changedData/22> a ns5:ChangedData ;
+        rdfs:comment "fff" .
+
+    <http://www.example.com/changedData/23> a ns5:ChangedData ;
+        rdfs:comment "TT" .
+
+    <http://www.example.com/changedData/24> a ns5:ChangedData ;
+        rdfs:comment "10" .
+
+    <http://www.example.com/changedData/25> a ns5:ChangedData ;
+        rdfs:comment "Venus" .
+
+    <http://www.example.com/changedData/26> a ns5:ChangedData ;
+        rdfs:comment "FirstName" .
+
+    <http://www.example.com/changedData/27> a ns5:ChangedData ;
+        rdfs:comment "Test" .
+
+    <http://www.example.com/changedData/28> a ns5:ChangedData ;
+        rdfs:comment "City" .
+
+    <http://www.example.com/changedData/29> a ns5:ChangedData ;
+        rdfs:comment "Sport" .
+
+    <http://www.example.com/changedData/3> a ns5:ChangedData ;
+        rdfs:comment "California" .
+
+    <http://www.example.com/changedData/30> a ns5:ChangedData ;
+        rdfs:comment "TT" .
+
+    <http://www.example.com/changedData/31> a ns5:ChangedData ;
+        rdfs:comment "LastName" .
+
+    <http://www.example.com/changedData/32> a ns5:ChangedData ;
+        rdfs:comment "Name" .
+
+    <http://www.example.com/changedData/33> a ns5:ChangedData ;
+        rdfs:comment "ID" .
+
+    <http://www.example.com/changedData/35> a ns5:ChangedData ;
+        rdfs:comment "location" ;
+        ns5:hasNewLocation "student-v3.csv" .
+
+    <http://www.example.com/changedData/4> a ns5:ChangedData ;
+        rdfs:comment "Tests" .
+
+    <http://www.example.com/changedData/5> a ns5:ChangedData ;
+        rdfs:comment "TT" .
+
+    <http://www.example.com/changedData/6> a ns5:ChangedData ;
+        rdfs:comment "Cristiano" .
+
+    <http://www.example.com/changedData/7> a ns5:ChangedData ;
+        rdfs:comment "Ronaldo" .
+
+    <http://www.example.com/changedData/8> a ns5:ChangedData ;
+        rdfs:comment "Soccer" .
+
+    <http://www.example.com/changedData/9> a ns5:ChangedData ;
+        rdfs:comment "Funchal" .
+
+    <http://www.example.com/deleteChange/24> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/24> ;
+        ns5:hasDataReference "ID" .
+
+    <http://www.example.com/deleteChange/25> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/25> ;
+        ns5:hasDataReference "Name" .
+
+    <http://www.example.com/deleteChange/32> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/32> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/deleteChange/33> a ns5:DeleteSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/33> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/0> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/0> ;
+        ns5:hasDataReference "FirstName" .
+
+    <http://www.example.com/insertChange/1> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/1> ;
+        ns5:hasDataReference "LastName" .
+
+    <http://www.example.com/insertChange/10> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/10> ;
+        ns5:hasDataReference "Test" .
+
+    <http://www.example.com/insertChange/11> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/11> ;
+        ns5:hasDataReference "TT" .
+
+    <http://www.example.com/insertChange/12> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/12> ;
+        ns5:hasDataReference "FirstName" .
+
+    <http://www.example.com/insertChange/13> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/13> ;
+        ns5:hasDataReference "LastName" .
+
+    <http://www.example.com/insertChange/14> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/14> ;
+        ns5:hasDataReference "Sport" .
+
+    <http://www.example.com/insertChange/15> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/15> ;
+        ns5:hasDataReference "City" .
+
+    <http://www.example.com/insertChange/16> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/16> ;
+        ns5:hasDataReference "Test" .
+
+    <http://www.example.com/insertChange/17> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/17> ;
+        ns5:hasDataReference "TT" .
+
+    <http://www.example.com/insertChange/18> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/18> ;
+        ns5:hasDataReference "FirstName" .
+
+    <http://www.example.com/insertChange/19> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/19> ;
+        ns5:hasDataReference "LastName" .
+
+    <http://www.example.com/insertChange/2> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/2> ;
+        ns5:hasDataReference "Sport" .
+
+    <http://www.example.com/insertChange/20> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/20> ;
+        ns5:hasDataReference "Sport" .
+
+    <http://www.example.com/insertChange/21> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/21> ;
+        ns5:hasDataReference "City" .
+
+    <http://www.example.com/insertChange/22> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/22> ;
+        ns5:hasDataReference "Test" .
+
+    <http://www.example.com/insertChange/23> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/23> ;
+        ns5:hasDataReference "TT" .
+
+    <http://www.example.com/insertChange/26> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/26> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/27> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/27> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/28> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/28> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/29> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/29> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/3> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/3> ;
+        ns5:hasDataReference "City" .
+
+    <http://www.example.com/insertChange/30> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/30> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/31> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/31> ;
+        ns5:hasStructuralReference "Columns" .
+
+    <http://www.example.com/insertChange/4> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/4> ;
+        ns5:hasDataReference "Test" .
+
+    <http://www.example.com/insertChange/5> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/5> ;
+        ns5:hasDataReference "TT" .
+
+    <http://www.example.com/insertChange/6> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/6> ;
+        ns5:hasDataReference "FirstName" .
+
+    <http://www.example.com/insertChange/7> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/7> ;
+        ns5:hasDataReference "LastName" .
+
+    <http://www.example.com/insertChange/8> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/8> ;
+        ns5:hasDataReference "Sport" .
+
+    <http://www.example.com/insertChange/9> a ns5:InsertSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/9> ;
+        ns5:hasDataReference "City" .
+
+    <http://www.example.com/moveChange/35> a ns5:MoveSourceData ;
+        ns7:atTime "2023-04-12 19:12:46.203400"^^xsd:dateTimeStamp ;
+        ns5:hasChangedData <http://www.example.com/changedData/35> ;
+        ns5:hasDataReference "student-v3.csv" .
 }
 
-ns8:user-1 {
-    <http://www.example.com/changeLog/user-1> a ns4:ChangeLog ;
-        ns4:hasChange <http://www.example.com/deleteChange/599>,
-            <http://www.example.com/deleteChange/609>,
-            <http://www.example.com/deleteChange/619>,
-            <http://www.example.com/deleteChange/629>,
-            <http://www.example.com/deleteChange/639>,
-            <http://www.example.com/deleteChange/649>,
-            <http://www.example.com/deleteChange/659>,
-            <http://www.example.com/deleteChange/669>,
-            <http://www.example.com/deleteChange/679>,
-            <http://www.example.com/deleteChange/689>,
-            <http://www.example.com/deleteChange/699>,
-            <http://www.example.com/deleteChange/709>,
-            <http://www.example.com/deleteChange/719>,
-            <http://www.example.com/deleteChange/729>,
-            <http://www.example.com/deleteChange/739>,
-            <http://www.example.com/deleteChange/749>,
-            <http://www.example.com/deleteChange/759>,
-            <http://www.example.com/deleteChange/769>,
-            <http://www.example.com/deleteChange/779>,
-            <http://www.example.com/deleteChange/789>,
-            <http://www.example.com/deleteChange/799>,
-            <http://www.example.com/deleteChange/809>,
-            <http://www.example.com/deleteChange/819>,
-            <http://www.example.com/deleteChange/829>,
-            <http://www.example.com/deleteChange/839>,
-            <http://www.example.com/deleteChange/849>,
-            <http://www.example.com/deleteChange/859>,
-            <http://www.example.com/deleteChange/869>,
-            <http://www.example.com/deleteChange/879>,
-            <http://www.example.com/deleteChange/889>,
-            <http://www.example.com/deleteChange/899>,
-            <http://www.example.com/deleteChange/909>,
-            <http://www.example.com/deleteChange/919>,
-            <http://www.example.com/deleteChange/929>,
-            <http://www.example.com/deleteChange/939>,
-            <http://www.example.com/deleteChange/949>,
-            <http://www.example.com/deleteChange/959>,
-            <http://www.example.com/deleteChange/961>,
-            <http://www.example.com/insertChange/1>,
-            <http://www.example.com/insertChange/101>,
-            <http://www.example.com/insertChange/11>,
-            <http://www.example.com/insertChange/111>,
-            <http://www.example.com/insertChange/121>,
-            <http://www.example.com/insertChange/131>,
-            <http://www.example.com/insertChange/141>,
-            <http://www.example.com/insertChange/151>,
-            <http://www.example.com/insertChange/161>,
-            <http://www.example.com/insertChange/171>,
-            <http://www.example.com/insertChange/181>,
-            <http://www.example.com/insertChange/191>,
-            <http://www.example.com/insertChange/201>,
-            <http://www.example.com/insertChange/21>,
-            <http://www.example.com/insertChange/211>,
-            <http://www.example.com/insertChange/221>,
-            <http://www.example.com/insertChange/231>,
-            <http://www.example.com/insertChange/241>,
-            <http://www.example.com/insertChange/251>,
-            <http://www.example.com/insertChange/261>,
-            <http://www.example.com/insertChange/271>,
-            <http://www.example.com/insertChange/281>,
-            <http://www.example.com/insertChange/291>,
-            <http://www.example.com/insertChange/301>,
-            <http://www.example.com/insertChange/31>,
-            <http://www.example.com/insertChange/311>,
-            <http://www.example.com/insertChange/321>,
-            <http://www.example.com/insertChange/331>,
-            <http://www.example.com/insertChange/341>,
-            <http://www.example.com/insertChange/351>,
-            <http://www.example.com/insertChange/361>,
-            <http://www.example.com/insertChange/370>,
-            <http://www.example.com/insertChange/371>,
-            <http://www.example.com/insertChange/372>,
-            <http://www.example.com/insertChange/373>,
-            <http://www.example.com/insertChange/374>,
-            <http://www.example.com/insertChange/375>,
-            <http://www.example.com/insertChange/376>,
-            <http://www.example.com/insertChange/377>,
-            <http://www.example.com/insertChange/378>,
-            <http://www.example.com/insertChange/379>,
-            <http://www.example.com/insertChange/380>,
-            <http://www.example.com/insertChange/381>,
-            <http://www.example.com/insertChange/382>,
-            <http://www.example.com/insertChange/383>,
-            <http://www.example.com/insertChange/384>,
-            <http://www.example.com/insertChange/385>,
-            <http://www.example.com/insertChange/386>,
-            <http://www.example.com/insertChange/387>,
-            <http://www.example.com/insertChange/388>,
-            <http://www.example.com/insertChange/389>,
-            <http://www.example.com/insertChange/390>,
-            <http://www.example.com/insertChange/391>,
-            <http://www.example.com/insertChange/392>,
-            <http://www.example.com/insertChange/393>,
-            <http://www.example.com/insertChange/394>,
-            <http://www.example.com/insertChange/395>,
-            <http://www.example.com/insertChange/396>,
-            <http://www.example.com/insertChange/397>,
-            <http://www.example.com/insertChange/398>,
-            <http://www.example.com/insertChange/399>,
-            <http://www.example.com/insertChange/400>,
-            <http://www.example.com/insertChange/401>,
-            <http://www.example.com/insertChange/402>,
-            <http://www.example.com/insertChange/403>,
-            <http://www.example.com/insertChange/404>,
-            <http://www.example.com/insertChange/405>,
-            <http://www.example.com/insertChange/406>,
-            <http://www.example.com/insertChange/407>,
-            <http://www.example.com/insertChange/408>,
-            <http://www.example.com/insertChange/409>,
-            <http://www.example.com/insertChange/41>,
-            <http://www.example.com/insertChange/410>,
-            <http://www.example.com/insertChange/411>,
-            <http://www.example.com/insertChange/412>,
-            <http://www.example.com/insertChange/413>,
-            <http://www.example.com/insertChange/414>,
-            <http://www.example.com/insertChange/415>,
-            <http://www.example.com/insertChange/416>,
-            <http://www.example.com/insertChange/417>,
-            <http://www.example.com/insertChange/418>,
-            <http://www.example.com/insertChange/419>,
-            <http://www.example.com/insertChange/420>,
-            <http://www.example.com/insertChange/421>,
-            <http://www.example.com/insertChange/422>,
-            <http://www.example.com/insertChange/423>,
-            <http://www.example.com/insertChange/424>,
-            <http://www.example.com/insertChange/425>,
-            <http://www.example.com/insertChange/426>,
-            <http://www.example.com/insertChange/427>,
-            <http://www.example.com/insertChange/428>,
-            <http://www.example.com/insertChange/429>,
-            <http://www.example.com/insertChange/430>,
-            <http://www.example.com/insertChange/431>,
-            <http://www.example.com/insertChange/432>,
-            <http://www.example.com/insertChange/433>,
-            <http://www.example.com/insertChange/434>,
-            <http://www.example.com/insertChange/435>,
-            <http://www.example.com/insertChange/436>,
-            <http://www.example.com/insertChange/437>,
-            <http://www.example.com/insertChange/438>,
-            <http://www.example.com/insertChange/439>,
-            <http://www.example.com/insertChange/440>,
-            <http://www.example.com/insertChange/441>,
-            <http://www.example.com/insertChange/442>,
-            <http://www.example.com/insertChange/443>,
-            <http://www.example.com/insertChange/444>,
-            <http://www.example.com/insertChange/445>,
-            <http://www.example.com/insertChange/446>,
-            <http://www.example.com/insertChange/447>,
-            <http://www.example.com/insertChange/448>,
-            <http://www.example.com/insertChange/449>,
-            <http://www.example.com/insertChange/450>,
-            <http://www.example.com/insertChange/451>,
-            <http://www.example.com/insertChange/452>,
-            <http://www.example.com/insertChange/453>,
-            <http://www.example.com/insertChange/454>,
-            <http://www.example.com/insertChange/455>,
-            <http://www.example.com/insertChange/456>,
-            <http://www.example.com/insertChange/457>,
-            <http://www.example.com/insertChange/458>,
-            <http://www.example.com/insertChange/459>,
-            <http://www.example.com/insertChange/460>,
-            <http://www.example.com/insertChange/461>,
-            <http://www.example.com/insertChange/462>,
-            <http://www.example.com/insertChange/463>,
-            <http://www.example.com/insertChange/464>,
-            <http://www.example.com/insertChange/465>,
-            <http://www.example.com/insertChange/466>,
-            <http://www.example.com/insertChange/467>,
-            <http://www.example.com/insertChange/468>,
-            <http://www.example.com/insertChange/469>,
-            <http://www.example.com/insertChange/470>,
-            <http://www.example.com/insertChange/471>,
-            <http://www.example.com/insertChange/472>,
-            <http://www.example.com/insertChange/473>,
-            <http://www.example.com/insertChange/474>,
-            <http://www.example.com/insertChange/475>,
-            <http://www.example.com/insertChange/476>,
-            <http://www.example.com/insertChange/477>,
-            <http://www.example.com/insertChange/478>,
-            <http://www.example.com/insertChange/479>,
-            <http://www.example.com/insertChange/480>,
-            <http://www.example.com/insertChange/481>,
-            <http://www.example.com/insertChange/482>,
-            <http://www.example.com/insertChange/483>,
-            <http://www.example.com/insertChange/484>,
-            <http://www.example.com/insertChange/485>,
-            <http://www.example.com/insertChange/486>,
-            <http://www.example.com/insertChange/487>,
-            <http://www.example.com/insertChange/488>,
-            <http://www.example.com/insertChange/489>,
-            <http://www.example.com/insertChange/490>,
-            <http://www.example.com/insertChange/491>,
-            <http://www.example.com/insertChange/492>,
-            <http://www.example.com/insertChange/493>,
-            <http://www.example.com/insertChange/494>,
-            <http://www.example.com/insertChange/495>,
-            <http://www.example.com/insertChange/496>,
-            <http://www.example.com/insertChange/497>,
-            <http://www.example.com/insertChange/498>,
-            <http://www.example.com/insertChange/499>,
-            <http://www.example.com/insertChange/500>,
-            <http://www.example.com/insertChange/501>,
-            <http://www.example.com/insertChange/502>,
-            <http://www.example.com/insertChange/503>,
-            <http://www.example.com/insertChange/504>,
-            <http://www.example.com/insertChange/505>,
-            <http://www.example.com/insertChange/506>,
-            <http://www.example.com/insertChange/507>,
-            <http://www.example.com/insertChange/508>,
-            <http://www.example.com/insertChange/509>,
-            <http://www.example.com/insertChange/51>,
-            <http://www.example.com/insertChange/510>,
-            <http://www.example.com/insertChange/511>,
-            <http://www.example.com/insertChange/512>,
-            <http://www.example.com/insertChange/513>,
-            <http://www.example.com/insertChange/514>,
-            <http://www.example.com/insertChange/515>,
-            <http://www.example.com/insertChange/516>,
-            <http://www.example.com/insertChange/517>,
-            <http://www.example.com/insertChange/518>,
-            <http://www.example.com/insertChange/519>,
-            <http://www.example.com/insertChange/520>,
-            <http://www.example.com/insertChange/521>,
-            <http://www.example.com/insertChange/522>,
-            <http://www.example.com/insertChange/523>,
-            <http://www.example.com/insertChange/524>,
-            <http://www.example.com/insertChange/525>,
-            <http://www.example.com/insertChange/526>,
-            <http://www.example.com/insertChange/527>,
-            <http://www.example.com/insertChange/528>,
-            <http://www.example.com/insertChange/529>,
-            <http://www.example.com/insertChange/530>,
-            <http://www.example.com/insertChange/531>,
-            <http://www.example.com/insertChange/532>,
-            <http://www.example.com/insertChange/533>,
-            <http://www.example.com/insertChange/534>,
-            <http://www.example.com/insertChange/535>,
-            <http://www.example.com/insertChange/536>,
-            <http://www.example.com/insertChange/537>,
-            <http://www.example.com/insertChange/538>,
-            <http://www.example.com/insertChange/539>,
-            <http://www.example.com/insertChange/540>,
-            <http://www.example.com/insertChange/541>,
-            <http://www.example.com/insertChange/542>,
-            <http://www.example.com/insertChange/543>,
-            <http://www.example.com/insertChange/544>,
-            <http://www.example.com/insertChange/545>,
-            <http://www.example.com/insertChange/546>,
-            <http://www.example.com/insertChange/547>,
-            <http://www.example.com/insertChange/548>,
-            <http://www.example.com/insertChange/549>,
-            <http://www.example.com/insertChange/550>,
-            <http://www.example.com/insertChange/551>,
-            <http://www.example.com/insertChange/552>,
-            <http://www.example.com/insertChange/553>,
-            <http://www.example.com/insertChange/554>,
-            <http://www.example.com/insertChange/555>,
-            <http://www.example.com/insertChange/556>,
-            <http://www.example.com/insertChange/557>,
-            <http://www.example.com/insertChange/558>,
-            <http://www.example.com/insertChange/559>,
-            <http://www.example.com/insertChange/560>,
-            <http://www.example.com/insertChange/561>,
-            <http://www.example.com/insertChange/562>,
-            <http://www.example.com/insertChange/563>,
-            <http://www.example.com/insertChange/564>,
-            <http://www.example.com/insertChange/565>,
-            <http://www.example.com/insertChange/566>,
-            <http://www.example.com/insertChange/567>,
-            <http://www.example.com/insertChange/568>,
-            <http://www.example.com/insertChange/569>,
-            <http://www.example.com/insertChange/570>,
-            <http://www.example.com/insertChange/571>,
-            <http://www.example.com/insertChange/572>,
-            <http://www.example.com/insertChange/573>,
-            <http://www.example.com/insertChange/574>,
-            <http://www.example.com/insertChange/575>,
-            <http://www.example.com/insertChange/576>,
-            <http://www.example.com/insertChange/577>,
-            <http://www.example.com/insertChange/578>,
-            <http://www.example.com/insertChange/579>,
-            <http://www.example.com/insertChange/580>,
-            <http://www.example.com/insertChange/581>,
-            <http://www.example.com/insertChange/582>,
-            <http://www.example.com/insertChange/583>,
-            <http://www.example.com/insertChange/584>,
-            <http://www.example.com/insertChange/585>,
-            <http://www.example.com/insertChange/586>,
-            <http://www.example.com/insertChange/587>,
-            <http://www.example.com/insertChange/588>,
-            <http://www.example.com/insertChange/589>,
-            <http://www.example.com/insertChange/61>,
-            <http://www.example.com/insertChange/71>,
-            <http://www.example.com/insertChange/81>,
-            <http://www.example.com/insertChange/91>,
-            <http://www.example.com/insertChange/960> ;
-        ns4:hasCurrentVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/loans-v1.csv> ;
-        ns4:hasPreviousVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/loans-v1.csv> .
-
-    <http://www.example.com/changedData/1> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/101> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/11> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/111> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/121> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/131> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/141> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/151> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/161> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/171> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/181> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/191> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/201> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/21> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/211> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/221> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/231> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/241> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/251> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/261> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/271> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/281> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/291> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/301> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/31> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/311> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/321> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/331> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/341> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/351> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/361> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/370> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/371> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/372> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/373> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/374> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/375> a ns4:ChangedData ;
-        rdfs:comment "226700" .
-
-    <http://www.example.com/changedData/376> a ns4:ChangedData ;
-        rdfs:comment "279200" .
-
-    <http://www.example.com/changedData/377> a ns4:ChangedData ;
-        rdfs:comment "9000000" .
-
-    <http://www.example.com/changedData/378> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/379> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/380> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/381> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/382> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/383> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/384> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/385> a ns4:ChangedData ;
-        rdfs:comment "583300" .
-
-    <http://www.example.com/changedData/386> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/387> a ns4:ChangedData ;
-        rdfs:comment "11600000" .
-
-    <http://www.example.com/changedData/388> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/389> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/390> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/391> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/392> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/393> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/394> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/395> a ns4:ChangedData ;
-        rdfs:comment "364300" .
-
-    <http://www.example.com/changedData/396> a ns4:ChangedData ;
-        rdfs:comment "196300" .
-
-    <http://www.example.com/changedData/397> a ns4:ChangedData ;
-        rdfs:comment "13800000" .
-
-    <http://www.example.com/changedData/398> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/399> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/400> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/401> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/402> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/403> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/404> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/405> a ns4:ChangedData ;
-        rdfs:comment "562900" .
-
-    <http://www.example.com/changedData/406> a ns4:ChangedData ;
-        rdfs:comment "81800" .
-
-    <http://www.example.com/changedData/407> a ns4:ChangedData ;
-        rdfs:comment "10000000" .
-
-    <http://www.example.com/changedData/408> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/409> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/41> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/410> a ns4:ChangedData ;
-        rdfs:comment "Female" .
-
-    <http://www.example.com/changedData/411> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/412> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/413> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/414> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/415> a ns4:ChangedData ;
-        rdfs:comment "364400" .
-
-    <http://www.example.com/changedData/416> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/417> a ns4:ChangedData ;
-        rdfs:comment "11000000" .
-
-    <http://www.example.com/changedData/418> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/419> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/420> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/421> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/422> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/423> a ns4:ChangedData ;
-        rdfs:comment "Not Graduate" .
-
-    <http://www.example.com/changedData/424> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/425> a ns4:ChangedData ;
-        rdfs:comment "175000" .
-
-    <http://www.example.com/changedData/426> a ns4:ChangedData ;
-        rdfs:comment "202400" .
-
-    <http://www.example.com/changedData/427> a ns4:ChangedData ;
-        rdfs:comment "9000000" .
-
-    <http://www.example.com/changedData/428> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/429> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/430> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/431> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/432> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/433> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/434> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/435> a ns4:ChangedData ;
-        rdfs:comment "650000" .
-
-    <http://www.example.com/changedData/436> a ns4:ChangedData ;
-        rdfs:comment "260000" .
-
-    <http://www.example.com/changedData/437> a ns4:ChangedData ;
-        rdfs:comment "20000000" .
-
-    <http://www.example.com/changedData/438> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/439> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/440> a ns4:ChangedData ;
-        rdfs:comment "Female" .
-
-    <http://www.example.com/changedData/441> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/442> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/443> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/444> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/445> a ns4:ChangedData ;
-        rdfs:comment "366600" .
-
-    <http://www.example.com/changedData/446> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/447> a ns4:ChangedData ;
-        rdfs:comment "8400000" .
-
-    <http://www.example.com/changedData/448> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/449> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/450> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/451> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/452> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/453> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/454> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/455> a ns4:ChangedData ;
-        rdfs:comment "426000" .
-
-    <http://www.example.com/changedData/456> a ns4:ChangedData ;
-        rdfs:comment "390000" .
-
-    <http://www.example.com/changedData/457> a ns4:ChangedData ;
-        rdfs:comment "18500000" .
-
-    <http://www.example.com/changedData/458> a ns4:ChangedData .
-
-    <http://www.example.com/changedData/459> a ns4:ChangedData .
-
-    <http://www.example.com/changedData/460> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/461> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/462> a ns4:ChangedData .
-
-    <http://www.example.com/changedData/463> a ns4:ChangedData ;
-        rdfs:comment "Not Graduate" .
-
-    <http://www.example.com/changedData/464> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/465> a ns4:ChangedData ;
-        rdfs:comment "416300" .
-
-    <http://www.example.com/changedData/466> a ns4:ChangedData ;
-        rdfs:comment "147500" .
-
-    <http://www.example.com/changedData/467> a ns4:ChangedData ;
-        rdfs:comment "16200000" .
-
-    <http://www.example.com/changedData/468> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/469> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/470> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/471> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/472> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/473> a ns4:ChangedData ;
-        rdfs:comment "Not Graduate" .
-
-    <http://www.example.com/changedData/474> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/475> a ns4:ChangedData ;
-        rdfs:comment "235600" .
-
-    <http://www.example.com/changedData/476> a ns4:ChangedData ;
-        rdfs:comment "190200" .
-
-    <http://www.example.com/changedData/477> a ns4:ChangedData ;
-        rdfs:comment "10800000" .
-
-    <http://www.example.com/changedData/478> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/479> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/480> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/481> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/482> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/483> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/484> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/485> a ns4:ChangedData ;
-        rdfs:comment "679200" .
-
-    <http://www.example.com/changedData/486> a ns4:ChangedData ;
-        rdfs:comment "333800" .
-
-    <http://www.example.com/changedData/487> a ns4:ChangedData ;
-        rdfs:comment "18700000" .
-
-    <http://www.example.com/changedData/488> a ns4:ChangedData .
-
-    <http://www.example.com/changedData/489> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/490> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/491> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/492> a ns4:ChangedData ;
-        rdfs:comment "3+" .
-
-    <http://www.example.com/changedData/493> a ns4:ChangedData ;
-        rdfs:comment "Not Graduate" .
-
-    <http://www.example.com/changedData/494> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/495> a ns4:ChangedData ;
-        rdfs:comment "800000" .
-
-    <http://www.example.com/changedData/496> a ns4:ChangedData ;
-        rdfs:comment "25000" .
-
-    <http://www.example.com/changedData/497> a ns4:ChangedData ;
-        rdfs:comment "18700000" .
-
-    <http://www.example.com/changedData/498> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/499> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/500> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/501> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/502> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/503> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/504> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/505> a ns4:ChangedData ;
-        rdfs:comment "241900" .
-
-    <http://www.example.com/changedData/506> a ns4:ChangedData ;
-        rdfs:comment "170700" .
-
-    <http://www.example.com/changedData/507> a ns4:ChangedData ;
-        rdfs:comment "12400000" .
-
-    <http://www.example.com/changedData/508> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/509> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/51> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/510> a ns4:ChangedData .
-
-    <http://www.example.com/changedData/511> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/512> a ns4:ChangedData ;
-        rdfs:comment "3+" .
-
-    <http://www.example.com/changedData/513> a ns4:ChangedData ;
-        rdfs:comment "Not Graduate" .
-
-    <http://www.example.com/changedData/514> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/515> a ns4:ChangedData ;
-        rdfs:comment "350000" .
-
-    <http://www.example.com/changedData/516> a ns4:ChangedData ;
-        rdfs:comment "83300" .
-
-    <http://www.example.com/changedData/517> a ns4:ChangedData ;
-        rdfs:comment "12000000" .
-
-    <http://www.example.com/changedData/518> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/519> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/520> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/521> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/522> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/523> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/524> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/525> a ns4:ChangedData ;
-        rdfs:comment "350000" .
-
-    <http://www.example.com/changedData/526> a ns4:ChangedData ;
-        rdfs:comment "307700" .
-
-    <http://www.example.com/changedData/527> a ns4:ChangedData ;
-        rdfs:comment "16000000" .
-
-    <http://www.example.com/changedData/528> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/529> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/530> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/531> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/532> a ns4:ChangedData ;
-        rdfs:comment "2" .
-
-    <http://www.example.com/changedData/533> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/534> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/535> a ns4:ChangedData ;
-        rdfs:comment "411600" .
-
-    <http://www.example.com/changedData/536> a ns4:ChangedData ;
-        rdfs:comment "100000" .
-
-    <http://www.example.com/changedData/537> a ns4:ChangedData ;
-        rdfs:comment "3000000" .
-
-    <http://www.example.com/changedData/538> a ns4:ChangedData ;
-        rdfs:comment "180" .
-
-    <http://www.example.com/changedData/539> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/540> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/541> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/542> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/543> a ns4:ChangedData ;
-        rdfs:comment "Not Graduate" .
-
-    <http://www.example.com/changedData/544> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/545> a ns4:ChangedData ;
-        rdfs:comment "529300" .
-
-    <http://www.example.com/changedData/546> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/547> a ns4:ChangedData ;
-        rdfs:comment "9200000" .
-
-    <http://www.example.com/changedData/548> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/549> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/550> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/551> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/552> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/553> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/554> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/555> a ns4:ChangedData ;
-        rdfs:comment "275000" .
-
-    <http://www.example.com/changedData/556> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/557> a ns4:ChangedData ;
-        rdfs:comment "13000000" .
-
-    <http://www.example.com/changedData/558> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/559> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/560> a ns4:ChangedData ;
-        rdfs:comment "Female" .
-
-    <http://www.example.com/changedData/561> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/562> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/563> a ns4:ChangedData ;
-        rdfs:comment "Not Graduate" .
-
-    <http://www.example.com/changedData/564> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/565> a ns4:ChangedData ;
-        rdfs:comment "440200" .
-
-    <http://www.example.com/changedData/566> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/567> a ns4:ChangedData ;
-        rdfs:comment "13000000" .
-
-    <http://www.example.com/changedData/568> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/569> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/570> a ns4:ChangedData ;
-        rdfs:comment "Male" .
-
-    <http://www.example.com/changedData/571> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/572> a ns4:ChangedData ;
-        rdfs:comment "2" .
-
-    <http://www.example.com/changedData/573> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/574> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/575> a ns4:ChangedData ;
-        rdfs:comment "361300" .
-
-    <http://www.example.com/changedData/576> a ns4:ChangedData ;
-        rdfs:comment "353900" .
-
-    <http://www.example.com/changedData/577> a ns4:ChangedData ;
-        rdfs:comment "13400000" .
-
-    <http://www.example.com/changedData/578> a ns4:ChangedData ;
-        rdfs:comment "180" .
-
-    <http://www.example.com/changedData/579> a ns4:ChangedData ;
-        rdfs:comment "1" .
-
-    <http://www.example.com/changedData/580> a ns4:ChangedData ;
-        rdfs:comment "Female" .
-
-    <http://www.example.com/changedData/581> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/582> a ns4:ChangedData ;
-        rdfs:comment "2" .
-
-    <http://www.example.com/changedData/583> a ns4:ChangedData ;
-        rdfs:comment "Graduate" .
-
-    <http://www.example.com/changedData/584> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/585> a ns4:ChangedData ;
-        rdfs:comment "277900" .
-
-    <http://www.example.com/changedData/586> a ns4:ChangedData ;
-        rdfs:comment "366400" .
-
-    <http://www.example.com/changedData/587> a ns4:ChangedData ;
-        rdfs:comment "17600000" .
-
-    <http://www.example.com/changedData/588> a ns4:ChangedData ;
-        rdfs:comment "360" .
-
-    <http://www.example.com/changedData/589> a ns4:ChangedData ;
-        rdfs:comment "0" .
-
-    <http://www.example.com/changedData/599> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/609> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/61> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/619> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/629> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/639> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/649> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/659> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/669> a ns4:ChangedData ;
-        rdfs:comment "Rural" .
-
-    <http://www.example.com/changedData/679> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/689> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/699> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/709> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/71> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/719> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/729> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/739> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/749> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/759> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/769> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/779> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/789> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/799> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/809> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/81> a ns4:ChangedData ;
-        rdfs:comment "Yes" .
-
-    <http://www.example.com/changedData/819> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/829> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/839> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/849> a ns4:ChangedData ;
-        rdfs:comment "Rural" .
-
-    <http://www.example.com/changedData/859> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/869> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/879> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/889> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/899> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/909> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/91> a ns4:ChangedData ;
-        rdfs:comment "No" .
-
-    <http://www.example.com/changedData/919> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/929> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/939> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/949> a ns4:ChangedData ;
-        rdfs:comment "Semiurban" .
-
-    <http://www.example.com/changedData/959> a ns4:ChangedData ;
-        rdfs:comment "Urban" .
-
-    <http://www.example.com/changedData/960> a ns4:ChangedData ;
-        rdfs:comment "Married" .
-
-    <http://www.example.com/changedData/961> a ns4:ChangedData ;
-        rdfs:comment "Area" .
-
-    <http://www.example.com/deleteChange/599> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/599> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/609> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/609> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/619> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/619> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/629> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/629> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/639> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/639> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/649> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/649> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/659> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/659> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/669> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/669> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/679> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/679> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/689> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/689> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/699> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/699> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/709> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/709> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/719> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/719> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/729> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/729> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/739> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/739> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/749> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/749> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/759> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/759> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/769> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/769> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/779> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/779> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/789> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/789> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/799> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/799> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/809> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/809> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/819> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/819> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/829> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/829> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/839> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/839> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/849> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/849> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/859> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/859> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/869> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/869> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/879> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/879> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/889> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/889> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/899> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/899> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/909> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/909> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/919> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/919> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/929> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/929> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/939> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/939> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/949> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/949> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/959> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/959> ;
-        ns4:hasDataReference "Area" .
-
-    <http://www.example.com/deleteChange/961> a ns4:DeleteSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/961> ;
-        ns4:hasStructuralReference "Columns" .
-
-    <http://www.example.com/insertChange/1> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/1> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/101> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/101> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/11> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/11> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/111> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/111> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/121> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/121> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/131> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/131> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/141> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/141> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/151> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/151> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/161> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/161> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/171> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/171> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/181> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/181> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/191> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/191> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/201> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/201> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/21> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/21> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/211> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/211> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/221> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/221> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/231> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/231> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/241> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/241> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/251> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/251> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/261> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/261> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/271> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/271> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/281> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/281> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/291> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/291> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/301> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/301> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/31> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/31> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/311> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/311> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/321> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/321> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/331> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/331> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/341> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/341> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/351> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/351> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/361> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/361> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/370> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/370> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/371> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/371> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/372> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/372> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/373> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/373> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/374> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/374> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/375> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/375> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/376> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/376> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/377> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/377> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/378> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/378> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/379> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/379> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/380> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/380> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/381> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/381> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/382> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/382> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/383> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/383> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/384> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/384> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/385> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/385> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/386> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/386> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/387> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/387> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/388> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/388> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/389> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/389> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/390> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/390> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/391> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/391> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/392> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/392> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/393> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/393> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/394> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/394> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/395> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/395> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/396> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/396> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/397> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/397> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/398> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/398> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/399> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/399> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/400> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/400> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/401> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/401> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/402> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/402> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/403> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/403> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/404> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/404> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/405> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/405> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/406> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/406> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/407> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/407> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/408> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/408> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/409> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/409> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/41> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/41> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/410> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/410> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/411> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/411> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/412> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/412> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/413> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/413> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/414> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/414> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/415> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/415> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/416> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/416> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/417> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/417> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/418> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/418> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/419> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/419> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/420> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/420> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/421> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/421> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/422> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/422> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/423> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/423> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/424> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/424> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/425> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/425> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/426> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/426> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/427> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/427> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/428> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/428> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/429> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/429> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/430> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/430> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/431> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/431> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/432> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/432> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/433> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/433> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/434> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/434> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/435> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/435> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/436> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/436> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/437> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/437> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/438> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/438> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/439> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/439> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/440> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/440> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/441> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/441> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/442> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/442> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/443> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/443> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/444> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/444> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/445> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/445> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/446> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/446> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/447> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/447> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/448> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/448> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/449> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/449> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/450> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/450> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/451> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/451> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/452> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/452> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/453> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/453> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/454> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/454> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/455> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/455> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/456> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/456> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/457> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/457> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/458> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/458> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/459> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/459> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/460> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/460> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/461> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/461> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/462> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/462> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/463> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/463> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/464> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/464> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/465> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/465> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/466> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/466> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/467> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/467> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/468> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/468> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/469> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/469> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/470> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/470> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/471> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/471> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/472> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/472> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/473> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/473> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/474> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/474> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/475> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/475> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/476> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/476> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/477> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/477> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/478> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/478> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/479> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/479> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/480> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/480> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/481> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/481> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/482> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/482> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/483> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/483> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/484> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/484> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/485> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/485> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/486> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/486> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/487> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/487> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/488> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/488> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/489> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/489> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/490> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/490> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/491> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/491> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/492> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/492> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/493> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/493> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/494> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/494> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/495> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/495> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/496> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/496> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/497> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/497> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/498> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/498> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/499> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/499> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/500> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/500> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/501> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/501> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/502> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/502> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/503> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/503> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/504> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/504> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/505> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/505> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/506> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/506> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/507> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/507> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/508> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/508> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/509> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/509> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/51> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/51> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/510> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/510> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/511> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/511> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/512> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/512> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/513> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/513> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/514> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/514> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/515> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/515> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/516> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/516> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/517> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/517> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/518> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/518> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/519> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/519> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/520> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/520> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/521> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/521> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/522> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/522> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/523> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/523> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/524> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/524> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/525> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/525> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/526> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/526> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/527> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/527> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/528> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/528> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/529> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/529> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/530> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/530> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/531> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/531> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/532> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/532> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/533> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/533> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/534> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/534> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/535> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/535> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/536> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/536> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/537> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/537> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/538> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/538> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/539> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/539> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/540> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/540> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/541> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/541> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/542> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/542> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/543> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/543> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/544> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/544> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/545> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/545> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/546> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/546> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/547> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/547> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/548> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/548> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/549> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/549> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/550> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/550> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/551> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/551> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/552> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/552> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/553> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/553> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/554> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/554> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/555> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/555> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/556> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/556> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/557> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/557> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/558> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/558> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/559> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/559> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/560> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/560> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/561> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/561> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/562> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/562> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/563> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/563> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/564> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/564> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/565> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/565> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/566> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/566> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/567> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/567> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/568> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/568> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/569> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/569> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/570> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/570> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/571> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/571> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/572> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/572> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/573> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/573> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/574> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/574> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/575> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/575> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/576> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/576> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/577> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/577> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/578> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/578> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/579> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/579> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/580> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/580> ;
-        ns4:hasDataReference "Gender" .
-
-    <http://www.example.com/insertChange/581> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/581> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/582> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/582> ;
-        ns4:hasDataReference "Dependents" .
-
-    <http://www.example.com/insertChange/583> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/583> ;
-        ns4:hasDataReference "Education" .
-
-    <http://www.example.com/insertChange/584> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/584> ;
-        ns4:hasDataReference "Self_Employed" .
-
-    <http://www.example.com/insertChange/585> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/585> ;
-        ns4:hasDataReference "Applicant_Income" .
-
-    <http://www.example.com/insertChange/586> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/586> ;
-        ns4:hasDataReference "Coapplicant_Income" .
-
-    <http://www.example.com/insertChange/587> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/587> ;
-        ns4:hasDataReference "Loan_Amount" .
-
-    <http://www.example.com/insertChange/588> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/588> ;
-        ns4:hasDataReference "Term" .
-
-    <http://www.example.com/insertChange/589> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/589> ;
-        ns4:hasDataReference "Credit_History" .
-
-    <http://www.example.com/insertChange/61> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/61> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/71> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/71> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/81> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/81> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/91> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/91> ;
-        ns4:hasDataReference "Married" .
-
-    <http://www.example.com/insertChange/960> a ns4:InsertSourceData ;
-        ns9:atTime "2023-04-13 16:13:10.224211"^^xsd:dateTimeStamp ;
-        ns4:hasChangedData <http://www.example.com/changedData/960> ;
-        ns4:hasStructuralReference "Columns" .
+ns8:ED_20m.ttl {
+    <file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap1> ns9:logicalTable [ ns9:tableName "student.csv" ] ;
+        ns9:predicateObjectMap [ ns9:objectMap [ ns9:column "ID" ;
+                        ns9:language "en" ] ;
+                ns9:predicate rdfs:label ],
+            [ ns9:objectMap [ ns9:column "ENGLISH" ] ;
+                ns9:predicate rdfs:label ],
+            [ ns9:objectMap [ ns9:column "GAEILGE" ;
+                        ns9:language "ga" ] ;
+                ns9:predicate rdfs:label ],
+            [ ns9:objectMap [ ns9:template "urn:osi:boundary:geom:{GUID}" ] ;
+                ns9:predicate <http://www.opengis.net/ont/geosparql#hasGeometry> ] ;
+        ns9:subjectMap [ ns9:class <http://ontologies.geohive.ie/osi#ElectoralDivision>,
+                    <http://www.opengis.net/ont/geosparql#Feature> ;
+                ns9:template "http://data.geohive.ie/resource/electoral_division/{GUID}" ] .
+
+    <file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap2> ns9:logicalTable [ ns9:tableName "ED_CBD2019_20M" ] ;
+        ns9:predicateObjectMap [ ns9:objectMap [ ns9:column "GEOMETRY" ] ;
+                ns9:predicate <http://www.opengis.net/ont/geosparql#asWKT> ] ;
+        ns9:subjectMap [ ns9:class <http://www.opengis.net/ont/geosparql#Geometry> ;
+                ns9:template "urn:osi:boundary:geom:{GUID}" ] .
 }
 
 ns10:user-1 {
