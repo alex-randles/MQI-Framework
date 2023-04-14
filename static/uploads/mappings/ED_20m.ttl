@@ -5,7 +5,7 @@
 
 <#TriplesMap1>
 	rr:logicalTable [
-		rr:tableName "student.csv" ;
+		rr:tableName "employee.csv" ;
 	] ;
 
 	rr:subjectMap [
@@ -17,7 +17,7 @@
 	rr:predicateObjectMap [
 		rr:predicate rdfs:label ;
 		rr:objectMap [
-			rr:column "ID" ;
+			rr:column "LAST_NAME" ;
 			rr:language "en" ;
 		] ;
 	] ;
@@ -25,7 +25,7 @@
 	rr:predicateObjectMap [
 		rr:predicate rdfs:label ;
 		rr:objectMap [
-			rr:column "ENGLISH" ;
+			rr:column "EMAIL" ;
 		] ;
 	] ;
 
