@@ -337,7 +337,8 @@ class Refinements:
         # returns similar predicates from the vocabulary which caused the violation
         violation_value = self.validation_results[violation_identifier]["value"]
         select_placeholder = "Choose a new class"
-        query = """ PREFIX owl: <http://www.w3.org/2002/07/owl#>
+        query = """ 
+                    PREFIX owl: <http://www.w3.org/2002/07/owl#>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
                     PREFIX prov: <http://www.w3.org/ns/prov#> 
@@ -347,7 +348,7 @@ class Refinements:
                           ?classOnto a ?type . 
                           OPTIONAL { ?classOnto  rdfs:comment|skos:definition|prov:definition ?commentOnto . } 
                         #  FILTER(?type IN (owl:Class, rdfs:Class) && !isBlank(?classOnto) )
-                         FILTER(CONTAINS (LCASE(STR(?type)), 'class'  && !isBlank(?classOnto)  ))
+                         FILTER(CONTAINS (LCASE(STR(?type)),'class')  && !isBlank(?classOnto)  )
                          BIND(lang(?commentProperty) AS ?languageTag ) 
                          FILTER (?languageTag = 'en' || !bound(?languageTag))
                       }
@@ -360,9 +361,9 @@ class Refinements:
         result_bindings = query_results.get("results").values()
         for binding in result_bindings:
             for result in binding:
-                current_class = result["classOnto"]["value"]
+                current_class = result["classOnto"].get("value")
                 if "comment" in result:
-                    current_comment = result["comment"]["value"].split(".")[0] + "."
+                    current_comment = result["comment"].get("value").split(".")[0] + "."
                 else:
                     current_comment = "No class description in ontology."
                 classes.append((current_class, current_comment))
@@ -619,20 +620,21 @@ class Refinements:
 
     def change_predicate(self, query_values, mapping_graph, violation_identifier):
         # new_predicate = self.get_user_input(query_values)
-        prefix_namespace = self.get_prefix_value(query_values.get("PREFIX"))
-        remaining_identifier = query_values.get(list(query_values.keys())[1])
-        new_predicate = prefix_namespace + remaining_identifier
-        self.mapping_graph.bind(query_values.get("PREFIX"), prefix_namespace)
+        # prefix_namespace = self.get_prefix_value(query_values.get("PREFIX"))
+        # remaining_identifier = query_values.get(list(query_values.keys())[1])
+        # new_predicate = prefix_namespace + remaining_identifier
+        # self.mapping_graph.bind(query_values.get("PREFIX"), prefix_namespace)
+        new_predicate = self.get_user_input(query_values)
         if new_predicate:
             violation_information = self.validation_results.get(violation_identifier)
             violation_location = violation_information.get("location")
-            old_predicate = violation_information.get("value")
+            old_predicate = self.get_user_input(violation_information.get("value"))
             update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <%s>  .  }
-                INSERT {   ?pom rr:predicate <%s> .     }
+                DELETE {   ?pom rr:predicate %s  .  }
+                INSERT {   ?pom rr:predicate %s .     }
                 WHERE {
-                    ?pom rr:predicate <%s>  .
+                    ?pom rr:predicate %s  .
                     FILTER(str(?pom) = "%s").
                 }
                 """ % (old_predicate, new_predicate, old_predicate, violation_location)
@@ -825,22 +827,40 @@ class Refinements:
         mapping_graph.update(update_query)
         return update_query
 
-    @staticmethod
-    def get_user_input(query_values):
+    def get_user_input(self, query_values):
         # parsing user input for refinement SPARQL query
         if isinstance(query_values, URIRef):
             return "<%s>" % query_values
-        values = list(query_values.values())[0]
-        if values[0] == "<" and values[-1] == ">":
-            return values
-        elif "<" not in values or ">" not in values:
-            return "<%s>" % values
-        elif ">" in values and "<" in values:
-            values = values.replace("<", "")
-            values = values.replace(">", "")
-            return "<%s>" % values
+        # values = list(query_values.values())[0]
+        if isinstance(query_values, dict):
+            print(query_values, "jdd")
+            prefix_namespace = self.get_prefix_value(query_values.get("PREFIX", ""))
+            identifier_key = [key for key in query_values.keys() if key != "PREFIX"][0]
+            remaining_identifier = query_values.get(identifier_key)
+            if remaining_identifier and prefix_namespace:
+                full_identifier = prefix_namespace + remaining_identifier
+                self.mapping_graph.bind(query_values.get("PREFIX")[:-1], prefix_namespace)
+            elif prefix_namespace:
+                full_identifier = prefix_namespace
+                self.mapping_graph.bind(query_values.get("PREFIX")[:-1], prefix_namespace)
+            else:
+                full_identifier = remaining_identifier
+            return "<%s>" % full_identifier
+            # # new_predicate = prefix_namespace + remaining_identifier
+            # # self.mapping_graph.bind(query_values.get("PREFIX"), prefix_namespace)
+            # exit()
         else:
-            return "<%s>" % values
+            return "'%s'" % query_values
+        # if values[0] == "<" and values[-1] == ">":
+        #     return values
+        # elif "<" not in values or ">" not in values:
+        #     return "<%s>" % values
+        # elif ">" in values and "<" in values:
+        #     values = values.replace("<", "")
+        #     values = values.replace(">", "")
+        #     return "<%s>" % values
+        # else:
+        #     return "'%s'" % values
 
     def get_violation_value(self, violation_identifier):
         violation_value = self.validation_results[violation_identifier]["value"]

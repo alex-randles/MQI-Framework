@@ -60,15 +60,14 @@ class VisualiseResults:
                 dimension_counts[dimension_name]["violations"].append("Violation {}".format(violation))
         return dimension_counts
 
-
     @staticmethod
     def chart_dimensions(validation_result):
         # Creates the chart which show violation counts to there dimensions
         dimension_counts = VisualiseResults.create_violation_counts(validation_result)
         df = pd.DataFrame(columns=["Quality Dimensions", "Violation Count", "Violations"])
         for dimension in dimension_counts:
-            violation_count = dimension_counts[dimension]["count"]
-            violations = dimension_counts[dimension]["violations"]
+            violation_count = dimension_counts[dimension].get("count")
+            violations = dimension_counts[dimension].get("violations")
             new_row = {"Quality Dimensions": dimension, "Violation Count":violation_count,
                        "Violations": " ".join(violations)}
             df = df.append(new_row, ignore_index=True)

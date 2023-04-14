@@ -27,7 +27,7 @@
     }
     window.onload = hideQualityInformation;
 
-    // validate atleast one refinement selected for execution
+// validate atleast one refinement selected for execution
 function validateRefinementExecution() {
     var checkboxs = document.querySelectorAll("input[type='checkbox']");
     var box_checked = false;
@@ -151,10 +151,6 @@ function validateRefinementExecution() {
                 </div>
 
                 <label for={{form_value}}><b>Property: {{find_prefix(value)}} </b>
-                    <!--                                 <a class="tags"-->
-                    <!--                                    gloss="The refinement you have selected for this violation.">-->
-                    <!--                                     <i class="fa fa-info-circle info-button">-->
-                    <!--                                     </i></a>-->
                 </label>
                 <select  style="width:100%" name={{prefix_value}} id={{prefix_value}} required>
                     <option value="" disabled selected>Choose a prefix </option>
