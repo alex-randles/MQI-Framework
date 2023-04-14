@@ -84,6 +84,28 @@
                                         </div>
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
+
+                                                <form style="" method="POST" action=".">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <select class="form-select" name="new-reference-selected" style="background-color: #E6EEF7; width:10%;" aria-label="Default select example">
+                                                                <option selected>Replace with new reference</option>
+                                                                {% for change, values in mapping_impact.get("structural_changes").items() %}
+                                                                {% set new_references = values.keys()|list %}
+                                                                {% if new_references %}
+                                                                <option value="1">{{new_references[0]}}</option>
+                                                                {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <input type="submit" class="btn btn-secondary"/>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+
+
                                                 <strong>Values</strong>
                                                 {% if values|length > 0 %}
                                                 <ul class="list-group">
@@ -103,7 +125,7 @@
 
                                     {% endfor %}
                                     {% else %}
-                                        No changes
+                                    No changes
                                     {% endif %}
 
 
@@ -126,13 +148,13 @@
     </div>
 
 </div>
-  {% set accordion_counter.value = accordion_counter.value + 1 %}
-    {% endfor %}
+{% set accordion_counter.value = accordion_counter.value + 1 %}
+{% endfor %}
 
-    <script>
+<script>
     $('.collapse').collapse()
 </script>
-    {% endblock %}
+{% endblock %}
 </body>
 </html>
 
