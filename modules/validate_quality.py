@@ -40,7 +40,7 @@ class ValidateQuality:
         self.triple_maps = self.parsed_mapping.triple_map_graphs
         self.mapping_graph = self.parsed_mapping.mapping_graph
         self.triple_references = self.create_triple_references()
-        self.namespaces = {prefix:namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
+        self.namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.vocabularies = FetchVocabularies(file_name)
         # mainly used for vocabulary metrics
         excluded_namespaces = ["http://ontology.openfit.org#",
@@ -251,7 +251,7 @@ class ValidateQuality:
                 self.add_violation(metric_result)
 
     def validate_D4(self):
-        # A function to validate the prescence of query parameters in URIs
+        # A function to validate the presence of query parameters in URIs
         result_message = "Query parameters in URI."
         metric_identifier = "D4"
         query = """SELECT ?object ?subject
@@ -269,7 +269,7 @@ class ValidateQuality:
     def validate_D5(self):
         # A function to validate the usage of disjoint classes
         classes_and_subjects = self.get_classes()
-        # a list of only class IRI's
+        # a list of only class IRIs
         classes = [values["class"] for values in classes_and_subjects.values()]
         metric_identifier = "D5"
         # more than one class is needed to be disjoint
@@ -316,7 +316,7 @@ class ValidateQuality:
         sub_types = [URIRef("http://www.w3.org/2001/XMLSchema#long"),
                      URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
                      URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
-                     URIRef("http://www.w3.org/2001/XMLSchema#integer"),]
+                     URIRef("http://www.w3.org/2001/XMLSchema#integer")]
         if range in sub_types and datatype in sub_types:
             return True
         return False
@@ -575,24 +575,25 @@ class ValidateQuality:
         result_message = "Language tag not defined in RFC 5646."
         metric_identifier = "MP12"
         language_tags = (
-        'af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY', 'ar-MA',
-        'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg', 'bg-BG',
-        'bs-BA', 'ca', 'ca-ES', 'cs', 'cs-CZ', 'cy', 'cy-GB', 'da', 'da-DK', 'de', 'de-AT', 'de-CH', 'de-DE', 'de-LI',
-        'de-LU', 'dv', 'dv-MV', 'el', 'el-GR', 'en', 'en-AU', 'en-BZ', 'en-CA', 'en-CB', 'en-GB', 'en-IE', 'en-JM',
-        'en-NZ', 'en-PH', 'en-TT', 'en-US', 'en-ZA', 'en-ZW', 'eo', 'es', 'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR',
-        'es-DO', 'es-EC', 'es-ES', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV',
-        'es-UY', 'es-VE', 'et', 'et-EE', 'eu', 'eu-ES', 'fa', 'fa-IR', 'fi', 'fi-FI', 'fo', 'fo-FO', 'fr', 'fr-BE',
-        'fr-CA', 'fr-CH', 'fr-FR', 'fr-LU', 'fr-MC', 'gl', 'gl-ES', 'gu', 'gu-IN', 'he', 'he-IL', 'hi', 'hi-IN', 'hr',
-        'hr-BA', 'hr-HR', 'hu', 'hu-HU', 'hy', 'hy-AM', 'id', 'id-ID', 'is', 'is-IS', 'it', 'it-CH', 'it-IT', 'ja',
-        'ja-JP', 'ka', 'ka-GE', 'kk', 'kk-KZ', 'kn', 'kn-IN', 'ko', 'ko-KR', 'kok', 'kok-IN', 'ky', 'ky-KG', 'lt',
-        'lt-LT', 'lv', 'lv-LV', 'mi', 'mi-NZ', 'mk', 'mk-MK', 'mn', 'mn-MN', 'mr', 'mr-IN', 'ms', 'ms-BN', 'ms-MY',
-        'mt', 'mt-MT', 'nb', 'nb-NO', 'nl', 'nl-BE', 'nl-NL', 'nn-NO', 'ns', 'ns-ZA', 'pa', 'pa-IN', 'pl', 'pl-PL',
-        'ps', 'ps-AR', 'pt', 'pt-BR', 'pt-PT', 'qu', 'qu-BO', 'qu-EC', 'qu-PE', 'ro', 'ro-RO', 'ru', 'ru-RU', 'sa',
-        'sa-IN', 'se', 'se-FI', 'se-NO', 'se-SE', 'sk', 'sk-SK', 'sl', 'sl-SI', 'sq', 'sq-AL', 'sr-BA', 'sr-Cyrl-BA',
-        'sr-SP', 'sr-Cyrl-SP', 'sv', 'sv-FI', 'sv-SE', 'sw', 'sw-KE', 'syr', 'syr-SY', 'ta', 'ta-IN', 'te', 'te-IN',
-        'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur', 'ur-PK',
-        'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW',
-        'zu', 'zu-ZA')
+                'af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY', 'ar-MA',
+                'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg', 'bg-BG',
+                'bs-BA', 'ca', 'ca-ES', 'cs', 'cs-CZ', 'cy', 'cy-GB', 'da', 'da-DK', 'de', 'de-AT', 'de-CH', 'de-DE', 'de-LI',
+                'de-LU', 'dv', 'dv-MV', 'el', 'el-GR', 'en', 'en-AU', 'en-BZ', 'en-CA', 'en-CB', 'en-GB', 'en-IE', 'en-JM',
+                'en-NZ', 'en-PH', 'en-TT', 'en-US', 'en-ZA', 'en-ZW', 'eo', 'es', 'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR',
+                'es-DO', 'es-EC', 'es-ES', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV',
+                'es-UY', 'es-VE', 'et', 'et-EE', 'eu', 'eu-ES', 'fa', 'fa-IR', 'fi', 'fi-FI', 'fo', 'fo-FO', 'fr', 'fr-BE',
+                'fr-CA', 'fr-CH', 'fr-FR', 'fr-LU', 'fr-MC', 'gl', 'gl-ES', 'gu', 'gu-IN', 'he', 'he-IL', 'hi', 'hi-IN', 'hr',
+                'hr-BA', 'hr-HR', 'hu', 'hu-HU', 'hy', 'hy-AM', 'id', 'id-ID', 'is', 'is-IS', 'it', 'it-CH', 'it-IT', 'ja',
+                'ja-JP', 'ka', 'ka-GE', 'kk', 'kk-KZ', 'kn', 'kn-IN', 'ko', 'ko-KR', 'kok', 'kok-IN', 'ky', 'ky-KG', 'lt',
+                'lt-LT', 'lv', 'lv-LV', 'mi', 'mi-NZ', 'mk', 'mk-MK', 'mn', 'mn-MN', 'mr', 'mr-IN', 'ms', 'ms-BN', 'ms-MY',
+                'mt', 'mt-MT', 'nb', 'nb-NO', 'nl', 'nl-BE', 'nl-NL', 'nn-NO', 'ns', 'ns-ZA', 'pa', 'pa-IN', 'pl', 'pl-PL',
+                'ps', 'ps-AR', 'pt', 'pt-BR', 'pt-PT', 'qu', 'qu-BO', 'qu-EC', 'qu-PE', 'ro', 'ro-RO', 'ru', 'ru-RU', 'sa',
+                'sa-IN', 'se', 'se-FI', 'se-NO', 'se-SE', 'sk', 'sk-SK', 'sl', 'sl-SI', 'sq', 'sq-AL', 'sr-BA', 'sr-Cyrl-BA',
+                'sr-SP', 'sr-Cyrl-SP', 'sv', 'sv-FI', 'sv-SE', 'sw', 'sw-KE', 'syr', 'syr-SY', 'ta', 'ta-IN', 'te', 'te-IN',
+                'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur', 'ur-PK',
+                'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW',
+                'zu', 'zu-ZA'
+        )
         language_tags = tuple([tag.lower() for tag in language_tags])
         query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#>
@@ -627,19 +628,6 @@ class ValidateQuality:
                                       "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
                                       "skosxl:literalForm", "rdfs:comment",
                                       "schema:description", "schema:description", "foaf:name"]
-            # query = "" \
-            #         "    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" \
-            #             "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" \
-            #             "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
-            #             "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
-            #             "PREFIX ct: <http://data.linkedct.org/resource/linkedct/> \n" \
-            #             "PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \n" \
-            #             "PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> \n" \
-            #             "PREFIX schema: <http://schema.org/> \n" \
-            #             "PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> \n" \
-            #             "ASK { GRAPH <%s> { <%s> %s ?label } } " % (namespace, class_identifier, "|".join(human_label_predicates))
-            # print(query)
-            # exit()
             query = """
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -671,7 +659,6 @@ class ValidateQuality:
         result_message = "No domain definition or range definition."
         for key in list(self.properties):
             property_identifier = self.properties[key].get("property")
-            subject_identifier = self.properties[key].get("subject")
             namespace = self.get_namespace(property_identifier)
             query = """
                        PREFIX dcam: <http://purl.org/dc/dcam/> 
@@ -802,11 +789,11 @@ class ValidateQuality:
                         triple_map_triples[IRI][p] = [o]
                 else:
                     # for values not relating to blank nodes such as #ORGANISATIONOFOFFICE rr:predicate foaf:Agent
-                    not_bNode_key = "not_bNode"
-                    if not_bNode_key in triple_map_triples[IRI].keys():
-                        triple_map_triples[IRI][not_bNode_key].append((p, o))
+                    not_blank_node_key = "not_blank_node"
+                    if not_blank_node_key in triple_map_triples[IRI].keys():
+                        triple_map_triples[IRI][not_blank_node_key].append((p, o))
                     else:
-                        triple_map_triples[IRI][not_bNode_key] = [(p, o)]
+                        triple_map_triples[IRI][not_blank_node_key] = [(p, o)]
         return triple_map_triples
 
     @staticmethod
@@ -817,21 +804,20 @@ class ValidateQuality:
             return int(match)
         return int(0)
 
-    def sort_bNodes(self, bNodes_values):
-        # takes list similar to this  [rdflib.term.BNode('ub1bL306C24'), rdflib.term.BNode('ub1bL317C24')]
-        # order by which blank node  appeared first
-        add_identifier = [(bNode, self.find_identifier(bNode)) for bNode in bNodes_values]
-        sorted_bNode = sorted(add_identifier, key=lambda x: x[1])
-        remove_identifier = [bNode for (bNode, _) in sorted_bNode]
+    def sort_blank_nodes(self, blank_nodes_values):
+        # A function to order the blank nodes for preserving mapping layout
+        add_identifier = [(blank_node, self.find_identifier(blank_node)) for blank_node in blank_nodes_values]
+        sorted_blank_node = sorted(add_identifier, key=lambda x: x[1])
+        remove_identifier = [blank_node for (blank_node, _) in sorted_blank_node]
         return remove_identifier
 
     def order_triple_maps_triples(self, triple_references):
         # will order triples based on the blank node identifier assigned
         for (triple_map, values) in triple_references.items():
-            for (predicate, bNodes) in values.items():
-                if predicate != "not_bNode":
-                    sorted_bNodes = self.sort_bNodes(bNodes)
-                    triple_references[triple_map][URIRef(predicate)] = sorted_bNodes
+            for (predicate, blank_nodes) in values.items():
+                if predicate != "not_blank_node":
+                    sorted_blank_nodes = self.sort_blank_nodes(blank_nodes)
+                    triple_references[triple_map][URIRef(predicate)] = sorted_blank_nodes
         return triple_references
 
     def create_triple_references(self):
@@ -842,29 +828,29 @@ class ValidateQuality:
     def find_violation_location(self, violation_identifier):
         # A function which returns the triple map and the location within it
         for (triple_map, values) in self.triple_references.items():
-            for (predicate, bNodes_values) in self.triple_references[triple_map].items():
-                if violation_identifier in bNodes_values:
-                    location_num = bNodes_values.index(violation_identifier) + 1
+            for (predicate, blank_nodes_values) in self.triple_references[triple_map].items():
+                if violation_identifier in blank_nodes_values:
+                    location_num = blank_nodes_values.index(violation_identifier) + 1
                     violation_location = self.format_user_location(predicate, location_num)
                     return  violation_location
-                elif self.violation_is_object(bNodes_values, violation_identifier):
-                    bNode = self.violation_is_object(bNodes_values, violation_identifier)
-                    location_num = bNodes_values.index(bNode) + 1
+                elif self.violation_is_object(blank_nodes_values, violation_identifier):
+                    blank_node = self.violation_is_object(blank_nodes_values, violation_identifier)
+                    location_num = blank_nodes_values.index(blank_node) + 1
                     violation_location = self.format_user_location(predicate, location_num)
                     return  violation_location
 
-    def violation_is_object(self, bNode_values, violation_identifier):
+    def violation_is_object(self, blank_node_values, violation_identifier):
         # since we only store blank nodes for logical table, subjectMap, predicateObjectMap
         # this function can tell if the violation is within these
-        for bNode in bNode_values:
-            for (s, p, o) in self.mapping_graph.triples((bNode, None, None)):
+        for blank_node in blank_node_values:
+            for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
                 if o == violation_identifier:
-                    return bNode
+                    return blank_node
                 # if the violation is contained with a join condition for example
                 elif isinstance(o, BNode):
                     for (s, p, o) in self.mapping_graph.triples((o, None, None)):
                         if o == violation_identifier:
-                            return bNode
+                            return blank_node
 
     def format_user_location(self, predicate, location_num):
         # ( http://www.w3.org/ns/r2rml#predicateObjectMap , 1) -> predicateObjectMap1
