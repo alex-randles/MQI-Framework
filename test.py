@@ -5,6 +5,8 @@ from collections import defaultdict
 import requests
 version_1 = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0001a-XML/student.xml"
 version_2 = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0009a-XML/student.xml"
+version_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/student.xml"
+version_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/student.xml"
 version_1 = requests.get(version_1).text
 version_2 = requests.get(version_2).text
 def detect_xml_changes(version_1, version_2):
@@ -22,8 +24,8 @@ def detect_xml_changes(version_1, version_2):
 def format_XML_changes():
     tree = ET.parse("diff.xml")
     root = tree.getroot()
-    print(ET.tostring(tree, encoding='unicode'))
-    exit()
+    # print(ET.tostring(tree, encoding='unicode'))
+    # exit()
     insert_tag = "{http://namespaces.shoobx.com/diff}insert"
     result = ""
     results = defaultdict(list)
@@ -32,13 +34,8 @@ def format_XML_changes():
     # print([elem.text for elem in root.iter() if elem.tag == "Name"])
     # exit()
     excluded_tags = ["{http://namespaces.shoobx.com/diff}insert", "{http://namespaces.shoobx.com/diff}delete"]
-    tags = list(set([elem.tag for elem in root.iter() if elem.tag not in excluded_tags]))
-    results = defaultdict(list)
-    for current_tag in tags:
-        changed_values = [elem.text for elem in root.iter() if elem.tag == current_tag]
-        if changed_values:
-            results[current_tag] = changed_values
-    print(results)
+    for elem in tree.iter():
+         print(elem.tag, elem.text)
 
 
 detect_xml_changes(version_1, version_2)

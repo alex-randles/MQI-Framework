@@ -36,7 +36,7 @@ class TurtleSerializer:
         for triple_map in self.triple_references:
             blank_node_identifiers = []
             for predicate, identifiers in self.triple_references[triple_map].items():
-                if predicate != "not_bNode":
+                if predicate != "not_blank_node":
                     blank_node_identifiers.append(identifiers)
             lowest_identifier = [self.find_identifier(str(identifier)) for identifier in blank_node_identifiers]
             lowest_identifier = min(lowest_identifier, default=0)
@@ -56,8 +56,8 @@ class TurtleSerializer:
         # add triple map IRI to output file
         self.output += "\n%s\n" % (self.get_triple_map_name(triple_map_identifier))
         triple_map_values = self.triple_references[triple_map_identifier]
-        self.add_non_bNodes(triple_map_values)
-        self.add_bNodes(triple_map_values)
+        self.add_non_blank_nodes(triple_map_values)
+        self.add_blank_nodes(triple_map_values)
         self.output += ".\n"
         self.format_final_output()
 
@@ -66,15 +66,15 @@ class TurtleSerializer:
         final_output = "\t\n".join(self.output.split("\n"))
         self.write_to_file(final_output)
 
-    def add_non_bNodes(self, triple_map_values):
+    def add_non_blank_nodes(self, triple_map_values):
         # values which relate single triples not blank nodes
-        # e.g {'not_bNode': [(rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), rdflib.term.URIRef('http://www.w3.org/ns/r2rml#TriplesMap'))]
-        non_bNode_key = "not_bNode"
-        if non_bNode_key in triple_map_values.keys():
-            for (predicate, object) in triple_map_values[non_bNode_key]:
+        # e.g {'not_blank_node': [(rdflib.term.URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), rdflib.term.URIRef('http://www.w3.org/ns/r2rml#TriplesMap'))]
+        non_blank_node_key = "not_blank_node"
+        if non_blank_node_key in triple_map_values.keys():
+            for (predicate, object) in triple_map_values[non_blank_node_key]:
                 self.output = self.output + self.format_identifier(predicate) + self.format_identifier(object) + ";\n"
 
-    def add_bNodes(self, triple_map_values):
+    def add_blank_nodes(self, triple_map_values):
         # rml mappings define source differently
         rml_mapping_test = self.RML.logicalSource in self.mapping_graph.predicates(None, None)
         # the order we want the output mapping in
@@ -86,19 +86,19 @@ class TurtleSerializer:
         # exit()
         for predicate in mapping_ordering:
             if predicate in triple_map_values.keys():
-                bNodes = triple_map_values[predicate]
-                self.iterate_triples(predicate, bNodes)
+                blank_nodes = triple_map_values[predicate]
+                self.iterate_triples(predicate, blank_nodes)
 
     # iterate triples with inline predicates e.g rr:class foaf:Person, foaf:Agent;
-    def new_iterate_triples(self, predicate, bNodes):
+    def new_iterate_triples(self, predicate, blank_nodes):
         # (http://www.w3.org/ns/r2rml#logicalTable [rdflib.term.BNode('ub2bL391C18')] )
         # iterates through each values related to predicates
         count = 0
         values = {}
-        for bNode in bNodes:
-            bNode_objects = []
+        for blank_node in blank_nodes:
+            blank_node_objects = []
             self.output += "\n" + self.format_identifier(predicate) + "[ \n "
-            for (s, p, o) in self.mapping_graph.triples((bNode, None, None)):
+            for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
                 if not isinstance(o, BNode):
                     # print("line 69", p, o, count)
                     count += 1
@@ -109,31 +109,31 @@ class TurtleSerializer:
                         values[p] = values[p] + [o]
                     self.output += "\t" + self.format_identifier(p) + self.format_identifier(o) + ";\n"
                 elif isinstance(o, BNode):
-                    bNode_objects.append(o)
+                    blank_node_objects.append(o)
             if count == 0:
                 print(values)
             values = {}
-            self.add_bNode_objects(bNode_objects)
+            self.add_blank_node_objects(blank_node_objects)
             self.output += " ];\n"
 
-    def iterate_triples(self, predicate, bNodes):
+    def iterate_triples(self, predicate, blank_nodes):
         # (http://www.w3.org/ns/r2rml#logicalTable [rdflib.term.BNode('ub2bL391C18')] )
         # iterates through each values related to predicates
-        for bNode in bNodes:
-            bNode_objects = []
-            non_bNode_objects = []
+        for blank_node in blank_nodes:
+            blank_node_objects = []
+            non_blank_node_objects = []
             self.output += "\n" + self.format_identifier(predicate) + " [ \n "
-            for (s, p, o) in self.mapping_graph.triples((bNode, None, None)):
+            for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
                 if not isinstance(o, BNode):
-                    non_bNode_objects.append((p,o))
+                    non_blank_node_objects.append((p,o))
                 elif isinstance(o, BNode):
-                    bNode_objects.append(o)
+                    blank_node_objects.append(o)
                 print(s,p,o, "chhchdfhf")
-            self.add_non_bNode_objects(non_bNode_objects)
-            self.add_bNode_objects(bNode_objects)
+            self.add_non_blank_node_objects(non_blank_node_objects)
+            self.add_blank_node_objects(blank_node_objects)
             self.output += " ];\n"
 
-    def add_non_bNode_objects(self, predicate_objects):
+    def add_non_blank_node_objects(self, predicate_objects):
         self.group_objects(predicate_objects)
 
     def group_objects(self, predicate_objects):
@@ -154,37 +154,37 @@ class TurtleSerializer:
                 self.output += "\t" * self.tab_count + self.format_identifier(predicate)
                 self.output += ",".join([self.format_identifier(object) for object in grouped_objects[predicate]]) + ";\n"
 
-    def display_violation(self, bNode, triple_map, violation_value):
+    def display_violation(self, blank_node, triple_map, violation_value):
         try:
             self.output = ""
-            bNode = BNode(bNode)
-            subject = list(self.mapping_graph.subjects(None, bNode))[0]
+            blank_node = BNode(blank_node)
+            subject = list(self.mapping_graph.subjects(None, blank_node))[0]
             # if violation is in a objectMap, display the predicateObjectMap aswell
             if isinstance(subject, BNode):
-                bNodes = [subject]
+                blank_nodes = [subject]
             else:
-                bNodes = [bNode]
+                blank_nodes = [blank_node]
             self.output += self.format_identifier(triple_map)
-            predicate = list(self.mapping_graph.predicates(None, bNodes[0]))[0]
+            predicate = list(self.mapping_graph.predicates(None, blank_nodes[0]))[0]
             # (http://www.w3.org/ns/r2rml#logicalTable [rdflib.term.BNode('ub2bL391C18')] )
             # iterates through each values related to predicates
-            for current_bNode in bNodes:
-                bNode_objects = []
+            for current_blank_node in blank_nodes:
+                blank_node_objects = []
                 self.output += "\n" + self.format_identifier(predicate) + " [ \n "
                 # remove duplicate predicates
-                predicates = list(set(self.mapping_graph.predicates(current_bNode, None)))
+                predicates = list(set(self.mapping_graph.predicates(current_blank_node, None)))
                 # iterate each predicate and if more than object for a predicate join with "," and end with ";"s if not a blank node
                 for current_predicate in predicates:
-                    non_bNode_objects = [self.format_identifier(object) for object in list(self.mapping_graph.objects(current_bNode, current_predicate)) if
+                    non_blank_node_objects = [self.format_identifier(object) for object in list(self.mapping_graph.objects(current_blank_node, current_predicate)) if
                                          not isinstance(object, BNode)]
-                    current_bNode_objects = [object for object in list(self.mapping_graph.objects(current_bNode, current_predicate)) if
+                    current_blank_node_objects = [object for object in list(self.mapping_graph.objects(current_blank_node, current_predicate)) if
                                      isinstance(object, BNode)]
-                    if non_bNode_objects:
-                        self.output += "\t" + self.format_identifier(current_predicate) + " " + ", ".join(non_bNode_objects) + "; \n "
-                    elif current_bNode_objects:
-                        bNode_objects += current_bNode_objects
+                    if non_blank_node_objects:
+                        self.output += "\t" + self.format_identifier(current_predicate) + " " + ", ".join(non_blank_node_objects) + "; \n "
+                    elif current_blank_node_objects:
+                        blank_node_objects += current_blank_node_objects
                 # iterate through the blank node objects last e.g objectMap
-                self.add_bNode_objects(bNode_objects)
+                self.add_blank_node_objects(blank_node_objects)
                 self.output += " ];\n"
             return self.output.split("\n")
         except:
@@ -197,48 +197,48 @@ class TurtleSerializer:
         # change to red color
         formatted_value = '***** %s *****' % (value)
 
-    def add_bNode_objects(self, bNode_objects):
+    def add_blank_node_objects(self, blank_node_objects):
         # blank nodes with blank nodes as object such as predicateObjectMap with object maps
-        for bNode in bNode_objects:
+        for blank_node in blank_node_objects:
             # e.g rr:objectMap
-            predicate = list(self.mapping_graph.predicates(None, bNode))[0]
+            predicate = list(self.mapping_graph.predicates(None, blank_node))[0]
             self.output += "\t" + self.format_identifier(predicate) + " [\n"
-            new_bNode_objects = []
+            new_blank_node_objects = []
             self.tab_count = 2
-            non_bNodes = []
+            non_blank_nodes = []
             # while their are no more blank node objects to iterate
             while True:
-                for (s, p, o) in self.mapping_graph.triples((bNode, None, None)):
+                for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
                     if not isinstance(o, BNode):
-                        non_bNodes.append((p,o))
+                        non_blank_nodes.append((p,o))
                         # self.output += "\t" * self.tab_count + self.format_identifier(p) + self.format_identifier(o) + ";\n"
                     elif isinstance(o, BNode):
-                        new_bNode_objects.append(o)
-                self.add_non_bNode_objects(non_bNodes)
+                        new_blank_node_objects.append(o)
+                self.add_non_blank_node_objects(non_blank_nodes)
                 # if the blank node subject has blank node as object
-                if new_bNode_objects:
-                    # for new_bNode in new_bNode_objects:
-                    #     predicate = list(self.mapping_graph.predicates(None, new_bNode))[0]
+                if new_blank_node_objects:
+                    # for new_blank_node in new_blank_node_objects:
+                    #     predicate = list(self.mapping_graph.predicates(None, new_blank_node))[0]
                     #     self.output += "\t" * self.tab_count + self.format_identifier(predicate) + " [\n"
                     #     self.tab_count += 1
-                    #     for (s, p, o) in self.mapping_graph.triples((new_bNode, None, None)):
+                    #     for (s, p, o) in self.mapping_graph.triples((new_blank_node, None, None)):
                     #         self.output += "\t" * self.tab_count + self.format_identifier(p) + self.format_identifier(o) + ";\n"
                     #     self.output += "\t" * self.tab_count + " ];\n "
 
-                    while new_bNode_objects:
-                        current_bNode = new_bNode_objects[0]
-                        predicate = list(self.mapping_graph.predicates(None, current_bNode))[0]
+                    while new_blank_node_objects:
+                        current_blank_node = new_blank_node_objects[0]
+                        predicate = list(self.mapping_graph.predicates(None, current_blank_node))[0]
                         self.output += "\t" * self.tab_count + self.format_identifier(predicate) + " [\n"
                         self.tab_count += 1
-                        non_bNodes = []
-                        for (s, p, o) in self.mapping_graph.triples((current_bNode, None, None)):
+                        non_blank_nodes = []
+                        for (s, p, o) in self.mapping_graph.triples((current_blank_node, None, None)):
                             if not isinstance(o, BNode):
-                                non_bNodes.append((p,o))
+                                non_blank_nodes.append((p,o))
                                 # self.output += "\t" * self.tab_count + self.format_identifier(p) + self.format_identifier(o) + ";\n"
                             else:
-                                new_bNode_objects.append(o)
-                        new_bNode_objects.pop(0)
-                        self.add_non_bNode_objects(non_bNodes)
+                                new_blank_node_objects.append(o)
+                        new_blank_node_objects.pop(0)
+                        self.add_non_blank_node_objects(non_blank_nodes)
                         self.output += "\t" * self.tab_count + " ];\n "
                     break
                 else:

@@ -11,8 +11,7 @@ from rdflib.plugins.sparql.processor import processUpdate
 
 class ValidationReport:
 
-    def __init__(self, validation_results, output_file, mapping_file, form_data, timestamp):
-        self.timestamp = timestamp
+    def __init__(self, validation_results, output_file, mapping_file, form_data={}):
         self.output_file = output_file
         self.form_data = form_data
         self.mapping_file = mapping_file
