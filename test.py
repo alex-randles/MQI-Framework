@@ -1,5 +1,6 @@
 from xmldiff import main, formatting
 import xml.etree.ElementTree as ET
+from collections import defaultdict
 
 import requests
 version_1 = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0001a-XML/student.xml"
@@ -21,8 +22,23 @@ def detect_xml_changes(version_1, version_2):
 def format_XML_changes():
     tree = ET.parse("diff.xml")
     root = tree.getroot()
-    for child in root.iter():
-        print(child.tag, child.text.strip())
+    print(ET.tostring(tree, encoding='unicode'))
+    exit()
+    insert_tag = "{http://namespaces.shoobx.com/diff}insert"
+    result = ""
+    results = defaultdict(list)
+    # print([elem.text for elem in root.iter() if elem.tag == "ID"])
+    # print([elem.text for elem in root.iter() if elem.tag == "Sport"])
+    # print([elem.text for elem in root.iter() if elem.tag == "Name"])
+    # exit()
+    excluded_tags = ["{http://namespaces.shoobx.com/diff}insert", "{http://namespaces.shoobx.com/diff}delete"]
+    tags = list(set([elem.tag for elem in root.iter() if elem.tag not in excluded_tags]))
+    results = defaultdict(list)
+    for current_tag in tags:
+        changed_values = [elem.text for elem in root.iter() if elem.tag == current_tag]
+        if changed_values:
+            results[current_tag] = changed_values
+    print(results)
 
 
 detect_xml_changes(version_1, version_2)
