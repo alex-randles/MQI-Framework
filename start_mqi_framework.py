@@ -275,30 +275,35 @@ class API:
 
     # generate a html file with mapping impacted details
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
+    @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
-        mapping_graph = session.get("mapping_details").get(int(mapping_unique_id))
-        graph_id = int(graph_id.split(".")[0])
-        change_graph_details = session.get("graph_details").get(graph_id)
-        impact = DetectMappingImpact(mapping_graph, change_graph_details.get("filename"))
-        mapping_impact = impact.mapping_impact
-        change_template_colors = {
-            "insert": "success",
-            "delete": "danger",
-            "move": "primary",
-        }
-        change_type_banners = {
-            "insert": "Column inserted",
-            "delete": "Column deleted",
-            "move": "Source data moved",
-        }
-        mapping_filename = mapping_graph.get("filename")
-        return render_template("change_detection/mappings_impacted.html",
-                               change_template_colors=change_template_colors,
-                               mapping_id=mapping_unique_id,
-                               mapping_impact=mapping_impact,
-                               mapping_filename=mapping_filename,
-                               change_type_banners=change_type_banners,
-                               change_graph_details=change_graph_details)
+        if request.method == "GET":
+            mapping_graph = session.get("mapping_details").get(int(mapping_unique_id))
+            graph_id = int(graph_id.split(".")[0])
+            change_graph_details = session.get("graph_details").get(graph_id)
+            impact = DetectMappingImpact(mapping_graph, change_graph_details.get("filename"))
+            mapping_impact = impact.mapping_impact
+            change_template_colors = {
+                "insert": "success",
+                "delete": "danger",
+                "move": "primary",
+            }
+            change_type_banners = {
+                "insert": "Column inserted",
+                "delete": "Column deleted",
+                "move": "Source data moved",
+            }
+            mapping_filename = mapping_graph.get("filename")
+            return render_template("change_detection/mappings_impacted.html",
+                                   change_template_colors=change_template_colors,
+                                   mapping_id=mapping_unique_id,
+                                   mapping_impact=mapping_impact,
+                                   mapping_filename=mapping_filename,
+                                   change_type_banners=change_type_banners,
+                                   change_graph_details=change_graph_details)
+        else:
+            print(request.form)
+            return "djdhdh"
 
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
