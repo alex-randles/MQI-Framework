@@ -200,20 +200,29 @@ function validateRefinementExecution() {
                 </div>
                 <b>Property: {{find_prefix(value)}}</b>
                 <label for={{form_value_3}}></label>
-                <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} style="width:100%" required>
+                <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} style="max-width:100%" required>
+
+<!--<input class="form-control w-100" onClick="document.getElementById('exampleDataList').click();console.log('djdjjd')" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">-->
+<!--<datalist id="datalistOptions" style="    font-weight: bold;" >-->
+  <optgroup>
                     {% for (placeholder, values) in restricted_values.items() %}
                     <option value="" disabled selected>{{placeholder}}</option>
                     {% for value in values %}
                     {% if value is iterable and (value is not string and value is not mapping) %}
-                    <option value={{value[0]}}>{{find_prefix(value[0])}}</option>
-                    <option disabled>{{ value[1] }} </option>
+                    <option class="font-weight" value={{value[0]}}>{{find_prefix(value[0])}}</option>
+                    <option disabled>{{ value[1] }}</option>
 
                     {% else %}
                     <option value={{value}}>{{find_prefix(value)}}</option>
                     {% endif %}
                     {% endfor %}
                     {% endfor  %}
+
+  </optgroup>
+<!--    </datalist>-->
                 </select>
+
+
                 {% endfor %}
             </td>
 
@@ -279,6 +288,12 @@ function validateRefinementExecution() {
     $(this).toggleClass('allChecked');
   })
 });
+</script>
+<script>
+function clickList() {
+    document.getElementById('exampleDataList').click();
+    console.log("djdjjd");
+}
 </script>
 <script>
 function selectAllRefinements() {

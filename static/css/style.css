@@ -212,3 +212,5 @@ input[type=submit] {
 .gray-out {
     opacity: 0.35;
 }
+
+optgroup { font-size:16px; }

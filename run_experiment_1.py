@@ -6,6 +6,13 @@ import multiprocessing
 jobs = []
 
 
+# mapping_file = "/home/alex/Desktop/Evaluation-1 (Validation Reports)/14 (Student-Mapping-2)/recipes-mapping.ttl"
+# t = ValidateQuality(mapping_file)
+# validation_results = t.validation_results
+# ValidationReport(validation_results, "validation_report.ttl", mapping_file)
+#
+# exit()
+
 def remove_reports():
     for file in os.listdir(directory):
         mapping_directory = os.fsdecode(file)
@@ -18,7 +25,7 @@ def remove_reports():
                 if file == "validation_report.ttl":
                     file_path = str_sub_directory + "/" + file
                     os.remove(file_path)
-exit()
+# exit()
 
 import os
 import sys
@@ -26,6 +33,10 @@ from rdflib import *
 import time
 import json
 directory = "/home/alex/Desktop/Evaluation-1 (Validation Reports)/"
+
+
+
+# exit()
 i = 0
 
 def validate_mapping(mapping_file ,output_file):
@@ -44,16 +55,18 @@ for file in os.listdir(directory):
         # print(str_sub_directory)
         files = os.listdir(str_sub_directory)
         for file in files:
-            if file.endswith(".ttl"):
+            if file.endswith(".ttl") and file != "validation_report.ttl":
                 mapping_file = str_sub_directory + "/" + file
                 output_file = str_sub_directory + "/validation_report.ttl"
-                process = multiprocessing.Process(target=validate_mapping, args=(mapping_file, output_file))
-                process.start()
-                jobs.append(process)
-                print(i)
+                print(mapping_file)
+                print(output_file)
+                t = ValidateQuality(mapping_file)
+                validation_results = t.validation_results
+                ValidationReport(validation_results, output_file, mapping_file)
+                break
 
-for j in jobs:
-    j.join()
+# for j in jobs:
+#     j.join()
 
 
 
