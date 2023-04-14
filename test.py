@@ -1,3 +1,11 @@
+from sematch.semantic.similarity import WordNetSimilarity
+wns = WordNetSimilarity()
+
+# Computing English word similarity using Li method
+print(wns.word_similarity('ID', 'City')) # 0.449327301063
+
+exit()
+
 from xmldiff import main, formatting
 import xml.etree.ElementTree as ET
 from collections import defaultdict

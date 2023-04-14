@@ -1,26 +1,29 @@
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
-@prefix ont: <http://ontologies.geohive.ie/osi#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix openfit: <http://ontology.openfit.org#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 
-<file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap1> rr:logicalTable [ rr:tableName "student.csv" ] ;
-    rr:predicateObjectMap [ rr:objectMap [ rr:column "Moved to a new location" ;
-                    rr:language "en" ] ;
-            rr:predicate rdfs:label ],
-        [ rr:objectMap [ rr:column "ENGLISH" ] ;
-            rr:predicate rdfs:label ],
-        [ rr:objectMap [ rr:column "GAEILGE" ;
-                    rr:language "ga" ] ;
-            rr:predicate rdfs:label ],
-        [ rr:objectMap [ rr:template "urn:osi:boundary:geom:{GUID}" ] ;
-            rr:predicate geo:hasGeometry ] ;
-    rr:subjectMap [ rr:class ont:ElectoralDivision,
-                geo:Feature ;
-            rr:template "http://data.geohive.ie/resource/electoral_division/{GUID}" ] .
+<file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#Exercise> a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery "SELECT Goal.id, Goal.description, Goal.type, Goal.type_id FROM loans-v1.csv" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:column "Married" ] ;
+            rr:predicate openfit:descriptions ] ;
+    rr:subjectMap [ rr:class openfit:CardioExercise,
+                openfit:StrengthExercise ;
+            rr:template "http://data.ontology.openfit.org#goal_{id}" ] .
 
-<file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap2> rr:logicalTable [ rr:tableName "ED_CBD2019_20M" ] ;
-    rr:predicateObjectMap [ rr:objectMap [ rr:column "GEOMETRY" ] ;
-            rr:predicate geo:asWKT ] ;
-    rr:subjectMap [ rr:class geo:Geometry ;
-            rr:template "urn:osi:boundary:geom:{GUID}" ] .
+<file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#MuscleGain> a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery "SELECT Goal.id,Goal.description,Goal.type,Goal.type_id, MuscleGainTargetMuscles.targetMuscle_id FROM (MuscleGain JOIN MuscleGainTargetMuscles ON (MuscleGain.id = MuscleGainTargetMuscles.muscleGain_id))JOIN Goal ON (Goal.type_id = MuscleGain.id) WHERE Goal.type = 'muscleGain'" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:joinCondition [ rr:child "targetMuscle_id" ;
+                            rr:parent "id" ] ;
+                    rr:parentTriplesMap <file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#TargetMuscle> ] ;
+            rr:predicate openfit:conditioning_id ] ;
+    rr:subjectMap [ rr:class openfit:MuscleGain ;
+            rr:template "http://data.ontology.openfit.org#goal_{id}" ] .
+
+<file:///home/alex/MQI-Framework/static/uploads/mappings/openfit-mapping_copy.ttl#TargetArea> a rr:TriplesMap ;
+    rr:logicalTable [ rr:sqlQuery "SELECT  * FROM TargetArea" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:column "Dependents" ] ;
+            rr:predicate openfit:target_area_id ],
+        [ rr:objectMap [ rr:column "name" ] ;
+            rr:predicate openfit:name ] ;
+    rr:subjectMap [ rr:class openfit:Target_Area ;
+            rr:template "http://data.ontology.openfit.org#target_area_{id}" ] .
 
