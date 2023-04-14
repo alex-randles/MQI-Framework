@@ -44,8 +44,7 @@ class ValidationReport:
         self.save_validation_report()
 
     def add_form_data(self):
-        # adding mapping information
-        # DEBUGGING - YOU WILL HAVE TO CHANGE IN REFINEMENTS
+        # A function to add additional metadata (creator and other agents)
         if self.form_data.get("add-information"):
             mapping_file_identifier = URIRef(self.mapping_file.split("/")[-1])
             self.validation_graph.add((URIRef(self.mapping_file.split("/")[-1]), RDF.type, self.MQIO.MappingArtefact))
@@ -133,14 +132,16 @@ class ValidationReport:
             formatted_identifier = triple_map_name
         return URIRef("%s" % formatted_identifier)
 
+
     def insert_triple_map(self, violation_information, current_violation_identifier):
-        triple_map_name = violation_information["triple_map"]
-        triple_map_identifier = self.format_triple_map_identifier(triple_map_name)
-        self.validation_graph.add((current_violation_identifier, self.MQIO.inTripleMap, triple_map_identifier))
+        triple_map_name = violation_information.get("triple_map")
+        if triple_map_name:
+            triple_map_identifier = self.format_triple_map_identifier(triple_map_name)
+            self.validation_graph.add((current_violation_identifier, self.MQIO.inTripleMap, triple_map_identifier))
 
     def insert_violation_value(self, violation_information, current_violation_identifier):
         # 'value': rdflib.term.URIRef('http://www.opengis.net/ont/geosparql#hasGeometry'),
-        violation_value = violation_information["value"]
+        violation_value = violation_information.get("value")
         print(violation_value, "violation value")
         # it could be none for example no parent column defined in join
         if violation_value:
@@ -177,9 +178,13 @@ class ValidationReport:
     def bind_mapping_namespaces(self):
         # bind the namespaces used in the original/refined mapping
         validation_report_namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
+        print("printing mapping namespaces....")
+        print(self.mapping_namespaces)
         for (prefix, namespace) in self.mapping_namespaces.items():
-            if (prefix, namespace) not in validation_report_namespaces.items():
-                self.validation_graph.bind(prefix, namespace)
+            self.validation_graph.bind(prefix, namespace)
+            print("adding namespace", prefix, namespace)
+        print("printed namespaces")
+
 
     def print_graph(self):
         print(self.validation_graph.serialize(format='turtle').decode('utf-8'))

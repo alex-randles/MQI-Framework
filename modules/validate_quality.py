@@ -56,7 +56,7 @@ class ValidateQuality:
                                ]
         self.unique_namespaces = list(set([namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in excluded_namespaces]))
         self.violation_counter = 0
-        # self.manager = multiprocessing.Manager()
+        self.manager = multiprocessing.Manager()
         self.validation_results = {}  # Shared Proxy to a list
         # self.validation_results.put({"a":2, "b": 2})
         # print(self.validation_results.get())
@@ -148,14 +148,17 @@ class ValidateQuality:
             self.classes = self.get_classes()
             self.validate_data_metrics()
             self.validate_term_map_metrics()
-            # pr2 = multiprocessing.Process(target=self.validate_data_metrics)
-            # pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
-            # pr1.start()
-            # pr2.start()
-            # pr1.join()
-            # pr2.join()
-            # processes.append(pr1)
+        #     pr2 = multiprocessing.Process(target=self.validate_data_metrics)
+        #     pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
+        #     pr1.start()
+        #     pr2.start()
+        #     # pr1.join()
+        #     # pr2.join()
+        #     processes.append(pr1)
+        # for job in processes:
+        #     job.join()
         self.validate_vocabulary_metrics()
+        # self.validation_results.join()
         return self.validation_results
 
     def validate_data_metrics(self):
@@ -175,11 +178,11 @@ class ValidateQuality:
         # self.validate_MP2()
         self.validate_MP3()
         self.validate_MP4()
+        self.validate_MP6()
 
     def validate_term_map_metrics(self):
         self.validate_MP1()
         self.validate_MP5()
-        self.validate_MP6()
         self.validate_MP7()
         self.validate_MP8()
         self.validate_MP9()

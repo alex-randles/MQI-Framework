@@ -25,7 +25,7 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class mo:MusicalExpression;	
+ 	 rr:class mo:Transcription, mo:MusicalWork;	
 	 rr:template "http://musicbrainz.org/work/{gid}#_" ;	
  ];	
 	

@@ -175,9 +175,8 @@ class API:
             violation_location = formatted_validation_result[violation_ID]["location"]
             new_location = cache_find_location(violation_location)
             formatted_validation_result[violation_ID]["location"] = new_location
-        timestamp = session.get("timestamp")
         ValidationReport(formatted_validation_result, cache_validation_report_file,
-                         cache_mapping_file, more_info_data, timestamp)
+                         cache_mapping_file, more_info_data)
 
     @staticmethod
     def split_camel_case(word):
@@ -490,33 +489,15 @@ class API:
                 if file and file_extension in app.config["allowed_file_extensions"]:
                     if API.validate_RDF(mapping_file):
                         try:
-                            print(mapping_file)
-                            current_time = time.gmtime()
-                            timestamp = str(calendar.timegm(current_time))
-                            session["timestamp"] = timestamp
                             assessment_result = ValidateQuality(mapping_file)
-
                             content = pickle.dumps(assessment_result)
-                            print(mapping_file)
                             session["assessment_result"] = content
                             validation_result = assessment_result.validation_results
-                            print(validation_result)
-                            i = 0
-                            new_results = defaultdict(dict)
-                            print("hdhdh")
-                            # i = 0
-                            # while i <= validation_result.qsize() + 1:
-                            #     new_results[i] = validation_result.get()
-                            #     i += 1
-                            # validation_result = new_results
                             session["validation_result"] = validation_result
                             triple_references = assessment_result.triple_references
                             session["triple_references"] = triple_references
                             more_info_data = request.form
                             session["more_info_data"] = more_info_data
-                            # if violations exist within validation result
-                            # print(validation_result.qsize())
-                            # exit()
                             if len(validation_result) > 0:
                                 participant_id = session.get("participant_id")
                                 validation_report_file = "validation_report-{}.ttl".format(participant_id)
@@ -531,8 +512,7 @@ class API:
                                 session["find_violation_location"] = find_violation_location
                                 detailed_metric_information = assessment_result.detailed_metric_information
                                 metric_descriptions = assessment_result.metric_descriptions
-                                session["refinements"] = Refinements(validation_result, triple_references,
-                                                                     mapping_graph)
+                                session["refinements"] = Refinements(validation_result, triple_references, mapping_graph)
                                 suggested_refinements = session["refinements"].provide_suggested_refinements()
                                 session["suggested_refinements"] = suggested_refinements
                                 refinement_descriptions = session["refinements"].refinement_descriptions
@@ -544,8 +524,7 @@ class API:
                                 get_triple_map_id = assessment_result.get_triple_map_id
                                 session["get_triple_map_id"] = get_triple_map_id
                                 participant_id = session["participant_id"]
-                                cache_validation_result = session.get("validation_result")
-                                bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
+                                bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"))
                                 session["bar_chart_html"] = bar_chart_html
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
