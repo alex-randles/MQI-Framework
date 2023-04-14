@@ -30,7 +30,7 @@
      rr:class xsd:test ; 
  ] ; 
  rr:predicateObjectMap [ 	
- 	 rr:predicate sioc:lyrics;	
+ 	 rr:predicate sioc:lyrics, "shhsh";	
 	 rr:objectMap [	
 		 rr:column "url" ;	
 		 rr:datatype xsd:string;	

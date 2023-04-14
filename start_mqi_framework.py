@@ -735,7 +735,7 @@ class API:
         return send_file(local_filename, attachment_filename=refined_mapping_filename, as_attachment=True,
                          cache_timeout=0)
 
-    @app.route("/return-refinement-report/", methods=['GET', 'POST'])
+    @app.route("/return-validation-report/", methods=['GET', 'POST'])
     def download_refinement_report():
         cache_validation_report_file = session.get("validation_report_file")
         participant_id = session.get("participant_id")
@@ -744,17 +744,16 @@ class API:
         # API.save_cache_file(validation_report_filename, validation_report_filename)
         return send_file(
             validation_report_filename,
-            attachment_filename="validation_report.ttl",
+            attachment_filename="validation-report.ttl",
             as_attachment=True, cache_timeout=0
         )
 
-    @app.route("/return-validation-report/", methods=['GET', 'POST'])
+    @app.route("/return-quality-report/", methods=['GET', 'POST'])
     def download_validation_report():
-        cache_validation_report_file = session.get("validation_report_file")
         participant_id = session.get("participant_id")
         quality_report_filename = "validation_report-{}.ttl".format(participant_id)
         return send_file(quality_report_filename,
-                         attachment_filename=quality_report_filename,
+                         attachment_filename="quality-report.ttl",
                          as_attachment=True, cache_timeout=0)
 
     @app.route("/return-sample-mapping/", methods=['GET', 'POST'])

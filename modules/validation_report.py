@@ -16,7 +16,6 @@ class ValidationReport:
         self.output_file = output_file
         self.form_data = form_data
         self.mapping_file = mapping_file
-        self.unique_report_identifier = self.create_unique_report_identifier()
         self.mapping_graph = Graph().parse(mapping_file, format="ttl")
         self.mapping_namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.validation_graph = Graph()
@@ -32,16 +31,6 @@ class ValidationReport:
         self.assessment_identifier = None
         self.create_validation_report()
 
-    def create_unique_report_identifier(self):
-        # A unique identifier created for each report
-        # mapping_name = self.mapping_file.split("/")[-1]
-        # current_report_number = self.get_current_report_number()
-        # report_identifier = "-" + mapping_name + "-" + str(current_report_number)
-        # current_time = time.gmtime()
-        # timestamp = calendar.timegm(current_time)
-        report_identifier = "-" + "testing"
-        return report_identifier
-
     def get_mapping_identifier(self):
         # A function that returns the mapping name with the full path
         mapping_file_identifier = URIRef(self.mapping_file.split("/")[-1])
@@ -52,9 +41,6 @@ class ValidationReport:
         validation_report_identifier = self.insert_validation_report()
         self.insert_assessment_information()
         self.iterate_violations(validation_report_identifier)
-        # add more information only if check box selected
-        # if "add-information" in self.form_data.keys():
-        #     self.add_form_data()
         self.add_form_data()
         self.save_validation_report()
 
@@ -87,21 +73,6 @@ class ValidationReport:
         current_time = Literal(datetime.utcnow(), datatype=XSD.dateTime)
         self.validation_graph.add((self.assessment_identifier, self.PROV.endedAtTime, current_time))
 
-    def add_report_time(self):
-        validation_report_identifier = self.EX.mappingValidationReport + "-0"
-        # time the mapping information was generated - prov:startedAtTime
-        current_time = Literal(datetime.utcnow(), datatype=XSD.dateTime)
-        self.validation_graph.add((validation_report_identifier, self.PROV.generatedAtTime, current_time))
-
-    def add_creation_date(self, mapping):
-        # the date the mapping was created - prov:generatedAtTime dateTime
-        mapping_creation_time = time.ctime(os.path.getctime(self.mapping_file))
-        creation_date_time_format = datetime.strptime(mapping_creation_time, "%a %b %d %H:%M:%S %Y")
-        creation_date_identifier = Literal(creation_date_time_format, datatype=XSD.dateTime)
-        # self.validation_graph.add((mapping, self.PROV.generatedAtTime, creation_date_identifier))
-        print(creation_date_identifier)
-        print(self.mapping_file)
-
     def insert_assessment_information(self):
         # ex:mappingQualityAssessment a mqv:MappingAssessment ;
         quality_assessment_identifier = self.EX.mappingQualityAssessment
@@ -112,12 +83,7 @@ class ValidationReport:
         self.validation_graph.add((quality_assessment_identifier, self.MQIO.assessedMapping, mapping_file_identifier))
         mapping = URIRef(list(self.validation_graph.objects(None, self.MQIO.assessedMapping))[0])
         self.validation_graph.add((URIRef(str(mapping).split("/")[-1]), RDF.type, self.MQIO.MappingArtefact))
-        # self.add_assessment_time()
-        # self.add_report_time()
-        # add agent details
         validation_report_identifier = self.EX.mappingValidationReport + "-0"
-        # self.validation_graph.add((name, RDF.type , self.PROV.Agent))
-        # self.validation_graph.add((quality_assessment_identifier, self.MQIO.wasPerfomedBy, name))
         self.validation_graph.add((quality_assessment_identifier, self.MQIO.hasValidationReport, validation_report_identifier))
         return quality_assessment_identifier
 
@@ -155,14 +121,6 @@ class ValidationReport:
         if violation_location:
             location_literal = Literal(violation_location, datatype=XSD.string)
             self.validation_graph.add((current_violation_identifier, self.MQIO.hasLocation, location_literal))
-
-    def add_refinement_agent(self):
-        refiner_name = self.form_data.get("refined-by-name")
-        if refiner_name:
-            refiner_name_identifier = URIRef("http://example.org/" + refiner_name)
-            for s,p,o in self.validation_graph.triples((None, RDF.type, self.MQIO.MappingRefinement)):
-                print(s,p,o)
-                self.validation_graph.add((s,self.PROV.wasAssociatedWith, refiner_name_identifier))
 
     @staticmethod
     def format_triple_map_identifier(triple_map_name):
@@ -228,7 +186,6 @@ class ValidationReport:
         print(self.validation_graph.serialize(format='turtle').decode('utf-8'))
 
     def save_validation_report(self):
-        self.add_refinement_agent()
         self.validation_graph.serialize(destination=self.output_file, format='ttl')
 
 
