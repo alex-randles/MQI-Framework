@@ -5,32 +5,15 @@ import pandas as pd
 from fs.osfs import OSFS
 import json
 import multiprocessing
-from rdflib import Graph, URIRef, BNode, RDFS, RDF, OWL
-
-# try:
-# import modules.validation_report
-# import modules.fetch_vocabularies
-# import modules.parse_mapping_graph
-# from modules.parse_mapping_graph import ParseMapping
-# except:
-#     from fetch_vocabularies import FetchVocabularies
-#     from validation_report import ValidationReport
-#     from parse_mapping_graph import ParseMapping
-
-
+import rdflib
+from modules.validation_report import ValidationReport
+from modules.fetch_vocabularies import FetchVocabularies
+from modules.parse_mapping_graph import ParseMapping
 # SPARQL query abbreviations
 # om - object map
 # pm - predicate object map
 # sm - subject map
 
-#
-from modules.validation_report import ValidationReport
-from modules.fetch_vocabularies import FetchVocabularies
-from modules.parse_mapping_graph import ParseMapping
-
-# from validation_report import ValidationReport
-# from fetch_vocabularies import FetchVocabularies
-# from parse_mapping_graph import ParseMapping
 
 class ValidateQuality:
 
@@ -58,16 +41,13 @@ class ValidateQuality:
         self.violation_counter = 0
         self.manager = multiprocessing.Manager()
         self.validation_results = {}  # Shared Proxy to a list
-        # self.validation_results.put({"a":2, "b": 2})
-        # print(self.validation_results.get())
-        # exit()
         self.undefined_values = []
         self.undefined_namespaces = set()
         self.test_count = 0
         # store the range and domain in cache to speed execution
-        # self.data_quality_results = self.manager.dict()
-        # self.mapping_quality_results = self.manager.dict()
-        # self.vocabulary_quality_results = self.manager.dict()
+        # self.data_quality_results = self.manager.Queue()
+        # self.mapping_quality_results = self.manager.Queue()
+        # self.vocabulary_quality_results = self.manager.Queue()
         self.range_cache = {}
         self.domain_cache = {}
         self.refinements = []
@@ -303,10 +283,10 @@ class ValidateQuality:
             objectMap = self.properties[key].get("objectMap")
             if term_type:
                 resource_type = self.get_type(property)
-                if (OWL.DatatypeProperty in resource_type) and (term_type != URIRef("http://www.w3.org/ns/r2rml#Literal")):
+                if (rdflib.OWL.DatatypeProperty in resource_type) and (term_type !=rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
                     result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
-                elif (OWL.ObjectProperty in resource_type or RDF.Property in resource_type) and (term_type == URIRef("http://www.w3.org/ns/r2rml#Literal")):
+                elif (rdflib.OWL.ObjectProperty in resource_type or rdflib.RDF.Property in resource_type) and (term_type ==rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
                     range = self.get_range(property)
                     if range:
                         range = range.strip()
@@ -316,10 +296,10 @@ class ValidateQuality:
 
     @staticmethod
     def validate_sub_type(datatype, range):
-        sub_types = [URIRef("http://www.w3.org/2001/XMLSchema#long"),
-                     URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
-                     URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
-                     URIRef("http://www.w3.org/2001/XMLSchema#integer")]
+        sub_types = [rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#long"),
+                    rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
+                    rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
+                    rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#integer")]
         if range in sub_types and datatype in sub_types:
             return True
         return False
@@ -329,17 +309,17 @@ class ValidateQuality:
         metric_identifier = "D7"
         result_message = "Usage of incorrect datatype."
         # xsd:anySimpleType, xsd:anyType could be declared as datatypes in the vocabulary
-        excluded_datatypes = [URIRef("http://www.w3.org/2001/XMLSchema#anyType"),
-                              URIRef("http://www.w3.org/2001/XMLSchema#anySimpleType")]
+        excluded_datatypes = [rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anyType"),
+                             rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anySimpleType")]
         # only if datatype
         for key in list(self.properties):
             property = self.properties[key]["property"]
-            objectMap = self.properties[key]["objectMap"]
+            object_map_identifier = self.properties[key]["objectMap"]
             datatype = self.properties[key]["datatype"]
             # if a datatype assigned to object map
             if datatype:
                 range = self.get_range(property)
-                if range != URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
+                if range != rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
                     # if any of the datatypes can be any datatype, skip this iteration
                     if datatype in excluded_datatypes:
                         continue
@@ -348,7 +328,7 @@ class ValidateQuality:
                         sub_type = ValidateQuality.validate_sub_type(datatype, range)
                         if not sub_type:
                             if datatype != range:
-                                self.add_violation([metric_identifier, result_message, property, objectMap])
+                                self.add_violation([metric_identifier, result_message, property, object_map_identifier])
 
     def validate_MP1(self):
         result_message = "An object map with a datatype and language tag."
@@ -397,7 +377,6 @@ class ValidateQuality:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
-
     def validate_MP3(self):
         result_message = "No subjectMap defined in this mapping."
         metric_identifier = "MP3"
@@ -435,7 +414,7 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             subject = row.get("joinCondition")
-            self.add_violation([metric_identifier, result_message, URIRef("http://www.w3.org/ns/r2rml#child"), subject])
+            self.add_violation([metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#child"), subject])
         query = """
                  PREFIX rr: <http://www.w3.org/ns/r2rml#>
                  SELECT ?joinCondition 
@@ -448,7 +427,7 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             subject = row.get("joinCondition")
-            self.add_violation([metric_identifier, result_message, URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
+            self.add_violation([metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
 
     # def validate_MP7_1(self):
     #     result_message = "Term type for predicate map should be an IRI."
@@ -623,10 +602,8 @@ class ValidateQuality:
         # A function to validate no human readable labelling and comments
         result_message = "No Human Readable Labelling and Comments."
         metric_identifier = "VOC1"
-        # validate only classes to speed up execution
         for key, values in self.classes.items():
             class_identifier = values.get("class")
-            subject_identifier = values.get("subject")
             namespace = self.get_namespace(class_identifier)
             human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
                                       "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
@@ -764,7 +741,7 @@ class ValidateQuality:
             if not has_license:
                 query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
                 query_results = self.vocabularies.query_local_graph(namespace, query)
-                graph_exists = query_results["boolean"]
+                graph_exists = query_results.get("boolean")
                 if graph_exists:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
@@ -772,7 +749,7 @@ class ValidateQuality:
         # returns IRI for all triple maps
         triple_maps = []
         for (s, p, o) in self.mapping_graph.triples((None, None, None)):
-            if not isinstance(s, BNode):
+            if not isinstance(s, rdflib.term.BNode):
                 if s not in triple_maps:
                     triple_maps.append(s)
         return triple_maps
@@ -787,7 +764,7 @@ class ValidateQuality:
             triple_map_triples[IRI] = {}
             for (s, p, o) in self.mapping_graph.triples((IRI, None, None)):
                 # if object is blank node such as rr:logicalTable relate that property to the blank node
-                if isinstance(o, BNode):
+                if isinstance(o, rdflib.term.BNode):
                     if p in triple_map_triples[IRI].keys():
                         triple_map_triples[IRI][p].append(o)
                     else:
@@ -822,7 +799,7 @@ class ValidateQuality:
             for (predicate, blank_nodes) in values.items():
                 if predicate != "not_blank_node":
                     sorted_blank_nodes = self.sort_blank_nodes(blank_nodes)
-                    triple_references[triple_map][URIRef(predicate)] = sorted_blank_nodes
+                    triple_references[triple_map][rdflib.term.URIRef(predicate)] = sorted_blank_nodes
         return triple_references
 
     def create_triple_references(self):
@@ -852,7 +829,7 @@ class ValidateQuality:
                 if o == violation_identifier:
                     return blank_node
                 # if the violation is contained with a join condition for example
-                elif isinstance(o, BNode):
+                elif isinstance(o, rdflib.term.BNode):
                     for (s, p, o) in self.mapping_graph.triples((o, None, None)):
                         if o == violation_identifier:
                             return blank_node
@@ -860,7 +837,7 @@ class ValidateQuality:
     def format_user_location(self, predicate, location_num):
         # ( http://www.w3.org/ns/r2rml#predicateObjectMap , 1) -> predicateObjectMap1
         # making it easier for the user to read
-        if predicate != URIRef("http://www.w3.org/ns/r2rml#subjectMap"):
+        if predicate != rdflib.term.URIRef("http://www.w3.org/ns/r2rml#subjectMap"):
             location_predicate = ValidateQuality.strip_identifier(predicate)
             location = "%s-%s" % (location_predicate, location_num)
         else:
@@ -899,7 +876,7 @@ class ValidateQuality:
         disjoint_classes = []
         for binding in query_results.get("results").values():
             for result in binding:
-                current_class = URIRef(result["disjointClass"]["value"])
+                current_class = rdflib.term.URIRef(result["disjointClass"]["value"])
                 disjoint_classes.append(current_class)
         return disjoint_classes
 
@@ -931,7 +908,7 @@ class ValidateQuality:
         # self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
 
     def find_blank_node_reference(self, violation_location, triple_map_identifier):
-        if isinstance(violation_location, BNode):
+        if isinstance(violation_location, rdflib.term.BNode):
             current_blank_node_references = self.blank_node_references[triple_map_identifier]
             for (reference_item, bnode) in current_blank_node_references.items():
                 if bnode == violation_location:
@@ -960,13 +937,13 @@ class ValidateQuality:
         # find the starting triples for the graph which connect to the triple map name
         triple_references = {}
         for (s, p, o) in graph.triples((None, None, None)):
-            if isinstance(o, BNode):
+            if isinstance(o, rdflib.term.BNode):
                 str_p = str(p)
                 if str_p in triple_references:
-                    triple_references[str_p].append((BNode(o), self.find_identifier(o)))
+                    triple_references[str_p].append((rdflib.term.BNode(o), self.find_identifier(o)))
                 else:
-                    triple_references[str_p] = [(BNode(o), self.find_identifier(o))]
-            elif not isinstance(s, BNode):
+                    triple_references[str_p] = [(rdflib.term.BNode(o), self.find_identifier(o))]
+            elif not isinstance(s, rdflib.term.BNode):
                 str_p = str(p)
                 if str_p in triple_references:
                     triple_references[str_p].append((o, self.find_identifier(o)))
@@ -1087,7 +1064,7 @@ class ValidateQuality:
         counter = 0
         for row in query_results:
             # class related functions remove whitespace and recreate IRI
-            classes[counter] = {"subject": row[0], "class": URIRef("".join(str(row[1]).split()))}
+            classes[counter] = {"subject": row[0], "class":rdflib.term.URIRef("".join(str(row[1]).split()))}
             counter += 1
         return classes
 
@@ -1138,7 +1115,7 @@ class ValidateQuality:
 
     def get_type(self, identifier):
         # get the type of the specified IRI E.G owl:ObjectProperty or owl:DatatypeProperty
-        if isinstance(identifier, URIRef) and identifier not in self.undefined_values:
+        if isinstance(identifier,rdflib.term.URIRef) and identifier not in self.undefined_values:
             query = """
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT ?type
@@ -1150,7 +1127,7 @@ class ValidateQuality:
             resource_type = []
             if query_results["results"]["bindings"]:
                 for row in query_results["results"]["bindings"]:
-                    resource_type.append(URIRef(row["type"]["value"]))
+                    resource_type.append(rdflib.term.URIRef(row["type"]["value"]))
             return resource_type
         else:
             return []
@@ -1174,7 +1151,7 @@ class ValidateQuality:
             # if a range returned
             if query_bindings:
                 for row in query_bindings:
-                    range = URIRef(row["range"]["value"])
+                    range =rdflib.term.URIRef(row["range"]["value"])
             self.range_cache[identifier] = range
             return range
         else:

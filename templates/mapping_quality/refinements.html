@@ -217,7 +217,11 @@ function validateRefinementExecution() {
 
             </td>
             <td class="table-data">
-                <div> <button class="btn btn-secondary" type="button" onClick="showDiv('{{violation_ID + 'refinements_div'}}')"> <span class="sub"></span>Display Violation</button></div>
+                {% set display_button_id = violation_ID|string + 'refinements_div' %}
+                <div class="mb-1">
+                    {% set button_text_div = 'button-' + display_button_id %}
+                    <button id="{{button_text_div}}" class="btn btn-secondary my-3" type="button" onClick="showDiv('{{display_button_id}}');">Display Violation</button>
+                </div>
                 <div id="{{violation_ID|string + 'refinements_div'}}" style="display:none">
                     {% set violation_ID = violation_ID|int %}
                     {% set violation_display = display_violation(validation_result[violation_ID]["location"], validation_result[violation_ID]["triple_map"], validation_result[violation_ID]["value"]) %}

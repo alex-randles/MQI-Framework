@@ -1,12 +1,13 @@
 # Parses mappings into individuals graphs of triple maps
 from rdflib import Graph, BNode, URIRef, Namespace
+import rdflib
 
 
 class ParseMapping:
 
     def __init__(self, mapping_file):
-        self.R2RML_NS = Namespace("http://www.w3.org/ns/r2rml#")
-        self.mapping_graph = Graph().parse(mapping_file, format="ttl")
+        self.R2RML_NS = rdflib.Namespace("http://www.w3.org/ns/r2rml#")
+        self.mapping_graph = rdflib.Graph().parse(mapping_file, format="ttl")
         self.triple_map_graphs = []
         self.create_graphs()
 
@@ -34,7 +35,7 @@ class ParseMapping:
     def create_graphs(self):
         triple_map_subjects = self.get_subjects()
         for subject in triple_map_subjects:
-            new_graph = Graph()
+            new_graph = rdflib.Graph()
             for s, p, o in self.mapping_graph.triples((subject,  None, None)):
                 new_graph.add((s, p, o))
                 new_graph = self.add_values(o, new_graph)
