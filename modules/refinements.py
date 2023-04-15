@@ -41,8 +41,8 @@ class Refinements:
             "MP6": ["AddLogicalTable"],
             "MP7": ["ChangeTermType", "RemoveTermType"],
             "MP8": ["ChangeClass"],
-            "MP9": ["ChangePredicate"],
-            "MP10": ["ChangeGraphName"],
+            "MP9": ["ChangeIRI"],
+            "MP10": ["ChangeIRI"],
             "MP11": ["ChangeDatatype", "RemoveDatatype"],
             "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP13": ["AddSubjectMap"],
@@ -51,7 +51,7 @@ class Refinements:
             "D1": ["FindSimilarClasses", "ChangeClass", "RemoveClass"],  # Usage of undefined classes
             "D2": ["FindSimilarPredicates", "ChangePredicate"],  # Usage of undefined properties
             "D3": ["AddDomainClass", "ChangePredicate"],  # Usage of incorrect Domain
-            "D4": ["ChangeURI"],  # No query parameters in URI's
+            "D4": ["ChangeIRI"],  # No query parameters in URI's
             "D5": ["ChangeClass", "RemoveClass"], # No use of entities as members of disjoint classes
             "D6": ["ChangeTermType", "RemoveTermType"], # Usage of incorrect Range
             "D7": ["AddCorrectDatatype", "ChangeDatatype", "RemoveDatatype"],  # Usage of incorrect datatype
@@ -104,7 +104,7 @@ class Refinements:
             "RemoveIRI": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                           "user_input_values": None},
 
-            "ChangeURI": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
+            "ChangeIRI": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
                           "user_input_values": ["URI"]},
 
             "ChangeClassIRI": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
@@ -143,7 +143,7 @@ class Refinements:
                                      "ChangeClass": self.change_class,
                                      "RemoveDisjointClass": self.remove_class,
                                      "ChangePredicate": self.change_predicate,
-                                     "ChangeURI": self.change_identifier,
+                                     "ChangeIRI": self.change_identifier,
                                      "ChangeClassIRI": self.change_class_identifier,
                                      "AddParentColumn": self.add_parent_column,
                                      "AddChildColumn": self.add_child_column,
@@ -495,18 +495,20 @@ class Refinements:
         return update_query
 
     def change_identifier(self, query_values, mapping_graph, violation_identifier):
-        new_identifier = query_values["URI"]
+        # new_identifier = query_values["URI"]
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result["location"]
-        old_identifier = current_result["value"]
+        # old_identifier = current_result["value"]
+        old_identifier = self.get_user_input(current_result.get("value"))
+        new_identifier = self.get_user_input(query_values)
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?subject ?predicate <%s>  }
-                INSERT { ?subject ?predicate <%s> }
+                DELETE { ?subject ?predicate %s  }
+                INSERT { ?subject ?predicate %s }
                 WHERE {
                 SELECT ?subject ?predicate
                 WHERE {
-                      ?subject ?predicate <%s> .
+                      ?subject ?predicate %s .
                       FILTER(str(?subject) = "%s").
                     }
                 }
@@ -558,8 +560,8 @@ class Refinements:
         return update_query
 
     def remove_datatype(self, query_values, mapping_graph, violation_identifier):
-        current_result = self.validation_results[violation_identifier]
-        object_map_identifier = current_result["location"]
+        current_result = self.validation_results.get(violation_identifier)
+        object_map_identifier = current_result.get("location")
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject rr:datatype ?datatype .  }

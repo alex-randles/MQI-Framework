@@ -210,6 +210,7 @@ class API:
     def format_choice():
         if request.method == "GET":
             participant_id = session.get("participant_id")
+            session["change_process_executed"] = False
             return render_template("change_detection/data_format_choice.html", participant_id=participant_id)
 
 
@@ -534,7 +535,7 @@ class API:
                                 session["suggested_refinements"] = suggested_refinements
                                 serializer = TurtleSerializer(mapping_graph)
                                 parse_violation_value = serializer.parse_violation_value
-                                session["find_prefix"] = find_prefix
+                                session["find_prefix"] = assessment_result.find_prefix
                                 API.create_validation_report(more_info_data)
                                 get_triple_map_id = assessment_result.get_triple_map_id
                                 session["get_triple_map_id"] = get_triple_map_id

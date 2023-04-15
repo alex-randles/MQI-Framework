@@ -16,5 +16,5 @@ AddCorrectDatatype,Suggest range of property
 ChangeDatatype,Replace current datatype
 RemoveLanguageTag,Remove current language tag
 RemoveDatatype,Remove current datatype
-ChangeURI,Enter a new URI
+ChangeIRI,Input a new IRI
 Manual,Refined using text editor

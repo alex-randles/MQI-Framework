@@ -1,4 +1,4 @@
-@prefix ex: <http://example.org/> .
+@prefix ex1: <http://example.org/> .
 @prefix mo: <http://purl.org/ontology/mo/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
@@ -6,48 +6,60 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping229.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/refined-mapping238.ttl> a mqio:MappingArtefact .
 
-ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping229.ttl> ;
-    mqio:hasValidationReport ex:mappingValidationReport-0 .
+ex1:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <refined-mapping238.ttl> ;
+    mqio:hasValidationReport ex1:mappingValidationReport-0 .
 
-ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2 .
+ex1:mappingValidationReport-0 a mqio:MappingValidationReport ;
+    mqio:hasViolation ex1:violation-0,
+        ex1:violation-1,
+        ex1:violation-2,
+        ex1:violation-3 .
 
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-14T20:07:19.600639"^^xsd:dateTime ;
+ex1:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-15T13:02:19.981931"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
-            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-            DELETE { ?subject rr:class <http://purl.org/ontology/mo/AudioFiles> .  }
-            INSERT {   ?subject rr:class <http://purl.org/ASN/schema/core/kkkkkkkkkkk>  }
-            WHERE {
-                <file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping229.ttl#work_lyrics> rr:subjectMap ?subject .
-            }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Change Class"^^xsd:string .
+                PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                DELETE { ?subject ?predicate 'shssh'  }
+                INSERT { ?subject ?predicate <http://www.w3.org/2001/XMLSchema#test> }
+                WHERE {
+                SELECT ?subject ?predicate
+                WHERE {
+                      ?subject ?predicate 'shssh' .
+                      FILTER(str(?subject) = "ub6bL36C16").
+                    }
+                }
+               """^^xsd:string ;
+    mqio:refinedViolation ex1:violation-2 ;
+    mqio:refinementName "Change IRI"^^xsd:string .
 
-ex:violation-1 a mqio:MappingViolation ;
+ex1:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue mo:lyrics ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#work_lyrics> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+ex1:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
     mqio:hasObjectValue rr:Literal ;
     mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'mo:lyrics'."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:D6 .
 
-ex:violation-2 a mqio:MappingViolation ;
+ex1:violation-3 a mqio:MappingViolation ;
     mqio:hasObjectValue mo: ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue mo:AudioFiles ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+ex1:violation-2 a mqio:MappingViolation ;
+    mqio:hasLiteralValue "shssh"^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "Datatype must be a valid IRI."^^xsd:string ;
     mqio:inTripleMap <#work_lyrics> ;
-    mqio:isDescribedBy mqio-metrics:D1 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:isDescribedBy mqio-metrics:MP10 ;
+    mqio:wasRefinedBy ex1:refinement-0 .
 
