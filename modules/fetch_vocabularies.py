@@ -18,7 +18,7 @@ class FetchVocabularies:
     # runs ontology retrieval process
     def create_graph(self):
         if self.file_name:
-            self.mapping_graph = Graph().parse(self.file_name, format="ttl")
+            self.mapping_graph = rdflib.Graph().parse(self.file_name, format="ttl")
             # self.fetch_mapping_ontologies()
 
     # retrieves and queries local graph
@@ -47,7 +47,7 @@ class FetchVocabularies:
 
     # uses rdflib to retrieve graph
     def rdflib_retrieval(self, url):
-        g = Graph().parse("http://www.w3.org/ns/prov#")
+        g = rdflib.Graph().parse("http://www.w3.org/ns/prov#")
         filename = self.hash_filename(url)
         file_location = self.cache_directory + filename
         # some graphs return rdf:nil with rdflib

@@ -29,6 +29,6 @@
 
 	rr:predicateObjectMap [
 		rr:predicate rdfs:labels ;
-		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:Literal ; ] ;
+		rr:objectMap [ rr:template "{LABEL}" ; rr:datatype "dhddh" ; ] ;
 	] ;
 	.

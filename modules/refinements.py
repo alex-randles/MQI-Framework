@@ -43,7 +43,7 @@ class Refinements:
             "MP7": ["ChangeTermType", "RemoveTermType"],
             "MP8": ["ChangeClass"],
             "MP9": ["ChangeIRI"],
-            "MP10": ["ChangeIRI"],
+            "MP10": ["ChangeIRI", "RemoveDatatype"],
             "MP11": ["ChangeDatatype", "RemoveDatatype"],
             "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP13": ["AddSubjectMap"],
@@ -314,7 +314,7 @@ class Refinements:
                       }
                     }
                     GROUP BY ?property
-                    """ % (self.get_namespace(violation_value))
+                    """ % (self.vocabularies.get_identifier_namespace(violation_value))
         query_results = self.vocabularies.query_local_graph(violation_value, query)
         predicates = []
         for binding in query_results.get("results").values():
@@ -355,7 +355,7 @@ class Refinements:
                       }
                     }
                     GROUP BY ?classOnto
-                    """ % (self.get_namespace(violation_value))
+                    """ % (self.vocabularies.get_identifier_namespace(violation_value))
         # violation_value = violation_value[:violation_value.rfind("#")+1]
         query_results = self.vocabularies.query_local_graph(violation_value, query)
         classes = []
@@ -924,7 +924,7 @@ class Refinements:
                       }
                    }   
                    GROUP BY ?domainClass ?comment
-                   """% (self.get_namespace(property_identifier), property_identifier, property_identifier)
+                   """% (self.vocabularies.get_identifier_namespace(property_identifier), property_identifier, property_identifier)
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         domain = []
         for row in query_results["results"]["bindings"]:
@@ -948,7 +948,7 @@ class Refinements:
                             <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range . 
                       }
                     }   
-               """ % (self.get_namespace(identifier), identifier)
+               """ % (self.vocabularies.get_identifier_namespace(identifier), identifier)
         query_results = self.vocabularies.query_local_graph(identifier, query)
         for binding in query_results.get("results").values():
             for result in binding:

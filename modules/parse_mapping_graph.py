@@ -15,7 +15,7 @@ class ParseMapping:
         subjects = []
         for s, p, o in self.mapping_graph.triples((None,  None, None)):
             # if it relates to an R2RML view instead of a triples map
-            if not isinstance(s, BNode) and not (p == self.R2RML_NS.sqlQuery or p == self.R2RML_NS.sqlVersion):
+            if not isinstance(s, rdflib.term.BNode) and not (p == self.R2RML_NS.sqlQuery or p == self.R2RML_NS.sqlVersion):
                 if s not in subjects:
                     subjects.append(s)
         return subjects

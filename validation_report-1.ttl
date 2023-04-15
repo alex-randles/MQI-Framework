@@ -1,129 +1,43 @@
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> .
-@prefix cidoc: <http://erlangen-crm.org/current/> .
 @prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/test_mapping.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <test_mapping.ttl> ;
+    mqio:assessedMapping <mapping_data.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
         ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5,
-        ex:violation-6,
-        ex:violation-7,
-        ex:violation-8 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-15T19:09:41.209647"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:class <http://erlangen-crm.org/current/E41_Appellations>  }
-                WHERE { 
-                SELECT ?subject
-                WHERE {
-                      ?subject rr:class <http://erlangen-crm.org/current/E41_Appellations>.
-                      FILTER(str(?subject) = "ub2bL24C16").
-                    }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Remove Class"^^xsd:string .
-
-ex:refinement-1 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-15T19:09:41.223732"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-            DELETE { ?subject rr:class <http://erlangen-crm.org/current/E41_Appellations> .  }
-            INSERT {   ?subject rr:class <http://erlangen-crm.org/current/E69_Death>  }
-            WHERE {
-                <file:///home/alex/MQI-Framework/static/uploads/mappings/test_mapping.ttl#Appellation> rr:subjectMap ?subject .
-            }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Find Similar Classes"^^xsd:string .
-
-ex:refinement-2 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-15T19:09:41.251488"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <http://www.w3.org/2000/01/rdf-schema#labels>  .  }
-                INSERT {   ?pom rr:predicate <http://schemas.talis.com/2005/address/schema#jjjjjj> .     }
-                WHERE {
-                    ?pom rr:predicate <http://www.w3.org/2000/01/rdf-schema#labels>  .
-                    FILTER(str(?pom) = "ub2bL29C24").
-                }
-                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Change Predicate"^^xsd:string .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasObjectValue b2022: ;
-    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:VOC3 .
-
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasObjectValue b2022: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasObjectValue cidoc: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasObjectValue b2022: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
+        ex:violation-3 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue b2022:E81_Actor_Appellation ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:D1 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:hasObjectValue rdfs: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#AddressTriplesMap> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue cidoc:E41_Appellations ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:D1 ;
-    mqio:wasRefinedBy ex:refinement-1 .
+    mqio:hasObjectValue foaf: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#AddressTriplesMap> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rdfs:labels ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:D2 ;
-    mqio:wasRefinedBy ex:refinement-2 .
+    mqio:hasObjectValue rdfs: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#AddressTriplesMap> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasObjectValue foaf: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#AddressTriplesMap> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+<mapping_data.ttl> a mqio:MappingArtefact .
 
