@@ -36,25 +36,6 @@
 {% endblock %}
 {% endif %}
 <body>
-
-<!--    Link with href-->
-<!--  </a>-->
-
-
-<!--<div class="alert alert-success" role="alert" id="#collapseExample">-->
-<!--  <h4 class="alert-heading">Well done!</h4>-->
-<!--  <p>Click here refinements have been generated below</p>-->
-<!--</div>-->
-
-
-<!--    dff-->
-
-<!--<select class="selectpicker" data-size="5">-->
-<!--  <option data-subtext="Generation is the completion of production of a new entity by an activity. This entity did not exist before generation and becomes available for usage after this generation.">Ketchup</option>-->
-<!--</select>-->
-
-
-
 <div id="show-info" style="display:none">
     <button type="button" class="btn btn-primary mx-3" onclick="showQualityInformation()">Show Assessment Information</button>
 </div>
@@ -63,6 +44,7 @@
     <button type="button" class="btn btn-primary mx-3" onclick="hideQualityInformation()">Hide Assessment Information</button>
 </div>
 
+{% set no_refinements_available = namespace(value=true) %}
 <form id="refinement-selection" action="./refinement" onsubmit="return validateRefinementSelection()">
     <div class="p-2">
         <h4 class="text-muted">Mapping Assessment Information</h4>
@@ -165,6 +147,7 @@
                     <option value="description" disabled>{{refinement_descriptions[refinement]}}</option>
                     {% endfor %}
                 </select>
+                {% set no_refinements_available.value = False %}
                 {% else %}
                 <span style="color:red;">
                     Vocabulary related metrics must be refined by the maintainers of the vocabulary.
@@ -203,6 +186,7 @@
         {% endfor %}
         </tbody>
     </table>
+    {% if not no_refinements_available.value %}
     <div class="container">
         <div class="row my-3">
             <div class="col text-center">
@@ -215,6 +199,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
     <div class="row">
         <div class="col-sm-6 d-flex justify-content-end">
             <a  href="/return-quality-report/" class="btn btn-secondary px-2"  role="button">Export Quality Report (TTL)</a>

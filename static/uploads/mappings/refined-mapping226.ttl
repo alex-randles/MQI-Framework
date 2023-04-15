@@ -9,30 +9,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> . 
 @prefix mo: <http://purl.org/ontology/mo/> . 
 @prefix lb: <https://github.com/LinkedBrainz/r2rml/v0.1#> . 
-@prefix oscd: <https://w3id.org/OSCD#> . 
-@prefix atlas: <http://rdf.ebi.ac.uk/resource/atlas/> . 
-@prefix ex1: <http://example.org/> . 
-@prefix gvoith: <http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl#> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+
 	
 <#work_lyrics>	
  rdf:type rr:TriplesMap;	
 	
- rml:logicalSource [
- 	 rml:source "loans-v1.csv";
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery""" SELECT work.gid, url	
+       FROM work	
+         INNER JOIN l_url_work ON work.id = l_url_work.entity1	
+         INNER JOIN link ON l_url_work.link = link.id	
+         INNER JOIN link_type ON link_type = link_type.id	
+         INNER JOIN url on l_url_work.entity0 = url.id	
+       WHERE link_type.gid='e38e65aa-75e0-42ba-ace0-072aeb91a538' """;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class foaf:MusicalWork;	
-	 rr:graph "djdjdjjd" ;	
+ 	 rr:class mo:AudioFiles;	
+	 rr:template "http://musicbrainz.org/work/{gid}#_" ;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate prov:generatedAtTime;	
+ 	 rr:predicate mo:lyrics;	
 	 rr:objectMap [	
-		 rml:reference "Area" ;
-		 rr:datatype xsd:dateTime;	
+		 rr:column "url" ;	
 		]; 	
  ];	
 .	
