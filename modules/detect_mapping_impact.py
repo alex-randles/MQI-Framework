@@ -15,7 +15,10 @@ class DetectMappingImpact:
         for s, p, o in mapping_graph.triples((None, None, None)):
             self.changes_graph.add((s,p,o, mapping_graph_identifier))
         self.changes_graph.serialize(destination="test.trig", format="trig")
-        self.mapping_impact = defaultdict(dict)
+        self.mapping_impact = {
+            "structural_changes":  defaultdict(dict),
+            "data_reference_changes": defaultdict(dict),
+        }
         self.get_data_reference_changes()
         self.get_structural_changes()
         print(json.dumps(self.mapping_impact, sort_keys = True, indent = 4))
@@ -44,7 +47,6 @@ class DetectMappingImpact:
         """ % ", ".join(mapping_references)
         query_results = self.changes_graph.query(query)
         mapping_impact_key = "data_reference_changes"
-        self.mapping_impact[mapping_impact_key] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["insert"] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["delete"] = defaultdict(dict)
         for row in query_results:
@@ -88,7 +90,6 @@ class DetectMappingImpact:
         """
         query_results = self.changes_graph.query(query)
         mapping_impact_key = "structural_changes"
-        self.mapping_impact[mapping_impact_key] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["insert"] = defaultdict(dict)
         self.mapping_impact[mapping_impact_key]["delete"] = defaultdict(dict)
         for row in query_results:
