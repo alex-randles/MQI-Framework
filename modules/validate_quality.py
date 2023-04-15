@@ -204,18 +204,28 @@ class ValidateQuality:
 
     def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
+        property_namespace = self.vocabularies.get_identifier_namespace(property_identifier)
         query = """
-              ASK { 
-                 GRAPH ?g { 
-                    <%s> ?predicate ?object . 
-                 } 
-              }
-        """ % property_identifier
+            ASK 
+            WHERE { 
+                {
+                   GRAPH ?g { 
+                        <%s> ?predicate ?object . 
+                     } 
+                }
+                UNION 
+                {
+                   GRAPH <%s> {
+                        ?subject ?predicate ?object
+                        FILTER(STRAFTER(STR(?subject), "#") = "%s")
+                    }
+                }
+            }
+        """ % (property_identifier, property_namespace, property_identifier.split("#")[-1])
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         is_defined_concept = query_results.get("boolean")
-        print(query)
+        print(query, "\n\nsjsjsjss")
         if is_defined_concept is False:
-            property_namespace = self.vocabularies.get_identifier_namespace(property_identifier)
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
             query_results = self.vocabularies.query_local_graph(property_identifier, query)
             graph_exists = query_results.get("boolean")

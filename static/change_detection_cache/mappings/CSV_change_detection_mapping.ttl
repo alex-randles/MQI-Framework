@@ -5,7 +5,7 @@
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix testv: <http://www.txample.com/people/voc/>.
 @prefix testd: <http://www.txample.com/people/data/>.
-@prefix oscd: <https://www.w3id.org/OSCD#> .
+@prefix oscd: <https://w3id.org/OSCD#> .
 @prefix lode: <http://linkedevents.org/ontology/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix time: <http://www.w3.org/2006/time#> . 
