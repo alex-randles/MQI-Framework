@@ -26,7 +26,7 @@ class ValidateQuality:
         self.namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.vocabularies = FetchVocabularies(file_name)
         # mainly used for vocabulary metrics
-        excluded_namespaces = ["http://ontology.openfit.org#",
+        self.excluded_namespaces = ["http://ontology.openfit.org#",
                                "http://recipes.workingclass.org#",
                                "http://ontology.foodlog.eu#",
                                "http://ontology.recipepicker.eu#",
@@ -37,7 +37,7 @@ class ValidateQuality:
                                "http://ontology.smartfitgym.eu#",
                                "http://ontology.wearehungry.be#",
                                ]
-        self.unique_namespaces = list(set([namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in excluded_namespaces]))
+        self.unique_namespaces = list(set([namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in self.excluded_namespaces]))
         self.violation_counter = 0
         self.manager = multiprocessing.Manager()
         self.validation_results = {}  # Shared Proxy to a list
@@ -215,7 +215,7 @@ class ValidateQuality:
         is_defined_concept = query_results.get("boolean")
         print(query)
         if is_defined_concept is False:
-            property_namespace = self.get_namespace(property_identifier)
+            property_namespace = self.vocabularies.get_identifier_namespace(property_identifier)
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
             query_results = self.vocabularies.query_local_graph(property_identifier, query)
             graph_exists = query_results.get("boolean")
@@ -232,7 +232,6 @@ class ValidateQuality:
             property_identifier = self.properties[key].get("property")
             subject_identifier = self.properties[key].get("subject")
             metric_result = self.validate_domain(property_identifier, subject_identifier, metric_identifier)
-            # if domain is not present
             if metric_result:
                 self.add_violation(metric_result)
 
@@ -274,8 +273,6 @@ class ValidateQuality:
                         self.add_violation([metric_identifier, result_message, (current_identifier, class_identifier), subject_identifier])
                         classes.remove(class_identifier)
                         classes.remove(current_identifier)
-                    # else:
-                    #     continue
 
     def validate_D6(self):
         # A function to validate the usage of correct range
@@ -607,71 +604,73 @@ class ValidateQuality:
         metric_identifier = "VOC1"
         for key, values in self.classes.items():
             class_identifier = values.get("class")
-            namespace = self.get_namespace(class_identifier)
-            human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
-                                      "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
-                                      "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
-                                      "skosxl:literalForm", "rdfs:comment",
-                                      "schema:description", "schema:description", "foaf:name"]
-            query = """
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                PREFIX dcterms: <http://purl.org/dc/terms/> 
-                PREFIX ct: <http://data.linkedct.org/resource/linkedct/> 
-                PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
-                PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> 
-                PREFIX schema: <http://schema.org/> 
-                PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> 
-                ASK { 
-                  GRAPH <%s> 
-                     { <%s> %s ?label 
-                     } 
-                }            
-            """  % (namespace, class_identifier, "|".join(human_label_predicates))
-            query_results = self.vocabularies.query_local_graph(namespace, query)
-            has_label_comment = query_results.get("boolean")
-            if has_label_comment is False:
-                print(query)
-                query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
-                query_results = self.vocabularies.query_local_graph(class_identifier, query)
-                graph_exists = query_results.get("boolean")
-                if graph_exists is True:
-                    self.add_violation([metric_identifier, result_message, class_identifier, None])
+            namespace = self.vocabularies.get_identifier_namespace(class_identifier)
+            if namespace not in self.excluded_namespaces:
+                human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
+                                          "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
+                                          "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
+                                          "skosxl:literalForm", "rdfs:comment",
+                                          "schema:description", "schema:description", "foaf:name"]
+                query = """
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                    PREFIX dcterms: <http://purl.org/dc/terms/> 
+                    PREFIX ct: <http://data.linkedct.org/resource/linkedct/> 
+                    PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+                    PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> 
+                    PREFIX schema: <http://schema.org/> 
+                    PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> 
+                    ASK { 
+                      GRAPH <%s> 
+                         { <%s> %s ?label 
+                         } 
+                    }            
+                """  % (namespace, class_identifier, "|".join(human_label_predicates))
+                query_results = self.vocabularies.query_local_graph(namespace, query)
+                has_label_comment = query_results.get("boolean")
+                if has_label_comment is False:
+                    print(query)
+                    query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
+                    query_results = self.vocabularies.query_local_graph(class_identifier, query)
+                    graph_exists = query_results.get("boolean")
+                    if graph_exists is True:
+                        self.add_violation([metric_identifier, result_message, class_identifier, None])
 
     def validate_VOC2(self):
         metric_identifier = "VOC2"
         result_message = "No domain definition or range definition."
         for key in list(self.properties):
             property_identifier = self.properties[key].get("property")
-            namespace = self.get_namespace(property_identifier)
-            query = """
-                       PREFIX dcam: <http://purl.org/dc/dcam/> 
-                       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
-                       PREFIX schema: <http://schema.org/> 
-                       PREFIX prov: <http://www.w3.org/ns/prov#> 
-                       PREFIX owl: <http://www.w3.org/2002/07/owl#>
-                       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                       ASK
-                       WHERE {
-                          GRAPH <%s> {
-                            {
-                              <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes|rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?object .
+            namespace = self.vocabularies.get_identifier_namespace(property_identifier)
+            if namespace not in self.excluded_namespaces:
+                query = """
+                           PREFIX dcam: <http://purl.org/dc/dcam/> 
+                           PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                           PREFIX schema: <http://schema.org/> 
+                           PREFIX prov: <http://www.w3.org/ns/prov#> 
+                           PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                           PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                           ASK
+                           WHERE {
+                              GRAPH <%s> {
+                                {
+                                  <%s> rdfs:domain|dcam:domainIncludes|schema:domainIncludes|rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?object .
+                                }
                             }
-                        }
-                      }
-            """ % (namespace,  property_identifier)
-            query_results = self.vocabularies.query_local_graph(namespace, query)
-            has_domain_range = query_results.get("boolean")
-            if has_domain_range is False:
-                query = """ 
-                PREFIX owl: <http://www.w3.org/2002/07/owl#>
-                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:AnnotationProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (self.get_namespace(property_identifier), property_identifier)
+                          }
+                """ % (namespace,  property_identifier)
                 query_results = self.vocabularies.query_local_graph(namespace, query)
-                is_property = query_results.get("boolean")
-                if is_property:
-                    self.add_violation([metric_identifier, result_message, property_identifier, None])
+                has_domain_range = query_results.get("boolean")
+                if has_domain_range is False:
+                    query = """ 
+                    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:AnnotationProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (self.vocabularies.get_identifier_namespace(property_identifier), property_identifier)
+                    query_results = self.vocabularies.query_local_graph(namespace, query)
+                    is_property = query_results.get("boolean")
+                    if is_property:
+                        self.add_violation([metric_identifier, result_message, property_identifier, None])
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
@@ -856,15 +855,6 @@ class ValidateQuality:
             return identifier.split("/")[-1]
         return identifier
 
-    def get_namespace(self, identifier):
-        if identifier.startswith("http://dbpedia.org/ontology/"):
-            return identifier
-        if "#" in identifier:
-            identifier = identifier[:identifier.rfind("#") + 1]
-        else:
-            identifier = identifier[:identifier.rfind("/") + 1]
-        return identifier
-
     def find_disjoint_classes(self, identifier):
         # a function which finds the classes disjoint to IRI argument (if any)
         query = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -874,7 +864,7 @@ class ValidateQuality:
                           <%s> owl:disjointWith ?disjointClass .
                       }
                    }
-                """ % (self.get_namespace(identifier), identifier)
+                """ % (self.vocabularies.get_identifier_namespace(identifier), identifier)
         query_results = self.vocabularies.query_local_graph(identifier, query)
         disjoint_classes = []
         for binding in query_results.get("results").values():
@@ -1101,7 +1091,7 @@ class ValidateQuality:
                                 WHERE {
                                   GRAPH <%s> {   ?superClass rdfs:subClassOf <%s> .  }
                                 }   
-                           """ % (self.get_namespace(identifier), identifier)
+                           """ % (self.vocabularies.get_identifier_namespace(identifier), identifier)
                     query_results = self.vocabularies.query_local_graph(identifier, query)
                     if query_results.get("results").get("bindings"):
                         for result in query_results.get("results").get("bindings"):
@@ -1125,7 +1115,7 @@ class ValidateQuality:
                         WHERE {
                           GRAPH <%s> { <%s> rdf:type ?type . }
                         }   
-                   """ % (self.get_namespace(identifier), identifier)
+                   """ % (self.vocabularies.get_identifier_namespace(identifier), identifier)
             query_results = self.vocabularies.query_local_graph(identifier, query)
             resource_type = []
             if query_results["results"]["bindings"]:
@@ -1147,7 +1137,7 @@ class ValidateQuality:
                 GRAPH <%s>
                     { <%s> rdfs:range|dcam:rangeIncludes|schema:rangeIncludes ?range . }
                 }
-                """ % (self.get_namespace(identifier), identifier)
+                """ % (self.vocabularies.get_identifier_namespace(identifier), identifier)
             query_results = self.vocabularies.query_local_graph(identifier, query)
             range = None
             query_bindings = query_results["results"]["bindings"]
@@ -1191,7 +1181,7 @@ class ValidateQuality:
 
                           }
                        }   
-                       """ % (self.get_namespace(identifier), identifier, identifier)
+                       """ % (self.vocabularies.get_identifier_namespace(identifier), identifier, identifier)
             query_results = self.vocabularies.query_local_graph(identifier, query)
             domain = []
             result_bindings = query_results["results"].get("bindings")

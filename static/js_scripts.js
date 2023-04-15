@@ -167,7 +167,20 @@ function validateRefinementSelection() {
     }
 }
 
-
+function selectAllRefinements() {
+    var allInputs = document.getElementsByTagName("input");
+    for (var i = 0, max = allInputs.length; i < max; i++){
+        if (allInputs[i].type === 'checkbox') {
+            var checkBoxStatus = allInputs[i].checked;
+            if (checkBoxStatus == true){
+                 allInputs[i].checked = false;
+            }
+            else {
+                 allInputs[i].checked = true;
+            }
+         }
+    }
+}
 
 $('.collapse').collapse()
 

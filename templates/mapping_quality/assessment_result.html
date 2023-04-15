@@ -5,7 +5,6 @@
     <title>{% block title %}Mapping Quality Assessment{% endblock %}</title>
 </head>
 {% block content %}
-
 {% if show_refinement_buttons == true %}
 <div class="alert alert-success text-center" role="alert">
     <h4 class="alert-heading">Refined Mapping Generated</h4>
@@ -18,19 +17,6 @@
     <a href="/return-validation-report/" target="blank"><button class="btn-secondary btn button-style mx-3 p-2">
         Export Validation Report (TTL)</button></a>
 </div>
-
-<!--<div class="alert alert-success my-2" role="alert">-->
-<!--    <h4 class="alert-heading">Complete Experiment?</h4>-->
-<!--    Once you have completed all of the experiment steps, please continue to the usability questionnaire!-->
-<!--</div>-->
-<!--<div class="container p-3 my-2">-->
-<!--    <div class="row">-->
-<!--        <div class="col-lg-12 d-flex justify-content-center">-->
-<!--            <a  href="/PSSUQ" class="btn btn-secondary"  role="button">Complete Questionnaire</a>    </div>-->
-
-<!--    </div>-->
-<!--</div>-->
-
 {% else %}
 {% block message %}
 {% endblock %}
@@ -89,7 +75,8 @@
               <i class="bi bi-info-circle" ></i>
           </span>
             </th>
-            <th scope="col">Select Refinements
+            <th scope="col">
+                Select Refinements
                 <span class="tt" data-bs-placement="top" title="Refinements available for this violation">
               <i class="bi bi-info-circle" ></i>
           </span>
