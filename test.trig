@@ -1,103 +1,103 @@
-@prefix ns1: <http://www.example.com/mappingGraph/> .
+@prefix ns1: <http://www.example.com/notificationGraph/> .
 @prefix ns10: <http://www.example.com/changesGraph/> .
 @prefix ns11: <http://linkedevents.org/ontology/> .
-@prefix ns2: <http://www.w3.org/ns/r2rml#> .
-@prefix ns3: <http://www.example.com/notificationGraph/> .
-@prefix ns4: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
-@prefix ns5: <https://www.w3id.org/OSCD#> .
-@prefix ns6: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
-@prefix ns7: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
-@prefix ns8: <http://www.example.com/contactDetailsGraph/> .
-@prefix ns9: <http://xmlns.com/foaf/0.1/> .
+@prefix ns2: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
+@prefix ns3: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
+@prefix ns4: <https://www.w3id.org/OSCD#> .
+@prefix ns5: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
+@prefix ns6: <http://www.example.com/contactDetailsGraph/> .
+@prefix ns7: <http://xmlns.com/foaf/0.1/> .
+@prefix ns8: <http://www.example.com/mappingGraph/> .
+@prefix ns9: <http://www.w3.org/ns/r2rml#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ns1:ED_20m.ttl {
-    <file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap1> ns2:logicalTable [ ns2:tableName "employee.csv" ] ;
-        ns2:predicateObjectMap [ ns2:objectMap [ ns2:column "LAST_NAME" ;
-                        ns2:language "en" ] ;
-                ns2:predicate rdfs:label ],
-            [ ns2:objectMap [ ns2:column "EMAIL" ] ;
-                ns2:predicate rdfs:label ],
-            [ ns2:objectMap [ ns2:column "GAEILGE" ;
-                        ns2:language "ga" ] ;
-                ns2:predicate rdfs:label ],
-            [ ns2:objectMap [ ns2:template "urn:osi:boundary:geom:{GUID}" ] ;
-                ns2:predicate <http://www.opengis.net/ont/geosparql#hasGeometry> ] ;
-        ns2:subjectMap [ ns2:class <http://ontologies.geohive.ie/osi#ElectoralDivision>,
-                    <http://www.opengis.net/ont/geosparql#Feature> ;
-                ns2:template "http://data.geohive.ie/resource/electoral_division/{GUID}" ] .
+ns1:user-1 {
+    <http://www.example.com/notificationPolicy/1> a ns3:Policy ;
+        ns3:desc "Notification policy for user 1" ;
+        ns3:grants <http://www.example.com/policyObligation/1> ;
+        ns4:hasDetectionEnd "2022-12-31 00:00:00.0000"^^xsd:dateTime ;
+        ns4:hasDetectionStart "2023-04-15 17:01:49.582237"^^xsd:dateTime .
 
-    <file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap2> ns2:logicalTable [ ns2:tableName "ED_CBD2019_20M" ] ;
-        ns2:predicateObjectMap [ ns2:objectMap [ ns2:column "GEOMETRY" ] ;
-                ns2:predicate <http://www.opengis.net/ont/geosparql#asWKT> ] ;
-        ns2:subjectMap [ ns2:class <http://www.opengis.net/ont/geosparql#Geometry> ;
-                ns2:template "urn:osi:boundary:geom:{GUID}" ] .
-}
+    <http://www.example.com/datatypeChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object 0 ;
+        ns2:predicate ns4:hasThreshold ;
+        ns2:subject ns4:DatatypeSourceData .
 
-ns3:user-1 {
-    <http://www.example.com/notificationPolicy/1> a ns7:Policy ;
-        ns7:desc "Notification policy for user 1" ;
-        ns7:grants <http://www.example.com/policyObligation/1> ;
-        ns5:hasDetectionEnd "2022-12-31 00:00:00.0000"^^xsd:dateTime ;
-        ns5:hasDetectionStart "2023-04-15 17:01:49.582237"^^xsd:dateTime .
+    <http://www.example.com/deleteChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object 0 ;
+        ns2:predicate ns4:hasThreshold ;
+        ns2:subject ns4:DeleteSourceData .
 
-    <http://www.example.com/datatypeChangeConstraint/1> a ns4:SimpleConstraint ;
-        ns4:object 0 ;
-        ns4:predicate ns5:hasThreshold ;
-        ns4:subject ns5:DatatypeSourceData .
+    <http://www.example.com/insertChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object 0 ;
+        ns2:predicate ns4:hasThreshold ;
+        ns2:subject ns4:InsertSourceData .
 
-    <http://www.example.com/deleteChangeConstraint/1> a ns4:SimpleConstraint ;
-        ns4:object 0 ;
-        ns4:predicate ns5:hasThreshold ;
-        ns4:subject ns5:DeleteSourceData .
+    <http://www.example.com/mergeChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object 0 ;
+        ns2:predicate ns4:hasThreshold ;
+        ns2:subject ns4:MergeSourceData .
 
-    <http://www.example.com/insertChangeConstraint/1> a ns4:SimpleConstraint ;
-        ns4:object 0 ;
-        ns4:predicate ns5:hasThreshold ;
-        ns4:subject ns5:InsertSourceData .
+    <http://www.example.com/moveChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object 0 ;
+        ns2:predicate ns4:hasThreshold ;
+        ns2:subject ns4:MoveSourceData .
 
-    <http://www.example.com/mergeChangeConstraint/1> a ns4:SimpleConstraint ;
-        ns4:object 0 ;
-        ns4:predicate ns5:hasThreshold ;
-        ns4:subject ns5:MergeSourceData .
+    <http://www.example.com/notificationConstraint/1> a ns2:And ;
+        ns2:fifth <http://www.example.com/mergeChangeConstraint/1> ;
+        ns2:first <http://www.example.com/insertChangeConstraint/1> ;
+        ns2:fourth <http://www.example.com/updateChangeConstraint/1> ;
+        ns2:second <http://www.example.com/deleteChangeConstraint/1> ;
+        ns2:sixth <http://www.example.com/datatypeChangeConstraint/1> ;
+        ns2:third <http://www.example.com/moveChangeConstraint/1> .
 
-    <http://www.example.com/moveChangeConstraint/1> a ns4:SimpleConstraint ;
-        ns4:object 0 ;
-        ns4:predicate ns5:hasThreshold ;
-        ns4:subject ns5:MoveSourceData .
+    <http://www.example.com/policyObligation/1> a ns5:Obligation ;
+        ns5:action ns4:sendNotification ;
+        ns5:obligedTo ns4:softwareAgent ;
+        ns5:startingConstraint <http://www.example.com/notificationConstraint/1> ;
+        ns3:actor <http://www.example.com/userActor/1>,
+            ns4:softwareAgent .
 
-    <http://www.example.com/notificationConstraint/1> a ns4:And ;
-        ns4:fifth <http://www.example.com/mergeChangeConstraint/1> ;
-        ns4:first <http://www.example.com/insertChangeConstraint/1> ;
-        ns4:fourth <http://www.example.com/updateChangeConstraint/1> ;
-        ns4:second <http://www.example.com/deleteChangeConstraint/1> ;
-        ns4:sixth <http://www.example.com/datatypeChangeConstraint/1> ;
-        ns4:third <http://www.example.com/moveChangeConstraint/1> .
-
-    <http://www.example.com/policyObligation/1> a ns6:Obligation ;
-        ns6:action ns5:sendNotification ;
-        ns6:obligedTo ns5:softwareAgent ;
-        ns6:startingConstraint <http://www.example.com/notificationConstraint/1> ;
-        ns7:actor <http://www.example.com/userActor/1>,
-            ns5:softwareAgent .
-
-    <http://www.example.com/updateChangeConstraint/1> a ns4:SimpleConstraint ;
-        ns4:object 0 ;
-        ns4:predicate ns5:hasThreshold ;
-        ns4:subject ns5:UpdateSourceData .
+    <http://www.example.com/updateChangeConstraint/1> a ns2:SimpleConstraint ;
+        ns2:object 0 ;
+        ns2:predicate ns4:hasThreshold ;
+        ns2:subject ns4:UpdateSourceData .
 
     <http://www.example.com/userActor/1> a <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
 }
 
-ns8:user-1 {
-    <http://www.example.com/user-1> a ns9:Agent ;
-        ns9:mbox "alexrandles0@gmail.com" .
+ns6:user-1 {
+    <http://www.example.com/user-1> a ns7:Agent ;
+        ns7:mbox "alexrandles0@gmail.com" .
+}
+
+ns8:ED_20m.ttl {
+    <file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap1> ns9:logicalTable [ ns9:tableName "employee.csv" ] ;
+        ns9:predicateObjectMap [ ns9:objectMap [ ns9:column "LAST_NAME" ;
+                        ns9:language "en" ] ;
+                ns9:predicate rdfs:label ],
+            [ ns9:objectMap [ ns9:column "EMAIL" ] ;
+                ns9:predicate rdfs:label ],
+            [ ns9:objectMap [ ns9:column "GAEILGE" ;
+                        ns9:language "ga" ] ;
+                ns9:predicate rdfs:label ],
+            [ ns9:objectMap [ ns9:template "urn:osi:boundary:geom:{GUID}" ] ;
+                ns9:predicate <http://www.opengis.net/ont/geosparql#hasGeometry> ] ;
+        ns9:subjectMap [ ns9:class <http://ontologies.geohive.ie/osi#ElectoralDivision>,
+                    <http://www.opengis.net/ont/geosparql#Feature> ;
+                ns9:template "http://data.geohive.ie/resource/electoral_division/{GUID}" ] .
+
+    <file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap2> ns9:logicalTable [ ns9:tableName "ED_CBD2019_20M" ] ;
+        ns9:predicateObjectMap [ ns9:objectMap [ ns9:column "GEOMETRY" ] ;
+                ns9:predicate <http://www.opengis.net/ont/geosparql#asWKT> ] ;
+        ns9:subjectMap [ ns9:class <http://www.opengis.net/ont/geosparql#Geometry> ;
+                ns9:template "urn:osi:boundary:geom:{GUID}" ] .
 }
 
 ns10:user-1 {
-    <http://www.example.com/changeLog/user-1> a ns5:ChangeLog ;
-        ns5:hasChange <http://www.example.com/deleteChange/146>,
+    <http://www.example.com/changeLog/user-1> a ns4:ChangeLog ;
+        ns4:hasChange <http://www.example.com/deleteChange/146>,
             <http://www.example.com/deleteChange/148>,
             <http://www.example.com/deleteChange/151>,
             <http://www.example.com/deleteChange/157>,
@@ -219,976 +219,976 @@ ns10:user-1 {
             <http://www.example.com/insertChange/98>,
             <http://www.example.com/insertChange/99>,
             <http://www.example.com/moveChange/190> ;
-        ns5:hasCurrentVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v5.csv> ;
-        ns5:hasPreviousVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv> .
+        ns4:hasCurrentVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v5.csv> ;
+        ns4:hasPreviousVersion <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv> .
 
-    <http://www.example.com/changedData/10> a ns5:ChangedData ;
+    <http://www.example.com/changedData/10> a ns4:ChangedData ;
         rdfs:comment "s" .
 
-    <http://www.example.com/changedData/100> a ns5:ChangedData ;
+    <http://www.example.com/changedData/100> a ns4:ChangedData ;
         rdfs:comment "Steven" .
 
-    <http://www.example.com/changedData/101> a ns5:ChangedData ;
+    <http://www.example.com/changedData/101> a ns4:ChangedData ;
         rdfs:comment "King" .
 
-    <http://www.example.com/changedData/102> a ns5:ChangedData ;
+    <http://www.example.com/changedData/102> a ns4:ChangedData ;
         rdfs:comment "515.123.4567" .
 
-    <http://www.example.com/changedData/103> a ns5:ChangedData ;
+    <http://www.example.com/changedData/103> a ns4:ChangedData ;
         rdfs:comment "17-Jun-03" .
 
-    <http://www.example.com/changedData/104> a ns5:ChangedData ;
+    <http://www.example.com/changedData/104> a ns4:ChangedData ;
         rdfs:comment "AD_PRES" .
 
-    <http://www.example.com/changedData/105> a ns5:ChangedData ;
+    <http://www.example.com/changedData/105> a ns4:ChangedData ;
         rdfs:comment "24000" .
 
-    <http://www.example.com/changedData/106> a ns5:ChangedData ;
+    <http://www.example.com/changedData/106> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/107> a ns5:ChangedData ;
+    <http://www.example.com/changedData/107> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/108> a ns5:ChangedData ;
+    <http://www.example.com/changedData/108> a ns4:ChangedData ;
         rdfs:comment "90" .
 
-    <http://www.example.com/changedData/109> a ns5:ChangedData .
+    <http://www.example.com/changedData/109> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/110> a ns5:ChangedData ;
+    <http://www.example.com/changedData/110> a ns4:ChangedData ;
         rdfs:comment "101" .
 
-    <http://www.example.com/changedData/111> a ns5:ChangedData ;
+    <http://www.example.com/changedData/111> a ns4:ChangedData ;
         rdfs:comment "Neena" .
 
-    <http://www.example.com/changedData/112> a ns5:ChangedData ;
+    <http://www.example.com/changedData/112> a ns4:ChangedData ;
         rdfs:comment "Kochhar" .
 
-    <http://www.example.com/changedData/113> a ns5:ChangedData ;
+    <http://www.example.com/changedData/113> a ns4:ChangedData ;
         rdfs:comment "515.123.4568" .
 
-    <http://www.example.com/changedData/114> a ns5:ChangedData ;
+    <http://www.example.com/changedData/114> a ns4:ChangedData ;
         rdfs:comment "21-Sep-05" .
 
-    <http://www.example.com/changedData/115> a ns5:ChangedData ;
+    <http://www.example.com/changedData/115> a ns4:ChangedData ;
         rdfs:comment "AD_VP" .
 
-    <http://www.example.com/changedData/116> a ns5:ChangedData ;
+    <http://www.example.com/changedData/116> a ns4:ChangedData ;
         rdfs:comment "17000" .
 
-    <http://www.example.com/changedData/117> a ns5:ChangedData ;
+    <http://www.example.com/changedData/117> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/118> a ns5:ChangedData ;
+    <http://www.example.com/changedData/118> a ns4:ChangedData ;
         rdfs:comment "100" .
 
-    <http://www.example.com/changedData/119> a ns5:ChangedData ;
+    <http://www.example.com/changedData/119> a ns4:ChangedData ;
         rdfs:comment "90" .
 
-    <http://www.example.com/changedData/120> a ns5:ChangedData ;
+    <http://www.example.com/changedData/120> a ns4:ChangedData ;
         rdfs:comment "albeer" .
 
-    <http://www.example.com/changedData/121> a ns5:ChangedData ;
+    <http://www.example.com/changedData/121> a ns4:ChangedData ;
         rdfs:comment "102" .
 
-    <http://www.example.com/changedData/122> a ns5:ChangedData ;
+    <http://www.example.com/changedData/122> a ns4:ChangedData ;
         rdfs:comment "Lex" .
 
-    <http://www.example.com/changedData/123> a ns5:ChangedData ;
+    <http://www.example.com/changedData/123> a ns4:ChangedData ;
         rdfs:comment "De Haan" .
 
-    <http://www.example.com/changedData/124> a ns5:ChangedData ;
+    <http://www.example.com/changedData/124> a ns4:ChangedData ;
         rdfs:comment "515.123.4569" .
 
-    <http://www.example.com/changedData/125> a ns5:ChangedData ;
+    <http://www.example.com/changedData/125> a ns4:ChangedData ;
         rdfs:comment "13-Jan-01" .
 
-    <http://www.example.com/changedData/126> a ns5:ChangedData ;
+    <http://www.example.com/changedData/126> a ns4:ChangedData ;
         rdfs:comment "AD_VP" .
 
-    <http://www.example.com/changedData/127> a ns5:ChangedData ;
+    <http://www.example.com/changedData/127> a ns4:ChangedData ;
         rdfs:comment "17000" .
 
-    <http://www.example.com/changedData/128> a ns5:ChangedData ;
+    <http://www.example.com/changedData/128> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/129> a ns5:ChangedData ;
+    <http://www.example.com/changedData/129> a ns4:ChangedData ;
         rdfs:comment "100" .
 
-    <http://www.example.com/changedData/130> a ns5:ChangedData ;
+    <http://www.example.com/changedData/130> a ns4:ChangedData ;
         rdfs:comment "90" .
 
-    <http://www.example.com/changedData/131> a ns5:ChangedData .
+    <http://www.example.com/changedData/131> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/132> a ns5:ChangedData ;
+    <http://www.example.com/changedData/132> a ns4:ChangedData ;
         rdfs:comment "103" .
 
-    <http://www.example.com/changedData/133> a ns5:ChangedData ;
+    <http://www.example.com/changedData/133> a ns4:ChangedData ;
         rdfs:comment "Alexander" .
 
-    <http://www.example.com/changedData/134> a ns5:ChangedData ;
+    <http://www.example.com/changedData/134> a ns4:ChangedData ;
         rdfs:comment "Hunold" .
 
-    <http://www.example.com/changedData/135> a ns5:ChangedData ;
+    <http://www.example.com/changedData/135> a ns4:ChangedData ;
         rdfs:comment "590.423.4567" .
 
-    <http://www.example.com/changedData/136> a ns5:ChangedData ;
+    <http://www.example.com/changedData/136> a ns4:ChangedData ;
         rdfs:comment "03-Jan-06" .
 
-    <http://www.example.com/changedData/137> a ns5:ChangedData ;
+    <http://www.example.com/changedData/137> a ns4:ChangedData ;
         rdfs:comment "IT_PROG" .
 
-    <http://www.example.com/changedData/138> a ns5:ChangedData ;
+    <http://www.example.com/changedData/138> a ns4:ChangedData ;
         rdfs:comment "9000" .
 
-    <http://www.example.com/changedData/139> a ns5:ChangedData ;
+    <http://www.example.com/changedData/139> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/140> a ns5:ChangedData ;
+    <http://www.example.com/changedData/140> a ns4:ChangedData ;
         rdfs:comment "102" .
 
-    <http://www.example.com/changedData/141> a ns5:ChangedData ;
+    <http://www.example.com/changedData/141> a ns4:ChangedData ;
         rdfs:comment "60" .
 
-    <http://www.example.com/changedData/142> a ns5:ChangedData .
+    <http://www.example.com/changedData/142> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/146> a ns5:ChangedData ;
+    <http://www.example.com/changedData/146> a ns4:ChangedData ;
         rdfs:comment "DOCONNEL" .
 
-    <http://www.example.com/changedData/148> a ns5:ChangedData ;
+    <http://www.example.com/changedData/148> a ns4:ChangedData ;
         rdfs:comment "21-JUN-07" .
 
-    <http://www.example.com/changedData/15> a ns5:ChangedData ;
+    <http://www.example.com/changedData/15> a ns4:ChangedData ;
         rdfs:comment "13-Jan-08" .
 
-    <http://www.example.com/changedData/151> a ns5:ChangedData ;
+    <http://www.example.com/changedData/151> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/157> a ns5:ChangedData ;
+    <http://www.example.com/changedData/157> a ns4:ChangedData ;
         rdfs:comment "DGRANT" .
 
-    <http://www.example.com/changedData/159> a ns5:ChangedData ;
+    <http://www.example.com/changedData/159> a ns4:ChangedData ;
         rdfs:comment "13-JAN-08" .
 
-    <http://www.example.com/changedData/162> a ns5:ChangedData ;
+    <http://www.example.com/changedData/162> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/168> a ns5:ChangedData ;
+    <http://www.example.com/changedData/168> a ns4:ChangedData ;
         rdfs:comment "JWHALEN" .
 
-    <http://www.example.com/changedData/170> a ns5:ChangedData ;
+    <http://www.example.com/changedData/170> a ns4:ChangedData ;
         rdfs:comment "17-SEP-03" .
 
-    <http://www.example.com/changedData/173> a ns5:ChangedData ;
+    <http://www.example.com/changedData/173> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/179> a ns5:ChangedData ;
+    <http://www.example.com/changedData/179> a ns4:ChangedData ;
         rdfs:comment "MHARTSTE" .
 
-    <http://www.example.com/changedData/181> a ns5:ChangedData ;
+    <http://www.example.com/changedData/181> a ns4:ChangedData ;
         rdfs:comment "17-FEB-04" .
 
-    <http://www.example.com/changedData/184> a ns5:ChangedData ;
+    <http://www.example.com/changedData/184> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/187> a ns5:ChangedData ;
+    <http://www.example.com/changedData/187> a ns4:ChangedData ;
         rdfs:comment "Test" .
 
-    <http://www.example.com/changedData/188> a ns5:ChangedData ;
+    <http://www.example.com/changedData/188> a ns4:ChangedData ;
         rdfs:comment "EMAIL" .
 
-    <http://www.example.com/changedData/190> a ns5:ChangedData ;
+    <http://www.example.com/changedData/190> a ns4:ChangedData ;
         rdfs:comment "location" ;
-        ns5:hasNewLocation "employee-v5.csv" .
+        ns4:hasNewLocation "employee-v5.csv" .
 
-    <http://www.example.com/changedData/21> a ns5:ChangedData ;
+    <http://www.example.com/changedData/21> a ns4:ChangedData ;
         rdfs:comment "ss" .
 
-    <http://www.example.com/changedData/26> a ns5:ChangedData ;
+    <http://www.example.com/changedData/26> a ns4:ChangedData ;
         rdfs:comment "17-Sep-03" .
 
-    <http://www.example.com/changedData/32> a ns5:ChangedData .
+    <http://www.example.com/changedData/32> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/37> a ns5:ChangedData ;
+    <http://www.example.com/changedData/37> a ns4:ChangedData ;
         rdfs:comment "17-Feb-04" .
 
-    <http://www.example.com/changedData/4> a ns5:ChangedData ;
+    <http://www.example.com/changedData/4> a ns4:ChangedData ;
         rdfs:comment "21-Jun-07" .
 
-    <http://www.example.com/changedData/43> a ns5:ChangedData .
+    <http://www.example.com/changedData/43> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/44> a ns5:ChangedData ;
+    <http://www.example.com/changedData/44> a ns4:ChangedData ;
         rdfs:comment "202" .
 
-    <http://www.example.com/changedData/45> a ns5:ChangedData ;
+    <http://www.example.com/changedData/45> a ns4:ChangedData ;
         rdfs:comment "Pat" .
 
-    <http://www.example.com/changedData/46> a ns5:ChangedData ;
+    <http://www.example.com/changedData/46> a ns4:ChangedData ;
         rdfs:comment "Fay" .
 
-    <http://www.example.com/changedData/47> a ns5:ChangedData ;
+    <http://www.example.com/changedData/47> a ns4:ChangedData ;
         rdfs:comment "603.123.6666" .
 
-    <http://www.example.com/changedData/48> a ns5:ChangedData ;
+    <http://www.example.com/changedData/48> a ns4:ChangedData ;
         rdfs:comment "17-Aug-05" .
 
-    <http://www.example.com/changedData/49> a ns5:ChangedData ;
+    <http://www.example.com/changedData/49> a ns4:ChangedData ;
         rdfs:comment "MK_REP" .
 
-    <http://www.example.com/changedData/50> a ns5:ChangedData ;
+    <http://www.example.com/changedData/50> a ns4:ChangedData ;
         rdfs:comment "6000" .
 
-    <http://www.example.com/changedData/51> a ns5:ChangedData ;
+    <http://www.example.com/changedData/51> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/52> a ns5:ChangedData ;
+    <http://www.example.com/changedData/52> a ns4:ChangedData ;
         rdfs:comment "201" .
 
-    <http://www.example.com/changedData/53> a ns5:ChangedData ;
+    <http://www.example.com/changedData/53> a ns4:ChangedData ;
         rdfs:comment "20" .
 
-    <http://www.example.com/changedData/54> a ns5:ChangedData ;
+    <http://www.example.com/changedData/54> a ns4:ChangedData ;
         rdfs:comment "ss" .
 
-    <http://www.example.com/changedData/55> a ns5:ChangedData ;
+    <http://www.example.com/changedData/55> a ns4:ChangedData ;
         rdfs:comment "203" .
 
-    <http://www.example.com/changedData/56> a ns5:ChangedData ;
+    <http://www.example.com/changedData/56> a ns4:ChangedData ;
         rdfs:comment "Susan" .
 
-    <http://www.example.com/changedData/57> a ns5:ChangedData ;
+    <http://www.example.com/changedData/57> a ns4:ChangedData ;
         rdfs:comment "Mavris" .
 
-    <http://www.example.com/changedData/58> a ns5:ChangedData ;
+    <http://www.example.com/changedData/58> a ns4:ChangedData ;
         rdfs:comment "515.123.7777" .
 
-    <http://www.example.com/changedData/59> a ns5:ChangedData ;
+    <http://www.example.com/changedData/59> a ns4:ChangedData ;
         rdfs:comment "07-Jun-02" .
 
-    <http://www.example.com/changedData/60> a ns5:ChangedData ;
+    <http://www.example.com/changedData/60> a ns4:ChangedData ;
         rdfs:comment "HR_REP" .
 
-    <http://www.example.com/changedData/61> a ns5:ChangedData ;
+    <http://www.example.com/changedData/61> a ns4:ChangedData ;
         rdfs:comment "6500" .
 
-    <http://www.example.com/changedData/62> a ns5:ChangedData ;
+    <http://www.example.com/changedData/62> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/63> a ns5:ChangedData ;
+    <http://www.example.com/changedData/63> a ns4:ChangedData ;
         rdfs:comment "101" .
 
-    <http://www.example.com/changedData/64> a ns5:ChangedData ;
+    <http://www.example.com/changedData/64> a ns4:ChangedData ;
         rdfs:comment "40" .
 
-    <http://www.example.com/changedData/65> a ns5:ChangedData .
+    <http://www.example.com/changedData/65> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/66> a ns5:ChangedData ;
+    <http://www.example.com/changedData/66> a ns4:ChangedData ;
         rdfs:comment "204" .
 
-    <http://www.example.com/changedData/67> a ns5:ChangedData ;
+    <http://www.example.com/changedData/67> a ns4:ChangedData ;
         rdfs:comment "Hermann" .
 
-    <http://www.example.com/changedData/68> a ns5:ChangedData ;
+    <http://www.example.com/changedData/68> a ns4:ChangedData ;
         rdfs:comment "Baer" .
 
-    <http://www.example.com/changedData/69> a ns5:ChangedData ;
+    <http://www.example.com/changedData/69> a ns4:ChangedData ;
         rdfs:comment "515.123.8888" .
 
-    <http://www.example.com/changedData/70> a ns5:ChangedData ;
+    <http://www.example.com/changedData/70> a ns4:ChangedData ;
         rdfs:comment "07-Jun-02" .
 
-    <http://www.example.com/changedData/71> a ns5:ChangedData ;
+    <http://www.example.com/changedData/71> a ns4:ChangedData ;
         rdfs:comment "PR_REP" .
 
-    <http://www.example.com/changedData/72> a ns5:ChangedData ;
+    <http://www.example.com/changedData/72> a ns4:ChangedData ;
         rdfs:comment "10000" .
 
-    <http://www.example.com/changedData/73> a ns5:ChangedData ;
+    <http://www.example.com/changedData/73> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/74> a ns5:ChangedData ;
+    <http://www.example.com/changedData/74> a ns4:ChangedData ;
         rdfs:comment "101" .
 
-    <http://www.example.com/changedData/75> a ns5:ChangedData ;
+    <http://www.example.com/changedData/75> a ns4:ChangedData ;
         rdfs:comment "70" .
 
-    <http://www.example.com/changedData/76> a ns5:ChangedData .
+    <http://www.example.com/changedData/76> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/77> a ns5:ChangedData ;
+    <http://www.example.com/changedData/77> a ns4:ChangedData ;
         rdfs:comment "205" .
 
-    <http://www.example.com/changedData/78> a ns5:ChangedData ;
+    <http://www.example.com/changedData/78> a ns4:ChangedData ;
         rdfs:comment "Shelley" .
 
-    <http://www.example.com/changedData/79> a ns5:ChangedData ;
+    <http://www.example.com/changedData/79> a ns4:ChangedData ;
         rdfs:comment "Higgins" .
 
-    <http://www.example.com/changedData/80> a ns5:ChangedData ;
+    <http://www.example.com/changedData/80> a ns4:ChangedData ;
         rdfs:comment "515.123.8080" .
 
-    <http://www.example.com/changedData/81> a ns5:ChangedData ;
+    <http://www.example.com/changedData/81> a ns4:ChangedData ;
         rdfs:comment "07-Jun-02" .
 
-    <http://www.example.com/changedData/82> a ns5:ChangedData ;
+    <http://www.example.com/changedData/82> a ns4:ChangedData ;
         rdfs:comment "AC_MGR" .
 
-    <http://www.example.com/changedData/83> a ns5:ChangedData ;
+    <http://www.example.com/changedData/83> a ns4:ChangedData ;
         rdfs:comment "12008" .
 
-    <http://www.example.com/changedData/84> a ns5:ChangedData ;
+    <http://www.example.com/changedData/84> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/85> a ns5:ChangedData ;
+    <http://www.example.com/changedData/85> a ns4:ChangedData ;
         rdfs:comment "101" .
 
-    <http://www.example.com/changedData/86> a ns5:ChangedData ;
+    <http://www.example.com/changedData/86> a ns4:ChangedData ;
         rdfs:comment "110" .
 
-    <http://www.example.com/changedData/87> a ns5:ChangedData ;
+    <http://www.example.com/changedData/87> a ns4:ChangedData ;
         rdfs:comment "alex" .
 
-    <http://www.example.com/changedData/88> a ns5:ChangedData ;
+    <http://www.example.com/changedData/88> a ns4:ChangedData ;
         rdfs:comment "206" .
 
-    <http://www.example.com/changedData/89> a ns5:ChangedData ;
+    <http://www.example.com/changedData/89> a ns4:ChangedData ;
         rdfs:comment "William" .
 
-    <http://www.example.com/changedData/90> a ns5:ChangedData ;
+    <http://www.example.com/changedData/90> a ns4:ChangedData ;
         rdfs:comment "Gietz" .
 
-    <http://www.example.com/changedData/91> a ns5:ChangedData ;
+    <http://www.example.com/changedData/91> a ns4:ChangedData ;
         rdfs:comment "515.123.8181" .
 
-    <http://www.example.com/changedData/92> a ns5:ChangedData ;
+    <http://www.example.com/changedData/92> a ns4:ChangedData ;
         rdfs:comment "07-Jun-02" .
 
-    <http://www.example.com/changedData/93> a ns5:ChangedData ;
+    <http://www.example.com/changedData/93> a ns4:ChangedData ;
         rdfs:comment "AC_ACCOUNT" .
 
-    <http://www.example.com/changedData/94> a ns5:ChangedData ;
+    <http://www.example.com/changedData/94> a ns4:ChangedData ;
         rdfs:comment "8300" .
 
-    <http://www.example.com/changedData/95> a ns5:ChangedData ;
+    <http://www.example.com/changedData/95> a ns4:ChangedData ;
         rdfs:comment "-" .
 
-    <http://www.example.com/changedData/96> a ns5:ChangedData ;
+    <http://www.example.com/changedData/96> a ns4:ChangedData ;
         rdfs:comment "205" .
 
-    <http://www.example.com/changedData/97> a ns5:ChangedData ;
+    <http://www.example.com/changedData/97> a ns4:ChangedData ;
         rdfs:comment "110" .
 
-    <http://www.example.com/changedData/98> a ns5:ChangedData .
+    <http://www.example.com/changedData/98> a ns4:ChangedData .
 
-    <http://www.example.com/changedData/99> a ns5:ChangedData ;
+    <http://www.example.com/changedData/99> a ns4:ChangedData ;
         rdfs:comment "100" .
 
-    <http://www.example.com/deleteChange/146> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/146> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/146> ;
-        ns5:hasDataReference "EMAIL" .
+        ns4:hasChangedData <http://www.example.com/changedData/146> ;
+        ns4:hasDataReference "EMAIL" .
 
-    <http://www.example.com/deleteChange/148> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/148> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/148> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/148> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/deleteChange/151> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/151> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/151> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/151> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/deleteChange/157> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/157> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/157> ;
-        ns5:hasDataReference "EMAIL" .
+        ns4:hasChangedData <http://www.example.com/changedData/157> ;
+        ns4:hasDataReference "EMAIL" .
 
-    <http://www.example.com/deleteChange/159> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/159> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/159> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/159> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/deleteChange/162> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/162> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/162> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/162> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/deleteChange/168> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/168> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/168> ;
-        ns5:hasDataReference "EMAIL" .
+        ns4:hasChangedData <http://www.example.com/changedData/168> ;
+        ns4:hasDataReference "EMAIL" .
 
-    <http://www.example.com/deleteChange/170> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/170> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/170> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/170> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/deleteChange/173> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/173> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/173> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/173> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/deleteChange/179> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/179> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/179> ;
-        ns5:hasDataReference "EMAIL" .
+        ns4:hasChangedData <http://www.example.com/changedData/179> ;
+        ns4:hasDataReference "EMAIL" .
 
-    <http://www.example.com/deleteChange/181> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/181> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/181> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/181> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/deleteChange/184> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/184> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/184> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/184> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/deleteChange/188> a ns5:DeleteSourceData ;
+    <http://www.example.com/deleteChange/188> a ns4:DeleteSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/188> ;
-        ns5:hasStructuralReference "Columns" .
+        ns4:hasChangedData <http://www.example.com/changedData/188> ;
+        ns4:hasStructuralReference "Columns" .
 
-    <http://www.example.com/insertChange/10> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/10> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/10> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/10> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/100> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/100> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/100> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/100> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/101> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/101> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/101> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/101> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/102> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/102> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/102> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/102> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/103> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/103> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/103> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/103> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/104> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/104> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/104> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/104> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/105> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/105> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/105> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/105> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/106> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/106> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/106> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/106> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/107> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/107> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/107> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/107> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/108> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/108> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/108> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/108> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/109> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/109> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/109> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/109> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/110> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/110> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/110> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/110> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/111> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/111> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/111> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/111> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/112> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/112> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/112> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/112> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/113> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/113> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/113> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/113> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/114> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/114> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/114> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/114> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/115> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/115> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/115> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/115> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/116> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/116> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/116> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/116> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/117> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/117> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/117> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/117> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/118> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/118> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/118> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/118> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/119> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/119> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/119> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/119> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/120> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/120> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/120> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/120> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/121> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/121> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/121> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/121> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/122> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/122> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/122> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/122> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/123> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/123> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/123> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/123> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/124> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/124> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/124> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/124> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/125> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/125> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/125> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/125> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/126> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/126> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/126> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/126> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/127> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/127> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/127> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/127> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/128> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/128> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/128> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/128> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/129> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/129> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/129> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/129> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/130> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/130> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/130> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/130> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/131> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/131> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/131> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/131> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/132> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/132> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/132> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/132> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/133> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/133> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/133> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/133> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/134> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/134> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/134> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/134> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/135> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/135> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/135> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/135> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/136> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/136> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/136> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/136> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/137> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/137> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/137> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/137> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/138> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/138> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/138> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/138> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/139> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/139> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/139> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/139> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/140> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/140> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/140> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/140> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/141> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/141> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/141> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/141> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/142> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/142> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/142> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/142> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/15> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/15> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/15> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/15> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/187> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/187> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/187> ;
-        ns5:hasStructuralReference "Columns" .
+        ns4:hasChangedData <http://www.example.com/changedData/187> ;
+        ns4:hasStructuralReference "Columns" .
 
-    <http://www.example.com/insertChange/21> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/21> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/21> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/21> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/26> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/26> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/26> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/26> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/32> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/32> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/32> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/32> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/37> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/37> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/37> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/37> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/4> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/4> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/4> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/4> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/43> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/43> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/43> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/43> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/44> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/44> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/44> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/44> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/45> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/45> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/45> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/45> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/46> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/46> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/46> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/46> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/47> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/47> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/47> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/47> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/48> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/48> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/48> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/48> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/49> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/49> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/49> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/49> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/50> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/50> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/50> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/50> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/51> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/51> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/51> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/51> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/52> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/52> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/52> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/52> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/53> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/53> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/53> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/53> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/54> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/54> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/54> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/54> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/55> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/55> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/55> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/55> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/56> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/56> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/56> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/56> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/57> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/57> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/57> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/57> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/58> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/58> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/58> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/58> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/59> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/59> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/59> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/59> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/60> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/60> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/60> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/60> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/61> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/61> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/61> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/61> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/62> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/62> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/62> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/62> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/63> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/63> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/63> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/63> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/64> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/64> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/64> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/64> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/65> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/65> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/65> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/65> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/66> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/66> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/66> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/66> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/67> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/67> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/67> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/67> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/68> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/68> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/68> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/68> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/69> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/69> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/69> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/69> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/70> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/70> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/70> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/70> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/71> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/71> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/71> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/71> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/72> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/72> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/72> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/72> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/73> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/73> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/73> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/73> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/74> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/74> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/74> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/74> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/75> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/75> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/75> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/75> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/76> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/76> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/76> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/76> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/77> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/77> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/77> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/77> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/78> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/78> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/78> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/78> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/79> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/79> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/79> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/79> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/80> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/80> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/80> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/80> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/81> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/81> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/81> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/81> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/82> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/82> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/82> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/82> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/83> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/83> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/83> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/83> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/84> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/84> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/84> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/84> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/85> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/85> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/85> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/85> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/86> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/86> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/86> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/86> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/87> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/87> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/87> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/87> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/88> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/88> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/88> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/88> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/insertChange/89> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/89> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/89> ;
-        ns5:hasDataReference "FIRST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/89> ;
+        ns4:hasDataReference "FIRST_NAME" .
 
-    <http://www.example.com/insertChange/90> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/90> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/90> ;
-        ns5:hasDataReference "LAST_NAME" .
+        ns4:hasChangedData <http://www.example.com/changedData/90> ;
+        ns4:hasDataReference "LAST_NAME" .
 
-    <http://www.example.com/insertChange/91> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/91> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/91> ;
-        ns5:hasDataReference "PHONE_NUMBER" .
+        ns4:hasChangedData <http://www.example.com/changedData/91> ;
+        ns4:hasDataReference "PHONE_NUMBER" .
 
-    <http://www.example.com/insertChange/92> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/92> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/92> ;
-        ns5:hasDataReference "HIRE_DATE" .
+        ns4:hasChangedData <http://www.example.com/changedData/92> ;
+        ns4:hasDataReference "HIRE_DATE" .
 
-    <http://www.example.com/insertChange/93> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/93> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/93> ;
-        ns5:hasDataReference "JOB_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/93> ;
+        ns4:hasDataReference "JOB_ID" .
 
-    <http://www.example.com/insertChange/94> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/94> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/94> ;
-        ns5:hasDataReference "SALARY" .
+        ns4:hasChangedData <http://www.example.com/changedData/94> ;
+        ns4:hasDataReference "SALARY" .
 
-    <http://www.example.com/insertChange/95> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/95> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/95> ;
-        ns5:hasDataReference "COMMISSION_PCT" .
+        ns4:hasChangedData <http://www.example.com/changedData/95> ;
+        ns4:hasDataReference "COMMISSION_PCT" .
 
-    <http://www.example.com/insertChange/96> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/96> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/96> ;
-        ns5:hasDataReference "MANAGER_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/96> ;
+        ns4:hasDataReference "MANAGER_ID" .
 
-    <http://www.example.com/insertChange/97> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/97> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/97> ;
-        ns5:hasDataReference "DEPARTMENT_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/97> ;
+        ns4:hasDataReference "DEPARTMENT_ID" .
 
-    <http://www.example.com/insertChange/98> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/98> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/98> ;
-        ns5:hasDataReference "Test" .
+        ns4:hasChangedData <http://www.example.com/changedData/98> ;
+        ns4:hasDataReference "Test" .
 
-    <http://www.example.com/insertChange/99> a ns5:InsertSourceData ;
+    <http://www.example.com/insertChange/99> a ns4:InsertSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/99> ;
-        ns5:hasDataReference "EMPLOYEE_ID" .
+        ns4:hasChangedData <http://www.example.com/changedData/99> ;
+        ns4:hasDataReference "EMPLOYEE_ID" .
 
-    <http://www.example.com/moveChange/190> a ns5:MoveSourceData ;
+    <http://www.example.com/moveChange/190> a ns4:MoveSourceData ;
         ns11:atTime "2023-04-15 17:01:49.103803"^^xsd:dateTimeStamp ;
-        ns5:hasChangedData <http://www.example.com/changedData/190> ;
-        ns5:hasDataReference "employee-v5.csv" .
+        ns4:hasChangedData <http://www.example.com/changedData/190> ;
+        ns4:hasDataReference "employee-v5.csv" .
 }
 

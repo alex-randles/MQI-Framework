@@ -45,7 +45,7 @@
                         </button>
                     </h5>
                 </div>
-                <div id="sourceDataCollapse-{{outer_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{outer_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{outer_div_counter.value}}">
+                <div id="sourceDataCollapse-{{outer_div_counter.value}}" class="collapse in" aria-labelledby="dataReferenceHeading-{{outer_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{outer_div_counter.value}}">
 
 
 
@@ -63,7 +63,7 @@
                                 </h5>
                             </div>
                             {% set inner_div_counter.value = middle_div_counter.value + 1 %}
-                            <div id="sourceDataCollapse-{{middle_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{middle_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{middle_div_counter.value}}">
+                            <div id="sourceDataCollapse-{{middle_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{middle_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{middle_div_counter.value}}">
                                 <div class="card-body">
                                     {% set reference_changes = mapping_impact.get(captured_change_type) %}
                                     {% set current_changes = reference_changes.get(change_type).items() %}
@@ -80,7 +80,7 @@
                                                 </button>
                                             </h5>
                                         </div>
-                                        <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter.value}}">
+                                        <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
                                                 {% if captured_change_type == "structural_changes" and change_type == 'delete' %}
                                                 <div class="row">
