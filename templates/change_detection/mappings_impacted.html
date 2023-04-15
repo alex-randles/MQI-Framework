@@ -6,7 +6,20 @@
 </head>
 <body>
 {% block content %}
+
 <div class="container-fluid">
+    {% if mapping_updated %}
+    <div class="row">
+        <div class="alert alert-success text-center" role="alert">
+            <h5 class="alert-heading">Updated Mapping Generated</h5>
+            <p><strong>Check the 'Execute' box for refinements you want to be executed or 'Execute All Refinements'.</strong>
+                <a href="{{ url_for('static', filename='updated_mapping.ttl') }}">
+                    <button class="btn btn-sm mx-2 btn-secondary">Download Updated Mapping</button>
+                </a>
+            </p>
+        </div>
+    </div>
+    {% endif %}
     <div class="row py-2">
         <div class="col-2 p-3">
             <h5>Mapping ID: {{ mapping_id }}</h5>
@@ -83,27 +96,22 @@
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
                                                 {% if captured_change_type == "structural_changes" and change_type == 'delete' %}
-                                                <div class="row">
-                                                    <div class="col-2">
-                                                        <form style="" method="POST" action=".">
+                                                <form style="" method="POST" action=".">
+                                                    <div class="row">
+                                                        <div class="col-2">
                                                             <select class="form-select" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
                                                                 <option selected>Select a new reference</option>
                                                                 {% for new_references, values in mapping_impact.get("structural_changes").get("insert").items() %}
                                                                 <option value="{{new_references}}-{{reference}}">{{new_references}}</option>
                                                                 {% endfor %}
                                                             </select>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <input type="submit" value="Updated Mapping" class="btn btn-secondary float-left"/>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-1">
-                                                        <input type="submit" class="btn btn-secondary float-left"/>
-                                                    </div>
+                                                </form>
 
-                                                    </form>
-                                                    <div class="col-4">
-                                                        <a href="{{ url_for('static', filename='updated_mapping.ttl') }}">
-                                                            <button class="btn btn-secondary">Download Updated Mapping</button>
-                                                        </a>
-                                                    </div>
-                                                </div>
                                                 {% endif %}
 
 

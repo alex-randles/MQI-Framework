@@ -1,14 +1,26 @@
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix ont: <http://ontologies.geohive.ie/osi#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping242.ttl#work_lyrics> a rr:TriplesMap ;
-    rml:logicalSource [ rml:source "loans-v1.csv" ] ;
-    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Area" ;
-                    rr:datatype xsd:dateTime ] ;
-            rr:predicate prov:generatedAtTime ] ;
-    rr:subjectMap [ rr:class foaf:MusicalWork ;
-            rr:graph "djdjdjjd" ] .
+<file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap1> rr:logicalTable [ rr:tableName "employee.csv" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:column "LAST_NAME" ;
+                    rr:language "en" ] ;
+            rr:predicate rdfs:label ],
+        [ rr:objectMap [ rr:column "Test" ] ;
+            rr:predicate rdfs:label ],
+        [ rr:objectMap [ rr:column "GAEILGE" ;
+                    rr:language "ga" ] ;
+            rr:predicate rdfs:label ],
+        [ rr:objectMap [ rr:template "urn:osi:boundary:geom:{GUID}" ] ;
+            rr:predicate geo:hasGeometry ] ;
+    rr:subjectMap [ rr:class ont:ElectoralDivision,
+                geo:Feature ;
+            rr:template "http://data.geohive.ie/resource/electoral_division/{GUID}" ] .
+
+<file:///home/alex/MQI-Framework/static/uploads/mappings/ED_20m.ttl#TriplesMap2> rr:logicalTable [ rr:tableName "ED_CBD2019_20M" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:column "GEOMETRY" ] ;
+            rr:predicate geo:asWKT ] ;
+    rr:subjectMap [ rr:class geo:Geometry ;
+            rr:template "urn:osi:boundary:geom:{GUID}" ] .
 

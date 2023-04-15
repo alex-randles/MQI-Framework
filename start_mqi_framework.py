@@ -295,6 +295,8 @@ class API:
                 "delete": "Column deleted",
                 "move": "Source data moved",
             }
+            mapping_updated = session.get("mapping_updated")
+            session["mapping_updated"] = False
             mapping_filename = mapping_graph_details.get("filename")
             return render_template("change_detection/mappings_impacted.html",
                                    change_template_colors=change_template_colors,
@@ -302,6 +304,7 @@ class API:
                                    mapping_impact=mapping_impact,
                                    mapping_filename=mapping_filename,
                                    change_type_banners=change_type_banners,
+                                   mapping_updated=mapping_updated,
                                    change_graph_details=change_graph_details)
         else:
             try:
@@ -323,7 +326,7 @@ class API:
                 print(update_query)
                 mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
                 mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
-                mapping_graph = rdflib.Graph().parse(mapping_filepath, format="ttl")
+                mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
                 rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
                 mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
             except Exception as e:
@@ -332,6 +335,7 @@ class API:
                 mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
                 mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
                 mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
+            session["mapping_updated"] = True
             return redirect(request.referrer)
 
     # generate a html file with all the thresholds for a specific process
