@@ -37,13 +37,16 @@ function createPDF() {
 
 function showDiv(id){
    var e = document.getElementById(id);
+   var button_text_id = 'button-' + id;
    if(e.style.display == 'block') {
       e.style.display = 'none';
-      document.getElementById('button-' + id).innerText = 'Displau Violation';
+      document.getElementById(button_text_id).innerText = 'Display Violation';
+      document.getElementById(button_text_id).className = 'btn btn-secondary my-3';
    }
    else {
       e.style.display = 'block';
-      document.getElementById('button-' + id).innerText = 'Undisplay Violation';
+      document.getElementById(button_text_id).innerText = 'Hide Violation';
+      document.getElementById(button_text_id).className = 'btn btn-primary my-3';
    }
 }
 
