@@ -385,6 +385,19 @@ class ValidateQuality:
     #         datatype = row.get("datatype")
     #         self.add_violation([metric_identifier, result_message, datatype, subject_identifier])
 
+    def validate_MP6(self):
+        result_message = "No logical table in this triple map."
+        metric_identifier = "MP2"
+        query = """
+        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+        PREFIX rr: <http://www.w3.org/ns/r2rml#>
+        ASK { ?subject rr:logicalTable|rml:logicalSource ?object } """
+        query_results = self.mapping_graph.query(query)
+        for row in query_results:
+            if not row:
+                self.add_violation([metric_identifier, result_message, None, None])
+
+
     def validate_MP3(self):
         result_message = "No subjectMap defined in this mapping."
         metric_identifier = "MP3"
@@ -437,18 +450,6 @@ class ValidateQuality:
             subject = row.get("joinCondition")
             self.add_violation([metric_identifier, result_message, URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
 
-    def validate_MP6(self):
-        result_message = "No logical table in this triple map."
-        metric_identifier = "MP6"
-        query = """
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
-        PREFIX rr: <http://www.w3.org/ns/r2rml#>
-        ASK { ?subject rr:logicalTable|rml:logicalSource ?object } """
-        query_results = self.mapping_graph.query(query)
-        for row in query_results:
-            if not row:
-                self.add_violation([metric_identifier, result_message, None, None])
-
     # def validate_MP7_1(self):
     #     result_message = "Term type for predicate map should be an IRI."
     #     metric_identifier = "MP7_1"
@@ -470,7 +471,7 @@ class ValidateQuality:
     def validate_MP7(self):
         # The user may spell one of the term types incorrect e.g rr:Literal(s)
         result_message = "Invalid term type definition."
-        metric_identifier = "MP7"
+        metric_identifier = "MP6"
         query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?objectMap ?termType
@@ -504,7 +505,7 @@ class ValidateQuality:
 
     def validate_MP8(self):
         result_message = "Subject map class must be a valid IRI."
-        metric_identifier = "MP8"
+        metric_identifier = "MP7"
         query = """
                      PREFIX rr: <http://www.w3.org/ns/r2rml#>
                      SELECT ?class ?subjectMap
@@ -522,7 +523,7 @@ class ValidateQuality:
 
     def validate_MP9(self):
         result_message = "Predicate must be a valid IRI."
-        metric_identifier = "MP9"
+        metric_identifier = "MP8"
         query = """
                      PREFIX rr: <http://www.w3.org/ns/r2rml#>
                      SELECT ?predicate ?pom
@@ -540,7 +541,7 @@ class ValidateQuality:
 
     def validate_MP10(self):
         result_message = "Named graph must be a valid IRI."
-        metric_identifier = "MP10"
+        metric_identifier = "MP9"
         query = """
                      PREFIX rr: <http://www.w3.org/ns/r2rml#>
                      SELECT ?graph ?sm
@@ -553,11 +554,12 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             object_identifier = row.get("graph")
-            self.add_violation([metric_identifier, result_message, object_identifier, None])
+            subject_identifier = row.get("sm")
+            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_MP11(self):
         result_message = "Datatype must be a valid IRI."
-        metric_identifier = "MP11"
+        metric_identifier = "MP10"
         query = """
                      PREFIX rr: <http://www.w3.org/ns/r2rml#>
                      SELECT ?datatype ?om
@@ -576,7 +578,7 @@ class ValidateQuality:
 
     def validate_MP12(self):
         result_message = "Language tag not defined in RFC 5646."
-        metric_identifier = "MP12"
+        metric_identifier = "MP11"
         language_tags = (
                 'af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY', 'ar-MA',
                 'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg', 'bg-BG',

@@ -121,6 +121,7 @@ class FetchVocabularies:
     @staticmethod
     def store_local_vocabulary(file_path):
         # rdflib.plugins.parsers.notation3.BadSyntax
+        # rdflib.plugin.PluginException - Wrong file format
         graph_format = rdflib.util.guess_format(file_path)
         ontology_graph = Graph().parse(file_path, format=graph_format)
         query = """

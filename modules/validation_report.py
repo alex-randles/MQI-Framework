@@ -181,7 +181,8 @@ class ValidationReport:
         print("printing mapping namespaces....")
         print(self.mapping_namespaces)
         for (prefix, namespace) in self.mapping_namespaces.items():
-            self.validation_graph.bind(prefix, namespace)
+            if prefix != "ex":
+                self.validation_graph.bind(prefix, namespace)
             print("adding namespace", prefix, namespace)
         print("printed namespaces")
 

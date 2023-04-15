@@ -90,15 +90,12 @@
                                                         <form style="" method="POST" action=".">
                                                             <select class="form-select" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
                                                                 <option selected>Replace with new reference</option>
-                                                                {% for change, values in mapping_impact.get("structural_changes").items() %}
-                                                                {% set new_references = values.keys()|list %}
-                                                                {% if new_references %}
-                                                                <option value="{{new_references[0]}}-{{reference}}">{{new_references[0]}}</option>
-                                                                {% endif %}
+                                                                {% for new_references, values in mapping_impact.get("structural_changes").get("insert").items() %}
+                                                                <option value="{{new_references}}-{{reference}}">{{new_references}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                     </div>
-                                                    <div class="col-4">
+                                                    <div class="col-1">
                                                         <input type="submit" class="btn btn-secondary float-left"/>
                                                     </div>
 
