@@ -165,11 +165,12 @@ class API:
         return quality_assessment
 
     @staticmethod
-    def create_validation_report(more_info_data):
+    def create_validation_report():
         cache_find_location = session.get("find_violation_location")
         cache_validation_result = session.get("validation_result")
         cache_validation_report_file = session.get("validation_report_file")
         cache_mapping_file = session.get("mapping_file")
+        more_info_data = session.get("more_info_data")
         formatted_validation_result = copy.deepcopy(cache_validation_result)
         for violation_ID in formatted_validation_result.keys():
             violation_location = formatted_validation_result[violation_ID]["location"]
@@ -536,7 +537,7 @@ class API:
                                 serializer = TurtleSerializer(mapping_graph)
                                 parse_violation_value = serializer.parse_violation_value
                                 session["find_prefix"] = assessment_result.find_prefix
-                                API.create_validation_report(more_info_data)
+                                API.create_validation_report()
                                 get_triple_map_id = assessment_result.get_triple_map_id
                                 session["get_triple_map_id"] = get_triple_map_id
                                 participant_id = session["participant_id"]
@@ -563,7 +564,7 @@ class API:
                                 )
 
                             else:
-                                API.create_validation_report(more_info_data)
+                                API.create_validation_report()
                                 return render_template("mapping_quality/no_violations.html", participant_id=participant_id)
                         except urllib.error.URLError as server_error:
                             print(server_error)
@@ -607,7 +608,6 @@ class API:
         cache_validation_result = session.get("validation_result")
         cache_add_information = session.get("add_information")
         cache_mapping_file = session.get("mapping_file")
-        cache_validation_report_file = session.get("validation_report_file")
         cache_namespaces = session.get("namespaces")
         cache_find_violation = session.get("find_violation_location")
         more_info_data = session.get("more_info_data")
@@ -616,7 +616,7 @@ class API:
         if request.method == "POST":
             session["request_form"] = request.form.to_dict()
             # create validation report incase user goes back and then forward,not to include multiple refinement queries
-            API.create_validation_report(more_info_data)
+            API.create_validation_report()
             cache_refinement_values = session.get("refinement_values")
             session["refinements"] = Refinements(cache_validation_result,
                                                  cache_triple_references,
@@ -627,7 +627,7 @@ class API:
                                                       cache_refinement_values,
                                                       cache_mapping_file,
                                                       cache_mapping_graph,
-                                                      cache_validation_report_file)
+                                                      session.get("validation_report_file"))
             session["triple_references"] = session.get("refinements").triple_references
             serializer = TurtleSerializer(cache_mapping_graph)
             assessment_result = pickle.loads(session.get("assessment_result"))

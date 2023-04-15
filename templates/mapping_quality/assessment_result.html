@@ -175,8 +175,10 @@
             <td scope="col">
 
                 {% set display_button_id = violation_ID|string + 'assessment_result_div' %}
-                <div> <button class="btn btn-secondary my-3" type="button" onclick="showDiv('{{display_button_id}}')">Display Violation</button></div>
-
+                <div class="mb-1">
+                    {% set button_text_div = 'button-' + display_button_id %}
+                    <button id="{{button_text_div}}" class="btn btn-secondary my-3" type="button" onClick="showDiv('{{display_button_id}}');">Display Violation</button>
+                </div>
                 <div id="{{display_button_id}}" style="display:none;">
                     {% set violation_display = display_violation(validation_result[violation_ID]["location"], validation_result[violation_ID]["triple_map"], validation_result[violation_ID]["value"]) %}
                     {% if violation_display %}
