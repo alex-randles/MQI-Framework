@@ -122,30 +122,34 @@ class FetchVocabularies:
     def store_local_vocabulary(file_path):
         # rdflib.plugins.parsers.notation3.BadSyntax
         # rdflib.plugin.PluginException - Wrong file format
-        graph_format = rdflib.util.guess_format(file_path)
-        ontology_graph = Graph().parse(file_path, format=graph_format)
-        query = """
-            SELECT ?ns (COUNT(?ns) AS ?count)
-            WHERE {
-              ?subject ?predicate ?object                        
-              BIND(REPLACE(str(?subject), "(#|/)[^#/]*$", "$1") AS ?ns)
-            }
-            GROUP BY ?ns
-        """
-        query_results = ontology_graph.query(query)
-        max_value = (None, -1)
-        for row in query_results:
-            count = int(row["count"])
-            namespace = str(row["ns"])
-            if count > max_value[1]:
-                max_value = (namespace, count)
-        graph_name = urllib.parse.quote(max_value[0])
-        localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
-        # if host returns xml or turtle RDF data
-        if graph_format == "xml":
-            requests.post(localhost, data=open(file_path).read(), headers={"content-type": "application/rdf+xml"})
-        if graph_format == "turtle":
-            requests.post(localhost, data=open(file_path).read().encode('utf-8'), headers={"content-type": "text/turtle"})
+        try:
+            graph_format = rdflib.util.guess_format(file_path)
+            ontology_graph = Graph().parse(file_path, format=graph_format)
+            query = """
+                SELECT ?ns (COUNT(?ns) AS ?count)
+                WHERE {
+                  ?subject ?predicate ?object                        
+                  BIND(REPLACE(str(?subject), "(#|/)[^#/]*$", "$1") AS ?ns)
+                }
+                GROUP BY ?ns
+            """
+            query_results = ontology_graph.query(query)
+            max_value = (None, -1)
+            for row in query_results:
+                count = int(row["count"])
+                namespace = str(row["ns"])
+                if count > max_value[1]:
+                    max_value = (namespace, count)
+            graph_name = urllib.parse.quote(max_value[0])
+            localhost = "http://127.0.0.1:3030/MQI-Framework-Ontologies/data?graph={}".format(graph_name)
+            # if host returns xml or turtle RDF data
+            if graph_format == "xml":
+                requests.post(localhost, data=open(file_path).read(), headers={"content-type": "application/rdf+xml"})
+            if graph_format == "turtle":
+                requests.post(localhost, data=open(file_path).read().encode('utf-8'), headers={"content-type": "text/turtle"})
+        except Exception as e:
+            return 1
+
 
 if __name__ == "__main__":
     f = FetchVocabularies("/home/alex/Desktop/testing_mapping.ttl")

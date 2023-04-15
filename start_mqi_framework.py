@@ -354,9 +354,9 @@ class API:
     @app.route(("/change-processes"), methods=["GET", "POST"])
     def change_detection():
         participant_id = 1
+        change_process_executed = session.get("change_process_executed")
         # no alert if no process executed
         if request.method == "GET":
-            change_process_executed = session.get("change_process_executed")
             session["change_process_executed"] = False
             # get graph details for user
             # try:
@@ -509,7 +509,7 @@ class API:
                     # if ontology added successfully
                     error_message = API.store_ontology_file(ontology_file)
                     if error_message:
-                        flash("Local upload errror, ensure it's RDF format")
+                        flash("Local upload error, ensure it's RDF format")
                         return render_template("mapping_quality/index.html")
             predefined_filename = filename
             filename = secure_filename(file.filename)
@@ -536,7 +536,7 @@ class API:
                                 session["validation_report_file"] = validation_report_file
                                 session["namespaces"] = assessment_result.namespaces
                                 # user wants to add more info to reports
-                                session["add_information"] =  request.form.get("add-information")
+                                session["add_information"] = request.form.get("add-information")
                                 mapping_graph = assessment_result.mapping_graph
                                 session["mapping_graph"] = assessment_result.mapping_graph
                                 session["find_violation_location"] = assessment_result.find_violation_location
