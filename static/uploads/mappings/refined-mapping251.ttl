@@ -5,7 +5,6 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
 @prefix cidoc: <http://erlangen-crm.org/current/> . 
 @prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
-@prefix address: <http://schemas.talis.com/2005/address/schema#> . 
 
 	
 <#Appellation>	
@@ -28,12 +27,12 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class b2022:E81_Actor_Appellation, cidoc:E69_Death;	
-	 rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}" ;	
+ 	 rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}" ;	
+	 rr:class cidoc:E55_Type, cidoc:E17_Type_Assignment;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate address:jjjjjj;	
+ 	 rr:predicate rdfs:comment;	
 	 rr:objectMap [	
 		 rr:termType rr:Literal;	
 		 rr:template "{LABEL}" ;	

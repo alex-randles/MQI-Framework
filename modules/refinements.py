@@ -31,6 +31,7 @@ class Refinements:
         self.refinement_count = 0
         self.refinement_graph = Graph()
         self.refinement_graph.bind("prov", Namespace("http://www.w3.org/ns/prov#"))
+        self.vocabularies = FetchVocabularies()
         # relates to refinements suggested to the users on the dashboard
         self.suggested_refinements = {
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
@@ -260,7 +261,7 @@ class Refinements:
     def parse_mapping_value(mapping_value):
         # for inserting into SPARQL query
         # if string return "" or IRI < > or tuple return first IRI
-        if isinstance(mapping_value, URIRef):
+        if isinstance(mapping_value, rdflib.term.URIRef):
             return "<{}>".format(mapping_value)
         elif isinstance(mapping_value, tuple):
             return "<{}>".format(mapping_value[0])
@@ -314,7 +315,7 @@ class Refinements:
                     }
                     GROUP BY ?property
                     """ % (self.get_namespace(violation_value))
-        query_results = FetchVocabularies().query_local_graph(violation_value, query)
+        query_results = self.vocabularies.query_local_graph(violation_value, query)
         predicates = []
         for binding in query_results.get("results").values():
             for result in binding:
@@ -356,7 +357,7 @@ class Refinements:
                     GROUP BY ?classOnto
                     """ % (self.get_namespace(violation_value))
         # violation_value = violation_value[:violation_value.rfind("#")+1]
-        query_results = FetchVocabularies().query_local_graph(violation_value, query)
+        query_results = self.vocabularies.query_local_graph(violation_value, query)
         classes = []
         result_bindings = query_results.get("results").values()
         for binding in result_bindings:
@@ -470,6 +471,8 @@ class Refinements:
                """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
         # print("Changing IRI query\n" + update_query)
         # exit()
+        print(query)
+        exit()
         processUpdate(mapping_graph, update_query)
         return update_query
 
@@ -512,7 +515,7 @@ class Refinements:
                       FILTER(str(?subject) = "%s").
                     }
                 }
-               """ % (URIRef(str(old_identifier).replace("\/", "")), new_identifier, old_identifier, subject_identifier)
+               """ % (rdflib.term.URIRef(str(old_identifier).replace("\/", "")), new_identifier, old_identifier, subject_identifier)
         print("Changing IRI query\n" + update_query)
         processUpdate(mapping_graph, update_query)
         return update_query
@@ -753,7 +756,7 @@ class Refinements:
             for s, o in self.triple_references.items():
                 print(s, "dhdhhd")
                 print("")
-            self.triple_references[list(self.triple_references.keys())[0]][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
+            self.triple_references[list(self.triple_references.keys())[0]][rdflib.term.rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
             return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
@@ -786,7 +789,7 @@ class Refinements:
                       { ?subject rdfs:domain <http://www.w3.org/ns/r2rml#TermMap> }
                     }
                """
-        query_identifier = URIRef(identifier)
+        query_identifier = rdflib.term.URIRef(identifier)
         query_results = Graph().parse("http://www.w3.org/ns/r2rml#").query(query, initBindings={'IRI': query_identifier})
         for row in query_results:
             domain.append("%s" % row)
@@ -831,7 +834,7 @@ class Refinements:
 
     def get_user_input(self, query_values):
         # parsing user input for refinement SPARQL query
-        if isinstance(query_values, URIRef):
+        if isinstance(query_values, rdflib.term.URIRef):
             return "<%s>" % query_values
         # values = list(query_values.values())[0]
         if isinstance(query_values, dict):
@@ -922,7 +925,7 @@ class Refinements:
                    }   
                    GROUP BY ?domainClass ?comment
                    """% (self.get_namespace(property_identifier), property_identifier, property_identifier)
-        query_results = FetchVocabularies().query_local_graph(property_identifier, query)
+        query_results = self.vocabularies.query_local_graph(property_identifier, query)
         domain = []
         for row in query_results["results"]["bindings"]:
             current_domain = row["domainClass"]["value"]
@@ -946,11 +949,11 @@ class Refinements:
                       }
                     }   
                """ % (self.get_namespace(identifier), identifier)
-        query_results = FetchVocabularies().query_local_graph(identifier, query)
+        query_results = self.vocabularies.query_local_graph(identifier, query)
         for binding in query_results.get("results").values():
             for result in binding:
                 correct_range = result["range"]["value"]
-                return URIRef(correct_range)
+                return rdflib.term.URIRef(correct_range)
 
     def provide_suggested_refinements(self):
         # Provides a list of suggested refinements which could fix a violation caused by a particular metric
@@ -1049,7 +1052,7 @@ class Refinements:
 
     def add_refinement_information(self, violation_identifier, refinement_query, refinement_name):
         # each refinement has a unique IRI and is associated with a refinement query
-        refinement_identifier = URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
+        refinement_identifier = rdflib.term.URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
         self.refinement_graph.add((refinement_identifier, RDF.type, self.MQIO.MappingRefinement))
         self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
         # adding the SPARQL query used for the refinement
@@ -1059,7 +1062,7 @@ class Refinements:
         refinement_name = Literal(self.split_camel_case(refinement_name), datatype=XSD.string)
         self.refinement_graph.add((refinement_identifier, self.MQIO.refinementName, refinement_name))
         # adding the wasRefinedBy property related to the previously defined refinement
-        violation_identifier = URIRef(self.EX + "violation" + "-" + str(violation_identifier))
+        violation_identifier =rdflib.term.URIRef(self.EX + "violation" + "-" + str(violation_identifier))
         self.refinement_graph.add((violation_identifier, self.MQIO.wasRefinedBy, refinement_identifier))
         # add inverse property for mqv:refinedViolation, relating this refinement to the violation
         self.refinement_graph.add((refinement_identifier, self.MQIO.refinedViolation, violation_identifier))
@@ -1071,7 +1074,7 @@ class Refinements:
         if add_metadata:
             refiner_name = self.add_information.get("refined-by-name")
             if refiner_name:
-                refiner_name_identifier = URIRef("http://example.org/" + "".join([word.capitalize() for word in refiner_name.split()]))
+                refiner_name_identifier = rdflib.term.URIRef("http://example.org/" + "".join([word.capitalize() for word in refiner_name.split()]))
                 for s,p,o in self.refinement_graph.triples((None, RDF.type, self.MQIO.MappingRefinement)):
                     print(s,p,o)
                     self.refinement_graph.add((s,self.PROV.wasAssociatedWith, refiner_name_identifier))

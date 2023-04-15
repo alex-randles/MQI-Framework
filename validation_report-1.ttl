@@ -1,531 +1,129 @@
+@prefix b2022: <https://ont.beyond2022.ie/ontology#> .
+@prefix cidoc: <http://erlangen-crm.org/current/> .
 @prefix ex: <http://example.org/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix lode: <http://linkedevents.org/ontology/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix oscd: <https://w3id.org/OSCD#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#> .
-@prefix rei-denontic: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#> .
-@prefix rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <CSV_change_detection_mapping.ttl> ;
-    mqio:hasValidationReport ex:mappingValidationReport-0 .
+<file:///home/alex/MQI-Framework/test_mapping.ttl> a mqio:MappingArtefact .
 
-<CSV_change_detection_mapping.ttl> a mqio:MappingArtefact .
+ex:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <test_mapping.ttl> ;
+    mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
-        ex:violation-10,
-        ex:violation-11,
-        ex:violation-12,
-        ex:violation-13,
-        ex:violation-14,
-        ex:violation-15,
-        ex:violation-16,
-        ex:violation-17,
-        ex:violation-18,
-        ex:violation-19,
         ex:violation-2,
-        ex:violation-20,
-        ex:violation-21,
-        ex:violation-22,
-        ex:violation-23,
-        ex:violation-24,
-        ex:violation-25,
-        ex:violation-26,
-        ex:violation-27,
-        ex:violation-28,
-        ex:violation-29,
         ex:violation-3,
-        ex:violation-30,
-        ex:violation-31,
-        ex:violation-32,
-        ex:violation-33,
-        ex:violation-34,
-        ex:violation-35,
-        ex:violation-36,
-        ex:violation-37,
-        ex:violation-38,
-        ex:violation-39,
         ex:violation-4,
-        ex:violation-40,
-        ex:violation-41,
-        ex:violation-42,
-        ex:violation-43,
-        ex:violation-44,
-        ex:violation-45,
-        ex:violation-46,
-        ex:violation-47,
-        ex:violation-48,
-        ex:violation-49,
         ex:violation-5,
-        ex:violation-50,
-        ex:violation-51,
-        ex:violation-52,
-        ex:violation-53,
-        ex:violation-54,
-        ex:violation-55,
-        ex:violation-56,
-        ex:violation-57,
-        ex:violation-58,
-        ex:violation-59,
         ex:violation-6,
-        ex:violation-60,
-        ex:violation-61,
-        ex:violation-62,
-        ex:violation-63,
-        ex:violation-64,
-        ex:violation-65,
         ex:violation-7,
-        ex:violation-8,
-        ex:violation-9 .
+        ex:violation-8 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:And ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#NotificationConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-15T19:09:41.209647"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:class <http://erlangen-crm.org/current/E41_Appellations>  }
+                WHERE { 
+                SELECT ?subject
+                WHERE {
+                      ?subject rr:class <http://erlangen-crm.org/current/E41_Appellations>.
+                      FILTER(str(?subject) = "ub2bL24C16").
+                    }
+                }
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Remove Class"^^xsd:string .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:second ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+ex:refinement-1 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-15T19:09:41.223732"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+            DELETE { ?subject rr:class <http://erlangen-crm.org/current/E41_Appellations> .  }
+            INSERT {   ?subject rr:class <http://erlangen-crm.org/current/E69_Death>  }
+            WHERE {
+                <file:///home/alex/MQI-Framework/static/uploads/mappings/test_mapping.ttl#Appellation> rr:subjectMap ?subject .
+            }
+            """^^xsd:string ;
+    mqio:refinedViolation ex:violation-1 ;
+    mqio:refinementName "Find Similar Classes"^^xsd:string .
 
-ex:violation-10 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue oscd:hasReason ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#UpdateChanges> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-11 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue lode:atTime ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#UpdateChanges> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-12 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'lode:atTime'."^^xsd:string ;
-    mqio:inTripleMap <#UpdateChanges> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-13 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue lode:atTime ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#MoveChanges> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-14 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'lode:atTime'."^^xsd:string ;
-    mqio:inTripleMap <#MoveChanges> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-15 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue rei-denontic:Obligation ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#PolicyObligation> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-16 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-denontic:obligedTo ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#PolicyObligation> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-17 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-denontic:startingConstraint ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#PolicyObligation> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-18 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-policy:actor ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#PolicyObligation> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-19 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue rei-denontic:action ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#PolicyObligation> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:first ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-20 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-policy:actor ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#PolicyObligation> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-21 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:object ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#DeleteChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-22 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:predicate ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#DeleteChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-23 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:subject ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#DeleteChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-24 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint:SimpleConstraint ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#DeleteChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
-
-ex:violation-25 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-6"^^xsd:string ;
-    mqio:hasObjectValue oscd:hasCurrentVersion ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ChangeLog> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-26 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
-    mqio:hasObjectValue oscd:hasPreviousVersion ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#ChangeLog> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-27 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:predicate ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#DatatypeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-28 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:subject ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#DatatypeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-29 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:object ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#DatatypeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+ex:refinement-2 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-15T19:09:41.251488"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <http://www.w3.org/2000/01/rdf-schema#labels>  .  }
+                INSERT {   ?pom rr:predicate <http://schemas.talis.com/2005/address/schema#jjjjjj> .     }
+                WHERE {
+                    ?pom rr:predicate <http://www.w3.org/2000/01/rdf-schema#labels>  .
+                    FILTER(str(?pom) = "ub2bL29C24").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-2 ;
+    mqio:refinementName "Change Predicate"^^xsd:string .
 
 ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-6"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:sixth ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-30 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint:SimpleConstraint ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#DatatypeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
-
-ex:violation-31 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:predicate ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#InsertChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-32 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:object ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#InsertChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-33 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:subject ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#InsertChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-34 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint:SimpleConstraint ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#InsertChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
-
-ex:violation-35 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:mbox'."^^xsd:string ;
-    mqio:inTripleMap <#ContactDetails> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-36 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue lode:atTime ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#InsertChanges> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-37 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'lode:atTime'."^^xsd:string ;
-    mqio:inTripleMap <#InsertChanges> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-38 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:subject ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#UpdateChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-39 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:predicate ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#UpdateChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:hasObjectValue b2022: ;
+    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:VOC3 .
 
 ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:third ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-40 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:object ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#UpdateChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-41 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint:SimpleConstraint ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#UpdateChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
-
-ex:violation-42 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:subject ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MoveChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-43 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:object ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MoveChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-44 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:predicate ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MoveChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-45 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint:SimpleConstraint ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#MoveChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
-
-ex:violation-46 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue lode:atTime ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#DeleteChanges> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-47 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'lode:atTime'."^^xsd:string ;
-    mqio:inTripleMap <#DeleteChanges> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-ex:violation-48 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:object ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MergeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-49 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:predicate ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MergeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:fourth ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-50 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:subject ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MergeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-51 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint:SimpleConstraint ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#MergeChangeConstraint> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
-
-ex:violation-52 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue oscd:ChangedData ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#ChangedData> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-53 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue oscd:ChangedData ;
-    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
-    mqio:inTripleMap <#MoveChangedData> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-54 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue oscd:hasNewLocation ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#MoveChangedData> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-55 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-policy: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-56 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-57 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-58 a mqio:MappingViolation ;
     mqio:hasObjectValue rdfs: ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
+    mqio:inTripleMap <#Appellation> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
-ex:violation-59 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-denontic: ;
+ex:violation-5 a mqio:MappingViolation ;
+    mqio:hasObjectValue b2022: ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
+    mqio:inTripleMap <#Appellation> ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
-    mqio:hasObjectValue rei-constraint:fifth ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationConstraint> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-60 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-policy: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-61 a mqio:MappingViolation ;
-    mqio:hasObjectValue oscd: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-62 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-63 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-constraint: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-64 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-65 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-denontic: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#UserActor> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
+    mqio:hasObjectValue cidoc: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rei-policy:grants ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationPolicy> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:hasObjectValue rdfs: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
 
 ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rei-policy:desc ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#NotificationPolicy> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:hasObjectValue b2022: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
 
-ex:violation-9 a mqio:MappingViolation ;
-    mqio:hasObjectValue rei-policy:Policy ;
-    mqio:hasResultMessage "No Human Readable Labelling and Comments."^^xsd:string ;
-    mqio:inTripleMap <#NotificationPolicy> ;
-    mqio:isDescribedBy mqio-metrics:VOC1 .
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue b2022:E81_Actor_Appellation ;
+    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:D1 ;
+    mqio:wasRefinedBy ex:refinement-0 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue cidoc:E41_Appellations ;
+    mqio:hasResultMessage "Usage of undefined class"^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:D1 ;
+    mqio:wasRefinedBy ex:refinement-1 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rdfs:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:wasRefinedBy ex:refinement-2 .
 
