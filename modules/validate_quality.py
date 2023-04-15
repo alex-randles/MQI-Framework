@@ -204,18 +204,21 @@ class ValidateQuality:
 
     def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
-        query = "ASK { GRAPH ?g { <%s> ?predicate ?object . } } " % property_identifier
+        query = """
+              ASK { 
+                 GRAPH ?g { 
+                    <%s> ?predicate ?object . 
+                 } 
+              }
+        """ % property_identifier
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         is_defined_concept = query_results.get("boolean")
-        print(query_results)
         print(query)
         if is_defined_concept is False:
             property_namespace = self.get_namespace(property_identifier)
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
             query_results = self.vocabularies.query_local_graph(property_identifier, query)
             graph_exists = query_results.get("boolean")
-            print(query)
-            print(graph_exists)
             if graph_exists is True:
                 return [metric_identifier, result_message, property_identifier, subject_identifier]
             else:

@@ -20,8 +20,6 @@
             </a>
         </div>
     </div>
-
-
     {% set accordion_counter = namespace(value=0) %}
     {% set middle_div_counter = namespace(value=0) %}
     {% set inner_div_counter = namespace(value=0) %}
@@ -84,12 +82,12 @@
                                         </div>
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#dataReferenceCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
-
+                                                {% if captured_change_type == "structural_changes" and change_type == 'delete' %}
                                                 <div class="row">
                                                     <div class="col-2">
                                                         <form style="" method="POST" action=".">
                                                             <select class="form-select" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
-                                                                <option selected>Replace with new reference</option>
+                                                                <option selected>Select a new reference</option>
                                                                 {% for new_references, values in mapping_impact.get("structural_changes").get("insert").items() %}
                                                                 <option value="{{new_references}}-{{reference}}">{{new_references}}</option>
                                                                 {% endfor %}
@@ -106,6 +104,7 @@
                                                         </a>
                                                     </div>
                                                 </div>
+                                                {% endif %}
 
 
                                                 <strong>Values</strong>
