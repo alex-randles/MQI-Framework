@@ -67,13 +67,13 @@ function validateRefinementExecution() {
                 <i class="bi bi-info-circle"  title="The refinement you have selected for this violation"></i>
             </th>
             <th scope="col">
+                Violation Result Message
+            </th>
+            <th scope="col">
                 Violation Value
             </th>
             <th scope="col">
                 Triple Map
-            </th>
-            <th scope="col">
-                Violation location
             </th>
             <th scope="col">
                 Refinement Values
@@ -94,43 +94,35 @@ function validateRefinementExecution() {
 
         {% set input_form_ids = [] %}
         {%for violation_ID, refinement_values in refinements.items()%}
-        {% set triple_map = refinement_values["triple_map"] %}
-        {% set refinement_name = refinement_values["name"] %}
-        {% set user_input = refinement_values["user_input"] %}
-        {% set requires_prefixes = refinement_values["requires_prefixes"] %}
-        {% set restricted_values = refinement_values["restricted_values"] %}
-        {% set refinement_properties = refinement_values["values"] %}
-        {% set optional_values = refinement_values["optional_values"] %}
+        {% set triple_map = refinement_values.get("triple_map") %}
+        {% set refinement_name = refinement_values.get("name") %}
+        {% set user_input = refinement_values.get("user_input") %}
+        {% set requires_prefixes = refinement_values.get("requires_prefixes") %}
+        {% set restricted_values = refinement_values.get("restricted_values") %}
+        {% set refinement_properties = refinement_values.get("values") %}
+        {% set optional_values = refinement_values.get("optional_values") %}
         {% set violation_value = find_prefix(validation_result[violation_ID|int]["value"]) %}
         {% set violation_location = assessment_report %}
         {% set violation_location = find_violation_location(assessment_report[violation_ID| int]["location"]) %}
         <tr>
-
             <td>
                 {{violation_ID}}
             </td>
-
             <td>
                 {{split_camel_case(refinement_name)}}
-
                 {% set refinement_description = refinement_descriptions.get(refinement_name) %}
-
                 <span class="tt" data-bs-placement="top" title="{{refinement_description}}">
                     <i class="bi bi-info-circle" ></i>
                 </span>
-
             </td>
-
+            <td>
+                {{ assessment_report.get(violation_ID).get("result_message") }}
+            </td>
             <td>
                 {{violation_value}}
             </td>
-
             <td>
                 {{find_triple_map(violation_ID)}}
-            </td>
-
-            <td>
-                {{violation_location}}
             </td>
             {% set violation_ID = violation_ID|string %}
             {% if user_input == false %}
@@ -139,7 +131,6 @@ function validateRefinementExecution() {
             {% elif user_input == true and requires_prefixes == true and restricted_values is none %}
 
             <td  style="width:25%">
-
                 {% for value in refinement_properties %}
                 {% set form_value = violation_ID + '-' + value %}
                 {% set prefix_value = violation_ID + '-' + 'PREFIX' + '-' + value %}
@@ -149,7 +140,6 @@ function validateRefinementExecution() {
                     {{ input_form_ids.append(form_value) }} {
                     {% endif %}
                 </div>
-
                 <label for={{form_value}}><b>Property: {{find_prefix(value)}} </b>
                 </label>
                 <select  style="width:100%" name={{prefix_value}} id={{prefix_value}} required>
@@ -158,33 +148,23 @@ function validateRefinementExecution() {
                     <option value={{prefix}}>{{prefix}}</option>
                     {% endfor  %}
                 </select>
-
                 <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
                 <span class="tt" data-bs-placement="top" title="Do not include brackets (<>) for IRIs">
               <i class="bi bi-info-circle" ></i>
           </span>
                 {% endfor %}
             </td>
-
             {% elif restricted_values is none %}
-
             <td style="width:25%">
-
                 {% for value in refinement_properties %}
                 {% set form_value_2 = violation_ID + '-' + value %}
-
-
                 <div style="display:none">
                     {% if optional_values is not true %}
                     {{ input_form_ids.append(form_value_2) }}
                     {% endif %}
                 </div>
-
                 <label for={{form_value_2}}><b>Property: {{find_prefix(value)}}</b></label>
-
                 <input type="text" id={{form_value_2}} name={{form_value_2}} required>
-
-
                 {% endfor %}
             </td>
 
@@ -202,24 +182,24 @@ function validateRefinementExecution() {
                 <label for={{form_value_3}}></label>
                 <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} style="max-width:100%" required>
 
-<!--<input class="form-control w-100" onClick="document.getElementById('exampleDataList').click();console.log('djdjjd')" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">-->
-<!--<datalist id="datalistOptions" style="    font-weight: bold;" >-->
-  <optgroup>
-                    {% for (placeholder, values) in restricted_values.items() %}
-                    <option value="" disabled selected>{{placeholder}}</option>
-                    {% for value in values %}
-                    {% if value is iterable and (value is not string and value is not mapping) %}
-                    <option class="font-weight" value={{value[0]}}>{{find_prefix(value[0])}}</option>
-                    <option disabled>{{ value[1] }}</option>
+                    <!--<input class="form-control w-100" onClick="document.getElementById('exampleDataList').click();console.log('djdjjd')" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">-->
+                    <!--<datalist id="datalistOptions" style="    font-weight: bold;" >-->
+                    <optgroup>
+                        {% for (placeholder, values) in restricted_values.items() %}
+                        <option value="" disabled selected>{{placeholder}}</option>
+                        {% for value in values %}
+                        {% if value is iterable and (value is not string and value is not mapping) %}
+                        <option class="font-weight" value={{value[0]}}>{{find_prefix(value[0])}}</option>
+                        <option disabled>{{ value[1] }}</option>
 
-                    {% else %}
-                    <option value={{value}}>{{find_prefix(value)}}</option>
-                    {% endif %}
-                    {% endfor %}
-                    {% endfor  %}
+                        {% else %}
+                        <option value={{value}}>{{find_prefix(value)}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endfor  %}
 
-  </optgroup>
-<!--    </datalist>-->
+                    </optgroup>
+                    <!--    </datalist>-->
                 </select>
 
 

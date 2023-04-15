@@ -37,10 +37,14 @@ function createPDF() {
 
 function showDiv(id){
    var e = document.getElementById(id);
-   if(e.style.display == 'block')
+   if(e.style.display == 'block') {
       e.style.display = 'none';
-   else
+      document.getElementById('button-' + id).innerText = 'Displau Violation';
+   }
+   else {
       e.style.display = 'block';
+      document.getElementById('button-' + id).innerText = 'Undisplay Violation';
+   }
 }
 
 
