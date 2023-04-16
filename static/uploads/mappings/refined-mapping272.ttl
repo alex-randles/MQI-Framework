@@ -15,14 +15,14 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class acl:Authorization;	
+ 	 rr:class acl:kkkkkkkk;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:label;	
 	 rr:objectMap [	
-		 rr:column "NAME" ;	
 		 rr:language "en" ;	
+		 rr:column "NAME" ;	
 		]; 	
  ];	
 	
