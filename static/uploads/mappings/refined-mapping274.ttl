@@ -21,8 +21,8 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:label;	
 	 rr:objectMap [	
-		 rr:column "NAME" ;	
 		 rr:language "en" ;	
+		 rr:column "NAME" ;	
 		]; 	
  ];	
 	
@@ -48,15 +48,15 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class geo:Geometry;	
-	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+ 	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+	 rr:class geo:Geometry;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate geo:asWKT;	
 	 rr:objectMap [	
-		 rr:termType rr:Literal;	
 		 rr:column "GEOMETRY" ;	
+		 rr:termType rr:IRI; 
 		]; 	
  ];	
 .	

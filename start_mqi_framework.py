@@ -298,7 +298,12 @@ class API:
             mapping_updated = session.get("mapping_updated")
             session["mapping_updated"] = False
             mapping_filename = mapping_graph_details.get("filename")
+            from sematch.semantic.similarity import WordNetSimilarity
+            wns = WordNetSimilarity()
+            # Computing English word similarity using Li method
+            similarity_measurement = wns.word_similarity
             return render_template("change_detection/mappings_impacted.html",
+                                   similarity_measurement=similarity_measurement,
                                    change_template_colors=change_template_colors,
                                    mapping_id=mapping_unique_id,
                                    mapping_impact=mapping_impact,
