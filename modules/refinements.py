@@ -747,19 +747,21 @@ class Refinements:
 
     def add_predicate(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
-        join_identifier = current_result.get("location")
+        violation_location = current_result.get("location")
+        predicate_identifier = self.get_user_input(query_values)
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                INSERT { ?joinCondition rr:child "%s" } 
+                INSERT { ?pom rr:predicate %s } 
                 WHERE { 
-                SELECT ?joinCondition
+                SELECT ?pom
                 WHERE {
-                      ?subject rr:joinCondition ?joinCondition.
-                      FILTER(str(?joinCondition) = "%s").
+                      ?subject rr:predicateObjectMap ?pom.
+                      FILTER(str(?pom) = "%s").
                     }
                 }
-               """ % (child_column, join_identifier)
-        exit()
+               """ % (predicate_identifier, violation_location)
+        processUpdate(mapping_graph, update_query)
+        return update_query
 
     def add_logical_table(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
