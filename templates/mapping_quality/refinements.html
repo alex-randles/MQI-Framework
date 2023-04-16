@@ -148,6 +148,8 @@ function validateRefinementExecution() {
                     <option value={{prefix}}>{{prefix}}</option>
                     {% endfor  %}
                 </select>
+                {{ form_value }}
+                {{ prefix_value }} 
                 <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
                 <span class="tt" data-bs-placement="top" title="Do not include brackets (<>) for IRIs">
               <i class="bi bi-info-circle" ></i>
