@@ -9,7 +9,7 @@
 
 <div class="container-fluid">
     {% if mapping_updated %}
-    <div class="row">
+    <div class="row" id="update-banner" style="visibility: hidden;">
         <div class="alert alert-success text-center" role="alert">
             <h5 class="alert-heading">Updated Mapping Generated</h5>
             <p><strong>Check the 'Execute' box for refinements you want to be executed or 'Execute All Refinements'.</strong>
@@ -96,10 +96,10 @@
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
                                                 {% if captured_change_type == "structural_changes" and change_type == 'delete' %}
-                                                <form style="" method="POST" action=".">
+                                                <form style="" id="new-reference-form" name="new-reference-form" method="POST" action=".">
                                                     <div class="row">
                                                         <div class="col-2">
-                                                            <select class="form-select" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
+                                                            <select class="form-select" id="new-reference-selected" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
                                                                 <option selected>Select a new reference</option>
                                                                 {% for new_references, values in mapping_impact.get("structural_changes").get("insert").items() %}
                                                                 <option value="{{new_references}}-{{reference}}">{{new_references}}</option>
@@ -111,6 +111,29 @@
                                                         </div>
                                                     </div>
                                                 </form>
+                                                 <script src="https://code.jquery.com/jquery-3.5.1.js"
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+          crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    $(document).on('submit','#new-reference-form',function(e)
+                   {
+      console.log('hello');
+      $("#update-banner").css("visibility", "visible");
+      e.preventDefault();
+      $.ajax({
+        type:'POST',
+        url:'/mappings_impacted/21',
+        data:{
+          todo:$("#new-reference-selected").val()
+        },
+        success:function()
+        {
+          alert('saved');
+        }
+      })
+    });
+  </script>
 
                                                 {% endif %}
 

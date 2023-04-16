@@ -308,8 +308,8 @@ class API:
                                    change_graph_details=change_graph_details)
         else:
             try:
-                new_data_reference = request.form.get("new-reference-selected").split("-")[0]
-                old_data_reference = request.form.get("new-reference-selected").split("-")[1]
+                new_data_reference = request.form.get("todo").split("-")[0]
+                old_data_reference = request.form.get("todo").split("-")[1]
                 update_query = """
                         PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                         PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
