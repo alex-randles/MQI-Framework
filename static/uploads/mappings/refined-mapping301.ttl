@@ -6,23 +6,23 @@
 @prefix ont: <http://ontologies.geohive.ie/osi#> . 
 @prefix geo: <http://www.opengis.net/ont/geosparql#> . 
 @prefix api: <http://purl.org/linked-data/api/vocab#> . 
-@prefix bblfish: <http://bblfish.net/people/henry/card#> . 
 
 	
 <#TriplesMap2>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "eeejei8uj800eu89474" ;	
-	 rr:tableName "student-1.csv" ;	
+ 	 rr:sqlQuery "SELECT ID from STUDENTS" ;	
+	 rr:tableName "student-v1.csv" ;	
+	 rr:sqlVersion "1.1" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class api:test;	
-	 rr:template "test" ;	
+ 	 rr:template "test" ;	
+	 rr:class api:test;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate bblfish:test;	
+ 	 rr:predicate geo:asWKT;	
 	 rr:objectMap [	
 		 rr:column "GEOMETRY" ;	
 		]; 	

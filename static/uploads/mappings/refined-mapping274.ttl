@@ -1,62 +1,25 @@
-@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ont: <http://ontologies.geohive.ie/osi#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
-@prefix activity: <http://activitystrea.ms/specs/atom/1.0/> . 
+@prefix activity: <http://activitystrea.ms/specs/atom/1.0/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 
-	
-<#TriplesMap1>	
-	
- rr:logicalTable [ 	
- 	 rr:tableName "student.csv" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:class activity:class-value-1;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
-	 rr:objectMap [	
-		 rr:language "en" ;	
-		 rr:column "NAME" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
-	 rr:objectMap [	
-		 rr:column "ENGLISH" ;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate geo:hasGeometry;	
-	 rr:objectMap [	
-		 rr:template "urn:osi:boundary:geom:{GUID}" ;	
-		]; 	
- ];	
-.	
-	
-<#TriplesMap2>	
-	
- rr:logicalTable [ 	
- 	 rr:tableName "LEA_CBD2019_20M" ;	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
-	 rr:class geo:Geometry;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate geo:asWKT;	
-	 rr:objectMap [	
-		 rr:column "GEOMETRY" ;	
-		 rr:termType rr:IRI; 
-		]; 	
- ];	
-.	
+<file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping274.ttl#TriplesMap1> rr:logicalTable [ rr:tableName "student.csv" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:column "FirstName",
+                        "LastName",
+                        "NAME",
+                        "Test" ;
+                    rr:language "en" ] ;
+            rr:predicate rdfs:label ],
+        [ rr:objectMap [ rr:column "ENGLISH" ] ;
+            rr:predicate rdfs:label ],
+        [ rr:objectMap [ rr:template "urn:osi:boundary:geom:{GUID}" ] ;
+            rr:predicate geo:hasGeometry ] ;
+    rr:subjectMap [ rr:class activity:class-value-1 ] .
+
+<file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping274.ttl#TriplesMap2> rr:logicalTable [ rr:tableName "LEA_CBD2019_20M" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:column "GEOMETRY" ;
+                    rr:termType rr:IRI ] ;
+            rr:predicate geo:asWKT ] ;
+    rr:subjectMap [ rr:class geo:Geometry ;
+            rr:template "urn:osi:boundary:geom:{GUID}" ] .
+

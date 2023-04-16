@@ -1,0 +1,57 @@
+@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
+@prefix rr: <http://www.w3.org/ns/r2rml#> . 
+@prefix ont: <http://ontologies.geohive.ie/osi#> . 
+@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
+
+	
+<#TriplesMap1>	
+	
+ rr:logicalTable [ 	
+ 	 rr:tableName "student-1.csv" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+	 rr:class geo:Geometry;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdfs:label;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdfs:label;	
+	 rr:objectMap [	
+		 rr:column "ENGLISH" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate geo:hasGeometry;	
+	 rr:objectMap [	
+		 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+		]; 	
+ ];	
+.	
+	
+<#TriplesMap2>	
+	
+ rr:logicalTable [ 	
+ 	 rr:tableName "LEA_CBD2019_20M" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+	 rr:class geo:Geometry;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate geo:asWKT;	
+	 rr:objectMap [	
+		 rr:column "GEOMETRY" ;	
+		]; 	
+ ];	
+.	

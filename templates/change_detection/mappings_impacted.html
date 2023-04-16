@@ -6,8 +6,6 @@
 </head>
 <body>
 {% block content %}
-
-
 <div class="container-fluid">
     <div class="row" id="update-banner" style="display:none;">
         <div class="alert alert-success text-center" role="alert">
@@ -58,10 +56,6 @@
                     </h5>
                 </div>
                 <div id="sourceDataCollapse-{{outer_div_counter.value}}" class="collapse in" aria-labelledby="dataReferenceHeading-{{outer_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{outer_div_counter.value}}">
-
-
-
-
                     <div class="card-body">
                         {% for change_type, changes in captured_changes.items() %}
                         {% set middle_div_counter.value = outer_div_counter.value + 1 %}
@@ -82,7 +76,6 @@
                                     {% if current_changes %}
                                     {% for reference, values in current_changes %}
                                     <div class="card-{{inner_div_counter.value}}">
-
                                         <div class="card-header" id="sourceDataHeading-{{inner_div_counter.value}}">
                                             <h5 class="mb-0">
                                                 <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{inner_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{inner_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{inner_div_counter.value}}">
@@ -94,7 +87,7 @@
                                         </div>
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
-                                                {% if captured_change_type == "structural_changes" and change_type == 'delete' %}
+                                                {% if captured_change_type == "structural_changes" and change_type == 'delete' and reference.lower() in mapping_data_references %}
                                                 <form style="" id="new-reference-form" name="new-reference-form" method="POST" action=".">
                                                     <div class="row">
                                                         <div class="col-2">
@@ -123,7 +116,7 @@
       $("#update-banner").css("display", "block");
       $.ajax({
         type:'POST',
-        url:'/mappings_impacted/21',
+        url:'/mappings_impacted/{{mapping_id}}',
         data:{
           todo:$("#new-reference-selected").val()
         },
