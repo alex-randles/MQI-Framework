@@ -140,7 +140,8 @@ function validateRefinementExecution() {
                     {{ input_form_ids.append(form_value) }} {
                     {% endif %}
                 </div>
-                <label for={{form_value}}><b>Property: {{find_prefix(value)}} </b>
+                <label for={{form_value}}>
+                    Property: <strong>{{find_prefix(value)}}</strong>
                 </label>
                 <select  style="width:100%" name={{prefix_value}} id={{prefix_value}} required>
                     <option value="" disabled selected>Choose a prefix </option>
@@ -163,8 +164,14 @@ function validateRefinementExecution() {
                     {{ input_form_ids.append(form_value_2) }}
                     {% endif %}
                 </div>
-                <label for={{form_value_2}}><b>Property: {{find_prefix(value)}}</b></label>
-                <input type="text" id={{form_value_2}} name={{form_value_2}} required>
+                <div class="col-6">
+                    <label for={{form_value_2}}>
+                        Property: <strong>{{find_prefix(value)}}</strong>
+                    </label>
+                </div>
+                <div class="col-12">
+                    <input type="text" id={{form_value_2}} name={{form_value_2}}>
+                </div>
                 {% endfor %}
             </td>
 

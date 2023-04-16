@@ -15,8 +15,8 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class geo:Geometry;	
-	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+ 	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+	 rr:class geo:Geometry, geo:Feature;	
  ];	
 	
  rr:predicateObjectMap [ 	

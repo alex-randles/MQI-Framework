@@ -6,41 +6,33 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/LEA_20m.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/refined-mapping294.ttl> a mqio:MappingArtefact .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <LEA_20m.ttl> ;
+    mqio:assessedMapping <refined-mapping294.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
         ex:violation-2,
-        ex:violation-3,
-        ex:violation-4 .
+        ex:violation-3 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-16T18:44:26.531990"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-16T19:05:48.751454"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                INSERT { ?subject rr:subjectMap rr:class . } 
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:class <http://www.opengis.net/ont/geosparql#Feature>  }
                 WHERE { 
                 SELECT ?subject
                 WHERE {
-                      ?subject rr:predicateObjectMap ?pom.
+                      ?subject rr:class <http://www.opengis.net/ont/geosparql#Feature>.
+                      FILTER(str(?subject) = "ub8bL16C16").
                     }
                 }
-
                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Add Logical Table"^^xsd:string .
-
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue geo:hasGeometry ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Remove Class"^^xsd:string .
 
 ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
@@ -48,21 +40,24 @@ ex:violation-1 a mqio:MappingViolation ;
     mqio:inTripleMap <#TriplesMap1> ;
     mqio:isDescribedBy mqio-metrics:MP4 .
 
-ex:violation-3 a mqio:MappingViolation ;
+ex:violation-2 a mqio:MappingViolation ;
     mqio:hasObjectValue rdfs: ;
     mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:inTripleMap <#TriplesMap1> ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
-ex:violation-4 a mqio:MappingViolation ;
+ex:violation-3 a mqio:MappingViolation ;
     mqio:hasObjectValue geo: ;
     mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:inTripleMap <#TriplesMap1> ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasResultMessage "No logical table in this triple map."^^xsd:string ;
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue geo:Feature,
+        geo:Geometry ;
+    mqio:hasResultMessage "Class  geo:Feature  is disjoint with  geo:Geometry "^^xsd:string ;
     mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:MP2 ;
+    mqio:isDescribedBy mqio-metrics:D5 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
