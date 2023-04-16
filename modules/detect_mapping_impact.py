@@ -7,6 +7,7 @@ class DetectMappingImpact:
 
     def __init__(self, mapping_details, changes_file):
         self.changes_graph = ConjunctiveGraph()
+        print("detecting mapping impact.....")
         self.changes_graph.parse("./static/change_detection_cache/change_graphs/" + changes_file, format="trig")
         self.mapping_details = mapping_details
         mapping_file = mapping_details.get("filename")
@@ -53,6 +54,7 @@ class DetectMappingImpact:
             change_identifier = str(row.get("change"))
             data_reference = str(row.get("reference"))
             changed_data = str(row.get("data"))
+            print(changed_data)
             change_type = self.get_change_type(change_identifier)
             if data_reference not in self.mapping_impact[mapping_impact_key][change_type]:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference] = [changed_data]
@@ -96,6 +98,7 @@ class DetectMappingImpact:
             change_identifier = str(row.get("change"))
             data_reference = str(row.get("data"))
             changed_data = str(row.get("changedValue"))
+            print(changed_data)
             change_type = self.get_change_type(change_identifier)
             if data_reference not in self.mapping_impact[mapping_impact_key][change_type]:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference] = [changed_data]
