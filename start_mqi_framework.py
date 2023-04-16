@@ -307,34 +307,36 @@ class API:
                                    mapping_updated=mapping_updated,
                                    change_graph_details=change_graph_details)
         else:
-            try:
-                new_data_reference = request.form.get("todo").split("-")[0]
-                old_data_reference = request.form.get("todo").split("-")[1]
-                update_query = """
-                        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                        PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-                        DELETE { ?subject ?predicate '%s' }
-                        INSERT { ?subject ?predicate '%s' }
-                        WHERE { 
-                        SELECT ?subject ?predicate
-                        WHERE {
-                              ?subject ?predicate '%s' .
-                              FILTER (?predicate IN (rml:reference, rr:column))
-                            }
+            # print(request.form.get("todo"))
+            # exit()
+            # try:
+            new_data_reference = request.form.get("todo").split("-")[0]
+            old_data_reference = request.form.get("todo").split("-")[1]
+            update_query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
+                    DELETE { ?subject ?predicate '%s' }
+                    INSERT { ?subject ?predicate '%s' }
+                    WHERE { 
+                    SELECT ?subject ?predicate
+                    WHERE {
+                          ?subject ?predicate '%s' .
+                          FILTER (?predicate IN (rml:reference, rr:column))
                         }
-                       """ % (old_data_reference, new_data_reference, old_data_reference)
-                print(update_query)
-                mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
-                mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
-                mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
-                rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
-                mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
-            except Exception as e:
-                print("EXCEPTION", e)
-                mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
-                mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
-                mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
-                mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
+                    }
+                   """ % (old_data_reference, new_data_reference, old_data_reference)
+            print(update_query)
+            mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
+            mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
+            mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
+            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
+            mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
+            # except Exception as e:
+            #     print("EXCEPTION", e)
+            #     mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
+            #     mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
+            #     mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
+            #     mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
             session["mapping_updated"] = True
             return redirect(request.referrer)
 

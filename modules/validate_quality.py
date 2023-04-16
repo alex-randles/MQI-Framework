@@ -156,12 +156,12 @@ class ValidateQuality:
     def validate_mapping_metrics(self):
         # A function to validate each of the mapping related quality metrics
         # self.validate_MP2()
-        self.validate_MP3()
         self.validate_MP4()
         self.validate_MP6()
 
     def validate_term_map_metrics(self):
         self.validate_MP1()
+        self.validate_MP3()
         self.validate_MP5()
         self.validate_MP7()
         self.validate_MP8()
@@ -393,7 +393,7 @@ class ValidateQuality:
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     ASK { ?subject rr:subjectMap ?sm . } 
                 """
-        query_results = self.mapping_graph.query(query)
+        query_results = self.current_graph.query(query)
         for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
@@ -885,9 +885,10 @@ class ValidateQuality:
 
     def get_triple_map_id(self, triple_map_identifier):
         # returns 'TripleMap1' from <file://Desktop/TripleMap1>
-        if "#" in triple_map_identifier:
-            return triple_map_identifier.split("#")[-1]
-        return triple_map_identifier.split("/")[-1]
+        if triple_map_identifier:
+            if "#" in triple_map_identifier:
+                return triple_map_identifier.split("#")[-1]
+            return triple_map_identifier.split("/")[-1]
 
     def add_violation(self, metric_result):
         metric_results = [self.violation_counter] + metric_result
@@ -1057,7 +1058,7 @@ class ValidateQuality:
                     SELECT ?subject ?class
                     WHERE {
                         {
-                          ?tripleMap rr:subjectMap ?subject .
+                          ?tripleMap rr:subjectMap|rr:subject ?subject .
                           ?subject rr:class ?class . 
                         }
                         FILTER (isIRI(?class)) .

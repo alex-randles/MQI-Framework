@@ -3,40 +3,59 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix cidoc: <http://erlangen-crm.org/current/> . 
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
-@prefix app: <http://jmvanel.free.fr/ontology/software_applications.n3#> . 
+@prefix ont: <http://ontologies.geohive.ie/osi#> . 
+@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
+@prefix atm: <https://data.nasa.gov/ontologies/atmonto/ATM#> . 
 
 	
-<#Appellation>	
- rdf:type rr:TriplesMap;	
+<#TriplesMap1>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
+ 	 rr:tableName "student.csv" ;	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class app:jjjjjj, cidoc:E41_Appellations;	
-	 rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}" ;	
+ 	 rr:classs atm:ioio;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
+ 	 rr:predicate rdfs:label;	
 	 rr:objectMap [	
-		 rr:datatype "dhddh" ;	
-		 rr:template "{LABEL}" ;	
+		 rr:language "en" ;	
+		 rr:column "NAME" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdfs:label;	
+	 rr:objectMap [	
+		 rr:column "ENGLISH" ;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate geo:hasGeometry;	
+	 rr:objectMap [	
+		 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+		]; 	
+ ];	
+.	
+	
+<#TriplesMap2>	
+	
+ rr:logicalTable [ 	
+ 	 rr:tableName "LEA_CBD2019_20M" ;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:class geo:Geometry;	
+	 rr:template "urn:osi:boundary:geom:{GUID}" ;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate geo:asWKT;	
+	 rr:objectMap [	
+		 rr:column "GEOMETRY" ;	
 		]; 	
  ];	
 .	
