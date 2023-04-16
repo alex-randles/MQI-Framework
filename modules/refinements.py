@@ -74,7 +74,7 @@ class Refinements:
                                "user_input_values": [self.R2RML + "child"]},
 
             "AddSubjectMap": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                              "user_input_values": [self.R2RML + "class"]},
+                              "user_input_values": [self.R2RML + "class", self.R2RML + "template"]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": [self.R2RML + "tableName"]},
@@ -437,7 +437,7 @@ class Refinements:
     def change_graph_identifier(self, query_values, mapping_graph, violation_identifier):
         new_identifier = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
+        subject_identifier = current_result.get("location")
         old_identifier = Refinements.parse_mapping_value(current_result["value"])
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -459,7 +459,7 @@ class Refinements:
     def change_class_identifier(self, query_values, mapping_graph, violation_identifier):
         new_identifier = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
+        subject_identifier = current_result.get("location")
         old_identifier = Refinements.parse_mapping_value(current_result["value"])
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -483,7 +483,7 @@ class Refinements:
     def change_constant_range(self, query_values, mapping_graph, violation_identifier):
         new_identifier = query_values["IRI"]
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
+        subject_identifier = current_result.get("location") 
         old_identifier = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
@@ -504,7 +504,7 @@ class Refinements:
     def change_identifier(self, query_values, mapping_graph, violation_identifier):
         # new_identifier = query_values["URI"]
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
+        subject_identifier = current_result.get("location") 
         # old_identifier = current_result["value"]
         old_identifier = self.get_user_input(current_result.get("value"))
         new_identifier = self.get_user_input(query_values)
@@ -525,15 +525,15 @@ class Refinements:
         return update_query
 
     def change_term_type(self, query_values, mapping_graph, violation_identifier):
-        new_term_type = list(query_values.values())[0]
+        new_term_type = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
+        subject_identifier = current_result.get("location")
         # delete current term type (if applicable)
         # then insert term type input
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:termType ?currentTermType  } 
-                INSERT { ?subject rr:termType <%s> } 
+                INSERT { ?subject rr:termType %s } 
                 WHERE { 
                     SELECT ?subject ?currentTermType
                     WHERE {
@@ -549,8 +549,8 @@ class Refinements:
 
     def remove_term_type(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
-        term_type_value = current_result["value"]
+        subject_identifier = current_result.get("location")
+        term_type_value = current_result.get("value")
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:termType <%s> .  } 
@@ -587,7 +587,7 @@ class Refinements:
     # not remove class IRI as the value is a literal
     def remove_class(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
+        subject_identifier = current_result.get("location")
         # this value is most likely a literal
         old_class_value = self.get_user_input(query_values)
         print(old_class_value, "OLD CLASS VALUE")
@@ -654,8 +654,8 @@ class Refinements:
 
     def change_language_tag(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[int(violation_identifier)]
-        pom_identifier = current_result["location"]
-        old_language_tag = current_result["value"]
+        pom_identifier = current_result.get("location")
+        old_language_tag = current_result.get("value")
         new_language_tag = list(query_values.values())[0]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
@@ -677,8 +677,8 @@ class Refinements:
     def change_datatype(self, query_values, mapping_graph, violation_identifier):
         correct_datatype = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
-        object_map_identifier = current_result["location"]
-        old_datatype = current_result["value"]
+        object_map_identifier = current_result.get("location")
+        old_datatype = current_result.get("value")
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?objectMap rr:datatype ?datatype }
@@ -698,7 +698,7 @@ class Refinements:
 
     def add_correct_range(self, correct_range, mapping_graph, violation_identifier):
         current_result = self.validation_results[int(violation_identifier)]
-        object_map_identifier = current_result["location"]
+        object_map_identifier = current_result.get("location")
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?objectMap rr:constant ?range }
@@ -719,7 +719,7 @@ class Refinements:
         parent_column = query_values.get("http://www.w3.org/ns/r2rml#parent")
         if parent_column:
             current_result = self.validation_results[violation_identifier]
-            join_identifier = current_result["location"]
+            join_identifier = current_result.get("location")
             update_query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                     INSERT { ?joinCondition rr:parent "%s" } 
@@ -767,7 +767,7 @@ class Refinements:
         child_column = query_values.get("http://www.w3.org/ns/r2rml#child")
         if child_column:
             current_result = self.validation_results[violation_identifier]
-            join_identifier = current_result["location"]
+            join_identifier = current_result.get("location")
             update_query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                     INSERT { ?joinCondition rr:child "%s" } 
@@ -794,16 +794,16 @@ class Refinements:
                     }
                """
         query_identifier = rdflib.term.URIRef(identifier)
-        query_results = Graph().parse("http://www.w3.org/ns/r2rml#").query(query, initBindings={'IRI': query_identifier})
+        query_results = rdflib.Graph().parse("http://www.w3.org/ns/r2rml#").query(query, initBindings={'IRI': query_identifier})
         for row in query_results:
             domain.append("%s" % row)
         return domain
 
     def remove_language_tag(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result["location"]
+        subject_identifier = current_result.get("location")
         # this value is most likely a literal
-        language_tag = current_result["value"]
+        language_tag = current_result.get("value")
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?subject rr:language ?language  }
@@ -822,7 +822,7 @@ class Refinements:
 
     def add_domain(self, query_values, mapping_graph, violation_identifier):
         domain_identifier = list(query_values.values())[0]
-        triple_map_identifier = self.validation_results[violation_identifier]["triple_map"]
+        triple_map_identifier = self.validation_results[violation_identifier].get("triple_map")
         print("ADDING DOMAIN" + domain_identifier)
         update_query = """
             INSERT {
@@ -903,7 +903,7 @@ class Refinements:
         return namespace
 
     def find_domain(self, identifier):
-        property_identifier = self.validation_results[identifier]["value"]
+        property_identifier = self.validation_results[identifier].get("value")
         query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                    PREFIX schema: <http://schema.org/> 
