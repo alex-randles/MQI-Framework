@@ -35,7 +35,7 @@ class Refinements:
         # relates to refinements suggested to the users on the dashboard
         self.suggested_refinements = {
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
-            "MP2": ["RemoveDatatype"],
+            "MP2": ["AddLogicalTable", "AddLogicalSource"],
             "MP3": ["AddSubjectMap"],
             "MP4": ["AddPredicateObjectMap"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
@@ -77,6 +77,9 @@ class Refinements:
                               "user_input_values": [self.R2RML + "class"]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
+                                "user_input_values": [self.R2RML + "tableName"]},
+
+            "AddLogicalSource": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": [self.R2RML + "tableName"]},
 
             "ChangePredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
@@ -139,6 +142,7 @@ class Refinements:
                                      "AddCorrectRange": self.add_correct_range,
                                      "AddSubjectMap": self.add_subject_map,
                                      "AddLogicalTable": self.add_logical_table,
+                                     "AddLogicalSource": self.add_logical_table,
                                      "RemoveLanguageTag": self.remove_language_tag,
                                      'ChangeLanguageTag': self.change_language_tag,
                                      "ChangeClass": self.change_class,
@@ -754,9 +758,9 @@ class Refinements:
             class_identifier = self.get_user_input(query_values)
             class_identifier = self.get_user_input(query_values).replace("<","").replace(">", "")
             mapping_graph.add((URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
-            mapping_graph.add((subject_map_identifier, self.R2RML.classs, URIRef(class_identifier)))
+            mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#class'), URIRef(class_identifier)))
             print(mapping_graph.serialize(format="ttl").decode("utf-8"))
-            self.triple_references[URIRef(triple_map)][rdflib.term.rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
+            self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
             return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):

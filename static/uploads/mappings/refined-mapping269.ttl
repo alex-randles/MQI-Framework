@@ -5,7 +5,7 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
 @prefix ont: <http://ontologies.geohive.ie/osi#> . 
 @prefix geo: <http://www.opengis.net/ont/geosparql#> . 
-@prefix acl: <http://www.w3.org/ns/auth/acl#> . 
+@prefix atm: <https://data.nasa.gov/ontologies/atmonto/ATM#> . 
 
 	
 <#TriplesMap1>	
@@ -15,14 +15,14 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class acl:Authorization;	
+ 	 rr:classs atm:ioio;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:label;	
 	 rr:objectMap [	
-		 rr:column "NAME" ;	
 		 rr:language "en" ;	
+		 rr:column "NAME" ;	
 		]; 	
  ];	
 	
