@@ -74,7 +74,7 @@ class Refinements:
                                "user_input_values": [self.R2RML + "child"]},
 
             "AddSubjectMap": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                              "user_input_values": [self.R2RML + "class", self.R2RML + "template"]},
+                              "user_input_values": [self.R2RML + "class", self.R2RML + "test"]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": [self.R2RML + "tableName"]},
@@ -209,7 +209,6 @@ class Refinements:
 
                """
         print("Adding child column query\n" + update_query)
-        # exit()
         processUpdate(mapping_graph, update_query)
         return update_query
 
@@ -233,10 +232,10 @@ class Refinements:
         return output
 
     def create_refinement(self, refinement_name, refinement_values, violation_identifier):
-        user_input_values = refinement_values["user_input_values"]
-        user_input = refinement_values["user_input"]
-        requires_prefixes = refinement_values["requires_prefixes"]
-        restricted_values = refinement_values["restricted_values"]
+        user_input_values = refinement_values.get("user_input_values")
+        user_input = refinement_values.get("user_input")
+        requires_prefixes = refinement_values.get("requires_prefixes")
+        restricted_values = refinement_values.get("restricted_values")
         optional_values = refinement_values.get("optional_values")
         violation_value = self.get_violation_value(violation_identifier)
         if not callable(user_input_values) and not callable(restricted_values):
@@ -260,6 +259,24 @@ class Refinements:
                           "restricted_values": restricted_values, "values": user_input_values,
                           "optional_values": optional_values}
         return refinement
+
+    def provide_refinements(self, selected_refinements):
+        refinements = {}
+        print(selected_refinements, "SELECTED REFINEMETS")
+        # Provides values/inputs for the refinements suggested by the user
+        for (violation_identifier, selected_refinement) in selected_refinements.items():
+            # Find which values will be displayed to the user, input boxes or fetched values
+            violation_identifier = int(violation_identifier)
+            if selected_refinement != "Manual":
+                if selected_refinement in self.refinement_options:
+                    refinement_name = selected_refinement
+                    refinement_values = self.refinement_options[selected_refinement]
+                    refinement = self.create_refinement(refinement_name, refinement_values, violation_identifier)
+                    refinements[violation_identifier] = refinement
+                else:
+                    refinements[violation_identifier] = {"name": selected_refinement, "user_input": False,
+                                                         "values": selected_refinement}
+        return refinements
 
     @staticmethod
     def parse_mapping_value(mapping_value):
@@ -303,7 +320,7 @@ class Refinements:
         # returns similar predicates from the vocabulary which caused the violation
         violation_value = self.validation_results[violation_identifier]["value"]
         select_placeholder = "Choose a new predicate"
-        query = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
+        query = """ PREFIX owl: <http://www.w3.org/2002/07/owl#>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                     PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
@@ -452,7 +469,6 @@ class Refinements:
                 }
                """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
         # print("Changing IRI query\n" + update_query)
-        # exit()
         processUpdate(mapping_graph, update_query)
         return update_query
 
@@ -473,10 +489,6 @@ class Refinements:
                     }
                 }
                """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
-        # print("Changing IRI query\n" + update_query)
-        # exit()
-        print(query)
-        exit()
         processUpdate(mapping_graph, update_query)
         return update_query
 
@@ -505,7 +517,6 @@ class Refinements:
         # new_identifier = query_values["URI"]
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result.get("location") 
-        # old_identifier = current_result["value"]
         old_identifier = self.get_user_input(current_result.get("value"))
         new_identifier = self.get_user_input(query_values)
         update_query = """
@@ -528,8 +539,7 @@ class Refinements:
         new_term_type = self.get_user_input(query_values)
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result.get("location")
-        # delete current term type (if applicable)
-        # then insert term type input
+        # delete current term type (if applicable) - then inserts input term type
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?subject rr:termType ?currentTermType  } 
@@ -620,10 +630,6 @@ class Refinements:
                 <%s> rr:subjectMap ?subject .
             }
             """ % (old_class, new_class, triple_map)
-        print("CHANGING CLASS QUERY", update_query)
-        print(self.validation_results)
-        print(type(current_result["value"]))
-        # exit()
         processUpdate(mapping_graph, update_query)
         return update_query
 
@@ -736,32 +742,32 @@ class Refinements:
             return update_query
 
     def add_subject_map(self, query_values, mapping_graph, violation_identifier):
-        for property, value in query_values.items():
-            violation_information = self.validation_results.get(violation_identifier)
-            subject_map_identifier = rdflib.term.BNode()
-            triple_map = violation_information.get("triple_map")
-            update_query = """
-                PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                INSERT
-                {
-                  ?tripleMap rr:subjectMap _:%s .
-                  _:%s rr:class rr:test  .
-                }
-                WHERE {
-                  ?tripleMap rr:predicateObjectMap ?pom .
-                  FILTER(str(?tripleMap) = "%s").
-                }
-            """ % (subject_map_identifier, subject_map_identifier, triple_map)
-            # # print(update_query)
-            # processUpdate(self.mapping_graph, update_query)
-            class_identifier = self.get_user_input(query_values)
-            class_identifier = self.get_user_input(query_values).replace("<","").replace(">", "")
-            mapping_graph.add((URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
-            mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#class'), URIRef(class_identifier)))
-            print(mapping_graph.serialize(format="ttl").decode("utf-8"))
-            self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
-            return update_query
+        violation_information = self.validation_results.get(violation_identifier)
+        subject_map_identifier = rdflib.term.BNode()
+        template_string = query_values.pop("http://www.w3.org/ns/r2rml#template")
+        triple_map = violation_information.get("triple_map")
+        class_identifier = self.get_user_input(query_values).replace("<","").replace(">", "")
+        update_query = """
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            INSERT
+            {
+              ?tripleMap rr:subjectMap _:%s .
+              _:%s rr:class %s  .
+              _:%s     rr:template '%s' . 
+            }
+            WHERE {
+              ?tripleMap rr:predicateObjectMap ?pom .
+              FILTER(str(?tripleMap) = "%s").
+            }
+        """ % (subject_map_identifier, subject_map_identifier, class_identifier, subject_map_identifier, template_string, triple_map)
+        # # print(update_query)
+        # processUpdate(self.mapping_graph, update_query)
+        mapping_graph.add((URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
+        mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#class'), URIRef(class_identifier)))
+        print(mapping_graph.serialize(format="ttl").decode("utf-8"))
+        self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
+        return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
         child_column = query_values.get("http://www.w3.org/ns/r2rml#child")
@@ -836,7 +842,7 @@ class Refinements:
         mapping_graph.update(update_query)
         return update_query
 
-    def get_user_input(self, query_values):
+    def get_user_input(self, query_values, property_name=None):
         # parsing user input for refinement SPARQL query
         if isinstance(query_values, rdflib.term.URIRef):
             return "<%s>" % query_values
@@ -874,24 +880,6 @@ class Refinements:
     def get_violation_value(self, violation_identifier):
         violation_value = self.validation_results[violation_identifier]["value"]
         return str(violation_value)
-
-    def provide_refinements(self, selected_refinements):
-        refinements = {}
-        print(selected_refinements, "SELECTED REFINEMETS")
-        # Provides values/inputs for the refinements suggested by the user
-        for (violation_identifier, selected_refinement) in selected_refinements.items():
-            # Find which values will be displayed to the user, input boxes or fetched values
-            violation_identifier = int(violation_identifier)
-            if selected_refinement != "Manual":
-                if selected_refinement in self.refinement_options:
-                    refinement_name = selected_refinement
-                    refinement_values = self.refinement_options[selected_refinement]
-                    refinement = self.create_refinement(refinement_name, refinement_values, violation_identifier)
-                    refinements[violation_identifier] = refinement
-                else:
-                    refinements[violation_identifier] = {"name": selected_refinement, "user_input": False,
-                                                         "values": selected_refinement}
-        return refinements
 
     def get_namespace(self, identifier):
         if identifier.startswith("http://dbpedia.org/ontology/"):
@@ -987,7 +975,10 @@ class Refinements:
                     if violation_identifier in refinement_input.keys():
                         refinement_input[violation_identifier][property_name] = current_input_value
                     else:
-                        refinement_input[violation_identifier] = {property_name: current_input_value}
+                        refinement_input[violation_identifier] = {property_name: current_input_value,
+                                                                  "http://www.w3.org/ns/r2rml#template": "urn:osi:boundary:geom:{GUID}" }
+
+            print(refinement_input)
         # refinement input associates each input value with the violation identifier it is refining
         self.execute_refinements(selected_violation_identifier, refinements, refinement_input, validation_report_file)
 
@@ -1105,6 +1096,7 @@ class Refinements:
             matching_form_id = "-".join(form_id.split("-")[0:3:2])
             # concatenate the prefix to the user value
             user_input[matching_form_id] = self.get_prefix_value(prefix) + user_input[matching_form_id]
+            print(user_input[matching_form_id])
             # bind prefix namesapce to graph
             self.bind_prefix_namespace(prefix, self.get_prefix_value(prefix))
 
@@ -1131,6 +1123,7 @@ class Refinements:
         # if the input is a prefix e.g '0-PREFIX-http://www.w3.org/ns/r2rml#class'
         split_value = form_id.split("-")
         if len(split_value) == 3 and split_value[1] == "PREFIX":
+            print(form_id)
             return form_id
 
     def create_prefix_value_dict(self, file_name):

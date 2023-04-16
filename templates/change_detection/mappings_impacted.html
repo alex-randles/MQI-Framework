@@ -12,8 +12,8 @@
     <div class="row" id="update-banner" style="display:none;">
         <div class="alert alert-success text-center" role="alert">
             <h5 class="alert-heading">Updated Mapping Generated</h5>
-            <p><strong>Check the 'Execute' box for refinements you want to be executed or 'Execute All Refinements'.</strong>
-                <a href="{{ url_for('static', filename='updated_mapping.ttl') }}">
+            <p>Press the button 'Download Updated Mapping' to retrieve the mapping with updated data references.
+            <a href="{{ url_for('static', filename='uploads/mappings/%s' % (mapping_filename)) }}">
                     <button class="btn btn-sm mx-2 btn-secondary">Download Updated Mapping</button>
                 </a>
             </p>

@@ -333,6 +333,8 @@ class API:
             print(update_query)
             mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
             mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
+            print(mapping_file_path)
+            exit()
             mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
             rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
             mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
