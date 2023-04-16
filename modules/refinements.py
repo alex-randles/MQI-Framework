@@ -34,6 +34,7 @@ class Refinements:
         self.vocabularies = FetchVocabularies()
         # relates to refinements suggested to the users on the dashboard
         self.suggested_refinements = {
+            # mapping metric refinements
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP2": ["AddLogicalTable", "AddLogicalSource"],
             "MP3": ["AddSubjectMap"],
@@ -48,7 +49,7 @@ class Refinements:
             "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
             "MP13": ["AddSubjectMap"],
 
-            # data metric refinenements
+            # data metric refinements
             "D1": ["FindSimilarClasses", "ChangeClass", "RemoveClass"],  # Usage of undefined classes
             "D2": ["FindSimilarPredicates", "ChangePredicate"],  # Usage of undefined properties
             "D3": ["AddDomainClass", "ChangePredicate"],  # Usage of incorrect Domain
@@ -74,7 +75,7 @@ class Refinements:
                                "user_input_values": [self.R2RML + "child"]},
 
             "AddSubjectMap": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                              "user_input_values": [self.R2RML + "class", self.R2RML + "test"]},
+                              "user_input_values": [self.R2RML + "class", self.R2RML + "template"]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": [self.R2RML + "tableName"]},
@@ -156,17 +157,14 @@ class Refinements:
                                      "FindSimilarClasses": self.change_class,
                                      "RemoveIRI": self.remove_identifier,
                                      "RemoveClass": self.remove_class,
-                                     #  ("ChangeTermType", "ChangeOMTermType") : self.change_term_type,
                                      "ChangeTermType": self.change_term_type,
                                      "RemoveTermType": self.remove_term_type,
                                      "ChangeDatatype": self.change_datatype,
                                      "AddCorrectDatatype": self.change_datatype,
                                      "RemoveDatatype": self.remove_datatype,
                                      "ChangeConstantValue": self.change_constant_range,
-                                     # "RemoveDuplicateTriples": self.remove_duplicate_triples,
                                      }
-        # print(mapping_graph.serialize(format="ttl").decode("utf-8"))
-        # exit()
+
 
     @staticmethod
     def create_refinement_descriptions():
@@ -224,7 +222,6 @@ class Refinements:
         #                       "D6": [value for value in all_term_types if value != str(violation_value)]}
         correct_term_types = {"MP7": [value for value in all_term_types if value != str(violation_value)],
                               "D6": [value for value in all_term_types if value != str(violation_value)]}
-
         select_placeholder = "Choose a valid term type"
         term_types = correct_term_types[metric_identifier]
         print(term_types)
@@ -765,6 +762,7 @@ class Refinements:
         # processUpdate(self.mapping_graph, update_query)
         mapping_graph.add((URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
         mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#class'), URIRef(class_identifier)))
+        mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#template'), Literal(template_string)))
         print(mapping_graph.serialize(format="ttl").decode("utf-8"))
         self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
         return update_query
@@ -975,8 +973,7 @@ class Refinements:
                     if violation_identifier in refinement_input.keys():
                         refinement_input[violation_identifier][property_name] = current_input_value
                     else:
-                        refinement_input[violation_identifier] = {property_name: current_input_value,
-                                                                  "http://www.w3.org/ns/r2rml#template": "urn:osi:boundary:geom:{GUID}" }
+                        refinement_input[violation_identifier] = {property_name: current_input_value }
 
             print(refinement_input)
         # refinement input associates each input value with the violation identifier it is refining

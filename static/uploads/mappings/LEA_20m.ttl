@@ -7,13 +7,15 @@
 	rr:logicalTable [
 		rr:tableName "student.csv" ;
 	] ;
+	
+	rr:subjectMap [
+		rr:class geo:Geometry ;
+		rr:template "urn:osi:boundary:geom:{GUID}" ;
+	] ;
 
 	rr:predicateObjectMap [
 		rr:predicate rdfs:label ;
-		rr:objectMap [
-			rr:column "NAME" ;
-			rr:language "en" ;
-		] ;
+	
 	] ;
 
 	rr:predicateObjectMap [

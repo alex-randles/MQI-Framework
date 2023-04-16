@@ -150,7 +150,8 @@
                     <button id="{{button_text_div}}" class="btn btn-secondary my-3" type="button" onClick="showDiv('{{display_button_id}}');">Display Violation</button>
                 </div>
                 <div id="{{display_button_id}}" style="display:none;">
-                    {% set violation_display = display_violation(validation_result[violation_ID]["location"], validation_result[violation_ID]["triple_map"], validation_result[violation_ID]["value"]) %}
+                    {% set current_result = validation_result.get(violation_ID) %}
+                    {% set violation_display = display_violation(current_result.get("location"), current_result.get("triple_map"), current_result.get("value")) %}
                     {% if violation_display %}
                     {% for triple in violation_display %}
                     {% if violation_value %}
