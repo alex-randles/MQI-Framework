@@ -2,20 +2,38 @@
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<file:///home/alex/MQI-Framework/LEA_20m.ttl> a mqio:MappingArtefact .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
     mqio:assessedMapping <LEA_20m.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
-<LEA_20m.ttl> a mqio:MappingArtefact .
-
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
         ex:violation-2,
-        ex:violation-3 .
+        ex:violation-3,
+        ex:violation-4 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-16T18:44:26.531990"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                INSERT { ?subject rr:subjectMap rr:class . } 
+                WHERE { 
+                SELECT ?subject
+                WHERE {
+                      ?subject rr:predicateObjectMap ?pom.
+                    }
+                }
+
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-2 ;
+    mqio:refinementName "Add Logical Table"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
@@ -30,15 +48,21 @@ ex:violation-1 a mqio:MappingViolation ;
     mqio:inTripleMap <#TriplesMap1> ;
     mqio:isDescribedBy mqio-metrics:MP4 .
 
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
 ex:violation-3 a mqio:MappingViolation ;
     mqio:hasObjectValue rdfs: ;
     mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:inTripleMap <#TriplesMap2> ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-4 a mqio:MappingViolation ;
+    mqio:hasObjectValue geo: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasResultMessage "No logical table in this triple map."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:MP2 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
