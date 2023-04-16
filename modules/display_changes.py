@@ -20,7 +20,7 @@ class DisplayChanges:
         self.current_graph_version = None
         self.graph_details = defaultdict(dict)
         self.mapping_details = defaultdict(dict)
-        self.complete_graph = ConjunctiveGraph()
+        self.complete_graph = rdflib.ConjunctiveGraph()
         # error code
         # no error = 0
         self.error_code = 0
@@ -96,7 +96,7 @@ class DisplayChanges:
             print(filename)
             user_graph_file = self.graph_directory + filename
             # set current graph
-            self.current_graph = Dataset()
+            self.current_graph = rdflib.Dataset()
             self.current_graph.parse(user_graph_file, format="trig")
             self.get_graph_details()
         print(self.graph_details)
@@ -142,7 +142,7 @@ class DisplayChanges:
     @staticmethod
     def generate_thresholds_html(graph_filename, user_id):
         graph_filename = r2rml.graph_directory + graph_filename
-        change_graph = Dataset()
+        change_graph = rdflib.Dataset()
         change_graph.parse(graph_filename, format="trig")
         query = """
             PREFIX oscd: <https://www.w3id.org/OSCD#>
@@ -195,8 +195,8 @@ class DisplayChanges:
         """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            detection_start = str(row[0]).split(" ")[0]
-            detection_end = str(row[1]).split(" ")[0]
+            detection_start = str(row.get("detectionStart")).split(" ")[0]
+            detection_end = str(row.get("detectionEnd")).split(" ")[0]
             self.graph_details[self.current_graph_version]["detection_start"] = detection_start
             self.graph_details[self.current_graph_version]["detection_end"] = detection_end
         self.graph_details[self.current_graph_version]["mappings_impacted"] = {"references_impacted": {}}
@@ -255,7 +255,7 @@ class DisplayChanges:
         # lists as could be more than 1 triple map
         iterator = []
         for row in query_results:
-            iterator.append(str(row[0]))
+            iterator.append(str(row.get("iterator")))
         if iterator:
             self.mapping_details[self.current_graph_version]["iterators"] = iterator
 
@@ -283,7 +283,7 @@ class DisplayChanges:
         query_results = self.current_graph.query(query)
         references = []
         for row in query_results:
-            reference = row[0]
+            reference = row.get("dataReference")
             references.append(str(reference))
         return references
 
@@ -292,17 +292,16 @@ class DisplayChanges:
         query = """
             PREFIX rr: <http://www.w3.org/ns/r2rml#> 
             PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-            SELECT DISTINCT ?dataReference
+            SELECT DISTINCT ?template
             WHERE
             {
-                      ?subject rr:template ?dataReference
+                      ?subject rr:template ?template
             }
         """
         query_results = self.current_graph.query(query)
         references = []
         for row in query_results:
-            template = row[0]
-            str_template = str(template)
+            template = str(row.get("template"))
             reference = re.findall('{(.+?)}', str_template)
             # findall returns list so need to use extend
             references.extend(reference)
@@ -326,57 +325,19 @@ class DisplayChanges:
             }
         """
         query_results = self.current_graph.query(query)
-        change_reasons = ["name"]
         change_reasons = {}
-        i = 0
+        counter = 0
         # full and short text for displaying and matching
         for row in query_results:
-            change_reasons[i] = {
-                "match_reason": str(row[0]),
-                "reason": str(row[1]),
-                "change_type": str(row[2]),
+            change_reasons[counter] = {
+                "match_reason": str(row.get("reason")),
+                "reason": str(row.get("changeReason")),
+                "change_type": str(row.get("changeType")),
 
             }
-            i += 1
+            counter += 1
         self.graph_details[self.current_graph_version]["change_reasons"] = change_reasons
 
-    def analyse_mappings(self):
-        pass
-        # graph_filename = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/14.trig"
-        # change_graph = Dataset()
-        # change_graph.parse(graph_filename, format="trig")
-        # change_graph.parse("/home/alex/MQI-Framework/static/uploads/mapping.ttl", format="ttl")
-        # query = """
-        #     PREFIX oscd: <https://www.w3id.org/OSCD#>
-        #     PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
-        #     PREFIX rr: <http://www.w3.org/ns/r2rml#>
-        #
-        #     SELECT ?graphName
-        #     WHERE {
-        #       GRAPH ?changesGraph {
-        #         ?changeLog a oscd:ChangeLog;
-        #                 oscd:hasChange ?change;
-        #                 oscd:hasCurrentVersion ?currentVersion .
-        #         ?change oscd:hasDataReference ?reference;
-        #                 oscd:hasChangedData ?changedData .
-        #         BIND (REPLACE(STR(?currentVersion), "^.*/([^/]*)$", "$1") as ?source)
-        #       }
-        #       GRAPH ?mappingGraph {
-        #         ?tripleMap rml:logicalSource|rr:logicalTable ?logicalSource;
-        #                 rr:predicateObjectMap ?pom .
-        #         ?logicalSource rml:source|rr:tableName ?source .
-        #         ?pom rr:objectMap ?objectMap .
-        #         ?objectMap rml:reference|rr:column ?reference.
-        #       }
-        #       BIND (REPLACE(STR(?mappingGraph), "^.*/([^/]*)$", "$1") as ?graphName)
-        #     }
-        #     GROUP BY ?graphName    self.graph_details[self.current_graph_version]["mappings_impacted"] = {"sd":2}
-        #
-        # """
-        # query_results = change_graph.query(query)
-        # print(query_results)
-
-    # get the location of the change detection source data
     def get_changes_source(self):
         # get the reasons for changes occurring
         query = """
@@ -405,8 +366,8 @@ class DisplayChanges:
         change_sources = {}
         # convert to lower case
         for row in query_results:
-            change_sources["current_version"] = str(row[0])
-            change_sources["previous_version"] = str(row[1])
+            change_sources["current_version"] = str(row.get("currentVersion"))
+            change_sources["previous_version"] = str(row.get("previousVersion"))
         if change_sources:
             self.graph_details[self.current_graph_version]["change_sources"] = change_sources
 

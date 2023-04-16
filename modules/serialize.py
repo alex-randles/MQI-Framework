@@ -1,6 +1,4 @@
-from rdflib import Namespace
-from rdflib.term import *
-from rdflib.term import _castPythonToLiteral
+import rdflib
 import re
 
 
@@ -8,16 +6,14 @@ class TurtleSerializer:
 
     def __init__(self, mapping_graph, triple_references=None, output_file=None):
         self.triple_references = triple_references
-        # print(triple_references)
-        # exit()
         self.tab_count = 1
         self.mapping_graph = mapping_graph
         self.output_file = output_file
         self.output = ""
         self.erase_file()
         self.namespaces = self.get_namespaces()
-        self.RR = Namespace('http://www.w3.org/ns/r2rml#')
-        self.RML = Namespace("http://semweb.mmlab.be/ns/rml#")
+        self.RR = rdflib.Namespace('http://www.w3.org/ns/r2rml#')
+        self.RML = rdflib.Namespace("http://semweb.mmlab.be/ns/rml#")
         self.add_namespaces()
         self.create_output_file()
 
@@ -76,39 +72,28 @@ class TurtleSerializer:
 
     def add_blank_nodes(self, triple_map_values):
         # rml mappings define source differently
-        rml_mapping_test = self.RML.logicalSource in self.mapping_graph.predicates(None, None)
-        # the order we want the output mapping in
-        if rml_mapping_test:
+        is_rml_mapping = self.RML.logicalSource in self.mapping_graph.predicates(None, None)
+        if is_rml_mapping:
             mapping_ordering = [self.RML.logicalSource, self.RR.subjectMap, self.RR.predicateObjectMap]
         else:
             mapping_ordering = [self.RR.logicalTable, self.RR.subjectMap, self.RR.predicateObjectMap]
-        # print(self.mapping_graph.serialize(format="ttl").decode("utf-8"))
-        # exit()
         for predicate in mapping_ordering:
             if predicate in triple_map_values.keys():
                 blank_nodes = triple_map_values[predicate]
                 self.iterate_triples(predicate, blank_nodes)
-        print(self.mapping_graph.serialize(format="ttl").decode("utf-8"))
-        blank_node = list(self.mapping_graph.objects(None, self.RR.subjectMap))[0]
-        # print(blank_node)
-        # print(list(self.mapping_graph.objects(blank_node, None)))
-        # exit()
-
 
     def iterate_triples(self, predicate, blank_nodes):
         # (http://www.w3.org/ns/r2rml#logicalTable [rdflib.term.BNode('ub2bL391C18')] )
         # iterates through each values related to predicates
         for blank_node in blank_nodes:
-            print(predicate, blank_nodes, blank_node, "dhhdhdhd")
             blank_node_objects = []
             non_blank_node_objects = []
             self.output += "\n" + self.format_identifier(predicate) + " [ \n "
             for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
-                if not isinstance(o, BNode):
+                if not isinstance(o, rdflib.term.BNode):
                     non_blank_node_objects.append((p,o))
-                elif isinstance(o, BNode):
+                elif isinstance(o, rdflib.term.BNode):
                     blank_node_objects.append(o)
-                print(s,p,o, "chhchdfhf")
             self.add_non_blank_node_objects(non_blank_node_objects)
             self.add_blank_node_objects(blank_node_objects)
             self.output += " ];\n"
@@ -137,10 +122,10 @@ class TurtleSerializer:
     def display_violation(self, blank_node, triple_map, violation_value):
         try:
             self.output = ""
-            blank_node = BNode(blank_node)
+            blank_node = rdflib.term.BNode(blank_node)
             subject = list(self.mapping_graph.subjects(None, blank_node))[0]
             # if violation is in a objectMap, display the predicateObjectMap aswell
-            if isinstance(subject, BNode):
+            if isinstance(subject, rdflib.term.BNode):
                 blank_nodes = [subject]
             else:
                 blank_nodes = [blank_node]
@@ -156,9 +141,9 @@ class TurtleSerializer:
                 # iterate each predicate and if more than object for a predicate join with "," and end with ";"s if not a blank node
                 for current_predicate in predicates:
                     non_blank_node_objects = [self.format_identifier(object) for object in list(self.mapping_graph.objects(current_blank_node, current_predicate)) if
-                                         not isinstance(object, BNode)]
+                                         not isinstance(object, rdflib.term.BNode)]
                     current_blank_node_objects = [object for object in list(self.mapping_graph.objects(current_blank_node, current_predicate)) if
-                                     isinstance(object, BNode)]
+                                     isinstance(object, rdflib.term.BNode)]
                     if non_blank_node_objects:
                         self.output += "\t" + self.format_identifier(current_predicate) + " " + ", ".join(non_blank_node_objects) + "; \n "
                     elif current_blank_node_objects:
@@ -180,7 +165,6 @@ class TurtleSerializer:
     def add_blank_node_objects(self, blank_node_objects):
         # blank nodes with blank nodes as object such as predicateObjectMap with object maps
         for blank_node in blank_node_objects:
-            # e.g rr:objectMap
             predicate = list(self.mapping_graph.predicates(None, blank_node))[0]
             self.output += "\t" + self.format_identifier(predicate) + " [\n"
             new_blank_node_objects = []
@@ -189,22 +173,13 @@ class TurtleSerializer:
             # while their are no more blank node objects to iterate
             while True:
                 for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
-                    if not isinstance(o, BNode):
+                    if not isinstance(o, rdflib.term.BNode):
                         non_blank_nodes.append((p,o))
-                        # self.output += "\t" * self.tab_count + self.format_identifier(p) + self.format_identifier(o) + ";\n"
-                    elif isinstance(o, BNode):
+                    elif isinstance(o, rdflib.term.BNode):
                         new_blank_node_objects.append(o)
                 self.add_non_blank_node_objects(non_blank_nodes)
                 # if the blank node subject has blank node as object
                 if new_blank_node_objects:
-                    # for new_blank_node in new_blank_node_objects:
-                    #     predicate = list(self.mapping_graph.predicates(None, new_blank_node))[0]
-                    #     self.output += "\t" * self.tab_count + self.format_identifier(predicate) + " [\n"
-                    #     self.tab_count += 1
-                    #     for (s, p, o) in self.mapping_graph.triples((new_blank_node, None, None)):
-                    #         self.output += "\t" * self.tab_count + self.format_identifier(p) + self.format_identifier(o) + ";\n"
-                    #     self.output += "\t" * self.tab_count + " ];\n "
-
                     while new_blank_node_objects:
                         current_blank_node = new_blank_node_objects[0]
                         predicate = list(self.mapping_graph.predicates(None, current_blank_node))[0]
@@ -212,7 +187,7 @@ class TurtleSerializer:
                         self.tab_count += 1
                         non_blank_nodes = []
                         for (s, p, o) in self.mapping_graph.triples((current_blank_node, None, None)):
-                            if not isinstance(o, BNode):
+                            if not isinstance(o, rdflib.term.BNode):
                                 non_blank_nodes.append((p,o))
                                 # self.output += "\t" * self.tab_count + self.format_identifier(p) + self.format_identifier(o) + ";\n"
                             else:
@@ -248,21 +223,17 @@ class TurtleSerializer:
                 print(f.read())
 
     def is_typed_literal(self, literal):
-        # has datatype or language tag
-        converted_literal = _castPythonToLiteral(literal, datatype=None)
-        print(converted_literal)
+        converted_literal = rdflib.term._castPythonToLiteral(literal, datatype=None)
         datatype = converted_literal[0].datatype
         language = converted_literal[0].language
-        print(converted_literal)
-        # new literal adds language or datatype to output literal
         if datatype:
-            prefix_datatype =  self.format_identifier(datatype).strip()
+            prefix_datatype = self.format_identifier(datatype).strip()
             new_literal = '"{}"^^{} '.format(literal, prefix_datatype)
             return new_literal
         elif language:
             new_literal = '"{}"@{} '.format(literal, language)
             return new_literal
-        return ' "%s" ' % literal
+        return ' "%s"' % literal
 
     def is_multi_line(self, literal):
         if len(literal.split("\n")) > 1:
@@ -271,13 +242,12 @@ class TurtleSerializer:
             return '""" %s """' % (literal)
         else:
             literal = self.is_typed_literal(literal)
-            print(Literal(literal).datatype, "DATATYPE")
+            print(rdflib.term.Literal(literal).datatype, "DATATYPE")
             return literal
             # return ' "%s" ' % (literal)
 
     def is_file_name(self, identifier):
-        # for objects such as <file:///home/alex/Desktop/Mapping-Quality-Framework/Mapping-Quality-Model/valid_mapping.ttl#TriplesMap2>
-        # remove the file directory relating to my system
+        # remove the local file directory from a file identifier
         if identifier.startswith("file:"):
             try:
                 new_identifier = identifier.split("#")[1]
@@ -314,20 +284,16 @@ class TurtleSerializer:
         # add escape (\) if it has a query parameter (?)
         if "?" in identifier:
             new_identifier = "\\?".join(identifier.split("?"))
-            return URIRef(new_identifier)
+            return rdflib.term.URIef(new_identifier)
         return identifier
 
     def format_identifier(self, identifier):
-        if isinstance(identifier, Literal):
+        if isinstance(identifier, rdflib.term.Literal):
             return self.is_multi_line(identifier)
         identifier = self.check_query_parameter(identifier)
-        # replace rdf:type with its shorthand a
-        # problem when rdf:type used as a predicate
-        # if identifier == URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"):
-        #     return " a "
         if self.add_prefix(identifier):
             return self.add_prefix(identifier)
-        elif isinstance(identifier, URIRef):
+        elif isinstance(identifier, rdflib.term.URIef):
             return self.is_file_name(identifier)
         else:
             return self.is_file_name(identifier)
@@ -381,7 +347,7 @@ if __name__ == "__main__":
     #         blank_node_objects = []
     #         self.output += "\n" + self.format_identifier(predicate) + "[ \n "
     #         for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
-    #             if not isinstance(o, BNode):
+    #             if not isinstance(o, rdflib.term.BNode):
     #                 # print("line 69", p, o, count)
     #                 count += 1
     #                 if p not in values.keys():
@@ -390,7 +356,7 @@ if __name__ == "__main__":
     #                     # print(values[p], "IN KEYS")
     #                     values[p] = values[p] + [o]
     #                 self.output += "\t" + self.format_identifier(p) + self.format_identifier(o) + ";\n"
-    #             elif isinstance(o, BNode):
+    #             elif isinstance(o, rdflib.term.BNode):
     #                 blank_node_objects.append(o)
     #         if count == 0:
     #             print(values)

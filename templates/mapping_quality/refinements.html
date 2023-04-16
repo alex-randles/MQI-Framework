@@ -80,9 +80,7 @@ function validateRefinementExecution() {
                 <i class="bi bi-info-circle"  title="The values which will be used for executing these refinements"></i>
             </th>
             <th scope="col">
-                <!--                Select Refinements-->
-                <!--                <i class="bi bi-info-circle"  title="Select the refinements you want to be executed"></i>-->
-                <button type="button" title="Testing" id="selectAll" class="main" onClick='selectAllRefinements()'>Execute All Refinements</button>
+                <button type="button" class="btn btn-sm btn-secondary" id="selectAll" onClick='selectAllRefinements()'>Execute All Refinements</button>
             </th>
             <th scope="col">
                 Display violation
@@ -91,7 +89,6 @@ function validateRefinementExecution() {
         </tr>
         </thead>
         <tbody>
-
         {% set input_form_ids = [] %}
         {%for violation_ID, refinement_values in refinements.items()%}
         {% set triple_map = refinement_values.get("triple_map") %}
