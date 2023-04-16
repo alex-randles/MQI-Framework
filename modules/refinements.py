@@ -73,7 +73,7 @@ class Refinements:
             "AddChildColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": [self.R2RML + "child"]},
 
-            "AddSubjectMap": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
+            "AddSubjectMap": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
                               "user_input_values": [self.R2RML + "class"]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
@@ -732,31 +732,31 @@ class Refinements:
             return update_query
 
     def add_subject_map(self, query_values, mapping_graph, violation_identifier):
-        print(query_values)
         for property, value in query_values.items():
             violation_information = self.validation_results.get(violation_identifier)
-            subject_map_identifier = BNode()
+            subject_map_identifier = rdflib.term.BNode()
+            triple_map = violation_information.get("triple_map")
             update_query = """
                 PREFIX dc: <http://purl.org/dc/elements/1.1/>
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                INSERT 
-                { 
-                  ?tripleMap rr:subjectMap _:%s . 
-                  _:%s rr:class rr:test  . 
+                INSERT
+                {
+                  ?tripleMap rr:subjectMap _:%s .
+                  _:%s rr:class rr:test  .
                 }
                 WHERE {
-                  ?tripleMap rr:predicateObjectMap ?pom . 
+                  ?tripleMap rr:predicateObjectMap ?pom .
                   FILTER(str(?tripleMap) = "%s").
                 }
-            """ % (subject_map_identifier, subject_map_identifier ,violation_information.get("triple_map"))
-            # print(update_query)
-            processUpdate(self.mapping_graph, update_query)
+            """ % (subject_map_identifier, subject_map_identifier, triple_map)
+            # # print(update_query)
+            # processUpdate(self.mapping_graph, update_query)
+            class_identifier = self.get_user_input(query_values)
+            class_identifier = self.get_user_input(query_values).replace("<","").replace(">", "")
+            mapping_graph.add((URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
+            mapping_graph.add((subject_map_identifier, self.R2RML.classs, URIRef(class_identifier)))
             print(mapping_graph.serialize(format="ttl").decode("utf-8"))
-            print(subject_map_identifier, type(subject_map_identifier))
-            for s, o in self.triple_references.items():
-                print(s, "dhdhhd")
-                print("")
-            self.triple_references[list(self.triple_references.keys())[0]][rdflib.term.rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
+            self.triple_references[URIRef(triple_map)][rdflib.term.rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
             return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
@@ -928,7 +928,7 @@ class Refinements:
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         domain = []
         for row in query_results["results"]["bindings"]:
-            current_domain = row["domainClass"]["value"]
+            current_domain = row["domainClass"].get("value")
             if "comment" in row:
                 current_comment = row["comment"]["value"].split(".")[0] + "."
             else:

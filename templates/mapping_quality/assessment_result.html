@@ -93,12 +93,12 @@
         <tbody>
 
         {% for violation_ID in assessment_report.keys() %}
-        {% set current_violation = assessment_report[violation_ID] %}
-        {% set metric_ID = current_violation["metric_identifier"] %}
-        {% set result_message = current_violation["result_message"] %}
-        {% set violation_value = find_prefix(current_violation["value"]) %}
-        {% set triple_map = get_triple_map_ID(current_violation["triple_map"]) %}
-        {% set violation_location = find_violation_location(current_violation["location"]) %}
+        {% set current_violation = assessment_report.get(violation_ID) %}
+        {% set metric_ID = current_violation.get("metric_identifier") %}
+        {% set result_message = current_violation.get("result_message") %}
+        {% set violation_value = find_prefix(current_violation.get("value")) %}
+        {% set triple_map = get_triple_map_ID(current_violation.get("triple_map")) %}
+        {% set violation_location = find_violation_location(current_violation.get("location")) %}
 
         <tr >
 

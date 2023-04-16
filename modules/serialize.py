@@ -88,38 +88,18 @@ class TurtleSerializer:
             if predicate in triple_map_values.keys():
                 blank_nodes = triple_map_values[predicate]
                 self.iterate_triples(predicate, blank_nodes)
+        print(self.mapping_graph.serialize(format="ttl").decode("utf-8"))
+        blank_node = list(self.mapping_graph.objects(None, self.RR.subjectMap))[0]
+        # print(blank_node)
+        # print(list(self.mapping_graph.objects(blank_node, None)))
+        # exit()
 
-    # iterate triples with inline predicates e.g rr:class foaf:Person, foaf:Agent;
-    def new_iterate_triples(self, predicate, blank_nodes):
-        # (http://www.w3.org/ns/r2rml#logicalTable [rdflib.term.BNode('ub2bL391C18')] )
-        # iterates through each values related to predicates
-        count = 0
-        values = {}
-        for blank_node in blank_nodes:
-            blank_node_objects = []
-            self.output += "\n" + self.format_identifier(predicate) + "[ \n "
-            for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
-                if not isinstance(o, BNode):
-                    # print("line 69", p, o, count)
-                    count += 1
-                    if p not in values.keys():
-                        values[p] = [o]
-                    elif p in values.keys():
-                        # print(values[p], "IN KEYS")
-                        values[p] = values[p] + [o]
-                    self.output += "\t" + self.format_identifier(p) + self.format_identifier(o) + ";\n"
-                elif isinstance(o, BNode):
-                    blank_node_objects.append(o)
-            if count == 0:
-                print(values)
-            values = {}
-            self.add_blank_node_objects(blank_node_objects)
-            self.output += " ];\n"
 
     def iterate_triples(self, predicate, blank_nodes):
         # (http://www.w3.org/ns/r2rml#logicalTable [rdflib.term.BNode('ub2bL391C18')] )
         # iterates through each values related to predicates
         for blank_node in blank_nodes:
+            print(predicate, blank_nodes, blank_node, "dhhdhdhd")
             blank_node_objects = []
             non_blank_node_objects = []
             self.output += "\n" + self.format_identifier(predicate) + " [ \n "
@@ -390,3 +370,30 @@ if __name__ == "__main__":
     for line in output_file_lines:
         print(line)
 
+
+    # # iterate triples with inline predicates e.g rr:class foaf:Person, foaf:Agent;
+    # def new_iterate_triples(self, predicate, blank_nodes):
+    #     # (http://www.w3.org/ns/r2rml#logicalTable [rdflib.term.BNode('ub2bL391C18')] )
+    #     # iterates through each values related to predicates
+    #     count = 0
+    #     values = {}
+    #     for blank_node in blank_nodes:
+    #         blank_node_objects = []
+    #         self.output += "\n" + self.format_identifier(predicate) + "[ \n "
+    #         for (s, p, o) in self.mapping_graph.triples((blank_node, None, None)):
+    #             if not isinstance(o, BNode):
+    #                 # print("line 69", p, o, count)
+    #                 count += 1
+    #                 if p not in values.keys():
+    #                     values[p] = [o]
+    #                 elif p in values.keys():
+    #                     # print(values[p], "IN KEYS")
+    #                     values[p] = values[p] + [o]
+    #                 self.output += "\t" + self.format_identifier(p) + self.format_identifier(o) + ";\n"
+    #             elif isinstance(o, BNode):
+    #                 blank_node_objects.append(o)
+    #         if count == 0:
+    #             print(values)
+    #         values = {}
+    #         self.add_blank_node_objects(blank_node_objects)
+    #         self.output += " ];\n"

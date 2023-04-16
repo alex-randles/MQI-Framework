@@ -5,19 +5,13 @@
 
 <#TriplesMap1>
 	rr:logicalTable [
-		rr:tableName "LEA_CBD2019_20M" ;
+		rr:tableName "student.csv" ;
 	] ;
-
-	rr:subjectMap [
-		rr:template "http://data.geohive.ie/resource/localelectoralarea/{GUID}" ;
-		rr:class ont:LocalElectoralArea ;
-		rr:class geo:Feature ;
-    ] ;
 
 	rr:predicateObjectMap [
 		rr:predicate rdfs:label ;
 		rr:objectMap [
-			rr:column "ENGLISH" ;
+			rr:column "NAME" ;
 			rr:language "en" ;
 		] ;
 	] ;
