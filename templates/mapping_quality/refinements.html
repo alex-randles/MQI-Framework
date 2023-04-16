@@ -148,8 +148,6 @@ function validateRefinementExecution() {
                     <option value={{prefix}}>{{prefix}}</option>
                     {% endfor  %}
                 </select>
-                {{ form_value }}
-                {{ prefix_value }} 
                 <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
                 <span class="tt" data-bs-placement="top" title="Do not include brackets (<>) for IRIs">
               <i class="bi bi-info-circle" ></i>
@@ -226,7 +224,8 @@ function validateRefinementExecution() {
                 </div>
                 <div id="{{violation_ID|string + 'refinements_div'}}" style="display:none">
                     {% set violation_ID = violation_ID|int %}
-                    {% set violation_display = display_violation(validation_result[violation_ID]["location"], validation_result[violation_ID]["triple_map"], validation_result[violation_ID]["value"]) %}
+                    {% set current_result = validation_result.get(violation_ID) %}
+                    {% set violation_display = display_violation(current_result.get("location"), current_result.get("triple_map"), current_result.get("value")) %}
                     {% if violation_display %}
                     {% for triple in violation_display %}
                     {% if violation_value %}

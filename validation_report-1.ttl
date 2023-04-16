@@ -2,91 +2,43 @@
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/LEA_20m1.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <LEA_20m1.ttl> ;
+    mqio:assessedMapping <LEA_20m.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
+
+<LEA_20m.ttl> a mqio:MappingArtefact .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
         ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-16T16:35:50.365020"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            INSERT {
-                ?subject rr:class <http://www.opengis.net/ont/geosparql#Feature> .
-            }
-            WHERE {
-              <file:///home/alex/MQI-Framework/static/uploads/mappings/LEA_20m1.ttl#TriplesMap1> rr:subjectMap ?subject
-            }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Add Domain Class"^^xsd:string .
-
-ex:refinement-1 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-16T16:35:50.367336"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            PREFIX rr: <http://www.w3.org/ns/r2rml#>
-            INSERT
-            {
-              ?tripleMap rr:subjectMap _:Nfaaaf85ceb9d44a7a6b393f8e57420d5 .
-              _:Nfaaaf85ceb9d44a7a6b393f8e57420d5 rr:class http://purl.org/vocab/aiiso/schema#test  .
-              _:Nfaaaf85ceb9d44a7a6b393f8e57420d5     rr:template 'urn:osi:boundary:geom:{GUID}' . 
-            }
-            WHERE {
-              ?tripleMap rr:predicateObjectMap ?pom .
-              FILTER(str(?tripleMap) = "file:///home/alex/MQI-Framework/static/uploads/mappings/LEA_20m1.ttl#TriplesMap1").
-            }
-        """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Add Subject Map"^^xsd:string .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
+        ex:violation-3 .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
     mqio:hasObjectValue geo:hasGeometry ;
     mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:D3 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:isDescribedBy mqio-metrics:D3 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasResultMessage "No subjectMap defined in this mapping."^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "Invalid predicateObjectMap definition."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap1> ;
-    mqio:isDescribedBy mqio-metrics:MP3 ;
-    mqio:wasRefinedBy ex:refinement-1 .
+    mqio:isDescribedBy mqio-metrics:MP4 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasObjectValue geo: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasObjectValue rdfs: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap1> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
 

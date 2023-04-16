@@ -156,12 +156,13 @@ class ValidateQuality:
     def validate_mapping_metrics(self):
         # A function to validate each of the mapping related quality metrics
         # self.validate_MP2()
-        self.validate_MP4()
-        self.validate_MP6()
+        pass
 
     def validate_term_map_metrics(self):
         self.validate_MP1()
         self.validate_MP3()
+        self.validate_MP4()
+        self.validate_MP6()
         self.validate_MP5()
         self.validate_MP7()
         self.validate_MP8()
@@ -173,7 +174,7 @@ class ValidateQuality:
 
     def validate_vocabulary_metrics(self):
         self.validate_VOC3()
-        self.validate_VOC4()
+        # self.validate_VOC4()
         self.validate_VOC5()
 
     def validate_D1(self):
@@ -358,37 +359,21 @@ class ValidateQuality:
             datatype = row.get("datatype")
             self.add_violation([metric_identifier, result_message, (language_tag, datatype), subject_identifier])
 
-    # def validate_MP2(self):
-    #     result_message = "An object map with a language tag and datatype."
-    #     metric_identifier = "MP2"
-    #     query = """SELECT ?om ?pm ?datatype
-    #            WHERE {
-    #               ?s rr:predicateObjectMap ?pm .
-    #               ?pm rr:objectMap ?om .
-    #               ?om rr:datatype ?datatype ;
-    #                   rr:language ?languageTag .
-    #            }
-    #            """
-    #     query_results = self.current_graph.query(query)
-    #     for row in query_results:
-    #         subject_identifier = row.get("om")
-    #         datatype = row.get("datatype")
-    #         self.add_violation([metric_identifier, result_message, datatype, subject_identifier])
-
     def validate_MP6(self):
         result_message = "No logical table in this triple map."
         metric_identifier = "MP2"
         query = """
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
-        PREFIX rr: <http://www.w3.org/ns/r2rml#>
-        ASK { ?subject rr:logicalTable|rml:logicalSource ?object } """
-        query_results = self.mapping_graph.query(query)
+            PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            ASK { ?subject rr:logicalTable|rml:logicalSource ?object } 
+        """
+        query_results = self.current_graph.query(query)
         for row in query_results:
             if not row:
                 self.add_violation([metric_identifier, result_message, None, None])
 
     def validate_MP3(self):
-        result_message = "No subjectMap defined in this mapping."
+        result_message = "No subjectMap defined in this triple map."
         metric_identifier = "MP3"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     ASK { ?subject rr:subjectMap ?sm . } 
@@ -399,15 +384,23 @@ class ValidateQuality:
                 self.add_violation([metric_identifier, result_message, None, None])
 
     def validate_MP4(self):
-        result_message = "No predicateObjectMap defined in this mapping."
+        result_message = "Invalid predicateObjectMap definition."
         metric_identifier = "MP4"
-        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    ASK { ?subject rr:predicateObjectMap ?pom . } 
-                """
-        query_results = self.mapping_graph.query(query)
+        query = """
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            SELECT ?pom
+            WHERE {
+              ?tripleMap rr:predicateObjectMap ?pom .
+              OPTIONAL { ?pom rr:predicate ?predicate . }
+              OPTIONAL { ?pom rr:objectMap ?om . }
+              FILTER(!BOUND(?predicate) || !BOUND(?om))
+            }
+        """
+        query_results = self.current_graph.query(query)
         for row in query_results:
-            if not row:
-                self.add_violation([metric_identifier, result_message, None, None])
+            if row:
+                subject_identifier = row.get("pom")
+                self.add_violation([metric_identifier, result_message, None, subject_identifier])
 
     def validate_MP5(self):
         result_message = "Join condition should have a parent and child column."
