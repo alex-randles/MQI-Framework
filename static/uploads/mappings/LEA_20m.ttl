@@ -4,10 +4,6 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
 <#TriplesMap1>
-	rr:logicalTable [
-		rr:tableName "student.csv" ;
-	] ;
-	
 	rr:subjectMap [
 		rr:class geo:Geometry ;
 		rr:template "urn:osi:boundary:geom:{GUID}" ;

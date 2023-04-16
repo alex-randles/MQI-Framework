@@ -78,7 +78,7 @@ class Refinements:
                               "user_input_values": [self.R2RML + "class", self.R2RML + "template"]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": [self.R2RML + "tableName"]},
+                                "user_input_values": [self.R2RML + "tableName", self.R2RML + "sqlQuery"]},
 
             "AddLogicalSource": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": [self.R2RML + "tableName"]},
@@ -192,23 +192,6 @@ class Refinements:
             classes.append("%s" % row)
         output = {"Classes": classes}
         return output
-
-    def add_logical_table(self, query_values, mapping_graph, violation_identifier):
-        current_result = self.validation_results[violation_identifier]
-        update_query = """
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                INSERT { ?subject rr:subjectMap rr:class . } 
-                WHERE { 
-                SELECT ?subject
-                WHERE {
-                      ?subject rr:predicateObjectMap ?pom.
-                    }
-                }
-
-               """
-        print("Adding child column query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
-        return update_query
 
     def get_correct_term_types(self, violation_identifier):
         metric_identifier = self.validation_results[violation_identifier]["metric_identifier"]
@@ -765,6 +748,34 @@ class Refinements:
         mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#template'), Literal(template_string)))
         print(mapping_graph.serialize(format="ttl").decode("utf-8"))
         self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
+        return update_query
+
+
+    def add_logical_table(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
+        update_query = """
+        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                INSERT { ?subject rr:subjectMap rr:class . } 
+                WHERE { 
+                SELECT ?subject
+                WHERE {
+                      ?subject rr:predicateObjectMap ?pom.
+                    }
+                }
+
+               """
+        print("Adding logical table query\n" + update_query)
+        violation_information = self.validation_results.get(violation_identifier)
+        triple_map = violation_information.get("triple_map")
+        logical_table_identifier = rdflib.term.BNode()
+        mapping_graph.add((URIRef(triple_map), self.R2RML.logicalTable, logical_table_identifier))
+        table_name = query_values.pop("http://www.w3.org/ns/r2rml#tableName")
+        sql_query = query_values.pop("http://www.w3.org/ns/r2rml#sqlQuery")
+        if table_name:
+            mapping_graph.add((logical_table_identifier, self.R2RML.tableName, Literal(table_name)))
+        if sql_query:
+            mapping_graph.add((logical_table_identifier, self.R2RML.sqlQuery, Literal(sql_query)))
+        self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#logicalTable')] = [logical_table_identifier]
         return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
