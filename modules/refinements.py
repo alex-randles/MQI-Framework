@@ -66,29 +66,29 @@ class Refinements:
 
             "ChangeLanguageTag": {"user_input": True, "requires_prefixes": False,
                                   "restricted_values": self.get_language_tags(),
-                                  "user_input_values": [self.R2RML + "language"]},
+                                  "user_input_values": [self.R2RML.language]},
 
             "AddParentColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": [self.R2RML + "parent"]},
+                                "user_input_values": [self.R2RML.parent]},
 
             "AddChildColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                               "user_input_values": [self.R2RML + "child"]},
+                               "user_input_values": [self.R2RML.child]},
 
             "AddSubjectMap": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                              "user_input_values": [self.R2RML + "class", self.R2RML + "template"]},
+                              "user_input_values": [self.R2RML + "class", self.R2RML.template]},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": [self.R2RML + "tableName", self.R2RML + "sqlQuery"]},
+                                "user_input_values": [self.R2RML.tableName, self.R2RML.sqlQuery, self.R2RML.sqlVersion]},
 
             "AddLogicalSource": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": [self.R2RML + "tableName"]},
+                                "user_input_values": [self.R2RML.tableName]},
 
             "ChangePredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                                "user_input_values": [self.R2RML + "predicate"]},
+                                "user_input_values": [self.R2RML.predicate]},
 
             "FindSimilarPredicates": {"user_input": True, "requires_prefixes": False,
                                       "restricted_values": self.get_vocabulary_properties,
-                                      "user_input_values": [self.R2RML + "predicate"]},
+                                      "user_input_values": [self.R2RML.predicate]},
 
             "FindSimilarClasses": {"user_input": True, "requires_prefixes": False,
                                    "restricted_values": self.get_vocabulary_classes,
@@ -126,13 +126,13 @@ class Refinements:
 
             "ChangeTermType": {"user_input": True, "requires_prefixes": False,
                                "restricted_values": self.get_correct_term_types,
-                               "user_input_values": [self.R2RML + "termType"]},
+                               "user_input_values": [self.R2RML.termType.]},
 
             "RemoveTermType": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": None},
 
             "ChangeDatatype": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                               "user_input_values": [self.R2RML + "datatype"]},
+                               "user_input_values": [self.R2RML.datatype]},
 
             "AddCorrectDatatype": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                    "user_input_values": self.find_range},
@@ -744,10 +744,10 @@ class Refinements:
         # # print(update_query)
         # processUpdate(self.mapping_graph, update_query)
         mapping_graph.add((URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
-        mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#class'), URIRef(class_identifier)))
-        mapping_graph.add((subject_map_identifier, rdflib.term.URIRef('http://www.w3.org/ns/r2rml#template'), Literal(template_string)))
+        mapping_graph.add((subject_map_identifier, self.R2RML + "class", URIRef(class_identifier)))
+        mapping_graph.add((subject_map_identifier, self.R2RML.template, Literal(template_string)))
         print(mapping_graph.serialize(format="ttl").decode("utf-8"))
-        self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#subjectMap')] = [subject_map_identifier]
+        self.triple_references[URIRef(triple_map)][self.R2RML.subjectMap] = [subject_map_identifier]
         return update_query
 
 
@@ -769,13 +769,16 @@ class Refinements:
         triple_map = violation_information.get("triple_map")
         logical_table_identifier = rdflib.term.BNode()
         mapping_graph.add((URIRef(triple_map), self.R2RML.logicalTable, logical_table_identifier))
-        table_name = query_values.pop("http://www.w3.org/ns/r2rml#tableName")
-        sql_query = query_values.pop("http://www.w3.org/ns/r2rml#sqlQuery")
+        table_name = query_values.pop(str(self.R2RML.tableName))
+        sql_query = query_values.pop(str(self.R2RML.sqlQuery))
+        sql_version = query_values.pop(str(self.R2RML.sqlVersion))
         if table_name:
             mapping_graph.add((logical_table_identifier, self.R2RML.tableName, Literal(table_name)))
         if sql_query:
             mapping_graph.add((logical_table_identifier, self.R2RML.sqlQuery, Literal(sql_query)))
-        self.triple_references[URIRef(triple_map)][rdflib.term.URIRef('http://www.w3.org/ns/r2rml#logicalTable')] = [logical_table_identifier]
+        if sql_version:
+            mapping_graph.add((logical_table_identifier, self.R2RML.sqlVersion, Literal(sql_version)))
+        self.triple_references[URIRef(triple_map)][self.R2RML.logicalTable] = [logical_table_identifier]
         return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
