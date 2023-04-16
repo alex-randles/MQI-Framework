@@ -298,12 +298,14 @@ class API:
             mapping_updated = session.get("mapping_updated")
             session["mapping_updated"] = False
             mapping_filename = mapping_graph_details.get("filename")
+            mapping_data_references = [reference.lower() for reference in mapping_graph_details.get("data_references")]
             from sematch.semantic.similarity import WordNetSimilarity
             wns = WordNetSimilarity()
             # Computing English word similarity using Li method
             similarity_measurement = wns.word_similarity
             return render_template("change_detection/mappings_impacted.html",
                                    similarity_measurement=similarity_measurement,
+                                   mapping_data_references=mapping_data_references,
                                    change_template_colors=change_template_colors,
                                    mapping_id=mapping_unique_id,
                                    mapping_impact=mapping_impact,
@@ -320,24 +322,24 @@ class API:
             update_query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                     PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-                    DELETE { ?subject ?predicate '%s' }
+                    DELETE { ?subject ?predicate ?object }
                     INSERT { ?subject ?predicate '%s' }
                     WHERE { 
                     SELECT ?subject ?predicate
                     WHERE {
-                          ?subject ?predicate '%s' .
+                          ?subject ?predicate ?object .
                           FILTER (?predicate IN (rml:reference, rr:column))
+                          FILTER ('%s' = LCASE(?object))
                         }
                     }
-                   """ % (old_data_reference, new_data_reference, old_data_reference)
+                   """ % (new_data_reference, old_data_reference.lower())
             print(update_query)
             mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
             mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
-            print(mapping_file_path)
-            exit()
             mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
             rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
-            mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
+            mapping_graph.serialize(destination=mapping_file_path, format="ttl")
+            print(mapping_file_path)
             # except Exception as e:
             #     print("EXCEPTION", e)
             #     mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))

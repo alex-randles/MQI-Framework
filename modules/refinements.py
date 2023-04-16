@@ -38,7 +38,7 @@ class Refinements:
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP2": ["AddLogicalTable", "AddLogicalSource"],
             "MP3": ["AddSubjectMap"],
-            "MP4": ["AddPredicateObjectMap"],
+            "MP4": ["AddPredicate"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
             "MP6": ["AddLogicalTable"],
             "MP7": ["ChangeTermType", "RemoveTermType"],
@@ -64,6 +64,9 @@ class Refinements:
             "AddDomainClass": {"user_input": True, "requires_prefixes": False, "restricted_values": self.find_domain,
                                "user_input_values": [self.R2RML + "class"]},
 
+            "AddPredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
+                               "user_input_values": [self.R2RML.predicate]},
+
             "ChangeLanguageTag": {"user_input": True, "requires_prefixes": False,
                                   "restricted_values": self.get_language_tags(),
                                   "user_input_values": [self.R2RML.language]},
@@ -81,7 +84,7 @@ class Refinements:
                                 "user_input_values": [self.R2RML.tableName, self.R2RML.sqlQuery, self.R2RML.sqlVersion]},
 
             "AddLogicalSource": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": [self.R2RML.tableName]},
+                                 "user_input_values": [self.R2RML.tableName]},
 
             "ChangePredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
                                 "user_input_values": [self.R2RML.predicate]},
@@ -99,9 +102,6 @@ class Refinements:
 
             "ChangeClass": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
                             "user_input_values": [self.R2RML + "class"]},
-
-            "ChangeConstantValue": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                                    "user_input_values": [self.R2RML + "class"]},
 
             "AddCorrectRange": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": self.find_range},
@@ -126,7 +126,7 @@ class Refinements:
 
             "ChangeTermType": {"user_input": True, "requires_prefixes": False,
                                "restricted_values": self.get_correct_term_types,
-                               "user_input_values": [self.R2RML.termType.]},
+                               "user_input_values": [self.R2RML.termType]},
 
             "RemoveTermType": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": None},
@@ -141,6 +141,7 @@ class Refinements:
         self.refinement_descriptions = self.create_refinement_descriptions()
         self.refinement_functions = {"AddDomainClass": self.add_domain,
                                      "AddCorrectRange": self.add_correct_range,
+                                     "AddPredicate": self.add_predicate,
                                      "AddSubjectMap": self.add_subject_map,
                                      "AddLogicalTable": self.add_logical_table,
                                      "AddLogicalSource": self.add_logical_table,
@@ -162,7 +163,6 @@ class Refinements:
                                      "ChangeDatatype": self.change_datatype,
                                      "AddCorrectDatatype": self.change_datatype,
                                      "RemoveDatatype": self.remove_datatype,
-                                     "ChangeConstantValue": self.change_constant_range,
                                      }
 
 
@@ -475,7 +475,7 @@ class Refinements:
     def change_constant_range(self, query_values, mapping_graph, violation_identifier):
         new_identifier = query_values["IRI"]
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result.get("location") 
+        subject_identifier = current_result.get("location")
         old_identifier = current_result["value"]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
@@ -496,7 +496,7 @@ class Refinements:
     def change_identifier(self, query_values, mapping_graph, violation_identifier):
         # new_identifier = query_values["URI"]
         current_result = self.validation_results[violation_identifier]
-        subject_identifier = current_result.get("location") 
+        subject_identifier = current_result.get("location")
         old_identifier = self.get_user_input(current_result.get("value"))
         new_identifier = self.get_user_input(query_values)
         update_query = """
@@ -580,45 +580,42 @@ class Refinements:
         subject_identifier = current_result.get("location")
         # this value is most likely a literal
         old_class_value = self.get_user_input(query_values)
-        print(old_class_value, "OLD CLASS VALUE")
-        print(query_values, "QUERY values")
-        update_query = """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:class %s  }
-                WHERE { 
-                SELECT ?subject
-                WHERE {
-                      ?subject rr:class %s.
-                      FILTER(str(?subject) = "%s").
+        if old_class_value:
+            print(old_class_value, "OLD CLASS VALUE")
+            print(query_values, "QUERY values")
+            update_query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    DELETE { ?subject rr:class %s  }
+                    WHERE { 
+                    SELECT ?subject
+                    WHERE {
+                          ?subject rr:class %s.
+                          FILTER(str(?subject) = "%s").
+                        }
                     }
-                }
-               """ % (old_class_value, old_class_value, subject_identifier)
-        print("Remove class query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
-        return update_query
+                   """ % (old_class_value, old_class_value, subject_identifier)
+            print("Remove class query\n" + update_query)
+            processUpdate(mapping_graph, update_query)
+            return update_query
 
     def change_class(self, query_values, mapping_graph, violation_identifier):
         new_class = self.get_user_input(query_values)
-        current_result = self.validation_results[violation_identifier]
-        triple_map = current_result.get("triple_map")
-        old_class = Refinements.parse_mapping_value(current_result.get("value"))
-        update_query = """
-            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-            DELETE { ?subject rr:class %s .  }
-            INSERT {   ?subject rr:class %s  }
-            WHERE {
-                <%s> rr:subjectMap ?subject .
-            }
-            """ % (old_class, new_class, triple_map)
-        processUpdate(mapping_graph, update_query)
-        return update_query
+        if new_class:
+            current_result = self.validation_results[violation_identifier]
+            triple_map = current_result.get("triple_map")
+            old_class = Refinements.parse_mapping_value(current_result.get("value"))
+            update_query = """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:class %s .  }
+                INSERT {   ?subject rr:class %s  }
+                WHERE {
+                    <%s> rr:subjectMap ?subject .
+                }
+                """ % (old_class, new_class, triple_map)
+            processUpdate(mapping_graph, update_query)
+            return update_query
 
     def change_predicate(self, query_values, mapping_graph, violation_identifier):
-        # new_predicate = self.get_user_input(query_values)
-        # prefix_namespace = self.get_prefix_value(query_values.get("PREFIX"))
-        # remaining_identifier = query_values.get(list(query_values.keys())[1])
-        # new_predicate = prefix_namespace + remaining_identifier
-        # self.mapping_graph.bind(query_values.get("PREFIX"), prefix_namespace)
         new_predicate = self.get_user_input(query_values)
         if new_predicate:
             violation_information = self.validation_results.get(violation_identifier)
@@ -733,38 +730,39 @@ class Refinements:
             INSERT
             {
               ?tripleMap rr:subjectMap _:%s .
-              _:%s rr:class %s  .
-              _:%s     rr:template '%s' . 
+               _:%s rr:class %s  ;
+                    rr:template '%s' . 
             }
             WHERE {
               ?tripleMap rr:predicateObjectMap ?pom .
               FILTER(str(?tripleMap) = "%s").
             }
-        """ % (subject_map_identifier, subject_map_identifier, class_identifier, subject_map_identifier, template_string, triple_map)
-        # # print(update_query)
-        # processUpdate(self.mapping_graph, update_query)
-        mapping_graph.add((URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
-        mapping_graph.add((subject_map_identifier, self.R2RML + "class", URIRef(class_identifier)))
-        mapping_graph.add((subject_map_identifier, self.R2RML.template, Literal(template_string)))
-        print(mapping_graph.serialize(format="ttl").decode("utf-8"))
+        """ % (subject_map_identifier, subject_map_identifier, class_identifier, template_string, triple_map)
+        # processUpdate() does not update mapping correctly
+        mapping_graph.add((rdflib.term.URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
+        mapping_graph.add((subject_map_identifier, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#class"), rdflib.term.URIRef(class_identifier)))
+        mapping_graph.add((subject_map_identifier, self.R2RML.template, rdflib.term.Literal(template_string)))
         self.triple_references[URIRef(triple_map)][self.R2RML.subjectMap] = [subject_map_identifier]
         return update_query
 
+    def add_predicate(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
+        join_identifier = current_result.get("location")
+        update_query = """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                INSERT { ?joinCondition rr:child "%s" } 
+                WHERE { 
+                SELECT ?joinCondition
+                WHERE {
+                      ?subject rr:joinCondition ?joinCondition.
+                      FILTER(str(?joinCondition) = "%s").
+                    }
+                }
+               """ % (child_column, join_identifier)
+        exit()
 
     def add_logical_table(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
-        update_query = """
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                INSERT { ?subject rr:subjectMap rr:class . } 
-                WHERE { 
-                SELECT ?subject
-                WHERE {
-                      ?subject rr:predicateObjectMap ?pom.
-                    }
-                }
-
-               """
-        print("Adding logical table query\n" + update_query)
         violation_information = self.validation_results.get(violation_identifier)
         triple_map = violation_information.get("triple_map")
         logical_table_identifier = rdflib.term.BNode()
@@ -772,12 +770,28 @@ class Refinements:
         table_name = query_values.pop(str(self.R2RML.tableName))
         sql_query = query_values.pop(str(self.R2RML.sqlQuery))
         sql_version = query_values.pop(str(self.R2RML.sqlVersion))
+        # processUpdate() does not update mapping correctly
         if table_name:
             mapping_graph.add((logical_table_identifier, self.R2RML.tableName, Literal(table_name)))
         if sql_query:
             mapping_graph.add((logical_table_identifier, self.R2RML.sqlQuery, Literal(sql_query)))
         if sql_version:
             mapping_graph.add((logical_table_identifier, self.R2RML.sqlVersion, Literal(sql_version)))
+        update_query = """
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            INSERT
+            {
+              ?tripleMap rr:subjectMap _:%s .
+               _:%s rr:class %s  ;
+                    rr:template '%s' . 
+            }
+            WHERE {
+              ?tripleMap ?predicate ?object .
+              FILTER(str(?tripleMap) = "%s").
+            }
+        """ % (logical_table_identifier, logical_table_identifier, sql_query, table_name, triple_map)
+        print("Adding logical table query\n" + update_query)
         self.triple_references[URIRef(triple_map)][self.R2RML.logicalTable] = [logical_table_identifier]
         return update_query
 
@@ -847,7 +861,7 @@ class Refinements:
                 ?subject rr:class <%s> .
             }
             WHERE {
-              <%s> rr:subjectMap ?subject
+                <%s> rr:subjectMap ?subject
             }
             """ % (domain_identifier, triple_map_identifier)
         print(update_query)
@@ -893,18 +907,10 @@ class Refinements:
         violation_value = self.validation_results[violation_identifier]["value"]
         return str(violation_value)
 
-    def get_namespace(self, identifier):
-        if identifier.startswith("http://dbpedia.org/ontology/"):
-            return identifier
-        if "#" in identifier:
-            namespace = identifier[:identifier.rfind("#") + 1]
-        else:
-            namespace = identifier[:identifier.rfind("/") + 1]
-        return namespace
-
     def find_domain(self, identifier):
         property_identifier = self.validation_results[identifier].get("value")
-        query = """PREFIX dcam: <http://purl.org/dc/dcam/> 
+        query = """
+                   PREFIX dcam: <http://purl.org/dc/dcam/> 
                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                    PREFIX schema: <http://schema.org/> 
                    PREFIX prov: <http://www.w3.org/ns/prov#> 
@@ -1027,18 +1033,13 @@ class Refinements:
         self.create_refinement_report(validation_report_file)
 
     def create_refinement_report(self, validation_report_file):
+        # output refinement into RDF report
         self.format_file_name_identifier()
-        # self.save_graph_to_file(mapping_graph, "comparison_mapping.ttl")
-        # remove full file path from validation report
-        # add information is set to true
-        # mapping = list(self.refinement_graph.objects(None, self.MQIO.assessedMapping))[0]
-        # self.refinement_graph.remove((None, RDF.type, self.MQIO.MappingDocument))
-        # self.refinement_graph.add((mapping, RDF.type, self.MQIO.MappingDocument))
-        # self.add_metadata(mapping)
-        # print(validation_report_file)
         self.refinement_graph.serialize(destination=validation_report_file, format="ttl")
-        # __init__(self, mapping_graph, blank_node_references, output_file)
-        # uses custom serializer to keep mapping ordering
+        self.generated_refined_mapping()
+
+    def generated_refined_mapping(self):
+        # uses custom serializer to preserve mapping ordering
         TurtleSerializer(self.mapping_graph, self.triple_references, "refined_mapping-{}.ttl".format(self.participant_id))
 
     def format_file_name_identifier(self):
@@ -1068,7 +1069,7 @@ class Refinements:
         refinement_name = Literal(self.split_camel_case(refinement_name), datatype=XSD.string)
         self.refinement_graph.add((refinement_identifier, self.MQIO.refinementName, refinement_name))
         # adding the wasRefinedBy property related to the previously defined refinement
-        violation_identifier =rdflib.term.URIRef(self.EX + "violation" + "-" + str(violation_identifier))
+        violation_identifier = rdflib.term.URIRef(self.EX + "violation" + "-" + str(violation_identifier))
         self.refinement_graph.add((violation_identifier, self.MQIO.wasRefinedBy, refinement_identifier))
         # add inverse property for mqv:refinedViolation, relating this refinement to the violation
         self.refinement_graph.add((refinement_identifier, self.MQIO.refinedViolation, violation_identifier))
@@ -1084,7 +1085,6 @@ class Refinements:
                 for s,p,o in self.refinement_graph.triples((None, RDF.type, self.MQIO.MappingRefinement)):
                     print(s,p,o)
                     self.refinement_graph.add((s,self.PROV.wasAssociatedWith, refiner_name_identifier))
-
 
     def process_prefix_values(self, user_input, mapping_file):
         # a function to concatenate the prefix with the user input value provided
@@ -1139,15 +1139,13 @@ class Refinements:
 
     def create_prefix_value_dict(self, file_name):
         # take a file name containing prefix, prefix values and store in a dictionary
-        # prefix set to None is default for no prefix
         prefix_values = {"None": None}
         with open(file_name) as f:
             for line in f:
                 line_values = line.split()
                 prefix = line_values[1]
                 prefix_value = line_values[2]
-                new_prefix_value = self.remove_angle_brackets(prefix_value)
-                prefix_values[prefix] = new_prefix_value
+                prefix_values[prefix] = self.remove_angle_brackets(prefix_value)
         # sort prefix values alphabetically
         dict_keys = list(prefix_values.keys())
         dict_keys.sort()
@@ -1157,10 +1155,6 @@ class Refinements:
     def remove_angle_brackets(self, value):
         # removes angle brackets from a string e.g <http://pgxo.loria.fr/> -> http://pgxo.loria.fr/
         return value.split("<")[1].split(">")[0]
-
-    @staticmethod
-    def save_graph_to_file(graph, file_name):
-        graph.serialize(destination=file_name, format="ttl")
 
     @staticmethod
     def get_selected_refinements(refinement_values):

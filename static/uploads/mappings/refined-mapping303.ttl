@@ -10,12 +10,7 @@
 
 	
 <#TriplesMap2>	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "eeejei8uj800eu89474" ;	
-	 rr:tableName "student-1.csv" ;	
- ];	
-	
+
  rr:subjectMap [ 	
  	 rr:class api:test;	
 	 rr:template "test" ;	
