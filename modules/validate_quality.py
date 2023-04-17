@@ -9,6 +9,8 @@ import rdflib
 from modules.validation_report import ValidationReport
 from modules.fetch_vocabularies import FetchVocabularies
 from modules.parse_mapping_graph import ParseMapping
+
+
 # SPARQL query abbreviations
 # om - object map
 # pm - predicate object map
@@ -27,17 +29,18 @@ class ValidateQuality:
         self.vocabularies = FetchVocabularies(file_name)
         # mainly used for vocabulary metrics
         self.excluded_namespaces = ["http://ontology.openfit.org#",
-                               "http://recipes.workingclass.org#",
-                               "http://ontology.foodlog.eu#",
-                               "http://ontology.recipepicker.eu#",
-                               "http://www.foodreport.be/ontology#",
-                               "http://data.virtualworkout.com/",
-                               "http://openfridge.eu/ontology#",
-                               "http://www.semanticweb.org/FlavourTown#",
-                               "http://ontology.smartfitgym.eu#",
-                               "http://ontology.wearehungry.be#",
-                               ]
-        self.unique_namespaces = list(set([namespace for namespace in self.vocabularies.get_unique_namespaces() if namespace not in self.excluded_namespaces]))
+                                    "http://recipes.workingclass.org#",
+                                    "http://ontology.foodlog.eu#",
+                                    "http://ontology.recipepicker.eu#",
+                                    "http://www.foodreport.be/ontology#",
+                                    "http://data.virtualworkout.com/",
+                                    "http://openfridge.eu/ontology#",
+                                    "http://www.semanticweb.org/FlavourTown#",
+                                    "http://ontology.smartfitgym.eu#",
+                                    "http://ontology.wearehungry.be#",
+                                    ]
+        self.unique_namespaces = list(set([namespace for namespace in self.vocabularies.get_unique_namespaces() if
+                                           namespace not in self.excluded_namespaces]))
         self.violation_counter = 0
         self.manager = multiprocessing.Manager()
         self.validation_results = {}  # Shared Proxy to a list
@@ -56,13 +59,13 @@ class ValidateQuality:
         self.current_triple_identifier = None
         self.detailed_metric_information = {
             # data quality aspect metrics
-            "D1": "https://www.w3.org/TR/dwbp/#AccessRealTime", # undefined property
-            "D2": "https://www.w3.org/TR/dwbp/#AccessRealTime", # undefined property
+            "D1": "https://www.w3.org/TR/dwbp/#AccessRealTime",  # undefined property
+            "D2": "https://www.w3.org/TR/dwbp/#AccessRealTime",  # undefined property
             "D3": "https://www.w3.org/TR/rdf-schema/#ch_domain",  # domain
             "D4": "https://www.w3.org/TR/dwbp/#AccessRealTime",  # undefined class
-            "D5": "https://www.w3.org/TR/2004/REC-owl-guide-20040210/#DisjointClasses", # disjoint
+            "D5": "https://www.w3.org/TR/2004/REC-owl-guide-20040210/#DisjointClasses",  # disjoint
             "D6": "https://www.w3.org/TR/rdf-schema/#ch_range",
-            "D7": "https://www.w3.org/TR/rdf-schema/#ch_datatype", # incorrect datatype
+            "D7": "https://www.w3.org/TR/rdf-schema/#ch_datatype",  # incorrect datatype
             # mapping quality aspect metrics
             "MP1": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
             "MP9": "https://tools.ietf.org/html/rfc5646",
@@ -70,13 +73,13 @@ class ValidateQuality:
             "MP10": "https://www.w3.org/TR/r2rml/#typing",
             "MP8": "https://www.w3.org/TR/r2rml/#typing",
             "MP2": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
-            "MP11": "https://tools.ietf.org/html/rfc5646", # language tags
+            "MP11": "https://tools.ietf.org/html/rfc5646",  # language tags
             # vocabulary quality aspect metrics
-            "VOC1": "https://www.w3.org/TR/dwbp/#ProvideMetadata", # human readable labels
-            "VOC2": "https://www.w3.org/TR/rdf-schema/#ch_domain", # domain and range definitions
-            "VOC3": "https://www.w3.org/TR/rdf-schema/#ch_domain", # basic provenance
-            "VOC4": "https://wiki.creativecommons.org/wiki/License_RDF", # machine readable license
-            "VOC5": "https://wiki.creativecommons.org/wiki/License_RDF", # human readable license
+            "VOC1": "https://www.w3.org/TR/dwbp/#ProvideMetadata",  # human readable labels
+            "VOC2": "https://www.w3.org/TR/rdf-schema/#ch_domain",  # domain and range definitions
+            "VOC3": "https://www.w3.org/TR/rdf-schema/#ch_domain",  # basic provenance
+            "VOC4": "https://wiki.creativecommons.org/wiki/License_RDF",  # machine readable license
+            "VOC5": "https://wiki.creativecommons.org/wiki/License_RDF",  # human readable license
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
@@ -126,6 +129,9 @@ class ValidateQuality:
             self.current_triple_identifier = triple_map_identifier
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
+            self.distinct_properties = self.get_distinct_properties()
+            print(self.distinct_properties)
+            # self.validate_VOC2()
             self.validate_data_metrics()
             self.validate_term_map_metrics()
         #     pr2 = multiprocessing.Process(target=self.validate_data_metrics)
@@ -174,7 +180,7 @@ class ValidateQuality:
 
     def validate_vocabulary_metrics(self):
         self.validate_VOC3()
-        # self.validate_VOC4()
+        self.validate_VOC4()
         self.validate_VOC5()
 
     def validate_D1(self):
@@ -188,7 +194,8 @@ class ValidateQuality:
             # print("VALIDATING UNDEFINED", class_identifier, metric_result)
             if metric_result:
                 del self.classes[key]
-                self.add_violation(["D1", "Usage of undefined class", class_identifier, subject_identifier])
+                if not str(class_identifier).startswith("https://ont.virtualtreasury.ie/ontology#"):
+                    self.add_violation(metric_result)
 
     def validate_D2(self):
         # A function to validate the usage of undefined properties
@@ -196,12 +203,14 @@ class ValidateQuality:
         for key in list(self.properties):
             property_identifier = self.properties[key].get("property")
             subject_identifier = self.properties[key].get("subject")
-            metric_result = self.validate_undefined(property_identifier, subject_identifier, "property", metric_identifier)
+            metric_result = self.validate_undefined(property_identifier, subject_identifier, "property",
+                                                    metric_identifier)
             # if property is undefined
             if metric_result:
                 # remove if undefined
                 del self.properties[key]
-                self.add_violation(metric_result)
+                if not str(property_identifier).startswith("https://ont.virtualtreasury.ie/ontology#"):
+                    self.add_violation(metric_result)
 
     def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
@@ -246,6 +255,40 @@ class ValidateQuality:
             if metric_result:
                 self.add_violation(metric_result)
 
+    def validate_domain(self, property_identifier, subject_identifier, metric_identifier):
+        domain = self.get_domain(property_identifier)
+        # The hierarchical inference ignores the universal super-concepts, i.e. owl:Thing and rdfs:Resource
+        print(domain, "DOMAIN")
+        if domain:
+            print(domain, "sdujesu")
+            classes = self.get_classes()
+            super_classes = []
+            excluded_domain = ValidateQuality.is_excluded_domain(classes, domain)
+            if not excluded_domain:
+                for k, v in classes.items():
+                    identifier = str(v["class"])
+                    query = """
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    SELECT ?superClass
+                                WHERE {
+                                  GRAPH <%s> {   ?superClass rdfs:subClassOf <%s> .  }
+                                }   
+                           """ % (self.vocabularies.get_identifier_namespace(identifier), identifier)
+                    query_results = self.vocabularies.query_local_graph(identifier, query)
+                    if query_results.get("results").get("bindings"):
+                        for result in query_results.get("results").get("bindings"):
+                            super_classes.append(result.get("superClass").get("value"))
+                for class_identifier in super_classes:
+                    if class_identifier in domain:
+                        return
+                match_domain = [v["class"] for k, v in classes.items() if str(v["class"]) in domain]
+                if not match_domain:
+                    result_message = "Usage of incorrect domain."
+                    return [metric_identifier, result_message, property_identifier, subject_identifier]
+        else:
+            return None
+
     def validate_D4(self):
         # A function to validate the presence of query parameters in URIs
         result_message = "Query parameters in URI."
@@ -280,8 +323,9 @@ class ValidateQuality:
                     if class_identifier in classes:
                         subject_identifier = classes_and_subjects[key]["subject"]
                         result_message = "Class %s is disjoint with %s" % (
-                        self.find_prefix(current_identifier), self.find_prefix(class_identifier))
-                        self.add_violation([metric_identifier, result_message, (current_identifier, class_identifier), subject_identifier])
+                            self.find_prefix(current_identifier), self.find_prefix(class_identifier))
+                        self.add_violation([metric_identifier, result_message, (current_identifier, class_identifier),
+                                            subject_identifier])
                         classes.remove(class_identifier)
                         classes.remove(current_identifier)
 
@@ -294,23 +338,28 @@ class ValidateQuality:
             objectMap = self.properties[key].get("objectMap")
             if term_type:
                 resource_type = self.get_type(property)
-                if (rdflib.OWL.DatatypeProperty in resource_type) and (term_type !=rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
-                    result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(self.find_prefix(property).strip())
+                if (rdflib.OWL.DatatypeProperty in resource_type) and (
+                        term_type != rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
+                    result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(
+                        self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
-                elif (rdflib.OWL.ObjectProperty in resource_type or rdflib.RDF.Property in resource_type) and (term_type ==rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
+                elif (rdflib.OWL.ObjectProperty in resource_type or rdflib.RDF.Property in resource_type) and (
+                        term_type == rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
                     range = self.get_range(property)
                     if range:
                         range = range.strip()
-                        if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith("http://www.w3.org/2001/XMLSchema#"):
-                            result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(self.find_prefix(property).strip())
+                        if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith(
+                                "http://www.w3.org/2001/XMLSchema#"):
+                            result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(
+                                self.find_prefix(property).strip())
                             self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
     @staticmethod
     def validate_sub_type(datatype, range):
         sub_types = [rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#long"),
-                    rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
-                    rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
-                    rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#integer")]
+                     rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
+                     rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
+                     rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#integer")]
         if range in sub_types and datatype in sub_types:
             return True
         return False
@@ -321,7 +370,7 @@ class ValidateQuality:
         result_message = "Usage of incorrect datatype."
         # xsd:anySimpleType, xsd:anyType could be declared as datatypes in the vocabulary
         excluded_datatypes = [rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anyType"),
-                             rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anySimpleType")]
+                              rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anySimpleType")]
         # only if datatype
         for key in list(self.properties):
             property = self.properties[key]["property"]
@@ -390,9 +439,9 @@ class ValidateQuality:
             PREFIX rr: <http://www.w3.org/ns/r2rml#>
             SELECT ?pom
             WHERE {
-              ?tripleMap rr:predicateObjectMap ?pom .
-              OPTIONAL { ?pom rr:predicate ?predicate . }
-              OPTIONAL { ?pom rr:objectMap ?om . }
+              
+              OPTIONAL { ?tripleMap rr:predicateObjectMap ?pom . ?pom rr:predicate ?predicate . }
+              OPTIONAL { ?tripleMap rr:predicateObjectMap ?pom . ?pom rr:objectMap|rr:object ?om . }
               FILTER(!BOUND(?predicate) || !BOUND(?om))
             }
         """
@@ -417,7 +466,8 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             subject = row.get("joinCondition")
-            self.add_violation([metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#child"), subject])
+            self.add_violation(
+                [metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#child"), subject])
         query = """
                  PREFIX rr: <http://www.w3.org/ns/r2rml#>
                  SELECT ?joinCondition 
@@ -430,7 +480,8 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             subject = row.get("joinCondition")
-            self.add_violation([metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
+            self.add_violation(
+                [metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
 
     # def validate_MP7_1(self):
     #     result_message = "Term type for predicate map should be an IRI."
@@ -562,24 +613,32 @@ class ValidateQuality:
         result_message = "Language tag not defined in RFC 5646."
         metric_identifier = "MP11"
         language_tags = (
-                'af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY', 'ar-MA',
-                'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg', 'bg-BG',
-                'bs-BA', 'ca', 'ca-ES', 'cs', 'cs-CZ', 'cy', 'cy-GB', 'da', 'da-DK', 'de', 'de-AT', 'de-CH', 'de-DE', 'de-LI',
-                'de-LU', 'dv', 'dv-MV', 'el', 'el-GR', 'en', 'en-AU', 'en-BZ', 'en-CA', 'en-CB', 'en-GB', 'en-IE', 'en-JM',
-                'en-NZ', 'en-PH', 'en-TT', 'en-US', 'en-ZA', 'en-ZW', 'eo', 'es', 'es-AR', 'es-BO', 'es-CL', 'es-CO', 'es-CR',
-                'es-DO', 'es-EC', 'es-ES', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV',
-                'es-UY', 'es-VE', 'et', 'et-EE', 'eu', 'eu-ES', 'fa', 'fa-IR', 'fi', 'fi-FI', 'fo', 'fo-FO', 'fr', 'fr-BE',
-                'fr-CA', 'fr-CH', 'fr-FR', 'fr-LU', 'fr-MC', 'gl', 'gl-ES', 'gu', 'gu-IN', 'he', 'he-IL', 'hi', 'hi-IN', 'hr',
-                'hr-BA', 'hr-HR', 'hu', 'hu-HU', 'hy', 'hy-AM', 'id', 'id-ID', 'is', 'is-IS', 'it', 'it-CH', 'it-IT', 'ja',
-                'ja-JP', 'ka', 'ka-GE', 'kk', 'kk-KZ', 'kn', 'kn-IN', 'ko', 'ko-KR', 'kok', 'kok-IN', 'ky', 'ky-KG', 'lt',
-                'lt-LT', 'lv', 'lv-LV', 'mi', 'mi-NZ', 'mk', 'mk-MK', 'mn', 'mn-MN', 'mr', 'mr-IN', 'ms', 'ms-BN', 'ms-MY',
-                'mt', 'mt-MT', 'nb', 'nb-NO', 'nl', 'nl-BE', 'nl-NL', 'nn-NO', 'ns', 'ns-ZA', 'pa', 'pa-IN', 'pl', 'pl-PL',
-                'ps', 'ps-AR', 'pt', 'pt-BR', 'pt-PT', 'qu', 'qu-BO', 'qu-EC', 'qu-PE', 'ro', 'ro-RO', 'ru', 'ru-RU', 'sa',
-                'sa-IN', 'se', 'se-FI', 'se-NO', 'se-SE', 'sk', 'sk-SK', 'sl', 'sl-SI', 'sq', 'sq-AL', 'sr-BA', 'sr-Cyrl-BA',
-                'sr-SP', 'sr-Cyrl-SP', 'sv', 'sv-FI', 'sv-SE', 'sw', 'sw-KE', 'syr', 'syr-SY', 'ta', 'ta-IN', 'te', 'te-IN',
-                'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur', 'ur-PK',
-                'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG', 'zh-TW',
-                'zu', 'zu-ZA'
+            'af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB', 'ar-LY',
+            'ar-MA',
+            'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ', 'az-Cyrl-AZ', 'be', 'be-BY', 'bg',
+            'bg-BG',
+            'bs-BA', 'ca', 'ca-ES', 'cs', 'cs-CZ', 'cy', 'cy-GB', 'da', 'da-DK', 'de', 'de-AT', 'de-CH', 'de-DE',
+            'de-LI',
+            'de-LU', 'dv', 'dv-MV', 'el', 'el-GR', 'en', 'en-AU', 'en-BZ', 'en-CA', 'en-CB', 'en-GB', 'en-IE', 'en-JM',
+            'en-NZ', 'en-PH', 'en-TT', 'en-US', 'en-ZA', 'en-ZW', 'eo', 'es', 'es-AR', 'es-BO', 'es-CL', 'es-CO',
+            'es-CR',
+            'es-DO', 'es-EC', 'es-ES', 'es-GT', 'es-HN', 'es-MX', 'es-NI', 'es-PA', 'es-PE', 'es-PR', 'es-PY', 'es-SV',
+            'es-UY', 'es-VE', 'et', 'et-EE', 'eu', 'eu-ES', 'fa', 'fa-IR', 'fi', 'fi-FI', 'fo', 'fo-FO', 'fr', 'fr-BE',
+            'fr-CA', 'fr-CH', 'fr-FR', 'fr-LU', 'fr-MC', 'gl', 'gl-ES', 'gu', 'gu-IN', 'he', 'he-IL', 'hi', 'hi-IN',
+            'hr',
+            'hr-BA', 'hr-HR', 'hu', 'hu-HU', 'hy', 'hy-AM', 'id', 'id-ID', 'is', 'is-IS', 'it', 'it-CH', 'it-IT', 'ja',
+            'ja-JP', 'ka', 'ka-GE', 'kk', 'kk-KZ', 'kn', 'kn-IN', 'ko', 'ko-KR', 'kok', 'kok-IN', 'ky', 'ky-KG', 'lt',
+            'lt-LT', 'lv', 'lv-LV', 'mi', 'mi-NZ', 'mk', 'mk-MK', 'mn', 'mn-MN', 'mr', 'mr-IN', 'ms', 'ms-BN', 'ms-MY',
+            'mt', 'mt-MT', 'nb', 'nb-NO', 'nl', 'nl-BE', 'nl-NL', 'nn-NO', 'ns', 'ns-ZA', 'pa', 'pa-IN', 'pl', 'pl-PL',
+            'ps', 'ps-AR', 'pt', 'pt-BR', 'pt-PT', 'qu', 'qu-BO', 'qu-EC', 'qu-PE', 'ro', 'ro-RO', 'ru', 'ru-RU', 'sa',
+            'sa-IN', 'se', 'se-FI', 'se-NO', 'se-SE', 'sk', 'sk-SK', 'sl', 'sl-SI', 'sq', 'sq-AL', 'sr-BA',
+            'sr-Cyrl-BA',
+            'sr-SP', 'sr-Cyrl-SP', 'sv', 'sv-FI', 'sv-SE', 'sw', 'sw-KE', 'syr', 'syr-SY', 'ta', 'ta-IN', 'te', 'te-IN',
+            'th', 'th-TH', 'tl', 'tl-PH', 'tn', 'tn-ZA', 'tr', 'tr-TR', 'tt', 'tt-RU', 'ts', 'uk', 'uk-UA', 'ur',
+            'ur-PK',
+            'uz', 'uz-UZ', 'uz-Cyrl-UZ', 'vi', 'vi-VN', 'xh', 'xh-ZA', 'zh', 'zh-CN', 'zh-HK', 'zh-MO', 'zh-SG',
+            'zh-TW',
+            'zu', 'zu-ZA'
         )
         language_tags = tuple([tag.lower() for tag in language_tags])
         query = """
@@ -629,7 +688,7 @@ class ValidateQuality:
                          { <%s> %s ?label 
                          } 
                     }            
-                """  % (namespace, class_identifier, "|".join(human_label_predicates))
+                """ % (namespace, class_identifier, "|".join(human_label_predicates))
                 query_results = self.vocabularies.query_local_graph(namespace, query)
                 has_label_comment = query_results.get("boolean")
                 if has_label_comment is False:
@@ -639,12 +698,47 @@ class ValidateQuality:
                     graph_exists = query_results.get("boolean")
                     if graph_exists is True:
                         self.add_violation([metric_identifier, result_message, class_identifier, None])
+        for key in list(self.distinct_properties):
+            property_identifier = self.distinct_properties[key].get("property")
+            namespace = self.vocabularies.get_identifier_namespace(property_identifier)
+            if namespace not in self.excluded_namespaces:
+                human_label_predicates = ["rdfs:label", "dcterms:title", "dcterms:description",
+                                          "dcterms:alternative", "skos:altLabel", "skos:prefLabel", "powder-s:text",
+                                          "skosxl:altLabel", "skosxl:hiddenLabel", "skosxl:prefLabel",
+                                          "skosxl:literalForm", "rdfs:comment",
+                                          "schema:description", "schema:description", "foaf:name"]
+                query = """
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                    PREFIX dcterms: <http://purl.org/dc/terms/> 
+                    PREFIX ct: <http://data.linkedct.org/resource/linkedct/> 
+                    PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+                    PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#> 
+                    PREFIX schema: <http://schema.org/> 
+                    PREFIX powder-s: <http://www.w3.org/2007/05/powder-s#> 
+                    ASK { 
+                      GRAPH <%s> 
+                         { <%s> %s ?label 
+                         } 
+                    }            
+                """ % (namespace, property_identifier, "|".join(human_label_predicates))
+                query_results = self.vocabularies.query_local_graph(namespace, query)
+                has_label_comment = query_results.get("boolean")
+                if has_label_comment is False:
+                    print(query)
+                    query = "ASK { GRAPH <%s> { <%s> ?predicate ?object . } }" % (namespace, property_identifier)
+                    query_results = self.vocabularies.query_local_graph(property_identifier, query)
+                    graph_exists = query_results.get("boolean")
+                    property_location = self.distinct_properties[key].get("subject")
+                    if graph_exists is True:
+                        self.add_violation([metric_identifier, result_message, property_identifier, property_location])
 
     def validate_VOC2(self):
         metric_identifier = "VOC2"
         result_message = "No domain definition or range definition."
-        for key in list(self.properties):
-            property_identifier = self.properties[key].get("property")
+        for key in list(self.distinct_properties):
+            property_identifier = self.distinct_properties[key].get("property")
             namespace = self.vocabularies.get_identifier_namespace(property_identifier)
             if namespace not in self.excluded_namespaces:
                 query = """
@@ -662,18 +756,20 @@ class ValidateQuality:
                                 }
                             }
                           }
-                """ % (namespace,  property_identifier)
+                """ % (namespace, property_identifier)
                 query_results = self.vocabularies.query_local_graph(namespace, query)
                 has_domain_range = query_results.get("boolean")
                 if has_domain_range is False:
                     query = """ 
                     PREFIX owl: <http://www.w3.org/2002/07/owl#>
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                    ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:AnnotationProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (self.vocabularies.get_identifier_namespace(property_identifier), property_identifier)
+                    ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:AnnotationProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (
+                    self.vocabularies.get_identifier_namespace(property_identifier), property_identifier)
                     query_results = self.vocabularies.query_local_graph(namespace, query)
                     is_property = query_results.get("boolean")
+                    property_location = self.distinct_properties[key].get("subject")
                     if is_property:
-                        self.add_violation([metric_identifier, result_message, property_identifier, None])
+                        self.add_violation([metric_identifier, result_message, property_identifier, property_location])
 
     def validate_VOC3(self):
         # A function to validate basic provenance information
@@ -681,15 +777,15 @@ class ValidateQuality:
         metric_identifier = "VOC3"
         for namespace in self.unique_namespaces:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
-                                "dcterms:publisher", "dc:title", "dct:description", "dc:description",
+                                     "dcterms:publisher", "dc:title", "dct:description", "dc:description",
                                      "rdfs:comment", "foaf:maker"]
             query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
                     "PREFIX dc: <http://purl.org/dc/elements/1.1/> " \
                     "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" \
-                     "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
-                     "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
+                    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
+                    "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
                     "PREFIX dct: <http://purl.org/dc/terms/> " \
-                     "ASK { GRAPH <%s> { ?subject a owl:Ontology; " \
+                    "ASK { GRAPH <%s> { ?subject a owl:Ontology; " \
                     "              %s ?label . } } " % (namespace, "|".join(provenance_predicates))
             query_results = self.vocabularies.query_local_graph(namespace, query)
             has_license = query_results.get("boolean")
@@ -819,12 +915,12 @@ class ValidateQuality:
                 if violation_identifier in blank_nodes_values:
                     location_num = blank_nodes_values.index(violation_identifier) + 1
                     violation_location = self.format_user_location(predicate, location_num)
-                    return  violation_location
+                    return violation_location
                 elif self.violation_is_object(blank_nodes_values, violation_identifier):
                     blank_node = self.violation_is_object(blank_nodes_values, violation_identifier)
                     location_num = blank_nodes_values.index(blank_node) + 1
                     violation_location = self.format_user_location(predicate, location_num)
-                    return  violation_location
+                    return violation_location
 
     def violation_is_object(self, blank_node_values, violation_identifier):
         # since we only store blank nodes for logical table, subjectMap, predicateObjectMap
@@ -901,7 +997,8 @@ class ValidateQuality:
         # else:
         #     self.vocabulary_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
 
-        self.validation_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
+        self.validation_results[violation_identifier] = {key: value for (key, value) in
+                                                         zip(key_values, metric_results[1:len(metric_results)])}
         # self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
 
     def find_blank_node_reference(self, violation_location, triple_map_identifier):
@@ -993,6 +1090,28 @@ class ValidateQuality:
             counter += 1
         return properties
 
+    def get_distinct_properties(self):
+        query = """SELECT DISTINCT ?pom ?property
+                    WHERE {
+                      ?subject rr:predicateObjectMap ?pom . 
+                      ?pom rr:predicate ?property .
+                    }
+               """
+        query_results = self.current_graph.query(query)
+        properties = {}
+        counter = 0
+        for row in query_results:
+            properties[counter] = {"property": row.get("property"),
+                                   "subject": row.get("pom")
+                                   }
+            # if they are using constant shortcut rr:object
+            # if row["constant"]:
+            #     properties[counter]["constant"] = row["constant"]
+            # elif row["object"]:
+            #     properties[counter]["constant"] = row["object"]
+            counter += 1
+        return properties
+
     def get_properties_range(self):
         # A function to retrieve all properties in the mapping with term types related
         query = """
@@ -1007,7 +1126,7 @@ class ValidateQuality:
                       OPTIONAL { ?objectMap rr:constant ?constant }. 
                       BIND(BOUND(?column) AS ?hasColumn)
                       BIND(BOUND(?termType) AS ?hasTermType)
-                     BIND((?hasColumn && !?hasTermType) AS ?hasLiteralType )
+                      BIND((?hasColumn && !?hasTermType) AS ?hasLiteralType )
 
                     }
       
@@ -1061,7 +1180,7 @@ class ValidateQuality:
         counter = 0
         for row in query_results:
             # class related functions remove whitespace and recreate IRI
-            classes[counter] = {"subject": row[0], "class":rdflib.term.URIRef("".join(str(row[1]).split()))}
+            classes[counter] = {"subject": row[0], "class": rdflib.term.URIRef("".join(str(row[1]).split()))}
             counter += 1
         return classes
 
@@ -1070,7 +1189,7 @@ class ValidateQuality:
         excluded_domains = ["http://www.w3.org/2000/01/rdf-schema#Class",
                             "http://www.w3.org/2000/01/rdf-schema#Resource",
                             "http://www.w3.org/2002/07/owl#Thing"]
-        for class_name in [str(v["class"]) for k,v in classes.items()]:
+        for class_name in [str(v["class"]) for k, v in classes.items()]:
             if class_name in excluded_domains:
                 return True
         for class_name in domains:
@@ -1078,41 +1197,9 @@ class ValidateQuality:
                 return True
         return False
 
-    def validate_domain(self, property_identifier, subject_identifier, metric_identifier):
-        domain = self.get_domain(property_identifier)
-        # The hierarchical inference ignores the universal super-concepts, i.e. owl:Thing and rdfs:Resource
-        if domain:
-            classes = self.get_classes()
-            super_classes = []
-            excluded_domain = ValidateQuality.is_excluded_domain(classes, domain)
-            if not excluded_domain:
-                for k,v in classes.items():
-                    identifier = str(v["class"])
-                    query = """
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    SELECT ?superClass
-                                WHERE {
-                                  GRAPH <%s> {   ?superClass rdfs:subClassOf <%s> .  }
-                                }   
-                           """ % (self.vocabularies.get_identifier_namespace(identifier), identifier)
-                    query_results = self.vocabularies.query_local_graph(identifier, query)
-                    if query_results.get("results").get("bindings"):
-                        for result in query_results.get("results").get("bindings"):
-                            super_classes.append(result.get("superClass").get("value"))
-                for class_identifier in super_classes:
-                    if class_identifier in domain:
-                        return
-                match_domain = [v["class"] for k,v in classes.items() if str(v["class"]) in domain]
-                if not match_domain:
-                    result_message = "Usage of incorrect domain."
-                    return [metric_identifier, result_message, property_identifier, subject_identifier]
-        else:
-            return None
-
     def get_type(self, identifier):
         # get the type of the specified IRI E.G owl:ObjectProperty or owl:DatatypeProperty
-        if isinstance(identifier,rdflib.term.URIRef) and identifier not in self.undefined_values:
+        if isinstance(identifier, rdflib.term.URIRef) and identifier not in self.undefined_values:
             query = """
             PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
             SELECT ?type
@@ -1148,7 +1235,7 @@ class ValidateQuality:
             # if a range returned
             if query_bindings:
                 for row in query_bindings:
-                    range =rdflib.term.URIRef(row["range"]["value"])
+                    range = rdflib.term.URIRef(row["range"]["value"])
             self.range_cache[identifier] = range
             return range
         else:
@@ -1216,5 +1303,6 @@ class ValidateQuality:
 
 
 if __name__ == "__main__":
-    t = ValidateQuality("/home/alex/Desktop/Evaluation-1 (Validation Reports)/28 (FAIRVASC-Mapping2)/fairvasc_euvas_test_mapping_v3.ttl")
-    print(json.dumps(t.validation_results, indent = 4))
+    t = ValidateQuality(
+        "/home/alex/Desktop/Evaluation-1 (Validation Reports)/28 (FAIRVASC-Mapping2)/fairvasc_euvas_test_mapping_v3.ttl")
+    print(json.dumps(t.validation_results, indent=4))

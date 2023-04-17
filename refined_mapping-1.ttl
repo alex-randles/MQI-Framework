@@ -2,30 +2,45 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix activity: <http://activitystrea.ms/specs/atom/1.0/> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ac: <http://umbel.org/umbel/ac/> . 
+@prefix ont: <http://ontologies.geohive.ie/osi#> . 
+@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
+@prefix ciao: <http://ciao.it/> . 
+@prefix acco: <http://purl.org/acco/ns#> . 
+@prefix bgn: <http://bibliograph.net/schemas/> . 
 
 	
 <#TriplesMap2>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlVersion "1.1";	
-	 rr:tableName "geo-objects";	
+ 	 rr:tableName "LEA_CBD2019_20M";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "eeee";	
-	 rr:class ac:rree;	
+ 	 rr:class geo:Geometry;	
+	 rr:template "urn:osi:boundary:geom:{GUID}";	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate geo:hasWKT;	
+ 	 rr:predicate bgn:predicate-1;	
 	 rr:objectMap [	
-		 rr:language "gl-ES";	
 		 rr:column "GEOMETRY";	
-		 rr:termType rr:BlankNode;	
 		]; 	
+ ];	
+.	
+	
+<#TriplesMap3>	
+	
+ rr:logicalTable [ 	
+ 	 rr:tableName "LEA_CBD2019_20M";	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template "urn:osi:boundary:geom:{GUID}";	
+	 rr:class geo:Geometry;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate xsd:test, acco:predicate-2;	
  ];	
 .	

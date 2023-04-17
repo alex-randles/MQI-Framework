@@ -3,7 +3,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix cidoc: <http://erlangen-crm.org/current/> .
 
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> .
+@prefix b2022: <https://ont.virtualtreasury.ie/ontology#> .
 
 <#PlaceAppellation>
 	a rr:TriplesMap ;
