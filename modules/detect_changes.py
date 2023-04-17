@@ -1,28 +1,16 @@
 import pandas as pd
 import os
 import requests
-from xmldiff import main, formatting
-from datetime import datetime
-from os import listdir
-from os.path import isfile, join
 import xml.etree.ElementTree as ET
 import io
-import time
-import requests
-from rdflib import *
-from os import listdir
-from os.path import isfile, join
-from datetime import datetime
+import datetime
 from xmldiff import main, formatting
+import xmldiff
 from collections import defaultdict
-from csv_diff import load_csv, compare
+import csv_diff
 import csv
-from modules.r2rml import *
 import modules.r2rml as r2rml
 from modules.validate_notification_policy import ValidateNotificationPolicy
-# from r2rml import *
-# import r2rml as r2rml
-
 
 class DetectChanges:
 
@@ -42,7 +30,7 @@ class DetectChanges:
 
     def find_graph_version(self):
         # find the version number of the graph being created
-        only_files = [f for f in listdir(r2rml.graph_directory) if isfile(join(r2rml.graph_directory, f))]
+        only_files = [f for f in os.listdir(r2rml.graph_directory) if os.path.isfile(os.path.join(r2rml.graph_directory, f))]
         file_versions = [int(f.split(".")[0]) for f in only_files]
         if file_versions:
             return max(file_versions) + 1
@@ -60,13 +48,13 @@ class DetectChanges:
     def detect_csv_changes(self):
         version_1_file_object = io.StringIO(self.version_1_csv)
         version_2_file_object = io.StringIO(self.version_2_csv)
-        csv_diff = compare(
-            load_csv(version_1_file_object),
-            load_csv(version_2_file_object),
+        diff = csv_diff.compare(
+            csv_diff.load_csv(version_1_file_object),
+            csv_diff.load_csv(version_2_file_object),
         )
         # print(csv_diff)
         # exit()
-        return csv_diff
+        return diff
 
     @staticmethod
     def fitem(item):
@@ -159,7 +147,7 @@ class DetectChanges:
         )
         version_1 = self.form_details.get("CSV-URL-1")
         version_2 = self.form_details.get("CSV-URL-2")
-        detection_time = datetime.now()
+        detection_time = datetime.datetime.now()
         for change_type, changes in output_changes.items():
             if change_type != "move":
                 for change_id, changed_values in changes.items():
@@ -174,7 +162,7 @@ class DetectChanges:
                 new_row = [change_id, change_type, detection_time, "location", None, "location",
                            new_location, self.user_id, version_1, version_2]
                 df.loc[len(df)] = new_row
-        df.to_csv(changes_detected_csv)
+        df.to_csv(r2rml.changes_detected_csv)
 
     def create_notification_csv(self):
         # create dictionary with only notification details from form
@@ -186,7 +174,7 @@ class DetectChanges:
             "DATATYPE_THRESHOLD": self.form_details.get("datatype-threshold", ""),
             "MERGE_THRESHOLD": self.form_details.get("merge-threshold", ""),
             "UPDATE_THRESHOLD": self.form_details.get("update-threshold", ""),
-            "DETECTION_START": datetime.now().now(),
+            "DETECTION_START": datetime.datetime.now(),
             "DETECTION_END": self.form_details.get("detection-end", "") + " 00:00:00.0000"
         }])
         df.to_csv(r2rml.notification_details_csv)
@@ -195,10 +183,10 @@ class DetectChanges:
 
     def detect_xml_changes(self, version_1, version_2):
         # detect differences between XML file versions
-        diff = main.diff_texts(
+        diff = xmldiff.main.diff_texts(
             version_1,
             version_2,
-            formatter=formatting.XMLFormatter())
+            formatter=xmldiff.formatting.XMLFormatter())
         # output difference to XML file
         diff_text = open(self.xml_diff_file, "w+")
         diff_text.write(diff)
@@ -267,7 +255,7 @@ class DetectChanges:
 
 
     def update_r2rml_config(self):
-        config_details = r2rml_config.format(r2rml.mapping_file, r2rml.r2rml_input_files, self.output_file).strip()
+        config_details = r2rml.r2rml_config.format(r2rml.mapping_file, r2rml.r2rml_input_files, self.output_file).strip()
         # write config file generated for user which include their input data
         open(r2rml.r2rml_config_file, "w").write(config_details)
         print("R2RML CONFIG FILE UPDATED")
@@ -279,7 +267,7 @@ class DetectChanges:
 
     @staticmethod
     def execute_r2rml():
-        os.system(run_command)
+        os.system(r2rml.run_command)
 
 if __name__ == '__main__':
     import time
