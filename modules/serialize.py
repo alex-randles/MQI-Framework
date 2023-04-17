@@ -293,7 +293,7 @@ class TurtleSerializer:
         identifier = self.check_query_parameter(identifier)
         if self.add_prefix(identifier):
             return self.add_prefix(identifier)
-        elif isinstance(identifier, rdflib.term.URIef):
+        elif isinstance(identifier, rdflib.term.URIRef):
             return self.is_file_name(identifier)
         else:
             return self.is_file_name(identifier)

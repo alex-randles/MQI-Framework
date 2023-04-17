@@ -1,13 +1,14 @@
 @prefix ex: <http://example.org/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping312.ttl> a mqio:MappingArtefact .
+<file:///home/alex/MQI-Framework/refined-mapping314.ttl> a mqio:MappingArtefact .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping312.ttl> ;
+    mqio:assessedMapping <refined-mapping314.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -16,75 +17,41 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-2 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-16T23:43:04.892587"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            PREFIX rr: <http://www.w3.org/ns/r2rml#>
-            INSERT
-            {
-              ?tripleMap rr:subjectMap _:Nd18901fa75d74b05af7e4fcc3ed737fb .
-               _:Nd18901fa75d74b05af7e4fcc3ed737fb rr:class http://umbel.org/umbel/ac/rree  ;
-                    rr:template 'eeee' . 
-            }
-            WHERE {
-              ?tripleMap rr:predicateObjectMap ?pom .
-              FILTER(str(?tripleMap) = "file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping312.ttl#TriplesMap2").
-            }
-        """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Add Subject Map"^^xsd:string .
-
-ex:refinement-1 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-16T23:43:04.923231"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-17T00:01:15.493625"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                INSERT { ?pom rr:predicate <http://www.opengis.net/ont/geosparql#hasWKT> } 
+                DELETE { ?objectMap rr:language "enffjf" } 
+                INSERT { ?objectMap rr:language 'gl-ES' } 
                 WHERE { 
-                SELECT ?pom
+                SELECT ?objectMap
                 WHERE {
-                      ?subject rr:predicateObjectMap ?pom.
-                      FILTER(str(?pom) = "ub4bL11C24").
+                      ?objectMap ?p ?o .
+                      OPTIONAL { ?objectMap rr:language "enffjf" . } 
+                      FILTER(str(?objectMap) = "ub2bL24C16").
                     }
                 }
                """^^xsd:string ;
     mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Add Predicate"^^xsd:string .
-
-ex:refinement-2 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-16T23:43:04.923963"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
-            PREFIX rr: <http://www.w3.org/ns/r2rml#>
-            INSERT
-            {
-              ?tripleMap rr:subjectMap _:Na9c2cd42d4934579b18a585c81064741 .
-               _:Na9c2cd42d4934579b18a585c81064741 rr:class   ;
-                    rr:template 'geo-objects' . 
-            }
-            WHERE {
-              ?tripleMap ?predicate ?object .
-              FILTER(str(?tripleMap) = "file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping312.ttl#TriplesMap2").
-            }
-        """^^xsd:string ;
-    mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Add Logical Table"^^xsd:string .
+    mqio:refinementName "Change Language Tag"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:MP3 ;
-    mqio:wasRefinedBy ex:refinement-0 .
-
-ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasResultMessage "Invalid predicateObjectMap definition."^^xsd:string ;
+    mqio:hasObjectValue geo:hasWKT ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:MP4 ;
-    mqio:wasRefinedBy ex:refinement-1 .
+    mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasResultMessage "No logical table in this triple map."^^xsd:string ;
+    mqio:hasObjectValue geo: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:MP2 ;
-    mqio:wasRefinedBy ex:refinement-2 .
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLiteralValue "enffjf"^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasResultMessage "Language tag not defined in RFC 5646."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:isDescribedBy mqio-metrics:MP11 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
