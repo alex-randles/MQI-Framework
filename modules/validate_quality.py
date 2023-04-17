@@ -2,10 +2,8 @@ import rdflib
 import operator
 import re
 import pandas as pd
-from fs.osfs import OSFS
 import json
 import multiprocessing
-import rdflib
 from modules.validation_report import ValidationReport
 from modules.fetch_vocabularies import FetchVocabularies
 from modules.parse_mapping_graph import ParseMapping
@@ -474,12 +472,13 @@ class ValidateQuality:
         for row in query_results:
             subject = row.get("joinCondition")
             self.add_violation(
-                [metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
+                [metric_identifier, result_message, self.R2RML.parent, subject])
 
     def validate_MP5(self):
         result_message = "An object map with a datatype and language tag."
         metric_identifier = "MP5"
-        query = """SELECT ?om ?pm ?languageTag ?datatype
+        query = """
+               SELECT ?om ?pm ?languageTag ?datatype
                WHERE {
                   ?s rr:predicateObjectMap ?pm .
                   ?pm rr:objectMap ?om .
@@ -493,24 +492,6 @@ class ValidateQuality:
             language_tag = row.get("languageTag")
             datatype = row.get("datatype")
             self.add_violation([metric_identifier, result_message, (language_tag, datatype), subject_identifier])
-
-    # def validate_MP7_1(self):
-    #     result_message = "Term type for predicate map should be an IRI."
-    #     metric_identifier = "MP7_1"
-    #     query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-    #                 SELECT ?predicateMap ?termType
-    #                 WHERE {
-    #                   ?subject rr:predicateObjectMap ?pom .
-    #                   ?pom rr:predicateMap ?predicateMap .
-    #                   ?predicateMap rr:termType ?termType .
-    #                   FILTER(?termType NOT IN (rr:IRI))
-    #                 }
-    #             """
-    #     query_results = self.current_graph.query(query)
-    #     for row in query_results:
-    #         subject = row["predicateMap"]
-    #         term_type = row["termType"]
-    #         self.add_violation([metric_identifier, result_message, term_type, subject])
 
     def validate_MP6(self):
         # The user may spell one of the term types incorrect e.g rr:Literal(s)
@@ -544,6 +525,20 @@ class ValidateQuality:
         query_results = self.current_graph.query(query)
         for row in query_results:
             subject = row.get("objectMap")
+            term_type = row.get("termType")
+            self.add_violation([metric_identifier, result_message, term_type, subject])
+        query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?predicateMap ?termType
+                    WHERE {
+                      ?subject rr:predicateObjectMap ?pom .
+                      ?pom rr:predicateMap ?predicateMap .
+                      ?predicateMap rr:termType ?termType .
+                      FILTER(?termType NOT IN (rr:IRI))
+                    }
+                """
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            subject = row.get("predicateMap")
             term_type = row.get("termType")
             self.add_violation([metric_identifier, result_message, term_type, subject])
 
