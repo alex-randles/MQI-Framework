@@ -76,7 +76,6 @@ class DisplayChanges:
             }
             GROUP BY ?changeType
         """
-
         query_results = self.current_graph.query(query)
         # count of each change type within graph
         change_count = 0
@@ -116,7 +115,7 @@ class DisplayChanges:
                 self.mapping_details[self.current_graph_version]["display_filename"] = filename
                 user_graph_file = self.mappings_directory + filename
                 # set current graph
-                self.current_graph = Graph()
+                self.current_graph = rdflib.Graph()
                 self.current_graph.parse(user_graph_file, format="ttl")
                 self.get_mappings_details()
                 self.current_graph_version += 1
@@ -295,14 +294,14 @@ class DisplayChanges:
             SELECT DISTINCT ?template
             WHERE
             {
-                      ?subject rr:template ?template
+                 ?subject rr:template ?template
             }
         """
         query_results = self.current_graph.query(query)
         references = []
         for row in query_results:
             template = str(row.get("template"))
-            reference = re.findall('{(.+?)}', str_template)
+            reference = re.findall('{(.+?)}', template)
             # findall returns list so need to use extend
             references.extend(reference)
         return references

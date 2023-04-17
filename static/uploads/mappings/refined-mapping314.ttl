@@ -11,8 +11,8 @@
 <#TriplesMap2>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlVersion "1.1";	
-	 rr:tableName "geo-objects";	
+ 	 rr:tableName "geo-objects";	
+	 rr:sqlVersion "1.1";	
  ];	
 	
  rr:subjectMap [ 	
@@ -23,9 +23,9 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate geo:hasWKT;	
 	 rr:objectMap [	
-		 rr:language "gl-ES";	
 		 rr:column "GEOMETRY";	
 		 rr:termType rr:BlankNode;	
+		 rr:language "enffjf";
 		]; 	
  ];	
 .	

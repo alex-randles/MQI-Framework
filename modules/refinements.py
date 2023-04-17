@@ -45,9 +45,8 @@ class Refinements:
             "MP8": ["ChangeClass"],
             "MP9": ["ChangeIRI"],
             "MP10": ["ChangeIRI", "RemoveDatatype"],
-            "MP11": ["ChangeDatatype", "RemoveDatatype"],
-            "MP12": ["ChangeLanguageTag", "RemoveLanguageTag"],
-            "MP13": ["AddSubjectMap"],
+            "MP11": ["ChangeLanguageTag", "RemoveLanguageTag"],
+            "MP12": ["AddSubjectMap"],
 
             # data metric refinements
             "D1": ["FindSimilarClasses", "ChangeClass", "RemoveClass"],  # Usage of undefined classes
@@ -639,11 +638,11 @@ class Refinements:
         current_result = self.validation_results[int(violation_identifier)]
         pom_identifier = current_result.get("location")
         old_language_tag = current_result.get("value")
-        new_language_tag = list(query_values.values())[0]
+        new_language_tag = query_values.get(str(self.R2RML.language))
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE { ?objectMap rr:language "%s" } 
-                INSERT { ?objectMap rr:language "%s" } 
+                INSERT { ?objectMap rr:language '%s' } 
                 WHERE { 
                 SELECT ?objectMap
                 WHERE {
@@ -721,7 +720,7 @@ class Refinements:
     def add_subject_map(self, query_values, mapping_graph, violation_identifier):
         violation_information = self.validation_results.get(violation_identifier)
         subject_map_identifier = rdflib.term.BNode()
-        template_string = query_values.pop("http://www.w3.org/ns/r2rml#template")
+        template_string = query_values.pop(str(self.R2RML.template))
         triple_map = violation_information.get("triple_map")
         class_identifier = self.get_user_input(query_values).replace("<","").replace(">", "")
         update_query = """
@@ -730,7 +729,7 @@ class Refinements:
             INSERT
             {
               ?tripleMap rr:subjectMap _:%s .
-               _:%s rr:class %s  ;
+               _:%s rr:class <%s>  ;
                     rr:template '%s' . 
             }
             WHERE {
@@ -738,7 +737,7 @@ class Refinements:
               FILTER(str(?tripleMap) = "%s").
             }
         """ % (subject_map_identifier, subject_map_identifier, class_identifier, template_string, triple_map)
-        # processUpdate() does not update mapping correctly
+        # processUpdate() does not update mapping correctly for this case
         mapping_graph.add((rdflib.term.URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
         mapping_graph.add((subject_map_identifier, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#class"), rdflib.term.URIRef(class_identifier)))
         mapping_graph.add((subject_map_identifier, self.R2RML.template, rdflib.term.Literal(template_string)))
