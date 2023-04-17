@@ -3,7 +3,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix cidoc: <http://erlangen-crm.org/current/> .
 
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> .
+@prefix b2022: <https://ont.virtualtreasury.ie/ontology#> .
 
 <#Appellation>
 	a rr:TriplesMap ;
@@ -24,11 +24,12 @@
 
 	rr:subjectMap [
 		rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}" ;
-		rr:class b2022:E81_Actor_Appellation, cidoc:E41_Appellations ; ;
+		rr:class cidoc:E81_Actor_Appellation, cidoc:E41_Appellation ; ;
 	] ;
 
 	rr:predicateObjectMap [
-		rr:predicate rdfs:labels ;
-		rr:objectMap [ rr:template "{LABEL}" ; rr:datatype "dhddh" ; ] ;
+		rr:predicate b2022:reports_to ;
+		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:Literal ; ] ;
 	] ;
 	.
+

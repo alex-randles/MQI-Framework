@@ -1,57 +1,90 @@
+@prefix b2022: <https://ont.virtualtreasury.ie/ontology#> .
+@prefix cidoc: <http://erlangen-crm.org/current/> .
 @prefix ex: <http://example.org/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<file:///home/alex/MQI-Framework/refined-mapping314.ttl> a mqio:MappingArtefact .
-
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping314.ttl> ;
+    mqio:assessedMapping <places-organizations-over-time.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
         ex:violation-1,
-        ex:violation-2 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-17T00:01:15.493625"^^xsd:dateTime ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?objectMap rr:language "enffjf" } 
-                INSERT { ?objectMap rr:language 'gl-ES' } 
-                WHERE { 
-                SELECT ?objectMap
-                WHERE {
-                      ?objectMap ?p ?o .
-                      OPTIONAL { ?objectMap rr:language "enffjf" . } 
-                      FILTER(str(?objectMap) = "ub2bL24C16").
-                    }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Change Language Tag"^^xsd:string .
+        ex:violation-2,
+        ex:violation-3,
+        ex:violation-4,
+        ex:violation-5,
+        ex:violation-6,
+        ex:violation-7,
+        ex:violation-8,
+        ex:violation-9 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue geo:hasWKT ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue cidoc:P82b_end_of_the_end ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:inTripleMap <#timespan> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue cidoc:P81b_begin_of_the_end ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#timespan> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue cidoc:P82a_begin_of_the_begin ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#timespan> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue cidoc:P81a_end_of_the_begin ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#timespan> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-4 a mqio:MappingViolation ;
+    mqio:hasObjectValue b2022: ;
+    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
+    mqio:inTripleMap <#CITATION1TEXT> ;
+    mqio:isDescribedBy mqio-metrics:VOC3 .
+
+ex:violation-5 a mqio:MappingViolation ;
+    mqio:hasObjectValue cidoc: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CITATION1TEXT> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-6 a mqio:MappingViolation ;
+    mqio:hasObjectValue rdfs: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CITATION1TEXT> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-7 a mqio:MappingViolation ;
+    mqio:hasObjectValue b2022: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CITATION1TEXT> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-8 a mqio:MappingViolation ;
+    mqio:hasObjectValue rdfs: ;
     mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
+    mqio:inTripleMap <#CITATION1TEXT> ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLiteralValue "enffjf"^^xsd:string ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasResultMessage "Language tag not defined in RFC 5646."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap2> ;
-    mqio:isDescribedBy mqio-metrics:MP11 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+ex:violation-9 a mqio:MappingViolation ;
+    mqio:hasObjectValue b2022: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#CITATION1TEXT> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+<places-organizations-over-time.ttl> a mqio:MappingArtefact .
 

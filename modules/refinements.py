@@ -38,7 +38,7 @@ class Refinements:
             "MP1": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP2": ["AddLogicalTable", "AddLogicalSource"],
             "MP3": ["AddSubjectMap"],
-            "MP4": ["AddPredicate"],
+            "MP4": ["AddPredicate", "AddObjectMap"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
             "MP6": ["AddLogicalTable"],
             "MP7": ["ChangeTermType", "RemoveTermType"],
@@ -65,6 +65,9 @@ class Refinements:
 
             "AddPredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
                                "user_input_values": [self.R2RML.predicate]},
+
+            "AddObjectMap": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
+                             "user_input_values": [self.R2RML.column]},
 
             "ChangeLanguageTag": {"user_input": True, "requires_prefixes": False,
                                   "restricted_values": self.get_language_tags(),
@@ -141,6 +144,7 @@ class Refinements:
         self.refinement_functions = {"AddDomainClass": self.add_domain,
                                      "AddCorrectRange": self.add_correct_range,
                                      "AddPredicate": self.add_predicate,
+                                     "AddObjectMap": self.add_object_map,
                                      "AddSubjectMap": self.add_subject_map,
                                      "AddLogicalTable": self.add_logical_table,
                                      "AddLogicalSource": self.add_logical_table,
@@ -673,8 +677,6 @@ class Refinements:
                     }
                 }
                """ % (correct_datatype, object_map_identifier)
-        print("Changing datatype query\n" + update_query)
-        print("OLD DATATYPE", old_datatype)
         processUpdate(mapping_graph, update_query)
         return update_query
 
@@ -761,6 +763,27 @@ class Refinements:
                """ % (predicate_identifier, violation_location)
         processUpdate(mapping_graph, update_query)
         return update_query
+
+    def add_object_map(self, query_values, mapping_graph, violation_identifier):
+        current_result = self.validation_results[violation_identifier]
+        violation_location = current_result.get("location")
+        column_string = query_values.get(self.R2RML.column)
+        print(column_string)
+        exit()
+        update_query = """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                INSERT { ?pom rr:predicate %s } 
+                WHERE { 
+                SELECT ?pom
+                WHERE {
+                      ?subject rr:predicateObjectMap ?pom.
+                      FILTER(str(?pom) = "%s").
+                    }
+                }
+               """ % (predicate_identifier, violation_location)
+        processUpdate(mapping_graph, update_query)
+        return update_query
+
 
     def add_logical_table(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
