@@ -56,30 +56,32 @@ class ValidateQuality:
         self.refinements = []
         self.current_graph = None
         self.classes = None
+        self.distinct_properties = None
+        self.properties = None
         self.current_triple_identifier = None
         self.detailed_metric_information = {
-            # data quality aspect metrics
-            "D1": "https://www.w3.org/TR/dwbp/#AccessRealTime",  # undefined property
-            "D2": "https://www.w3.org/TR/dwbp/#AccessRealTime",  # undefined property
-            "D3": "https://www.w3.org/TR/rdf-schema/#ch_domain",  # domain
-            "D4": "https://www.w3.org/TR/dwbp/#AccessRealTime",  # undefined class
-            "D5": "https://www.w3.org/TR/2004/REC-owl-guide-20040210/#DisjointClasses",  # disjoint
+            # Data quality aspect metrics
+            "D1": "https://www.w3.org/TR/dwbp/#AccessRealTime",
+            "D2": "https://www.w3.org/TR/dwbp/#AccessRealTime",
+            "D3": "https://www.w3.org/TR/rdf-schema/#ch_domain",
+            "D4": "https://www.w3.org/TR/dwbp/#AccessRealTime",
+            "D5": "https://www.w3.org/TR/2004/REC-owl-guide-20040210/#DisjointClasses",
             "D6": "https://www.w3.org/TR/rdf-schema/#ch_range",
-            "D7": "https://www.w3.org/TR/rdf-schema/#ch_datatype",  # incorrect datatype
-            # mapping quality aspect metrics
+            "D7": "https://www.w3.org/TR/rdf-schema/#ch_datatype",
+            # Mapping quality aspect metrics
             "MP1": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
             "MP9": "https://tools.ietf.org/html/rfc5646",
             "MP12": "https://www.w3.org/TR/r2rml/#foreign-key",
             "MP10": "https://www.w3.org/TR/r2rml/#typing",
             "MP8": "https://www.w3.org/TR/r2rml/#typing",
             "MP2": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
-            "MP11": "https://tools.ietf.org/html/rfc5646",  # language tags
-            # vocabulary quality aspect metrics
-            "VOC1": "https://www.w3.org/TR/dwbp/#ProvideMetadata",  # human readable labels
-            "VOC2": "https://www.w3.org/TR/rdf-schema/#ch_domain",  # domain and range definitions
-            "VOC3": "https://www.w3.org/TR/rdf-schema/#ch_domain",  # basic provenance
-            "VOC4": "https://wiki.creativecommons.org/wiki/License_RDF",  # machine readable license
-            "VOC5": "https://wiki.creativecommons.org/wiki/License_RDF",  # human readable license
+            "MP11": "https://tools.ietf.org/html/rfc5646",
+            # Vocabulary quality aspect metrics
+            "VOC1": "https://www.w3.org/TR/dwbp/#ProvideMetadata",
+            "VOC2": "https://www.w3.org/TR/rdf-schema/#ch_domain",
+            "VOC3": "https://www.w3.org/TR/rdf-schema/#ch_domain",
+            "VOC4": "https://wiki.creativecommons.org/wiki/License_RDF",
+            "VOC5": "https://wiki.creativecommons.org/wiki/License_RDF",
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
@@ -105,7 +107,7 @@ class ValidateQuality:
             for (prefix, namespace) in self.namespaces.items():
                 if namespace in identifier:
                     match.append(namespace)
-            # if matching namesapce, return the longest
+            # if matching namespace, return the longest
             if match:
                 match_namespace = max(match)
                 prefix = [prefix for (prefix, namespace) in self.namespaces.items() if namespace == match_namespace][0]
@@ -130,8 +132,7 @@ class ValidateQuality:
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.distinct_properties = self.get_distinct_properties()
-            print(self.distinct_properties)
-            # self.validate_VOC2()
+            self.validate_VOC2()
             self.validate_data_metrics()
             self.validate_term_map_metrics()
         #     pr2 = multiprocessing.Process(target=self.validate_data_metrics)
@@ -143,6 +144,7 @@ class ValidateQuality:
         #     processes.append(pr1)
         # for job in processes:
         #     job.join()
+        self.current_triple_identifier = None
         self.validate_vocabulary_metrics()
         # self.validation_results.join()
         return self.validation_results
@@ -166,17 +168,17 @@ class ValidateQuality:
 
     def validate_term_map_metrics(self):
         self.validate_MP1()
+        self.validate_MP2()
         self.validate_MP3()
         self.validate_MP4()
-        self.validate_MP6()
         self.validate_MP5()
+        self.validate_MP6()
         self.validate_MP7()
         self.validate_MP8()
         self.validate_MP9()
         self.validate_MP10()
         self.validate_MP11()
         self.validate_MP12()
-        self.validate_MP13()
 
     def validate_vocabulary_metrics(self):
         self.validate_VOC3()
@@ -391,56 +393,47 @@ class ValidateQuality:
                                 self.add_violation([metric_identifier, result_message, property, object_map_identifier])
 
     def validate_MP1(self):
-        result_message = "An object map with a datatype and language tag."
-        metric_identifier = "MP1"
-        query = """SELECT ?om ?pm ?languageTag ?datatype
-               WHERE {
-                  ?s rr:predicateObjectMap ?pm .
-                  ?pm rr:objectMap ?om .
-                  ?om rr:datatype ?datatype ;
-                      rr:language ?languageTag .
-               }
-               """
-        query_results = self.current_graph.query(query)
-        for row in query_results:
-            subject_identifier = row.get("om")
-            language_tag = row.get("languageTag")
-            datatype = row.get("datatype")
-            self.add_violation([metric_identifier, result_message, (language_tag, datatype), subject_identifier])
-
-    def validate_MP6(self):
         result_message = "No logical table in this triple map."
-        metric_identifier = "MP2"
+        metric_identifier = "MP1"
         query = """
-            PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
-            PREFIX rr: <http://www.w3.org/ns/r2rml#>
-            ASK { ?subject rr:logicalTable|rml:logicalSource ?object } 
+                PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+                SELECT DISTINCT ?tripleMap 
+                WHERE {
+                  ?tripleMap  rr:predicateObjectMap|rr:subjectMap ?object .
+                  FILTER NOT EXISTS { ?tripleMap  rr:logicalTable|rml:logicalSource ?logicalSource . }    
+                } 
         """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            if not row:
-                self.add_violation([metric_identifier, result_message, None, None])
+            triple_map = row.get("tripleMap")
+            self.add_violation([metric_identifier, result_message, None, triple_map])
 
-    def validate_MP3(self):
+    def validate_MP2(self):
         result_message = "No subjectMap defined in this triple map."
-        metric_identifier = "MP3"
+        metric_identifier = "MP2"
         query = """PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    ASK { ?subject rr:subjectMap ?sm . } 
+                    PREFIX rml: <http://semweb.mmlab.be/ns/rml#>
+                    SELECT DISTINCT ?tripleMap 
+                    WHERE {
+                      ?tripleMap rr:logicalTable|rml:logicalSource|rr:predicateObjectMap ?object .
+                      FILTER NOT EXISTS { ?tripleMap rr:subjectMap ?sm . }    
+                    } 
                 """
         query_results = self.current_graph.query(query)
         for row in query_results:
-            if not row:
-                self.add_violation([metric_identifier, result_message, None, None])
+            triple_map = row.get("tripleMap")
+            self.add_violation([metric_identifier, result_message, None, triple_map])
 
-    def validate_MP4(self):
+    def validate_MP3(self):
         result_message = "Invalid predicateObjectMap definition."
-        metric_identifier = "MP4"
+        metric_identifier = "MP3"
         query = """
             PREFIX rr: <http://www.w3.org/ns/r2rml#>
             SELECT ?pom
             WHERE {
               
-              OPTIONAL { ?tripleMap rr:predicateObjectMap ?pom . ?pom rr:predicate ?predicate . }
+              OPTIONAL { ?tripleMap rr:predicateObjectMap ?pom . ?pom rr:predicateMap|rr:predicate ?predicate . }
               OPTIONAL { ?tripleMap rr:predicateObjectMap ?pom . ?pom rr:objectMap|rr:object ?om . }
               FILTER(!BOUND(?predicate) || !BOUND(?om))
             }
@@ -451,9 +444,9 @@ class ValidateQuality:
                 subject_identifier = row.get("pom")
                 self.add_violation([metric_identifier, result_message, None, subject_identifier])
 
-    def validate_MP5(self):
+    def validate_MP4(self):
         result_message = "Join condition should have a parent and child column."
-        metric_identifier = "MP5"
+        metric_identifier = "MP4"
         query = """
                  PREFIX rr: <http://www.w3.org/ns/r2rml#>
                  SELECT ?joinCondition 
@@ -483,6 +476,24 @@ class ValidateQuality:
             self.add_violation(
                 [metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#parent"), subject])
 
+    def validate_MP5(self):
+        result_message = "An object map with a datatype and language tag."
+        metric_identifier = "MP5"
+        query = """SELECT ?om ?pm ?languageTag ?datatype
+               WHERE {
+                  ?s rr:predicateObjectMap ?pm .
+                  ?pm rr:objectMap ?om .
+                  ?om rr:datatype ?datatype ;
+                      rr:language ?languageTag .
+               }
+               """
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            subject_identifier = row.get("om")
+            language_tag = row.get("languageTag")
+            datatype = row.get("datatype")
+            self.add_violation([metric_identifier, result_message, (language_tag, datatype), subject_identifier])
+
     # def validate_MP7_1(self):
     #     result_message = "Term type for predicate map should be an IRI."
     #     metric_identifier = "MP7_1"
@@ -501,7 +512,7 @@ class ValidateQuality:
     #         term_type = row["termType"]
     #         self.add_violation([metric_identifier, result_message, term_type, subject])
 
-    def validate_MP7(self):
+    def validate_MP6(self):
         # The user may spell one of the term types incorrect e.g rr:Literal(s)
         result_message = "Invalid term type definition."
         metric_identifier = "MP6"
@@ -536,7 +547,7 @@ class ValidateQuality:
             term_type = row.get("termType")
             self.add_violation([metric_identifier, result_message, term_type, subject])
 
-    def validate_MP8(self):
+    def validate_MP7(self):
         result_message = "Subject map class must be a valid IRI."
         metric_identifier = "MP7"
         query = """
@@ -554,7 +565,7 @@ class ValidateQuality:
             subject_identifier = row.get("subjectMap")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
-    def validate_MP9(self):
+    def validate_MP8(self):
         result_message = "Predicate must be a valid IRI."
         metric_identifier = "MP8"
         query = """
@@ -572,7 +583,7 @@ class ValidateQuality:
             subject_identifier = row.get("pom")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
-    def validate_MP10(self):
+    def validate_MP9(self):
         result_message = "Named graph must be a valid IRI."
         metric_identifier = "MP9"
         query = """
@@ -590,7 +601,7 @@ class ValidateQuality:
             subject_identifier = row.get("sm")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
-    def validate_MP11(self):
+    def validate_MP10(self):
         result_message = "Datatype must be a valid IRI."
         metric_identifier = "MP10"
         query = """
@@ -609,7 +620,7 @@ class ValidateQuality:
             subject_identifier = row.get("om")
             self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
-    def validate_MP12(self):
+    def validate_MP11(self):
         result_message = "Language tag not defined in RFC 5646."
         metric_identifier = "MP11"
         language_tags = (
@@ -657,7 +668,7 @@ class ValidateQuality:
             language_tag = row.get("languageTag")
             self.add_violation([metric_identifier, result_message, language_tag, object_map])
 
-    def validate_MP13(self):
+    def validate_MP12(self):
         pass
 
     def validate_VOC1(self):
