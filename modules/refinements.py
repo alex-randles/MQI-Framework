@@ -40,7 +40,7 @@ class Refinements:
             "MP3": ["AddSubjectMap"],
             "MP4": ["AddPredicate", "AddObjectMap"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
-            "MP6": ["AddLogicalTable"],
+            "MP6": ["ChangeTermType"],
             "MP7": ["ChangeTermType", "RemoveTermType"],
             "MP8": ["ChangeClass"],
             "MP9": ["ChangeIRI"],
@@ -206,10 +206,10 @@ class Refinements:
         #                       "MP2": [self.R2RML + "IRI", self.R2RML + "BlankNode"],
         #                       "MP8": [self.R2RML + "IRI"],
         #                       "D6": [value for value in all_term_types if value != str(violation_value)]}
-        correct_term_types = {"MP7": [value for value in all_term_types if value != str(violation_value)],
+        correct_term_types = {"MP6": [value for value in all_term_types if value != str(violation_value)],
                               "D6": [value for value in all_term_types if value != str(violation_value)]}
         select_placeholder = "Choose a valid term type"
-        term_types = correct_term_types[metric_identifier]
+        term_types = correct_term_types.get(metric_identifier)
         print(term_types)
         output = {select_placeholder: term_types}
         return output

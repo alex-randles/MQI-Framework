@@ -499,27 +499,26 @@ class ValidateQuality:
         metric_identifier = "MP6"
         query = """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    SELECT ?sm ?termType
+                    WHERE {
+                      ?subject rr:subjectMap ?sm . 
+                      ?sm      rr:termType   ?termType . 
+                      FILTER(?termType NOT IN (rr:IRI, rr:BlankNode))
+                    }
+                """
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            subject = row.get("sm")
+            term_type = row.get("termType")
+            self.add_violation([metric_identifier, result_message, term_type, subject])
+        query = """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
                     SELECT ?objectMap ?termType
                     WHERE {
                       ?subject rr:predicateObjectMap ?pom . 
                       ?pom rr:objectMap ?objectMap . 
                       ?objectMap rr:termType ?termType . 
                       FILTER(?termType NOT IN (rr:IRI, rr:BlankNode, rr:Literal))
-                    }
-                """
-        query_results = self.current_graph.query(query)
-        for row in query_results:
-            subject = row.get("objectMap")
-            term_type = row.get("termType")
-            self.add_violation([metric_identifier, result_message, term_type, subject])
-        query = """
-                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    SELECT ?predicateMap ?termType
-                    WHERE {
-                      ?subject rr:predicateObjectMap ?pom . 
-                      ?pom rr:predicateMap ?predicateMap . 
-                      ?predicateMap rr:termType ?termType . 
-                      FILTER(?termType NOT IN (rr:IRI))
                     }
                 """
         query_results = self.current_graph.query(query)
