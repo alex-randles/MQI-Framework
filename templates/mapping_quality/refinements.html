@@ -125,6 +125,58 @@ function validateRefinementExecution() {
             {% if user_input == false %}
             <td  style="width:25%; font-weight:bold;">{{find_prefix(refinement_properties)}}</td>
 
+            {% elif requires_prefixes is none and restricted_values is none %}
+
+            <td  style="width:25%">
+                {% for value in refinement_properties.get("requires_prefixes") %}
+                {% set form_value = violation_ID + '-' + value %}
+                {% set prefix_value = violation_ID + '-' + 'PREFIX' + '-' + value %}
+
+                <div style="display:none">
+                    {% if optional_values is not true %}
+                    {{ input_form_ids.append(form_value) }} {
+                    {% endif %}
+                </div>
+
+                <label for={{form_value}}>
+                    Property: <strong>{{find_prefix(value)}}</strong>
+                </label>
+                <input class="form-control my-2 w-100" list={{prefix_value}} name={{prefix_value}} id="exampleDataList" placeholder="Search for a prefix" required>
+                <datalist id={{prefix_value}}>
+                    <option value="" disabled selected>Choose a prefix </option>
+                    {% for prefix in prefix_values.keys() %}
+                    <option value={{prefix}}>{{prefix}}</option>
+                    {% endfor  %}
+                </datalist>
+
+                <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
+                <span class="tt" data-bs-placement="top" title="Do not include brackets (<>) for IRIs">
+              <i class="bi bi-info-circle" ></i>
+          </span>
+                {% endfor %}
+
+                {% for value in refinement_properties.get("no_prefixes") %}
+                {% set form_value_2 = violation_ID + '-' + value %}
+                <div style="display:none">
+                    {% if optional_values is not true %}
+                    {{ input_form_ids.append(form_value_2) }}
+                    {% endif %}
+                </div>
+                <div class="col-6">
+                    <label for={{form_value_2}}>
+                        Property: <strong>{{find_prefix(value)}}</strong>
+                    </label>
+                </div>
+                <div>
+                    <input type="text" class="w-100" id={{form_value_2}} name={{form_value_2}}>
+                </div>
+
+
+                {% endfor %}
+
+            </td>
+
+
             {% elif user_input == true and requires_prefixes == true and restricted_values is none %}
 
             <td  style="width:25%">
@@ -185,40 +237,26 @@ function validateRefinementExecution() {
                 <b>Property: {{find_prefix(value)}}</b>
                 <label for={{form_value_3}}></label>
                 <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} style="max-width:100%" required>
+                    {% for (placeholder, values) in restricted_values.items() %}
+                    <option value="" disabled selected>{{placeholder}}</option>
+                    {% for value in values %}
+                    {% if value is iterable and (value is not string and value is not mapping) %}
+                    <option class="font-weight" value={{value[0]}}>{{find_prefix(value[0])}}</option>
+                    <option disabled>{{ value[1] }}</option>
 
-                    <!--<input class="form-control w-100" onClick="document.getElementById('exampleDataList').click();console.log('djdjjd')" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">-->
-                    <!--<datalist id="datalistOptions" style="    font-weight: bold;" >-->
-                    <optgroup>
-                        {% for (placeholder, values) in restricted_values.items() %}
-                        <option value="" disabled selected>{{placeholder}}</option>
-                        {% for value in values %}
-                        {% if value is iterable and (value is not string and value is not mapping) %}
-                        <option class="font-weight" value={{value[0]}}>{{find_prefix(value[0])}}</option>
-                        <option disabled>{{ value[1] }}</option>
-
-                        {% else %}
-                        <option value={{value}}>{{find_prefix(value)}}</option>
-                        {% endif %}
-                        {% endfor %}
-                        {% endfor  %}
-
-                    </optgroup>
-                    <!--    </datalist>-->
+                    {% else %}
+                    <option value={{value}}>{{find_prefix(value)}}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor  %}
                 </select>
-
-
                 {% endfor %}
             </td>
-
             {% endif %}
-
-
             <td class="table-data">
                 {% set class_name = "btn btn-secondary" + violation_ID %}
                 <input type="checkbox" id={{violation_ID}} class={{class_name}} name={{violation_ID}} value="Execute">
                 <label for={{violation_ID}}>Execute</label>
-
-
             </td>
             <td class="table-data">
                 {% set display_button_id = violation_ID|string + 'refinements_div' %}

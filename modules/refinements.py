@@ -36,7 +36,7 @@ class Refinements:
         self.suggested_refinements = {
             # mapping metric refinements
             "MP1": ["AddLogicalTable", "AddLogicalSource"],
-            "MP3": ["AddSubjectMap"],
+            "MP2": ["AddSubjectMap"],
             "MP4": ["AddPredicate", "AddObjectMap"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
             "MP6": ["RemoveLanguageTag", "RemoveDatatype"],
@@ -78,8 +78,11 @@ class Refinements:
             "AddChildColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": [self.R2RML.child]},
 
-            "AddSubjectMap": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                              "user_input_values": [self.R2RML + "class", self.R2RML.template]},
+            "AddSubjectMap": {"user_input": True, "requires_prefixes": None, "restricted_values": None,
+                              "user_input_values": {
+                                  "requires_prefixes": [self.R2RML + "class"],
+                                  "no_prefixes":       [str(self.R2RML.template)],
+                              }},
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": [self.R2RML.tableName, self.R2RML.sqlQuery, self.R2RML.sqlVersion]},
