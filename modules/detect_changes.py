@@ -9,15 +9,17 @@ import xmldiff
 from collections import defaultdict
 import csv_diff
 import csv
-import modules.r2rml as r2rml
-from modules.validate_notification_policy import ValidateNotificationPolicy
+import r2rml as r2rml
+from validate_notification_policy import ValidateNotificationPolicy
 
 class DetectChanges:
 
     def __init__(self, user_id, form_details):
         self.form_details = form_details
-        self.version_1_csv = requests.get(self.form_details.get("CSV-URL-1")).text
-        self.version_2_csv = requests.get(self.form_details.get("CSV-URL-2")).text
+        self.is_csv_data = "CSV-URL-2" in self.form_details.keys()
+        self.version_1_source, self.version_2_source = self.fetch_source_data()
+        self.detect_source_changes()
+        exit()
         self.user_id = "1"
         self.error_code = 0
         self.graph_version = self.find_graph_version()
@@ -27,6 +29,42 @@ class DetectChanges:
         self.update_r2rml_config()
         self.execute_r2rml()
         self.validate_notification_policy()
+
+    def fetch_source_data(self):
+        if self.is_csv_data:
+            version_1_data = requests.get(self.form_details.get("CSV-URL-1")).text
+            version_2_data = requests.get(self.form_details.get("CSV-URL-2")).text
+        else:
+            version_1_data = requests.get(self.form_details.get("XML-URL-1")).text
+            version_2_data = requests.get(self.form_details.get("XML-URL-2")).text
+        return version_1_data, version_2_data
+
+    def detect_source_changes(self):
+        if self.is_csv_data:
+            pass
+        else:
+            self.detect_xml_changes()
+
+    def detect_xml_changes(self):
+        # detect differences between XML file versions
+        self.diff = xmldiff.main.diff_texts(
+            self.version_1_source,
+            self.version_2_source,
+            formatter=xmldiff.formatting.XMLFormatter())
+        self.format_XML_changes()
+
+    def format_XML_changes(self):
+        # parse XML file and store in CSV format
+        # namespace for changes - http://namespaces.shoobx.com/diff
+        tree = ET.ElementTree(ET.fromstring(self.diff))
+        result = ""
+        results = defaultdict(list)
+        # create a dictionary with changes
+        for element in tree.iter():
+            element_tag = element.tag
+            element_text = element.text
+            print(element_tag, element_text)
+        return results
 
     def find_graph_version(self):
         # find the version number of the graph being created
@@ -180,49 +218,6 @@ class DetectChanges:
         df.to_csv(r2rml.notification_details_csv)
         print("NOTIFICATION POLICY SAVED TO CSV")
         return df
-
-    def detect_xml_changes(self, version_1, version_2):
-        # detect differences between XML file versions
-        diff = xmldiff.main.diff_texts(
-            version_1,
-            version_2,
-            formatter=xmldiff.formatting.XMLFormatter())
-        # output difference to XML file
-        diff_text = open(self.xml_diff_file, "w+")
-        diff_text.write(diff)
-        diff_text.close()
-        self.format_XML_changes()
-
-    def fetch_xml_data(self):
-        version_1_url = self.form_details.get("XML_file_1")
-        version_2_url = self.form_details.get("XML_file_2")
-        version_1_xml = requests.get(version_1_url).text
-        version_2_xml = requests.get(version_2_url).text
-        self.detect_xml_changes(version_1_xml, version_2_xml)
-
-    def format_XML_changes(self):
-        # parse XML file and store in CSV format
-        # namespace for changes - http://namespaces.shoobx.com/diff
-        tree = ET.parse(r2rml.xml_diff_file)
-        result = ""
-        results = defaultdict(list)
-        # create a dictionary with changes
-        for elem in tree.iter():
-            if elem.tag == "{http://namespaces.shoobx.com/diff}insert":
-                results["insert"].append(result)
-                result = ""
-            elif elem.tag == "{http://namespaces.shoobx.com/diff}delete":
-                results["delete"].append(result)
-                result = ""
-            elif elem.tag == "{http://namespaces.shoobx.com/diff}update-text":
-                results[elem.tag].append(result)
-                result = ""
-            elif elem.text is not None:
-                result += elem.tag + ": " + elem.text + " "
-            else:
-                pass
-        self.output_XML_changes(results)
-        return results
     
     def output_XML_changes(self, results):
         # create a dataframe with changes
@@ -234,7 +229,7 @@ class DetectChanges:
                      "USER_ID",
                      "VERSION_1",
                      "VERSION_2"])
-        change_ID = 1
+        change_identifier = 1
         detection_time = datetime.now()
         # add each change to dataframe
         for change_type, changes in results.items():
@@ -244,9 +239,9 @@ class DetectChanges:
                     # store file versions in CSV
                     XML_version_1 = self.form_details.get("XML_file_1")
                     XML_version_2 = self.form_details.get("XML_file_2")
-                    changes_df.loc[change_ID] = [change_ID, change_type, detection_time, value, "2", XML_version_1,
+                    changes_df.loc[change_identifier] = [change_identifier, change_type, detection_time, value, "2", XML_version_1,
                                                  XML_version_2]
-                    change_ID += 1
+                    change_identifier += 1
         # remove row indexes
         changes_df.reset_index(drop=True)
         # output changes into CSV file
@@ -270,19 +265,20 @@ class DetectChanges:
         os.system(r2rml.run_command)
 
 if __name__ == '__main__':
-    import time
-    while True:
-        csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
-        csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v6.csv"
-        form_details = {
-            'CSV-URL-1': csv_file_1,
-            'CSV-URL-2': csv_file_2,
-            'insert-threshold': '10', 'delete-threshold': '0',
-            'move-threshold': '0', 'datatype-threshold': '0',
-            'merge-threshold': '0', 'update-threshold': '0',
-            'detection-end': '2022-07-10',
-            'email-address': 'alexrandles0@gmail.com',
-            "user-id": "2",
-                    }
-        cd = DetectChanges(user_id=2, form_details=form_details)
-        time.sleep(300)
+    csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
+    csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v6.csv"
+
+    xml_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/student.xml"
+    xml_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/student.xml"
+    form_details = {
+        'XML-URL-1': xml_file_1,
+        'XML-URL-2': xml_file_2,
+        'insert-threshold': '10', 'delete-threshold': '0',
+        'move-threshold': '0', 'datatype-threshold': '0',
+        'merge-threshold': '0', 'update-threshold': '0',
+        'detection-end': '2022-07-10',
+        'email-address': 'alexrandles0@gmail.com',
+        "user-id": "2",
+                }
+    cd = DetectChanges(user_id=2, form_details=form_details)
+
