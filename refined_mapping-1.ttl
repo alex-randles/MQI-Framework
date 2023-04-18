@@ -2,25 +2,75 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix activity: <http://activitystrea.ms/specs/atom/1.0/> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ac: <http://umbel.org/umbel/ac/> . 
+@prefix cidoc: <http://erlangen-crm.org/current/> . 
+@prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
+@prefix prov: <http://www.w3.org/ns/prov#> . 
 
 	
-<#TriplesMap2>	
+<#Organisation>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery""" 	
+		SELECT X.ID, X.LABEL, Y.COUNTRY 	
+		FROM (	
+			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
+			UNION 	
+			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
+				SELECT ID, NULL, SYNONYMS || ';'	
+				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
+	  			UNION ALL	
+	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
+			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
+		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
+		 """;	
+ ];	
 	
  rr:subjectMap [ 	
- 	 rr:class ac:rree;	
-	 rr:template "eeee";	
+ 	 rr:template "sellhhhjk";	
+	 rr:class prov:test;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate geo:hasWKT;	
+ 	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:language "gu-IN";	
-		 rr:column "GEOMETRY";	
-		 rr:termType rr:IRI;	
+		 rr:template "{LABEL}";	
+		 rr:datatype "dhddh";	
+		]; 	
+ ];	
+.	
+	
+<#Appellation>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery""" 	
+		SELECT X.ID, X.LABEL, Y.COUNTRY 	
+		FROM (	
+			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
+			UNION 	
+			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
+				SELECT ID, NULL, SYNONYMS || ';'	
+				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
+	  			UNION ALL	
+	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
+			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
+		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
+		 """;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}";	
+	 rr:termType rr:Literal;	
+	 rr:class b2022:E81_Actor_Appellation, cidoc:E41_Appellations;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdfs:labels;	
+	 rr:objectMap [	
+		 rr:datatype "dhddh";	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 .	

@@ -314,9 +314,6 @@ class API:
                                    mapping_updated=mapping_updated,
                                    change_graph_details=change_graph_details)
         else:
-            # print(request.form.get("todo"))
-            # exit()
-            # try:
             new_data_reference = request.form.get("todo").split("-")[0]
             old_data_reference = request.form.get("todo").split("-")[1]
             update_query = """
@@ -333,19 +330,11 @@ class API:
                         }
                     }
                    """ % (new_data_reference, old_data_reference.lower())
-            print(update_query)
             mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
             mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
             mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
             rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
             mapping_graph.serialize(destination=mapping_file_path, format="ttl")
-            print(mapping_file_path)
-            # except Exception as e:
-            #     print("EXCEPTION", e)
-            #     mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
-            #     mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
-            #     mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
-            #     mapping_graph.serialize(destination="./static/updated_mapping.ttl", format="ttl")
             session["mapping_updated"] = True
             return redirect(request.referrer)
 

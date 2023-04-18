@@ -106,6 +106,7 @@
     </thead>
     <tbody>
 
+    {% set div_id = namespace(value=0) %}
     {% for key, value in graph_details.items() %}
     <tr>
         <th scope="row">{{key}}</th>
@@ -156,8 +157,14 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
             {% set impacted_mappings_identifiers = graph_details.get(key).get("impacts_mapping") %}
             {% if impacted_mappings_identifiers %}
             {% for identifier in impacted_mappings_identifiers|unique %}
-                <a href="{{ url_for('mappings_impacted', mapping_unique_id=identifier, graph_id=graph_filename) }}">Mapping {{identifier}}</a>
+            <a href="{{ url_for('mappings_impacted', mapping_unique_id=identifier, graph_id=graph_filename) }}" id="impact-button-{{div_id.value}}"   onClick="loadMappingImpact('{{div_id.value}}');">Mapping {{identifier}}</a>
+            <div class="d-flex text-center mx-4" style="display: none;">
+                    <div id="spinner-{{div_id.value}}" class="spinner-border text-primary text-center" role="status" style="display:none;">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
                 <br>
+            {% set div_id.value = div_id.value + 1 %}
             {% endfor %}
             {% else %}
             None
@@ -323,6 +330,16 @@ function move() {
       }
     }
   }
+}
+</script>
+
+<script>
+
+function loadMappingImpact(div_id) {
+  var spinner = document.getElementById("spinner-" + div_id);
+  var impact_button = document.getElementById("impact-button-" + div_id);
+  impact_button.style.display = "none";
+  spinner.style.display = "block";
 }
 </script>
 
