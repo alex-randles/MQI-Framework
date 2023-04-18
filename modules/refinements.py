@@ -1099,6 +1099,11 @@ class Refinements:
         self.refinement_graph.add((refinement_identifier, self.MQIO.refinedViolation, violation_identifier))
         # add refinement agent
         self.add_refinement_agent()
+        mapping_file_identifier = list(self.refinement_graph.subjects(rdflib.RDF.type, self.MQIO.MappingArtefact))
+        if mapping_file_identifier:
+            self.refinement_graph.remove((mapping_file_identifier[0], rdflib.RDF.type, self.MQIO.MappingArtefact))
+            mapping_file_identifier = rdflib.term.URIRef(str(mapping_file_identifier[0]).split("/")[-1])
+            self.refinement_graph.add((mapping_file_identifier, rdflib.RDF.type, self.MQIO.MappingArtefact))
 
     def add_refinement_agent(self):
         add_metadata = self.add_information.get("add-information")

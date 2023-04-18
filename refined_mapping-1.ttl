@@ -27,9 +27,9 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}";	
-	 rr:class b2022:E81_Actor_Appellation, cidoc:E41_Appellations;	
-	 rr:termType rr:IRI;	
+ 	 rr:termType rr:BlankNode;	
+	 rr:class cidoc:E41_Appellations, b2022:E81_Actor_Appellation;	
+	 rr:template "https://kb.beyond2022.ie/organisation-appellation/{COUNTRY}/{LABEL}";	
  ];	
 	
  rr:predicateObjectMap [ 	
