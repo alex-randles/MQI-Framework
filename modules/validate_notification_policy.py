@@ -72,8 +72,8 @@ class ValidateNotificationPolicy:
             print("change type", changes_type)
             notification_message = notification_message + "Threshold of {} for change type: {} has been reached. {} changes detected".format(threshold, changes_type,changes_count)
             notification_required = True
-        if notification_required:
-            self.send_notification_email()
+        # if notification_required:
+        #     self.send_notification_email()
 
     def get_detection_period(self):
         return "shshs"
@@ -81,15 +81,7 @@ class ValidateNotificationPolicy:
     def get_changes_count(self):
         # query to get notification thresholds
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
+        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#> 
         
         # GET COUNT FOR EACH CHANGE TYPE
         SELECT ?changeType (count(?change) AS ?count)
@@ -126,16 +118,8 @@ class ValidateNotificationPolicy:
     def get_notification_thresholds(self):
         # query to find thresholds within notification policy
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-        PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
         PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        
-        
+ 
         SELECT ?changeType ?threshold
         WHERE
         {
@@ -159,27 +143,16 @@ class ValidateNotificationPolicy:
     def get_user_email(self):
         # query to find thresholds within notification policy
         query = """
-            PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-            PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-            PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
-            PREFIX cdo: <https://change-detection-ontology.adaptcentre.ie/#>
-            PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-            PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
             PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-            
-            
             SELECT ?email
             WHERE
             {
-              # QUERY CONTACT GRAPH
-              GRAPH contact-graph:%s  {
-                # GET EMAIL FOR USER WITH ID "1"
+              GRAPH ?g {
                 ?user a foaf:Person;
                       foaf:mbox ?email .
               }
             }
-        """ % self.user_id
+        """
         qres = self.user_graph.query(query)
         # notification threshold for each change type
         user_email = None
@@ -188,9 +161,9 @@ class ValidateNotificationPolicy:
         return user_email
 
     def send_notification_email(self):
-        port = 465  # For SSL
-        smtp_server = "smtp.gmail.com"
-        sender_email = "alexrandles0@gmail.com"  # Enter your address
+        # port = 587  # For SSL
+        # smtp_server = "smtp.gmail.com"
+        user = "alexrandles0@gmail.com"  # Enter your address
         receiver_email = self.user_email  # Enter receiver address
         password = "Flowers124!"
         msg = MIMEMultipart()
@@ -212,14 +185,14 @@ class ValidateNotificationPolicy:
         encoders.encode_base64(part)
         part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
 
-        msg.attach(part)
 
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.starttls()
-        server.login(sender_email, password)
-        text = msg.as_string()
-        server.sendmail(sender_email, receiver_email, text)
-        server.quit()
+
+        msg.attach(part)
+        with smtplib.SMTP("smtp.mailtrap.io", 2525) as server:
+            server.login(user, password)
+            server.sendmail(sender, receiver, msg.as_string())
+            print("mail successfully sent")
+            server.quit()
 
 if __name__ == "__main__":
     ValidateNotificationPolicy("/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/3.trig", "11")
