@@ -10,17 +10,22 @@
 	
 <#TriplesMap2>	
 	
+ rr:logicalTable [ 	
+ 	 rr:sqlVersion "1.1";	
+	 rr:tableName "geo-objects";	
+ ];	
+	
  rr:subjectMap [ 	
- 	 rr:class ac:rree;	
-	 rr:template "eeee";	
+ 	 rr:template "eeee";	
+	 rr:class ac:rree;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate geo:hasWKT;	
 	 rr:objectMap [	
-		 rr:language "gu-IN";	
+		 rr:language "gl-ES";	
 		 rr:column "GEOMETRY";	
-		 rr:termType rr:IRI;	
+		 rr:termType rr:IRIs;	
 		]; 	
  ];	
 .	

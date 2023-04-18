@@ -11,16 +11,16 @@
 <#TriplesMap2>	
 	
  rr:subjectMap [ 	
- 	 rr:class ac:rree;	
-	 rr:template "eeee";	
+ 	 rr:template "eeee";	
+	 rr:class ac:rree;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate geo:hasWKT;	
 	 rr:objectMap [	
-		 rr:language "gu-IN";	
-		 rr:column "GEOMETRY";	
+		 rr:language rr:IRI;	
 		 rr:termType rr:IRI;	
+		 rr:column "GEOMETRY";	
 		]; 	
  ];	
 .	
