@@ -238,7 +238,11 @@ class DisplayChanges:
         for row in query_results:
             sql_query = str(row.get("sourceData")).split()
             if "FROM" in sql_query:
-                source_data.append(sql_query[sql_query.index("FROM") + 1])
+                table_name_indexes = [i for i in range(0, len(sql_query)) if sql_query[i] == "FROM"]
+                for index in table_name_indexes:
+                    table_name = re.sub('[^0-9a-zA-Z]+', '', sql_query[index + 1]).upper()
+                    if table_name and table_name != "SELECT" and table_name not in source_data:
+                        source_data.append(table_name)
         self.mapping_details[self.current_graph_version]["source_data"] = list(set(source_data))
 
     def get_iterator(self):
@@ -352,14 +356,14 @@ class DisplayChanges:
         PREFIX rr: <http://www.w3.org/ns/r2rml#> 
         PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
         # GET XML FILE DETAILS FROM CHANGE GRAPH 
-        SELECT ?currentVersion ?previousVersion
+        SELECT ?currentSource ?previousSource
         WHERE
         {
           # QUERY USER GRAPH
           GRAPH ?g {
             ?changeLog a oscd:ChangeLog; 
-                       oscd:hasCurrentVersion ?currentVersion ;
-                       oscd:hasPreviousVersion ?previousVersion . 
+                       oscd:hasCurrentSource ?currentSource ;
+                       oscd:hasPreviousSource ?previousSource . 
           }
         }
         """
@@ -367,8 +371,8 @@ class DisplayChanges:
         change_sources = {}
         # convert to lower case
         for row in query_results:
-            change_sources["current_version"] = str(row.get("currentVersion"))
-            change_sources["previous_version"] = str(row.get("previousVersion"))
+            change_sources["current_version"] = str(row.get("currentSource"))
+            change_sources["previous_version"] = str(row.get("previousSource"))
         if change_sources:
             self.graph_details[self.current_graph_version]["change_sources"] = change_sources
 
