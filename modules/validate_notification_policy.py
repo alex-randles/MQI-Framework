@@ -70,7 +70,7 @@ class ValidateNotificationPolicy:
             print("change count:" , changes_count)
             print("threshold", threshold)
             print("change type", changes_type)
-            notification_message = notification_message + "Threshold of {} for change type: {} has been reached. {} changes detected".format(threshold, changes_type,changes_count)
+            notification_message = "{} Threshold of {} for change type: {} has been reached. {} changes detected".format(notification_message, threshold, changes_type,changes_count)
             notification_required = True
         # if notification_required:
         #     self.send_notification_email()
