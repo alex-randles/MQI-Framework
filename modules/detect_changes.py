@@ -39,7 +39,11 @@ class DetectChanges:
 
     def detect_source_changes(self):
         if self.is_csv_data:
-            self.detect_csv_changes()
+            diff = self.detect_csv_changes()
+            # output_changes = {'insert': {0: {'structural_reference': 'Object', 'change_reason': 'ss: False'}},
+            #                   'delete': {1: {'structural_reference': 'Object', 'change_reason': 'value: SID:<sid>'}}}
+            diff = self.format_csv_changes(diff)
+            self.output_changes(diff)
         else:
             self.detect_xml_changes()
 
@@ -116,8 +120,8 @@ class DetectChanges:
         output_changes["delete"] = defaultdict(dict)
         change_id = 0
         # process output from csv diff library
-        csv_tuples_1 = self.detect_duplicates(self.version_1_csv)
-        csv_tuples_2 = self.detect_duplicates(self.version_2_csv)
+        csv_tuples_1 = self.detect_duplicates(self.version_1_source)
+        csv_tuples_2 = self.detect_duplicates(self.version_2_source)
         for change_type, related_changes in csv_diff.items():
             for changes in related_changes:
                 if isinstance(changes, dict):

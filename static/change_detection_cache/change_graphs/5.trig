@@ -1,0 +1,1827 @@
+<http://www.example.com/contactDetailsGraph/user-1> {
+    <http://www.example.com/user-1>
+            a       <http://xmlns.com/foaf/0.1/Agent> ;
+            <http://xmlns.com/foaf/0.1/mbox>
+                    "alexrandles0@gmail.com" .
+}
+
+<http://www.example.com/notificationGraph/user-1> {
+    <http://www.example.com/userActor/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
+    
+    <http://www.example.com/policyObligation/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#Obligation> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#action>
+                    <https://www.w3id.org/OSCD#sendNotification> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#obligedTo>
+                    <https://www.w3id.org/OSCD#softwareAgent> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#startingConstraint>
+                    <http://www.example.com/notificationConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#actor>
+                    <http://www.example.com/userActor/1> , <https://www.w3id.org/OSCD#softwareAgent> .
+    
+    <http://www.example.com/insertChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#InsertSourceData> .
+    
+    <http://www.example.com/notificationPolicy/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#Policy> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#desc>
+                    "Notification policy for user 1" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#grants>
+                    <http://www.example.com/policyObligation/1> ;
+            <https://www.w3id.org/OSCD#hasDetectionEnd>
+                    "2022-12-31 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+            <https://www.w3id.org/OSCD#hasDetectionStart>
+                    "2023-04-18 23:53:26.311435"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    
+    <http://www.example.com/updateChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#UpdateSourceData> .
+    
+    <http://www.example.com/moveChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#MoveSourceData> .
+    
+    <http://www.example.com/deleteChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#DeleteSourceData> .
+    
+    <http://www.example.com/notificationConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#And> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fifth>
+                    <http://www.example.com/mergeChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#first>
+                    <http://www.example.com/insertChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fourth>
+                    <http://www.example.com/updateChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#second>
+                    <http://www.example.com/deleteChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#sixth>
+                    <http://www.example.com/datatypeChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#third>
+                    <http://www.example.com/moveChangeConstraint/1> .
+    
+    <http://www.example.com/mergeChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#MergeSourceData> .
+    
+    <http://www.example.com/datatypeChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#DatatypeSourceData> .
+}
+
+<http://www.example.com/changesGraph/user-1> {
+    <http://www.example.com/changedData/90>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/94>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/94> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/69>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "74" .
+    
+    <http://www.example.com/changedData/48>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/52>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/52> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/174>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/changedData/27>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "80" .
+    
+    <http://www.example.com/changedData/153>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "52" .
+    
+    <http://www.example.com/changedData/132>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/10>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/10> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/insertChange/167>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/167> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/changedData/111>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "50" .
+    
+    <http://www.example.com/insertChange/146>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/146> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/insertChange/125>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/125> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/changedData/253>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "other_colors" .
+    
+    <http://www.example.com/insertChange/104>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/104> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/77>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/ingolf-bar-stool-with-backrest-white-10122647/" .
+    
+    <http://www.example.com/insertChange/81>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/81> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/35>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/nordviken-nordviken-bar-table-and-4-bar-stools-black-black-s09333523/" .
+    
+    <http://www.example.com/changedData/161>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/ingolf-bar-stool-with-backrest-white-00121766/" .
+    
+    <http://www.example.com/insertChange/39>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/39> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/insertChange/175>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/175> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changeLog/user-1>
+            a       <https://www.w3id.org/OSCD#ChangeLog> ;
+            <https://www.w3id.org/OSCD#hasChange>
+                    <http://www.example.com/insertChange/159> , <http://www.example.com/insertChange/77> , <http://www.example.com/insertChange/166> , <http://www.example.com/insertChange/150> , <http://www.example.com/insertChange/255> , <http://www.example.com/insertChange/147> , <http://www.example.com/insertChange/76> , <http://www.example.com/insertChange/92> , <http://www.example.com/insertChange/8> , <http://www.example.com/insertChange/27> , <http://www.example.com/insertChange/12> , <http://www.example.com/insertChange/118> , <http://www.example.com/insertChange/254> , <http://www.example.com/insertChange/79> , <http://www.example.com/insertChange/64> , <http://www.example.com/insertChange/95> , <http://www.example.com/insertChange/80> , <http://www.example.com/insertChange/181> , <http://www.example.com/insertChange/35> , <http://www.example.com/insertChange/20> , <http://www.example.com/insertChange/156> , <http://www.example.com/insertChange/160> , <http://www.example.com/insertChange/94> , <http://www.example.com/insertChange/180> , <http://www.example.com/insertChange/135> , <http://www.example.com/insertChange/155> , <http://www.example.com/insertChange/6> , <http://www.example.com/insertChange/169> , <http://www.example.com/insertChange/82> , <http://www.example.com/insertChange/111> , <http://www.example.com/insertChange/123> , <http://www.example.com/insertChange/52> , <http://www.example.com/insertChange/97> , <http://www.example.com/insertChange/175> , <http://www.example.com/insertChange/40> , <http://www.example.com/insertChange/120> , <http://www.example.com/insertChange/178> , <http://www.example.com/insertChange/163> , <http://www.example.com/insertChange/153> , <http://www.example.com/insertChange/108> , <http://www.example.com/insertChange/177> , <http://www.example.com/insertChange/49> , <http://www.example.com/insertChange/253> , <http://www.example.com/insertChange/69> , <http://www.example.com/insertChange/122> , <http://www.example.com/insertChange/171> , <http://www.example.com/insertChange/249> , <http://www.example.com/insertChange/25> , <http://www.example.com/insertChange/165> , <http://www.example.com/insertChange/109> , <http://www.example.com/insertChange/38> , <http://www.example.com/insertChange/93> , <http://www.example.com/insertChange/13> , <http://www.example.com/insertChange/26> , <http://www.example.com/insertChange/162> , <http://www.example.com/insertChange/106> , <http://www.example.com/insertChange/251> , <http://www.example.com/insertChange/138> , <http://www.example.com/insertChange/67> , <http://www.example.com/insertChange/158> , <http://www.example.com/insertChange/23> , <http://www.example.com/insertChange/250> , <http://www.example.com/insertChange/137> , <http://www.example.com/insertChange/55> , <http://www.example.com/insertChange/91> , <http://www.example.com/insertChange/11> , <http://www.example.com/insertChange/168> , <http://www.example.com/insertChange/125> , <http://www.example.com/insertChange/54> , <http://www.example.com/insertChange/152> , <http://www.example.com/insertChange/90> , <http://www.example.com/insertChange/10> , <http://www.example.com/insertChange/146> , <http://www.example.com/insertChange/176> , <http://www.example.com/insertChange/151> , <http://www.example.com/insertChange/134> , <http://www.example.com/insertChange/63> , <http://www.example.com/insertChange/154> , <http://www.example.com/insertChange/119> , <http://www.example.com/insertChange/37> , <http://www.example.com/insertChange/110> , <http://www.example.com/insertChange/133> , <http://www.example.com/insertChange/96> , <http://www.example.com/insertChange/51> , <http://www.example.com/insertChange/107> , <http://www.example.com/insertChange/36> , <http://www.example.com/insertChange/48> , <http://www.example.com/insertChange/174> , <http://www.example.com/insertChange/68> , <http://www.example.com/insertChange/148> , <http://www.example.com/insertChange/121> , <http://www.example.com/insertChange/50> , <http://www.example.com/insertChange/248> , <http://www.example.com/insertChange/170> , <http://www.example.com/insertChange/24> , <http://www.example.com/insertChange/9> , <http://www.example.com/insertChange/104> , <http://www.example.com/insertChange/173> , <http://www.example.com/insertChange/136> , <http://www.example.com/insertChange/65> , <http://www.example.com/insertChange/149> , <http://www.example.com/insertChange/78> , <http://www.example.com/insertChange/81> , <http://www.example.com/insertChange/21> , <http://www.example.com/insertChange/161> , <http://www.example.com/insertChange/105> , <http://www.example.com/insertChange/34> , <http://www.example.com/insertChange/53> , <http://www.example.com/insertChange/66> , <http://www.example.com/insertChange/22> , <http://www.example.com/insertChange/7> , <http://www.example.com/insertChange/179> , <http://www.example.com/insertChange/83> , <http://www.example.com/insertChange/124> , <http://www.example.com/insertChange/167> , <http://www.example.com/insertChange/157> , <http://www.example.com/insertChange/41> , <http://www.example.com/insertChange/132> , <http://www.example.com/insertChange/164> , <http://www.example.com/insertChange/39> , <http://www.example.com/insertChange/62> , <http://www.example.com/insertChange/172> , <http://www.example.com/insertChange/252> , <http://www.example.com/insertChange/139> ;
+            <https://www.w3id.org/OSCD#hasCurrentSource>
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/products.csv> ;
+            <https://www.w3id.org/OSCD#hasPreviousSource>
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/products.csv> .
+    
+    <http://www.example.com/changedData/119>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/franklin-bar-stool-with-backrest-foldable-black-black-50406465/" .
+    
+    <http://www.example.com/insertChange/154>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/154> .
+    
+    <http://www.example.com/insertChange/133>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/133> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/insertChange/254>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/254> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/64>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/68>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/68> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/169>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "397736" .
+    
+    <http://www.example.com/changedData/22>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/changedData/148>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/26>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/26> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/insertChange/162>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/162> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/insertChange/7>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/7> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/106>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/120>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/120> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/248>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "designer" .
+    
+    <http://www.example.com/changedData/93>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool with backrest, foldable,          63 cm" .
+    
+    <http://www.example.com/insertChange/97>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/97> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/76>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/76> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/51>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool with backrest,          74 cm" .
+    
+    <http://www.example.com/insertChange/55>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/55> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/changedData/177>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool with backrest,          74 cm" .
+    
+    <http://www.example.com/changedData/156>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "INGOLF" .
+    
+    <http://www.example.com/insertChange/34>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/34> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/135>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Bar table and 4 bar stools" .
+    
+    <http://www.example.com/insertChange/13>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/13> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/170>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/170> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "name" .
+    
+    <http://www.example.com/insertChange/149>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/149> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/6>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/107>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/107> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/80>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Carina Bengs" .
+    
+    <http://www.example.com/insertChange/249>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/249> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/insertChange/63>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/63> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/38>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Francis Cayouette" .
+    
+    <http://www.example.com/changedData/164>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Carina Bengs" .
+    
+    <http://www.example.com/insertChange/21>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/21> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/insertChange/178>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/178> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/122>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "K Hagberg/M Hagberg" .
+    
+    <http://www.example.com/insertChange/157>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/157> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "category" .
+    
+    <http://www.example.com/insertChange/136>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/136> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/insertChange/92>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/92> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/67>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "60" .
+    
+    <http://www.example.com/changedData/172>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "395.0" .
+    
+    <http://www.example.com/insertChange/50>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/50> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/25>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/changedData/151>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "44" .
+    
+    <http://www.example.com/insertChange/165>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/165> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/109>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "50" .
+    
+    <http://www.example.com/insertChange/123>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/123> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/251>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "link" .
+    
+    <http://www.example.com/changedData/96>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "95" .
+    
+    <http://www.example.com/insertChange/79>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/79> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/54>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "100" .
+    
+    <http://www.example.com/changedData/180>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "103" .
+    
+    <http://www.example.com/changedData/159>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No old price" .
+    
+    <http://www.example.com/insertChange/37>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/37> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/12>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "99" .
+    
+    <http://www.example.com/changedData/138>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/insertChange/173>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/173> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "old_price" .
+    
+    <http://www.example.com/insertChange/152>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/152> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/9>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar table, in/outdoor,          51x51 cm" .
+    
+    <http://www.example.com/insertChange/110>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/110> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/83>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "40" .
+    
+    <http://www.example.com/insertChange/252>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/252> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/62>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/66>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/66> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/41>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/changedData/167>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "40" .
+    
+    <http://www.example.com/changedData/20>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "False" .
+    
+    <http://www.example.com/changedData/146>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/24>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/24> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/insertChange/181>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/181> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/changedData/125>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "50" .
+    
+    <http://www.example.com/insertChange/160>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/160> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/104>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/139>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/139> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/118>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/118> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/91>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/franklin-bar-stool-with-backrest-foldable-white-white-70404875/" .
+    
+    <http://www.example.com/insertChange/95>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/95> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/49>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/stig-bar-stool-with-backrest-black-silver-colour-80155205/" .
+    
+    <http://www.example.com/insertChange/53>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/53> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/175>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/norraryd-bar-stool-with-backrest-black-00397736/" .
+    
+    <http://www.example.com/changedData/154>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "11" .
+    
+    <http://www.example.com/changedData/133>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/ekedalen-ekedalen-bar-table-and-4-bar-stools-dark-brown-orrsta-light-grey-s69304221/" .
+    
+    <http://www.example.com/insertChange/11>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/11> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/insertChange/168>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/168> .
+    
+    <http://www.example.com/insertChange/147>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/147> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/254>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "short_description" .
+    
+    <http://www.example.com/insertChange/105>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/105> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/78>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/82>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/82> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/36>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/changedData/162>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/40>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/40> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/insertChange/176>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/176> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/120>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/155>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/155> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "item_id" .
+    
+    <http://www.example.com/insertChange/134>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/134> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/insertChange/255>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/255> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/insertChange/90>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/90> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/65>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Wall-mounted drop-leaf table,          74x60 cm" .
+    
+    <http://www.example.com/insertChange/69>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/69> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/changedData/23>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar table,          140x80 cm" .
+    
+    <http://www.example.com/changedData/170>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "NORRARYD" .
+    
+    <http://www.example.com/insertChange/48>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/48> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/149>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool with backrest, foldable,          74 cm" .
+    
+    <http://www.example.com/insertChange/27>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/27> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/163>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/163> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/insertChange/8>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/8> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/107>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool,          63-74 cm" .
+    
+    <http://www.example.com/insertChange/121>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/121> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/249>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "depth" .
+    
+    <http://www.example.com/changedData/94>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "K Hagberg/M Hagberg" .
+    
+    <http://www.example.com/insertChange/77>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/77> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/52>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Henrik Preutz" .
+    
+    <http://www.example.com/changedData/178>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Nike Karlsson" .
+    
+    <http://www.example.com/insertChange/35>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/35> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/10>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Nicholai Wiig Hansen" .
+    
+    <http://www.example.com/changedData/157>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Bar furniture" .
+    
+    <http://www.example.com/changedData/136>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Ehlén Johansson" .
+    
+    <http://www.example.com/insertChange/171>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/171> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "category" .
+    
+    <http://www.example.com/insertChange/150>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/150> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/7>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/frekvens-bar-table-in-outdoor-black-90420332/" .
+    
+    <http://www.example.com/insertChange/108>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/108> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/81>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "45" .
+    
+    <http://www.example.com/insertChange/250>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/250> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/insertChange/64>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/64> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/39>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/changedData/165>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "45" .
+    
+    <http://www.example.com/insertChange/22>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/22> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/insertChange/179>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/179> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/123>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "44" .
+    
+    <http://www.example.com/insertChange/158>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/158> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "price" .
+    
+    <http://www.example.com/insertChange/137>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/137> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/insertChange/93>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/93> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/68>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "43" .
+    
+    <http://www.example.com/changedData/173>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No old price" .
+    
+    <http://www.example.com/insertChange/51>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/51> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/26>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "105" .
+    
+    <http://www.example.com/changedData/152>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "103" .
+    
+    <http://www.example.com/insertChange/166>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/166> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/110>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/insertChange/124>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/124> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/252>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "height" .
+    
+    <http://www.example.com/changedData/97>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "50" .
+    
+    <http://www.example.com/changedData/76>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/80>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/80> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/55>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "60" .
+    
+    <http://www.example.com/changedData/181>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "46" .
+    
+    <http://www.example.com/changedData/34>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "False" .
+    
+    <http://www.example.com/changedData/160>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/38>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/38> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/13>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "51" .
+    
+    <http://www.example.com/changedData/139>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/insertChange/174>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/174> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/118>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "True" .
+    
+    <http://www.example.com/insertChange/153>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/153> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/132>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/132> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/insertChange/111>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/111> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/253>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/253> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/63>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/norberg-wall-mounted-drop-leaf-table-white-30180504/" .
+    
+    <http://www.example.com/insertChange/67>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/67> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/168>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "12" .
+    
+    <http://www.example.com/changedData/21>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/nordviken-bar-table-black-00368814/" .
+    
+    <http://www.example.com/changedData/147>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/franklin-bar-stool-with-backrest-foldable-white-white-90404879/" .
+    
+    <http://www.example.com/insertChange/25>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/25> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/insertChange/161>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/161> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/105>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "https://www.ikea.com/sa/en/p/dalfred-bar-stool-black-60155602/" .
+    
+    <http://www.example.com/insertChange/6>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/6> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/insertChange/119>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/119> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/92>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/96>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/96> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/50>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Yes" .
+    
+    <http://www.example.com/insertChange/54>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/54> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/176>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/changedData/155>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "121766" .
+    
+    <http://www.example.com/changedData/134>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/12>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/12> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/insertChange/169>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/169> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "item_id" .
+    
+    <http://www.example.com/insertChange/148>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/148> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/255>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "sellable_online" .
+    
+    <http://www.example.com/insertChange/106>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/106> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/79>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool with backrest,          63 cm" .
+    
+    <http://www.example.com/insertChange/248>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/248> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/insertChange/83>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/83> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/62>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/62> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/changedData/37>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Bar table and 4 bar stools" .
+    
+    <http://www.example.com/changedData/163>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool with backrest,          74 cm" .
+    
+    <http://www.example.com/insertChange/41>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/41> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "width" .
+    
+    <http://www.example.com/insertChange/20>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/20> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "sellable_online" .
+    
+    <http://www.example.com/insertChange/177>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/177> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/121>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "        Bar stool with backrest, foldable,          63 cm" .
+    
+    <http://www.example.com/insertChange/156>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/156> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "name" .
+    
+    <http://www.example.com/insertChange/135>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/135> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/insertChange/91>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/91> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/66>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Marcus Arvonen" .
+    
+    <http://www.example.com/insertChange/49>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/49> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "link" .
+    
+    <http://www.example.com/changedData/171>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Bar furniture" .
+    
+    <http://www.example.com/changedData/24>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Francis Cayouette" .
+    
+    <http://www.example.com/changedData/150>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "K Hagberg/M Hagberg" .
+    
+    <http://www.example.com/insertChange/164>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/164> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/insertChange/9>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/9> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/108>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "Sarah Fager" .
+    
+    <http://www.example.com/insertChange/122>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/122> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "designer" .
+    
+    <http://www.example.com/changedData/250>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "width" .
+    
+    <http://www.example.com/changedData/95>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "44" .
+    
+    <http://www.example.com/insertChange/78>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/78> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/53>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "50" .
+    
+    <http://www.example.com/changedData/179>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "47" .
+    
+    <http://www.example.com/changedData/158>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "395.0" .
+    
+    <http://www.example.com/insertChange/36>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/36> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "other_colors" .
+    
+    <http://www.example.com/changedData/11>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/changedData/137>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/insertChange/172>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/172> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "price" .
+    
+    <http://www.example.com/insertChange/151>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/151> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/8>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No" .
+    
+    <http://www.example.com/insertChange/109>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/109> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "depth" .
+    
+    <http://www.example.com/changedData/82>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "91" .
+    
+    <http://www.example.com/insertChange/251>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/251> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/insertChange/65>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/65> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/changedData/40>
+            a       <https://www.w3id.org/OSCD#ChangedData> .
+    
+    <http://www.example.com/changedData/166>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "102" .
+    
+    <http://www.example.com/insertChange/23>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/23> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "short_description" .
+    
+    <http://www.example.com/insertChange/180>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/180> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+    
+    <http://www.example.com/changedData/124>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "95" .
+    
+    <http://www.example.com/insertChange/159>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/159> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "old_price" .
+    
+    <http://www.example.com/insertChange/138>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-18 00:44:11.207578"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/138> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "height" .
+}

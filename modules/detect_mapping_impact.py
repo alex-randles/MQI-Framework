@@ -88,7 +88,6 @@ class DetectMappingImpact:
             "insert": defaultdict(dict),
             "delete": defaultdict(dict),
         }
-        self.mapping_impact[mapping_impact_key]["delete"] = defaultdict(dict)
         for row in query_results:
             change_identifier = str(row.get("change"))
             data_reference = str(row.get("data"))

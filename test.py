@@ -23,21 +23,22 @@ for k,v in ddiff.items():
         for object in v:
             if object:
                 print(object)
-                name = "{}".format(object)
-                print(name)
+                name = "{}".format(object.replace("'", '"'))
                 object_name = re.findall('"([^"]*)"', name)
                 print(object_name)
                 if object_name:
                     object_name = object_name[0]
                     print(object_name)
                     object_value = json1.get(object_name)
+                    if not object_value:
+                        object_value = json2.get(object_name)
                     output_changes[change_type][change_id] = {
-                                                 "structural_reference": "Object",
+                                                 "structural_reference": "Key",
                                                  "change_reason": "{}: {}".format(object_name, object_value),
                                              }
                     change_id += 1
 
-print(output_changes)
+print(dict(output_changes))
 
 
    # if change_type == "columns_added":

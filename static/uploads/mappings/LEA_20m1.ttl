@@ -6,7 +6,7 @@
 
 <#TriplesMap1>
 	rr:logicalTable [
-		rr:tableName "products.csv" ;
+		rr:tableName "employee.csv" ;
 	] ;
 
 	rr:predicateObjectMap [

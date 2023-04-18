@@ -11,7 +11,7 @@
 <#TriplesMap2>	
 	
  rr:logicalTable [ 	
- 	 rr:tableName "geo-objects";	
+ 	 rr:tableName "student.csv";
 	 rr:sqlVersion "1.1";	
  ];	
 	
@@ -23,7 +23,7 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate geo:hasWKT;	
 	 rr:objectMap [	
-		 rr:column "GEOMETRY";	
+		 rr:column "ss";
 		 rr:language "gl-ES";	
 		 rr:termType rr:IRIs;	
 		]; 	

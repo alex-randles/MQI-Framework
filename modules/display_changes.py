@@ -63,7 +63,6 @@ class DisplayChanges:
         # query to get notification thresholds
         query = """
             PREFIX oscd: <https://www.w3id.org/OSCD#>
-            
             # GET COUNT FOR EACH CHANGE TYPE
             SELECT ?changeType (COUNT(?change) AS ?count)
             WHERE
