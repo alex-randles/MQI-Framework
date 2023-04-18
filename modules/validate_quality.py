@@ -42,6 +42,7 @@ class ValidateQuality:
         self.violation_counter = 0
         self.manager = multiprocessing.Manager()
         self.validation_results = {}  # Shared Proxy to a list
+        self.validation_results = self.manager.Queue()
         self.undefined_values = []
         self.undefined_namespaces = set()
         self.test_count = 0
@@ -121,8 +122,8 @@ class ValidateQuality:
         # iterate each triple map
         # self.update_progress_bar()
         # pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
-        processes = []
-        self.validate_mapping_metrics()
+        processes = [multiprocessing.Process(target=self.validate_mapping_metrics)]
+        processes[0].start()
         for (triple_map_identifier, graph) in self.triple_maps:
             # self.blank_node_references[triple_map_identifier] = self.generate_triple_references(graph)
             self.current_graph = graph
@@ -130,22 +131,47 @@ class ValidateQuality:
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.distinct_properties = self.get_distinct_properties()
-            self.validate_VOC2()
-            self.validate_data_metrics()
-            self.validate_term_map_metrics()
-        #     pr2 = multiprocessing.Process(target=self.validate_data_metrics)
-        #     pr1 = multiprocessing.Process(target=self.validate_mapping_metrics)
-        #     pr1.start()
-        #     pr2.start()
-        #     # pr1.join()
-        #     # pr2.join()
-        #     processes.append(pr1)
-        # for job in processes:
-        #     job.join()
+            # self.validate_VOC2()
+            # self.validate_data_metrics()
+            # self.validate_term_map_metrics()
+            pr2 = multiprocessing.Process(target=self.validate_term_map_metrics)
+            pr1 = multiprocessing.Process(target=self.validate_data_metrics)
+            pr1.start()
+            pr2.start()
+            # pr1.join()
+            # pr2.join()
+            print("hello")
+            processes.append(pr1)
+            processes.append(pr2)
+        print("exit loop")
+        pr1 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
+        pr1.start()
+        processes.append(pr1)
+        for job in processes:
+            job.join()
+        print("jobs joined...")
         self.current_triple_identifier = None
-        self.validate_vocabulary_metrics()
+        # self.validate_vocabulary_metrics()
         # self.validation_results.join()
-        return self.validation_results
+        validation_results = {}
+        counter = 0
+        print(self.validation_results)
+        # self.validation_results.join()
+        test = []
+        while not self.validation_results.empty():
+            item = self.validation_results.get()
+            test.append(item)
+            validation_results[counter] = item
+            counter =+ 1
+        print("finished iteration")
+        print(test)
+        validation_results = {i:dict(test[i]) for i in range(0, len(test))}
+        # self.validation_results.put(None)
+        # print(validation_results, "sdhdh")
+        # exit()
+        self.manager = None
+        self.validation_results = validation_results
+        return validation_results
 
     def validate_data_metrics(self):
         # A function to validate all of the data quality metrics
@@ -234,7 +260,6 @@ class ValidateQuality:
         """ % (property_identifier, property_namespace, property_identifier.split("#")[-1])
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         is_defined_concept = query_results.get("boolean")
-        print(query, "\n\nsjsjsjss")
         if is_defined_concept is False:
             query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % property_namespace
             query_results = self.vocabularies.query_local_graph(property_identifier, query)
@@ -348,8 +373,6 @@ class ValidateQuality:
                     range = self.get_range(property)
                     if range:
                         range = range.strip()
-                        print(range, type(range))
-                        exit()
                         if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith(
                                 "http://www.w3.org/2001/XMLSchema#"):
                             result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(
@@ -699,7 +722,6 @@ class ValidateQuality:
                 query_results = self.vocabularies.query_local_graph(namespace, query)
                 has_label_comment = query_results.get("boolean")
                 if has_label_comment is False:
-                    print(query)
                     query = "ASK { GRAPH <%s> { ?subject ?predicate ?object . } }" % namespace
                     query_results = self.vocabularies.query_local_graph(class_identifier, query)
                     graph_exists = query_results.get("boolean")
@@ -733,7 +755,6 @@ class ValidateQuality:
                 query_results = self.vocabularies.query_local_graph(namespace, query)
                 has_label_comment = query_results.get("boolean")
                 if has_label_comment is False:
-                    print(query)
                     query = "ASK { GRAPH <%s> { <%s> ?predicate ?object . } }" % (namespace, property_identifier)
                     query_results = self.vocabularies.query_local_graph(property_identifier, query)
                     graph_exists = query_results.get("boolean")
@@ -1004,9 +1025,9 @@ class ValidateQuality:
         # else:
         #     self.vocabulary_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
 
-        self.validation_results[violation_identifier] = {key: value for (key, value) in
-                                                         zip(key_values, metric_results[1:len(metric_results)])}
-        # self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
+        # self.validation_results[violation_identifier] = {key: value for (key, value) in
+        #                                                  zip(key_values, metric_results[1:len(metric_results)])}
+        self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
 
     def find_blank_node_reference(self, violation_location, triple_map_identifier):
         if isinstance(violation_location, rdflib.term.BNode):
@@ -1055,7 +1076,7 @@ class ValidateQuality:
         return blank_node_references
 
     def create_validation_report(self, output_file):
-        ValidationReport(self.validation_results, output_file, self.file_name, None, None)
+        ValidationReport(self.validation_results, output_file, self.file_name, None)
 
     def get_properties_datatype(self):
         # A function to retrieve all properties in the mapping with data types related
