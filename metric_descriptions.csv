@@ -2,9 +2,9 @@ METRIC ID,METRIC NAME,METRIC DESCRIPTION
 MP1,Valid language datatype definition,"Objects maps with literal values may refer to only one datatype and no language tags"
 MP2,Valid term type definition,"The term type for a Subject map must be an rr:IRI or an rr:BlankNode"
 MP3,Valid term type definition,"The term type for a Predicate map must an rr:IRI"
-MP4,Valid term type definition,"The term type for an object map must be an rr:IRI, rr:Literal or an rr:BlankNode"
+MP6,Valid term type definition,"The term type for an object map must be an rr:IRI, rr:Literal or an rr:BlankNode"
 MP5,Valid subject definition,"Subject definitions must be valid URIs unless its type is defined as blank node"
-MP6,Valid literal language tags,"Valid language tags are defined as per RFC 5646 (BCP 47) language tags"
+MP11,Valid literal language tags,"Valid language tags are defined as per RFC 5646 (BCP 47) language tags"
 MP7,Child column exist in join condition,A join condition must have a child column
 MP8,Parent column exist in join condition,A join condition must have a parent column 
 D1,Usage of undefined classes,"Classes are considered undefined when it is not possible to dereference them against their namespace"
