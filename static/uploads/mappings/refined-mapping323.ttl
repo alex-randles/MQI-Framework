@@ -13,8 +13,7 @@
 <#Observations>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "SELECT ID from STUDENTS";	
-	 rr:tableName "testing-v1.json";	
+	 rr:tableName "products.csv";
  ];	
 	
  rr:subjectMap [ 	
