@@ -85,7 +85,7 @@
    ];
 
    rr:predicateObjectMap [
-	     rr:predicate oscd:hasPreviousVersion;
+	     rr:predicate oscd:hasPreviousSource;
 	     rr:objectMap [
 			rr:column "VERSION_1";
 			rr:termType rr:IRI;

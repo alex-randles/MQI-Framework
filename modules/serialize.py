@@ -50,7 +50,7 @@ class TurtleSerializer:
 
     def add_triple_map(self, triple_map_identifier):
         # add triple map IRI to output file
-        self.output += "\n%s\n" % (self.get_triple_map_name(triple_map_identifier))
+        self.output += "\n%s\n" % (TurtleSerializer.get_triple_map_name(triple_map_identifier))
         triple_map_values = self.triple_references[triple_map_identifier]
         self.add_non_blank_nodes(triple_map_values)
         self.add_blank_nodes(triple_map_values)
@@ -201,7 +201,8 @@ class TurtleSerializer:
             self.output += "\t" * 2 + "]; \n"
             self.tab_count = 1
 
-    def get_triple_map_name(self, triple_map_identifier):
+    @staticmethod
+    def get_triple_map_name(triple_map_identifier):
         if "#" in triple_map_identifier:
             return "<#%s>" % (triple_map_identifier.split("#")[-1])
         elif "/" in triple_map_identifier:
