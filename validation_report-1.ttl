@@ -3,6 +3,7 @@
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -23,6 +24,24 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-7,
         ex:violation-8,
         ex:violation-9 .
+
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-18T01:22:56.169740"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:termType ?currentTermType  } 
+                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#BlankNode> } 
+                WHERE { 
+                    SELECT ?subject ?currentTermType
+                    WHERE {
+                          ?subject ?p ?o . 
+                          OPTIONAL { ?subject rr:termType ?currentTermType }
+                          FILTER(str(?subject) = "ub2bL24C16").
+                    }
+                }; 
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-3 ;
+    mqio:refinementName "Change Term Type"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
@@ -50,13 +69,6 @@ ex:violation-2 a mqio:MappingViolation ;
     mqio:inTripleMap <#Appellation> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
 ex:violation-4 a mqio:MappingViolation ;
     mqio:hasLiteralValue "dhddh"^^xsd:string ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
@@ -70,12 +82,12 @@ ex:violation-5 a mqio:MappingViolation ;
     mqio:isDescribedBy mqio-metrics:VOC3 .
 
 ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasObjectValue b2022: ;
+    mqio:hasObjectValue cidoc: ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasObjectValue cidoc: ;
+    mqio:hasObjectValue b2022: ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
@@ -90,4 +102,12 @@ ex:violation-9 a mqio:MappingViolation ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
 <test_mapping.ttl> a mqio:MappingArtefact .
+
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Appellation> ;
+    mqio:isDescribedBy mqio-metrics:MP6 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

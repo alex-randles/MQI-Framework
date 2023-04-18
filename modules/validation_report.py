@@ -93,7 +93,6 @@ class ValidationReport:
         result_message = rdflib.term.Literal(violation_information.get("result_message"), datatype=rdflib.XSD.string)
         self.validation_graph.add((current_violation_identifier, rdflib.RDF.type, self.MQIO.MappingViolation))
         self.validation_graph.add((current_violation_identifier, self.MQIO.isDescribedBy, mqio_metric_identifier))
-        # self.validation_graph.add((metric_identifier, rdflib.RDF.type, mqv_metric_identifier))
         self.validation_graph.add((current_violation_identifier, self.MQIO.hasResultMessage, result_message))
         self.insert_violation_value(violation_information, current_violation_identifier)
         self.insert_violation_location(violation_information, current_violation_identifier)
@@ -117,7 +116,6 @@ class ValidationReport:
         else:
             formatted_identifier = triple_map_name
         return rdflib.term.URIRef("%s" % formatted_identifier)
-
 
     def insert_triple_map(self, violation_information, current_violation_identifier):
         triple_map_name = violation_information.get("triple_map")
@@ -158,16 +156,12 @@ class ValidationReport:
         self.validation_graph.bind("prov", self.PROV)
         self.validation_graph.bind("mqio-metrics", self.MQIO_METRIC)
         self.validation_graph.bind("rml", self.RML)
-        self.validation_graph.bind("rdf", rdflib.Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#"))
         self.bind_mapping_namespaces()
 
     def bind_mapping_namespaces(self):
         # bind the namespaces used in the original/refined mapping
-        validation_report_namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
-        print("printing mapping namespaces....")
-        print(self.mapping_namespaces)
         for (prefix, namespace) in self.mapping_namespaces.items():
-            if namespace !=rdflib.term.URIRef(self.EX):
+            if namespace != rdflib.term.URIRef(self.EX):
                 self.validation_graph.bind(prefix, namespace)
 
     def print_graph(self):
