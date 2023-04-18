@@ -18,9 +18,9 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate geo:hasWKT;	
 	 rr:objectMap [	
-		 rr:language "gu-IN";	
 		 rr:column "GEOMETRY";	
 		 rr:termType rr:IRI;	
+		 rr:language rr:IRI, "lt-LT";	
 		]; 	
  ];	
 .	
