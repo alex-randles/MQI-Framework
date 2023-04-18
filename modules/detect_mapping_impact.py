@@ -2,20 +2,21 @@
 from rdflib import *
 from collections import defaultdict
 import json
+import rdflib
 
 class DetectMappingImpact:
 
     def __init__(self, mapping_details, changes_file):
-        self.changes_graph = ConjunctiveGraph()
         print("detecting mapping impact.....")
+        self.changes_graph = rdflib.ConjunctiveGraph()
         self.changes_graph.parse("./static/change_detection_cache/change_graphs/" + changes_file, format="trig")
         self.mapping_details = mapping_details
-        mapping_file = mapping_details.get("filename")
-        mapping_graph_identifier = URIRef("http://www.example.com/mappingGraph/" + mapping_file)
-        mapping_graph = Graph().parse("./static/uploads/mappings/" + mapping_file, format="ttl")
-        for s, p, o in mapping_graph.triples((None, None, None)):
-            self.changes_graph.add((s,p,o, mapping_graph_identifier))
-        self.changes_graph.serialize(destination="test.trig", format="trig")
+        # mapping_file = mapping_details.get("filename")
+        # mapping_graph_identifier = URIRef("http://www.example.com/mappingGraph/" + mapping_file)
+        # mapping_graph = Graph().parse("./static/uploads/mappings/" + mapping_file, format="ttl")
+        # for s, p, o in mapping_graph.triples((None, None, None)):
+        #     self.changes_graph.add((s,p,o, mapping_graph_identifier))
+        # self.changes_graph.serialize(destination="test.trig", format="trig")
         self.mapping_impact = {
             "structural_changes":  defaultdict(dict),
             "data_reference_changes": defaultdict(dict),
@@ -38,7 +39,7 @@ class DetectMappingImpact:
               GRAPH ?changesGraph {    			 
                 ?changeLog a oscd:ChangeLog;
                         oscd:hasChange ?change;
-                        oscd:hasCurrentVersion ?currentVersion .
+                        oscd:hasCurrentSource ?currentSource .
                 ?change oscd:hasDataReference ?reference;
                         oscd:hasChangedData ?changedData .
                 ?changedData rdfs:comment ?data . 
@@ -55,7 +56,8 @@ class DetectMappingImpact:
             data_reference = str(row.get("reference"))
             changed_data = str(row.get("data"))
             print(changed_data)
-            change_type = self.get_change_type(change_identifier)
+            # change_type = self.get_change_type(change_identifier)
+            change_type = "insert" if "insert" in change_identifier else "delete"
             if data_reference not in self.mapping_impact[mapping_impact_key][change_type]:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference] = [changed_data]
             else:
@@ -80,7 +82,7 @@ class DetectMappingImpact:
                   WHERE {
                           ?changeLog a oscd:ChangeLog;
                                      oscd:hasChange ?change;
-                                     oscd:hasCurrentVersion ?currentVersion .
+                                     oscd:hasCurrentSource ?currentSource .
                           ?change oscd:hasStructuralReference ?reference;
                                   oscd:hasChangedData ?changedData .
                           ?changedData rdfs:comment ?data . 
@@ -99,13 +101,12 @@ class DetectMappingImpact:
             data_reference = str(row.get("data"))
             changed_data = str(row.get("changedValue"))
             print(changed_data)
-            change_type = self.get_change_type(change_identifier)
+            change_type = "insert" if "insert" in change_identifier else "delete"
             if data_reference not in self.mapping_impact[mapping_impact_key][change_type]:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference] = [changed_data]
             else:
                 self.mapping_impact[mapping_impact_key][change_type][data_reference].append(changed_data)
         self.detect_move_change()
-
 
     def detect_move_change(self):
         query = """

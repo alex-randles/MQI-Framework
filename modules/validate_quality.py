@@ -348,6 +348,8 @@ class ValidateQuality:
                     range = self.get_range(property)
                     if range:
                         range = range.strip()
+                        print(range, type(range))
+                        exit()
                         if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith(
                                 "http://www.w3.org/2001/XMLSchema#"):
                             result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(

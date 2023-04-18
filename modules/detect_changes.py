@@ -9,8 +9,8 @@ import xmldiff
 from collections import defaultdict
 import csv_diff
 import csv
-import r2rml as r2rml
-from validate_notification_policy import ValidateNotificationPolicy
+import modules.r2rml as r2rml
+from modules.validate_notification_policy import ValidateNotificationPolicy
 
 class DetectChanges:
 
@@ -18,13 +18,11 @@ class DetectChanges:
         self.form_details = form_details
         self.is_csv_data = "CSV-URL-2" in self.form_details.keys()
         self.version_1_source, self.version_2_source = self.fetch_source_data()
-        self.detect_source_changes()
-        exit()
         self.user_id = "1"
         self.error_code = 0
         self.graph_version = self.find_graph_version()
         self.output_file = r2rml.r2rml_output_file.format(self.graph_version)
-        self.execute_change_detection()
+        self.detect_source_changes()
         self.create_notification_csv()
         self.update_r2rml_config()
         self.execute_r2rml()
@@ -41,7 +39,7 @@ class DetectChanges:
 
     def detect_source_changes(self):
         if self.is_csv_data:
-            pass
+            self.detect_csv_changes()
         else:
             self.detect_xml_changes()
 
@@ -50,7 +48,10 @@ class DetectChanges:
         self.diff = xmldiff.main.diff_texts(
             self.version_1_source,
             self.version_2_source,
-            formatter=xmldiff.formatting.XMLFormatter())
+            formatter=xmldiff.formatting.XMLFormatter(),
+            )
+        print(self.diff)
+        exit()
         self.format_XML_changes()
 
     def format_XML_changes(self):
@@ -75,17 +76,9 @@ class DetectChanges:
         else:
             return 1
 
-    def execute_change_detection(self):
-        self.fetch_csv_data()
-
-    def fetch_csv_data(self):
-        csv_diff = self.detect_csv_changes()
-        output_changes = self.format_csv_changes(csv_diff)
-        self.output_changes(output_changes)
-
     def detect_csv_changes(self):
-        version_1_file_object = io.StringIO(self.version_1_csv)
-        version_2_file_object = io.StringIO(self.version_2_csv)
+        version_1_file_object = io.StringIO(self.version_1_source)
+        version_2_file_object = io.StringIO(self.version_2_source)
         diff = csv_diff.compare(
             csv_diff.load_csv(version_1_file_object),
             csv_diff.load_csv(version_2_file_object),

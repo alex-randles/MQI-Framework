@@ -346,15 +346,7 @@ class DisplayChanges:
     def get_changes_source(self):
         # get the reasons for changes occurring
         query = """
-        PREFIX changes-graph: <http://www.example.com/changesGraph/user/>
-        PREFIX notification-graph: <http://www.example.com/notificationGraph/user/>
-        PREFIX contact-graph: <http://www.example.com/contactDetailsGraph/user/>
         PREFIX oscd: <https://www.w3id.org/OSCD#>
-        PREFIX rei-constraint: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#>
-        PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-        PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-        PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
         # GET XML FILE DETAILS FROM CHANGE GRAPH 
         SELECT ?currentSource ?previousSource
         WHERE

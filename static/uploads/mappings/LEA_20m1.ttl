@@ -2,10 +2,11 @@
 @prefix ont: <http://ontologies.geohive.ie/osi#> .
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 
 <#TriplesMap1>
 	rr:logicalTable [
-		rr:tableName "student.csv" ;
+		rr:tableName "products.csv" ;
 	] ;
 
 	rr:predicateObjectMap [
@@ -19,7 +20,7 @@
 	rr:predicateObjectMap [
 		rr:predicate rdfs:label ;
 		rr:objectMap [
-			rr:column "ENGLISH" ;
+			rml:reference "item_id" ;
 		] ;
 	] ;
 
