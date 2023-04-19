@@ -815,6 +815,27 @@ class ValidateQuality:
                     "PREFIX dct: <http://purl.org/dc/terms/> " \
                     "ASK { GRAPH <%s> { ?subject a owl:Ontology; " \
                     "              %s ?label . } } " % (namespace, "|".join(provenance_predicates))
+            query = """
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+                    PREFIX dc: <http://purl.org/dc/elements/1.1/> 
+                    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                    PREFIX dcterms: <http://purl.org/dc/terms/> 
+                    PREFIX dct: <http://purl.org/dc/terms/>
+                    ASK 
+                    WHERE { 
+                        {
+                        GRAPH <%s>
+                        { ?subject a owl:Ontology;                             
+                                   %s  ?label . }   
+                      }
+                      UNION 
+                      {
+                        GRAPH <%s>
+                        { <%s>  %s ?label . }   
+                      
+                      }
+                    } """ % (namespace, "|".join(provenance_predicates), namespace, namespace, "|".join(provenance_predicates))
             query_results = self.vocabularies.query_local_graph(namespace, query)
             has_license = query_results.get("boolean")
             if not has_license:
