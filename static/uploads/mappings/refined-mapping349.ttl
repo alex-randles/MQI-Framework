@@ -30,16 +30,16 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:comment;	
+ 	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:termType rr:rirri;	
 		]; 	
  ];	
 	
@@ -80,10 +80,10 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate dc:type;	
+ 	 rr:predicate dc:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:termType rr:BlankNode;	
 		]; 	
  ];	
 	

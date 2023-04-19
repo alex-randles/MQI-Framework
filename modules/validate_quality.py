@@ -165,7 +165,7 @@ class ValidateQuality:
             counter =+ 1
         print("finished iteration")
         print(test)
-        validation_results = {i:dict(test[i]) for i in range(0, len(test))}
+        validation_results = {i: dict(test[i]) for i in range(0, len(test))}
         # self.validation_results.put(None)
         # print(validation_results, "sdhdh")
         # exit()
