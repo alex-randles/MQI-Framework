@@ -3,6 +3,7 @@ import json
 from deepdiff import DeepDiff
 import re
 import deepdiff
+import pprint
 from collections import defaultdict
 json1 = json.loads('{"isDynamic": false, "name": "", "value": "SID:<sid>", "description": "instance","argsOrder": 1,"isMultiSelect": false}')
 
@@ -40,8 +41,8 @@ for k,v in ddiff.items():
                                                      "change_reason": "{}".format(object_value),
                                                  }
                         change_id += 1
+                    else
 
-import pprint
 pprint.pprint(json.loads(json.dumps(output_changes)))
 
 
