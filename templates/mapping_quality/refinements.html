@@ -141,7 +141,7 @@ function validateRefinementExecution() {
                 <label for={{form_value}}>
                     Property: <strong>{{find_prefix(value)}}</strong>
                 </label>
-                <input class="form-control my-2 w-100" list={{prefix_value}} name={{prefix_value}} id="exampleDataList" placeholder="Search for a prefix" required>
+                <input class="form-control my-2 w-100 h-50" list={{prefix_value}} name={{prefix_value}} id="exampleDataList" placeholder="Search for a prefix" required>
                 <datalist id={{prefix_value}}>
                     <option value="" disabled selected>Choose a prefix </option>
                     {% for prefix in prefix_values.keys() %}
