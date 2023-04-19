@@ -78,11 +78,12 @@ class Refinements:
             "AddChildColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": [self.R2RML.child]},
 
-            "AddSubjectMap": {"user_input": True, "requires_prefixes": None, "restricted_values": None,
+            "AddSubjectMap": {"user_input": True,
                               "user_input_values": {
                                   "requires_prefixes": [self.R2RML + "class"],
                                   "no_prefixes":       [str(self.R2RML.template)],
-                              }},
+                              },
+                              },
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": [self.R2RML.tableName, self.R2RML.sqlQuery, self.R2RML.sqlVersion]},
@@ -104,8 +105,11 @@ class Refinements:
             "RemoveClass": {"user_input": True, "requires_prefixes": False, "restricted_values": self.get_classes,
                             "user_input_values": [self.R2RML + "class"]},
 
-            "ChangeClass": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                            "user_input_values": [self.R2RML + "class"]},
+            "ChangeClass": {"user_input": True,
+                            "user_input_values": {
+                                "requires_prefixes": [self.R2RML + "class"],
+                            },
+                            },
 
             "AddCorrectRange": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                 "user_input_values": self.find_range},

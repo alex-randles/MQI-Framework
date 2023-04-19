@@ -6,6 +6,7 @@
 @prefix cidoc: <http://erlangen-crm.org/current/> . 
 @prefix dc: <http://purl.org/dc/elements/1.1/> . 
 @prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
+@prefix prov: <http://www.w3.org/ns/prov#> . 
 
 	
 <#Organisation>	
@@ -28,18 +29,18 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rr:logicalTable;	
+ 	 rr:predicate rr:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:termType rr:rirri;	
 		]; 	
  ];	
 	
@@ -72,10 +73,10 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
+ 	 rr:predicate prov:generatedAtTime;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:datatype xsd:dateTime;	
 		]; 	
  ];	
 	
@@ -115,6 +116,10 @@
 		 """;	
  ];	
 	
+ rr:subjectMap [ 	
+ 	 rr:class rdfs:Classs;	
+ ];	
+	
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
@@ -126,16 +131,16 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate dc:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:termType rr:rirri;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 .	
@@ -162,8 +167,9 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:language "enenehe";	
+		 rr:termType rr:rirri;	
 		]; 	
  ];	
 	
@@ -178,8 +184,8 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 .	

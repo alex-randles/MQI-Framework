@@ -4,6 +4,7 @@
 @prefix cidoc: <http://erlangen-crm.org/current/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/>.
 @prefix b2022: <https://ont.beyond2022.ie/ontology#> .
+@prefix prov: <http://www.w3.org/ns/prov#> . 
 
 <#Organisation>
 	a rr:TriplesMap ;
@@ -60,8 +61,8 @@
 
 
 	rr:predicateObjectMap [
-		rr:predicate rdfs:labels ;
-		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:rirri; ] ;
+		rr:predicate prov:generatedAtTime ;
+		rr:objectMap [ rr:template "{LABEL}" ; rr:datatype xsd:integer ; ] ;
 	] ;
 	
 	
@@ -94,6 +95,11 @@
 			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL
 		) X INNER JOIN DATA Y ON X.ID = Y.ID 
 		""" ] ;
+		
+		
+	rr:subjectMap [
+	   rr:class rdfs:Classs;
+	]; 	
 
 
 	rr:predicateObjectMap [
@@ -134,7 +140,7 @@
 
 	rr:predicateObjectMap [
 		rr:predicate rdfs:labels ;
-		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:rirri; ] ;
+		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:rirri; rr:language "enenehe"; ] ;
 	] ;
 	
 	

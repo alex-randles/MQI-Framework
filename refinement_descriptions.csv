@@ -7,7 +7,7 @@ AddSubjectMap,Add a subject map to the triple map
 AddPredicate,Input a predicate into the triple map
 AddCorrectDatatype,Suggest range of property
 ChangePredicate,Input a new property
-ChangeLanguageTag,Valid language tags can be selected
+ChangeLanguageTag,Choose a valid language tag
 FindSimilarPredicates,Suggest properties in same namespace
 FindSimilarClasses,Suggest classes in same namespace
 RemoveClass,Remove current class
