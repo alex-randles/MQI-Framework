@@ -6,7 +6,7 @@ import deepdiff
 from collections import defaultdict
 json1 = json.loads('{"isDynamic": false, "name": "", "value": "SID:<sid>", "description": "instance","argsOrder": 1,"isMultiSelect": false}')
 
-json2 = json.loads('{ "name": "ss","isDynamic": false, "ss": false, "description": "instance","argsOrder": 1,"isMultiSelect": false}')
+json2 = json.loads('{ "name": "ss","isDynamic": false, "module": "CS171", "ss": {"1":"test", "2": "try"}, "description": "instance","argsOrder": 1,"isMultiSelect": false}')
 
 ddiff = DeepDiff(json1, json2, ignore_order=True)
 # res = jsondiff.diff(json1, json2)
@@ -22,23 +22,27 @@ for k,v in ddiff.items():
         change_type = "delete" if "removed" in k else "insert"
         for object in v:
             if object:
-                print(object)
                 name = "{}".format(object.replace("'", '"'))
                 object_name = re.findall('"([^"]*)"', name)
-                print(object_name)
                 if object_name:
                     object_name = object_name[0]
-                    print(object_name)
                     object_value = json1.get(object_name)
                     if not object_value:
                         object_value = json2.get(object_name)
-                    output_changes[change_type][change_id] = {
-                                                 "structural_reference": "Key",
-                                                 "change_reason": "{}: {}".format(object_name, object_value),
-                                             }
-                    change_id += 1
+                    if not isinstance(object_value, dict):
+                        output_changes[change_type][change_id] = {
+                                                     "structural_reference": "Key",
+                                                     "change_reason": "{}".format(object_name),
+                                                 }
+                        change_id += 1
+                        output_changes[change_type][change_id] = {
+                                                     "data_reference": "{}".format(object_name),
+                                                     "change_reason": "{}".format(object_value),
+                                                 }
+                        change_id += 1
 
-print(dict(output_changes))
+import pprint
+pprint.pprint(json.loads(json.dumps(output_changes)))
 
 
    # if change_type == "columns_added":

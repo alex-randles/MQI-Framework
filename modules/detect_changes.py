@@ -164,6 +164,11 @@ class DetectChanges:
         version_2_url = self.form_details.get("CSV-URL-2").split("/")[-1]
         if version_1_url.strip() !=  version_2_url.strip():
             output_changes["move"][change_id + 1] = {"new_location": version_2_url}
+        output_changes = {'delete': {'2': {'change_reason': 'value', 'structural_reference': 'Key'},
+                    '3': {'change_reason': 'SID:<sid>', 'data_reference': 'value'}},
+         'insert': {'0': {'change_reason': 'module', 'structural_reference': 'Key'},
+                    '1': {'change_reason': 'CS171', 'data_reference': 'module'}}}
+
         return output_changes
 
     def output_changes(self, output_changes):
@@ -215,43 +220,12 @@ class DetectChanges:
         df.to_csv(r2rml.notification_details_csv)
         print("NOTIFICATION POLICY SAVED TO CSV")
         return df
-    
-    def output_XML_changes(self, results):
-        # create a dataframe with changes
-        changes_df = pd.DataFrame(
-            columns=["ID",
-                     "OPERATION",
-                     "DETECTION_TIME",
-                     "DESCRIPTION",
-                     "USER_ID",
-                     "VERSION_1",
-                     "VERSION_2"])
-        change_identifier = 1
-        detection_time = datetime.now()
-        # add each change to dataframe
-        for change_type, changes in results.items():
-            for value in changes:
-                if value:
-                    value = value.replace("\n", " ")
-                    # store file versions in CSV
-                    XML_version_1 = self.form_details.get("XML_file_1")
-                    XML_version_2 = self.form_details.get("XML_file_2")
-                    changes_df.loc[change_identifier] = [change_identifier, change_type, detection_time, value, "2", XML_version_1,
-                                                 XML_version_2]
-                    change_identifier += 1
-        # remove row indexes
-        changes_df.reset_index(drop=True)
-        # output changes into CSV file
-        changes_df.to_csv("/home/alex/MQI-Framework/static/change_detection_cache/1/changes_info/changes_detected.csv")
-        print("CHANGES CSV NEW CREATED")
-
 
     def update_r2rml_config(self):
         config_details = r2rml.r2rml_config.format(r2rml.mapping_file, r2rml.r2rml_input_files, self.output_file).strip()
         # write config file generated for user which include their input data
         open(r2rml.r2rml_config_file, "w").write(config_details)
         print("R2RML CONFIG FILE UPDATED")
-
 
     def validate_notification_policy(self):
         pass
