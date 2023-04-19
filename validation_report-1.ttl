@@ -1,8 +1,8 @@
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> .
-@prefix cidoc: <http://erlangen-crm.org/current/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix ex: <http://example.org/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -22,7 +22,6 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-15,
         ex:violation-16,
         ex:violation-17,
-        ex:violation-18,
         ex:violation-2,
         ex:violation-3,
         ex:violation-4,
@@ -32,91 +31,99 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-8,
         ex:violation-9 .
 
+ex:refinement-0 a mqio:MappingRefinement ;
+    prov:endedAtTime "2023-04-18T23:59:02.240139"^^xsd:dateTime ;
+    mqio:hasRefinementQuery """
+            PREFIX dc: <http://purl.org/dc/elements/1.1/>
+            PREFIX rr: <http://www.w3.org/ns/r2rml#>
+            INSERT
+            {
+              ?tripleMap rr:subjectMap _:Nec131b2abc8b4ef1a9c55418f2aa2693 .
+               _:Nec131b2abc8b4ef1a9c55418f2aa2693 rr:class <http://purl.org/dc/terms/hhh>  ;
+                    rr:template 'nnn' . 
+            }
+            WHERE {
+              ?tripleMap rr:predicateObjectMap ?pom .
+              FILTER(str(?tripleMap) = "file:///home/alex/MQI-Framework/static/uploads/mappings/test_mapping.ttl#Organisation2").
+            }
+        """^^xsd:string ;
+    mqio:refinedViolation ex:violation-3 ;
+    mqio:refinementName "Add Subject Map"^^xsd:string .
+
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue b2022:sss ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#Organisation1> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue dc:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue b2022:E81_Actor_Appellation ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rdfs:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-10 a mqio:MappingViolation ;
-    mqio:hasLiteralValue "djjdjdjdj"^^xsd:string ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasResultMessage "Language tag not defined in RFC 5646."^^xsd:string ;
-    mqio:inTripleMap <#Organisation1> ;
-    mqio:isDescribedBy mqio-metrics:MP11 .
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-11 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue cidoc:E41_Appellations ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-12 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue cidoc:E41_Appellations ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#Organisation1> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-13 a mqio:MappingViolation ;
+    mqio:hasObjectValue rdfs: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-14 a mqio:MappingViolation ;
+    mqio:hasObjectValue dc: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-15 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-16 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-17 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
     mqio:hasObjectValue rdfs:labels ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
+    mqio:inTripleMap <#Organisation2> ;
     mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-14 a mqio:MappingViolation ;
-    mqio:hasObjectValue cidoc: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-15 a mqio:MappingViolation ;
-    mqio:hasObjectValue b2022: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-16 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-17 a mqio:MappingViolation ;
-    mqio:hasObjectValue b2022: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-18 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation1> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:testing ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation1> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-4 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
@@ -126,36 +133,41 @@ ex:violation-4 a mqio:MappingViolation ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rdfs:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-6 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rdfs:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-7 a mqio:MappingViolation ;
+    mqio:hasObjectValue rdfs: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-8 a mqio:MappingViolation ;
+    mqio:hasObjectValue dc: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
+
+ex:violation-9 a mqio:MappingViolation ;
     mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
     mqio:inTripleMap <#Organisation> ;
     mqio:isDescribedBy mqio-metrics:MP2 .
 
-ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasObjectValue b2022: ;
-    mqio:hasResultMessage "No Basic Provenance Information."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:VOC3 .
-
-ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
-ex:violation-9 a mqio:MappingViolation ;
-    mqio:hasLiteralValue "dhddh"^^xsd:string ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasResultMessage "Datatype must be a valid IRI."^^xsd:string ;
-    mqio:inTripleMap <#Appellation> ;
-    mqio:isDescribedBy mqio-metrics:MP10 .
-
 <test_mapping.ttl> a mqio:MappingArtefact .
+
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:MP2 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
