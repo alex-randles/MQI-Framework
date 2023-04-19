@@ -156,14 +156,10 @@ class ValidateQuality:
         return self.validation_results
 
     def convert_results_queue(self):
-        counter = 0
-        print(self.validation_results)
-        # self.validation_results.join()
         validation_results = []
         while not self.validation_results.empty():
             item = self.validation_results.get()
             validation_results.append(item)
-            counter =+ 1
         validation_results = {i: dict(validation_results[i]) for i in range(0, len(validation_results))}
         return validation_results
 
@@ -358,27 +354,23 @@ class ValidateQuality:
             if term_type:
                 resource_type = self.get_type(property)
                 if (rdflib.OWL.DatatypeProperty in resource_type) and (
-                        term_type != rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
+                        term_type != self.R2RML.Literal):
                     result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(
                         self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
                 elif (rdflib.OWL.ObjectProperty in resource_type or rdflib.RDF.Property in resource_type) and (
-                        term_type == rdflib.term.URIRef("http://www.w3.org/ns/r2rml#Literal")):
+                        term_type == self.R2RML.Literal):
                     range = self.get_range(property)
                     if range:
                         range = range.strip()
-                        if range != "http://www.w3.org/2000/01/rdf-schema#Literal" and not range.startswith(
-                                "http://www.w3.org/2001/XMLSchema#"):
+                        if range != str(self.R2RML.Literal) and not range.startswith(str(rdflib.XSD)):
                             result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(
                                 self.find_prefix(property).strip())
                             self.add_violation([metric_identifier, result_message, term_type, objectMap])
 
     @staticmethod
     def validate_sub_type(datatype, range):
-        sub_types = [rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#long"),
-                     rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonNegativeInteger"),
-                     rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#nonPositiveInteger"),
-                     rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#integer")]
+        sub_types = [rdflib.XSD.long, rdflib.XSD.nonNegativeInteger, rdflib.XSD.nonPositiveInteger, rdflib.XSD.integer,]
         if range in sub_types and datatype in sub_types:
             return True
         return False
@@ -388,8 +380,7 @@ class ValidateQuality:
         metric_identifier = "D7"
         result_message = "Usage of incorrect datatype."
         # xsd:anySimpleType, xsd:anyType could be declared as datatypes in the vocabulary
-        excluded_datatypes = [rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anyType"),
-                              rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anySimpleType")]
+        excluded_datatypes = [rdflib.XSD.anyType, rdflib.XSD.anySimpleType]
         # only if datatype
         for key in list(self.properties):
             property = self.properties[key]["property"]
@@ -398,7 +389,7 @@ class ValidateQuality:
             # if a datatype assigned to object map
             if datatype:
                 range = self.get_range(property)
-                if range != rdflib.term.URIRef("http://www.w3.org/2001/XMLSchema#anyURI"):
+                if range != rdflib.XSD.anyURI:
                     # if any of the datatypes can be any datatype, skip this iteration
                     if datatype in excluded_datatypes:
                         continue
@@ -449,7 +440,6 @@ class ValidateQuality:
             PREFIX rr: <http://www.w3.org/ns/r2rml#>
             SELECT ?pom
             WHERE {
-              
               OPTIONAL { ?tripleMap rr:predicateObjectMap ?pom . ?pom rr:predicateMap|rr:predicate ?predicate . }
               OPTIONAL { ?tripleMap rr:predicateObjectMap ?pom . ?pom rr:objectMap|rr:object ?om . }
               FILTER(!BOUND(?predicate) || !BOUND(?om))
@@ -1229,9 +1219,7 @@ class ValidateQuality:
 
     @staticmethod
     def is_excluded_domain(classes, domains):
-        excluded_domains = ["http://www.w3.org/2000/01/rdf-schema#Class",
-                            "http://www.w3.org/2000/01/rdf-schema#Resource",
-                            "http://www.w3.org/2002/07/owl#Thing"]
+        excluded_domains = [str(rdflib.RDFS.Class), str(rdflib.RDFS.Resource), str(rdflib.OWL.thing)]
         for class_name in [str(v["class"]) for k, v in classes.items()]:
             if class_name in excluded_domains:
                 return True
