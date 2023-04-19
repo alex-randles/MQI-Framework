@@ -144,33 +144,27 @@ class ValidateQuality:
             processes.append(pr1)
             processes.append(pr2)
         print("exit loop")
+        self.current_triple_identifier = None
         pr1 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
         pr1.start()
         processes.append(pr1)
         for job in processes:
             job.join()
         print("jobs joined...")
-        self.current_triple_identifier = None
-        # self.validate_vocabulary_metrics()
-        # self.validation_results.join()
-        validation_results = {}
+        self.manager = None
+        self.validation_results = self.convert_results_queue()
+        return self.validation_results
+
+    def convert_results_queue(self):
         counter = 0
         print(self.validation_results)
         # self.validation_results.join()
-        test = []
+        validation_results = []
         while not self.validation_results.empty():
             item = self.validation_results.get()
-            test.append(item)
-            validation_results[counter] = item
+            validation_results.append(item)
             counter =+ 1
-        print("finished iteration")
-        print(test)
-        validation_results = {i: dict(test[i]) for i in range(0, len(test))}
-        # self.validation_results.put(None)
-        # print(validation_results, "sdhdh")
-        # exit()
-        self.manager = None
-        self.validation_results = validation_results
+        validation_results = {i: dict(validation_results[i]) for i in range(0, len(validation_results))}
         return validation_results
 
     def validate_data_metrics(self):

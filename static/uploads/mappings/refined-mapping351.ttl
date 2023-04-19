@@ -28,10 +28,18 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rr:logicalTable;	
+ 	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
 		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdfs:comment;	
+	 rr:objectMap [	
+		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 	
@@ -40,14 +48,6 @@
 	 rr:objectMap [	
 		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
 		]; 	
  ];	
 .	
@@ -80,98 +80,10 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate dc:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
+ 	 rr:predicate dc:type;	
 	 rr:objectMap [	
 		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
-		]; 	
- ];	
-.	
-	
-<#Organisation3>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate dc:labels;	
-	 rr:objectMap [	
-		 rr:termType rr:rirri;	
-		 rr:template "{LABEL}";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-.	
-	
-<#Organisation4>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:termType rr:rirri;	
-		 rr:template "{LABEL}";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate dc:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
 		]; 	
  ];	
 	
