@@ -39,8 +39,8 @@ class Refinements:
             "MP2": ["AddSubjectMap"],
             "MP4": ["AddPredicate", "AddObjectMap"],
             "MP5": ["AddChildColumn", "AddParentColumn"],
-            "MP6": ["RemoveLanguageTag", "RemoveDatatype"],
-            "MP7": ["ChangeTermType", "RemoveTermType"],
+            "MP6": ["ChangeTermType", "RemoveTermType"],
+            "MP7": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP8": ["ChangeClass"],
             "MP9": ["ChangeIRI"],
             "MP10": ["ChangeIRI", "RemoveDatatype"],
@@ -262,6 +262,14 @@ class Refinements:
                     refinements[violation_identifier] = {"name": selected_refinement, "user_input": False,
                                                          "values": selected_refinement}
         return refinements
+
+
+    @staticmethod
+    def get_rdflib_term_value(str):
+        try:
+            return rdflib.term.URIRef(str)
+        except Exception as e:
+            return rdflib.term.Literal(str)
 
     @staticmethod
     def parse_mapping_value(mapping_value):
@@ -728,6 +736,7 @@ class Refinements:
         mapping_graph.add((subject_map_identifier, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#class"), rdflib.term.URIRef(class_identifier)))
         mapping_graph.add((subject_map_identifier, self.R2RML.template, rdflib.term.Literal(template_string)))
         self.triple_references[URIRef(triple_map)][self.R2RML.subjectMap] = [subject_map_identifier]
+        print("yeyeys")
         return update_query
 
     def add_predicate(self, query_values, mapping_graph, violation_identifier):
