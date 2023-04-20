@@ -124,7 +124,6 @@ class users(db.Model):
 class API:
 
     def __init__(self):
-        app.add_template_filter(API.mapping)
         app.run(host="127.0.0.1", port=5000, threaded=True, debug=True)
         # if timeout error occurs
         # try:
@@ -232,8 +231,6 @@ class API:
             return render_template("change_detection/CSV_file_details.html", participant_id=participant_id)
         elif request.method == "POST":
             # create a graph with 3 named graphs for user
-            form_id = str(shortuuid.ShortUUID().random(length=12))
-            session["form_id"] = form_id
             session["change_process_executed"] = True
             form_details = request.form
             change_detection = DetectChanges(participant_id, form_details)
@@ -265,15 +262,6 @@ class API:
                 return redirect(url_for('detect_xml_changes'))
             else:
                 return redirect(url_for('change_detection'))
-
-    @staticmethod
-    def mapping(test_dict):
-        return isinstance(test_dict, dict)
-
-    @staticmethod
-    def get_session_id():
-        # return random.randint(0,1000000000)
-        return random.randint(0,1000000000)
 
     # generate a html file with mapping impacted details
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
@@ -314,27 +302,8 @@ class API:
                                    mapping_updated=mapping_updated,
                                    change_graph_details=change_graph_details)
         else:
-            new_data_reference = request.form.get("todo").split("-")[0]
-            old_data_reference = request.form.get("todo").split("-")[1]
-            update_query = """
-                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                    PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
-                    DELETE { ?subject ?predicate ?object }
-                    INSERT { ?subject ?predicate '%s' }
-                    WHERE { 
-                    SELECT ?subject ?predicate
-                    WHERE {
-                          ?subject ?predicate ?object .
-                          FILTER (?predicate IN (rml:reference, rr:column))
-                          FILTER ('%s' = LCASE(?object))
-                        }
-                    }
-                   """ % (new_data_reference, old_data_reference.lower())
-            mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
-            mapping_file_path = "./static/uploads/mappings/" + mapping_graph_details.get("filename")
-            mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
-            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
-            mapping_graph.serialize(destination=mapping_file_path, format="ttl")
+            mapping_file_name = session.get("mapping_details").get(int(mapping_unique_id)).get("filename")
+            DetectMappingImpact.update_impacted_mapping(request.form, mapping_file_name)
             session["mapping_updated"] = True
             return redirect(request.referrer)
 

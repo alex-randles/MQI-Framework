@@ -120,6 +120,32 @@ class DetectMappingImpact:
             new_location = str(row.get("newLocation"))
             self.mapping_impact[mapping_impact_key]["move"]["Moved to a new location"] = [new_location]
 
+    @staticmethod
+    def update_impacted_mapping(request_data, mapping_file_name):
+        new_data_reference = request_data.get("todo").split("-")[0]
+        old_data_reference = request_data.get("todo").split("-")[1]
+        update_query = """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
+                DELETE { ?subject ?predicate ?object }
+                INSERT { ?subject ?predicate '%s' }
+                WHERE { 
+                SELECT ?subject ?predicate ?object 
+                WHERE {
+                      ?subject ?predicate ?object .
+                      FILTER (?predicate IN (rml:reference, rr:column))
+                      FILTER ('%s' = LCASE(?object))
+                    }
+                }
+               """ % (new_data_reference, old_data_reference.lower())
+        mapping_file_path = "./static/uploads/mappings/" + mapping_file_name
+        mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
+        mapping_graph.serialize(destination=mapping_file_path, format="ttl")
+        print(mapping_file_path)
+        print(update_query)
+        exit()
+
 if __name__ == "__main__":
     mapping_graph = "/home/alex/MQI-Framework/static/uploads/mappings/sample_mapping26.ttl"
     changes_graph = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/1.trig"

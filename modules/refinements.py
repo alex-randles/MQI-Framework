@@ -17,6 +17,7 @@ class Refinements:
                  mapping_graph=None, add_information=None, participant_id=None):
         self.participant_id = participant_id
         self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
+        self.RML = Namespace("http://semweb.mmlab.be/ns/rml#")
         self.MQIO = Namespace("https://w3id.org/MQIO#")
         self.MQIO_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
         self.PROV = Namespace("http://www.w3.org/ns/prov#")
@@ -72,7 +73,7 @@ class Refinements:
                              "user_input_values": {
                                  "no_prefixes": [self.R2RML.column],
                              },
-                             },
+            },
 
             "ChangeLanguageTag": {"user_input": True, "requires_prefixes": False,
                                   "restricted_values": self.get_language_tags(),
@@ -82,31 +83,39 @@ class Refinements:
                                 "user_input_values": {
                                     "no_prefixes": [self.R2RML.parent],
                                 }
-                                },
+            },
 
             "AddChildColumn": {"user_input": True,
                                "user_input_values": {
                                    "no_prefixes": [self.R2RML.child],
                                }
-                               },
+            },
 
             "AddSubjectMap": {"user_input": True,
                               "user_input_values": {
                                   "requires_prefixes": [self.R2RML + "class"],
-                                  "no_prefixes":       [str(self.R2RML.template)], },
-                              },
+                                  "no_prefixes":       [str(self.R2RML.template)],
+                             },
+            },
 
-            "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": [self.R2RML.tableName, self.R2RML.sqlQuery, self.R2RML.sqlVersion]},
+            "AddLogicalTable": {"user_input": True,
+                                "user_input_values": {
+                                    "no_prefixes": [self.R2RML.tableName, self.R2RML.sqlQuery, self.R2RML.sqlVersion],
+                                }
+            },
 
-            "AddLogicalSource": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                 "user_input_values": [self.R2RML.tableName]},
+            "AddLogicalSource": {"user_input": True,
+                                 "user_input_values": {
+                                     "no_prefixes": [self.RML.source, ],
+                                     "requires_prefixes": [self.RML.referenceFormulation, ],
+                                 }
+             },
 
             "ChangePredicate": {"user_input": True,
                                 "user_input_values": {
                                     "no_prefixes": [self.R2RML.predicate],
                                 }
-                                },
+            },
 
             "FindSimilarPredicates": {"user_input": True, "requires_prefixes": False,
                                       "restricted_values": self.get_vocabulary_properties,
@@ -123,7 +132,7 @@ class Refinements:
                             "user_input_values": {
                                 "requires_prefixes": [self.R2RML + "class"],
                             },
-                            },
+            },
 
             "RemoveIRI": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                           "user_input_values": None},
