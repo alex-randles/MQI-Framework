@@ -304,6 +304,8 @@ class API:
         else:
             mapping_file_name = session.get("mapping_details").get(int(mapping_unique_id)).get("filename")
             DetectMappingImpact.update_impacted_mapping(request.form, mapping_file_name)
+            print(request.form)
+            exit()
             session["mapping_updated"] = True
             return redirect(request.referrer)
 

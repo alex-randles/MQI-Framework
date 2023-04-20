@@ -4,13 +4,13 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 
 <file:///home/alex/MQI-Framework/static/uploads/mappings/LEA_20m1.ttl#TriplesMap1> rr:logicalTable [ rr:tableName "employee.csv" ] ;
-    rr:predicateObjectMap [ rr:objectMap [ rml:reference "Name" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rml:reference "NAME" ;
+                    rr:language "en" ] ;
+            rr:predicate rdfs:label ],
+        [ rr:objectMap [ rml:reference "Test" ] ;
             rr:predicate rdfs:label ],
         [ rr:objectMap [ rr:template "urn:osi:boundary:geom:{GUID}" ] ;
-            rr:predicate geo:hasGeometry ],
-        [ rr:objectMap [ rml:reference "NAME" ;
-                    rr:language "en" ] ;
-            rr:predicate rdfs:label ] .
+            rr:predicate geo:hasGeometry ] .
 
 <file:///home/alex/MQI-Framework/static/uploads/mappings/LEA_20m1.ttl#TriplesMap2> rr:logicalTable [ rr:tableName "LEA_CBD2019_20M" ] ;
     rr:predicateObjectMap [ rr:objectMap [ rr:column "GEOMETRY" ] ;

@@ -122,8 +122,8 @@ class DetectMappingImpact:
 
     @staticmethod
     def update_impacted_mapping(request_data, mapping_file_name):
-        new_data_reference = request_data.get("todo").split("-")[0]
-        old_data_reference = request_data.get("todo").split("-")[1]
+        new_data_reference = request_data.get("new_reference").split("-")[0]
+        old_data_reference = request_data.get("new_reference").split("-")[1]
         update_query = """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
