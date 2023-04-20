@@ -182,5 +182,6 @@ function selectAllRefinements() {
     }
 }
 
+
 $('.collapse').collapse()
 
