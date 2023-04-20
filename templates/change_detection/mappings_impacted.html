@@ -92,7 +92,7 @@
                                                     <div class="row">
                                                         <div class="col-2">
                                                             {% set inserted_references = mapping_impact.get("structural_changes").get("insert") %}
-                                                            {% set inserted_references = {'Name' : 22 } %}
+                                                            {% set inserted_references = {'Test' : 22 } %}
                                                             <select class="form-select" id="new-reference-selected" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
                                                                 <option selected>Select a new reference</option>
                                                                 {% for new_references, values in inserted_references.items() %}
@@ -120,7 +120,7 @@
         type:'POST',
         url:'/mappings_impacted/{{mapping_id}}',
         data:{
-          todo:$("#new-reference-selected").val()
+          new_reference:$("#new-reference-selected").val()
         },
         success:function()
         {
