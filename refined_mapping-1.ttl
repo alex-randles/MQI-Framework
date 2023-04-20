@@ -7,7 +7,61 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/> . 
 @prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
 @prefix prov: <http://www.w3.org/ns/prov#> . 
+@prefix daq: <http://purl.org/eis/vocab/daq#> . 
 
+	
+<#Organisation2>	
+ rdf:type rr:TriplesMap;	
+	
+ rr:logicalTable [ 	
+ 	 rr:sqlQuery""" 	
+		SELECT X.ID, X.LABEL, Y.COUNTRY 	
+		FROM (	
+			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
+			UNION 	
+			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
+				SELECT ID, NULL, SYNONYMS || ';'	
+				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
+	  			UNION ALL	
+	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
+			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
+		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
+		 """;	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template "http://data.example.com/employee/{EMPNO}";	
+	 rr:class daq:Metric;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdf:type;	
+	 rr:objectMap [	
+		 rr:constant prov:Agent;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdf:type;	
+	 rr:object dc:Agent;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate dc:labels;	
+	 rr:objectMap [	
+		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdfs:labels;	
+	 rr:objectMap [	
+		 rr:template "{LABEL}";	
+		 rr:termType rr:rirri;	
+		]; 	
+ ];	
+.	
 	
 <#Organisation>	
  rdf:type rr:TriplesMap;	
@@ -53,54 +107,6 @@
  ];	
 .	
 	
-<#Organisation2>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdf:type;	
-	 rr:objectMap [	
-		 rr:constant prov:Agent;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdf:type;	
-	 rr:object dc:Agent;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate dc:labels;	
-	 rr:objectMap [	
-		 rr:termType rr:rirri;	
-		 rr:template "{LABEL}";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-.	
-	
 <#Organisation3>	
  rdf:type rr:TriplesMap;	
 	
@@ -127,8 +133,8 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:termType rr:rirri;	
 		]; 	
  ];	
 	
@@ -152,28 +158,12 @@
 <#Organisation4>	
  rdf:type rr:TriplesMap;	
 	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
- ];	
-	
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
 		 rr:language "enenehe";	
+		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 	
@@ -191,7 +181,7 @@
  	 rr:predicate prov:generatedAtTime;	
 	 rr:objectMap [	
 		 rr:template "{LABEL}";	
-		 rr:datatype xsd:dateTime;	
+		 rr:datatype xsd:integer;	
 		]; 	
  ];	
 .	
