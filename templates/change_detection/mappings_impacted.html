@@ -106,32 +106,7 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <script src="https://code.jquery.com/jquery-3.5.1.js"
-                                                        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-                                                        crossorigin="anonymous"></script>
-
-                                                <script type="text/javascript">
-    $(document).on('submit','#new-reference-form',function(e)
-                   {
-      console.log('hello');
-      e.preventDefault();
-      $("#update-banner").css("display", "block");
-      $.ajax({
-        type:'POST',
-        url:'/mappings_impacted/{{mapping_id}}',
-        data:{
-          new_reference:$("#new-reference-selected").val()
-        },
-        success:function()
-        {
-          alert('saved');
-        }
-      })
-    });
-  </script>
                                                 {% endif %}
-
-
                                                 <strong>Values</strong>
                                                 {% if values|length > 0 %}
                                                 <ul class="list-group">
@@ -154,19 +129,14 @@
                                     No changes
                                     {% endif %}
 
-
                                 </div>
                             </div>
                             {% set outer_div_counter.value = inner_div_counter.value  + 1  %}
                             {% endfor %}
                         </div>
-
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
     <div class="row my-4">
@@ -176,6 +146,30 @@
 </div>
 {% set accordion_counter.value = accordion_counter.value + 1 %}
 {% endfor %}
+
+ <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+                                                        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).on('submit','#new-reference-form',function(e)
+                   {
+      console.log('hello');
+      e.preventDefault();
+      $("#update-banner").css("display", "block");
+      $.ajax({
+        type:'POST',
+        url:'/mappings_impacted/{{mapping_id}}',
+        data:{
+          new_reference:$("#new-reference-selected").val()
+        },
+        success:function()
+        {
+          alert('saved');
+        }
+      })
+    });
+</script>
+
 
 <script>
     $('.collapse').collapse()

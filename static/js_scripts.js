@@ -8,7 +8,7 @@ function logout(event){
         }
 }
 
-function myFunction() {
+function downloadWarning() {
   alert("Only RDF comments (rdfs:comment) will be in the refined mapping and not hash comments (#). Also the ordering of the triples could change as RDF graphs have no order.");
   return false;
 }
@@ -182,6 +182,13 @@ function selectAllRefinements() {
     }
 }
 
+
+function loadMappingImpact(div_id) {
+  var spinner = document.getElementById("spinner-" + div_id);
+  var impact_button = document.getElementById("impact-button-" + div_id);
+  impact_button.style.display = "none";
+  spinner.style.display = "block";
+}
 
 $('.collapse').collapse()
 
