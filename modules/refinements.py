@@ -37,8 +37,8 @@ class Refinements:
             # mapping metric refinements
             "MP1": ["AddLogicalTable", "AddLogicalSource"],
             "MP2": ["AddSubjectMap"],
-            "MP4": ["AddPredicate", "AddObjectMap"],
-            "MP5": ["AddChildColumn", "AddParentColumn"],
+            "MP3": ["AddPredicate", "AddObjectMap"],
+            "MP4": ["AddChildColumn", "AddParentColumn"],
             "MP6": ["ChangeTermType", "RemoveTermType"],
             "MP7": ["RemoveLanguageTag", "RemoveDatatype"],
             "MP8": ["ChangeClass"],
@@ -62,27 +62,38 @@ class Refinements:
             "AddDomainClass": {"user_input": True, "requires_prefixes": False, "restricted_values": self.find_domain,
                                "user_input_values": [self.R2RML + "class"]},
 
-            "AddPredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                             "user_input_values": [self.R2RML.predicate]},
+            "AddPredicate": {"user_input": True,
+                             "user_input_values": {
+                                 "requires_prefixes": [self.R2RML.predicate],
+                             },
+            },
 
-            "AddObjectMap": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                             "user_input_values": [self.R2RML.column]},
+            "AddObjectMap": {"user_input": True,
+                             "user_input_values": {
+                                 "no_prefixes": [self.R2RML.column],
+                             },
+                             },
 
             "ChangeLanguageTag": {"user_input": True, "requires_prefixes": False,
                                   "restricted_values": self.get_language_tags(),
                                   "user_input_values": [self.R2RML.language]},
 
-            "AddParentColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": [self.R2RML.parent]},
+            "AddParentColumn": {"user_input": True,
+                                "user_input_values": {
+                                    "no_prefixes": [self.R2RML.parent],
+                                }
+                                },
 
-            "AddChildColumn": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
-                               "user_input_values": [self.R2RML.child]},
+            "AddChildColumn": {"user_input": True,
+                               "user_input_values": {
+                                   "no_prefixes": [self.R2RML.child],
+                               }
+                               },
 
             "AddSubjectMap": {"user_input": True,
                               "user_input_values": {
                                   "requires_prefixes": [self.R2RML + "class"],
-                                  "no_prefixes":       [str(self.R2RML.template)],
-                              },
+                                  "no_prefixes":       [str(self.R2RML.template)], },
                               },
 
             "AddLogicalTable": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
@@ -91,8 +102,11 @@ class Refinements:
             "AddLogicalSource": {"user_input": True, "requires_prefixes": False, "restricted_values": None,
                                  "user_input_values": [self.R2RML.tableName]},
 
-            "ChangePredicate": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                                "user_input_values": [self.R2RML.predicate]},
+            "ChangePredicate": {"user_input": True,
+                                "user_input_values": {
+                                    "no_prefixes": [self.R2RML.predicate],
+                                }
+                                },
 
             "FindSimilarPredicates": {"user_input": True, "requires_prefixes": False,
                                       "restricted_values": self.get_vocabulary_properties,
@@ -111,26 +125,20 @@ class Refinements:
                             },
                             },
 
-            "AddCorrectRange": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
-                                "user_input_values": self.find_range},
-
             "RemoveIRI": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                           "user_input_values": None},
 
-            "ChangeIRI": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                          "user_input_values": ["URI"]},
-
-            "ChangeClassIRI": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                               "user_input_values": [self.R2RML + "class"]},
+            "ChangeIRI": {"user_input": True,
+                          "user_input_values": {
+                              "requires_prefixes": ["URI"],
+                          }
+            },
 
             "RemoveLanguageTag": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                   "user_input_values": None},
 
             "RemoveDatatype": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": None},
-
-            "RemoveDuplicateTriples": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
-                                       "user_input_values": None},
 
             "ChangeTermType": {"user_input": True, "requires_prefixes": False,
                                "restricted_values": self.get_correct_term_types,
@@ -139,8 +147,11 @@ class Refinements:
             "RemoveTermType": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                "user_input_values": None},
 
-            "ChangeDatatype": {"user_input": True, "requires_prefixes": True, "restricted_values": None,
-                               "user_input_values": [self.R2RML.datatype]},
+            "ChangeDatatype": {"user_input": True,
+                               "user_input_values": {
+                                   "requires_prefixes": [self.R2RML.datatype],
+                               }
+                               },
 
             "AddCorrectDatatype": {"user_input": False, "requires_prefixes": False, "restricted_values": None,
                                    "user_input_values": self.find_range},
@@ -148,7 +159,6 @@ class Refinements:
         }
         self.refinement_descriptions = self.create_refinement_descriptions()
         self.refinement_functions = {"AddDomainClass": self.add_domain,
-                                     "AddCorrectRange": self.add_correct_range,
                                      "AddPredicate": self.add_predicate,
                                      "AddObjectMap": self.add_object_map,
                                      "AddSubjectMap": self.add_subject_map,
@@ -157,10 +167,8 @@ class Refinements:
                                      "RemoveLanguageTag": self.remove_language_tag,
                                      'ChangeLanguageTag': self.change_language_tag,
                                      "ChangeClass": self.change_class,
-                                     "RemoveDisjointClass": self.remove_class,
                                      "ChangePredicate": self.change_predicate,
                                      "ChangeIRI": self.change_identifier,
-                                     "ChangeClassIRI": self.change_class_identifier,
                                      "AddParentColumn": self.add_parent_column,
                                      "AddChildColumn": self.add_child_column,
                                      "FindSimilarPredicates": self.change_predicate,

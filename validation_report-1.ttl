@@ -3,6 +3,7 @@
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -48,7 +49,7 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-9 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    prov:endedAtTime "2023-04-19T20:01:21.942618"^^xsd:dateTime ;
+    prov:endedAtTime "2023-04-20T10:28:06.519114"^^xsd:dateTime ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 DELETE { ?objectMap rr:datatype ?datatype }
@@ -57,123 +58,126 @@ ex:refinement-0 a mqio:MappingRefinement ;
                     SELECT ?objectMap ?datatype
                     WHERE {
                           ?objectMap rr:datatype ?datatype.
-                          FILTER(str(?objectMap) = "ub6bL64C16").
+                          FILTER(str(?objectMap) = "ub6bL164C16").
                     }
                 }
                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-13 ;
-    mqio:refinementName "Add Correct Datatype"^^xsd:string .
+    mqio:refinedViolation ex:violation-4 ;
+    mqio:refinementName "Change Datatype"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue dc:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Organisation4> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rdfs:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Organisation4> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-10 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
     mqio:hasObjectValue rdfs:labels ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Organisation> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rdfs:labels ;
+ex:violation-11 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:labels ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Organisation> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-ex:violation-10 a mqio:MappingViolation ;
+ex:violation-12 a mqio:MappingViolation ;
+    mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:MP2 .
+
+ex:violation-13 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-14 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-15 a mqio:MappingViolation ;
     mqio:hasLocation "subjectMap"^^xsd:string ;
     mqio:hasObjectValue rdfs:Classs ;
     mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
     mqio:inTripleMap <#Organisation3> ;
     mqio:isDescribedBy mqio-metrics:D1 .
 
-ex:violation-11 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rdfs:labels ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Organisation3> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-12 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rdfs:labels ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Organisation3> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-14 a mqio:MappingViolation ;
+ex:violation-16 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
     mqio:hasObjectValue dc:labels ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Organisation3> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-ex:violation-15 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation2> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
-ex:violation-16 a mqio:MappingViolation ;
+ex:violation-17 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
     mqio:hasObjectValue rr:rirri ;
     mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation2> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
-ex:violation-17 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation3> ;
+    mqio:inTripleMap <#Organisation> ;
     mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-18 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue dc:labels ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Organisation4> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-19 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
     mqio:hasObjectValue rr:rirri ;
     mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation3> ;
+    mqio:inTripleMap <#Organisation> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-19 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation> ;
     mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-2 a mqio:MappingViolation ;
     mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
+    mqio:inTripleMap <#Organisation4> ;
     mqio:isDescribedBy mqio-metrics:MP2 .
 
 ex:violation-20 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rdfs:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Organisation3> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
+    mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-21 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
     mqio:hasObjectValue rdfs:labels ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Organisation4> ;
+    mqio:inTripleMap <#Organisation3> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-22 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rdfs:labels ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Organisation4> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:hasObjectValue rdf: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-23 a mqio:MappingViolation ;
-    mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
-    mqio:inTripleMap <#Organisation4> ;
-    mqio:isDescribedBy mqio-metrics:MP2 .
+    mqio:hasObjectValue dc: ;
+    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
+    mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-24 a mqio:MappingViolation ;
-    mqio:hasObjectValue dc: ;
+    mqio:hasObjectValue prov: ;
     mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
@@ -183,52 +187,52 @@ ex:violation-25 a mqio:MappingViolation ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-26 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation4> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
+    mqio:hasObjectValue rdf: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
 
 ex:violation-27 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation4> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
-ex:violation-28 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation4> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
-ex:violation-29 a mqio:MappingViolation ;
-    mqio:hasObjectValue prov: ;
-    mqio:hasResultMessage "No Machine-Readable license."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:labels ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-30 a mqio:MappingViolation ;
     mqio:hasObjectValue dc: ;
     mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
-ex:violation-31 a mqio:MappingViolation ;
+ex:violation-28 a mqio:MappingViolation ;
+    mqio:hasObjectValue prov: ;
+    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
+    mqio:isDescribedBy mqio-metrics:VOC5 .
+
+ex:violation-29 a mqio:MappingViolation ;
     mqio:hasObjectValue rdfs: ;
     mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
+ex:violation-3 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rr:child ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
+    mqio:inTripleMap <#Organisation4> ;
+    mqio:isDescribedBy mqio-metrics:MP4 .
+
+ex:violation-30 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation3> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
+ex:violation-31 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation3> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
+
 ex:violation-32 a mqio:MappingViolation ;
-    mqio:hasObjectValue prov: ;
-    mqio:hasResultMessage "No Human-Readable license."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rr:rirri ;
+    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:inTripleMap <#Organisation3> ;
+    mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-33 a mqio:MappingViolation ;
     mqio:hasLiteralValue "enenehe"^^xsd:string ;
@@ -237,53 +241,46 @@ ex:violation-33 a mqio:MappingViolation ;
     mqio:inTripleMap <#Organisation4> ;
     mqio:isDescribedBy mqio-metrics:MP11 .
 
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue dc:labels ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Organisation2> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
 ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
     mqio:hasObjectValue rdfs:labels ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Organisation2> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
 ex:violation-6 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue dc:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Organisation2> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-7 a mqio:MappingViolation ;
     mqio:hasResultMessage "No subjectMap defined in this triple map."^^xsd:string ;
     mqio:inTripleMap <#Organisation2> ;
     mqio:isDescribedBy mqio-metrics:MP2 .
 
-ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
-
 ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
     mqio:hasObjectValue rr:rirri ;
     mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
-    mqio:inTripleMap <#Organisation> ;
+    mqio:inTripleMap <#Organisation4> ;
     mqio:isDescribedBy mqio-metrics:MP6 .
 
 ex:violation-9 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:rirri ;
-    mqio:hasResultMessage "Invalid term type definition."^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rdfs:labels ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Organisation> ;
-    mqio:isDescribedBy mqio-metrics:MP6 .
+    mqio:isDescribedBy mqio-metrics:D2 .
 
 <test_mapping.ttl> a mqio:MappingArtefact .
 
-ex:violation-13 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+ex:violation-4 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
     mqio:hasObjectValue prov:generatedAtTime ;
     mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
-    mqio:inTripleMap <#Organisation2> ;
+    mqio:inTripleMap <#Organisation4> ;
     mqio:isDescribedBy mqio-metrics:D7 ;
     mqio:wasRefinedBy ex:refinement-0 .
 

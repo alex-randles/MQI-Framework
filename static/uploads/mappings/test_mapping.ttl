@@ -5,6 +5,7 @@
 @prefix dc: <http://purl.org/dc/elements/1.1/>.
 @prefix b2022: <https://ont.beyond2022.ie/ontology#> .
 @prefix prov: <http://www.w3.org/ns/prov#> . 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 
 <#Organisation>
 	a rr:TriplesMap ;
@@ -61,8 +62,13 @@
 
 
 	rr:predicateObjectMap [
-		rr:predicate prov:generatedAtTime ;
-		rr:objectMap [ rr:template "{LABEL}" ; rr:datatype xsd:integer ; ] ;
+		rr:predicate rdf:type ;
+		rr:objectMap [ rr:constant prov:Agent;  ] ;
+	] ;
+	
+   rr:predicateObjectMap [
+		rr:predicate rdf:type ;
+		rr:object dc:Agent ;
 	] ;
 	
 	
@@ -146,12 +152,17 @@
 	
 		rr:predicateObjectMap [
 		rr:predicate dc:labels ;
-		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:rirri; ] ;
+        rr:objectMap [
+            rr:parentTriplesMap <#TriplesMap2>;
+            rr:joinCondition [
+                rr:parent "DEPTNO";
+            ];
+        ];
 	] ;
 	
 		rr:predicateObjectMap [
-		rr:predicate rdfs:labels ;
-		rr:objectMap [ rr:template "{LABEL}" ; rr:termType rr:rirri; ] ;
+		rr:predicate prov:generatedAtTime ;
+		rr:objectMap [ rr:template "{LABEL}" ; rr:datatype xsd:integer; ] ;
 	] ;
 	
 . 
