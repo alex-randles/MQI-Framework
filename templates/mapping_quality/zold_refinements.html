@@ -89,6 +89,7 @@ function validateRefinementExecution() {
         </tr>
         </thead>
         <tbody>
+        {% set input_form_ids = [] %}
         {%for violation_ID, refinement_values in refinements.items()%}
         {% set triple_map = refinement_values.get("triple_map") %}
         {% set refinement_name = refinement_values.get("name") %}
@@ -126,11 +127,17 @@ function validateRefinementExecution() {
 
             {% elif requires_prefixes is none and restricted_values is none %}
 
-            <td class="w-25">
-                {% if refinement_properties.get("requires_prefixes")  %}
+            <td  style="width:25%">
                 {% for value in refinement_properties.get("requires_prefixes") %}
                 {% set form_value = violation_ID + '-' + value %}
                 {% set prefix_value = violation_ID + '-' + 'PREFIX' + '-' + value %}
+
+                <div style="display:none">
+                    {% if optional_values is not true %}
+                    {{ input_form_ids.append(form_value) }} {
+                    {% endif %}
+                </div>
+
                 <label for={{form_value}}>
                     Property: <strong>{{find_prefix(value)}}</strong>
                 </label>
@@ -141,16 +148,21 @@ function validateRefinementExecution() {
                     <option value={{prefix}}>{{prefix}}</option>
                     {% endfor  %}
                 </datalist>
+
+                <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
                 <span class="tt" data-bs-placement="top" title="Do not include brackets (<>) for IRIs">
               <i class="bi bi-info-circle" ></i>
-                <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
           </span>
                 {% endfor %}
-                {% endif %}
 
                 {% if refinement_properties.get("no_prefixes") %}
                 {% for value in refinement_properties.get("no_prefixes") %}
                 {% set form_value_2 = violation_ID + '-' + value %}
+                <div style="display:none">
+                    {% if optional_values is not true %}
+                    {{ input_form_ids.append(form_value_2) }}
+                    {% endif %}
+                </div>
                 <div class="col-6">
                     <label for={{form_value_2}}>
                         Property: <strong>{{find_prefix(value)}}</strong>
@@ -165,10 +177,65 @@ function validateRefinementExecution() {
                 {% endif %}
 
             </td>
+
+
+            {% elif user_input == true and requires_prefixes == true and restricted_values is none %}
+
+            <td  style="width:25%">
+                {% for value in refinement_properties %}
+                {% set form_value = violation_ID + '-' + value %}
+                {% set prefix_value = violation_ID + '-' + 'PREFIX' + '-' + value %}
+
+                <div style="display:none">
+                    {% if optional_values is not true %}
+                    {{ input_form_ids.append(form_value) }} {
+                    {% endif %}
+                </div>
+                <label for={{form_value}}>
+                    Property: <strong>{{find_prefix(value)}}</strong>
+                </label>
+                <select  style="width:100%" name={{prefix_value}} id={{prefix_value}} required>
+                    <option value="" disabled selected>Choose a prefix </option>
+                    {% for prefix in prefix_values.keys() %}
+                    <option value={{prefix}}>{{prefix}}</option>
+                    {% endfor  %}
+                </select>
+                <input style="width:95%" placeholder="Enter the remainig IRI for the prefix" type="text" id={{form_value}} name={{form_value}} required>
+                <span class="tt" data-bs-placement="top" title="Do not include brackets (<>) for IRIs">
+              <i class="bi bi-info-circle" ></i>
+          </span>
+                {% endfor %}
+            </td>
+            {% elif restricted_values is none %}
+            <td style="width:25%">
+                {% for value in refinement_properties %}
+                {% set form_value_2 = violation_ID + '-' + value %}
+                <div style="display:none">
+                    {% if optional_values is not true %}
+                    {{ input_form_ids.append(form_value_2) }}
+                    {% endif %}
+                </div>
+                <div class="col-6">
+                    <label for={{form_value_2}}>
+                        Property: <strong>{{find_prefix(value)}}</strong>
+                    </label>
+                </div>
+                <div>
+                    <input type="text" class="w-75" id={{form_value_2}} name={{form_value_2}}>
+                </div>
+                {% endfor %}
+            </td>
+
             {% else %}
-            <td class="w-25">
+
+            <td style="width:25%">
                 {% for value in refinement_properties %}
                 {% set form_value_3 = violation_ID + '-' + value %}
+                <div style="display:none">
+                    {% if optional_values is not true %}
+                    {{ input_form_ids.append(form_value_3) }} {
+                    {% endif %}
+                </div>
                 <b>Property: {{find_prefix(value)}}</b>
                 <label for={{form_value_3}}></label>
                 <select data-live-search="true" class="form-select" name={{form_value_3}} id={{form_value_3}} style="max-width:100%" required>

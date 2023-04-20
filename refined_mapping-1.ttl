@@ -31,8 +31,8 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rr:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:termType rr:rirri;	
 		]; 	
  ];	
 	
@@ -73,26 +73,30 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate prov:generatedAtTime;	
+ 	 rr:predicate rdf:type;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:datatype xsd:dateTime;	
+		 rr:constant prov:Agent;	
 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate rdf:type;	
+	 rr:object dc:Agent;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate dc:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:termType rr:rirri;	
 		]; 	
  ];	
 .	
@@ -123,16 +127,16 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate dc:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
 		 rr:termType rr:rirri;	
+		 rr:template "{LABEL}";	
 		]; 	
  ];	
 	
@@ -168,24 +172,26 @@
  	 rr:predicate rdfs:labels;	
 	 rr:objectMap [	
 		 rr:template "{LABEL}";	
-		 rr:language "enenehe";	
 		 rr:termType rr:rirri;	
+		 rr:language "enenehe";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate dc:labels;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
+		 rr:parentTriplesMap <#TriplesMap2> ;	
+		 rr:joinCondition [	
+			 rr:parent "DEPTNO";	
+			 ];	
+ 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
+ 	 rr:predicate prov:generatedAtTime;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
 		 rr:template "{LABEL}";	
+		 rr:datatype xsd:dateTime;	
 		]; 	
  ];	
 .	
