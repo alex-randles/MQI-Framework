@@ -1,5 +1,6 @@
 REFINEMENT NAME,DESCRIPTION
-AddLogicalTable, Input table or source details
+AddLogicalTable, Input table or SQL query
+AddLogicalSource, Input source and iterator
 AddDomainClass,Suggest domain of property
 AddParentColumn,Enter a parent column
 AddChildColumn,Enter a child column
