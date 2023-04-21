@@ -2123,7 +2123,6 @@ PREFIX geo7:       <https://www.geo7.ch/>
 PREFIX kmgeo:      <http://km.aifb.kit.edu/services/geo/ontology#>
 PREFIX cwlgit:     <https://w3id.org/cwl/view/git/>
 PREFIX mydb:       <http://mydb.org/>
-PREFIX foaffff:    <http://gogl.com/>
 PREFIX atlasterms: <http://rdf.ebi.ac.uk/terms/atlas/>
 PREFIX number:     <http://km.aifb.kit.edu/projects/numbers/number#>
 PREFIX logies:     <https://data.vlaanderen.be/ns/logies#>

@@ -149,9 +149,25 @@
 
 
 <script>
-window.onhashchange = function() {
- alert("hello");
+
+
+window.history.pushState({page: 1}, "", "");
+
+window.onpopstate = function(event) {
+
+  // "event" object seems to contain value only when the back button is clicked
+  // and if the pop state event fires due to clicks on a button
+  // or a link it comes up as "undefined"
+
+  if(event){
+    console.log('hello');
+    return true;
+  }
+  else{
+    // Continue user action through link or button
+  }
 }
+
 
 </script>
  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
