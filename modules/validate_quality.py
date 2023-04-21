@@ -69,12 +69,17 @@ class ValidateQuality:
             "D7": "https://www.w3.org/TR/rdf-schema/#ch_datatype",
             # Mapping quality aspect metrics
             "MP1": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
-            "MP9": "https://tools.ietf.org/html/rfc5646",
-            "MP12": "https://www.w3.org/TR/r2rml/#foreign-key",
-            "MP10": "https://www.w3.org/TR/r2rml/#typing",
-            "MP8": "https://www.w3.org/TR/r2rml/#typing",
             "MP2": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
-            "MP11": "https://tools.ietf.org/html/rfc5646",
+            "MP3": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
+            "MP4": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
+            "MP5": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
+            "MP6": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
+            "MP7": "https://www.w3.org/TR/r2rml/#dfn-triples-map",
+            "MP8": "https://www.w3.org/TR/r2rml/#typing",
+            "MP9": "https://tools.ietf.org/html/rfc5646",
+            "MP10": "https://www.w3.org/TR/r2rml/#foreign-key",
+            "MP11": "https://www.w3.org/TR/r2rml/#typing",
+            "MP12": "https://tools.ietf.org/html/rfc5646",
             # Vocabulary quality aspect metrics
             "VOC1": "https://www.w3.org/TR/dwbp/#ProvideMetadata",
             "VOC2": "https://www.w3.org/TR/rdf-schema/#ch_domain",
@@ -84,7 +89,6 @@ class ValidateQuality:
         }
         self.metric_descriptions = self.create_metric_descriptions()
         self.validate_triple_maps()
-        # self.validate_vocabulary_metrics()
         self.manager = None
 
     @staticmethod
@@ -131,15 +135,10 @@ class ValidateQuality:
             self.properties = self.get_properties_range()
             self.classes = self.get_classes()
             self.distinct_properties = self.get_distinct_properties()
-            # self.validate_VOC2()
-            # self.validate_data_metrics()
-            # self.validate_term_map_metrics()
             pr2 = multiprocessing.Process(target=self.validate_term_map_metrics)
             pr1 = multiprocessing.Process(target=self.validate_data_metrics)
             pr1.start()
             pr2.start()
-            # pr1.join()
-            # pr2.join()
             print("hello")
             processes.append(pr1)
             processes.append(pr2)
@@ -156,6 +155,7 @@ class ValidateQuality:
         return self.validation_results
 
     def convert_results_queue(self):
+        # A function to convert threading queue into dictionary for easier processing
         validation_results = []
         while not self.validation_results.empty():
             item = self.validation_results.get()
@@ -219,8 +219,7 @@ class ValidateQuality:
         for key in list(self.properties):
             property_identifier = self.properties[key].get("property")
             subject_identifier = self.properties[key].get("subject")
-            metric_result = self.validate_undefined(property_identifier, subject_identifier, "property",
-                                                    metric_identifier)
+            metric_result = self.validate_undefined(property_identifier, subject_identifier, "property", metric_identifier)
             # if property is undefined
             if metric_result:
                 # remove if undefined
@@ -273,9 +272,7 @@ class ValidateQuality:
     def validate_domain(self, property_identifier, subject_identifier, metric_identifier):
         domain = self.get_domain(property_identifier)
         # The hierarchical inference ignores the universal super-concepts, i.e. owl:Thing and rdfs:Resource
-        print(domain, "DOMAIN")
         if domain:
-            print(domain, "sdujesu")
             classes = self.get_classes()
             super_classes = []
             excluded_domain = ValidateQuality.is_excluded_domain(classes, domain)
@@ -327,22 +324,22 @@ class ValidateQuality:
         classes = [values["class"] for values in classes_and_subjects.values()]
         metric_identifier = "D5"
         # more than one class is needed to be disjoint
-        if len(classes) <= 1:
-            return
-        # iterate through each class and find disjoint classes
-        for key in classes_and_subjects.keys():
-            current_identifier = classes_and_subjects[key]["class"]
-            if current_identifier not in self.undefined_values:
-                disjoint_classes = self.find_disjoint_classes(current_identifier)
-                for class_identifier in disjoint_classes:
-                    if class_identifier in classes:
-                        subject_identifier = classes_and_subjects[key]["subject"]
-                        result_message = "Class %s is disjoint with %s" % (
-                            self.find_prefix(current_identifier), self.find_prefix(class_identifier))
-                        self.add_violation([metric_identifier, result_message, (current_identifier, class_identifier),
-                                            subject_identifier])
-                        classes.remove(class_identifier)
-                        classes.remove(current_identifier)
+        if len(classes) > 1:
+            # iterate through each class and find disjoint classes
+            for key in classes_and_subjects.keys():
+                current_identifier = classes_and_subjects[key]["class"]
+                if current_identifier not in self.undefined_values:
+                    disjoint_classes = self.find_disjoint_classes(current_identifier)
+                    for class_identifier in disjoint_classes:
+                        if class_identifier in classes:
+                            subject_identifier = classes_and_subjects[key]["subject"]
+                            result_message = "Class %s is disjoint with %s" % (
+                                self.find_prefix(current_identifier), self.find_prefix(class_identifier))
+                            self.add_violation([metric_identifier, result_message, (current_identifier, class_identifier),
+                                                subject_identifier])
+                            classes.remove(class_identifier)
+                            classes.remove(current_identifier)
+
 
     def validate_D6(self):
         # A function to validate the usage of correct range
@@ -353,13 +350,11 @@ class ValidateQuality:
             objectMap = self.properties[key].get("objectMap")
             if term_type:
                 resource_type = self.get_type(property)
-                if (rdflib.OWL.DatatypeProperty in resource_type) and (
-                        term_type != self.R2RML.Literal):
+                if (rdflib.OWL.DatatypeProperty in resource_type) and (term_type != self.R2RML.Literal):
                     result_message = "Usage of incorrect range. Term type should be 'rr:Literal' for property '{}'.".format(
                         self.find_prefix(property).strip())
                     self.add_violation([metric_identifier, result_message, term_type, objectMap])
-                elif (rdflib.OWL.ObjectProperty in resource_type or rdflib.RDF.Property in resource_type) and (
-                        term_type == self.R2RML.Literal):
+                elif (rdflib.OWL.ObjectProperty in resource_type or rdflib.RDF.Property in resource_type) and (term_type == self.R2RML.Literal):
                     range = self.get_range(property)
                     if range:
                         range = range.strip()
