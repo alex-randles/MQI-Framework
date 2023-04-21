@@ -2,186 +2,61 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
+@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix cidoc: <http://erlangen-crm.org/current/> . 
-@prefix dc: <http://purl.org/dc/elements/1.1/> . 
-@prefix b2022: <https://ont.beyond2022.ie/ontology#> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix daq: <http://purl.org/eis/vocab/daq#> . 
+@prefix dgfoaf: <http://west.uni-koblenz.de/ontologies/2010/07/dgfoaf.owl#> . 
 
 	
-<#Organisation2>	
- rdf:type rr:TriplesMap;	
+<#TriplesMap1>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
+ 	 rr:tableName "employee.csv";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "http://data.example.com/employee/{EMPNO}";	
-	 rr:class daq:Metric;	
+ 	 rr:class dgfoaf:test;	
+	 rr:template "user-{ID}";	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdf:type;	
+ 	 rr:predicate rdfs:label;	
 	 rr:objectMap [	
-		 rr:constant prov:Agent;	
+		 rml:reference "NAME";	
+		 rr:language "en";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdf:type;	
-	 rr:object dc:Agent;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate dc:labels;	
+ 	 rr:predicate rdfs:label;	
 	 rr:objectMap [	
-		 rr:termType rr:rirri;	
-		 rr:template "{LABEL}";	
+		 rml:reference "Test";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
+ 	 rr:predicate geo:hasGeometry;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
+		 rr:template "urn:osi:boundary:geom:{GUID}";	
 		]; 	
  ];	
 .	
 	
-<#Organisation>	
- rdf:type rr:TriplesMap;	
+<#TriplesMap2>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rr:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-.	
-	
-<#Organisation3>	
- rdf:type rr:TriplesMap;	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery""" 	
-		SELECT X.ID, X.LABEL, Y.COUNTRY 	
-		FROM (	
-			SELECT ID, NAME AS LABEL FROM DATA WHERE NAME IS NOT NULL 	
-			UNION 	
-			WITH RECURSIVE SYNONYMSSPLITTED(ID, SYNONYMS, REST) AS (	
-				SELECT ID, NULL, SYNONYMS || ';'	
-				FROM (SELECT ID, SYNONYMS FROM DATA) WHERE SYNONYMS IS NOT NULL	
-	  			UNION ALL	
-	  		  	SELECT ID, TRIM(SUBSTR(REST, 0, INSTR(REST, ';') - 1)), SUBSTR(REST, INSTR(REST, ';') + 1) FROM SYNONYMSSPLITTED WHERE REST <> ''	
-			) SELECT ID, SYNONYMS AS LABEL FROM SYNONYMSSPLITTED WHERE SYNONYMS IS NOT NULL	
-		) X INNER JOIN DATA Y ON X.ID = Y.ID 	
-		 """;	
+ 	 rr:tableName "LEA_CBD2019_20M";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class rdfs:Classs;	
+ 	 rr:template "urn:osi:boundary:geom:{GUID}";	
+	 rr:class geo:Geometry;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
+ 	 rr:predicate geo:asWKT;	
 	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:termType rr:rirri;	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate dc:labels;	
-	 rr:objectMap [	
-		 rr:termType rr:rirri;	
-		 rr:template "{LABEL}";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:termType rr:rirri;	
-		 rr:template "{LABEL}";	
-		]; 	
- ];	
-.	
-	
-<#Organisation4>	
- rdf:type rr:TriplesMap;	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:labels;	
-	 rr:objectMap [	
-		 rr:language "enenehe";	
-		 rr:termType rr:rirri;	
-		 rr:template "{LABEL}";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate dc:labels;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#TriplesMap2> ;	
-		 rr:joinCondition [	
-			 rr:parent "DEPTNO";	
-			 ];	
- 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate prov:generatedAtTime;	
-	 rr:objectMap [	
-		 rr:template "{LABEL}";	
-		 rr:datatype xsd:integer;	
+		 rr:column "GEOMETRY";	
 		]; 	
  ];	
 .	

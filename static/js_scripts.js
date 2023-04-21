@@ -190,5 +190,4 @@ function loadMappingImpact(div_id) {
   spinner.style.display = "block";
 }
 
-$('.collapse').collapse()
 
