@@ -18,6 +18,7 @@ from modules.parse_mapping_graph import ParseMapping
 class ValidateQuality:
 
     def __init__(self, file_name):
+        self.R2RML = rdflib.Namespace("http://www.w3.org/ns/r2rml#")
         self.file_name = file_name
         self.parsed_mapping = ParseMapping(file_name)
         self.triple_maps = self.parsed_mapping.triple_map_graphs
@@ -45,7 +46,6 @@ class ValidateQuality:
         self.validation_results = self.manager.Queue()
         self.undefined_values = []
         self.undefined_namespaces = set()
-        self.test_count = 0
         # store the range and domain in cache to speed execution
         # self.data_quality_results = self.manager.Queue()
         # self.mapping_quality_results = self.manager.Queue()
@@ -358,7 +358,7 @@ class ValidateQuality:
                     range = self.get_range(property)
                     if range:
                         range = range.strip()
-                        if range != str(self.R2RML.Literal) and not range.startswith(str(rdflib.XSD)):
+                        if range != str(rdflib.RDFS.Literal) and not range.startswith(str(rdflib.XSD)):
                             result_message = "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property '{}'.".format(
                                 self.find_prefix(property).strip())
                             self.add_violation([metric_identifier, result_message, term_type, objectMap])
@@ -786,14 +786,6 @@ class ValidateQuality:
             provenance_predicates = ["dc:creator", "dc:publisher", "dct:creator", "dct:contributor",
                                      "dcterms:publisher", "dc:title", "dct:description", "dc:description",
                                      "rdfs:comment", "foaf:maker"]
-            query = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " \
-                    "PREFIX dc: <http://purl.org/dc/elements/1.1/> " \
-                    "PREFIX owl: <http://www.w3.org/2002/07/owl#>\n" \
-                    "PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n" \
-                    "PREFIX dcterms: <http://purl.org/dc/terms/> \n" \
-                    "PREFIX dct: <http://purl.org/dc/terms/> " \
-                    "ASK { GRAPH <%s> { ?subject a owl:Ontology; " \
-                    "              %s ?label . } } " % (namespace, "|".join(provenance_predicates))
             query = """
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
                     PREFIX dc: <http://purl.org/dc/elements/1.1/> 
@@ -826,7 +818,7 @@ class ValidateQuality:
 
     def validate_VOC4(self):
         # A function to validate basic provenance information
-        result_message = "No Machine-Readable license."
+        result_message = "No Machine-Readable License."
         metric_identifier = "VOC4"
         for namespace in self.unique_namespaces:
             query = """
@@ -838,7 +830,7 @@ class ValidateQuality:
             PREFIX schema: <http://schema.org/>
             ASK {
               GRAPH <%s> {
-                ?subject dct:license|dct:rights|dc:rights|xhtml:license|cc:license|dc:license|doap:license|schema:license ?object  .
+                ?subject dct:license|dct:rights|dc:rights|xhtml:license|cc:license|dc:license|doap:license|schema:license ?object .
                }
             }
             """ % namespace
@@ -853,7 +845,7 @@ class ValidateQuality:
 
     def validate_VOC5(self):
         # A function to validate basic provenance information
-        result_message = "No Human-Readable license."
+        result_message = "No Human-Readable License."
         metric_identifier = "VOC5"
         for namespace in self.unique_namespaces:
             query = """
@@ -966,7 +958,7 @@ class ValidateQuality:
     def format_user_location(self, predicate, location_num):
         # ( http://www.w3.org/ns/r2rml#predicateObjectMap , 1) -> predicateObjectMap1
         # making it easier for the user to read
-        if predicate != rdflib.term.URIRef("http://www.w3.org/ns/r2rml#subjectMap"):
+        if predicate != self.R2RML.subjectMap:
             location_predicate = ValidateQuality.strip_identifier(predicate)
             location = "%s-%s" % (location_predicate, location_num)
         else:
@@ -1092,7 +1084,6 @@ class ValidateQuality:
         properties = {}
         counter = 0
         for row in query_results:
-            # properties.append([row[0], row[1], row[2]])
             properties[counter] = {"predicateObjectMap": row.get("pom"),
                                    "objectMap": row.get("om"),
                                    "property": row.get("property"),
@@ -1101,7 +1092,6 @@ class ValidateQuality:
         return properties
 
     def get_properties(self):
-        self.test_count += 1
         # A function to retrieve all properties in the mapping
         properties = {}
         query = """SELECT ?subject ?property
@@ -1132,11 +1122,6 @@ class ValidateQuality:
             properties[counter] = {"property": row.get("property"),
                                    "subject": row.get("pom")
                                    }
-            # if they are using constant shortcut rr:object
-            # if row["constant"]:
-            #     properties[counter]["constant"] = row["constant"]
-            # elif row["object"]:
-            #     properties[counter]["constant"] = row["object"]
             counter += 1
         return properties
 
@@ -1164,7 +1149,7 @@ class ValidateQuality:
         counter = 0
         for row in query_results:
             if row["hasLiteralType"] and not row["termType"]:
-                term_type = rdflib.term.URIRef('http://www.w3.org/ns/r2rml#Literal')
+                term_type = self.R2RML.Literal
             else:
                 term_type = row["termType"]
             properties[counter] = {"property": row["property"],
