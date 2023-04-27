@@ -164,10 +164,11 @@ class DetectChanges:
         version_2_url = self.form_details.get("CSV-URL-2").split("/")[-1]
         if version_1_url.strip() !=  version_2_url.strip():
             output_changes["move"][change_id + 1] = {"new_location": version_2_url}
-        output_changes = {'delete': {'2': {'change_reason': 'value', 'structural_reference': 'Key'},
-                    '3': {'change_reason': 'SID:<sid>', 'data_reference': 'value'}},
-         'insert': {'0': {'change_reason': 'module', 'structural_reference': 'Key'},
-                    '1': {'change_reason': 'CS171', 'data_reference': 'module'}}}
+
+        # output_changes = {'delete': {'2': {'change_reason': 'value', 'structural_reference': 'Key'},
+        #             '3': {'change_reason': 'SID:<sid>', 'data_reference': 'value'}},
+        #  'insert': {'0': {'change_reason': 'module', 'structural_reference': 'Key'},
+        #             '1': {'change_reason': 'CS171', 'data_reference': 'module'}}}
 
         return output_changes
 

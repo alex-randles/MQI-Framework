@@ -1,31 +1,13 @@
-@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix activity: <http://activitystrea.ms/specs/atom/1.0/> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
-@prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ac: <http://umbel.org/umbel/ac/> . 
+@prefix ac: <http://umbel.org/umbel/ac/> .
+@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 
-	
-<#TriplesMap2>	
-	
- rr:logicalTable [ 	
- 	 rr:tableName "student.csv";
-	 rr:sqlVersion "1.1";	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:class ac:rree;	
-	 rr:template "eeee";	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate geo:hasWKT;	
-	 rr:objectMap [	
-		 rr:column "ss";
-		 rr:language "gl-ES";	
-		 rr:termType rr:IRIs;	
-		]; 	
- ];	
-.	
+<file:///home/alex/MQI-Framework/static/uploads/mappings/refined-mapping326.ttl#TriplesMap2> rr:logicalTable [ rr:sqlVersion "1.1" ;
+            rr:tableName "student.csv" ] ;
+    rr:predicateObjectMap [ rr:objectMap [ rr:column "Education" ;
+                    rr:language "gl-ES" ;
+                    rr:termType rr:IRIs ] ;
+            rr:predicate geo:hasWKT ] ;
+    rr:subjectMap [ rr:class ac:rree ;
+            rr:template "eeee" ] .
+

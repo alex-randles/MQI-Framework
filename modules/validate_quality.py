@@ -115,7 +115,7 @@ class ValidateQuality:
                 match_namespace = max(match)
                 prefix = [prefix for (prefix, namespace) in self.namespaces.items() if namespace == match_namespace][0]
                 identifier = identifier.replace(match_namespace, prefix + ":")
-                return " %s " % (identifier)
+                return " %s " % identifier
             elif type(identifier) is tuple:
                 result = "".join(([self.find_prefix(current_identifier) for current_identifier in identifier]))
                 return result
@@ -206,6 +206,7 @@ class ValidateQuality:
             class_identifier = self.classes[key].get("class")
             subject_identifier = self.classes[key].get("subject")
             metric_result = self.validate_undefined(class_identifier, subject_identifier, "class", metric_identifier)
+            print(class_identifier)
             # if class is undefined
             # print("VALIDATING UNDEFINED", class_identifier, metric_result)
             if metric_result:
@@ -238,15 +239,16 @@ class ValidateQuality:
                         <%s> ?predicate ?object . 
                      } 
                 }
-                UNION 
-                {
-                   GRAPH <%s> {
-                        ?subject ?predicate ?object
-                        FILTER(STRAFTER(STR(?subject), "#") = "%s")
-                    }
-                }
+             #   UNION 
+            #    {
+             #      GRAPH <%s> {
+             #           ?subject ?predicate ?object
+            #            FILTER(STRAFTER(STR(?subject), "#") = "%s")
+             #       }
+            #    }
             }
         """ % (property_identifier, property_namespace, property_identifier.split("#")[-1])
+        print(query)
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         is_defined_concept = query_results.get("boolean")
         if is_defined_concept is False:
@@ -1199,7 +1201,7 @@ class ValidateQuality:
 
     @staticmethod
     def is_excluded_domain(classes, domains):
-        excluded_domains = [str(rdflib.RDFS.Class), str(rdflib.RDFS.Resource), str(rdflib.OWL.thing)]
+        excluded_domains = [str(rdflib.RDFS.Class), str(rdflib.RDFS.Resource), str(rdflib.OWL.Thing)]
         for class_name in [str(v["class"]) for k, v in classes.items()]:
             if class_name in excluded_domains:
                 return True

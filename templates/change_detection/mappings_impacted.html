@@ -92,7 +92,6 @@
                                                     <div class="row">
                                                         <div class="col-2">
                                                             {% set inserted_references = mapping_impact.get("structural_changes").get("insert") %}
-                                                            {% set inserted_references = {'Test' : 22 } %}
                                                             <select class="form-select" id="new-reference-selected" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
                                                                 <option selected>Select a new reference</option>
                                                                 {% for new_references, values in inserted_references.items() %}
@@ -151,22 +150,7 @@
 <script>
 
 
-window.history.pushState({page: 1}, "", "");
 
-window.onpopstate = function(event) {
-
-  // "event" object seems to contain value only when the back button is clicked
-  // and if the pop state event fires due to clicks on a button
-  // or a link it comes up as "undefined"
-
-  if(event){
-    console.log('hello');
-    return true;
-  }
-  else{
-    // Continue user action through link or button
-  }
-}
 
 
 </script>
