@@ -310,28 +310,19 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
 <h3 class="text-center my-4">No Mappings Uploaded!</h3>
 {% endif %}
 
+
+
 <script>
-    var i = 0;
-function move() {
-  if (i == 0) {
-    i = 1;
-    var elem = document.getElementById("myBar");
-    var width = 1;
-    var id = setInterval(frame, 200);
-    function frame() {
-      if (width >= 100) {
-       //  clearInterval(id);
-        move();
-        i = 0;
-      } else {
-        width++;
-        elem.style.width = width + "%";
-      }
-    }
+if (window.PerformanceNavigationTiming) {
+  console.info("window.performance works fine on this browser");
+
+  if (PerformanceNavigationTiming.type === "back_forward") {
+    console.info("This page is reloaded");
+  } else {
+    console.info("This page is not reloaded");
   }
 }
 </script>
-
 
 {% endblock %}
 

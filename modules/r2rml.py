@@ -3,7 +3,8 @@ r2rml_config = """connectionURL =
 mappingFile = {}
 CSVFiles = {};
 outputFile = {}
-format= TRIG     """""
+format= TRIG
+prefixFile = /home/alex/MQI-Framework/static/change_detection_cache/r2rml/test.ttl"""""
 r2rml_input_files = "./static/change_detection_cache/changes_info/contact_details.csv;./static/change_detection_cache/changes_info/changes_detected.csv;./static/change_detection_cache/changes_info/notification_details.csv"
 r2rml_output_file = "./static/change_detection_cache/change_graphs/{}.trig"
 r2rml_config_file = "./static/change_detection_cache/r2rml/config.properties"

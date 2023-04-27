@@ -16,6 +16,7 @@ import multiprocessing
 import pandas as pd
 from collections import OrderedDict, defaultdict
 from datetime import datetime
+from sematch.semantic.similarity import WordNetSimilarity
 from datetime import timedelta
 from functools import wraps
 from os import listdir
@@ -287,10 +288,7 @@ class API:
             session["mapping_updated"] = False
             mapping_filename = mapping_graph_details.get("filename")
             mapping_data_references = [reference.lower() for reference in mapping_graph_details.get("data_references")]
-            from sematch.semantic.similarity import WordNetSimilarity
-            wns = WordNetSimilarity()
-            # Computing English word similarity using Li method
-            similarity_measurement = wns.word_similarity
+            similarity_measurement = WordNetSimilarity().word_similarity
             return render_template("change_detection/mappings_impacted.html",
                                    similarity_measurement=similarity_measurement,
                                    mapping_data_references=mapping_data_references,

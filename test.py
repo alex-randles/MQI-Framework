@@ -1,53 +1,18 @@
-import jsondiff
-import json
-from deepdiff import DeepDiff
-import re
-import deepdiff
-import pprint
-from collections import defaultdict
-json1 = json.loads('{"isDynamic": false, "name": "", "value": "SID:<sid>", "description": "instance","argsOrder": 1,"isMultiSelect": false}')
+import rdflib
+import urllib
+import requests
 
-json2 = json.loads('{ "name": "ss","isDynamic": false, "module": "CS171", "ss": {"1":"test", "2": "try"}, "description": "instance","argsOrder": 1,"isMultiSelect": false}')
+headers = {'Accept': 'application/rdf+xml'}
+url = "http://example.org/change-report-1"
+graph_name = urllib.parse.quote(url)
+graph_file_name = "/home/alex/MQI-Framework/static/change_detection_cache/change_graphs/2.trig"
+g = rdflib.Graph().parse(graph_file_name, format="trig")
+print(len(g))
+graph_contents = open(graph_file_name, "r").read()
+print(graph_contents)
+exit()
+# print(urllib.parse.quote(graph_contents))
+# exit()
 
-ddiff = DeepDiff(json1, json2, ignore_order=True)
-# res = jsondiff.diff(json1, json2)
-# print(res)
-# print(re.findall('"([^"]*)"', '[root["value"]]'))
-
-output_changes = defaultdict(dict)
-output_changes["insert"] = defaultdict(dict)
-output_changes["delete"] = defaultdict(dict)
-change_id = 0
-for k,v in ddiff.items():
-    if k == "dictionary_item_removed" or k == "dictionary_item_added":
-        change_type = "delete" if "removed" in k else "insert"
-        for object in v:
-            if object:
-                name = "{}".format(object.replace("'", '"'))
-                object_name = re.findall('"([^"]*)"', name)
-                if object_name:
-                    object_name = object_name[0]
-                    object_value = json1.get(object_name)
-                    if not object_value:
-                        object_value = json2.get(object_name)
-                    if not isinstance(object_value, dict):
-                        output_changes[change_type][change_id] = {
-                                                     "structural_reference": "Key",
-                                                     "change_reason": "{}".format(object_name),
-                                                 }
-                        change_id += 1
-                        output_changes[change_type][change_id] = {
-                                                     "data_reference": "{}".format(object_name),
-                                                     "change_reason": "{}".format(object_value),
-                                                 }
-                        change_id += 1
-                    else
-
-pprint.pprint(json.loads(json.dumps(output_changes)))
-
-
-   # if change_type == "columns_added":
-   #                          output_changes["insert"][change_id] = {
-   #                              "structural_reference": structural_reference,
-   #                              "change_reason": changes,
-   #                          }
+localhost = "http://127.0.0.1:3030/User-1/data?graph={}".format(graph_name)
+requests.post(localhost, data=graph_contents, headers={"content-type": "text/n3"})

@@ -36,9 +36,9 @@
             <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#grants>
                     <http://www.example.com/policyObligation/1> ;
             <https://www.w3id.org/OSCD#hasDetectionEnd>
-                    "2022-12-10 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+                    "2022-12-31 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
             <https://www.w3id.org/OSCD#hasDetectionStart>
-                    "2023-04-18 23:57:11.858238"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+                    "2023-04-25 12:43:35.417904"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     
     <http://www.example.com/updateChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
@@ -102,54 +102,68 @@
 }
 
 <http://www.example.com/changesGraph/user-1> {
-    <http://www.example.com/deleteChange/1>
+    <http://www.example.com/deleteChange/3>
             a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-18 23:57:11.842418"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-25 12:43:35.391395"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://www.w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/1> ;
-            <https://www.w3id.org/OSCD#hasStructuralReference>
-                    "Object" .
-
-    <http://www.example.com/changedData/1>
-            a       <https://www.w3id.org/OSCD#ChangedData> ;
-            <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "value" .
-
-                        <http://www.example.com/deleteChange/2>
-            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
-            <http://linkedevents.org/ontology/atTime>
-                    "2023-04-18 23:57:11.842418"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
-            <https://www.w3id.org/OSCD#hasChangedData>
-                    <http://www.example.com/changedData/2> ;
+                    <http://www.example.com/changedData/3> ;
             <https://www.w3id.org/OSCD#hasDataReference>
                     "value" .
-
-    <http://www.example.com/changedData/2>
+    
+    <http://www.example.com/changedData/3>
             a       <https://www.w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
                     "SID:<sid>" .
     
+    <http://www.example.com/changedData/1>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "CS171" .
+    
     <http://www.example.com/insertChange/0>
             a       <https://www.w3id.org/OSCD#InsertSourceData> ;
             <http://linkedevents.org/ontology/atTime>
-                    "2023-04-18 23:57:11.842418"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+                    "2023-04-25 12:43:35.391395"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
             <https://www.w3id.org/OSCD#hasChangedData>
                     <http://www.example.com/changedData/0> ;
-            <https://www.w3id.org/OSCD#hasDataReference>
-                    "ss" .
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Key" .
+    
+    <http://www.example.com/deleteChange/2>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-25 12:43:35.391395"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/2> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Key" .
     
     <http://www.example.com/changeLog/user-1>
             a       <https://www.w3id.org/OSCD#ChangeLog> ;
             <https://www.w3id.org/OSCD#hasChange>
-                   <http://www.example.com/deleteChange/2>,      <http://www.example.com/deleteChange/1> , <http://www.example.com/insertChange/0> ;
+                    <http://www.example.com/deleteChange/3> , <http://www.example.com/deleteChange/2> , <http://www.example.com/insertChange/1> , <http://www.example.com/insertChange/0> ;
             <https://www.w3id.org/OSCD#hasCurrentSource>
-                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v3.csv> ;
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/student.csv> ;
             <https://www.w3id.org/OSCD#hasPreviousSource>
-                    <https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student-test.csv> .
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/products.csv> .
+    
+    <http://www.example.com/changedData/2>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "value" .
+    
+    <http://www.example.com/insertChange/1>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-04-25 12:43:35.391395"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/1> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "module" .
     
     <http://www.example.com/changedData/0>
             a       <https://www.w3id.org/OSCD#ChangedData> ;
             <http://www.w3.org/2000/01/rdf-schema#comment>
-                    "False" .
+                    "module" .
 }
