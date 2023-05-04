@@ -60,15 +60,12 @@ class DisplayChanges:
         #     self.error_code = 1
 
     def get_changes_count(self):
-        # query to get notification thresholds
         query = """
             PREFIX oscd: <https://www.w3id.org/OSCD#>
-            # GET COUNT FOR EACH CHANGE TYPE
             SELECT ?changeType (COUNT(?change) AS ?count)
             WHERE
             {
-              # QUERY USER GRAPH
-              GRAPH ?g {
+              GRAPH ?changesGraph {
                 # GET EACH CHANGE FROM LOG
                 ?changeLog a oscd:ChangeLog ;
                            oscd:hasChange ?change.
@@ -150,8 +147,7 @@ class DisplayChanges:
             SELECT ?changeType ?threshold 
             WHERE
             {
-              # QUERY NOTIFICATION GRAPH
-              GRAPH ?g  {
+              GRAPH ?notificationGraph  {
                 ?constraint a rei-constraint:SimpleConstraint; 
                             rei-constraint:subject ?changeType; 
                             rei-constraint:object ?threshold . 
@@ -186,7 +182,7 @@ class DisplayChanges:
         SELECT ?detectionStart ?detectionEnd
         WHERE
         {
-          GRAPH ?g  {
+          GRAPH ?changesGraph {
             ?policy a rei-policy:Policy ;
                     oscd:hasDetectionEnd ?detectionEnd; 
                     oscd:hasDetectionStart ?detectionStart .
@@ -225,7 +221,6 @@ class DisplayChanges:
     def extract_sql_query(self):
         query = """
             PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-            PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
             SELECT DISTINCT ?sourceData
             WHERE
             {
@@ -247,7 +242,6 @@ class DisplayChanges:
     def get_iterator(self):
         # get detection time for notification policy to check if still valid
         query = """
-            PREFIX rr: <http://www.w3.org/ns/r2rml#> 
             PREFIX rml: <http://semweb.mmlab.be/ns/rml#> 
             SELECT DISTINCT ?iterator
             WHERE
@@ -315,12 +309,10 @@ class DisplayChanges:
         # get the reasons for changes occurring
         query = """
             PREFIX oscd: <https://w3id.org/OSCD/#>
-            # GET REASON FOR CHANGE OCCURING AND REMOVE UNNEEDED INFORMATION
             SELECT (strbefore(?changeReason,':') as ?reason) ?changeReason ?changeType 
             WHERE
             {
-              # QUERY USER GRAPH
-              GRAPH ?g {
+              GRAPH ?changesGraph {
                 ?changeLog a oscd:ChangeLog;
                            oscd:hasChange ?change .
                 ?change oscd:hasChangedData ?changeReason;
@@ -346,12 +338,10 @@ class DisplayChanges:
         # get the reasons for changes occurring
         query = """
         PREFIX oscd: <https://www.w3id.org/OSCD#>
-        # GET XML FILE DETAILS FROM CHANGE GRAPH 
         SELECT ?currentSource ?previousSource
         WHERE
         {
-          # QUERY USER GRAPH
-          GRAPH ?g {
+          GRAPH ?changesGraph {
             ?changeLog a oscd:ChangeLog; 
                        oscd:hasCurrentSource ?currentSource ;
                        oscd:hasPreviousSource ?previousSource . 

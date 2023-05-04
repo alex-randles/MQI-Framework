@@ -1,39 +1,22 @@
 @prefix ex: <http://example.org/> .
+@prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <workouts-mapping.ttl> ;
+    mqio:assessedMapping <mapping.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2,
-        ex:violation-3 .
+    mqio:hasViolation ex:violation-0 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasObjectValue owl: ;
-    mqio:hasResultMessage "No Machine-Readable License."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue ibclo:effectsMetrics ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#MetricQuery> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Machine-Readable License."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasObjectValue owl: ;
-    mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasObjectValue rdfs: ;
-    mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-<workouts-mapping.ttl> a mqio:MappingArtefact .
+<mapping.ttl> a mqio:MappingArtefact .
 
