@@ -313,15 +313,9 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
 
 
 <script>
-if (window.PerformanceNavigationTiming) {
-  console.info("window.performance works fine on this browser");
 
-  if (PerformanceNavigationTiming.type === "back_forward") {
-    console.info("This page is reloaded");
-  } else {
-    console.info("This page is not reloaded");
-  }
-}
+
+setInterval(console.log(window.performance.navigation.type), 6000);
 </script>
 
 {% endblock %}

@@ -550,7 +550,7 @@ class Refinements:
                           OPTIONAL { ?subject rr:termType ?currentTermType }
                           FILTER(str(?subject) = "%s").
                     }
-                }; 
+                }
                """ % (new_term_type, subject_identifier)
         print("Changing term type query\n" + update_query)
         processUpdate(mapping_graph, update_query)
@@ -739,7 +739,6 @@ class Refinements:
         triple_map = violation_information.get("triple_map")
         class_identifier = self.get_user_input(query_values).replace("<","").replace(">", "")
         update_query = """
-            PREFIX dc: <http://purl.org/dc/elements/1.1/>
             PREFIX rr: <http://www.w3.org/ns/r2rml#>
             INSERT
             {
@@ -1071,7 +1070,7 @@ class Refinements:
         # each refinement has a unique IRI and is associated with a refinement query
         refinement_identifier = rdflib.term.URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
         self.refinement_graph.add((refinement_identifier, RDF.type, self.MQIO.MappingRefinement))
-        self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
+        # self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
         # adding the SPARQL query used for the refinement
         refinement_query = Literal(refinement_query, datatype=XSD.string)
         self.refinement_graph.add((refinement_identifier, self.MQIO.hasRefinementQuery, refinement_query))

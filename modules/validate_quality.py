@@ -144,9 +144,9 @@ class ValidateQuality:
             processes.append(pr2)
         print("exit loop")
         self.current_triple_identifier = None
-        pr1 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
-        pr1.start()
-        processes.append(pr1)
+        # pr1 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
+        # pr1.start()
+        # processes.append(pr1)
         for job in processes:
             job.join()
         print("jobs joined...")
@@ -211,8 +211,7 @@ class ValidateQuality:
             # print("VALIDATING UNDEFINED", class_identifier, metric_result)
             if metric_result:
                 del self.classes[key]
-                if not str(class_identifier).startswith("https://ont.virtualtreasury.ie/ontology#"):
-                    self.add_violation(metric_result)
+                self.add_violation(metric_result)
 
     def validate_D2(self):
         # A function to validate the usage of undefined properties
@@ -225,8 +224,7 @@ class ValidateQuality:
             if metric_result:
                 # remove if undefined
                 del self.properties[key]
-                if not str(property_identifier).startswith("https://ont.virtualtreasury.ie/ontology#"):
-                    self.add_violation(metric_result)
+                self.add_violation(metric_result)
 
     def validate_undefined(self, property_identifier, subject_identifier, value_type, metric_identifier):
         result_message = "Usage of undefined %s." % value_type
@@ -484,6 +482,7 @@ class ValidateQuality:
         result_message = "An object map with a datatype and language tag."
         metric_identifier = "MP5"
         query = """
+               PREFIX rr: <http://www.w3.org/ns/r2rml#>
                SELECT ?om ?pm ?languageTag ?datatype
                WHERE {
                   ?s rr:predicateObjectMap ?pm .

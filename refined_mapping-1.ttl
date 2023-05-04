@@ -2,61 +2,28 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
-@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix dgfoaf: <http://west.uni-koblenz.de/ontologies/2010/07/dgfoaf.owl#> . 
+@prefix ex: <http://data.example.com/> . 
+@prefix ex-metric-query: <http://data.example.com/metricQuery/> . 
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix ibclo: <https://ibclo.ericsson.com/#> . 
 
 	
-<#TriplesMap1>	
+<#MetricQuery>	
 	
  rr:logicalTable [ 	
- 	 rr:tableName "employee.csv";	
+ 	 rr:tableName "METRIC_METADATA";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class dgfoaf:test;	
-	 rr:template "user-{ID}";	
+ 	 rr:template "http://data.example.com/metricResult/{ID}";	
+	 rr:class ibclo:MetricResult, ibclo:MetricQuery;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
+ 	 rr:predicate ibclo:hasResultStatus;	
 	 rr:objectMap [	
-		 rml:reference "NAME";	
-		 rr:language "en";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate rdfs:label;	
-	 rr:objectMap [	
-		 rml:reference "Test";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate geo:hasGeometry;	
-	 rr:objectMap [	
-		 rr:template "urn:osi:boundary:geom:{GUID}";	
-		]; 	
- ];	
-.	
-	
-<#TriplesMap2>	
-	
- rr:logicalTable [ 	
- 	 rr:tableName "LEA_CBD2019_20M";	
- ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "urn:osi:boundary:geom:{GUID}";	
-	 rr:class geo:Geometry;	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate geo:asWKT;	
-	 rr:objectMap [	
-		 rr:column "GEOMETRY";	
+		 rr:column "STATUS";	
 		]; 	
  ];	
 .	

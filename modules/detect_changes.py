@@ -132,6 +132,7 @@ class DetectChanges:
                                     "data_reference": data_reference,
                                     "change_reason": change_reason
                                 }
+                                change_id += 1
                             else:
                                 csv_tuples_1.remove((data_reference, change_reason))
                         else:
@@ -142,10 +143,9 @@ class DetectChanges:
                                     "data_reference": data_reference,
                                     "change_reason": change_reason
                                 }
+                                change_id += 1
                             else:
                                 pass
-
-                        change_id += 1
                 else:
                     if isinstance(changes, str):
                         structural_reference = "Columns"
@@ -154,17 +154,17 @@ class DetectChanges:
                                 "structural_reference": structural_reference,
                                 "change_reason": changes,
                             }
+                            change_id += 1
                         else:
                             output_changes["delete"][change_id] = {
                                 "structural_reference": structural_reference,
                                 "change_reason": changes,
                             }
-                        change_id += 1
+                            change_id += 1
         version_1_url = self.form_details.get("CSV-URL-1").split("/")[-1]
         version_2_url = self.form_details.get("CSV-URL-2").split("/")[-1]
         if version_1_url.strip() !=  version_2_url.strip():
             output_changes["move"][change_id + 1] = {"new_location": version_2_url}
-
         # output_changes = {'delete': {'2': {'change_reason': 'value', 'structural_reference': 'Key'},
         #             '3': {'change_reason': 'SID:<sid>', 'data_reference': 'value'}},
         #  'insert': {'0': {'change_reason': 'module', 'structural_reference': 'Key'},
@@ -195,6 +195,8 @@ class DetectChanges:
                     data_reference = changed_values.get("data_reference")
                     structural_reference = changed_values.get("structural_reference")
                     changed_data = changed_values.get("change_reason")
+                    if changed_data == "":
+                        changed_data = "No associated values."
                     new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, None, self.user_id, version_1, version_2]
                     df.loc[len(df)] = new_row
             else:
