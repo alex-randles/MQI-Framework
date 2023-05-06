@@ -163,9 +163,7 @@ class ValidateNotificationPolicy:
     def send_notification_email(self):
         # port = 587  # For SSL
         # smtp_server = "smtp.gmail.com"
-        user = "alexrandles0@gmail.com"  # Enter your address
         receiver_email = self.user_email  # Enter receiver address
-        password = "Flowers124!"
         msg = MIMEMultipart()
 
         msg['From'] = "Alex"
