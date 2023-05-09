@@ -50,7 +50,8 @@
                     <h5 class="mb-0">
                         <button class="btn collapsed" onclick="return changeIcon('sourceDataHeading-{{outer_div_counter.value}}');" data-bs-toggle="collapse" data-bs-target="#sourceDataCollapse-{{outer_div_counter.value}}" aria-expanded="false" aria-controls="sourceDataCollapse-{{outer_div_counter.value}}">
                             <strong>Source Data: </strong>
-                            {{ change_graph_details.get("change_sources").get("previous_version").split("/")[-1] }}, {{ change_graph_details.get("change_sources").get("current_version").split("/")[-1] }}
+                            {{ change_graph_details.get("change_sources").get("previous_version").split("/")[-1] }}
+<!--                            , {{ change_graph_details.get("change_sources").get("current_version").split("/")[-1] }}-->
                             <i id="icon-sourceDataHeading-{{outer_div_counter.value}}" class="bi bi-plus-circle px-3"></i>
                         </button>
                     </h5>
@@ -88,7 +89,7 @@
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
                                                 {% if captured_change_type == "structural_changes" and change_type == 'delete' and reference.lower() in mapping_data_references %}
-                                                <form style="" id="new-reference-form" name="new-reference-form" method="POST" action=".">
+                                                <form id="new-reference-form" name="new-reference-form" method="POST" action=".">
                                                     <div class="row">
                                                         <div class="col-2">
                                                             {% set inserted_references = mapping_impact.get("structural_changes").get("insert") %}
