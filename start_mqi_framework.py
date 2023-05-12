@@ -686,11 +686,7 @@ class API:
 
     @app.route("/return-validation-report/", methods=['GET', 'POST'])
     def download_refinement_report():
-        cache_validation_report_file = session.get("validation_report_file")
-        participant_id = session.get("participant_id")
         validation_report_filename = "validation_report-1.ttl"
-        # API.save_file_to_database(validation_report_filename, "validation_report_file")
-        # API.save_cache_file(validation_report_filename, validation_report_filename)
         return send_file(
             validation_report_filename,
             attachment_filename="validation-report.ttl",
