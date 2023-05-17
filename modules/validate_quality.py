@@ -1024,17 +1024,7 @@ class ValidateQuality:
 
     def add_violation_to_report(self, metric_results):
         # adding violation to report using violation ID as key which is mapped to a dictionary with the below keys
-        violation_identifier = metric_results[0]
         key_values = ["metric_identifier", "result_message", "value", "location", "triple_map"]
-        # if metric_results[1].startswith("D"):
-        #     self.data_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
-        # elif metric_results[1].startswith("M"):
-        #     self.mapping_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
-        # else:
-        #     self.vocabulary_quality_results[violation_identifier] = {key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])}
-
-        # self.validation_results[violation_identifier] = {key: value for (key, value) in
-        #                                                  zip(key_values, metric_results[1:len(metric_results)])}
         self.validation_results.put({key: value for (key, value) in zip(key_values, metric_results[1:len(metric_results)])})
 
     def find_blank_node_reference(self, violation_location, triple_map_identifier):
@@ -1046,7 +1036,7 @@ class ValidateQuality:
 
     @staticmethod
     def order_blank_node_identifiers(triple_references):
-        # wokring on values such as <DEPT_VIEW>
+        # working on values such as <DEPT_VIEW>
         for key in triple_references.keys():
             triple_references[key].sort(key=operator.itemgetter(1))
 
@@ -1168,19 +1158,15 @@ class ValidateQuality:
                 term_type = self.R2RML.Literal
             else:
                 term_type = row["termType"]
-            properties[counter] = {"property": row["property"],
-                                   "predicateObjectMap": row["pom"],
-                                   "objectMap": row["objectMap"],
-                                   "termType": term_type,
-                                   "datatype": row["dataType"],
-                                   "constant": row["constant"],
-                                   "subject": row["pom"]
-                                   }
-            # if they are using constant shortcut rr:object
-            # if row["constant"]:
-            #     properties[counter]["constant"] = row["constant"]
-            # elif row["object"]:
-            #     properties[counter]["constant"] = row["object"]
+            properties[counter] = {
+                "property": row["property"],
+               "predicateObjectMap": row["pom"],
+               "objectMap": row["objectMap"],
+               "termType": term_type,
+               "datatype": row["dataType"],
+               "constant": row["constant"],
+               "subject": row["pom"]
+             }
             counter += 1
         return properties
 
