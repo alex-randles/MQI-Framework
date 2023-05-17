@@ -24,7 +24,7 @@ class Refinements:
         self.EX = Namespace("http://example.org/")
         self.add_information = add_information
         self.validation_results = validation_results
-        self.prefix_file = "prefixes.txt"
+        self.prefix_file = "prefixes.csv"
         self.prefix_values = self.create_prefix_value_dict(self.prefix_file)
         self.triple_references = triple_references
         self.mapping_graph = mapping_graph
