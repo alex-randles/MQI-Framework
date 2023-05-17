@@ -11,7 +11,7 @@
         <div class="alert alert-success text-center" role="alert">
             <h5 class="alert-heading">Updated Mapping Generated</h5>
             <p>Press the button 'Download Updated Mapping' to retrieve the mapping with updated data references.
-            <a href="{{ url_for('static', filename='uploads/mappings/%s' % (mapping_filename)) }}">
+            <a href="{{ url_for('static', filename='uploads/mappings/updated_mapping.ttl') }}">
                     <button class="btn btn-sm mx-2 btn-secondary">Download Updated Mapping</button>
                 </a>
             </p>
@@ -88,7 +88,7 @@
                                         </div>
                                         <div id="sourceDataCollapse-{{inner_div_counter.value}}" class="collapse" aria-labelledby="dataReferenceHeading-{{inner_div_counter.value}}" data-bs-parent="#sourceDataCollapse-{{inner_div_counter.value}}">
                                             <div class="card-body">
-                                                {% if captured_change_type == "structural_changes" and change_type == 'delete' and reference.lower() in mapping_data_references %}
+                                                {% if captured_change_type != "structural_changes" and change_type == 'delete'  %}
                                                 <form id="new-reference-form" name="new-reference-form" method="POST" action=".">
                                                     <div class="row">
                                                         <div class="col-2">
@@ -96,8 +96,10 @@
                                                             <select class="form-select" id="new-reference-selected" name="new-reference-selected" style="background-color: #E6EEF7;" aria-label="Default select example">
                                                                 <option selected>Select a new reference</option>
                                                                 {% for new_references, values in inserted_references.items() %}
+                                                                {% if new_references not in ['machine'] %}
                                                                 {% set similarity_score = similarity_measurement(reference, new_references)   %}
                                                                 <option value="{{new_references}}-{{reference}}">{{new_references}} ({{ '{:.1%}'.format(similarity_score|float) }})</option>
+                                                                {% endif %}
                                                                 {% endfor %}
                                                             </select>
                                                         </div>

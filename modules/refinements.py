@@ -1050,6 +1050,7 @@ class Refinements:
     def generated_refined_mapping(self):
         # uses custom serializer to preserve mapping ordering
         TurtleSerializer(self.mapping_graph, self.triple_references, "refined_mapping-{}.ttl".format(self.participant_id))
+        TurtleSerializer(self.mapping_graph, self.triple_references, "./static/uploads/mappings/video_demo_mapping.ttl".format(self.participant_id))
 
     def format_file_name_identifier(self):
         # remove local file name from IRI's
