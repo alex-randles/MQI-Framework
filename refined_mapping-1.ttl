@@ -11,26 +11,52 @@
 	
 <#Metric>	
 	
- rr:logicalTable [ 	
- 	 rr:tableName "METRIC_READINGS";	
+ rml:logicalSource [ 	
+ 	 rml:source "metric-data-v1.csv";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class ibclo:Metric;	
-	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+ 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+	 rr:class ibclo:Metric;	
  ];	
 	
  rr:predicateObjectMap [ 	
  	 rr:predicate ibclo:hasName;	
 	 rr:objectMap [	
-		 rr:column "__NAME__";	
+		 rr:column "_name__";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasDevice;	
+ 	 rr:predicate ibclo:hasInstance;	
 	 rr:objectMap [	
-		 rr:column "__NAME__";	
+		 rr:column "instance";	
 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasLabel;	
+	 rr:objectMap [	
+		 rr:column "label";	
+		 rr:datatype xsd:string;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasModelName;	
+	 rr:objectMap [	
+		 rr:column "model_name";	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasResultSet;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#MetricResults> ;	
+		 rr:joinCondition [	
+			 rr:child "METRIC_ID";	
+			 rr:parent "RESULT_ID";	
+			 ];	
+ 		]; 	
  ];	
 .	

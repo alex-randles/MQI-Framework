@@ -668,7 +668,22 @@ class ValidateQuality:
             self.add_violation([metric_identifier, result_message, language_tag, object_map])
 
     def validate_MP12(self):
-        pass
+        result_message = "Duplicate triples defined."
+        metric_identifier = "MP12"
+        query = """
+                    SELECT (COUNT(*) AS ?count)
+                    WHERE {
+                        ?subject rr:predicateObjectMap ?pom;
+                                 rr:predicate  ?predicate .
+                        ?pom rr:objectMap ?om .
+                        ?om  rr:column ?column .
+                    }
+                    HAVING (?count > 1)
+                     """
+        query_results = self.current_graph.query(query)
+        for row in query_results:
+            object_identifier = row.get("count")
+            self.add_violation([metric_identifier, result_message, object_identifier, subject_identifier])
 
     def validate_VOC1(self):
         # A function to validate no human readable labelling and comments
