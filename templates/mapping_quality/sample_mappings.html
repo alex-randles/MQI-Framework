@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}Sample Mappings{% endblock %}</title>
 </head>
-{% block content %}
 <body>
+{% block content %}
 <div class="container">
     <div class="row">
         <div class="col-6">
@@ -21,11 +21,10 @@
                         <li><strong>Usage of undefined property.</strong> foaf:knows is undefined in FOAF.</li>
                         <li><strong>Usage of incorrect range.</strong> foaf:based_near requires a range (rr:termType) of an object (rr:IRI) rather than a literal (rr:Literal).</li>
                     </ul>
+                    <a href="{{ url_for('download_sample_mappings', mapping_identifier=1) }}" class="btn btn-primary">Download Mapping</a>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
+
+
 {% endblock %}
+</body>
 </html>

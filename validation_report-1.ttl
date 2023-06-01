@@ -1,5 +1,4 @@
 @prefix ex: <http://example.org/> .
-<<<<<<< HEAD
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
@@ -7,7 +6,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <student-mapping17.ttl> ;
+    mqio:assessedMapping <student-mapping18.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -19,41 +18,36 @@ ex:refinement-0 a mqio:MappingRefinement ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/names>  .  }
-                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/thumbnail> .     }
+                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/> .     }
                 WHERE {
                     ?pom rr:predicate <http://xmlns.com/foaf/0.1/names>  .
                     FILTER(str(?pom) = "ub2bL17C27").
                 }
                 """^^xsd:string ;
     mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+    mqio:refinementName "Change Predicate"^^xsd:string .
 
 ex:refinement-1 a mqio:MappingRefinement ;
     mqio:hasRefinementQuery """
-                PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                INSERT
-                {
-                  ?tripleMap rr:subjectMap _:N2cbe8e0b6967465e89ef381e93599e37 .
-                   _:N2cbe8e0b6967465e89ef381e93599e37 rr:class   ;
-                        rr:template 'xx' . 
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:termType <http://www.w3.org/ns/r2rml#Literal> .  } 
+                WHERE { 
+                    SELECT ?subject
+                    WHERE {
+                          ?subject rr:termType <http://www.w3.org/ns/r2rml#Literal> .
+                          FILTER(str(?subject) = "ub2bL25C22").
+                        }
                 }
-                WHERE {
-                  ?tripleMap ?predicate ?object .
-                  FILTER(str(?tripleMap) = "file:///home/alex/MQI-Framework/static/uploads/mappings/student-mapping17.ttl#TriplesMap8").
-                }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Add Logical Table"^^xsd:string .
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-2 ;
+    mqio:refinementName "Remove Term Type"^^xsd:string .
 
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:based_near'."^^xsd:string ;
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasResultMessage "No logical table in this triple map."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
+    mqio:isDescribedBy mqio-metrics:MP1 .
 
-<student-mapping17.ttl> a mqio:MappingArtefact .
+<student-mapping18.ttl> a mqio:MappingArtefact .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
@@ -63,20 +57,11 @@ ex:violation-0 a mqio:MappingViolation ;
     mqio:isDescribedBy mqio-metrics:D2 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasResultMessage "No logical table in this triple map."^^xsd:string ;
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:based_near'."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:MP1 ;
+    mqio:isDescribedBy mqio-metrics:D6 ;
     mqio:wasRefinedBy ex:refinement-1 .
-=======
-@prefix mqio: <https://w3id.org/MQIO#> .
-
-ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined-mapping127.ttl> ;
-    mqio:hasValidationReport ex:mappingValidationReport-0 .
-
-ex:mappingValidationReport-0 a mqio:MappingValidationReport .
-
-<refined-mapping127.ttl> a mqio:MappingArtefact .
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
 
