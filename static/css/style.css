@@ -206,11 +206,7 @@ input[type=submit] {
  /* gray out components for the user evaluation */
 
 .gray-out {
-<<<<<<< HEAD
     opacity: 0.5;
-=======
-    opacity: 0.35;
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
 }
 
 optgroup { font-size:16px; }

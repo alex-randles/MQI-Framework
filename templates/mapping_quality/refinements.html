@@ -3,11 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
     <title>{% block title %}Refinement{% endblock %}</title>
-=======
-    <title>Title</title>
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
 </head>
 <body>
 {% block message %}
@@ -17,45 +13,6 @@
 <!--</div>-->
 {% endblock %}
 {% block refinements %}
-
-<<<<<<< HEAD
-=======
-<script>
-    function hideQualityInformation() {
-         document.getElementById("refinement-selection").style.display = "none";
-         document.getElementById("show-info").style.display = "block";
-         document.getElementById("hide-info").style.display = "none";
-    }
-    function showQualityInformation() {
-         document.getElementById("refinement-selection").style.display = "block";
-         document.getElementById("show-info").style.display = "none";
-         document.getElementById("hide-info").style.display = "block";
-    }
-    window.onload = hideQualityInformation;
-
-// validate atleast one refinement selected for execution
-function validateRefinementExecution() {
-    var checkboxs = document.querySelectorAll("input[type='checkbox']");
-    var box_checked = false;
-    for(var i = 0,l = checkboxs.length;i < l;i++)
-    {
-        if(checkboxs[i].checked)
-        {
-            box_checked=true;
-            break;
-        }
-    }
-    if(box_checked) {
-           return true;
-    }
-    else {
-           document.getElementById('no-refinements-executed').style.display = "block";
-           return false;
-    }
-}
-</script>
-
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
 {% if show_refinement_buttons != true %}
 <div class="alert alert-primary my-3 text-center" role="alert">
     <h4 class="alert-heading">Mapping Refinement Information</h4>
@@ -141,10 +98,6 @@ function validateRefinementExecution() {
                 <label for={{form_value}}>
                     Property: <strong>{{find_prefix(value)}}</strong>
                 </label>
-<<<<<<< HEAD
-                {{ prefix_values.get('prefix') }}
-=======
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
                 <input class="form-control my-2 w-100 h-50" list={{prefix_value}} name={{prefix_value}} id="exampleDataList" placeholder="Search for a prefix" required>
                 <datalist id={{prefix_value}}>
                     <option value="" disabled selected>Choose a prefix </option>
@@ -263,7 +216,6 @@ function validateRefinementExecution() {
 });
 </script>
 <script>
-<<<<<<< HEAD
     function hideQualityInformation() {
          document.getElementById("refinement-selection").style.display = "none";
          document.getElementById("show-info").style.display = "block";
@@ -298,8 +250,6 @@ function validateRefinementExecution() {
 }
 </script>
 <script>
-=======
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
 function clickList() {
     document.getElementById('exampleDataList').click();
     console.log("djdjjd");

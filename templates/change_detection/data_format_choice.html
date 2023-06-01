@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}Change Detection Mode{% endblock %}</title>
 </head>
-<body>
 {% block content %}
+<body>
 <div class="container">
     <div class="row text-center my-4">
         <div class="col-">
@@ -31,43 +31,37 @@
             </div>
         </div>
         <div class="col-md-4">
-<<<<<<< HEAD
             <div class="card text-center gray-out">
-=======
-            <div class="card text-center">
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
-                <h5 class="card-header">XML file versions</h5>
-                <div class="card-body">
-                    <h5 class="card-title">Connect to XML file versions</h5>
-                    <p class="card-text mb-4">Detect changes between XML file versions and represent changes in RDF format.</p>
-                    <div class="my-4">
-                        <img src="./static/images/XML_logo.png" class="mx-3 rounded  w-25 -h-25" alt="...">
+                <div class="card text-center">
+                    <h5 class="card-header">XML file versions</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Connect to XML file versions</h5>
+                        <p class="card-text mb-4">Detect changes between XML file versions and represent changes in RDF format.</p>
+                        <div class="my-4">
+                            <img src="./static/images/XML_logo.png" class="mx-3 rounded  w-25 -h-25" alt="...">
+                        </div>
+                        <a href="/xml-changes" class="btn btn-primary mt-4">Detect Changes</a>
                     </div>
-                    <a href="/xml-changes" class="btn btn-primary mt-4">Detect Changes</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-<<<<<<< HEAD
-            <div class="card text-center gray-out">
-=======
-            <div class="card text-center">
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
-                <h5 class="card-header">Relational database</h5>
-                <div class="card-body">
-                    <h5 class="card-title">Connect to Relational Database</h5>
-                    <p class=" card-text">Detect changes in relational databases and represent changes in RDF format.</p>
-                    <div class="my-4">
-                        <img src="./static/images/sql_logo.png" class="rounded mx-3 w-25 -h-25" alt="...">
-                    </div>
-                    <button class="btn btn-primary mt-4" disabled>Detect Changes</button>
+            <div class="col-md-4">
+                <div class="card text-center gray-out">
+                    <div class="card text-center">
+                        <h5 class="card-header">Relational database</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Connect to Relational Database</h5>
+                            <p class=" card-text">Detect changes in relational databases and represent changes in RDF format.</p>
+                            <div class="my-4">
+                                <img src="./static/images/sql_logo.png" class="rounded mx-3 w-25 -h-25" alt="...">
+                            </div>
+                            <button class="btn btn-primary mt-4" disabled>Detect Changes</button>
 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-{% endblock %}
 </body>
+{% endblock %}
 </html>

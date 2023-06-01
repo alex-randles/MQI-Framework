@@ -479,11 +479,7 @@ class API:
                     # if ontology added successfully
                     error_message = API.store_ontology_file(ontology_file)
                     if error_message:
-<<<<<<< HEAD
                         flash("Local Ontology must be valid RDF")
-=======
-                        flash("Local upload error, ensure it's RDF format")
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
                         return render_template("mapping_quality/index.html")
             predefined_filename = filename
             filename = secure_filename(file.filename)
@@ -733,11 +729,7 @@ class API:
         if mapping_identifier:
             mapping_identifier = int(mapping_identifier)
             if mapping_identifier == 1:
-<<<<<<< HEAD
                 graph_location = "./static/sample_mappings/sample_mapping.ttl"
-=======
-                graph_location = "./static/sample_mappings/student_mapping.ttl"
->>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
             elif mapping_identifier == 2:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
             elif mapping_identifier == 2:
