@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{% block title %}Refinement{% endblock %}</title>
 </head>
 <body>
 {% block message %}
@@ -13,41 +13,6 @@
 <!--</div>-->
 {% endblock %}
 {% block refinements %}
-
-<script>
-    function hideQualityInformation() {
-         document.getElementById("refinement-selection").style.display = "none";
-         document.getElementById("show-info").style.display = "block";
-         document.getElementById("hide-info").style.display = "none";
-    }
-    function showQualityInformation() {
-         document.getElementById("refinement-selection").style.display = "block";
-         document.getElementById("show-info").style.display = "none";
-         document.getElementById("hide-info").style.display = "block";
-    }
-    window.onload = hideQualityInformation;
-
-// validate atleast one refinement selected for execution
-function validateRefinementExecution() {
-    var checkboxs = document.querySelectorAll("input[type='checkbox']");
-    var box_checked = false;
-    for(var i = 0,l = checkboxs.length;i < l;i++)
-    {
-        if(checkboxs[i].checked)
-        {
-            box_checked=true;
-            break;
-        }
-    }
-    if(box_checked) {
-           return true;
-    }
-    else {
-           document.getElementById('no-refinements-executed').style.display = "block";
-           return false;
-    }
-}
-</script>
 
 {% if show_refinement_buttons != true %}
 <div class="alert alert-primary my-3 text-center" role="alert">
@@ -134,6 +99,7 @@ function validateRefinementExecution() {
                 <label for={{form_value}}>
                     Property: <strong>{{find_prefix(value)}}</strong>
                 </label>
+                {{ prefix_values.get('prefix') }}
                 <input class="form-control my-2 w-100 h-50" list={{prefix_value}} name={{prefix_value}} id="exampleDataList" placeholder="Search for a prefix" required>
                 <datalist id={{prefix_value}}>
                     <option value="" disabled selected>Choose a prefix </option>
@@ -250,6 +216,40 @@ function validateRefinementExecution() {
     $(this).toggleClass('allChecked');
   })
 });
+</script>
+<script>
+    function hideQualityInformation() {
+         document.getElementById("refinement-selection").style.display = "none";
+         document.getElementById("show-info").style.display = "block";
+         document.getElementById("hide-info").style.display = "none";
+    }
+    function showQualityInformation() {
+         document.getElementById("refinement-selection").style.display = "block";
+         document.getElementById("show-info").style.display = "none";
+         document.getElementById("hide-info").style.display = "block";
+    }
+    window.onload = hideQualityInformation;
+
+// validate atleast one refinement selected for execution
+function validateRefinementExecution() {
+    var checkboxs = document.querySelectorAll("input[type='checkbox']");
+    var box_checked = false;
+    for(var i = 0,l = checkboxs.length;i < l;i++)
+    {
+        if(checkboxs[i].checked)
+        {
+            box_checked=true;
+            break;
+        }
+    }
+    if(box_checked) {
+           return true;
+    }
+    else {
+           document.getElementById('no-refinements-executed').style.display = "block";
+           return false;
+    }
+}
 </script>
 <script>
 function clickList() {

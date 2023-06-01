@@ -12,18 +12,18 @@
 <#TriplesMap8>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlVersion "xx";	
-	 rr:tableName "xx";	
+ 	 rr:sqlQuery "dd";	
+	 rr:tableName "d";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "http://data.example.com/person/{person_id}";	
-	 rr:class foaf:Agent;	
+ 	 rr:class foaf:Agent;	
+	 rr:template "http://data.example.com/person/{person_id}";	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:object <http://data.example.com/friend/1> ;	
-	 rr:predicate foaf:knows;	
+ 	 rr:predicate foaf:knows;	
+	 rr:object <http://data.example.com/friend/1> ;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -37,7 +37,6 @@
  	 rr:predicate foaf:based_near;	
 	 rr:objectMap [	
 		 rr:template "http://data.example.com/location/{person_id}";	
-		 rr:termType rr:Literal;	
 		]; 	
  ];	
 .	

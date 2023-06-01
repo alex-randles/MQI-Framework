@@ -6,19 +6,17 @@
 @prefix ex: <http://example.com/ns#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
 
 	
 <#TriplesMap8>	
 	
- rr:logicalTable [ 	
- 	 rr:sqlVersion "xx";	
-	 rr:tableName "xx";	
+ rml:logicalSource [ 	
+ 	 rml:source "people.csv";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "http://data.example.com/person/{person_id}";	
-	 rr:class foaf:Agent;	
+ 	 rr:class foaf:Agent, <http://www.w3.org/2003/01/geo/wgs84_pos#SpatialThing> ;	
+	 rr:template "http://data.example.com/person/{person_id}";	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -27,7 +25,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate foaf:thumbnail;	
+ 	 rr:predicate foaf:name;	
 	 rr:objectMap [	
 		 rr:column "NAME";	
 		]; 	
@@ -36,8 +34,8 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate foaf:based_near;	
 	 rr:objectMap [	
+		 rr:termType rr:IRI;	
 		 rr:template "http://data.example.com/location/{person_id}";	
-		 rr:termType rr:Literal;	
 		]; 	
  ];	
 .	
