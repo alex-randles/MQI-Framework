@@ -1,4 +1,5 @@
 @prefix ex: <http://example.org/> .
+<<<<<<< HEAD
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
@@ -67,4 +68,15 @@ ex:violation-1 a mqio:MappingViolation ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:MP1 ;
     mqio:wasRefinedBy ex:refinement-1 .
+=======
+@prefix mqio: <https://w3id.org/MQIO#> .
+
+ex:mappingQualityAssessment a mqio:MappingAssessment ;
+    mqio:assessedMapping <refined-mapping127.ttl> ;
+    mqio:hasValidationReport ex:mappingValidationReport-0 .
+
+ex:mappingValidationReport-0 a mqio:MappingValidationReport .
+
+<refined-mapping127.ttl> a mqio:MappingArtefact .
+>>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
 

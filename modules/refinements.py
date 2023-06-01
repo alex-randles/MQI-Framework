@@ -24,8 +24,13 @@ class Refinements:
         self.EX = Namespace("http://example.org/")
         self.add_information = add_information
         self.validation_results = validation_results
+<<<<<<< HEAD
         # self.prefix_values = dict(pd.read_csv("prefixes.csv"))
         self.prefix_values = {entry.get("prefix"):entry.get("namespace") for entry in pd.read_csv("prefixes.csv").to_dict(orient='records')}
+=======
+        self.prefix_file = "prefixes.csv"
+        self.prefix_values = self.create_prefix_value_dict(self.prefix_file)
+>>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
         self.triple_references = triple_references
         self.mapping_graph = mapping_graph
         self.namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}

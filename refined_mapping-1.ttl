@@ -3,6 +3,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
+<<<<<<< HEAD
 @prefix ex: <http://example.com/ns#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
@@ -30,14 +31,71 @@
  	 rr:predicate foaf:thumbnail;	
 	 rr:objectMap [	
 		 rr:column "NAME";	
+=======
+@prefix ex: <http://data.example.com/> . 
+@prefix ex-metric-query: <http://data.example.com/metricQuery/> . 
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix ibclo: <https://ibclo.ericsson.com/#> . 
+
+	
+<#Metric>	
+	
+ rml:logicalSource [ 	
+ 	 rml:source "metric-data-v1.csv";	
+ ];	
+	
+ rr:subjectMap [ 	
+ 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+	 rr:class ibclo:Metric;	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasName;	
+	 rr:objectMap [	
+		 rr:column "_name__";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasInstance;	
+	 rr:objectMap [	
+		 rr:column "instance";	
+>>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+<<<<<<< HEAD
  	 rr:predicate foaf:based_near;	
 	 rr:objectMap [	
 		 rr:template "http://data.example.com/location/{person_id}";	
 		 rr:termType rr:Literal;	
 		]; 	
  ];	
+=======
+ 	 rr:predicate ibclo:hasLabel;	
+	 rr:objectMap [	
+		 rr:column "label";	
+		 rr:datatype xsd:string;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasModelName;	
+	 rr:objectMap [	
+		 rr:column "model_name";	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasResultSet;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#MetricResults> ;	
+		 rr:joinCondition [	
+			 rr:child "METRIC_ID";	
+			 rr:parent "RESULT_ID";	
+			 ];	
+ 		]; 	
+ ];	
+>>>>>>> ccc3c0ca7dee31378434886462172b495eec03ba
 .	

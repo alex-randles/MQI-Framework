@@ -1,0 +1,282 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://ontology.smartfitgym.eu#"
+     xml:base="http://ontology.smartfitgym.eu"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace">
+    <owl:Ontology rdf:about="http://ontology.smartfitgym.eu"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#achieve -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.smartfitgym.eu#achieve">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Exercises"/>
+        <rdfs:range rdf:resource="http://ontology.smartfitgym.eu#Goals"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#exercisehas -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.smartfitgym.eu#exercisehas">
+        <rdfs:range rdf:resource="http://ontology.smartfitgym.eu#Exercise_Types"/>
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Exercises"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#helpstobuild -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.smartfitgym.eu#helpstobuild">
+        <rdfs:range rdf:resource="http://ontology.smartfitgym.eu#Bodyparts"/>
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Goals"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#workouthas -->
+
+    <owl:ObjectProperty rdf:about="http://ontology.smartfitgym.eu#workouthas">
+        <rdfs:range rdf:resource="http://ontology.smartfitgym.eu#Workout_Types"/>
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Workouts"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#bodypart-id -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#bodypart-id">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Bodyparts"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#bodypartname -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#bodypartname">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Bodyparts"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#caloriesper10mins -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#caloriesper10mins">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Exercises"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#exercise-type -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#exercise-type">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Exercise_Types"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#exercise_id -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#exercise_id">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Exercises"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#exercise_name -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#exercise_name">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Exercises"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#exercisetype-id -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#exercisetype-id">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Exercise_Types"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#goals-name -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#goals-name">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Goals"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#goals_id -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#goals_id">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Goals"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#tool -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#tool">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Workouts"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#workout-type -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#workout-type">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Workout_Types"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#workout-type-id -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#workout-type-id">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Workout_Types"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#workout_id -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#workout_id">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Workouts"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#workout_name -->
+
+    <owl:DatatypeProperty rdf:about="http://ontology.smartfitgym.eu#workout_name">
+        <rdfs:domain rdf:resource="http://ontology.smartfitgym.eu#Workouts"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#Bodyparts -->
+
+    <owl:Class rdf:about="http://ontology.smartfitgym.eu#Bodyparts"/>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#Exercise_Types -->
+
+    <owl:Class rdf:about="http://ontology.smartfitgym.eu#Exercise_Types"/>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#Exercises -->
+
+    <owl:Class rdf:about="http://ontology.smartfitgym.eu#Exercises"/>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#Goals -->
+
+    <owl:Class rdf:about="http://ontology.smartfitgym.eu#Goals"/>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#Workout_Types -->
+
+    <owl:Class rdf:about="http://ontology.smartfitgym.eu#Workout_Types"/>
+    
+
+
+    <!-- http://ontology.smartfitgym.eu#Workouts -->
+
+    <owl:Class rdf:about="http://ontology.smartfitgym.eu#Workouts">
+        <rdfs:subClassOf rdf:resource="http://ontology.smartfitgym.eu#Exercises"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://ontology.smartfitgym.eu#Bodyparts"/>
+            <rdf:Description rdf:about="http://ontology.smartfitgym.eu#Exercise_Types"/>
+            <rdf:Description rdf:about="http://ontology.smartfitgym.eu#Exercises"/>
+            <rdf:Description rdf:about="http://ontology.smartfitgym.eu#Goals"/>
+            <rdf:Description rdf:about="http://ontology.smartfitgym.eu#Workout_Types"/>
+            <rdf:Description rdf:about="http://ontology.smartfitgym.eu#Workouts"/>
+            <rdf:Description rdf:about="&owl;Thing"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
