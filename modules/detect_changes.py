@@ -18,8 +18,7 @@ class DetectChanges:
     def __init__(self, user_id, form_details):
         self.form_details = form_details
         self.is_csv_data = "CSV-URL-2" in self.form_details.keys()
-        self.version_1_source = None
-        self.version_2_source = None
+        self.fetch_source_data()
         self.user_id = "1"
         self.error_code = 0
         self.graph_version = self.find_graph_version()
@@ -28,7 +27,7 @@ class DetectChanges:
         self.run_uplift()
 
     def run_uplift(self):
-        if self.error_code == 1:
+        if self.error_code == 0:
             self.create_notification_csv()
             self.update_r2rml_config()
             self.execute_r2rml()
@@ -40,10 +39,10 @@ class DetectChanges:
         if self.is_csv_data:
             self.version_1_source = requests.get(self.form_details.get("CSV-URL-1")).text
             self.version_2_source = requests.get(self.form_details.get("CSV-URL-2")).text
+            print("RETRIEVED FILE DATA ", self.version_1_source )
         else:
             self.version_1_source = requests.get(self.form_details.get("XML-URL-1")).text
             self.version_2_source = requests.get(self.form_details.get("XML-URL-2")).text
-        return version_1_data, version_2_data
 
     def detect_source_changes(self):
         # try:
