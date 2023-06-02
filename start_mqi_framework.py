@@ -211,16 +211,6 @@ class API:
             session["change_process_executed"] = False
             return render_template("change_detection/data_format_choice.html", participant_id=participant_id)
 
-
-    @app.route("/return-user-graph/", methods=['GET', 'POST'])
-    def download_user_graph():
-        # refined_mapping_file_name = session.get("mapping_file").split(".")[0] + "_refined_mapping.ttl"
-        participant_id = session.get("participant_id")
-        user_graph_file = "/home/alex/Desktop/Mapping-Quality-Framework/change_detection/database_change_detection/user_files/graphs/user_{}.trig".format(
-            participant_id)
-        return send_file(user_graph_file, attachment_filename="user_graph.trig", as_attachment=True,
-                         cache_timeout=0)
-
     @app.route(("/csv-changes"), methods=["GET", "POST"])
     def detect_csv_changes():
         participant_id = session.get("participant_id")
@@ -232,12 +222,8 @@ class API:
             session["change_process_executed"] = True
             form_details = request.form
             change_detection = DetectChanges(participant_id, form_details)
-            # invalid URL
             if change_detection.error_code == 1:
                 flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
-                return redirect(url_for('detect_csv_changes'))
-            elif change_detection.error_code == 2:
-                flash("Incorrect file format.")
                 return redirect(url_for('detect_csv_changes'))
             else:
                 return redirect(url_for('change_detection'))
@@ -344,10 +330,7 @@ class API:
                     process_removed=False,
                     graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
                     mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
-                    # mappings_impacted = mappings_impacted,
                 )
-            # this is the error for when an uploaded file is not valid mapping
-            # except rdflib.plugins.parsers.notation3.BadSyntax as e: - incorrect SPARQL query
             else:
                 return "<h1>Error!!!!!</h1>"
         else:
@@ -361,7 +344,6 @@ class API:
             else:
                 mapping_uploaded = False
             # mapping uploaded = True to display banner
-            # get graph details for user
             display_changes = DisplayChanges(participant_id)
             user_graph_details = display_changes.graph_details
             mapping_details = display_changes.mapping_details
@@ -419,42 +401,6 @@ class API:
             return max(user_versions) + 1
         else:
             return 1
-
-    @app.route(("/logout"), methods=["GET", "POST"])
-    def logout():
-        logged_in = session.pop("logged_in", None)
-        if logged_in:
-            flash("You have been logged out")
-        return redirect(url_for("login"))
-
-    @app.route("/view")
-    @admin_required
-    def view():
-        return render_template("mapping_quality/view.html", values=users.query.all())
-
-    @staticmethod
-    def create_participant_details(num_participants):
-        # add participant passwords to database
-        for i in range(1, num_participants):
-            length = 10
-            chars = string.ascii_letters + string.digits
-            random.seed = (os.urandom(1024))
-            # password = ''.join(random.choice(chars) for i in range(length))
-            password = "1"
-            usr = users(password)
-            db.session.add(usr)
-            db.session.commit()
-
-    @staticmethod
-    def update_database_time(participant_id, action):
-        if participant_id:
-            current_time = datetime.now()
-            found_users = users.query.filter_by(participant_id=participant_id).first()
-            if found_users:
-                # column_names = {"User logged in" : found_users.logged_in}
-                # current_column = column_names.get(action)
-                setattr(found_users, action, current_time)
-                db.session.commit()
 
     @staticmethod
     def get_file_extension(filename):

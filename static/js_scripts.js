@@ -129,8 +129,8 @@ function addSampleSourceData(sample_data_identifier){
       document.getElementById('CSV-URL-2').value = "";
   }
   else if (sample_data_identifier == 1){
-      document.getElementById('CSV-URL-1').value = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv";
-      document.getElementById('CSV-URL-2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/manipulated_file/student-v3.csv";
+      document.getElementById('CSV-URL-1').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/video_demo/metric-data-v1.csv";
+      document.getElementById('CSV-URL-2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/video_demo/metric-data-v2.csv";
   }
   else if (sample_data_identifier == 2){
      document.getElementById('CSV-URL-1').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/products.csv";

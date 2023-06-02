@@ -6,6 +6,7 @@ import io
 import datetime
 from xmldiff import main, formatting
 import xmldiff
+from flask import flash
 from collections import defaultdict
 import csv_diff
 import csv
@@ -17,35 +18,46 @@ class DetectChanges:
     def __init__(self, user_id, form_details):
         self.form_details = form_details
         self.is_csv_data = "CSV-URL-2" in self.form_details.keys()
-        self.version_1_source, self.version_2_source = self.fetch_source_data()
+        self.version_1_source = None
+        self.version_2_source = None
         self.user_id = "1"
         self.error_code = 0
         self.graph_version = self.find_graph_version()
         self.output_file = r2rml.r2rml_output_file.format(self.graph_version)
         self.detect_source_changes()
-        self.create_notification_csv()
-        self.update_r2rml_config()
-        self.execute_r2rml()
-        self.validate_notification_policy()
+        self.run_uplift()
+
+    def run_uplift(self):
+        if self.error_code == 1:
+            self.create_notification_csv()
+            self.update_r2rml_config()
+            self.execute_r2rml()
+            self.validate_notification_policy()
+        else:
+            print("UPLIFT ERROR ")
 
     def fetch_source_data(self):
         if self.is_csv_data:
-            version_1_data = requests.get(self.form_details.get("CSV-URL-1")).text
-            version_2_data = requests.get(self.form_details.get("CSV-URL-2")).text
+            self.version_1_source = requests.get(self.form_details.get("CSV-URL-1")).text
+            self.version_2_source = requests.get(self.form_details.get("CSV-URL-2")).text
         else:
-            version_1_data = requests.get(self.form_details.get("XML-URL-1")).text
-            version_2_data = requests.get(self.form_details.get("XML-URL-2")).text
+            self.version_1_source = requests.get(self.form_details.get("XML-URL-1")).text
+            self.version_2_source = requests.get(self.form_details.get("XML-URL-2")).text
         return version_1_data, version_2_data
 
     def detect_source_changes(self):
+        # try:
         if self.is_csv_data:
             diff = self.detect_csv_changes()
-            # output_changes = {'insert': {0: {'structural_reference': 'Object', 'change_reason': 'ss: False'}},
-            #                   'delete': {1: {'structural_reference': 'Object', 'change_reason': 'value: SID:<sid>'}}}
             diff = self.format_csv_changes(diff)
             self.output_changes(diff)
         else:
             self.detect_xml_changes()
+        # except Exception as e:
+        #     print("EXCEPTION ", e)
+        #     print()
+        #     self.error_code = 1
+        #     return None
 
     def detect_xml_changes(self):
         # detect differences between XML file versions
@@ -87,8 +99,6 @@ class DetectChanges:
             csv_diff.load_csv(version_1_file_object),
             csv_diff.load_csv(version_2_file_object),
         )
-        # print(csv_diff)
-        # exit()
         return diff
 
     @staticmethod
@@ -165,11 +175,6 @@ class DetectChanges:
         version_2_url = self.form_details.get("CSV-URL-2").split("/")[-1]
         if version_1_url.strip() !=  version_2_url.strip():
             output_changes["move"][change_id + 1] = {"new_location": version_2_url}
-        # output_changes = {'delete': {'2': {'change_reason': 'value', 'structural_reference': 'Key'},
-        #             '3': {'change_reason': 'SID:<sid>', 'data_reference': 'value'}},
-        #  'insert': {'0': {'change_reason': 'module', 'structural_reference': 'Key'},
-        #             '1': {'change_reason': 'CS171', 'data_reference': 'module'}}}
-
         return output_changes
 
     def output_changes(self, output_changes):

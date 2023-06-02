@@ -22,28 +22,42 @@
                 </label>
                 <div class="form-group">
                     <label for="CSV-URL-1"><span class="fw-bold">Original: </span>Version 1 CSV URL</label>
-                    <input type="text" class="form-control"
+                    <input type="url" class="form-control"
                            id="CSV-URL-1" name="CSV-URL-1" placeholder="Version 1 CSV URL" required>
                 </div>
                 <div class="form-group">
                     <label for="CSV-URL-2"><span class="fw-bold">Current: </span>Version 2 CSV URL</label>
-                    <input type="text"
+                    <input type="url"
                            class="form-control" id="CSV-URL-2" name="CSV-URL-2"  placeholder="Version 2 CSV URL"  required>
                 </div>
-<!--                <div class="my-2">-->
-<!--                    <select class="form-select btn btn-sm btn-secondary mx-1 w-25" aria-label="Default select example">-->
-<!--                        <option selected onClick="addSampleSourceData(0)">Select a sample source data</option>-->
-<!--                        <option value="1" onClick="addSampleSourceData(1)">Student source data</option>-->
-<!--                        <option value="2" onClick="addSampleSourceData(2)">Products source data</option>-->
-<!--                        <option value="3" onClick="addSampleSourceData(3)">Employee source data</option>-->
-<!--                        <option value="4" onClick="addSampleSourceData(4)">Loans source data</option>-->
-<!--                    </select>-->
-<!--                </div>-->
+                <div class="my-2">
+                    <select class="form-select btn btn-sm btn-secondary mx-1 w-25" aria-label="Default select example">
+                        <option selected onClick="addSampleSourceData(0)">Select a sample source data</option>
+                        <option value="1" onClick="addSampleSourceData(1)">Sample source data</option>
+                        <!--                        <option value="2" onClick="addSampleSourceData(2)">Products source data</option>-->
+                        <!--                        <option value="3" onClick="addSampleSourceData(3)">Employee source data</option>-->
+                        <!--                        <option value="4" onClick="addSampleSourceData(4)">Loans source data</option>-->
+                    </select>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center py-1">
+                <div class="col-sm-6 text-center">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for msg in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Error</h4>
+                        {{msg}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="container-fluid gray-out">
+    <div class="container-fluid">
         <div class="row d-flex justify-content-center py-1 text-center">
             <div class="col-sm-6 bg-light py-2">
                 <h4 class="h4">Notification Policy Details</h4>
@@ -136,11 +150,6 @@
 
 
     <div class="container-fluid">
-        <div class="row d-flex justify-content-center py-1">
-            <div id="nameErrMsg" class="col-sm-4 text-center alert alert-danger" style="display:none;">
-                <p></p>
-            </div>
-        </div>
         <div class="row d-flex justify-content-center">
             <div class="col-sm-12 text-center">
                 <input class="my-2 btn btn-primary" id="button-style" type= "submit" value="Start Change Monitoring" />
@@ -153,28 +162,12 @@
                 </div>
             </div>
         </div>
-        <div class="row d-flex justify-content-center py-1">
-            <div class="col-sm-4 text-center">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                {% for msg in messages %}
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Error</h4>
-                    {{msg}}
-                </div>
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
-            </div>
-        </div>
     </div>
 </form>
 
 <script>
 document.getElementById("detection-end").value = "2022-12-31"
 </script>
-
-<script type="text/javascript" src="{{ url_for('static', filename='js_scripts.js') }}"></script>
 
 {% endblock %}
 

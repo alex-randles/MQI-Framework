@@ -38,7 +38,7 @@
             <https://www.w3id.org/OSCD#hasDetectionEnd>
                     "2022-12-31 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
             <https://www.w3id.org/OSCD#hasDetectionStart>
-                    "2023-06-02 13:18:33.455364"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+                    "2023-06-02 13:19:52.470053"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
     
     <http://www.example.com/updateChangeConstraint/1>
             a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
