@@ -252,6 +252,7 @@ class API:
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
         if request.method == "GET":
+
             mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
             graph_id = int(graph_id.split(".")[0])
             change_graph_details = session.get("graph_details").get(graph_id)

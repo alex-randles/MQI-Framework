@@ -11,8 +11,8 @@
         <div class="alert alert-success text-center" role="alert">
             <h5 class="alert-heading">Updated Mapping Generated</h5>
             <p>Press the button 'Download Updated Mapping' to retrieve the mapping with updated data references.
-            <a href="{{ url_for('static', filename='uploads/mappings/updated_mapping.ttl') }}">
-                    <button class="btn btn-sm mx-2 btn-secondary">Download Updated Mapping</button>
+                <a href="{{ url_for('static', filename='uploads/mappings/%s' % (mapping_filename)) }}" class="btn btn-sm mx-2 btn-secondary">
+                Download Updated Mapping
                 </a>
             </p>
         </div>
@@ -148,17 +148,6 @@
 </div>
 {% set accordion_counter.value = accordion_counter.value + 1 %}
 {% endfor %}
-
-
-<script>
-
-
-
-
-
-</script>
- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-                                                        crossorigin="anonymous"></script>
 
 <script type="text/javascript">
     $(document).on('submit','#new-reference-form',function(e)
