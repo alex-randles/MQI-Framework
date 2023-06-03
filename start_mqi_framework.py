@@ -42,11 +42,9 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# The maximum number of items the session stores
-# before it starts deleting some, default 500
 app.config['SESSION_FILE_THRESHOLD'] = 100
 app.url_map.strict_slashes = False
-app.config['SECRET_KEY'] = "hello"
+app.config['SECRET_KEY'] = "x633UE2xYRC"
 sess = Session()
 sess.init_app(app)
 
@@ -89,45 +87,20 @@ def admin_required(f):
 
     return decorated_function
 
+
 class users(db.Model):
-    participant_id = db.Column("id", db.Integer, primary_key=True)
+    entry_id = db.Column("id", db.Integer, primary_key=True)
+    user_id = db.Column("user_id", db.Integer)
     # will default to variable name if none defined
     password = db.Column(db.String(100))
-    has_consented = db.Column(db.Boolean, default=False)
-    time_consented = db.Column(db.String(100))
-    name = db.Column(db.String(100))
-    logged_in = db.Column(db.String(100))
-    mapping_uploaded = db.Column(db.String(100))
-    information_sheet = db.Column(db.String(100))
-    task_sheet = db.Column(db.String(100))
-    PSSUQ = db.Column(db.String(100))
-    experiment_completed = db.Column(db.String(100))
-    experiment_started = db.Column(db.String(100))
-    assessment_information_generated = db.Column(db.String(100))
-    refinements_executed = db.Column(db.String(100))
-    refined_mapping_exported = db.Column(db.String(100))
-    validation_report_exported = db.Column(db.String(100))
-    quality_report_exported = db.Column(db.String(100))
-    quality_profile_generated = db.Column(db.String(100))
-    current_progress = db.Column(db.String(100))
-    quality_report_file = db.Column(db.Text)
-    validation_report_file = db.Column(db.Text)
-    refined_mapping_file = db.Column(db.Text)
-
-    # for col in ['logged_in', 'home_page_accessed', 'description']:
-    #     setattr(db, col, None)
-    def __init__(self, password):
+    def __init__(self, user_id, password):
+        self.user_id = user_id
         self.password = password
 
 class API:
 
     def __init__(self):
         app.run(host="127.0.0.1", port=5000, threaded=True, debug=True)
-        # if timeout error occurs
-        # try:
-        #     app.run(host="127.0.0.1", port="5000", threaded=True, debug=True)
-        # except:
-        #     app.run(host="127.0.0.1", port="5000", threaded=True, debug=True)
 
     @app.errorhandler(404)
     def error_404(error):
@@ -160,10 +133,19 @@ class API:
             os.makedirs(f"./static/change_detection_cache/change_graphs/{session_id}")
             return session_id
 
+
+    @staticmethod
+    def add_user(user_id, password):
+        usr = users(user_id, password)
+        db.session.add(usr)
+        db.session.commit()
+        os.makedirs(f"./static/uploads/mappings/{user_id}")
+        os.makedirs(f"./static/change_detection_cache/change_graphs/{user_id}")
+
     @staticmethod
     def validate_RDF(filename):
         try:
-            g = rdflib.Graph().parse(filename, format="ttl")
+            rdflib.Graph().parse(filename, format="ttl")
             return True
         except Exception as e:
             return False
@@ -198,39 +180,83 @@ class API:
     def store_ontology_file(ontology_file):
         for file in ontology_file:
             filename = secure_filename(file.filename)
-            file_path = "./static/uploads/{}/local_ontologies/{}".format(API.get_session_id(), filename)
-            # file.save(file_path)
-            # if uploaded file is not valid RDF
+            file_path = f"./static/uploads/{session.get('user_id')}/local_ontologies/{filename}"
             error_message = FetchVocabularies.store_local_vocabulary(file_path)
             if error_message:
                 return error_message
 
     @app.route(("/"), methods=["GET", "POST"])
+    def login():
+        if request.method == "GET":
+            if "logged_in" not in session:
+                return render_template("login.html")
+            else:
+                return redirect(url_for("component_choice"))
+        elif request.method == "POST":
+            # session.permanent = True
+            user_id = request.form["user_id"]
+            password = request.form["password"]
+            found_users = users.query.filter_by(user_id=user_id).first()
+            if found_users:
+                correct_password = found_users.password
+                if correct_password == password.strip():
+                    session["logged_in"] = True
+                    session["user_id"] = user_id
+                    return redirect(url_for("component_choice"))
+                else:
+                    flash("Invalid credentials, try again!")
+                    return render_template("login.html")
+            else:
+                flash("Invalid credentials, try again!")
+                return render_template("login.html")
+
+    @app.route(("/register"), methods=["GET", "POST"])
+    def register():
+        if request.method == "GET":
+            found_users = users.query.all()
+            existing_ids = [user.user_id for user in found_users if isinstance(user.user_id, int)]
+            if existing_ids:
+                new_user_id = max(existing_ids) + 1
+            else:
+                new_user_id = 1
+            new_password = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
+            return render_template("register.html", new_user_id=new_user_id, new_password=new_password)
+        else:
+            user_id = request.form.get("user_id")
+            password = request.form.get("password")
+            API.add_user(user_id, password)
+            print("REGISTERING: ", user_id, password)
+            return redirect(url_for("login"))
+
+    @app.route(("/logout"), methods=["GET", "POST"])
+    def logout():
+        logged_in = session.pop("logged_in", None)
+        if logged_in:
+            flash("You have been logged out")
+        return redirect(url_for("login"))
+
+    @app.route(("/component-choice"), methods=["GET", "POST"])
     def component_choice():
         if request.method == "GET":
-            print(API.get_session_id(), "SESSION_ID")
-            participant_id = session.get("participant_id")
-            return render_template("component_choice.html", participant_id=participant_id)
+            return render_template("component_choice.html", user_id=session.get("user_id"))
 
     @app.route(("/format-choice"), methods=["GET"])
     def format_choice():
         if request.method == "GET":
-            participant_id = session.get("participant_id")
             session["change_process_executed"] = False
-            print(API.get_session_id())
-            return render_template("change_detection/data_format_choice.html", participant_id=participant_id)
+            return render_template("change_detection/data_format_choice.html", user_id=session.get("user_id"))
 
     @app.route(("/csv-changes"), methods=["GET", "POST"])
     def detect_csv_changes():
-        participant_id = session.get("participant_id")
+        user_id = session.get("user_id")
         if request.method == "GET":
             session["change_process_executed"] = False
-            return render_template("change_detection/CSV_file_details.html", participant_id=participant_id)
+            return render_template("change_detection/CSV_file_details.html", user_id=session.get("user_id"))
         elif request.method == "POST":
             # create a graph with 3 named graphs for user
             session["change_process_executed"] = True
             form_details = request.form
-            change_detection = DetectChanges(API.get_session_id(), form_details)
+            change_detection = DetectChanges(session.get("user_id"), form_details)
             if change_detection.error_code == 1:
                 flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
                 return redirect(url_for('detect_csv_changes'))
@@ -239,14 +265,14 @@ class API:
 
     @app.route(("/xml-changes"), methods=["GET", "POST"])
     def detect_xml_changes():
-        participant_id = session.get("participant_id")
+        user_id = session.get("user_id")
         if request.method == "GET":
             session["change_process_executed"] = False
-            return render_template("change_detection/XML_file_details.html", participant_id=participant_id)
+            return render_template("change_detection/XML_file_details.html", user_id=user_id)
         elif request.method == "POST":
             session["change_process_executed"] = True
             form_details = request.form
-            change_detection = DetectChanges(participant_id, form_details)
+            change_detection = DetectChanges(user_id, form_details)
             if change_detection.error_code == 1:
                 flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
                 return redirect(url_for('detect_xml_changes'))
@@ -305,12 +331,12 @@ class API:
     def process_thresholds(graph_filename):
         # reassign as pycharm underlines as error
         str_graph_filename = str(graph_filename)
-        participant_id = session.get("participant_id")
-        notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, API.get_session_id())
+        user_id = session.get("user_id")
+        notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, session.get("user_id"))
         graph_id = "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
         change_graph_details = session.get("graph_details")
         return render_template("change_detection/notification_thresholds.html",
-                               participant_id=participant_id,
+                               user_id=user_id,
                                graph_id=graph_id,
                                graph_filename=graph_filename,
                                change_graph_details=change_graph_details,
@@ -325,7 +351,8 @@ class API:
             session["change_process_executed"] = False
             # get graph details for user
             # try:
-            display_changes = DisplayChanges(API.get_session_id())
+            user_id = session.get("user_id")
+            display_changes = DisplayChanges(user_id)
             error_code = display_changes.error_code
             if error_code == 0:
                 user_graph_details = display_changes.graph_details
@@ -334,6 +361,7 @@ class API:
                 session["mapping_details"] = mapping_details
                 return render_template(
                     "change_detection/change_results.html",
+                    user_id=user_id,
                     change_process_executed=change_process_executed,
                     process_removed=False,
                     graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
@@ -344,10 +372,10 @@ class API:
         else:
             uploaded_file = request.files['mapping-file']
             if uploaded_file.filename != '':
-                file_version = API.iterate_user_files(participant_id)
-                filename = uploaded_file.filename + "_{}-{}".format(participant_id, file_version)
+                file_version = API.iterate_user_files(user_id)
+                filename = uploaded_file.filename + "_{}-{}".format(user_id, file_version)
                 upload_folder = f'./static/uploads/{API.get_session_id()}/mappings/'
-                filename = os.path.join(upload_folder + session.get("participant_id") + "/", filename)
+                filename = os.path.join(upload_folder + session.get("user_id") + "/", filename)
                 uploaded_file.save(filename)
                 mapping_uploaded = True
             else:
@@ -420,8 +448,7 @@ class API:
     @app.route("/index/<filename>", methods=["GET", "POST"])
     @app.route("/index", methods=["GET", "POST"])
     def assess_mapping(filename=None):
-        session["participant_id"] = 1
-        participant_id = session.get("participant_id")
+        participant_id = session.get("user_id")
         if request.method == "POST":
             # get file uploaded
             file = request.files['mapping_file']
@@ -437,7 +464,7 @@ class API:
             filename = secure_filename(file.filename)
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)
-                upload_folder = f'./static/uploads/mappings/{API.get_session_id()}/'
+                upload_folder = f'./static/uploads/mappings/{session.get("user_id")}/'
                 mapping_file = os.path.join(upload_folder, filename)
                 session["mapping_file"] = mapping_file
                 file.save(mapping_file)
@@ -454,8 +481,8 @@ class API:
                             more_info_data = request.form
                             session["more_info_data"] = more_info_data
                             if len(validation_result) > 0:
-                                participant_id = session.get("participant_id")
-                                validation_report_file = "validation_report-{}.ttl".format(participant_id)
+                                user_id = session.get("user_id")
+                                validation_report_file = "validation_report-{}.ttl".format(user_id)
                                 session["validation_report_file"] = validation_report_file
                                 session["namespaces"] = assessment_result.namespaces
                                 # user wants to add more info to reports
@@ -473,14 +500,14 @@ class API:
                                 API.create_validation_report()
                                 get_triple_map_id = assessment_result.get_triple_map_id
                                 session["get_triple_map_id"] = get_triple_map_id
-                                participant_id = session["participant_id"]
+                                user_id = session["user_id"]
                                 bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"))
                                 session["bar_chart_html"] = bar_chart_html
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
                                     bar_chart_html=bar_chart_html,
                                     refinement_descriptions=session["refinements"].refinement_descriptions,
-                                    participant_id=participant_id,
+                                    user_id=user_id,
                                     display_violation=serializer.display_violation,
                                     metric_descriptions=assessment_result.metric_descriptions,
                                     len=len(validation_result),
@@ -498,7 +525,7 @@ class API:
 
                             else:
                                 API.create_validation_report()
-                                return render_template("mapping_quality/no_violations.html", participant_id=participant_id)
+                                return render_template("mapping_quality/no_violations.html", user_id=session.get("user_id"))
                         except urllib.error.URLError as server_error:
                             print(server_error)
                             flash("Start the Apache fueski server!")
@@ -520,8 +547,8 @@ class API:
                 flash("Please Upload a Mapping File!")
                 return render_template("mapping_quality/index.html")
         else:
-            participant_id = session.get("participant_id")
-            return render_template("mapping_quality/index.html", participant_id=participant_id)
+            user_id = session.get("user_id")
+            return render_template("mapping_quality/index.html", user_id=session.get("user_id"))
             # return render_template("mapping_quality/index.html")
 
     @staticmethod
@@ -545,7 +572,7 @@ class API:
         cache_find_violation = session.get("find_violation_location")
         more_info_data = session.get("more_info_data")
         find_prefix = session.get("find_prefix")
-        participant_id = session.get("participant_id")
+        user_id = session.get("user_id")
         if request.method == "POST":
             session["request_form"] = request.form.to_dict()
             # create validation report incase user goes back and then forward,not to include multiple refinement queries
@@ -555,7 +582,7 @@ class API:
                                                  cache_triple_references,
                                                  cache_mapping_graph,
                                                  session.get("more_info_data"),
-                                                 participant_id)
+                                                 user_id)
             session["refinements"].process_user_input(session.get("request_form"),
                                                       cache_refinement_values,
                                                       cache_mapping_file,
@@ -568,7 +595,7 @@ class API:
             show_refinement_buttons = True
             return render_template(
                 "mapping_quality/refinements.html",
-                participant_id=participant_id,
+                user_id=session.get("user_id"),
                 show_refinement_buttons=show_refinement_buttons,
                 bar_chart_html=session.get("bar_chart_html"),
                 split_camel_case=API.split_camel_case,
@@ -603,7 +630,7 @@ class API:
                 suggested_refinements = session.get("suggested_refinements")
                 return render_template(
                     "mapping_quality/refinements.html",
-                    participant_id=participant_id,
+                    user_id=session.get("user_id"),
                     bar_chart_html=session.get("bar_chart_html"),
                     split_camel_case=API.split_camel_case,
                     refinement_descriptions=session.get("refinements").refinement_descriptions,
@@ -627,25 +654,21 @@ class API:
 
     @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
     def download_refined_mapping():
-        refined_mapping_filename = "refined-mapping.ttl"
-        return send_file(local_filename, attachment_filename=refined_mapping_filename, as_attachment=True,
+        return send_file("refined_mapping.ttl",
+                         as_attachment=True,
                          cache_timeout=0)
 
     @app.route("/return-validation-report/", methods=['GET', 'POST'])
     def download_refinement_report():
-        validation_report_filename = "validation_report-1.ttl"
         return send_file(
-            validation_report_filename,
-            attachment_filename="validation-report.ttl",
+            "validation_report.ttl",
             as_attachment=True, cache_timeout=0
         )
 
     @app.route("/return-quality-report/", methods=['GET', 'POST'])
     def download_validation_report():
-        participant_id = session.get("participant_id")
-        quality_report_filename = "validation_report-{}.ttl".format(participant_id)
-        return send_file(quality_report_filename,
-                         attachment_filename="quality-report.ttl",
+        return send_file("validation_report.ttl",
+                         attachment_filename="quality_report.ttl",
                          as_attachment=True, cache_timeout=0)
 
     @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
@@ -689,4 +712,5 @@ class API:
 
 if __name__ == "__main__":
     # start api
+    db.create_all()
     API()

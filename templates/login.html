@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <title>{% block title %}Login{% endblock %}</title>
+    <style>
+body, html {
+  height: 100%;
+}
+
+.images {
+   position:absolute;
+   right: 5%;
+   z-index: 5;
+}
+
+.container-bg {
+margin-top: 8%;
+}
+.center-block {
+  margin: auto;
+  display: block;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+
+<div>
+    <img src="./static/images/adapt_logo.png" height="30%" width="20%" style="margin-left:2%;  position:absolute; right:2%;top:20%;">
+</div>
+<div>
+    <img src="./static/images/crt_ai_logo.jpg" height="30%" width="20%" style="margin-left:2%;  position:absolute; right:2%;top:40%;">
+</div>
+<div>
+    <img src="./static/images/tcd_logo.png" height="30%" width="20%" style="margin-left:2%;  position:absolute; right:2%;top:65%;">
+</div>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand d-flex mx-auto  p-3 text-uppercase fw-bold" href="#"><span class="mb-0 h3">Mapping Quality Improvement (MQI) Framework</span></a>
+</nav>
+
+<form method="POST"  action="." class="login-form">
+
+    <div class="container-bg">
+        <div class="container w-25  bg-light pe-4 pb-4">
+            <h4 class="mt-4">User Login</h4>
+            <label for="user_id" class="form-label">User ID</label>
+            <input  placeholder="User ID" value="user" type="text" class="participant_id form-control"  id="user_id" name="user_id" required>
+            <label for="password" class="form-label  mt-3">Password</label>
+            <div class="input-group mb-3">
+                <input placeholder="Password" value="password" type="password" class="password form-control" id="password" name="password" required>
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">
+                      <span class="tt" data-bs-placement="top" title="Please contact alex.randles@adaptcentre.ie if you forget your password">
+                          <i class="bi bi-info-circle" ></i>
+                      </span>
+                </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <input type="submit" value="Login" id="submit" class="btn btn-primary center-block">
+                </div>
+                <div class="col-2">
+                    <a href="{{ url_for('register') }}" class="btn btn-sm btn-secondary">Register</a>
+                </div>
+            </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for msg in messages %}
+            <div class="alert alert-primary mt-3"  role="alert">
+                <h4 class="alert-heading">Information </h4>
+                <p>{{msg}}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+        </div>
+    </div>
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+
+<script>
+    const tooltips = document.querySelectorAll(".tt")
+    tooltips.forEach ( t=> {
+       new bootstrap.Tooltip(t)
+    })
+</script>
+
+
+
+</body>
+</html>

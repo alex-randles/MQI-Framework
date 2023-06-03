@@ -11,12 +11,51 @@ ex:mappingQualityAssessment a mqio:MappingAssessment ;
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0 .
 
+ex:refinement-0 a mqio:MappingRefinement ;
+    mqio:hasRefinementQuery """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:child "ddkdkd" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "ub2bL6C61").
+                        }
+                    }
+                   """^^xsd:string,
+        """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:child "vvvv" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "ub2bL55C30").
+                        }
+                    }
+                   """^^xsd:string,
+        """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:parent "ccc" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "ub2bL6C61").
+                        }
+                    }
+                   """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Add Child Column"^^xsd:string,
+        "Add Parent Column"^^xsd:string .
+
+<video_demo_mapping.ttl> a mqio:MappingArtefact .
+
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
     mqio:hasObjectValue rr:child ;
     mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:MP4 .
-
-<video_demo_mapping.ttl> a mqio:MappingArtefact .
+    mqio:isDescribedBy mqio-metrics:MP4 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

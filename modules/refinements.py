@@ -1019,7 +1019,7 @@ class Refinements:
 
     def execute_refinements(self, selected_violation_identifier, refinements, refinement_input, validation_report_file):
         # refinement graph updates the validation report graph
-        self.refinement_graph = self.refinement_graph.parse(validation_report_file, format="ttl")
+        self.refinement_graph = self.refinement_graph.parse("validation_report.ttl", format="ttl")
         # execute each refinement selected to be executed with or without user input
         for violation_identifier in selected_violation_identifier:
             # html forms store values as strings
@@ -1038,7 +1038,7 @@ class Refinements:
             self.add_refinement_information(int_violation_identifier, refinement_query, refinement_name)
             self.refinement_count += 1
         print(self.mapping_graph.serialize(format="ttl").decode("utf-8"))
-        self.create_refinement_report(validation_report_file)
+        self.create_refinement_report("validation_report.ttl")
 
     def create_refinement_report(self, validation_report_file):
         # output refinement into RDF report
@@ -1048,8 +1048,8 @@ class Refinements:
 
     def generated_refined_mapping(self):
         # uses custom serializer to preserve mapping ordering
-        TurtleSerializer(self.mapping_graph, self.triple_references, "refined_mapping-{}.ttl".format(self.participant_id))
-        TurtleSerializer(self.mapping_graph, self.triple_references, "./static/uploads/mappings/video_demo_mapping.ttl".format(self.participant_id))
+        TurtleSerializer(self.mapping_graph, self.triple_references, "refined_mapping.ttl")
+        # TurtleSerializer(self.mapping_graph, self.triple_references, "./static/uploads/mappings/video_demo_mapping.ttl".format(self.participant_id))
 
     def format_file_name_identifier(self):
         # remove local file name from IRI's
