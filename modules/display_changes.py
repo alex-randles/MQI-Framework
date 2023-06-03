@@ -8,12 +8,10 @@ from modules.r2rml import *
 import modules.r2rml as r2rml
 class DisplayChanges:
 
-    def __init__(self, user_id, testing=False):
-        # user graph files naming convention
-        # user_1-2.trig
+    def __init__(self, session_id):
         self.user_id = 1
-        self.graph_directory = graph_directory
-        self.mappings_directory = upload_directory
+        self.graph_directory = graph_directory.format(session_id)
+        self.mappings_directory = upload_directory.format(session_id)
         # stores graph currently being queried
         self.current_graph = None
         # stores version of graph being queried
@@ -21,8 +19,6 @@ class DisplayChanges:
         self.graph_details = defaultdict(dict)
         self.mapping_details = defaultdict(dict)
         self.complete_graph = rdflib.ConjunctiveGraph()
-        # error code
-        # no error = 0
         self.error_code = 0
         self.generate_display_information()
         self.analyse_mapping_impact()
@@ -91,7 +87,7 @@ class DisplayChanges:
             self.graph_details[self.current_graph_version]["filename"] = filename
             # user_graph_file
             print(filename)
-            user_graph_file = self.graph_directory + filename
+            user_graph_file = self.graph_directory + "/" + filename
             # set current graph
             self.current_graph = rdflib.Dataset()
             self.current_graph.parse(user_graph_file, format="trig")
@@ -117,8 +113,10 @@ class DisplayChanges:
                 self.current_graph.parse(user_graph_file, format="ttl")
                 self.get_mappings_details()
                 self.current_graph_version += 1
-            except rdflib.plugins.parsers.notation3.BadSyntax as e:
-                pass
+            except Exception as e:
+                print(e)
+            # except rdflib.plugins.parser.notation3.BadSyntax as e:
+            #     pass
 
     def get_graph_details(self):
         # get details from change graphs
@@ -135,10 +133,9 @@ class DisplayChanges:
         self.get_mapping_references()
         print(self.mapping_details)
 
-    # take graph filename and generate a dictionary to display threshold information
     @staticmethod
-    def generate_thresholds_html(graph_filename, user_id):
-        graph_filename = r2rml.graph_directory + graph_filename
+    def generate_thresholds_html(graph_filename, session_id):
+        graph_filename = r2rml.graph_directory.format(session_id) + graph_filename
         change_graph = rdflib.Dataset()
         change_graph.parse(graph_filename, format="trig")
         query = """

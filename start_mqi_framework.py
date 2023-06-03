@@ -156,8 +156,8 @@ class API:
         else:
             session_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
             session["session_id"] = session_id
-            os.makedirs("./static/uploads/mappings/{}".format(session_id))
-            os.makedirs("./static/uploads/local_ontologies/{}".format(session_id))
+            os.makedirs(f"./static/uploads/mappings/{session_id}")
+            os.makedirs(f"./static/change_detection_cache/change_graphs/{session_id}")
             return session_id
 
     @staticmethod
@@ -230,7 +230,7 @@ class API:
             # create a graph with 3 named graphs for user
             session["change_process_executed"] = True
             form_details = request.form
-            change_detection = DetectChanges(participant_id, form_details)
+            change_detection = DetectChanges(API.get_session_id(), form_details)
             if change_detection.error_code == 1:
                 flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
                 return redirect(url_for('detect_csv_changes'))
@@ -306,7 +306,7 @@ class API:
         # reassign as pycharm underlines as error
         str_graph_filename = str(graph_filename)
         participant_id = session.get("participant_id")
-        notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, participant_id)
+        notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, API.get_session_id())
         graph_id = "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
         change_graph_details = session.get("graph_details")
         return render_template("change_detection/notification_thresholds.html",
@@ -319,14 +319,13 @@ class API:
     # view change detection processes running by a user
     @app.route(("/change-processes"), methods=["GET", "POST"])
     def change_detection():
-        participant_id = 1
         change_process_executed = session.get("change_process_executed")
         # no alert if no process executed
         if request.method == "GET":
             session["change_process_executed"] = False
             # get graph details for user
             # try:
-            display_changes = DisplayChanges(participant_id)
+            display_changes = DisplayChanges(API.get_session_id())
             error_code = display_changes.error_code
             if error_code == 0:
                 user_graph_details = display_changes.graph_details
@@ -335,7 +334,6 @@ class API:
                 session["mapping_details"] = mapping_details
                 return render_template(
                     "change_detection/change_results.html",
-                    participant_id=participant_id,
                     change_process_executed=change_process_executed,
                     process_removed=False,
                     graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
@@ -355,12 +353,11 @@ class API:
             else:
                 mapping_uploaded = False
             # mapping uploaded = True to display banner
-            display_changes = DisplayChanges(participant_id)
+            display_changes = DisplayChanges(API.get_session_id())
             user_graph_details = display_changes.graph_details
             mapping_details = display_changes.mapping_details
             return render_template("change_detection/change_results.html",
                                    mapping_uploaded=mapping_uploaded,
-                                   participant_id=participant_id,
                                    change_process_executed=change_process_executed,
                                    graph_details=OrderedDict(
                                        sorted(user_graph_details.items(), key=lambda t: t[0])),
@@ -383,13 +380,11 @@ class API:
             os.remove(filename)
         except:
             print("file could not be removed....", filename)
-        participant_id = session.get("participant_id")
         # get graph details for user
-        display_changes = DisplayChanges(participant_id)
+        display_changes = DisplayChanges(API.get_session_id())
         user_graph_details = display_changes.graph_details
         mapping_details = display_changes.mapping_details
         return render_template("change_detection/change_results.html",
-                               participant_id=participant_id,
                                mapping_deleted=mapping_deleted,
                                change_process_executed=False,
                                process_removed=process_removed,
@@ -629,15 +624,9 @@ class API:
                 )
             else:
                 return redirect("get_refinements")
-                # # if no refinements return quality profile and give option to go back and add refinements
-                # bar_chart_html = VisualiseResults.chart_dimensions(cache_validation_result)
-                # return render_template("mapping_quality/no_refinements.html", bar_chart_html=bar_chart_html)
 
     @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
     def download_refined_mapping():
-        # refined_mapping_file_name = session.get("mapping_file").split(".")[0] + "_refined_mapping.ttl"
-        participant_id = session.get("participant_id")
-        local_filename = "refined_mapping-{}.ttl".format(participant_id)
         refined_mapping_filename = "refined-mapping.ttl"
         return send_file(local_filename, attachment_filename=refined_mapping_filename, as_attachment=True,
                          cache_timeout=0)
