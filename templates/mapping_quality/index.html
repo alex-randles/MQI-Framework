@@ -11,7 +11,7 @@
 
 
 <h3 class="h2 text-center mt-2">Mapping Quality Assessment</h3>
-<form style="" method="POST" action="/index" enctype = "multipart/form-data" id="mappingUpload" onSubmit="move();">
+<form style="" method="POST" action="{{ url_for('assess_mapping') }}" enctype = "multipart/form-data" id="mappingUpload" onSubmit="move();">
     <div class="container-fluid">
         <div class="row d-flex justify-content-center py-1 text-center">
             <div class="col-sm-4 bg-light py-2">

@@ -148,8 +148,20 @@ class API:
         return render_template("errors/403.html"), 403
 
     @staticmethod
+    def get_session_id():
+        # session["session_id"] = None
+        session_id = session.get("session_id")
+        if session_id:
+            return session_id
+        else:
+            session_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
+            session["session_id"] = session_id
+            os.makedirs("./static/uploads/mappings/{}".format(session_id))
+            os.makedirs("./static/uploads/local_ontologies/{}".format(session_id))
+            return session_id
+
+    @staticmethod
     def validate_RDF(filename):
-        print("testing")
         try:
             g = rdflib.Graph().parse(filename, format="ttl")
             return True
@@ -186,21 +198,17 @@ class API:
     def store_ontology_file(ontology_file):
         for file in ontology_file:
             filename = secure_filename(file.filename)
-            file_path = "./static/uploads/local_ontologies/" + filename
-            file.save(file_path)
+            file_path = "./static/uploads/{}/local_ontologies/{}".format(API.get_session_id(), filename)
+            # file.save(file_path)
             # if uploaded file is not valid RDF
             error_message = FetchVocabularies.store_local_vocabulary(file_path)
             if error_message:
                 return error_message
 
     @app.route(("/"), methods=["GET", "POST"])
-    @app.route(("/welcome"), methods=["GET", "POST"])
-    def welcome():
-        return redirect(url_for("component_choice"))
-
-    @app.route(("/component-choice"), methods=["GET"])
     def component_choice():
         if request.method == "GET":
+            print(API.get_session_id(), "SESSION_ID")
             participant_id = session.get("participant_id")
             return render_template("component_choice.html", participant_id=participant_id)
 
@@ -209,6 +217,7 @@ class API:
         if request.method == "GET":
             participant_id = session.get("participant_id")
             session["change_process_executed"] = False
+            print(API.get_session_id())
             return render_template("change_detection/data_format_choice.html", participant_id=participant_id)
 
     @app.route(("/csv-changes"), methods=["GET", "POST"])
@@ -339,7 +348,8 @@ class API:
             if uploaded_file.filename != '':
                 file_version = API.iterate_user_files(participant_id)
                 filename = uploaded_file.filename + "_{}-{}".format(participant_id, file_version)
-                filename = os.path.join(app.config['UPLOAD_FOLDER'] + session.get("participant_id") + "/", filename)
+                upload_folder = f'./static/uploads/{API.get_session_id()}/mappings/'
+                filename = os.path.join(upload_folder + session.get("participant_id") + "/", filename)
                 uploaded_file.save(filename)
                 mapping_uploaded = True
             else:
@@ -432,7 +442,8 @@ class API:
             filename = secure_filename(file.filename)
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)
-                mapping_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                upload_folder = f'./static/uploads/mappings/{API.get_session_id()}/'
+                mapping_file = os.path.join(upload_folder, filename)
                 session["mapping_file"] = mapping_file
                 file.save(mapping_file)
                 if file and file_extension in app.config["allowed_file_extensions"]:
