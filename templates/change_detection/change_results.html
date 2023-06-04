@@ -284,7 +284,7 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
             {% endif %}
         </td>
         <td>
-            <a href="{{ url_for('static', filename='uploads/mappings/%s' % (value['filename'])) }}"
+            <a href="{{ url_for('static', filename='uploads/mappings/%s/%s' % (user_id, value['filename'])) }}"
             class="btn btn-sm btn-secondary mr-2">
                 Download Mapping
             </a>

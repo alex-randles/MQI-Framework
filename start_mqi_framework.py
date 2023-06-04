@@ -272,12 +272,13 @@ class API:
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
+        user_id = session.get("user_id")
         if request.method == "GET":
 
             mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
             graph_id = int(graph_id.split(".")[0])
             change_graph_details = session.get("graph_details").get(graph_id)
-            impact = DetectMappingImpact(mapping_graph_details, change_graph_details.get("filename"))
+            impact = DetectMappingImpact(user_id, mapping_graph_details, change_graph_details.get("filename"))
             mapping_impact = impact.mapping_impact
             change_template_colors = {
                 "insert": "success",
@@ -296,6 +297,7 @@ class API:
             similarity_measurement = WordNetSimilarity().word_similarity
             return render_template("change_detection/mappings_impacted.html",
                                    similarity_measurement=similarity_measurement,
+                                   user_id=user_id,
                                    mapping_data_references=mapping_data_references,
                                    change_template_colors=change_template_colors,
                                    mapping_id=mapping_unique_id,
@@ -306,7 +308,7 @@ class API:
                                    change_graph_details=change_graph_details)
         else:
             mapping_file_name = session.get("mapping_details").get(int(mapping_unique_id)).get("filename")
-            DetectMappingImpact.update_impacted_mapping(request.form, mapping_file_name)
+            DetectMappingImpact.update_impacted_mapping(user_id, request.form, mapping_file_name)
             print(request.form)
             exit()
             session["mapping_updated"] = True
@@ -335,7 +337,6 @@ class API:
         # no alert if no process executed
         if request.method == "GET":
             session["change_process_executed"] = False
-            session["process_removed"] = False
             # get graph details for user
             # try:
             user_id = session.get("user_id")
@@ -640,22 +641,15 @@ class API:
 
     @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
     def download_refined_mapping():
-        return send_file("refined_mapping.ttl",
-                         as_attachment=True,
-                         cache_timeout=0)
+        return send_file("refined_mapping.ttl", as_attachment=True, cache_timeout=0)
 
     @app.route("/return-validation-report/", methods=['GET', 'POST'])
     def download_refinement_report():
-        return send_file(
-            "validation_report.ttl",
-            as_attachment=True, cache_timeout=0
-        )
+        return send_file("validation_report.ttl", as_attachment=True, cache_timeout=0)
 
     @app.route("/return-quality-report/", methods=['GET', 'POST'])
     def download_validation_report():
-        return send_file("validation_report.ttl",
-                         attachment_filename="quality_report.ttl",
-                         as_attachment=True, cache_timeout=0)
+        return send_file("validation_report.ttl", attachment_filename="quality_report.ttl", as_attachment=True, cache_timeout=0)
 
     @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
     def download_sample_mapping():

@@ -30,7 +30,8 @@ class ValidateNotificationPolicy:
         total_threshold = sum([int(threshold) for threshold in self.notification_thresholds.values()])
         change_count = sum([int(change) for change in self.changes_count.values()])
         if total_threshold <= change_count:
-            self.send_notification_email()
+            message = f"Your notification policy total threshold is {total_threshold} and the framework has detected {change_count} changes."
+            self.send_notification_email(message)
 
     def get_detection_period(self):
         return "shshs"
@@ -116,7 +117,7 @@ class ValidateNotificationPolicy:
             user_email = str(row.get("email"))
         return user_email
 
-    def send_notification_email(self):
+    def send_notification_email(self, message):
         msg = MIMEMultipart()
         sender = "alex.randles@outlook.com"
         recipient = self.user_email
@@ -125,13 +126,12 @@ class ValidateNotificationPolicy:
         msg['To'] = recipient
         msg['Subject'] = "Notification - Change Detection System"
 
-        body = "Hi, \n\n" \
-               "The notification policy conditions have been satisfied. The graph containing the changes, notification policy and contact details is attached."
+        body = f"Hi, \n\n The notification policy conditions have been satisfied. The graph containing the changes, notification policy and contact details is attached. \n{message}"
 
         msg.attach(MIMEText(body, 'plain'))
 
         filename = "graph.trig"
-        attachment = open(self.user_graph, "rb")
+        attachment = open(self.graph_file, "rb")
 
         part = MIMEBase('application', 'octet-stream')
         part.set_payload((attachment).read())
@@ -142,11 +142,14 @@ class ValidateNotificationPolicy:
         email_message = email.message.EmailMessage()
         email_message.set_content(msg)
 
-        smtp = smtplib.SMTP("smtp-mail.outlook.com", port=587)
-        smtp.starttls()
-        smtp.login(sender, "")
-        smtp.sendmail(sender, recipient, email_message.as_string())
-        smtp.quit()
+        try:
+            smtp = smtplib.SMTP("smtp-mail.outlook.com", port=587)
+            smtp.starttls()
+            smtp.login(sender, "")
+            smtp.sendmail(sender, recipient, email_message.as_string())
+            smtp.quit()
+        except smtplib.SMTPAuthenticationError as e:
+            pass
 
 
 if __name__ == "__main__":

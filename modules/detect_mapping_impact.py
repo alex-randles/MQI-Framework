@@ -7,10 +7,11 @@ import rdflib
 
 class DetectMappingImpact:
 
-    def __init__(self, mapping_details, changes_file):
+    def __init__(self, user_id, mapping_details, changes_file):
         print("detecting mapping impact.....")
+        self.user_id = user_id
         self.changes_graph = rdflib.ConjunctiveGraph()
-        self.changes_graph.parse("./static/change_detection_cache/change_graphs/" + changes_file, format="trig")
+        self.changes_graph.parse(f"./static/change_detection_cache/change_graphs/{user_id}/{changes_file}", format="trig")
         self.mapping_details = mapping_details
         self.mapping_impact = {
             "structural_changes":  defaultdict(dict),
@@ -121,7 +122,7 @@ class DetectMappingImpact:
             self.mapping_impact[mapping_impact_key]["move"]["Moved to a new location"] = [new_location]
 
     @staticmethod
-    def update_impacted_mapping(request_data, mapping_file_name):
+    def update_impacted_mapping(user_id, request_data, mapping_file_name):
         new_data_reference = request_data.get("new_reference").split("-")[0]
         old_data_reference = request_data.get("new_reference").split("-")[1]
         update_query = """
@@ -141,7 +142,7 @@ class DetectMappingImpact:
                 }
                """ % (new_data_reference, old_data_reference.lower())
         print(update_query)
-        mapping_file_path = "./static/uploads/mappings/" + mapping_file_name
+        mapping_file_path = f"./static/uploads/mappings/{user_id}/{mapping_file_name}"
         mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
         rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         mapping_graph.serialize(destination=mapping_file_path, format="ttl")

@@ -46,18 +46,18 @@ class DetectChanges:
             self.version_2_source = requests.get(self.form_details.get("XML-URL-2")).text
 
     def detect_source_changes(self):
-        # try:
-        if self.is_csv_data:
-            diff = self.detect_csv_changes()
-            diff = self.format_csv_changes(diff)
-            self.output_changes(diff)
-        else:
-            self.detect_xml_changes()
-        # except Exception as e:
-        #     print("EXCEPTION ", e)
-        #     print()
-        #     self.error_code = 1
-        #     return None
+        try:
+            if self.is_csv_data:
+                diff = self.detect_csv_changes()
+                diff = self.format_csv_changes(diff)
+                self.output_changes(diff)
+            else:
+                self.detect_xml_changes()
+        except StopIteration:
+            print("EXCEPTION STOP ITERATION")
+            print()
+            self.error_code = 1
+            return None
 
     def detect_xml_changes(self):
         # detect differences between XML file versions
@@ -236,7 +236,8 @@ class DetectChanges:
         print("R2RML CONFIG FILE UPDATED")
 
     def validate_notification_policy(self):
-        ValidateNotificationPolicy(self.output_file, self.user_id)
+        if self.error_code == 0:
+            ValidateNotificationPolicy(self.output_file, self.user_id)
 
     @staticmethod
     def execute_r2rml():
