@@ -1,0 +1,1627 @@
+<http://www.example.com/contactDetailsGraph/user-1> {
+    <http://www.example.com/user-1>
+            a       <http://xmlns.com/foaf/0.1/Agent> ;
+            <http://xmlns.com/foaf/0.1/mbox>
+                    "alexrandles0@gmail.com" .
+}
+
+<http://www.example.com/notificationGraph/user-1> {
+    <http://www.example.com/userActor/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiEntity.owl#Agent> .
+    
+    <http://www.example.com/policyObligation/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#Obligation> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#action>
+                    <https://www.w3id.org/OSCD#sendNotification> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#obligedTo>
+                    <https://www.w3id.org/OSCD#softwareAgent> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiDeontic.owl#startingConstraint>
+                    <http://www.example.com/notificationConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#actor>
+                    <http://www.example.com/userActor/1> , <https://www.w3id.org/OSCD#softwareAgent> .
+    
+    <http://www.example.com/insertChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    10 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#InsertSourceData> .
+    
+    <http://www.example.com/notificationPolicy/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#Policy> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#desc>
+                    "Notification policy for user 1" ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#grants>
+                    <http://www.example.com/policyObligation/1> ;
+            <https://www.w3id.org/OSCD#hasDetectionEnd>
+                    "2022-12-31 00:00:00.0000"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+            <https://www.w3id.org/OSCD#hasDetectionStart>
+                    "2023-06-04 01:45:05.049875"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+    
+    <http://www.example.com/updateChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#UpdateSourceData> .
+    
+    <http://www.example.com/moveChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#MoveSourceData> .
+    
+    <http://www.example.com/deleteChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#DeleteSourceData> .
+    
+    <http://www.example.com/notificationConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#And> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fifth>
+                    <http://www.example.com/mergeChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#first>
+                    <http://www.example.com/insertChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#fourth>
+                    <http://www.example.com/updateChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#second>
+                    <http://www.example.com/deleteChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#sixth>
+                    <http://www.example.com/datatypeChangeConstraint/1> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#third>
+                    <http://www.example.com/moveChangeConstraint/1> .
+    
+    <http://www.example.com/mergeChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#MergeSourceData> .
+    
+    <http://www.example.com/datatypeChangeConstraint/1>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#DatatypeSourceData> .
+}
+
+<http://www.example.com/changesGraph/user-1> {
+    <http://www.example.com/deleteChange/67>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/67> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/90>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/changedData/69>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/48>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/52>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/52> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/changedData/27>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5318" .
+    
+    <http://www.example.com/insertChange/31>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/31> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/insertChange/10>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/10> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/deleteChange/96>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/96> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/changedData/3>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "ready hander" .
+    
+    <http://www.example.com/deleteChange/75>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/75> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/changedData/98>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/77>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/56>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5314" .
+    
+    <http://www.example.com/changedData/35>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/insertChange/39>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/39> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/changedData/14>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/insertChange/18>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/18> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "label" .
+    
+    <http://www.example.com/changeLog/user-1>
+            a       <https://www.w3id.org/OSCD#ChangeLog> ;
+            <https://www.w3id.org/OSCD#hasChange>
+                    <http://www.example.com/deleteChange/93> , <http://www.example.com/deleteChange/59> , <http://www.example.com/insertChange/33> , <http://www.example.com/moveChange/108> , <http://www.example.com/insertChange/56> , <http://www.example.com/deleteChange/92> , <http://www.example.com/deleteChange/65> , <http://www.example.com/insertChange/8> , <http://www.example.com/insertChange/27> , <http://www.example.com/insertChange/12> , <http://www.example.com/insertChange/103> , <http://www.example.com/insertChange/32> , <http://www.example.com/deleteChange/85> , <http://www.example.com/insertChange/44> , <http://www.example.com/deleteChange/95> , <http://www.example.com/insertChange/15> , <http://www.example.com/insertChange/5> , <http://www.example.com/insertChange/35> , <http://www.example.com/insertChange/20> , <http://www.example.com/insertChange/58> , <http://www.example.com/deleteChange/73> , <http://www.example.com/deleteChange/86> , <http://www.example.com/insertChange/14> , <http://www.example.com/insertChange/46> , <http://www.example.com/insertChange/6> , <http://www.example.com/deleteChange/83> , <http://www.example.com/insertChange/29> , <http://www.example.com/insertChange/52> , <http://www.example.com/insertChange/43> , <http://www.example.com/deleteChange/71> , <http://www.example.com/insertChange/17> , <http://www.example.com/insertChange/40> , <http://www.example.com/deleteChange/68> , <http://www.example.com/deleteChange/88> , <http://www.example.com/deleteChange/70> , <http://www.example.com/insertChange/1> , <http://www.example.com/insertChange/49> , <http://www.example.com/deleteChange/98> , <http://www.example.com/insertChange/2> , <http://www.example.com/insertChange/25> , <http://www.example.com/insertChange/38> , <http://www.example.com/insertChange/57> , <http://www.example.com/deleteChange/76> , <http://www.example.com/deleteChange/67> , <http://www.example.com/insertChange/13> , <http://www.example.com/insertChange/26> , <http://www.example.com/deleteChange/64> , <http://www.example.com/deleteChange/84> , <http://www.example.com/deleteChange/104> , <http://www.example.com/insertChange/4> , <http://www.example.com/insertChange/23> , <http://www.example.com/deleteChange/61> , <http://www.example.com/deleteChange/81> , <http://www.example.com/insertChange/55> , <http://www.example.com/deleteChange/91> , <http://www.example.com/insertChange/11> , <http://www.example.com/insertChange/31> , <http://www.example.com/deleteChange/106> , <http://www.example.com/insertChange/54> , <http://www.example.com/deleteChange/82> , <http://www.example.com/insertChange/28> , <http://www.example.com/insertChange/10> , <http://www.example.com/deleteChange/63> , <http://www.example.com/insertChange/42> , <http://www.example.com/insertChange/102> , <http://www.example.com/deleteChange/97> , <http://www.example.com/insertChange/37> , <http://www.example.com/deleteChange/96> , <http://www.example.com/insertChange/0> , <http://www.example.com/deleteChange/79> , <http://www.example.com/insertChange/51> , <http://www.example.com/insertChange/16> , <http://www.example.com/insertChange/36> , <http://www.example.com/insertChange/48> , <http://www.example.com/insertChange/50> , <http://www.example.com/deleteChange/78> , <http://www.example.com/insertChange/24> , <http://www.example.com/insertChange/9> , <http://www.example.com/insertChange/45> , <http://www.example.com/deleteChange/66> , <http://www.example.com/deleteChange/94> , <http://www.example.com/insertChange/21> , <http://www.example.com/deleteChange/105> , <http://www.example.com/insertChange/34> , <http://www.example.com/deleteChange/87> , <http://www.example.com/insertChange/53> , <http://www.example.com/deleteChange/72> , <http://www.example.com/insertChange/47> , <http://www.example.com/insertChange/22> , <http://www.example.com/insertChange/7> , <http://www.example.com/deleteChange/75> , <http://www.example.com/deleteChange/60> , <http://www.example.com/deleteChange/80> , <http://www.example.com/deleteChange/74> , <http://www.example.com/insertChange/100> , <http://www.example.com/insertChange/41> , <http://www.example.com/deleteChange/69> , <http://www.example.com/deleteChange/89> , <http://www.example.com/deleteChange/62> , <http://www.example.com/deleteChange/90> , <http://www.example.com/insertChange/99> , <http://www.example.com/insertChange/101> , <http://www.example.com/insertChange/19> , <http://www.example.com/insertChange/39> , <http://www.example.com/insertChange/30> , <http://www.example.com/deleteChange/77> , <http://www.example.com/insertChange/18> , <http://www.example.com/insertChange/3> ;
+            <https://www.w3id.org/OSCD#hasCurrentSource>
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/video_demo/metric-data-v3.csv> ;
+            <https://www.w3id.org/OSCD#hasPreviousSource>
+                    <https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/video_demo/metric-data-v1.csv> .
+    
+    <http://www.example.com/deleteChange/83>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/83> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/deleteChange/62>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/62> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/85>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/changedData/64>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/43>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/insertChange/47>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/47> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "label" .
+    
+    <http://www.example.com/changedData/22>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/insertChange/26>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/26> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/insertChange/7>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/7> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/deleteChange/91>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/91> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/changedData/106>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "major" .
+    
+    <http://www.example.com/deleteChange/70>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/70> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/changedData/93>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/72>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/51>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/insertChange/55>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/55> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/changedData/30>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/34>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/34> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/insertChange/13>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/13> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/6>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/deleteChange/78>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/78> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/deleteChange/106>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/106> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/80>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/changedData/59>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/38>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/insertChange/42>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/42> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/17>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/21>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/21> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/insertChange/2>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/2> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/deleteChange/86>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/86> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/changedData/101>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "model_name" .
+    
+    <http://www.example.com/deleteChange/65>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/65> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/changedData/88>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/67>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/46>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/50>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/50> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/25>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/29>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/29> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/deleteChange/94>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/94> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/changedData/1>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/deleteChange/73>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/73> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/insertChange/102>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/102> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/96>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/75>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/changedData/54>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/58>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/58> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/33>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/37>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/37> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/changedData/12>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5320" .
+    
+    <http://www.example.com/insertChange/16>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/16> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/changedData/9>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/deleteChange/81>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/81> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/deleteChange/60>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/60> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/changedData/83>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/62>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/41>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5316" .
+    
+    <http://www.example.com/insertChange/45>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/45> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/changedData/20>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5319" .
+    
+    <http://www.example.com/insertChange/24>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/24> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/insertChange/5>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/5> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/deleteChange/89>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/89> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/changedData/104>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "bios_version" .
+    
+    <http://www.example.com/deleteChange/68>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/68> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/91>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/70>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/changedData/49>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5315" .
+    
+    <http://www.example.com/insertChange/53>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/53> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/changedData/28>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/insertChange/32>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/32> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/insertChange/11>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/11> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/deleteChange/97>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/97> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/4>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/deleteChange/76>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/76> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/deleteChange/104>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/104> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/99>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "testing" .
+    
+    <http://www.example.com/changedData/78>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/57>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/changedData/36>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/insertChange/40>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/40> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/changedData/15>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/19>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/19> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/insertChange/0>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/0> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/deleteChange/84>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/84> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/deleteChange/63>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/63> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/86>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/65>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/changedData/44>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/48>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/48> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/changedData/23>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/27>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/27> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/deleteChange/92>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/92> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/insertChange/8>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/8> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/deleteChange/71>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/71> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/insertChange/100>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/100> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/94>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/73>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/52>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/56>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/56> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/changedData/31>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/insertChange/35>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/35> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/10>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/14>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/14> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/7>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/deleteChange/79>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/79> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/changedData/81>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/60>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/changedData/39>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/43>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/43> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/18>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "api handler" .
+    
+    <http://www.example.com/insertChange/22>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/22> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/insertChange/3>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/3> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "label" .
+    
+    <http://www.example.com/deleteChange/87>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/87> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/102>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "host" .
+    
+    <http://www.example.com/deleteChange/66>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/66> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/changedData/89>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/68>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/47>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "file handler" .
+    
+    <http://www.example.com/insertChange/51>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/51> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/26>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/30>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/30> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/deleteChange/95>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/95> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/moveChange/108>
+            a       <https://www.w3id.org/OSCD#MoveSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/108> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "metric-data-v3.csv" .
+    
+    <http://www.example.com/changedData/2>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/deleteChange/74>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/74> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/insertChange/103>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/103> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/97>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/76>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/55>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/34>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5317" .
+    
+    <http://www.example.com/insertChange/38>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/38> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/changedData/13>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/insertChange/17>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/17> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/deleteChange/82>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/82> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/deleteChange/61>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/61> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "major" .
+    
+    <http://www.example.com/changedData/84>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/63>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/42>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/insertChange/46>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/46> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/changedData/21>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/insertChange/25>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/25> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/insertChange/6>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/6> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/deleteChange/90>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/90> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/changedData/105>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "instance" .
+    
+    <http://www.example.com/deleteChange/69>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/69> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/changedData/92>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/71>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/50>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "dev-complex" .
+    
+    <http://www.example.com/insertChange/54>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/54> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "host" .
+    
+    <http://www.example.com/changedData/29>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/insertChange/33>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/33> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/insertChange/12>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/12> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/deleteChange/98>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/98> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/5>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "5321" .
+    
+    <http://www.example.com/deleteChange/77>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/77> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/deleteChange/105>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/105> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/79>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/58>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "pre-production" .
+    
+    <http://www.example.com/changedData/37>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/41>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/41> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/changedData/16>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/insertChange/20>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/20> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/insertChange/1>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/1> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/deleteChange/85>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/85> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/changedData/100>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "fstype" .
+    
+    <http://www.example.com/deleteChange/64>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/64> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/changedData/87>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/66>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/45>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/insertChange/49>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/49> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "model_name" .
+    
+    <http://www.example.com/changedData/24>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/insertChange/28>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/28> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/insertChange/9>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/9> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "fstype" .
+    
+    <http://www.example.com/deleteChange/93>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/93> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/108>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "location" ;
+            <https://www.w3id.org/OSCD#hasNewLocation>
+                    "metric-data-v3.csv" .
+    
+    <http://www.example.com/changedData/0>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/deleteChange/72>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/72> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/insertChange/101>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/101> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/95>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/99>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/99> ;
+            <https://www.w3id.org/OSCD#hasStructuralReference>
+                    "Columns" .
+    
+    <http://www.example.com/changedData/74>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/53>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "overlay" .
+    
+    <http://www.example.com/insertChange/57>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/57> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "package" .
+    
+    <http://www.example.com/changedData/32>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "localhost:9090" .
+    
+    <http://www.example.com/insertChange/36>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/36> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+    
+    <http://www.example.com/changedData/11>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/15>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/15> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/changedData/8>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/deleteChange/80>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/80> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "instance" .
+    
+    <http://www.example.com/deleteChange/59>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/59> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "bios_version" .
+    
+    <http://www.example.com/changedData/82>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/61>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/changedData/40>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/44>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/44> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/changedData/19>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "No associated values." .
+    
+    <http://www.example.com/insertChange/23>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/23> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "testing" .
+    
+    <http://www.example.com/insertChange/4>
+            a       <https://www.w3id.org/OSCD#InsertSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/4> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "listener_name" .
+    
+    <http://www.example.com/changedData/103>
+            a       <https://www.w3id.org/OSCD#ChangedData> ;
+            <http://www.w3.org/2000/01/rdf-schema#comment>
+                    "listener_name" .
+    
+    <http://www.example.com/deleteChange/88>
+            a       <https://www.w3id.org/OSCD#DeleteSourceData> ;
+            <http://linkedevents.org/ontology/atTime>
+                    "2023-06-04 01:45:04.653331"^^<http://www.w3.org/2001/XMLSchema#dateTimeStamp> ;
+            <https://www.w3id.org/OSCD#hasChangedData>
+                    <http://www.example.com/changedData/88> ;
+            <https://www.w3id.org/OSCD#hasDataReference>
+                    "product_name" .
+}

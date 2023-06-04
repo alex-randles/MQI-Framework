@@ -80,7 +80,7 @@ def admin_required(f):
     # the user must be logged in to access pages
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("participant_id", None) is "alex_randles":
+        if session.get("user_id", None) is "alex_randles":
             flash("You must log in as administrator access this page!")
             return redirect(url_for('login'))
         return f(*args, **kwargs)
@@ -119,20 +119,6 @@ class API:
     @app.errorhandler(403)
     def error_403(error):
         return render_template("errors/403.html"), 403
-
-    @staticmethod
-    def get_session_id():
-        # session["session_id"] = None
-        session_id = session.get("session_id")
-        if session_id:
-            return session_id
-        else:
-            session_id = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
-            session["session_id"] = session_id
-            os.makedirs(f"./static/uploads/mappings/{session_id}")
-            os.makedirs(f"./static/change_detection_cache/change_graphs/{session_id}")
-            return session_id
-
 
     @staticmethod
     def add_user(user_id, password):
@@ -226,7 +212,7 @@ class API:
             password = request.form.get("password")
             API.add_user(user_id, password)
             print("REGISTERING: ", user_id, password)
-            return redirect(url_for("login"))
+            return redirect(url_for('login'), code=307)
 
     @app.route(("/logout"), methods=["GET", "POST"])
     def logout():
@@ -349,6 +335,7 @@ class API:
         # no alert if no process executed
         if request.method == "GET":
             session["change_process_executed"] = False
+            session["process_removed"] = False
             # get graph details for user
             # try:
             user_id = session.get("user_id")
@@ -374,14 +361,14 @@ class API:
             if uploaded_file.filename != '':
                 file_version = API.iterate_user_files(user_id)
                 filename = uploaded_file.filename + "_{}-{}".format(user_id, file_version)
-                upload_folder = f'./static/uploads/{API.get_session_id()}/mappings/'
+                upload_folder = f'./static/uploads/{session.get("user_id")}/mappings/'
                 filename = os.path.join(upload_folder + session.get("user_id") + "/", filename)
                 uploaded_file.save(filename)
                 mapping_uploaded = True
             else:
                 mapping_uploaded = False
             # mapping uploaded = True to display banner
-            display_changes = DisplayChanges(API.get_session_id())
+            display_changes = DisplayChanges(session.get("user_id"))
             user_graph_details = display_changes.graph_details
             mapping_details = display_changes.mapping_details
             return render_template("change_detection/change_results.html",
@@ -398,18 +385,17 @@ class API:
         # alert message if process or mapping removed
         process_removed = mapping_deleted = None
         if "trig" in filename:
-            # user_id = 1
-            filename = f"./static/change_detection_cache/change_graphs/{file_id}"
+            filename = f"./static/change_detection_cache/change_graphs/{session.get('user_id')}/{file_id}"
             process_removed = True
         else:
-            filename = f"./static/uploads/mappings/{file_id}"
+            filename = f"./static/uploads/mappings/{session.get('user_id')}/{file_id}"
             mapping_deleted = True
         try:
             os.remove(filename)
         except:
             print("file could not be removed....", filename)
         # get graph details for user
-        display_changes = DisplayChanges(API.get_session_id())
+        display_changes = DisplayChanges(session.get("user_id"))
         user_graph_details = display_changes.graph_details
         mapping_details = display_changes.mapping_details
         return render_template("change_detection/change_results.html",
@@ -448,7 +434,7 @@ class API:
     @app.route("/index/<filename>", methods=["GET", "POST"])
     @app.route("/index", methods=["GET", "POST"])
     def assess_mapping(filename=None):
-        participant_id = session.get("user_id")
+        user_id = session.get("user_id")
         if request.method == "POST":
             # get file uploaded
             file = request.files['mapping_file']

@@ -16,8 +16,8 @@ ex:refinement-0 a mqio:MappingRefinement ;
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
                 INSERT
                 {
-                  ?tripleMap rr:subjectMap _:N0acb10c16f7d4100a81bb65fb57a437c .
-                   _:N0acb10c16f7d4100a81bb65fb57a437c rr:class   ;
+                  ?tripleMap rr:subjectMap _:Ncd69b1fdd54a457f8ea837636d114088 .
+                   _:Ncd69b1fdd54a457f8ea837636d114088 rr:class   ;
                         rr:template 'ccccccc' . 
                 }
                 WHERE {

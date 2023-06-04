@@ -170,7 +170,7 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
             {% endif %}
         </td>
         <td>
-            <a href="{{ url_for('static', filename='change_detection_cache/change_graphs/%s' % (value['filename'])) }}">
+            <a href="{{ url_for('static', filename='change_detection_cache/change_graphs/%s/%s' % (user_id, value['filename'])) }}">
                 <button class="btn btn-sm btn-secondary">Download Graph</button>
             </a>
 

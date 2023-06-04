@@ -15,17 +15,17 @@ from modules.validate_notification_policy import ValidateNotificationPolicy
 
 class DetectChanges:
 
-    def __init__(self, session_id, form_details):
+    def __init__(self, user_id, form_details):
         self.form_details = form_details
-        self.session_id = session_id
+        self.user_id = user_id
         self.is_csv_data = "CSV-URL-2" in self.form_details.keys()
         self.fetch_source_data()
-        self.user_id = "1"
         self.error_code = 0
         self.graph_version = self.find_graph_version()
-        self.output_file = r2rml.r2rml_output_file.format(self.session_id, self.graph_version)
+        self.output_file = r2rml.r2rml_output_file.format(user_id, self.graph_version)
         self.detect_source_changes()
         self.run_uplift()
+        self.validate_notification_policy()
 
     def run_uplift(self):
         if self.error_code == 0:
@@ -85,7 +85,7 @@ class DetectChanges:
 
     def find_graph_version(self):
         # find the version number of the graph being created
-        only_files = [f for f in os.listdir(r2rml.graph_directory.format(self.session_id)) if os.path.isfile(os.path.join(r2rml.graph_directory.format(self.session_id), f))]
+        only_files = [f for f in os.listdir(r2rml.graph_directory.format(self.user_id)) if os.path.isfile(os.path.join(r2rml.graph_directory.format(self.user_id), f))]
         file_versions = [int(f.split(".")[0]) for f in only_files]
         if file_versions:
             return max(file_versions) + 1
@@ -236,8 +236,7 @@ class DetectChanges:
         print("R2RML CONFIG FILE UPDATED")
 
     def validate_notification_policy(self):
-        pass
-        # ValidateNotificationPolicy(self.output_file, "11")
+        ValidateNotificationPolicy(self.output_file, self.user_id)
 
     @staticmethod
     def execute_r2rml():

@@ -2,10 +2,10 @@
 @prefix mqio: <https://w3id.org/MQIO#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <quality_report1.ttl> ;
+    mqio:assessedMapping <validation_report92.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport .
 
-<quality_report1.ttl> a mqio:MappingArtefact .
+<validation_report92.ttl> a mqio:MappingArtefact .
 
