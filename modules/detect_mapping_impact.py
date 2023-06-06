@@ -11,7 +11,7 @@ class DetectMappingImpact:
         print("detecting mapping impact.....")
         self.user_id = user_id
         self.changes_graph = rdflib.ConjunctiveGraph()
-        self.changes_graph.parse(f"./static/change_detection_cache/change_graphs/{user_id}/{changes_file}", format="trig")
+        self.changes_graph.parse(f"./static/user_files/change_graphs/{user_id}/{changes_file}", format="trig")
         self.mapping_details = mapping_details
         self.mapping_impact = {
             "structural_changes":  defaultdict(dict),

@@ -373,10 +373,10 @@ class API:
         # alert message if process or mapping removed
         process_removed = mapping_deleted = None
         if "trig" in filename:
-            filename = f"./static/change_detection_cache/change_graphs/{session.get('user_id')}/{file_id}"
+            filename = f"./static/user_files/change_graphs/{session.get('user_id')}/{file_id}"
             process_removed = True
         else:
-            filename = f"./static/uploads/mappings/{session.get('user_id')}/{file_id}"
+            filename = f"./static/user_files/mappings/{session.get('user_id')}/{file_id}"
             mapping_deleted = True
         try:
             os.remove(filename)
