@@ -11,14 +11,14 @@
 	
 <#TriplesMap8>	
 	
- rr:logicalTable [ 	
- 	 rr:tableName "ccv";	
-	 rr:sqlQuery "sss";	
+ rml:logicalSource [ 	
+ 	 rml:referenceFormulation "ql:CSV";	
+	 rml:source "metric-data-v1.csv";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "http://data.example.com/person/{person_id}";	
-	 rr:class foaf:Agent;	
+ 	 rr:class foaf:Agent;	
+	 rr:template "http://data.example.com/person/{person_id}";	
  ];	
 	
  rr:predicateObjectMap [ 	

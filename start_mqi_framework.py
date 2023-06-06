@@ -84,7 +84,6 @@ def admin_required(f):
             flash("You must log in as administrator access this page!")
             return redirect(url_for('login'))
         return f(*args, **kwargs)
-
     return decorated_function
 
 
@@ -96,6 +95,7 @@ class users(db.Model):
     def __init__(self, user_id, password):
         self.user_id = user_id
         self.password = password
+
 
 class API:
 
@@ -211,7 +211,6 @@ class API:
             user_id = request.form.get("user_id")
             password = request.form.get("password")
             API.add_user(user_id, password)
-            print("REGISTERING: ", user_id, password)
             return redirect(url_for('login'), code=307)
 
     @app.route(("/logout"), methods=["GET", "POST"])
@@ -283,16 +282,8 @@ class API:
             change_graph_details = session.get("graph_details").get(graph_id)
             impact = DetectMappingImpact(user_id, mapping_graph_details, change_graph_details.get("filename"))
             mapping_impact = impact.mapping_impact
-            change_template_colors = {
-                "insert": "success",
-                "delete": "danger",
-                "move": "primary",
-            }
-            change_type_banners = {
-                "insert": "Column inserted",
-                "delete": "Column deleted",
-                "move": "Source data moved",
-            }
+            change_template_colors =  impact.change_template_colors
+            change_type_banners = impact.change_type_banners
             mapping_updated = session.get("mapping_updated")
             session["mapping_updated"] = False
             mapping_filename = mapping_graph_details.get("filename")

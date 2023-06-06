@@ -797,40 +797,68 @@ class Refinements:
         return update_query
 
     def add_logical_table(self, query_values, mapping_graph, violation_identifier):
-        current_result = self.validation_results[violation_identifier]
         violation_information = self.validation_results.get(violation_identifier)
         triple_map = violation_information.get("triple_map")
         if triple_map:
             triple_map_identifier = rdflib.term.URIRef(triple_map)
-            logical_table_identifier = rdflib.term.BNode()
-            mapping_graph.add((triple_map_identifier, self.R2RML.logicalTable, logical_table_identifier))
-            table_name = query_values.pop(str(self.R2RML.tableName))
-            sql_query = query_values.pop(str(self.R2RML.sqlQuery))
-            sql_version = query_values.pop(str(self.R2RML.sqlVersion))
-            # processUpdate() does not update mapping correctly
-            if table_name:
-                mapping_graph.add((logical_table_identifier, self.R2RML.tableName, rdflib.term.Literal(table_name)))
-            if sql_query:
-                mapping_graph.add((logical_table_identifier, self.R2RML.sqlQuery, rdflib.term.Literal(sql_query)))
-            if sql_version:
-                mapping_graph.add((logical_table_identifier, self.R2RML.sqlVersion, rdflib.term.Literal(sql_version)))
-            update_query = """
-                PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                INSERT
-                {
-                  ?tripleMap rr:subjectMap _:%s .
-                   _:%s rr:class %s  ;
-                        rr:template '%s' . 
-                }
-                WHERE {
-                  ?tripleMap ?predicate ?object .
-                  FILTER(str(?tripleMap) = "%s").
-                }
-            """ % (logical_table_identifier, logical_table_identifier, sql_query, table_name, triple_map_identifier)
-            print("Adding logical table query\n" + update_query)
-            self.triple_references[triple_map_identifier][self.R2RML.logicalTable] = [logical_table_identifier]
-            return update_query
+            r2rml_keys = [str(self.R2RML.tableName), str(self.R2RML.sqlQuery), str(self.R2RML.sqlVersion)]
+            if len(list(set(r2rml_keys) & set(query_values))) > 1:
+                logical_table_identifier = rdflib.term.BNode()
+                mapping_graph.add((triple_map_identifier, self.R2RML.logicalTable, logical_table_identifier))
+                for key in r2rml_keys:
+                    current_value = query_values.pop(str(key))
+                    if current_value:
+                        # try:
+                        print("adding", current_value)
+                        mapping_graph.add(
+                            (logical_table_identifier, rdflib.term.URIRef(key), rdflib.term.Literal(current_value)))
+                        # except Ex:
+                        #     mapping_graph.add(
+                        #         (logical_table_identifier, key, rdflib.term.URIRef(current_value)))
+
+
+                # sql_query = query_values.pop(str(self.R2RML.sqlQuery))
+                # sql_version = query_values.pop(str(self.R2RML.sqlVersion))
+                # # processUpdate() does not update mapping correctly
+                # if table_name:
+                #     mapping_graph.add((logical_table_identifier, self.R2RML.tableName, rdflib.term.Literal(table_name)))
+                # if sql_query:
+                #     mapping_graph.add((logical_table_identifier, self.R2RML.sqlQuery, rdflib.term.Literal(sql_query)))
+                # if sql_version:
+                #     mapping_graph.add((logical_table_identifier, self.R2RML.sqlVersion, rdflib.term.Literal(sql_version)))
+                # update_query = """
+                #     PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                #     PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                #     INSERT
+                #     {
+                #       ?tripleMap rr:subjectMap _:%s .
+                #        _:%s rr:class %s  ;
+                #             rr:template '%s' .
+                #     }
+                #     WHERE {
+                #       ?tripleMap ?predicate ?object .
+                #       FILTER(str(?tripleMap) = "%s").
+                #     }
+                # """ % (logical_table_identifier, logical_table_identifier, query_values.pop(str(self.R2RML.sqlQuery)), query_values.pop(str(self.R2RML.tableName)), query_values.pop(str(self.R2RML.template)))
+                update_query = ""
+                print("Adding logical table query\n" + update_query)
+                self.triple_references[triple_map_identifier][self.R2RML.logicalTable] = [logical_table_identifier]
+                return update_query
+            else:
+                rml_keys = [str(self.RML.source), str(self.RML.referenceFormulation)]
+                logical_table_identifier = rdflib.term.BNode()
+                mapping_graph.add((triple_map_identifier, self.RML.logicalSource, logical_table_identifier))
+                for key in rml_keys:
+                    current_value = query_values.pop(str(key))
+                    if key == str(self.RML.referenceFormulation):
+                        prefix = query_values.get("PREFIX")
+                        mapping_graph.add(
+                            (logical_table_identifier, rdflib.term.URIRef(key), rdflib.term.Literal(prefix + current_value)))
+                    else:
+                        print("adding", current_value)
+                        mapping_graph.add(
+                            (logical_table_identifier, rdflib.term.URIRef(key), rdflib.term.Literal(current_value)))
+                self.triple_references[triple_map_identifier][self.RML.logicalSource] = [logical_table_identifier]
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
         child_column = query_values.get(str(self.R2RML.child))

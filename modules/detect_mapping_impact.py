@@ -19,7 +19,23 @@ class DetectMappingImpact:
         }
         self.get_data_reference_changes()
         self.get_structural_changes()
-        print(json.dumps(self.mapping_impact, sort_keys = True, indent = 4))
+        print(json.dumps(self.mapping_impact, sort_keys=True, indent=4))
+        self.change_template_colors, self.change_type_banners = self.return_banners()
+
+    @staticmethod
+    def return_banners():
+        change_template_colors = {
+                "insert": "success",
+                "delete": "danger",
+                "move": "primary",
+            }
+
+        change_type_banners = {
+            "insert": "Column inserted",
+            "delete": "Column deleted",
+            "move": "Source data moved",
+        }
+        return change_template_colors, change_type_banners
 
     def get_data_reference_changes(self):
         mapping_references = ", ".join(["'{}'".format(reference) for reference in self.mapping_details.get("data_references")])
