@@ -72,7 +72,6 @@ def login_required(f):
             flash("You must log in to access this page!")
             return redirect(url_for('login'))
         return f(*args, **kwargs)
-
     return decorated_function
 
 
@@ -125,8 +124,8 @@ class API:
         usr = users(user_id, password)
         db.session.add(usr)
         db.session.commit()
-        os.makedirs(f"./static/uploads/mappings/{user_id}")
-        os.makedirs(f"./static/change_detection_cache/change_graphs/{user_id}")
+        os.makedirs(f"./static/user_files/mappings/{user_id}")
+        os.makedirs(f"./static/user_files/change_graphs/{user_id}")
 
     @staticmethod
     def validate_RDF(filename):
@@ -143,18 +142,13 @@ class API:
 
     @staticmethod
     def create_validation_report():
-        cache_find_location = session.get("find_violation_location")
-        cache_validation_result = session.get("validation_result")
-        cache_validation_report_file = session.get("validation_report_file")
-        cache_mapping_file = session.get("mapping_file")
-        more_info_data = session.get("more_info_data")
-        formatted_validation_result = copy.deepcopy(cache_validation_result)
+        formatted_validation_result = copy.deepcopy(session.get("validation_result"))
         for violation_ID in formatted_validation_result.keys():
             violation_location = formatted_validation_result[violation_ID]["location"]
-            new_location = cache_find_location(violation_location)
+            new_location = session.get("find_violation_location")(violation_location)
             formatted_validation_result[violation_ID]["location"] = new_location
-        ValidationReport(formatted_validation_result, cache_validation_report_file,
-                         cache_mapping_file, more_info_data)
+        ValidationReport(formatted_validation_result, session.get("validation_report_file"),
+                         session.get("mapping_file"), session.get("more_info_data"))
 
     @staticmethod
     def split_camel_case(word):
@@ -236,11 +230,11 @@ class API:
         user_id = session.get("user_id")
         if request.method == "GET":
             session["change_process_executed"] = False
-            return render_template("change_detection/CSV_file_details.html", user_id=session.get("user_id"))
+            return render_template("change_detection/CSV_file_details.html", user_id=user_id)
         elif request.method == "POST":
             # create a graph with 3 named graphs for user
             form_details = request.form
-            change_detection = DetectChanges(session.get("user_id"), form_details)
+            change_detection = DetectChanges(user_id, form_details)
             if change_detection.error_code == 1:
                 flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
                 return redirect(url_for('detect_csv_changes'))
@@ -276,7 +270,6 @@ class API:
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
         user_id = session.get("user_id")
         if request.method == "GET":
-
             mapping_graph_details = session.get("mapping_details").get(int(mapping_unique_id))
             graph_id = int(graph_id.split(".")[0])
             change_graph_details = session.get("graph_details").get(graph_id)
@@ -324,7 +317,7 @@ class API:
                                change_graph_details=change_graph_details,
                                notification_thresholds=notification_thresholds)
 
-    # view change detection processes running by a user
+    @login_required
     @app.route(("/change-processes"), methods=["GET", "POST"])
     def change_detection():
         change_process_executed = session.get("change_process_executed")
@@ -443,7 +436,7 @@ class API:
             filename = secure_filename(file.filename)
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)
-                upload_folder = f'./static/uploads/mappings/{session.get("user_id")}/'
+                upload_folder = f'./static/user_files/mappings/{session.get("user_id")}/'
                 mapping_file = os.path.join(upload_folder, filename)
                 session["mapping_file"] = mapping_file
                 file.save(mapping_file)
@@ -674,7 +667,7 @@ class API:
                 graph_location = "./static/sample_mappings/sample_mapping.ttl"
             elif mapping_identifier == 2:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
-            elif mapping_identifier == 2:
+            elif mapping_identifier == 3:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
             else:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
