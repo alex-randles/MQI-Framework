@@ -686,9 +686,9 @@ class API:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
             else:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
-            return send_file(graph_location, attachment_filename="student-mapping.ttl", as_attachment=True, cache_timeout=0)
+            return send_file(graph_location, attachment_filename="sample_mapping.ttl", as_attachment=True, cache_timeout=0)
 
-        return render_template("mapping_quality/sample_mappings.html")
+        return render_template("mapping_quality/sample_mappings.html", user_id=session.get("user_id"))
 
 if __name__ == "__main__":
     # start api
