@@ -240,13 +240,16 @@ class API:
             return render_template("change_detection/CSV_file_details.html", user_id=session.get("user_id"))
         elif request.method == "POST":
             # create a graph with 3 named graphs for user
-            session["change_process_executed"] = True
             form_details = request.form
             change_detection = DetectChanges(session.get("user_id"), form_details)
             if change_detection.error_code == 1:
                 flash("Invalid URL. Try again and make sure it is the raw file Github link - if using Gihtub.")
                 return redirect(url_for('detect_csv_changes'))
+            elif change_detection.error_code == 2:
+                flash("Unable to retrieve data due to connection issues.")
+                return redirect(url_for('detect_csv_changes'))
             else:
+                session["change_process_executed"] = True
                 return redirect(url_for('change_detection'))
 
     @app.route(("/xml-changes"), methods=["GET", "POST"])
@@ -432,9 +435,8 @@ class API:
             file_extension = split_filename[1].lower()
             return file_extension
 
-    @app.route("/index/<filename>", methods=["GET", "POST"])
     @app.route("/index", methods=["GET", "POST"])
-    def assess_mapping(filename=None):
+    def assess_mapping():
         user_id = session.get("user_id")
         if request.method == "POST":
             # get file uploaded
@@ -447,7 +449,6 @@ class API:
                     if error_message:
                         flash("Local Ontology must be valid RDF")
                         return render_template("mapping_quality/index.html")
-            predefined_filename = filename
             filename = secure_filename(file.filename)
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)

@@ -19,8 +19,11 @@ class DetectChanges:
         self.form_details = form_details
         self.user_id = user_id
         self.is_csv_data = "CSV-URL-2" in self.form_details.keys()
-        self.fetch_source_data()
-        self.error_code = 0
+        try:
+            self.fetch_source_data()
+            self.error_code = 0
+        except requests.exceptions.SSLError:
+            self.error_code = 2
         self.graph_version = self.find_graph_version()
         self.output_file = r2rml.r2rml_output_file.format(user_id, self.graph_version)
         self.detect_source_changes()
@@ -45,19 +48,22 @@ class DetectChanges:
             self.version_1_source = requests.get(self.form_details.get("XML-URL-1")).text
             self.version_2_source = requests.get(self.form_details.get("XML-URL-2")).text
 
+
     def detect_source_changes(self):
-        try:
-            if self.is_csv_data:
-                diff = self.detect_csv_changes()
-                diff = self.format_csv_changes(diff)
-                self.output_changes(diff)
-            else:
-                self.detect_xml_changes()
-        except StopIteration:
-            print("EXCEPTION STOP ITERATION")
-            print()
-            self.error_code = 1
-            return None
+        if self.error_code == 0:
+            try:
+                if self.is_csv_data:
+                    diff = self.detect_csv_changes()
+                    diff = self.format_csv_changes(diff)
+                    self.output_changes(diff)
+                else:
+                    self.detect_xml_changes()
+            except StopIteration:
+                print("EXCEPTION STOP ITERATION")
+                print()
+                self.error_code = 1
+                return None
+
 
     def detect_xml_changes(self):
         # detect differences between XML file versions
