@@ -10,7 +10,7 @@
 {% block content %}
 
 
-
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 {% if change_process_executed != false %}
 <div class="alert alert-success text-center fw-bold" role="alert">
     Change Detection process successfully added!
@@ -314,9 +314,12 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
 
 <script>
 
+window.addEventListener('hashchange', function () {
+    // do stuff
+});
 
-setInterval(console.log(window.performance.navigation.type), 6000);
 </script>
+
 
 {% endblock %}
 

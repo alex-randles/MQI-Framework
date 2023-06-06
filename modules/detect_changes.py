@@ -33,11 +33,20 @@ class DetectChanges:
     def run_uplift(self):
         if self.error_code == 0:
             self.create_notification_csv()
+            self.create_contact_csv()
             self.update_r2rml_config()
             self.execute_r2rml()
             self.validate_notification_policy()
         else:
             print("UPLIFT ERROR ")
+
+    def create_contact_csv(self):
+        df = pd.DataFrame(
+            columns=["EMAIL_ADDRESS",
+                     "USER_ID",])
+        df.loc[len(df)] = [self.form_details.get("email-address"), self.user_id]
+        df.to_csv(r2rml.contact_details_csv)
+
 
     def fetch_source_data(self):
         if self.is_csv_data:
@@ -47,7 +56,6 @@ class DetectChanges:
         else:
             self.version_1_source = requests.get(self.form_details.get("XML-URL-1")).text
             self.version_2_source = requests.get(self.form_details.get("XML-URL-2")).text
-
 
     def detect_source_changes(self):
         if self.error_code == 0:

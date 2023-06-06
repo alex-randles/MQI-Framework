@@ -1,0 +1,26 @@
+<http://www.example.com/contactDetailsGraph/user-1> {
+    <http://www.example.com/user-1>
+            a       <http://xmlns.com/foaf/0.1/Agent> ;
+            <http://xmlns.com/foaf/0.1/mbox>
+                    "alexrandles0@gmail.com" .
+}
+
+<http://www.example.com/notificationGraph/user-3> {
+    <http://www.example.com/datatypeChangeConstraint/3>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#DatatypeSourceData> .
+    
+    <http://www.example.com/updateChangeConstraint/3>
+            a       <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#SimpleConstraint> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#object>
+                    0 ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#predicate>
+                    <https://www.w3id.org/OSCD#hasThreshold> ;
+            <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiConstraint.owl#subject>
+                    <https://www.w3id.org/OSCD#UpdateSourceData> .
+}

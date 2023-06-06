@@ -22,14 +22,14 @@
             <h4 class="mt-4">User Registration</h4>
             <p>The following user ID and password has been created for you. <strong>Please save these details for later use.</strong></p>
             <label for="user_id" class="form-label">User ID</label>
-            <input  placeholder="User ID" value="{{new_user_id}}" type="text" class="participant_id form-control"  id="user_id" name="user_id">
+            <input  placeholder="User ID" value="{{new_user_id}}" type="text" class="participant_id form-control"  id="user_id" name="user_id" readonly>
             <label for="password" class="form-label  mt-3">Password</label>
-            <input  placeholder="password" value="{{new_password}}" type="text" class="participant_id form-control"  id="password" name="password">
+            <input  placeholder="password" value="{{new_password}}" type="text" class="participant_id form-control"  id="password" name="password" readonly>
             <input type="submit" value="Complete Registration" id="submit" class="btn btn-primary center-block my-2">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             {% for msg in messages %}
-            <div class="alert alert-primary mt-3"  role="alert">
+            <div class="alert alert-danger mt-3"  role="alert">
                 <h4 class="alert-heading">Information </h4>
                 <p>{{msg}}</p>
             </div>
