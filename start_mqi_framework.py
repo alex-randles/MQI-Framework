@@ -208,6 +208,7 @@ class API:
             return redirect(url_for('login'), code=307)
 
     @app.route(("/logout"), methods=["GET", "POST"])
+    @login_required
     def logout():
         logged_in = session.pop("logged_in", None)
         if logged_in:
@@ -215,17 +216,20 @@ class API:
         return redirect(url_for("login"))
 
     @app.route(("/component-choice"), methods=["GET", "POST"])
+    @login_required
     def component_choice():
         if request.method == "GET":
             return render_template("component_choice.html", user_id=session.get("user_id"))
 
     @app.route(("/format-choice"), methods=["GET"])
+    @login_required
     def format_choice():
         if request.method == "GET":
             session["change_process_executed"] = False
             return render_template("change_detection/data_format_choice.html", user_id=session.get("user_id"))
 
     @app.route(("/csv-changes"), methods=["GET", "POST"])
+    @login_required
     def detect_csv_changes():
         user_id = session.get("user_id")
         if request.method == "GET":
@@ -246,6 +250,7 @@ class API:
                 return redirect(url_for('change_detection'))
 
     @app.route(("/xml-changes"), methods=["GET", "POST"])
+    @login_required
     def detect_xml_changes():
         user_id = session.get("user_id")
         if request.method == "GET":
@@ -267,6 +272,7 @@ class API:
     # generate a html file with mapping impacted details
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
+    @login_required
     def mappings_impacted(mapping_unique_id=None, graph_id=None):
         user_id = session.get("user_id")
         if request.method == "GET":
@@ -303,6 +309,7 @@ class API:
 
     # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
+    @login_required
     def process_thresholds(graph_filename):
         # reassign as pycharm underlines as error
         str_graph_filename = str(graph_filename)
@@ -317,8 +324,8 @@ class API:
                                change_graph_details=change_graph_details,
                                notification_thresholds=notification_thresholds)
 
-    @login_required
     @app.route(("/change-processes"), methods=["GET", "POST"])
+    @login_required
     def change_detection():
         change_process_executed = session.get("change_process_executed")
         # no alert if no process executed
@@ -368,6 +375,7 @@ class API:
                                    )
 
     @app.route('/remove/<file_id>/')
+    @login_required
     def remove(file_id):
         filename = f"{file_id}"
         # alert message if process or mapping removed
@@ -420,6 +428,7 @@ class API:
             return file_extension
 
     @app.route("/index", methods=["GET", "POST"])
+    @login_required
     def assess_mapping():
         user_id = session.get("user_id")
         if request.method == "POST":
@@ -533,6 +542,7 @@ class API:
         return False
 
     @app.route("/refinement", methods=["GET", "POST"])
+    @login_required
     def get_refinements():
         cache_mapping_graph = session.get("mapping_graph")
         session["mapping_graph"] = copy.deepcopy(cache_mapping_graph)
@@ -625,22 +635,27 @@ class API:
                 return redirect("get_refinements")
 
     @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
+    @login_required
     def download_refined_mapping():
         return send_file("refined_mapping.ttl", as_attachment=True, cache_timeout=0)
 
     @app.route("/return-validation-report/", methods=['GET', 'POST'])
+    @login_required
     def download_refinement_report():
         return send_file("validation_report.ttl", as_attachment=True, cache_timeout=0)
 
     @app.route("/return-quality-report/", methods=['GET', 'POST'])
+    @login_required
     def download_validation_report():
         return send_file("validation_report.ttl", attachment_filename="quality_report.ttl", as_attachment=True, cache_timeout=0)
 
     @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
+    @login_required
     def download_sample_mapping():
         return send_file("./static/sample_mapping.ttl", as_attachment=True, cache_timeout=0)
 
     @app.route("/return-impacted-mapping/<mapping_filename>", methods=['GET', 'POST'])
+    @login_required
     def download_impacted_mapping(mapping_filename):
         filename = session.get("mapping_details").get(int(mapping_filename)).get("filename")
         mapping_path = "./static/uploads/" + filename
@@ -660,6 +675,7 @@ class API:
 
     @app.route("/display-sample-mappings", methods=['GET', 'POST'])
     @app.route("/display-sample-mappings/<mapping_identifier>", methods=['GET', 'POST'])
+    @login_required
     def download_sample_mappings(mapping_identifier=None):
         if mapping_identifier:
             mapping_identifier = int(mapping_identifier)
