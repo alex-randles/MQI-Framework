@@ -1,4 +1,3 @@
-import shortuuid
 import copy
 import os
 import pickle
@@ -398,6 +397,7 @@ class API:
                                mapping_deleted=mapping_deleted,
                                change_process_executed=False,
                                process_removed=process_removed,
+                               user_id=session.get("user_id"),
                                graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
                                mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                                mappings_impacted=session.get("mappings_impacted"),

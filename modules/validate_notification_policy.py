@@ -134,7 +134,7 @@ class ValidateNotificationPolicy:
         attachment = open(self.graph_file, "rb")
 
         part = MIMEBase('application', 'octet-stream')
-        part.set_payload((attachment).read())
+        part.set_payload(attachment.read())
         email.encoders.encode_base64(part)
         part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
 
