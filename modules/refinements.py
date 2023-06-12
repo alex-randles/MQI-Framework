@@ -1047,7 +1047,7 @@ class Refinements:
 
     def execute_refinements(self, selected_violation_identifier, refinements, refinement_input, validation_report_file):
         # refinement graph updates the validation report graph
-        self.refinement_graph = self.refinement_graph.parse("validation_report.ttl", format="ttl")
+        self.refinement_graph = self.refinement_graph.parse("./static/validation_report.ttl", format="ttl")
         # execute each refinement selected to be executed with or without user input
         for violation_identifier in selected_violation_identifier:
             # html forms store values as strings
@@ -1076,7 +1076,7 @@ class Refinements:
 
     def generated_refined_mapping(self):
         # uses custom serializer to preserve mapping ordering
-        TurtleSerializer(self.mapping_graph, self.triple_references, "refined_mapping.ttl")
+        TurtleSerializer(self.mapping_graph, self.triple_references, "./static/refined_mapping.ttl")
         # TurtleSerializer(self.mapping_graph, self.triple_references, "./static/uploads/mappings/video_demo_mapping.ttl".format(self.participant_id))
 
     def format_file_name_identifier(self):

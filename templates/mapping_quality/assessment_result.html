@@ -12,9 +12,9 @@
 </div>
 
 <div class="d-flex justify-content-center">
-    <a href="/return-refined-mapping/" target="blank"><button onclick="downloadWarning()" class="btn-secondary btn button-style mx-3 p-2">
+    <a href="{{ url_for('static', filename='refined_mapping.ttl')}}" target="blank"><button onclick="downloadWarning()" class="btn-secondary btn button-style mx-3 p-2">
         Export Refined Mapping (TTL)</button></a>
-    <a href="/return-validation-report/" target="blank"><button class="btn-secondary btn button-style mx-3 p-2">
+    <a href="{{ url_for('static', filename='validation_report.ttl')}}" target="blank"><button class="btn-secondary btn button-style mx-3 p-2">
         Export Validation Report (TTL)</button></a>
 </div>
 {% else %}
@@ -190,7 +190,7 @@
     {% endif %}
     <div class="row">
         <div class="col-sm-6 d-flex justify-content-end">
-            <a  href="/return-quality-report/" class="btn btn-secondary px-2"  role="button">Export Quality Report (TTL)</a>
+            <a href="{{ url_for('static', filename='validation_report.ttl')}}" download="quality_report.ttl" class="btn btn-secondary px-2"  role="button">Export Quality Report (TTL)</a>
         </div>
         <div class="col-sm-6">
             <a class="btn btn-secondary float-right"  role="button"  id="btPrint" onClick="createPDF()">Download Table (PDF)</a>

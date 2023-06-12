@@ -260,6 +260,11 @@ class API:
             else:
                 return redirect(url_for('change_detection'))
 
+    @app.route("/shacl-shapes", methods=["GET", "POST"])
+    @login_required
+    def generate_shacl_shapes():
+        return render_template("change_detection/shacl_shape_details.html", user_id=session.get("user_id"))
+
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
     @login_required
@@ -621,15 +626,15 @@ class API:
             else:
                 return redirect("get_refinements")
 
-    @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
-    @login_required
-    def download_refined_mapping():
-        return send_file("refined_mapping.ttl", as_attachment=True, max_age=0)
-
-    @app.route("/return-validation-report/", methods=['GET', 'POST'])
-    @login_required
-    def download_refinement_report():
-        return send_file("validation_report.ttl", as_attachment=True, max_age=0)
+    # @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
+    # @login_required
+    # def download_refined_mapping():
+    #     return send_file("refined_mapping.ttl", as_attachment=True, max_age=0)
+    #
+    # @app.route("/return-validation-report/", methods=['GET', 'POST'])
+    # @login_required
+    # def download_refinement_report():
+    #     return send_file("validation_report.ttl", as_attachment=True, max_age=0)
 
     @app.route("/return-quality-report/", methods=['GET', 'POST'])
     @login_required

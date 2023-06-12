@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% extends "change_detection/base_home.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Source Details{% endblock %}</title>
+    <script type="text/javascript"  src="{{ url_for('static', filename='js_scripts.js') }}"> </script>
+</head>
+<body>
+
+{% block content %}
+<h3 class="h2 text-center mt-2">Change Detection • CSV Source Data</h3>
+<form style="" method="POST" action="{{ url_for('detect_csv_changes') }}" onSubmit="move();" enctype="multipart/form-data" id="sourceFileDetails" >
+
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-6 bg-light py-2 justify-content-center">
+                <h4 class="h4">SHACL Shape Generation</h4>
+                <label class="form-label" >
+                    Connect to a CSV file to generate a SHACL shape.
+                </label>
+                <div class="form-group">
+                    <label for="CSV-URL-1"><span class="fw-bold">Original: </span>Version 1 CSV URL</label>
+                    <input type="url" class="form-control"
+                           id="CSV-URL-1" name="CSV-URL-1" placeholder="Version 1 CSV URL" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center py-1">
+                <div class="col-sm-6 text-center">
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for msg in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Error</h4>
+                        {{msg}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-12 text-center">
+                <input class="my-2 btn btn-primary" id="button-style" type= "submit" value="Generate Shape" />
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center my-1">
+            <div class="col-6">
+                <div class="progress" id="myProgress" >
+                    <div class="progress-bar progress-bar-striped" id="myBar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-12 text-center">
+                <a href="" class="my-2 btn btn-secondary" id="download-button">Download Shape</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+document.getElementById("detection-end").value = "2022-12-31"
+</script>
+
+{% endblock %}
+
+</body>
+</html>
+
