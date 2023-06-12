@@ -1,1 +1,0 @@
-@prefix cdo: <https://www.w3id.org/OSCD#> .
