@@ -5,18 +5,11 @@ import random
 import re
 import shutil
 import string
-import time
-import timeit
 import urllib
-import multiprocessing
-import pandas as pd
+import datetime
 from collections import OrderedDict, defaultdict
-from datetime import datetime
 from sematch.semantic.similarity import WordNetSimilarity
-from datetime import timedelta
 from functools import wraps
-from os import listdir
-from os.path import isfile, join
 
 import rdflib
 from flask import Flask, render_template, request, send_file, session, url_for, \
@@ -38,23 +31,20 @@ from modules.visualise_results import VisualiseResults
 app = Flask(__name__)
 app.config['SESSION_PERMANENT'] = True
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=5)
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(hours=5)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SESSION_FILE_THRESHOLD'] = 100
 app.url_map.strict_slashes = False
 app.config['SECRET_KEY'] = "x633UE2xYRC"
-sess = Session()
-sess.init_app(app)
-
 UPLOAD_FOLDER = 'static/uploads/mappings/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# to prevent caching of previous result
-file_counter = 0
 app.config["allowed_file_extensions"] = ["ttl"]
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.secret_key = os.urandom(24)
 
+sess = Session()
+sess.init_app(app)
 
 def create_app():
     return app
@@ -164,7 +154,7 @@ class API:
             if error_message:
                 return error_message
 
-    @app.route(("/"), methods=["GET", "POST"])
+    @app.route("/", methods=["GET", "POST"])
     def login():
         if request.method == "GET":
             if "logged_in" not in session:
@@ -189,7 +179,7 @@ class API:
                 flash("Invalid credentials, try again!")
                 return render_template("login.html")
 
-    @app.route(("/register"), methods=["GET", "POST"])
+    @app.route("/register", methods=["GET", "POST"])
     def register():
         if request.method == "GET":
             found_users = users.query.all()
@@ -206,7 +196,7 @@ class API:
             API.add_user(user_id, password)
             return redirect(url_for('login'), code=307)
 
-    @app.route(("/logout"), methods=["GET", "POST"])
+    @app.route("/logout", methods=["GET", "POST"])
     @login_required
     def logout():
         logged_in = session.pop("logged_in", None)
@@ -214,20 +204,20 @@ class API:
             flash("You have been logged out")
         return redirect(url_for("login"))
 
-    @app.route(("/component-choice"), methods=["GET", "POST"])
+    @app.route("/component-choice", methods=["GET", "POST"])
     @login_required
     def component_choice():
         if request.method == "GET":
             return render_template("component_choice.html", user_id=session.get("user_id"))
 
-    @app.route(("/format-choice"), methods=["GET"])
+    @app.route("/format-choice", methods=["GET"])
     @login_required
     def format_choice():
         if request.method == "GET":
             session["change_process_executed"] = False
             return render_template("change_detection/data_format_choice.html", user_id=session.get("user_id"))
 
-    @app.route(("/csv-changes"), methods=["GET", "POST"])
+    @app.route("/csv-changes", methods=["GET", "POST"])
     @login_required
     def detect_csv_changes():
         user_id = session.get("user_id")
@@ -248,7 +238,7 @@ class API:
                 session["change_process_executed"] = True
                 return redirect(url_for('change_detection'))
 
-    @app.route(("/xml-changes"), methods=["GET", "POST"])
+    @app.route("/xml-changes", methods=["GET", "POST"])
     @login_required
     def detect_xml_changes():
         user_id = session.get("user_id")
@@ -268,7 +258,6 @@ class API:
             else:
                 return redirect(url_for('change_detection'))
 
-    # generate a html file with mapping impacted details
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
     @login_required
@@ -306,7 +295,6 @@ class API:
             session["mapping_updated"] = True
             return redirect(request.referrer)
 
-    # generate a html file with all the thresholds for a specific process
     @app.route('/process_thresholds/<graph_filename>', methods=['GET', 'POST'])
     @login_required
     def process_thresholds(graph_filename):
@@ -323,7 +311,7 @@ class API:
                                change_graph_details=change_graph_details,
                                notification_thresholds=notification_thresholds)
 
-    @app.route(("/change-processes"), methods=["GET", "POST"])
+    @app.route("/change-processes", methods=["GET", "POST"])
     @login_required
     def change_detection():
         change_process_executed = session.get("change_process_executed")
@@ -353,6 +341,7 @@ class API:
         else:
             uploaded_file = request.files['mapping-file']
             if uploaded_file.filename != '':
+                user_id = session.get("user_id")
                 file_version = API.iterate_user_files(user_id)
                 filename = uploaded_file.filename + "_{}-{}".format(user_id, file_version)
                 upload_folder = f'./static/uploads/{session.get("user_id")}/mappings/'
@@ -388,7 +377,7 @@ class API:
         try:
             os.remove(filename)
         except:
-            print("file could not be removed....", filename)
+            print("file could not be removed....", filename, e)
         # get graph details for user
         display_changes = DisplayChanges(session.get("user_id"))
         user_graph_details = display_changes.graph_details
@@ -403,11 +392,10 @@ class API:
                                mappings_impacted=session.get("mappings_impacted"),
                                )
 
-    # iterate user files to get next file version
     @staticmethod
     def iterate_user_files(user_id):
-        graph_directory = "./modules/change_detection_cache/change_graphs/"
-        directory_files = [f for f in listdir(graph_directory) if isfile(join(graph_directory, f))]
+        graph_directory = f"./user_files/change_graphs/{user_id}"
+        directory_files = [f for f in os.listdir(graph_directory) if os.path.isfile(os.path.join(graph_directory, f))]
         # find files related to user ID
         user_versions = []
         for file in directory_files:
@@ -528,9 +516,7 @@ class API:
                 flash("Please Upload a Mapping File!")
                 return render_template("mapping_quality/index.html")
         else:
-            user_id = session.get("user_id")
             return render_template("mapping_quality/index.html", user_id=session.get("user_id"))
-            # return render_template("mapping_quality/index.html")
 
     @staticmethod
     def refinements_selected(selected_refinements):
@@ -552,7 +538,6 @@ class API:
         cache_mapping_file = session.get("mapping_file")
         cache_namespaces = session.get("namespaces")
         cache_find_violation = session.get("find_violation_location")
-        more_info_data = session.get("more_info_data")
         find_prefix = session.get("find_prefix")
         user_id = session.get("user_id")
         if request.method == "POST":
@@ -667,6 +652,7 @@ class API:
             return send_file(mapping_path, as_attachment=True, cache_timeout=0)
 
     @app.route("/return-change-graph/<graph_file_name>", methods=['GET', 'POST'])
+    @login_required
     def download_change_report(graph_file_name):
         graph_location = "./static/change_detection_cache/change_graphs/" + graph_file_name
         return send_file(graph_location,
@@ -678,12 +664,11 @@ class API:
     @login_required
     def download_sample_mappings(mapping_identifier=None):
         if mapping_identifier:
-            mapping_identifier = int(mapping_identifier)
-            if mapping_identifier == 1:
+            if mapping_identifier == "1":
                 graph_location = "./static/sample_mappings/sample_mapping.ttl"
-            elif mapping_identifier == 2:
+            elif mapping_identifier == "2":
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
-            elif mapping_identifier == 3:
+            elif mapping_identifier == "3":
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
             else:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
@@ -692,6 +677,6 @@ class API:
         return render_template("mapping_quality/sample_mappings.html", user_id=session.get("user_id"))
 
 if __name__ == "__main__":
-    # start api
+    # start the app
     db.create_all()
     API()

@@ -1,3 +1,23 @@
+function loadProcesses() {
+  var spinner = document.getElementById("base-spinner");
+  var submit_button = document.getElementById("change-process-button");
+  if (spinner.style.display === "none") {
+    spinner.style.display = "block";
+    submit_button.style.display = "none";
+  } else {
+    spinner.style.display = "none";
+    submit_button.style.display = "block";
+  }
+}
+
+function unloadProcesses() {
+  var spinner = document.getElementById("base-spinner");
+  var submit_button = document.getElementById("change-process-button");
+  spinner.style.display = "none";
+  submit_button.style.display = "block";
+  alert("loaded");
+}
+
 function logout(event){
         var check = confirm("Do you really want to logout?");
         if(check){
