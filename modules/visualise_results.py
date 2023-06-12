@@ -70,7 +70,7 @@ class VisualiseResults:
             violations = dimension_counts[dimension].get("violations")
             new_row = {"Quality Dimensions": dimension, "Violation Count":violation_count,
                        "Violations": " ".join(violations)}
-            df = df.append(new_row, ignore_index=True)
+            df.loc[len(df)] = new_row
         dimensions = df["Quality Dimensions"]
         print(df)
         length = len(dimensions)

@@ -68,7 +68,7 @@ def admin_required(f):
     # the user must be logged in to access pages
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("user_id", None) is "alex_randles":
+        if session.get("user_id", None) == "alex_randles":
             flash("You must log in as administrator access this page!")
             return redirect(url_for('login'))
         return f(*args, **kwargs)
@@ -89,6 +89,8 @@ class API:
 
     def __init__(self):
         app.run(host="127.0.0.1", port=5000, threaded=True, debug=True)
+        with app.app_context():
+            db.create_all()
 
     @app.errorhandler(404)
     def error_404(error):
@@ -113,8 +115,8 @@ class API:
         usr = users(user_id, password)
         db.session.add(usr)
         db.session.commit()
-        os.makedirs(f"./static/user_files/mappings/{user_id}")
-        os.makedirs(f"./static/user_files/change_graphs/{user_id}")
+        os.makedirs(f"./static/user_files/mappings/{user_id}", exist_ok=True)
+        os.makedirs(f"./static/user_files/change_graphs/{user_id}", exist_ok=True)
 
     @staticmethod
     def validate_RDF(filename):
@@ -678,5 +680,4 @@ class API:
 
 if __name__ == "__main__":
     # start the app
-    db.create_all()
     API()

@@ -898,7 +898,7 @@ class Refinements:
                """ % subject_identifier
         print("Removing language tag\n" + update_query)
         processUpdate(mapping_graph, update_query)
-        print(mapping_graph.serialize(format="turtle").decode("utf-8"))
+        # print(mapping_graph.serialize(format="turtle").decode("utf-8"))
         return update_query
 
     def add_domain(self, query_values, mapping_graph, violation_identifier):
