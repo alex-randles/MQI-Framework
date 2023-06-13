@@ -7,6 +7,9 @@ import shutil
 import string
 import urllib
 import datetime
+import requests
+import io
+import pandas as pd
 from collections import OrderedDict, defaultdict
 from sematch.semantic.similarity import WordNetSimilarity
 from functools import wraps
@@ -267,9 +270,6 @@ class API:
             return render_template("change_detection/shacl_shape_details.html", user_id=session.get("user_id"))
         else:
             print(request.form)
-            import requests
-            import pandas as pd
-            import io
             source_data_url = request.form.get("source_data_url")
             url_request = requests.get(source_data_url)
             if url_request.status_code == 200:

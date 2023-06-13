@@ -4,8 +4,13 @@
 @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix ql: <http://www.w3.org/2004/ql#>.
 
 <#TriplesMap8>
+    rml:logicalSource [
+      rml:source "people-v1.csv" ;
+      rml:referenceFormulation ql:CSV
+    ];
     rr:subjectMap [
         rr:template "http://data.example.com/person/{person_id}";
         rr:class foaf:Agent;
@@ -19,6 +24,12 @@
         rr:predicate foaf:names ;
         rr:objectMap [
                          rr:column "NAME";
+                     ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:gender ;
+        rr:objectMap [
+                         rr:column "GENDER";
                      ];
     ];
     rr:predicateObjectMap [
