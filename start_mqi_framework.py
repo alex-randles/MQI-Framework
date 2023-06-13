@@ -339,7 +339,7 @@ schema:PersonShape
         str_graph_filename = str(graph_filename)
         user_id = session.get("user_id")
         notification_thresholds = DisplayChanges.generate_thresholds_html(str_graph_filename, session.get("user_id"))
-        graph_id = "".join(str_graph_filename.split("_")[-1].split("-")[1:]).split(".")[0]
+        graph_id = "".join(str_graph_filename.split("."))[0]
         change_graph_details = session.get("graph_details")
         return render_template("change_detection/notification_thresholds.html",
                                user_id=user_id,
