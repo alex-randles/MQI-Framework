@@ -263,7 +263,37 @@ class API:
     @app.route("/shacl-shapes", methods=["GET", "POST"])
     @login_required
     def generate_shacl_shapes():
-        return render_template("change_detection/shacl_shape_details.html", user_id=session.get("user_id"))
+        if request.method == "GET":
+            return render_template("change_detection/shacl_shape_details.html", user_id=session.get("user_id"))
+        else:
+            print(request.form)
+            import requests
+            import pandas as pd
+            import io
+            source_data_url = request.form.get("source_data_url")
+            url_request = requests.get(source_data_url)
+            if url_request.status_code == 200:
+                source_data = url_request.content
+                csv_data = pd.read_csv(io.StringIO(source_data.decode('utf-8')))
+                columns = " ".join(['"{}"'.format(column) for column in list(csv_data.columns)])
+                shape_template = f"""@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+
+schema:PersonShape
+    a sh:NodeShape ;
+    sh:targetObjectsOf  rr:objectMap ;
+    sh:property [
+      sh:path rr:column, rml:reference;
+      sh:in ({columns});
+         sh:message "Data reference no longer in source data." ;
+       ] .
+                """
+                open("./static/shacl_shape.ttl", "w+").write(shape_template.strip())
+            else:
+                flash("Unable to retrieve data - make sure to provide raw Github URLs")
+            return redirect(request.referrer)
 
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])

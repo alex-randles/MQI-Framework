@@ -3,27 +3,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Source Details{% endblock %}</title>
+    <title>{% block title %}SHACL Shapes{% endblock %}</title>
     <script type="text/javascript"  src="{{ url_for('static', filename='js_scripts.js') }}"> </script>
 </head>
 <body>
 
 {% block content %}
-<h3 class="h2 text-center mt-2">Change Detection • CSV Source Data</h3>
-<form style="" method="POST" action="{{ url_for('detect_csv_changes') }}" onSubmit="move();" enctype="multipart/form-data" id="sourceFileDetails" >
-
-
+<h3 class="h2 text-center mt-2">SHACL Shape Generation</h3>
+<form method="POST" action="{{ url_for('generate_shacl_shapes') }}" onSubmit="move();" enctype="multipart/form-data" id="shape-generation-form" >
     <div class="container-fluid">
         <div class="row d-flex justify-content-center py-1 text-center">
             <div class="col-sm-6 bg-light py-2 justify-content-center">
-                <h4 class="h4">SHACL Shape Generation</h4>
+                <h4 class="h4">Source Data Details</h4>
                 <label class="form-label" >
                     Connect to a CSV file to generate a SHACL shape.
                 </label>
                 <div class="form-group">
-                    <label for="CSV-URL-1"><span class="fw-bold">Original: </span>Version 1 CSV URL</label>
+                    <label for="source-data-url"><span class="fw-bold">Original: </span>Version 1 CSV URL</label>
                     <input type="url" class="form-control"
-                           id="CSV-URL-1" name="CSV-URL-1" placeholder="Version 1 CSV URL" required>
+                           id="source-data-url" name="source-data-url" placeholder="Source Data URL" required>
                 </div>
             </div>
             <div class="row d-flex justify-content-center py-1">
@@ -56,16 +54,33 @@
             </div>
         </div>
         <div class="row d-flex justify-content-center">
-            <div class="col-sm-12 text-center">
-                <a href="" class="my-2 btn btn-secondary" id="download-button">Download Shape</a>
+            <div class="col-sm-12 text-center"  id="download-div" style="display:none">
+                <a href="{{ url_for('static', filename='shacl_shape.ttl')}}" class="my-2 btn btn-secondary" id="download-button">Download Shape</a>
             </div>
         </div>
     </div>
 </form>
 
-<script>
-document.getElementById("detection-end").value = "2022-12-31"
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).on('submit','#shape-generation-form',function(e) {
+      e.preventDefault();
+      $.ajax({
+        type:'POST',
+        url:'/shacl-shapes',
+        data:{
+          source_data_url:$("#source-data-url").val(),
+        },
+        success:function()
+        {
+          $("#download-div").css("display", "block");
+          $("#myBar").css("display", "none");
+        }
+      })
+    });
 </script>
+
 
 {% endblock %}
 
