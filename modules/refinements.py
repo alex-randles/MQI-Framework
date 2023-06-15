@@ -105,14 +105,14 @@ class Refinements:
 
             "AddLogicalSource": {"user_input": True,
                                  "user_input_values": {
-                                     "no_prefixes": [self.RML.source, ],
-                                     "requires_prefixes": [self.RML.referenceFormulation, ],
+                                     "no_prefixes": [self.RML.source],
+                                     "requires_prefixes": [self.RML.referenceFormulation],
                                  }
              },
 
             "ChangePredicate": {"user_input": True,
                                 "user_input_values": {
-                                    "no_prefixes": [self.R2RML.predicate],
+                                    "requires_prefixes": [self.R2RML.predicate],
                                 }
             },
 
@@ -928,7 +928,7 @@ class Refinements:
             identifier_key = [key for key in query_values.keys() if key != "PREFIX"][0]
             remaining_identifier = query_values.get(identifier_key)
             if remaining_identifier and prefix_namespace:
-                full_identifier = prefix_namespace + remaining_identifier
+                full_identifier = prefix_namespace.split(">")[0].replace("<", "") + remaining_identifier
                 self.mapping_graph.bind(query_values.get("PREFIX")[:-1], prefix_namespace)
             elif prefix_namespace:
                 full_identifier = prefix_namespace
@@ -973,7 +973,7 @@ class Refinements:
                    """% (self.vocabularies.get_identifier_namespace(property_identifier), property_identifier, property_identifier)
         query_results = self.vocabularies.query_local_graph(property_identifier, query)
         domain = []
-        for row in query_results["results"]["bindings"]:
+        for row in query_results["results"].get("bindings"):
             current_domain = row["domainClass"].get("value")
             if "comment" in row:
                 current_comment = row["comment"]["value"].split(".")[0] + "."
@@ -998,7 +998,7 @@ class Refinements:
         query_results = self.vocabularies.query_local_graph(identifier, query)
         for binding in query_results.get("results").values():
             for result in binding:
-                correct_range = result["range"]["value"]
+                correct_range = result["range"].get("value")
                 return rdflib.term.URIRef(correct_range)
 
     def provide_suggested_refinements(self):

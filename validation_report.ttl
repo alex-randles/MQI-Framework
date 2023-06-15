@@ -1,6 +1,8 @@
 @prefix ex: <http://example.org/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
@@ -8,18 +10,42 @@ ex:mappingQualityAssessment a mqio:MappingAssessment ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0 .
+    mqio:hasViolation ex:violation-0,
+        ex:violation-1,
+        ex:violation-2 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery ""^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Add Logical Table"^^xsd:string .
-
-<sample_mapping42.ttl> a mqio:MappingArtefact .
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/names>  .  }
+                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/name> .     }
+                WHERE {
+                    ?pom rr:predicate <http://xmlns.com/foaf/0.1/names>  .
+                    FILTER(str(?pom) = "ub2bL17C27").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-1 ;
+    mqio:refinementName "Change Predicate"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasResultMessage "No logical table in this triple map."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:MP1 ;
+    mqio:isDescribedBy mqio-metrics:MP1 .
+
+ex:violation-2 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:based_near'."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
+
+<sample_mapping42.ttl> a mqio:MappingArtefact .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue foaf:names ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:D2 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
