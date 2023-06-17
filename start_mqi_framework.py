@@ -91,9 +91,9 @@ class users(db.Model):
 class API:
 
     def __init__(self):
-        app.run(host="127.0.0.1", port=5000, threaded=True, debug=True)
         with app.app_context():
             db.create_all()
+        app.run(host="127.0.0.1", port=5000, threaded=True, debug=True)
 
     @app.errorhandler(404)
     def error_404(error):
