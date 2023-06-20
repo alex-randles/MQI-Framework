@@ -22,8 +22,8 @@
                     <div class="my-2">
                         <select class="form-select btn btn-sm btn-secondary mx-1 w-25" aria-label="Default select example">
                             <option selected onClick="addSampleSourceData(0)">Select a sample source data</option>
-                            <option value="1" onClick="addSampleSourceData(1)">Sample source data</option>
-                            <!--                        <option value="2" onClick="addSampleSourceData(2)">Products source data</option>-->
+                            <option value="1" onClick="addSampleSourceData(1)">Student source data</option>
+                            <option value="2" onClick="addSampleSourceData(2)">Loan source data</option>
                             <!--                        <option value="3" onClick="addSampleSourceData(3)">Employee source data</option>-->
                             <!--                        <option value="4" onClick="addSampleSourceData(4)">Loans source data</option>-->
                         </select>
@@ -92,9 +92,15 @@
       if (sample_data_identifier == 1){
           document.getElementById('source-data-url').value = "https://raw.githubusercontent.com/kg-construct/rml-test-cases/master/test-cases/RMLTC0002a-CSV/student.csv";
       }
+      else if (sample_data_identifier == 2){
+          document.getElementById('source-data-url').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/loans-v1.csv";
+      }
       else {
           document.getElementById('source-data-url').value = "";
       }
+
+
+
   }
 </script>
 </body>
