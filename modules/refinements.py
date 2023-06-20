@@ -1,27 +1,25 @@
+import rdflib
 import difflib
 import re
 from datetime import datetime
 import pandas as pd
-import rdflib
 from modules.fetch_vocabularies import FetchVocabularies
 from modules.validation_report import ValidationReport
 from modules.serialize import TurtleSerializer
-from rdflib import Graph, URIRef, BNode, Namespace, RDF, RDFS, Literal, OWL, XSD
-from rdflib.plugins.sparql import *
+from rdflib.plugins import sparql
 
 
 class Refinements:
 
-    # add information -> add additional information added by users to validation report
     def __init__(self, validation_results=None, triple_references=None,
                  mapping_graph=None, add_information=None, participant_id=None):
         self.participant_id = participant_id
-        self.R2RML = Namespace("http://www.w3.org/ns/r2rml#")
-        self.RML = Namespace("http://semweb.mmlab.be/ns/rml#")
-        self.MQIO = Namespace("https://w3id.org/MQIO#")
-        self.MQIO_METRIC = Namespace("https://w3id.org/MQIO-metrics/#")
-        self.PROV = Namespace("http://www.w3.org/ns/prov#")
-        self.EX = Namespace("http://example.org/")
+        self.R2RML = rdflib.Namespace("http://www.w3.org/ns/r2rml#")
+        self.RML = rdflib.Namespace("http://semweb.mmlab.be/ns/rml#")
+        self.MQIO = rdflib.Namespace("https://w3id.org/MQIO#")
+        self.MQIO_METRIC = rdflib.Namespace("https://w3id.org/MQIO-metrics/#")
+        self.PROV = rdflib.Namespace("http://www.w3.org/ns/prov#")
+        self.EX = rdflib.Namespace("http://example.org/")
         self.add_information = add_information
         self.validation_results = validation_results
         self.prefix_values = {entry.get("prefix"):entry.get("namespace") for entry in pd.read_csv("prefixes.csv").to_dict(orient='records')}
@@ -30,7 +28,7 @@ class Refinements:
         self.namespaces = {prefix: namespace for (prefix, namespace) in self.mapping_graph.namespaces()}
         self.refinement_count = 0
         self.refinement_graph = rdflib.Graph()
-        self.refinement_graph.bind("prov", Namespace("http://www.w3.org/ns/prov#"))
+        self.refinement_graph.bind("prov", rdflib.Namespace("http://www.w3.org/ns/prov#"))
         self.vocabularies = FetchVocabularies()
         # relates to refinements suggested to the users on the dashboard
         self.suggested_refinements = {
@@ -57,9 +55,12 @@ class Refinements:
             "D7": ["AddCorrectDatatype", "ChangeDatatype", "RemoveDatatype"],  # Usage of incorrect datatype
         }
         # user_input relates to whether the user is required to input values into the framework
-        # requires prefixes relates to whether or not the refinement requires prefixes e.g FOAF, RDF etc, literal values will not
+        # requires prefixes for refinements which require prefixes e.g FOAF, RDF etc, literal values will not
+        # restricted_values relate to drop down options
+        # user_input_values relate to custom values entered
         self.refinement_options = {
-            "AddDomainClass": {"user_input": True, "requires_prefixes": False, "restricted_values": self.find_domain,
+            "AddDomainClass": {"user_input": True, "requires_prefixes": False,
+                               "restricted_values": self.find_domain,
                                "user_input_values": [self.R2RML + "class"]},
 
             "AddPredicate": {"user_input": True,
@@ -302,7 +303,8 @@ class Refinements:
         else:
             return '"{}"'.format(mapping_value)
 
-    def get_language_tags(self):
+    @staticmethod
+    def get_language_tags():
         # placeholder for the drop down menu as key and then options  as values
         language_tags = ['af', 'af-ZA', 'ar', 'ar-AE', 'ar-BH', 'ar-DZ', 'ar-EG', 'ar-IQ', 'ar-JO', 'ar-KW', 'ar-LB',
                          'ar-LY', 'ar-MA', 'ar-OM', 'ar-QA', 'ar-SA', 'ar-SY', 'ar-TN', 'ar-YE', 'az', 'az-AZ',
@@ -422,7 +424,7 @@ class Refinements:
             for (prefix, namespace) in self.namespaces.items():
                 if namespace in identifier:
                     match.append(namespace)
-            # if matching namesapce, return the longest
+            # if more than 1 matching namespace, return the longest
             if match:
                 match_namespace = max(match)
                 prefix = [prefix for (prefix, namespace) in self.namespaces.items() if namespace == match_namespace][0]
@@ -446,7 +448,7 @@ class Refinements:
                 }
                """ % (current_value, current_value, subject_identifier)
         print("Remove IRI query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def change_graph_identifier(self, query_values, mapping_graph, violation_identifier):
@@ -466,8 +468,7 @@ class Refinements:
                     }
                 }
                """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
-        # print("Changing IRI query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def change_class_identifier(self, query_values, mapping_graph, violation_identifier):
@@ -487,11 +488,11 @@ class Refinements:
                     }
                 }
                """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def change_constant_range(self, query_values, mapping_graph, violation_identifier):
-        new_identifier = query_values["IRI"]
+        new_identifier = query_values.get("IRI")
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result.get("location")
         old_identifier = current_result["value"]
@@ -508,7 +509,7 @@ class Refinements:
                 }
                """ % (old_identifier, new_identifier, old_identifier, subject_identifier)
         print("Changing IRI query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def change_identifier(self, query_values, mapping_graph, violation_identifier):
@@ -530,7 +531,7 @@ class Refinements:
                 }
                """ % (rdflib.term.URIRef(str(old_identifier).replace("\/", "")), new_identifier, old_identifier, subject_identifier)
         print("Changing IRI query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def change_term_type(self, query_values, mapping_graph, violation_identifier):
@@ -552,7 +553,7 @@ class Refinements:
                 }
                """ % (new_term_type, subject_identifier)
         print("Changing term type query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def remove_term_type(self, query_values, mapping_graph, violation_identifier):
@@ -571,7 +572,7 @@ class Refinements:
                 }
                """ % (term_type_value, term_type_value, subject_identifier)
         print("Removing term type query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def remove_datatype(self, query_values, mapping_graph, violation_identifier):
@@ -589,10 +590,9 @@ class Refinements:
                 }
                """ % (object_map_identifier)
         print("Removing data type query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
-    # not remove class IRI as the value is a literal
     def remove_class(self, query_values, mapping_graph, violation_identifier):
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result.get("location")
@@ -611,7 +611,7 @@ class Refinements:
                     }
                    """ % (old_class_value, old_class_value, subject_identifier)
             print("Remove class query\n" + update_query)
-            processUpdate(mapping_graph, update_query)
+            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
             return update_query
 
     def change_class(self, query_values, mapping_graph, violation_identifier):
@@ -628,7 +628,7 @@ class Refinements:
                     <%s> rr:subjectMap ?subject .
                 }
                 """ % (old_class, new_class, triple_map)
-            processUpdate(mapping_graph, update_query)
+            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
             return update_query
 
     def change_predicate(self, query_values, mapping_graph, violation_identifier):
@@ -648,7 +648,7 @@ class Refinements:
                 """ % (old_predicate, new_predicate, old_predicate, violation_location)
             print("CHANGING PREDICATE QUERY", query_values)
             print(update_query)
-            processUpdate(mapping_graph, update_query)
+            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
             return update_query
 
     def change_language_tag(self, query_values, mapping_graph, violation_identifier):
@@ -670,7 +670,7 @@ class Refinements:
                 }
                """ % (old_language_tag, new_language_tag, old_language_tag, pom_identifier)
         print("Changing language query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def change_datatype(self, query_values, mapping_graph, violation_identifier):
@@ -689,7 +689,7 @@ class Refinements:
                     }
                 }
                """ % (correct_datatype, object_map_identifier)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def add_correct_range(self, correct_range, mapping_graph, violation_identifier):
@@ -708,11 +708,11 @@ class Refinements:
                 }
                """ % (correct_range, object_map_identifier)
         print("Changing range query\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def add_parent_column(self, query_values, mapping_graph, violation_identifier):
-        parent_column = query_values.get("http://www.w3.org/ns/r2rml#parent")
+        parent_column = query_values.get(str(self.R2RML.parent))
         if parent_column:
             current_result = self.validation_results[violation_identifier]
             join_identifier = current_result.get("location")
@@ -728,7 +728,7 @@ class Refinements:
                     }
                    """ % (parent_column, join_identifier)
             print("Adding parent column query\n" + update_query)
-            processUpdate(mapping_graph, update_query)
+            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
             return update_query
 
     def add_subject_map(self, query_values, mapping_graph, violation_identifier):
@@ -755,7 +755,6 @@ class Refinements:
         mapping_graph.add((subject_map_identifier, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#class"), rdflib.term.URIRef(class_identifier)))
         mapping_graph.add((subject_map_identifier, self.R2RML.template, rdflib.term.Literal(template_string)))
         self.triple_references[URIRef(triple_map)][self.R2RML.subjectMap] = [subject_map_identifier]
-        print("yeyeys")
         return update_query
 
     def add_predicate(self, query_values, mapping_graph, violation_identifier):
@@ -773,7 +772,7 @@ class Refinements:
                     }
                 }
                """ % (predicate_identifier, violation_location)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def add_object_map(self, query_values, mapping_graph, violation_identifier):
@@ -793,7 +792,7 @@ class Refinements:
                     }
                 }
                """ % (predicate_identifier, violation_location)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         return update_query
 
     def add_logical_table(self, query_values, mapping_graph, violation_identifier):
@@ -877,7 +876,7 @@ class Refinements:
                     }
                    """ % (child_column, join_identifier)
             print("Adding child column query\n" + update_query)
-            processUpdate(mapping_graph, update_query)
+            rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
             return update_query
 
     def remove_language_tag(self, query_values, mapping_graph, violation_identifier):
@@ -897,7 +896,7 @@ class Refinements:
                 }
                """ % subject_identifier
         print("Removing language tag\n" + update_query)
-        processUpdate(mapping_graph, update_query)
+        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         # print(mapping_graph.serialize(format="turtle").decode("utf-8"))
         return update_query
 
@@ -1097,13 +1096,13 @@ class Refinements:
     def add_refinement_information(self, violation_identifier, refinement_query, refinement_name):
         # each refinement has a unique IRI and is associated with a refinement query
         refinement_identifier = rdflib.term.URIRef(self.EX + "refinement" + "-" + str(self.refinement_count))
-        self.refinement_graph.add((refinement_identifier, RDF.type, self.MQIO.MappingRefinement))
-        # self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, Literal(datetime.utcnow(), datatype=XSD.dateTime)))
+        self.refinement_graph.add((refinement_identifier, rdflib.RDF.type, self.MQIO.MappingRefinement))
+        # self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, rdflib.Literal(datetime.utcnow(), datatype=rdflib.XSD.dateTime)))
         # adding the SPARQL query used for the refinement
-        refinement_query = Literal(refinement_query, datatype=XSD.string)
+        refinement_query = rdflib.term.Literal(refinement_query, datatype=rdflib.XSD.string)
         self.refinement_graph.add((refinement_identifier, self.MQIO.hasRefinementQuery, refinement_query))
         # adding the refinement name e.g FindSimilarClasses
-        refinement_name = Literal(self.split_camel_case(refinement_name), datatype=XSD.string)
+        refinement_name = rdflib.term.Literal(self.split_camel_case(refinement_name), datatype=rdflib.XSD.string)
         self.refinement_graph.add((refinement_identifier, self.MQIO.refinementName, refinement_name))
         # adding the wasRefinedBy property related to the previously defined refinement
         violation_identifier = rdflib.term.URIRef(self.EX + "violation" + "-" + str(violation_identifier))
@@ -1156,7 +1155,7 @@ class Refinements:
     def bind_prefix_namespace(self, prefix, prefix_value):
         # remove last character which is ':' to prevent adding foaf:: instead of foaf:
         prefix = prefix[:-1]
-        prefix_NS = Namespace(prefix_value)
+        prefix_NS = rdflib.Namespace(prefix_value)
         self.mapping_graph.bind(prefix, prefix_NS)
 
     def get_prefix_value(self, prefix):
@@ -1172,7 +1171,8 @@ class Refinements:
             return True
         return False
 
-    def is_prefix_value(self, form_id):
+    @staticmethod
+    def is_prefix_value(form_id):
         # if the input is a prefix e.g '0-PREFIX-http://www.w3.org/ns/r2rml#class'
         split_value = form_id.split("-")
         if len(split_value) == 3 and split_value[1] == "PREFIX":
@@ -1194,7 +1194,8 @@ class Refinements:
         sorted_prefix_values = {i: prefix_values[i] for i in dict_keys}
         return sorted_prefix_values
 
-    def remove_angle_brackets(self, value):
+    @staticmethod
+    def remove_angle_brackets(value):
         # removes angle brackets from a string e.g <http://pgxo.loria.fr/> -> http://pgxo.loria.fr/
         return value.split("<")[1].split(">")[0]
 

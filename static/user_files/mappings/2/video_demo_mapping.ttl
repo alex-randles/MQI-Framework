@@ -30,33 +30,32 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate ibclo:hasInstance;	
 	 rr:objectMap [	
-		 rr:column "instance";	
+		 rr:column "instance";
 		]; 	
- ];	
-	
+ ];
+
  rr:predicateObjectMap [ 	
  	 rr:predicate ibclo:hasLabel;	
 	 rr:objectMap [	
-		 rr:datatype xsd:string;	
-		 rr:column "label";	
+		 rr:column "label";
+		 rr:datatype xsd:integer; 
 		]; 	
- ];	
-	
+ ];
+ 
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasTimestamp;	
+ 	 rr:predicate ibclo:hasModelNames;	
 	 rr:objectMap [	
-		 rr:column "model_name";	
+		 rr:column "model_name";
 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasResultSet;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#MetricResults> ;	
-		 rr:joinCondition [	
-			 rr:parent "RESULT_ID";	
-			 rr:child "xjjxjx";	
-			 ];	
- 		]; 	
- ];	
+ ];
+ 
+ rr:predicateObjectMap [
+ 	 rr:predicate ibclo:hasResultSet;
+        rr:objectMap [
+            rr:parentTriplesMap <#MetricResults>;
+            rr:joinCondition [
+                rr:parent "RESULT_ID";
+            ];
+	 ];
+ ];
 .	

@@ -122,12 +122,10 @@ class ValidateQuality:
             return identifier
 
     def validate_triple_maps(self):
-        # metrics = [self.validate_]
-        # iterate each triple map
-        # self.update_progress_bar()
         # pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
-        processes = [multiprocessing.Process(target=self.validate_mapping_metrics)]
-        processes[0].start()
+        # processes = [multiprocessing.Process(target=self.validate_mapping_metrics)]
+        # processes[0].start()
+        processes = []
         for (triple_map_identifier, graph) in self.triple_maps:
             # self.blank_node_references[triple_map_identifier] = self.generate_triple_references(graph)
             self.current_graph = graph
@@ -139,14 +137,10 @@ class ValidateQuality:
             pr1 = multiprocessing.Process(target=self.validate_data_metrics)
             pr1.start()
             pr2.start()
-            print("hello")
             processes.append(pr1)
             processes.append(pr2)
         print("exit loop")
         self.current_triple_identifier = None
-        # pr1 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
-        # pr1.start()
-        # processes.append(pr1)
         for job in processes:
             job.join()
         print("jobs joined...")
@@ -164,7 +158,6 @@ class ValidateQuality:
         return validation_results
 
     def validate_data_metrics(self):
-        # A function to validate all of the data quality metrics
         self.validate_D1()
         self.validate_D2()
         self.validate_D3()
@@ -174,11 +167,6 @@ class ValidateQuality:
         self.validate_D7()
         self.validate_VOC1()
         self.validate_VOC2()
-
-    def validate_mapping_metrics(self):
-        # A function to validate each of the mapping related quality metrics
-        # self.validate_MP2()
-        pass
 
     def validate_term_map_metrics(self):
         self.validate_MP1()
@@ -207,8 +195,6 @@ class ValidateQuality:
             subject_identifier = self.classes[key].get("subject")
             metric_result = self.validate_undefined(class_identifier, subject_identifier, "class", metric_identifier)
             print(class_identifier)
-            # if class is undefined
-            # print("VALIDATING UNDEFINED", class_identifier, metric_result)
             if metric_result:
                 del self.classes[key]
                 self.add_violation(metric_result)
@@ -220,7 +206,6 @@ class ValidateQuality:
             property_identifier = self.properties[key].get("property")
             subject_identifier = self.properties[key].get("subject")
             metric_result = self.validate_undefined(property_identifier, subject_identifier, "property", metric_identifier)
-            # if property is undefined
             if metric_result:
                 # remove if undefined
                 del self.properties[key]
@@ -339,7 +324,6 @@ class ValidateQuality:
                                                 subject_identifier])
                             classes.remove(class_identifier)
                             classes.remove(current_identifier)
-
 
     def validate_D6(self):
         # A function to validate the usage of correct range
@@ -462,7 +446,7 @@ class ValidateQuality:
         for row in query_results:
             subject = row.get("joinCondition")
             self.add_violation(
-                [metric_identifier, result_message, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#child"), subject])
+                [metric_identifier, result_message, self.R2RML.child, subject])
         query = """
                  PREFIX rr: <http://www.w3.org/ns/r2rml#>
                  SELECT ?joinCondition 
@@ -499,7 +483,6 @@ class ValidateQuality:
             self.add_violation([metric_identifier, result_message, (language_tag, datatype), subject_identifier])
 
     def validate_MP6(self):
-        # The user may spell one of the term types incorrect e.g rr:Literal(s)
         result_message = "Invalid term type definition."
         metric_identifier = "MP6"
         query = """
@@ -784,9 +767,9 @@ class ValidateQuality:
                 has_domain_range = query_results.get("boolean")
                 if has_domain_range is False:
                     query = """ 
-                    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                    ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:AnnotationProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (
+                        PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                        ASK { GRAPH <%s> {  <%s> a ?type .  FILTER(?type in ( rdf:Property, owl:ObjectProperty, owl:AnnotationProperty, owl:DataProperty, owl:FunctionalProperty, owl:DatatypeProperty )) }} """ % (
                     self.vocabularies.get_identifier_namespace(property_identifier), property_identifier)
                     query_results = self.vocabularies.query_local_graph(namespace, query)
                     is_property = query_results.get("boolean")
@@ -865,13 +848,12 @@ class ValidateQuality:
         metric_identifier = "VOC5"
         for namespace in self.unique_namespaces:
             query = """
-            ASK
-            WHERE {
-              GRAPH <%s> {
-                  ?subject ?predicate ?object
-                  FILTER(CONTAINS(LCASE(str(?object)), "license")) 
-              }
-            }
+                ASK WHERE {
+                  GRAPH <%s> {
+                      ?subject ?predicate ?object
+                      FILTER(CONTAINS(LCASE(str(?object)), "license")) 
+                  }
+                }
             """ % namespace
             query_results = self.vocabularies.query_local_graph(namespace, query)
             has_license = query_results.get("boolean")
@@ -883,7 +865,6 @@ class ValidateQuality:
                     self.add_violation([metric_identifier, result_message, namespace, None])
 
     def get_triple_maps_identifier(self):
-        # returns IRI for all triple maps
         triple_maps = []
         for (s, p, o) in self.mapping_graph.triples((None, None, None)):
             if not isinstance(s, rdflib.term.BNode):
@@ -1316,6 +1297,5 @@ class ValidateQuality:
 
 
 if __name__ == "__main__":
-    t = ValidateQuality(
-        "/home/alex/Desktop/Evaluation-1 (Validation Reports)/28 (FAIRVASC-Mapping2)/fairvasc_euvas_test_mapping_v3.ttl")
-    print(json.dumps(t.validation_results, indent=4))
+    quality_assessment  = ValidateQuality("mapping.ttl")
+    print(json.dumps(quality_assessment.validation_results, indent=4))
