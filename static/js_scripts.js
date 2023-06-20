@@ -20,13 +20,13 @@ function unloadProcesses() {
 }
 
 function logout(event){
-        var check = confirm("Do you really want to logout?");
-        if(check){
-           return true;
-        }
-        else {
-            return false;
-        }
+    var check = confirm("Do you really want to logout?");
+    if(check){
+       return true;
+    }
+    else {
+        return false;
+    }
 }
 
 function downloadWarning() {
@@ -151,7 +151,7 @@ function addSampleSourceData(sample_data_identifier){
   }
   else if (sample_data_identifier == 1){
       document.getElementById('CSV-URL-1').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/video_demo/metric-data-v1.csv";
-      document.getElementById('CSV-URL-2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/video_demo/metric-data-v3.csv";
+      document.getElementById('CSV-URL-2').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/video_demo/metric-data-v2.csv";
   }
   else if (sample_data_identifier == 2){
      document.getElementById('CSV-URL-1').value = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/products.csv";
