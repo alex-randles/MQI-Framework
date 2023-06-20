@@ -166,7 +166,7 @@ class ValidateNotificationPolicy:
         try:
             smtp = smtplib.SMTP("smtp-mail.outlook.com", port=587)
             smtp.starttls()
-            smtp.login(sender, "R7LwqD9rMnERh9Q")
+            smtp.login(sender, "")
             smtp.sendmail(sender, recipient, email_message.as_string())
             smtp.quit()
         except smtplib.SMTPAuthenticationError as e:
