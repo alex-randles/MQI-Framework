@@ -16,8 +16,8 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class ibclo:Metric;	
-	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+ 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+	 rr:class ibclo:Metric;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -43,7 +43,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasModelNames;	
+ 	 rr:predicate ibclo:hasBiosDate;	
 	 rr:objectMap [	
 		 rr:column "model_name";	
 		]; 	
@@ -54,7 +54,6 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
-			 rr:child "jj";	
 			 rr:parent "RESULT_ID";	
 			 ];	
  		]; 	

@@ -16,7 +16,7 @@
             <h2>Mapping-Source Data Change Relations</h2>
         </div>
         <div class="col-2 p-3">
-            <a href="{{ url_for('static', filename='uploads/mappings/%s' % (mapping_filename)) }}">
+            <a href="{{ url_for('static', filename='user_files/mappings/%s/%s' % (user_id, mapping_filename)) }}">
                 <button class="btn btn-sm btn-secondary">Download Mapping</button>
             </a>
         </div>
@@ -102,7 +102,7 @@
                                                         <div class="alert alert-success text-center w-50" role="alert">
                                                             <h5 class="alert-heading">Updated Mapping Generated</h5>
                                                             <p>Press the button 'Download Updated Mapping' to retrieve the mapping with updated data references.
-                                                                <a href="{{ url_for('static', filename='uploads/mappings/%s/%s' % (user_id, mapping_filename)) }}" class="btn btn-sm mx-2 btn-secondary">
+                                                                <a href="{{ url_for('static', filename='user_files/mappings/%s/%s' % (user_id, mapping_filename)) }}" class="btn btn-sm mx-2 btn-secondary">
                                                                     Download Updated Mapping
                                                                 </a>
                                                             </p>
@@ -126,12 +126,10 @@
                                         </div>
                                     </div>
                                     {% set inner_div_counter.value = inner_div_counter.value + 1 %}
-
                                     {% endfor %}
                                     {% else %}
                                     No changes
                                     {% endif %}
-
                                 </div>
                             </div>
                             {% set outer_div_counter.value = inner_div_counter.value  + 1  %}
@@ -168,8 +166,6 @@
       })
     });
 </script>
-
-
 <script>
     $('.collapse').collapse()
 </script>

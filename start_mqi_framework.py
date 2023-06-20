@@ -658,37 +658,10 @@ schema:PersonShape
             else:
                 return redirect("get_refinements")
 
-    # @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
-    # @login_required
-    # def download_refined_mapping():
-    #     return send_file("refined_mapping.ttl", as_attachment=True, max_age=0)
-    #
-    # @app.route("/return-validation-report/", methods=['GET', 'POST'])
-    # @login_required
-    # def download_refinement_report():
-    #     return send_file("validation_report.ttl", as_attachment=True, max_age=0)
-
-    @app.route("/return-quality-report/", methods=['GET', 'POST'])
-    @login_required
-    def download_validation_report():
-        return send_file("validation_report.ttl", attachment_filename="quality_report.ttl", as_attachment=True, max_age=0)
-
     @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
     @login_required
     def download_sample_mapping():
         return send_file("./static/sample_mapping.ttl", as_attachment=True, max_age=0)
-
-    @app.route("/return-impacted-mapping/<mapping_filename>", methods=['GET', 'POST'])
-    @login_required
-    def download_impacted_mapping(mapping_filename):
-        filename = session.get("mapping_details").get(int(mapping_filename)).get("filename")
-        mapping_path = "./static/uploads/" + filename
-        if os.path.exists(mapping_path):
-            exit()
-            return send_file(mapping_path, as_attachment=True, max_age=0)
-        else:
-            mapping_path = "./static/sample_mapping.ttl"
-            return send_file(mapping_path, as_attachment=True, max_age=0)
 
     @app.route("/return-change-graph/<graph_file_name>", methods=['GET', 'POST'])
     @login_required

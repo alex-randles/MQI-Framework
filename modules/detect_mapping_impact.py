@@ -150,15 +150,14 @@ class DetectMappingImpact:
                 SELECT ?subject ?predicate ?object 
                 WHERE {
                       ?subject ?predicate ?object .
-                      
-                      
+    
                       FILTER (?predicate IN (rml:reference, rr:column))
                       FILTER ('%s' = LCASE(?object))
                     }
                 }
                """ % (new_data_reference, old_data_reference.lower())
         print(update_query)
-        mapping_file_path = f"./static/uploads/mappings/{user_id}/{mapping_file_name}"
+        mapping_file_path = f"./static/user_files/mappings/{user_id}/{mapping_file_name}"
         mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
         rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
         mapping_graph.serialize(destination=mapping_file_path, format="ttl")

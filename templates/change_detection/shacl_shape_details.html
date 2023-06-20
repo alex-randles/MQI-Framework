@@ -7,7 +7,6 @@
 </head>
 {% block content %}
 <body>
-
 <h3 class="h2 text-center mt-2">SHACL Shape Generation</h3>
 <form method="POST" action="{{ url_for('generate_shacl_shapes') }}" onSubmit="move();document.getElementById('myProgress').style.display = 'block'" enctype="multipart/form-data" id="shape-generation-form" >
     <div class="container-fluid">
@@ -77,7 +76,7 @@
         type:'POST',
         url:'/shacl-shapes',
         data:{
-          source_data_url:$("#source-data-url").val(),
+           source_data_url:$("#source-data-url").val(),
         },
         success:function()
         {
@@ -98,9 +97,6 @@
       else {
           document.getElementById('source-data-url').value = "";
       }
-
-
-
   }
 </script>
 </body>

@@ -16,25 +16,23 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
 
 ex:refinement-0 a mqio:MappingRefinement ;
     mqio:hasRefinementQuery """
-                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                    INSERT { ?joinCondition rr:child "jj" } 
-                    WHERE { 
-                    SELECT ?joinCondition
-                    WHERE {
-                          ?subject rr:joinCondition ?joinCondition.
-                          FILTER(str(?joinCondition) = "ub10bL55C30").
-                        }
-                    }
-                   """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Add Child Column"^^xsd:string .
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .  }
+                INSERT {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasBiosDate> .     }
+                WHERE {
+                    ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .
+                    FILTER(str(?pom) = "ub2bL44C24").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Find Similar Predicates"^^xsd:string .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasModelNames ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
+    mqio:hasObjectValue rr:child ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+    mqio:isDescribedBy mqio-metrics:MP4 .
 
 ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
@@ -45,11 +43,11 @@ ex:violation-2 a mqio:MappingViolation ;
 
 <video_demo_mapping.ttl> a mqio:MappingArtefact .
 
-ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
-    mqio:hasObjectValue rr:child ;
-    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue ibclo:hasModelNames ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:MP4 ;
+    mqio:isDescribedBy mqio-metrics:D2 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
