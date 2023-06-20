@@ -10,6 +10,7 @@ function loadProcesses() {
   }
 }
 
+
 function unloadProcesses() {
   var spinner = document.getElementById("base-spinner");
   var submit_button = document.getElementById("change-process-button");

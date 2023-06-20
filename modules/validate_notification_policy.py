@@ -1,23 +1,23 @@
-from rdflib import *
-from datetime import datetime
-from dateutil import parser
+import rdflib
 import smtplib
 import os
 import time
+import dateutil
 import email
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+from datetime import datetime
 
 
 class ValidateNotificationPolicy:
 
     def __init__(self, graph_file, user_id):
-        print("VALIDATING POLICY", graph_file)
+        print("validating notification policy", graph_file)
         self.user_id = user_id
         self.graph_file = graph_file
-        self.user_graph = Dataset()
+        self.user_graph = rdflib.Dataset()
         self.user_graph.parse(graph_file, format="trig")
         self.user_email = self.get_user_email()
         self.detection_period = self.get_detection_period()
@@ -32,15 +32,38 @@ class ValidateNotificationPolicy:
         if total_threshold <= change_count:
             message = f"Your notification policy total threshold is {total_threshold} and the framework has detected {change_count} changes."
             self.send_notification_email(message)
+        current_date =  datetime.now()
+        if current_date < self.detection_period:
+            message = f"Your notification policy end date {self.detection_period} has been reached."
+            self.send_notification_email(message)
 
     def get_detection_period(self):
-        return "shshs"
+        # get detection time for notification policy to check if still valid
+        query = """
+            PREFIX oscd: <https://www.w3id.org/OSCD#>
+            PREFIX rei-policy: <http://www.cs.umbc.edu/~lkagal1/rei/ontologies/ReiPolicy.owl#>
+            SELECT ?detectionStart ?detectionEnd
+            WHERE
+            {
+              GRAPH ?changesGraph  {
+                ?policy a rei-policy:Policy ;
+                        oscd:hasDetectionEnd ?detectionEnd;
+                        oscd:hasDetectionStart ?detectionStart .
+              }
+            }
+        """
+        qres = self.user_graph.query(query)
+        detection_time = None
+        for row in qres:
+            detection_time = row.get("detectionEnd")
+        # convert detection period into datetime format
+        detection_time = dateutil.parser.parse(detection_time)
+        return detection_time
 
     def get_changes_count(self):
         # query to get notification thresholds
         query = """
         PREFIX oscd: <https://www.w3id.org/OSCD#> 
-        
         # GET COUNT FOR EACH CHANGE TYPE
         SELECT ?changeType (count(?change) AS ?count)
         WHERE
@@ -65,7 +88,6 @@ class ValidateNotificationPolicy:
         }
         GROUP BY ?changeType
         """
-
         qres = self.user_graph.query(query)
         # count of each change type within graph
         change_type_counts = {}
@@ -124,13 +146,12 @@ class ValidateNotificationPolicy:
 
         msg['From'] = sender
         msg['To'] = recipient
-        msg['Subject'] = "Notification - Change Detection System"
+        msg['Subject'] = "Notification for Change Detection System"
 
         body = f"Hi, \n\n The notification policy conditions have been satisfied. The graph containing the changes, notification policy and contact details is attached. \n{message}"
 
         msg.attach(MIMEText(body, 'plain'))
 
-        filename = "graph.trig"
         attachment = open(self.graph_file, "rb")
 
         part = MIMEBase('application', 'octet-stream')
@@ -145,11 +166,12 @@ class ValidateNotificationPolicy:
         try:
             smtp = smtplib.SMTP("smtp-mail.outlook.com", port=587)
             smtp.starttls()
-            smtp.login(sender, "")
+            smtp.login(sender, "R7LwqD9rMnERh9Q")
             smtp.sendmail(sender, recipient, email_message.as_string())
             smtp.quit()
         except smtplib.SMTPAuthenticationError as e:
-            pass
+            print("Sending email exception", e)
+            exit()
 
 
 if __name__ == "__main__":

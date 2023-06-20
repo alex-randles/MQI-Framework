@@ -1,5 +1,4 @@
 # Parses mappings into individuals graphs of triple maps
-from rdflib import Graph, BNode, URIRef, Namespace
 import rdflib
 
 

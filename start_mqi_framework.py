@@ -49,6 +49,7 @@ app.secret_key = os.urandom(24)
 sess = Session()
 sess.init_app(app)
 
+
 def create_app():
     return app
 
@@ -83,6 +84,7 @@ class users(db.Model):
     user_id = db.Column("user_id", db.Integer)
     # will default to variable name if none defined
     password = db.Column(db.String(100))
+
     def __init__(self, user_id, password):
         self.user_id = user_id
         self.password = password
@@ -283,7 +285,7 @@ class API:
 
 schema:PersonShape
     a sh:NodeShape ;
-    sh:targetObjectsOf  rr:objectMap ;
+    sh:targetObjectsOf rr:objectMap ;
     sh:property [
       sh:path rr:column, rml:reference;
       sh:in ({columns});

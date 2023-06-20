@@ -5,9 +5,9 @@
 
 schema:PersonShape
     a sh:NodeShape ;
-    sh:targetObjectsOf  rr:objectMap ;
+    sh:targetObjectsOf rr:objectMap ;
     sh:property [
       sh:path rr:column, rml:reference;
-      sh:in ("ID" "Name");
+      sh:in ("metric_ID" "__name__" "address" "alertmanager" "alertname" "alertstate" "bios_date" "bios_vendor" "bios_version" "board_name" "board_vendor" "board_version" "branch" "broadcast" "call" "capacity_level" "cause" "chassis_vendor" "chip" "chip_name" "clocksource" "code" "collector" "config" "core" "cpu" "device" "dialer_name" "domainname" "duplex" "endpoint" "event" "firmware_revision" "fstype" "goversion" "handler" "id" "id_like" "index" "instance" "interval" "ip" "job" "label" "le" "listener_name" "machine" "major" "manufacturer" "minor" "mode" "model" "model_name" "mountpoint" "name" "nodename" "operstate" "package" "path" "power_supply" "pretty_name" "product_family" "product_name" "quantile" "queue" "reason" "release" "revision" "role" "rule_group" "scrape_job" "sensor" "serial" "serial_number" "slice" "state" "status" "sysname" "system_vendor" "technology" "time_zone" "type" "version" "version_codename" "version_id" "zone" "value" "timestamp");
          sh:message "Data reference no longer in source data." ;
        ] .

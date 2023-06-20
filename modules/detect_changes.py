@@ -4,13 +4,11 @@ import requests
 import xml.etree.ElementTree as ET
 import io
 import datetime
-from xmldiff import main, formatting
 import xmldiff
-from flask import flash
-from collections import defaultdict
 import csv_diff
 import csv
 import modules.r2rml as r2rml
+from collections import defaultdict
 from modules.validate_notification_policy import ValidateNotificationPolicy
 
 class DetectChanges:
@@ -251,7 +249,8 @@ class DetectChanges:
 
     def validate_notification_policy(self):
         if self.error_code == 0:
-            ValidateNotificationPolicy(self.output_file, self.user_id)
+            pass
+            # ValidateNotificationPolicy(self.output_file, self.user_id)
 
     @staticmethod
     def execute_r2rml():
