@@ -1,13 +1,13 @@
 @prefix schema: <http://schema.org/> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
-
-schema:PersonShape
-    a sh:NodeShape ;
-    sh:targetObjectsOf rr:objectMap ;
-    sh:property [
-      sh:path rr:column, rml:reference;
-      sh:in ("Gender" "Married" "Dependents" "Education" "Self_Employed" "Applicant_Income" "Coapplicant_Income" "Loan_Amount" "Term" "Credit_History");
-         sh:message "Data reference no longer in source data." ;
-       ] .
+        @prefix sh: <http://www.w3.org/ns/shacl#> .
+        @prefix rr: <http://www.w3.org/ns/r2rml#> .
+        @prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+        
+        schema:PersonShape
+            a sh:NodeShape ;
+            sh:targetObjectsOf rr:objectMap ;
+            sh:property [
+              sh:path rr:column, rml:reference;
+              sh:in ("Gender" "Married" "Dependents" "Education" "Self_Employed" "Applicant_Income" "Coapplicant_Income" "Loan_Amount" "Term" "Credit_History");
+                 sh:message "Data reference no longer in source data." ;
+               ] .

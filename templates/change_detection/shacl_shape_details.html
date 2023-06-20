@@ -32,17 +32,11 @@
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center py-1">
-                    <div class="col-sm-6 text-center">
-                        {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                        {% for msg in messages %}
+                    <div class="col-sm-6 text-center"  id="error-message" style="display:none;">
                         <div class="alert alert-danger" role="alert">
                             <h4 class="alert-heading">Error</h4>
-                            {{msg}}
+                            Unable to retrieve data at URL
                         </div>
-                        {% endfor %}
-                        {% endif %}
-                        {% endwith %}
                     </div>
                 </div>
             </div>
@@ -78,10 +72,17 @@
         data:{
            source_data_url:$("#source-data-url").val(),
         },
-        success:function()
+        success:function(response)
         {
-          $("#download-div").css("display", "block");
-          $("#myProgress").css("display", "none");
+          if (response == "Shape Generated") {
+              $("#download-div").css("display", "block");
+              $("#myProgress").css("display", "none");
+              $("#error-message").css("display", "none");
+          }
+          else {
+              $("#download-div").css("display", "none");
+              $("#error-message").css("display", "block");
+          }
         }
       })
     });
