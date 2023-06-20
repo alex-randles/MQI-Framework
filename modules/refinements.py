@@ -1070,13 +1070,12 @@ class Refinements:
     def create_refinement_report(self, validation_report_file):
         # output refinement into RDF report
         self.format_file_name_identifier()
-        self.refinement_graph.serialize(destination=validation_report_file, format="ttl")
-        self.generated_refined_mapping()
+        self.refinement_graph.serialize(destination="./static/validation_report.ttl", format="ttl")
+        self.generate_refined_mapping()
 
-    def generated_refined_mapping(self):
+    def generate_refined_mapping(self):
         # uses custom serializer to preserve mapping ordering
         TurtleSerializer(self.mapping_graph, self.triple_references, "./static/refined_mapping.ttl")
-        # TurtleSerializer(self.mapping_graph, self.triple_references, "./static/uploads/mappings/video_demo_mapping.ttl".format(self.participant_id))
 
     def format_file_name_identifier(self):
         # remove local file name from IRI's

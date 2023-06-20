@@ -16,64 +16,63 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
 
 ex:refinement-0 a mqio:MappingRefinement ;
     mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .  }
+                INSERT {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasBiosDate> .     }
+                WHERE {
+                    ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .
+                    FILTER(str(?pom) = "ub15bL44C24").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+
+ex:refinement-1 a mqio:MappingRefinement ;
+    mqio:hasRefinementQuery """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                    INSERT { ?joinCondition rr:child "xjjxjx" } 
+                    INSERT { ?joinCondition rr:child "jjj" } 
                     WHERE { 
                     SELECT ?joinCondition
                     WHERE {
                           ?subject rr:joinCondition ?joinCondition.
-                          FILTER(str(?joinCondition) = "ub2bL55C30").
+                          FILTER(str(?joinCondition) = "ub15bL55C30").
                         }
                     }
                    """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Add Child Column"^^xsd:string .
-
-ex:refinement-1 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .  }
-                INSERT {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasTimestamp> .     }
-                WHERE {
-                    ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .
-                    FILTER(str(?pom) = "ub2bL44C24").
-                }
-                """^^xsd:string ;
     mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+    mqio:refinementName "Add Child Column"^^xsd:string .
 
 ex:refinement-2 a mqio:MappingRefinement ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?objectMap rr:datatype ?datatype }
-                INSERT { ?objectMap rr:datatype <http://www.w3.org/2001/XMLSchema#string> }
+                DELETE { ?subject rr:datatype ?datatype .  }
                 WHERE {
-                    SELECT ?objectMap ?datatype
-                    WHERE {
-                          ?objectMap rr:datatype ?datatype.
-                          FILTER(str(?objectMap) = "ub2bL38C16").
+                SELECT ?subject ?datatype
+                WHERE {
+                      ?subject rr:datatype ?datatype.
+                      FILTER(str(?subject) = "ub15bL38C16").
                     }
                 }
                """^^xsd:string ;
     mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Add Correct Datatype"^^xsd:string .
+    mqio:refinementName "Remove Datatype"^^xsd:string .
 
 <video_demo_mapping.ttl> a mqio:MappingArtefact .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
-    mqio:hasObjectValue rr:child ;
-    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:MP4 ;
-    mqio:wasRefinedBy ex:refinement-0 .
-
-ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
     mqio:hasObjectValue ibclo:hasModelNames ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
     mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:wasRefinedBy ex:refinement-0 .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
+    mqio:hasObjectValue rr:child ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:MP4 ;
     mqio:wasRefinedBy ex:refinement-1 .
 
 ex:violation-2 a mqio:MappingViolation ;
