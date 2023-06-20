@@ -1065,7 +1065,7 @@ class Refinements:
             print(refinement_query)
             self.add_refinement_information(int_violation_identifier, refinement_query, refinement_name)
             self.refinement_count += 1
-        print(self.mapping_graph.serialize(format="ttl").decode("utf-8"))
+        # print(self.mapping_graph.serialize(format="ttl").decode("utf-8"))
         self.create_refinement_report("validation_report.ttl")
 
     def create_refinement_report(self, validation_report_file):
