@@ -414,7 +414,7 @@ schema:PersonShape
             mapping_deleted = True
         try:
             os.remove(filename)
-        except:
+        except Exception as e:
             print("file could not be removed....", filename, e)
         # get graph details for user
         display_changes = DisplayChanges(session.get("user_id"))
@@ -684,7 +684,6 @@ schema:PersonShape
             else:
                 graph_location = "./static/sample_mappings/student_mapping.ttl"
             return send_file(graph_location, attachment_filename="sample_mapping.ttl", as_attachment=True, max_age=0)
-
         return render_template("mapping_quality/sample_mappings.html", user_id=session.get("user_id"))
 
 if __name__ == "__main__":
