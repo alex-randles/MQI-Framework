@@ -2,11 +2,9 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ex: <http://data.example.com/> . 
-@prefix ex-metric-query: <http://data.example.com/metricQuery/> . 
-@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix ibclo: <https://ibclo.ericsson.com/#> . 
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix rr: <http://www.w3.org/ns/r2rml#> . 
 
 	
 <#Metric>	
@@ -21,6 +19,17 @@
  ];	
 	
  rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasResultSet;	
+	 rr:objectMap [	
+		 rr:parentTriplesMap <#MetricResults> ;	
+		 rr:joinCondition [	
+			 rr:child "kkk";	
+			 rr:parent "RESULT_ID";	
+			 ];	
+ 		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
  	 rr:predicate ibclo:hasName;	
 	 rr:objectMap [	
 		 rr:column "_name__";	
@@ -30,7 +39,7 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate ibclo:hasInstance;	
 	 rr:objectMap [	
-		 rr:column "instance";	
+		 rr:column "fstype";	
 		]; 	
  ];	
 	
@@ -43,19 +52,9 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasBiosDate;	
+ 	 rr:predicate ibclo:hasModelNames;	
 	 rr:objectMap [	
 		 rr:column "model_name";	
 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasResultSet;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#MetricResults> ;	
-		 rr:joinCondition [	
-			 rr:parent "RESULT_ID";	
-			 ];	
- 		]; 	
  ];	
 .	

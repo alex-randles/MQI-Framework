@@ -660,6 +660,12 @@ schema:PersonShape
             else:
                 return redirect("get_refinements")
 
+    @app.route("/return-quality-report/", methods=['GET', 'POST'])
+    def download_quality_report():
+        return send_file("./static/validation_report.ttl",
+                         attachment_filename="quality_report.ttl",
+                         as_attachment=True, cache_timeout=0)
+
     @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
     @login_required
     def download_sample_mapping():
