@@ -3,11 +3,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ex: <http://example.com/ns#> . 
-@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix ql: <http://www.w3.org/2004/ql#> . 
 
 	
 <#TriplesMap8>	
@@ -17,12 +13,12 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "http://data.example.com/person/{person_id}";	
-	 rr:class foaf:Organization, foaf:Agent;	
+ 	 rr:class foaf:OnlineChatAccount, foaf:Agent;	
+	 rr:template "http://data.example.com/person/{person_id}";	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate foaf:first_name;	
+ 	 rr:predicate foaf:fundedBy;	
 	 rr:objectMap [	
 		 rr:column "NAME";	
 		]; 	

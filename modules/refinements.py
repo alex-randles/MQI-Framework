@@ -1029,7 +1029,6 @@ class Refinements:
                         refinement_input[violation_identifier][property_name] = current_input_value
                     else:
                         refinement_input[violation_identifier] = {property_name: current_input_value }
-
             print(refinement_input)
         # refinement input associates each input value with the violation identifier it is refining
         self.execute_refinements(selected_violation_identifier, refinements, refinement_input, validation_report_file)
@@ -1140,7 +1139,7 @@ class Refinements:
 
     def add_prefix_value(self, form_id, user_input, mapping_file):
         # will concatenate the prefix value to the user input
-        prefix = user_input[form_id]
+        prefix = user_input.get(form_id)
         # if prefix value present
         if prefix:
             # matching_form_id 0-PREFIX-http://www.w3.org/ns/r2rml#column -> 0-http://www.w3.org/ns/r2rml#column
