@@ -8,8 +8,6 @@
 <body>
 
 {% block content %}
-
-
 <h3 class="h2 text-center mt-2">Mapping Quality Assessment</h3>
 <form style="" method="POST" action="{{ url_for('assess_mapping') }}" enctype = "multipart/form-data" id="mappingUpload" onSubmit="move();">
     <div class="container-fluid">
@@ -29,20 +27,18 @@
             </div>
         </div>
     </div>
-
-        <div class="container-fluid">
-            <div class="row d-flex justify-content-center py-1 text-center">
-                <div class="col-sm-4 bg-light py-2">
-                    <h4 class="h4">Local Ontologies (Optional)</h4>
-                    <label for="formFileLg" class="form-label">
-                        You may also upload one or more ontologies you have created which are not available to fetch online.
-                    </label>
-                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="ontology_file" multiple>
-                </div>
-
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center py-1 text-center">
+            <div class="col-sm-4 bg-light py-2">
+                <h4 class="h4">Local Ontologies (Optional)</h4>
+                <label for="formFileLg" class="form-label">
+                    You may also upload one or more ontologies you have created which are not available to fetch online.
+                </label>
+                <input class="form-control form-control-lg" id="formFileLg" type="file" name="ontology_file" multiple>
             </div>
-        </div>
 
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row d-flex justify-content-center py-1 text-center">
             <div class="col-sm-4 bg-light py-2">
@@ -93,15 +89,13 @@
             </div>
         </div>
     </div>
-
-
     <div class="container-fluid">
         <div class="row d-flex justify-content-center py-1">
             <div id="nameErrMsg" class="col-sm-4 text-center alert alert-danger" style="display:none;">
                 <p></p>
             </div>
         </div>
-                <div class="row d-flex justify-content-center py-1">
+        <div class="row d-flex justify-content-center py-1">
             <div class="col-sm-4 text-center">
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -130,10 +124,7 @@
         </div>
     </div>
 </form>
-
-
 {% endblock %}
-
 </body>
 </html>
 

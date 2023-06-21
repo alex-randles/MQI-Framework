@@ -3,60 +3,43 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix ex: <http://data.example.com/> . 
-@prefix ex-metric-query: <http://data.example.com/metricQuery/> . 
+@prefix ex: <http://example.com/ns#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
-@prefix ibclo: <https://ibclo.ericsson.com/#> . 
+@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
+@prefix prov: <http://www.w3.org/ns/prov#> . 
+@prefix ql: <http://www.w3.org/2004/ql#> . 
 
 	
-<#Metric>	
+<#TriplesMap8>	
 	
- rml:logicalSource [ 	
- 	 rml:source "metric-data-v1.csv";	
+ rr:logicalTable [ 	
+ 	 rr:tableName "PEOPLE";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class ibclo:Metric;	
-	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+ 	 rr:template "http://data.example.com/person/{person_id}";	
+	 rr:class foaf:Organization, foaf:Agent;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasName;	
+ 	 rr:predicate foaf:first_name;	
 	 rr:objectMap [	
-		 rr:column "_name__";	
+		 rr:column "NAME";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasInstance;	
+ 	 rr:predicate foaf:gender;	
 	 rr:objectMap [	
-		 rr:column "instance";	
+		 rr:column "GENDER";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasLabel;	
+ 	 rr:predicate foaf:based_near;	
 	 rr:objectMap [	
-		 rr:column "label";	
-		 rr:datatype xsd:integer;	
+		 rr:template "http://data.example.com/location/{person_id}";	
+		 rr:termType rr:Literal;	
 		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasModelNames;	
-	 rr:objectMap [	
-		 rr:column "model_name";	
-		]; 	
- ];	
-	
- rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasResultSet;	
-	 rr:objectMap [	
-		 rr:parentTriplesMap <#MetricResults> ;	
-		 rr:joinCondition [	
-			 rr:parent "RESULT_ID";	
-			 rr:child "xkxkx";	
-			 ];	
- 		]; 	
  ];	
 .	

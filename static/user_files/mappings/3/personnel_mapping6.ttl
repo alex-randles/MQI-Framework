@@ -12,7 +12,7 @@
     ];
     rr:subjectMap [
         rr:template "http://data.example.com/person/{person_id}";
-        rr:class foaf:Agent, foaf:Persons;
+        rr:class foaf:Agents;
     ];
     rr:predicateObjectMap [
         rr:predicate foaf:first_name ;

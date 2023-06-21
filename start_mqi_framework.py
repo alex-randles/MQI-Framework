@@ -459,7 +459,6 @@ schema:PersonShape
     @app.route("/index", methods=["GET", "POST"])
     @login_required
     def assess_mapping():
-        user_id = session.get("user_id")
         if request.method == "POST":
             # get file uploaded
             file = request.files['mapping_file']

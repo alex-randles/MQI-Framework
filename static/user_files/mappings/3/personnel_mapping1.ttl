@@ -8,14 +8,18 @@
 
 <#TriplesMap8>
     rr:logicalTable [
-       rr:tableName "PEOPLE";
+       rr:tableName "PEOPLE"
     ];
     rr:subjectMap [
         rr:template "http://data.example.com/person/{person_id}";
-        rr:class foaf:Agent, foaf:Persons;
+        rr:class foaf:Agent;
     ];
     rr:predicateObjectMap [
-        rr:predicate foaf:first_name ;
+        rr:predicate foaf:knows ;
+        rr:object <http://data.example.com/friend/1>
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:names ;
         rr:objectMap [
                          rr:column "NAME";
                      ];
