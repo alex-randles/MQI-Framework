@@ -459,6 +459,7 @@ schema:PersonShape
     @app.route("/index", methods=["GET", "POST"])
     @login_required
     def assess_mapping():
+        user_id = session.get("user_id")
         if request.method == "POST":
             # get file uploaded
             file = request.files['mapping_file']
@@ -469,7 +470,7 @@ schema:PersonShape
                     error_message = API.store_ontology_file(ontology_file)
                     if error_message:
                         flash("Local Ontology must be valid RDF")
-                        return render_template("mapping_quality/index.html")
+                        return render_template("mapping_quality/index.html", user_id=user_id)
             filename = secure_filename(file.filename)
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)
@@ -531,14 +532,13 @@ schema:PersonShape
                                     get_triple_map_ID=assessment_result.get_triple_map_id,
                                     parse_violation_value=parse_violation_value
                                 )
-
                             else:
                                 API.create_validation_report()
-                                return render_template("mapping_quality/no_violations.html", user_id=session.get("user_id"))
+                                return render_template("mapping_quality/no_violations.html", user_id=user_id)
                         except urllib.error.URLError as server_error:
                             print(server_error)
                             flash("Start the Apache fueski server!")
-                            return render_template("mapping_quality/index.html")
+                            return render_template("mapping_quality/index.html", user_id=user_id)
                         # except Exception as e:
                         #     print(e)
                         #     flash("Check the mapping and upload again. Validate with http://ttl.summerofcode.be/")
@@ -546,17 +546,17 @@ schema:PersonShape
                     else:
                         os.remove(mapping_file)
                         flash(Markup('Mapping file contains invalid RDF. Validate your mapping <a href="http://ttl.summerofcode.be/" target="_blank" class="alert-link">here</a>'))
-                        return render_template("mapping_quality/index.html")
+                        return render_template("mapping_quality/index.html", user_id=user_id)
                 else:
                     os.remove(mapping_file)
                     flash("File must be turtle (ttl) format")
-                    return render_template("mapping_quality/index.html")
+                    return render_template("mapping_quality/index.html", user_id=user_id)
 
             else:
                 flash("Please Upload a Mapping File!")
                 return render_template("mapping_quality/index.html")
         else:
-            return render_template("mapping_quality/index.html", user_id=session.get("user_id"))
+            return render_template("mapping_quality/index.html", user_id=user_id)
 
     @staticmethod
     def refinements_selected(selected_refinements):
@@ -682,6 +682,7 @@ schema:PersonShape
     @login_required
     def download_sample_mappings():
         return render_template("mapping_quality/sample_mappings.html", user_id=session.get("user_id"))
+
 
 if __name__ == "__main__":
     # start the app
