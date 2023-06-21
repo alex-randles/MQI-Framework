@@ -11,20 +11,37 @@
     <div class="row">
         <div class="col-6">
             <div class="card border-dark" style="max-width: 40rem;margin:5%;">
-                <div class="card-header">Sample Mapping</div>
+                <div class="card-header">Sample R2RML Mapping</div>
                 <div class="card-body text-dark">
                     <h5 class="card-title">Personnel Mapping</h5>
-                    <p class="card-text">This mapping uses the <a href="http://xmlns.com/foaf/0.1/">Friend of a Friend (FOAF) Ontology</a> to transform the name (NAME), friends (KNOWS) and location (LOCATION). This mapping contains 3 quality issues:</p>
+                    <p class="card-text">This mapping uses the <a href="http://xmlns.com/foaf/0.1/">Friend of a Friend (FOAF) Ontology</a> to transform the name ('NAME'), friends ('KNOWS') and location ('LOCATION'). This mapping contains 4 quality issues:</p>
                     <ul>
                         <li><strong>Incorrect Term Type.</strong>A subject map cannot have a term type (rr:termType) of a literal (rr:Literal).</li>
                         <li><strong>Usage of undefined class.</strong> foaf:Persons is undefined in FOAF.</li>
                         <li><strong>Usage of undefined property.</strong> foaf:knows is undefined in FOAF.</li>
                         <li><strong>Usage of incorrect range.</strong> foaf:based_near requires a range (rr:termType) of an object (rr:IRI) rather than a literal (rr:Literal).</li>
                     </ul>
-                    <a href="{{ url_for('download_sample_mappings', mapping_identifier=1) }}" class="btn btn-primary">Download Mapping</a>
+                    <a href="{{ url_for('static', filename='sample_mappings/personnel_mapping.ttl') }}" class="btn btn-primary">Download Mapping</a>
                 </div>
-
-
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card border-dark" style="max-width: 40rem;margin:5%;">
+                <div class="card-header">Sample RML Mapping</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">Metric Mapping</h5>
+                    <p class="card-text">This mapping uses the <a href="https://alex-randles.github.io/IBCLO/">Intent Based Control Loop Ontology (IBCLO)</a> to transform information related to metric data, such as metric name ('__name__') and associated readings ('RESULT_ID'). This mapping contains 3 quality issues:</p>
+                    <ul>
+                        <li><strong>Incorrect Join Condition.</strong>A join condition is missing a child column (rr:child) definition.</li>
+                        <li><strong>Usage of undefined property.</strong>ibclo:hasModelNames  is undefined in IBCLO.</li>
+                        <li><strong>Usage of incorrect datatype.</strong>The datatype associated with the ibclo:hasLabel is incorrect.</li>
+                    </ul>
+                    <a href="{{ url_for('static', filename='sample_mappings/metric_mapping.ttl') }}" class="btn btn-primary">Download Mapping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 </body>
 </html>

@@ -680,19 +680,8 @@ schema:PersonShape
                          as_attachment=True, max_age=0)
 
     @app.route("/display-sample-mappings", methods=['GET', 'POST'])
-    @app.route("/display-sample-mappings/<mapping_identifier>", methods=['GET', 'POST'])
     @login_required
-    def download_sample_mappings(mapping_identifier=None):
-        if mapping_identifier:
-            if mapping_identifier == "1":
-                graph_location = "./static/sample_mappings/sample_mapping.ttl"
-            elif mapping_identifier == "2":
-                graph_location = "./static/sample_mappings/student_mapping.ttl"
-            elif mapping_identifier == "3":
-                graph_location = "./static/sample_mappings/student_mapping.ttl"
-            else:
-                graph_location = "./static/sample_mappings/student_mapping.ttl"
-            return send_file(graph_location, attachment_filename="sample_mapping.ttl", as_attachment=True, max_age=0)
+    def download_sample_mappings():
         return render_template("mapping_quality/sample_mappings.html", user_id=session.get("user_id"))
 
 if __name__ == "__main__":
