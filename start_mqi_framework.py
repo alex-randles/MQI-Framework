@@ -663,7 +663,7 @@ schema:PersonShape
     def download_quality_report():
         return send_file("./static/validation_report.ttl",
                          download_name="quality_report.ttl",
-                         as_attachment=True, cache_timeout=0)
+                         as_attachment=True, max_age=0)
 
     @app.route("/return-sample-mapping/", methods=['GET', 'POST'])
     @login_required

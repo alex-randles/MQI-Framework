@@ -17,20 +17,8 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
 ex:refinement-0 a mqio:MappingRefinement ;
     mqio:hasRefinementQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:class <http://xmlns.com/foaf/0.1/Persons> .  }
-                INSERT {   ?subject rr:class <http://xmlns.com/foaf/0.1/OnlineChatAccount>  }
-                WHERE {
-                    <file:///home/alex/MQI-Framework/static/user_files/mappings/3/personnel_mapping12.ttl#TriplesMap8> rr:subjectMap ?subject .
-                }
-                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Find Similar Classes"^^xsd:string .
-
-ex:refinement-1 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
                 DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/first_name>  .  }
-                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/fundedBy> .     }
+                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/accountName> .     }
                 WHERE {
                     ?pom rr:predicate <http://xmlns.com/foaf/0.1/first_name>  .
                     FILTER(str(?pom) = "ub2bL11C27").
@@ -38,6 +26,13 @@ ex:refinement-1 a mqio:MappingRefinement ;
                 """^^xsd:string ;
     mqio:refinedViolation ex:violation-1 ;
     mqio:refinementName "Find Similar Predicates"^^xsd:string .
+
+ex:violation-0 a mqio:MappingViolation ;
+    mqio:hasLocation "subjectMap"^^xsd:string ;
+    mqio:hasObjectValue foaf:Persons ;
+    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
+    mqio:inTripleMap <#TriplesMap8> ;
+    mqio:isDescribedBy mqio-metrics:D1 .
 
 ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
@@ -48,19 +43,11 @@ ex:violation-2 a mqio:MappingViolation ;
 
 <personnel_mapping12.ttl> a mqio:MappingArtefact .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue foaf:Persons ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D1 ;
-    mqio:wasRefinedBy ex:refinement-0 .
-
 ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
     mqio:hasObjectValue foaf:first_name ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#TriplesMap8> ;
     mqio:isDescribedBy mqio-metrics:D2 ;
-    mqio:wasRefinedBy ex:refinement-1 .
+    mqio:wasRefinedBy ex:refinement-0 .
 

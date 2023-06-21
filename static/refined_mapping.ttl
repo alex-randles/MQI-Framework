@@ -13,12 +13,12 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class foaf:OnlineChatAccount, foaf:Agent;	
+ 	 rr:class foaf:Agent, foaf:Persons;	
 	 rr:template "http://data.example.com/person/{person_id}";	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate foaf:fundedBy;	
+ 	 rr:predicate foaf:accountName;	
 	 rr:objectMap [	
 		 rr:column "NAME";	
 		]; 	
@@ -34,8 +34,8 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate foaf:based_near;	
 	 rr:objectMap [	
-		 rr:template "http://data.example.com/location/{person_id}";	
 		 rr:termType rr:Literal;	
+		 rr:template "http://data.example.com/location/{person_id}";	
 		]; 	
  ];	
 .	
