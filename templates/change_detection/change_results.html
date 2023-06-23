@@ -54,6 +54,10 @@
 <!--        </div>-->
     </div>
 </div>
+
+
+{% set change_graph_count = graph_details.keys()|list|length %}
+{% if  change_graph_count > 0 %}
 <table class="table table-lg h6">
     <thead>
     <tr>
@@ -105,7 +109,6 @@
     </tr>
     </thead>
     <tbody>
-
     {% set div_id = namespace(value=0) %}
     {% for key, value in graph_details.items() %}
     <tr>
@@ -183,10 +186,12 @@ Version 2: <a href={{value["change_sources"]["current_version"]}}>{{current_vers
         </td>
     </tr>
     {% endfor %}
-
     </tbody>
 </table>
 
+{% else %}
+<h3 class="text-center my-4">No Change Detection Processes!</h3>
+{% endif %}
 
 
 <h3 class="mx-2">Mappings Uploaded</h3>
