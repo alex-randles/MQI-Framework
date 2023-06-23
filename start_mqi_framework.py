@@ -7,9 +7,6 @@ import shutil
 import string
 import urllib
 import datetime
-import requests
-import io
-import pandas as pd
 from collections import OrderedDict, defaultdict
 from sematch.semantic.similarity import WordNetSimilarity
 from functools import wraps
@@ -30,6 +27,7 @@ from modules.serialize import TurtleSerializer
 from modules.validate_quality import ValidateQuality
 from modules.validation_report import ValidationReport
 from modules.visualise_results import VisualiseResults
+from modules.shacl_shapes import SHACLShape
 
 app = Flask(__name__)
 app.config['SESSION_PERMANENT'] = True
@@ -272,33 +270,8 @@ class API:
             return render_template("change_detection/shacl_shape_details.html", user_id=session.get("user_id"))
         else:
             print(request.form)
-            try:
-                source_data_url = request.form.get("source_data_url")
-                url_request = requests.get(source_data_url)
-                if url_request.status_code == 200:
-                    source_data = url_request.content
-                    csv_data = pd.read_csv(io.StringIO(source_data.decode('utf-8')))
-                    columns = " ".join(['"{}"'.format(column) for column in list(csv_data.columns)])
-                    shape_template = f"""@prefix schema: <http://schema.org/> .
-@prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
-@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
-
-schema:PersonShape
-    a sh:NodeShape ;
-    sh:targetObjectsOf rr:objectMap ;
-    sh:property [
-      sh:path rr:column, rml:reference;
-      sh:in ({columns});
-         sh:message "Data reference no longer in source data." ;
-       ] .
-                        """
-                    open("./static/shacl_shape.ttl", "w+").write(shape_template.strip())
-                    return "Shape Generated"
-                else:
-                    return "Unable to retrieve data"
-            except Exception as e:
-                return "Invalid URL"
+            shacl_shape = SHACLShape(request.form).create_shape()
+            return shacl_shape
 
     @app.route('/mappings_impacted/<mapping_unique_id>/<graph_id>', methods=['GET', 'POST'])
     @app.route('/mappings_impacted/<mapping_unique_id>', methods=['GET', 'POST'])
