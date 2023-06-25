@@ -142,7 +142,6 @@
                     {% if value is iterable and (value is not string and value is not mapping) %}
                     <option class="font-weight" value={{value[0]}}>{{find_prefix(value[0])}}</option>
                     <option disabled>{{ value[1] }}</option>
-
                     {% else %}
                     <option value={{value}}>{{find_prefix(value)}}</option>
                     {% endif %}
@@ -203,6 +202,7 @@
     </div>
 </form>
 {% endif %}
+
 <script>
  $(document).ready(function () {
   $('body').on('click', '#selectAll', function () {

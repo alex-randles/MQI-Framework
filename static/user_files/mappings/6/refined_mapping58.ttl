@@ -1,14 +1,13 @@
-@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
+@prefix owl: <http://www.w3.org/2002/07/owl#> . 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix owl: <http://www.w3.org/2002/07/owl#> . 
+@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
 @prefix ibclo: <https://ibclo.ericsson.com/#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
 @prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix foaf1: <<http://xmlns.com/foaf/0.1/>> . 
 
 	
 <#Metric>	
@@ -18,8 +17,8 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class foaf:s, prov:Agent, ibclo:Metrics, foaf:Document;	
-	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+ 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+	 rr:class foaf:Agent, ibclo:Metrics, foaf:Document, prov:Agent;	
  ];	
 	
  rr:predicateObjectMap [ 	
