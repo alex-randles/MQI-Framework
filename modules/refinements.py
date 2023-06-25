@@ -513,7 +513,7 @@ class Refinements:
         return update_query
 
     def change_identifier(self, query_values, mapping_graph, violation_identifier):
-        # new_identifier = query_values["URI"]
+        # new_identifier = query_values.get("URI")
         current_result = self.validation_results[violation_identifier]
         subject_identifier = current_result.get("location")
         old_identifier = self.get_user_input(current_result.get("value"))
@@ -811,22 +811,7 @@ class Refinements:
                         print("adding", current_value)
                         mapping_graph.add(
                             (logical_table_identifier, rdflib.term.URIRef(key), rdflib.term.Literal(current_value)))
-                update_query = """
-                    PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                    INSERT
-                    {
-                      ?tripleMap rr:subjectMap _:%s .
-                       _:%s rr:class %s  ;
-                            rr:template '%s' .
-                    }
-                    WHERE {
-                      ?tripleMap ?predicate ?object .
-                      FILTER(str(?tripleMap) = "%s").
-                    } """
-                print("Adding logical table query\n" + update_query)
                 self.triple_references[triple_map_identifier][self.R2RML.logicalTable] = [logical_table_identifier]
-                return update_query
             else:
                 rml_keys = [str(self.RML.source), str(self.RML.referenceFormulation)]
                 logical_table_identifier = rdflib.term.BNode()
@@ -842,6 +827,21 @@ class Refinements:
                         mapping_graph.add(
                             (logical_table_identifier, rdflib.term.URIRef(key), rdflib.term.Literal(current_value)))
                 self.triple_references[triple_map_identifier][self.RML.logicalSource] = [logical_table_identifier]
+            update_query = """
+                PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                INSERT
+                {
+                  ?tripleMap rr:subjectMap _:%s .
+                   _:%s rr:class %s  ;
+                        rr:template '%s' .
+                }
+                WHERE {
+                  ?tripleMap ?predicate ?object .
+                  FILTER(str(?tripleMap) = "%s").
+                } """
+            print("Adding logical table query\n" + update_query)
+            return update_query
 
     def add_child_column(self, query_values, mapping_graph, violation_identifier):
         child_column = query_values.get(str(self.R2RML.child))
@@ -1094,10 +1094,14 @@ class Refinements:
         # add refinement agent
         self.add_refinement_agent()
         mapping_file_identifier = list(self.refinement_graph.subjects(rdflib.RDF.type, self.MQIO.MappingArtefact))
+        creator = list(self.refinement_graph.objects(None, self.MQIO.wasCreatedBy))
         if mapping_file_identifier:
             self.refinement_graph.remove((mapping_file_identifier[0], rdflib.RDF.type, self.MQIO.MappingArtefact))
             mapping_file_identifier = rdflib.term.URIRef(str(mapping_file_identifier[0]).split("/")[-1])
             self.refinement_graph.add((mapping_file_identifier, rdflib.RDF.type, self.MQIO.MappingArtefact))
+            if creator:
+                self.refinement_graph.remove((None, self.MQIO.wasCreatedBy, creator[0]))
+                self.refinement_graph.add((mapping_file_identifier, self.MQIO.wasCreatedBy, creator[0]))
 
     def add_refinement_agent(self):
         add_metadata = self.add_information.get("add-information")
