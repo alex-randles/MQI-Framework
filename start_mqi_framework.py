@@ -429,9 +429,10 @@ class API:
             file_extension = split_filename[1].lower()
             return file_extension
 
+    @app.route("/index/<user_file>", methods=["GET", "POST"])
     @app.route("/index", methods=["GET", "POST"])
     @login_required
-    def assess_mapping():
+    def assess_mapping(user_file=None):
         user_id = session.get("user_id")
         if request.method == "POST":
             # get file uploaded
@@ -444,13 +445,19 @@ class API:
                     if error_message:
                         flash("Local Ontology must be valid RDF")
                         return render_template("mapping_quality/index.html", user_id=user_id)
-            filename = secure_filename(file.filename)
+            if file:
+                filename = secure_filename(file.filename)
+            else:
+                filename = mapping_file
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)
-                upload_folder = f'./static/user_files/mappings/{session.get("user_id")}/'
+                if file:
+                    upload_folder = f'./static/user_files/mappings/{session.get("user_id")}/'
+                    mapping_file = os.path.join(upload_folder, filename)
+                    session["mapping_file"] = mapping_file
+                    file.save(mapping_file)
                 mapping_file = os.path.join(upload_folder, filename)
                 session["mapping_file"] = mapping_file
-                file.save(mapping_file)
                 if file and file_extension in app.config["allowed_file_extensions"]:
                     if API.validate_RDF(mapping_file):
                         try:

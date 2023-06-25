@@ -1,53 +1,31 @@
 @prefix ex: <http://example.org/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <personnel_mapping12.ttl> ;
+    mqio:assessedMapping <refined_mapping55.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/first_name>  .  }
-                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/accountName> .     }
-                WHERE {
-                    ?pom rr:predicate <http://xmlns.com/foaf/0.1/first_name>  .
-                    FILTER(str(?pom) = "ub2bL11C27").
-                }
-                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+        ex:violation-1 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "subjectMap"^^xsd:string ;
-    mqio:hasObjectValue foaf:Persons ;
-    mqio:hasResultMessage "Usage of undefined class."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D1 .
-
-ex:violation-2 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:based_near'."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-<personnel_mapping12.ttl> a mqio:MappingArtefact .
+    mqio:hasObjectValue rr:child ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:MP4 .
 
 ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue foaf:first_name ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#TriplesMap8> ;
-    mqio:isDescribedBy mqio-metrics:D2 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:hasObjectValue ibclo:hasTimestamp ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+<refined_mapping55.ttl> a mqio:MappingArtefact .
 

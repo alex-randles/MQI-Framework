@@ -14,7 +14,7 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class ibclo:Metric;	
+ 	 rr:class ibclo:Metrics;	
 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
  ];	
 	
@@ -37,7 +37,6 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
-			 rr:child "kkkkk";	
 			 rr:parent "lkkkk", "RESULT_ID";	
 			 ];	
  		]; 	

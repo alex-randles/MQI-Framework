@@ -14,12 +14,12 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class ibclo:Metric;	
-	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+ 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+	 rr:class ibclo:Metric;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasNames;	
+ 	 rr:predicate ibclo:hasTimestamp;	
 	 rr:objectMap [	
 		 rr:column "__NAME__";	
 		]; 	
@@ -37,7 +37,6 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
-			 rr:child "kkkkk";	
 			 rr:parent "lkkkk", "RESULT_ID";	
 			 ];	
  		]; 	
