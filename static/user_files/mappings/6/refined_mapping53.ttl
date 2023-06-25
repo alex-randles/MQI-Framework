@@ -5,7 +5,7 @@
 @prefix ibclo: <https://ibclo.ericsson.com/#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 	
 <#Metric>	
 	
@@ -14,7 +14,7 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class ibclo:Metrics;	
+ 	 rr:class ibclo:Metrics, foaf:Document, foaf:Person;	
 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
  ];	
 	

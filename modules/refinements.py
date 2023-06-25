@@ -811,35 +811,19 @@ class Refinements:
                         print("adding", current_value)
                         mapping_graph.add(
                             (logical_table_identifier, rdflib.term.URIRef(key), rdflib.term.Literal(current_value)))
-                        # except Ex:
-                        #     mapping_graph.add(
-                        #         (logical_table_identifier, key, rdflib.term.URIRef(current_value)))
-
-
-                # sql_query = query_values.pop(str(self.R2RML.sqlQuery))
-                # sql_version = query_values.pop(str(self.R2RML.sqlVersion))
-                # # processUpdate() does not update mapping correctly
-                # if table_name:
-                #     mapping_graph.add((logical_table_identifier, self.R2RML.tableName, rdflib.term.Literal(table_name)))
-                # if sql_query:
-                #     mapping_graph.add((logical_table_identifier, self.R2RML.sqlQuery, rdflib.term.Literal(sql_query)))
-                # if sql_version:
-                #     mapping_graph.add((logical_table_identifier, self.R2RML.sqlVersion, rdflib.term.Literal(sql_version)))
-                # update_query = """
-                #     PREFIX dc: <http://purl.org/dc/elements/1.1/>
-                #     PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                #     INSERT
-                #     {
-                #       ?tripleMap rr:subjectMap _:%s .
-                #        _:%s rr:class %s  ;
-                #             rr:template '%s' .
-                #     }
-                #     WHERE {
-                #       ?tripleMap ?predicate ?object .
-                #       FILTER(str(?tripleMap) = "%s").
-                #     }
-                # """ % (logical_table_identifier, logical_table_identifier, query_values.pop(str(self.R2RML.sqlQuery)), query_values.pop(str(self.R2RML.tableName)), query_values.pop(str(self.R2RML.template)))
-                update_query = ""
+                update_query = """
+                    PREFIX dc: <http://purl.org/dc/elements/1.1/>
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#>
+                    INSERT
+                    {
+                      ?tripleMap rr:subjectMap _:%s .
+                       _:%s rr:class %s  ;
+                            rr:template '%s' .
+                    }
+                    WHERE {
+                      ?tripleMap ?predicate ?object .
+                      FILTER(str(?tripleMap) = "%s").
+                    } """
                 print("Adding logical table query\n" + update_query)
                 self.triple_references[triple_map_identifier][self.R2RML.logicalTable] = [logical_table_identifier]
                 return update_query
