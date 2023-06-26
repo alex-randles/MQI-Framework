@@ -203,6 +203,16 @@ function selectAllRefinements() {
     }
 }
 
+function hideQualityInformation() {
+     document.getElementById("refinement-selection").style.display = "none";
+     document.getElementById("show-info").style.display = "block";
+     document.getElementById("hide-info").style.display = "none";
+}
+function showQualityInformation() {
+     document.getElementById("refinement-selection").style.display = "block";
+     document.getElementById("show-info").style.display = "none";
+     document.getElementById("hide-info").style.display = "block";
+}
 
 function loadMappingImpact(div_id) {
   var spinner = document.getElementById("spinner-" + div_id);

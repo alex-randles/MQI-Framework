@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}Refinement{% endblock %}</title>
 </head>
-<body>
+<body onLoad="hideQualityInformation();">
 {% block message %}
 <!--<div class="alert alert-success my-3" role="alert">-->
 <!--    <h4 class="alert-heading">Refinements created</h4>-->
@@ -204,6 +204,9 @@
 {% endif %}
 
 <script>
+window.onload = hideQualityInformation;
+</script>
+<script>
  $(document).ready(function () {
   $('body').on('click', '#selectAll', function () {
     if ($(this).hasClass('allChecked')) {
@@ -216,18 +219,6 @@
 });
 </script>
 <script>
-    function hideQualityInformation() {
-         document.getElementById("refinement-selection").style.display = "none";
-         document.getElementById("show-info").style.display = "block";
-         document.getElementById("hide-info").style.display = "none";
-    }
-    function showQualityInformation() {
-         document.getElementById("refinement-selection").style.display = "block";
-         document.getElementById("show-info").style.display = "none";
-         document.getElementById("hide-info").style.display = "block";
-    }
-    window.onload = hideQualityInformation;
-
 // validate atleast one refinement selected for execution
 function validateRefinementExecution() {
     var checkboxs = document.querySelectorAll("input[type='checkbox']");
