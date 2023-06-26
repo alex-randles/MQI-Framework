@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Change Detection Processes{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
 
 {% block content %}
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 {% if change_process_executed != false %}
 <div class="alert alert-success text-center fw-bold" role="alert">
     Change Detection process successfully added!

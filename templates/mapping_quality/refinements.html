@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Refinement{% endblock %}</title>
+    <script type="text/javascript"  src="{{ url_for('static', filename='js_scripts.js') }}"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body onLoad="hideQualityInformation();">
 {% block message %}
@@ -204,7 +206,7 @@
 {% endif %}
 
 <script>
-window.onload = hideQualityInformation;
+hideQualityInformation();
 </script>
 <script>
  $(document).ready(function () {

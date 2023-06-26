@@ -1,9 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 {% extends "mapping_quality/base.html" %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Assessment{% endblock %}</title>
+    <script type="text/javascript"  src="{{ url_for('static', filename='js_scripts.js') }}"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 {% block content %}
 {% if show_refinement_buttons == true %}
@@ -217,8 +219,8 @@
 
 <div class="container w-100">
     <div class="row w-100">
-         {% set html_file = 'mapping_quality/bar_chart_' + user_id + '.html' %}
-         {% include html_file %}
+        {% set html_file = 'mapping_quality/bar_chart_' + user_id + '.html' %}
+        {% include html_file %}
     </div>
 </div>
 <script>
@@ -233,16 +235,6 @@
   })
 });
 </script>
-
-<script>
-
-</script>
-
-<script>
-    $('.my-select').selectpicker();
-</script>
-
-
 
 <script>
 // Initialize tooltips
