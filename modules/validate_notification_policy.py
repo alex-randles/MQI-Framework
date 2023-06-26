@@ -35,7 +35,7 @@ class ValidateNotificationPolicy:
         current_date =  datetime.now()
         if current_date < self.detection_period:
             message = f"Your notification policy end date {self.detection_period} has been reached."
-            self.send_notification_email(message)
+            # self.send_notification_email(message)
 
     def get_detection_period(self):
         # get detection time for notification policy to check if still valid
@@ -144,11 +144,11 @@ class ValidateNotificationPolicy:
         sender = "alex.randles@outlook.com"
         recipient = self.user_email
 
+        msg['Subject'] = "Notification for Change Detection System"
         msg['From'] = sender
         msg['To'] = recipient
-        msg['Subject'] = "Notification for Change Detection System"
 
-        body = f"Hi, \n\n The notification policy conditions have been satisfied. The graph containing the changes, notification policy and contact details is attached. \n{message}"
+        body = f"Hi, \n\nThe notification policy has been satisfied.\n\nThe graph containing the changes, notification policy and contact details is attached.\n{message}"
 
         msg.attach(MIMEText(body, 'plain'))
 
@@ -157,7 +157,7 @@ class ValidateNotificationPolicy:
         part = MIMEBase('application', 'octet-stream')
         part.set_payload(attachment.read())
         email.encoders.encode_base64(part)
-        part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+        part.add_header('Content-Disposition', "attachment; filename= %s" % "change_graph.trig")
 
         msg.attach(part)
         email_message = email.message.EmailMessage()

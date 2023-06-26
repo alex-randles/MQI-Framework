@@ -13,9 +13,9 @@
 <#Metric>	
 	
  rr:logicalTable [ 	
- 	 rr:tableName "ccc";	
-	 rr:sqlQuery "ss";	
+ 	 rr:sqlQuery "ss";	
 	 rr:sqlVersion "sssss";	
+	 rr:tableName "ccc";	
  ];	
 	
  rr:subjectMap [ 	
@@ -38,12 +38,12 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate geo:asWKT;	
+ 	 rr:predicate ibclo:hasResultSet;	
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
-			 rr:parent "RESULT_ID", "lkkkk";	
 			 rr:child "se";	
+			 rr:parent "RESULT_ID", "lkkkk";	
 			 ];	
  		]; 	
  ];	

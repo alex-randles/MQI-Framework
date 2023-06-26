@@ -34,7 +34,6 @@ class DetectChanges:
             self.create_contact_csv()
             self.update_r2rml_config()
             self.execute_r2rml()
-            self.validate_notification_policy()
         else:
             print("UPLIFT ERROR ")
 
@@ -249,8 +248,8 @@ class DetectChanges:
 
     def validate_notification_policy(self):
         if self.error_code == 0:
-            pass
-            # ValidateNotificationPolicy(self.output_file, self.user_id)
+            # pass
+            ValidateNotificationPolicy(self.output_file, self.user_id)
 
     @staticmethod
     def execute_r2rml():

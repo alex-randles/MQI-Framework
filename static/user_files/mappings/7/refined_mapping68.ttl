@@ -13,18 +13,18 @@
 <#Metric>	
 	
  rr:logicalTable [ 	
- 	 rr:tableName "ccc";	
-	 rr:sqlQuery "ss";	
-	 rr:sqlVersion "sssss";	
+ 	 rr:sqlQuery "xx";	
+	 rr:tableName "cdc";	
+	 rr:sqlVersion "www";	
  ];	
 	
  rr:subjectMap [ 	
  	 rr:template "ssss";	
-	 rr:class geo:SpatialObject;	
+	 rr:class geo:Geometry;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasNames;	
+ 	 rr:predicate ibclo:hasCpu;	
 	 rr:objectMap [	
 		 rr:column "__NAME__";	
 		]; 	
@@ -38,12 +38,12 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate geo:asWKT;	
+ 	 rr:predicate ibclo:hasResultSet;	
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
-			 rr:parent "RESULT_ID", "lkkkk";	
 			 rr:child "se";	
+			 rr:parent "vv";	
 			 ];	
  		]; 	
  ];	
