@@ -445,18 +445,12 @@ class API:
                     if error_message:
                         flash("Local Ontology must be valid RDF")
                         return render_template("mapping_quality/index.html", user_id=user_id)
-            if file:
-                filename = secure_filename(file.filename)
-            else:
-                filename = mapping_file
+            filename = secure_filename(file.filename)
             if filename and len(filename) > 1:
                 file_extension = API.get_file_extension(filename)
-                if file:
-                    upload_folder = f'./static/user_files/mappings/{session.get("user_id")}/'
-                    mapping_file = os.path.join(upload_folder, filename)
-                    session["mapping_file"] = mapping_file
-                    file.save(mapping_file)
+                upload_folder = f'./static/user_files/mappings/{session.get("user_id")}/'
                 mapping_file = os.path.join(upload_folder, filename)
+                file.save(mapping_file)
                 session["mapping_file"] = mapping_file
                 if file and file_extension in app.config["allowed_file_extensions"]:
                     if API.validate_RDF(mapping_file):

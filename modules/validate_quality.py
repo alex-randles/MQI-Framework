@@ -125,7 +125,8 @@ class ValidateQuality:
         # pr3 = multiprocessing.Process(target=self.validate_vocabulary_metrics)
         # processes = [multiprocessing.Process(target=self.validate_mapping_metrics)]
         # processes[0].start()
-        processes = []
+        processes = [multiprocessing.Process(target=self.validate_vocabulary_metrics)]
+        processes[0].start()
         for (triple_map_identifier, graph) in self.triple_maps:
             # self.blank_node_references[triple_map_identifier] = self.generate_triple_references(graph)
             self.current_graph = graph

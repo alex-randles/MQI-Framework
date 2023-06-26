@@ -7,24 +7,17 @@
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
 @prefix foaf: <http://xmlns.com/foaf/0.1/> . 
 @prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
 
 	
 <#Metric>	
 	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "xx";	
-	 rr:tableName "cdc";	
-	 rr:sqlVersion "www";	
+ rml:logicalSource [ 	
+ 	 rml:source "metric-data-v1.csv";	
  ];	
-	
- rr:subjectMap [ 	
- 	 rr:template "ssss";	
-	 rr:class geo:Geometry;	
- ];	
+
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasCpu;	
+ 	 rr:predicate ibclo:hasNames;	
 	 rr:objectMap [	
 		 rr:column "__NAME__";	
 		]; 	
@@ -42,8 +35,8 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
+			 rr:parent "lkkkk", "RESULT_ID";	
 			 rr:child "se";	
-			 rr:parent "vv";	
 			 ];	
  		]; 	
  ];	

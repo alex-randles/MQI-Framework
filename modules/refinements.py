@@ -753,8 +753,9 @@ class Refinements:
         # processUpdate() does not update mapping correctly for this case
         mapping_graph.add((rdflib.term.URIRef(triple_map), self.R2RML.subjectMap, subject_map_identifier))
         mapping_graph.add((subject_map_identifier, rdflib.term.URIRef("http://www.w3.org/ns/r2rml#class"), rdflib.term.URIRef(class_identifier)))
-        mapping_graph.add((subject_map_identifier, self.R2RML.template, rdflib.term.Literal(template_string)))
-        self.triple_references[URIRef(triple_map)][self.R2RML.subjectMap] = [subject_map_identifier]
+        if template_string:
+            mapping_graph.add((subject_map_identifier, self.R2RML.template, rdflib.term.Literal(template_string)))
+        self.triple_references[rdflib.term.URIRef(triple_map)][self.R2RML.subjectMap] = [subject_map_identifier]
         return update_query
 
     def add_predicate(self, query_values, mapping_graph, violation_identifier):
@@ -912,10 +913,10 @@ class Refinements:
             remaining_identifier = query_values.get(identifier_key)
             if remaining_identifier and prefix_namespace:
                 full_identifier = prefix_namespace.split(">")[0].replace("<", "") + remaining_identifier
-                self.mapping_graph.bind(query_values.get("PREFIX")[:-1], prefix_namespace)
+                self.mapping_graph.bind(query_values.get("PREFIX")[:-1], prefix_namespace.split(">")[0].replace("<", ""))
             elif prefix_namespace:
                 full_identifier = prefix_namespace
-                self.mapping_graph.bind(query_values.get("PREFIX")[:-1], prefix_namespace)
+                self.mapping_graph.bind(query_values.get("PREFIX")[:-1], prefix_namespace.split(">")[0].replace("<", ""))
             else:
                 full_identifier = remaining_identifier
             return "<%s>" % full_identifier

@@ -11,20 +11,15 @@
 
 	
 <#Metric>	
-	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "xx";	
-	 rr:tableName "cdc";	
-	 rr:sqlVersion "www";	
- ];	
+
 	
  rr:subjectMap [ 	
  	 rr:template "ssss";	
-	 rr:class geo:Geometry;	
+	 rr:class geo:ddd;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasCpu;	
+ 	 rr:predicate ibclo:hasNames;	
 	 rr:objectMap [	
 		 rr:column "__NAME__";	
 		]; 	
@@ -42,8 +37,8 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
+			 rr:parent "RESULT_ID", "lkkkk";	
 			 rr:child "se";	
-			 rr:parent "vv";	
 			 ];	
  		]; 	
  ];	

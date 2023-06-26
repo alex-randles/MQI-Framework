@@ -13,9 +13,9 @@
 <#Metric>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "xx";	
+ 	 rr:sqlVersion "www";	
+	 rr:sqlQuery "xx";	
 	 rr:tableName "cdc";	
-	 rr:sqlVersion "www";	
  ];	
 	
  rr:subjectMap [ 	
@@ -43,7 +43,6 @@
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
 			 rr:child "se";	
-			 rr:parent "vv";	
 			 ];	
  		]; 	
  ];	
