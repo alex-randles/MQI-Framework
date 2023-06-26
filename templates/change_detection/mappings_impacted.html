@@ -29,7 +29,12 @@
     <div class="row mt-4">
         {% set change_type_title = captured_change_type.split('_')|join(' ') %}
         <h4>{{ change_type_title | title}}
-            <span class="tt" data-bs-placement="top" title="Changes to the columns of the source data">
+            {% if change_type_title == 'structural changes' %}
+                {% set hover_text = 'Changes to the columns of the source data' %}
+            {% else %}
+                {% set hover_text = 'Changes to data referenced by the mapping' %}
+            {% endif %}
+            <span class="tt" data-bs-placement="top" title="{{hover_text}}">
                     <i class="bi bi-info-circle W-50" style="font-size: 20px;"></i>
                 </span>
         </h4>

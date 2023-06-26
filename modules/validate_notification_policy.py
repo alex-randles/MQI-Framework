@@ -171,7 +171,6 @@ class ValidateNotificationPolicy:
             smtp.quit()
         except smtplib.SMTPAuthenticationError as e:
             print("Sending email exception", e)
-            exit()
 
 
 if __name__ == "__main__":
