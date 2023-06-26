@@ -145,8 +145,8 @@ function scrollWin() {
 }
 
 function addSampleSourceData(sample_data_identifier){
-  if (sample_data_identifier == 0){
-      document.getElementById('CSV_URL_1').value = "";
+  if (sample_data_identifier == "Select a sample source data"){
+      document.getElementById('CSV-URL-1').value = "";
       document.getElementById('CSV-URL-2').value = "";
   }
   else if (sample_data_identifier == 1){

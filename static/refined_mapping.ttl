@@ -14,8 +14,8 @@
 <#Metric>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "ss";	
-	 rr:tableName "ccc";	
+ 	 rr:tableName "ccc";	
+	 rr:sqlQuery "ss";	
 	 rr:sqlVersion "sssss";	
  ];	
 	
@@ -35,6 +35,7 @@
  	 rr:predicate foaf:schoolHomepage;	
 	 rr:objectMap [	
 		 rr:column "path";	
+		 rr:termType rr:IRI;	
 		]; 	
  ];	
 	

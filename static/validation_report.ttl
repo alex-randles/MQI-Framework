@@ -18,23 +18,40 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-4,
         ex:violation-5 .
 
+ex:refinement-0 a mqio:MappingRefinement ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE { ?subject rr:termType ?currentTermType  } 
+                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRI> } 
+                WHERE { 
+                    SELECT ?subject ?currentTermType
+                    WHERE {
+                          ?subject ?p ?o . 
+                          OPTIONAL { ?subject rr:termType ?currentTermType }
+                          FILTER(str(?subject) = "ub2bL35C16").
+                    }
+                }
+               """^^xsd:string ;
+    mqio:refinedViolation ex:violation-5 ;
+    mqio:refinementName "Change Term Type"^^xsd:string .
+
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
+    mqio:hasObjectValue geo: ;
     mqio:hasResultMessage "No Machine-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
+    mqio:hasObjectValue foaf: ;
     mqio:hasResultMessage "No Machine-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
+    mqio:hasObjectValue geo: ;
     mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
 ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
+    mqio:hasObjectValue foaf: ;
     mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
@@ -45,12 +62,13 @@ ex:violation-4 a mqio:MappingViolation ;
     mqio:inTripleMap <#Metric> ;
     mqio:isDescribedBy mqio-metrics:D3 .
 
+<refined_mapping74.ttl> a mqio:MappingArtefact .
+
 ex:violation-5 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
     mqio:hasObjectValue rr:Literal ;
     mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:schoolHomepage'."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D6 .
-
-<refined_mapping74.ttl> a mqio:MappingArtefact .
+    mqio:isDescribedBy mqio-metrics:D6 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 
