@@ -168,7 +168,7 @@ class API:
             else:
                 return redirect(url_for("component_choice"))
         elif request.method == "POST":
-            # session.permanent = True
+            session.permanent = True
             user_id = request.form["user_id"]
             password = request.form["password"]
             found_users = users.query.filter_by(user_id=user_id).first()
@@ -486,7 +486,9 @@ class API:
                                 get_triple_map_id = assessment_result.get_triple_map_id
                                 session["get_triple_map_id"] = get_triple_map_id
                                 user_id = session["user_id"]
-                                bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"))
+                                # bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
+                                bar_chart_html = "d"
+                                VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
                                 session["bar_chart_html"] = bar_chart_html
                                 return render_template(
                                     "mapping_quality/assessment_result.html",

@@ -61,7 +61,7 @@ class VisualiseResults:
         return dimension_counts
 
     @staticmethod
-    def chart_dimensions(validation_result):
+    def chart_dimensions(validation_result, user_id):
         # Creates the chart which show violation counts to there dimensions
         dimension_counts = VisualiseResults.create_violation_counts(validation_result)
         df = pd.DataFrame(columns=["Quality Dimensions", "Violation Count", "Violations"])
@@ -85,6 +85,7 @@ class VisualiseResults:
                               size=18,
                           ),
                           height=750,
+                          width=1500,
                           margin=dict(
                               l=50,
                               r=50,
@@ -99,8 +100,9 @@ class VisualiseResults:
         # fig.show()
         num_violations = max(df["Violation Count"])
         if num_violations < 3:
-            fig.update_xaxes(range = [0,5])
+            fig.update_xaxes(range=[0,5])
         div = fig.to_html(full_html=False)
+        fig.write_html(file=f'templates/mapping_quality/bar_chart_{user_id}.html')
         return div
 
 

@@ -3,10 +3,11 @@
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined_mapping72.ttl> ;
+    mqio:assessedMapping <refined_mapping74.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -14,20 +15,8 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-1,
         ex:violation-2,
         ex:violation-3,
-        ex:violation-4 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/names>  .  }
-                INSERT {   ?pom rr:predicate <http://xmlns.com/foaf/0.1/schoolHomepage> .     }
-                WHERE {
-                    ?pom rr:predicate <http://xmlns.com/foaf/0.1/names>  .
-                    FILTER(str(?pom) = "ub2bL33C24").
-                }
-                """^^xsd:string ;
-    mqio:refinedViolation ex:violation-4 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
+        ex:violation-4,
+        ex:violation-5 .
 
 ex:violation-0 a mqio:MappingViolation ;
     mqio:hasObjectValue foaf: ;
@@ -49,13 +38,19 @@ ex:violation-3 a mqio:MappingViolation ;
     mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
-<refined_mapping72.ttl> a mqio:MappingArtefact .
-
 ex:violation-4 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue foaf:names ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:hasObjectValue foaf:schoolHomepage ;
+    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D2 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:isDescribedBy mqio-metrics:D3 .
+
+ex:violation-5 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
+    mqio:hasObjectValue rr:Literal ;
+    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:schoolHomepage'."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:D6 .
+
+<refined_mapping74.ttl> a mqio:MappingArtefact .
 
