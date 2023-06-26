@@ -154,7 +154,8 @@ class API:
     def store_ontology_file(ontology_file):
         for file in ontology_file:
             filename = secure_filename(file.filename)
-            file_path = f"./static/uploads/{session.get('user_id')}/local_ontologies/{filename}"
+            file_path = f"./static/user_files/local_ontologies/{filename}"
+            file.save(file_path)
             error_message = FetchVocabularies.store_local_vocabulary(file_path)
             if error_message:
                 return error_message

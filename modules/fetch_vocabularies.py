@@ -148,6 +148,7 @@ class FetchVocabularies:
             if graph_format == "turtle":
                 requests.post(localhost, data=open(file_path).read().encode('utf-8'), headers={"content-type": "text/turtle"})
         except Exception as e:
+            print("exception ", e)
             return 1
 
 

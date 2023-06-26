@@ -8,6 +8,6 @@ schema:PersonShape
     sh:targetObjectsOf rr:objectMap ;
     sh:property [
       sh:path rr:column, rml:reference;
-      sh:in ("Name" "students" "ID" "student" "Sport");
+      sh:in ("Code" "country" "countries" "Name");
          sh:message "Data reference no longer in source data." ;
        ] .
