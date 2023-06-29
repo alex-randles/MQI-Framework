@@ -15,8 +15,8 @@
 	
  rr:logicalTable [ 	
  	 rr:sqlQuery "ss";	
-	 rr:tableName "ccc";	
 	 rr:sqlVersion "sssss";	
+	 rr:tableName "ccc";	
  ];	
 	
  rr:subjectMap [ 	
@@ -40,7 +40,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate foaf:names;	
+ 	 rr:predicate geo:asWKT;	
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	

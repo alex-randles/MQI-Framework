@@ -202,12 +202,21 @@
 </form>
 
 
+
+
 {% block refinements %}
 {% endblock %}
 
 <div class="p-2">
     <h4 class="text-muted">Mapping Validation Chart</h4>
     <p class="font-weight-light">The validation bar chart shows the relationship between quality violations and their corresponding quality dimensions. <strong>Hover over the dimensions shown to discover a description.</strong></p>
+</div>
+
+<div class="container-fluid 100vw 100vh">
+    <div class="row">
+            <iframe src="{{ url_for('static', filename='bar_chart_19.html') }}" name="targetframe" allowTransparency="true" scrolling="no" frameborder="0" >
+    </iframe>
+    </div>
 </div>
 
 <!--<div class="container w-100">-->
@@ -217,12 +226,13 @@
 <!--</div>-->
 
 
-<div class="container w-100">
-    <div class="row w-100">
-        {% set html_file = 'mapping_quality/bar_chart_' + user_id + '.html' %}
-        {% include html_file %}
-    </div>
-</div>
+
+<!--<div class="container w-100">-->
+<!--    <div class="row w-100">-->
+<!--        {% set html_file = 'mapping_quality/bar_chart_' + user_id + '.html' %}-->
+<!--        {% include html_file %}-->
+<!--    </div>-->
+<!--</div>-->
 <script>
  $(document).ready(function () {
   $('body').on('click', '#selectAll', function () {

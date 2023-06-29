@@ -14,14 +14,14 @@
 <#Metric>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "ss";	
+ 	 rr:sqlVersion "sssss";	
+	 rr:sqlQuery "ss";	
 	 rr:tableName "ccc";	
-	 rr:sqlVersion "sssss";	
  ];	
 	
  rr:subjectMap [ 	
  	 rr:template "kdjdjdjjdjdd-{user_id}";	
-	 rr:class foaf:Person;	
+	 rr:class ibclo:Metric, foaf:Person, geo:Geometry;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -34,13 +34,13 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdf:label;	
 	 rr:objectMap [	
-		 rr:termType rr:BlankNode;	
 		 rr:column "path";	
+		 rr:termType rr:BlankNode;	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate foaf:names;	
+ 	 rr:predicate geo:asWKT;	
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	

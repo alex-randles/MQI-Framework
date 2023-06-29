@@ -14,8 +14,8 @@
 <#Metric>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "ss";	
-	 rr:tableName "ccc";	
+ 	 rr:tableName "ccc";	
+	 rr:sqlQuery "ss";	
 	 rr:sqlVersion "sssss";	
  ];	
 	
@@ -34,8 +34,8 @@
  rr:predicateObjectMap [ 	
  	 rr:predicate rdf:label;	
 	 rr:objectMap [	
-		 rr:termType rr:BlankNode;	
 		 rr:column "path";	
+		 rr:termType rr:BlankNode;	
 		]; 	
  ];	
 	

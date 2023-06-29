@@ -1,13 +1,14 @@
 @prefix ex: <http://example.org/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
+@prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined_mapping74.ttl> ;
+    mqio:assessedMapping <refined_mapping84.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -16,59 +17,63 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-2,
         ex:violation-3,
         ex:violation-4,
-        ex:violation-5 .
+        ex:violation-5,
+        ex:violation-6,
+        ex:violation-7 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE { ?subject rr:termType ?currentTermType  } 
-                INSERT { ?subject rr:termType <http://www.w3.org/ns/r2rml#IRI> } 
-                WHERE { 
-                    SELECT ?subject ?currentTermType
-                    WHERE {
-                          ?subject ?p ?o . 
-                          OPTIONAL { ?subject rr:termType ?currentTermType }
-                          FILTER(str(?subject) = "ub2bL35C16").
-                    }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-5 ;
-    mqio:refinementName "Change Term Type"^^xsd:string .
+    mqio:hasRefinementQuery "None"^^xsd:string ;
+    mqio:refinedViolation ex:violation-6 ;
+    mqio:refinementName "Add Child Column"^^xsd:string .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
+    mqio:hasObjectValue foaf: ;
     mqio:hasResultMessage "No Machine-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-1 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
+    mqio:hasObjectValue rdf: ;
     mqio:hasResultMessage "No Machine-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC4 .
 
 ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasObjectValue geo: ;
+    mqio:hasObjectValue foaf: ;
     mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
 ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
+    mqio:hasObjectValue rdf: ;
     mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
     mqio:isDescribedBy mqio-metrics:VOC5 .
 
 ex:violation-4 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue foaf:schoolHomepage ;
+    mqio:hasObjectValue rdf:label ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-5 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue foaf:names ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:D2 .
+
+ex:violation-7 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue ibclo:hasAlertstate ;
     mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
     mqio:isDescribedBy mqio-metrics:D3 .
 
-<refined_mapping74.ttl> a mqio:MappingArtefact .
+<refined_mapping84.ttl> a mqio:MappingArtefact .
 
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue rr:Literal ;
-    mqio:hasResultMessage "Usage of incorrect range. Term type should be 'rr:IRI' or 'rr:BlankNode' for property 'foaf:schoolHomepage'."^^xsd:string ;
+ex:violation-6 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue rr:parent ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D6 ;
+    mqio:isDescribedBy mqio-metrics:MP4 ;
     mqio:wasRefinedBy ex:refinement-0 .
 

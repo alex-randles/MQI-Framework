@@ -37,8 +37,8 @@ schema:PersonShape
     sh:property [
       sh:path rr:column, rml:reference;
       sh:in ({columns});
-         sh:message "Data reference no longer in source data." ;
-       ] .
+      sh:message "Data reference no longer in source data." ;
+    ] .
                             """
                 open("./static/shacl_shape.ttl", "w+").write(shape_template.strip())
                 return "Shape Generated"

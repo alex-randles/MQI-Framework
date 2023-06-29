@@ -222,12 +222,11 @@ hideQualityInformation();
 });
 </script>
 <script>
-// validate atleast one refinement selected for execution
+// validate at least one refinement selected for execution
 function validateRefinementExecution() {
     var checkboxs = document.querySelectorAll("input[type='checkbox']");
     var box_checked = false;
-    for(var i = 0,l = checkboxs.length;i < l;i++)
-    {
+    for(var i = 0, l = checkboxs.length;i < l;i++) {
         if(checkboxs[i].checked)
         {
             box_checked=true;

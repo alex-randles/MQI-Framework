@@ -1,8 +1,8 @@
-@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
+@prefix owl: <http://www.w3.org/2002/07/owl#> . 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix owl: <http://www.w3.org/2002/07/owl#> . 
+@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
 @prefix ibclo: <https://ibclo.ericsson.com/#> . 
 @prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
@@ -14,14 +14,14 @@
 <#Metric>	
 	
  rr:logicalTable [ 	
- 	 rr:sqlQuery "ss";	
-	 rr:tableName "ccc";	
+ 	 rr:tableName "ccc";	
+	 rr:sqlQuery "ss";	
 	 rr:sqlVersion "sssss";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "kdjdjdjjdjdd-{user_id}";	
-	 rr:class foaf:Person;	
+ 	 rr:template "ssss";	
+	 rr:class geo:SpatialObject, ibclo:Metric;	
  ];	
 	
  rr:predicateObjectMap [ 	
@@ -32,18 +32,18 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdf:label;	
+ 	 rr:predicate foaf:topic_interest;	
 	 rr:objectMap [	
-		 rr:termType rr:BlankNode;	
 		 rr:column "path";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate foaf:names;	
+ 	 rr:predicate geo:asWKT;	
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
+			 rr:parent "RESULT_ID", "lkkkk";	
 			 rr:child "se";	
 			 ];	
  		]; 	

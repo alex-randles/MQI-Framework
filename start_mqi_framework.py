@@ -492,6 +492,7 @@ class API:
                                 session["bar_chart_html"] = bar_chart_html
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
+                                    open=open,
                                     bar_chart_html=bar_chart_html,
                                     refinement_descriptions=session["refinements"].refinement_descriptions,
                                     user_id=user_id,
