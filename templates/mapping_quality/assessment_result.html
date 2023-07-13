@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 {% block content %}
+
 {% if show_refinement_buttons == true %}
 <div class="alert alert-success text-center" role="alert">
     <h4 class="alert-heading">Refined Mapping Generated</h4>
@@ -21,8 +22,10 @@
         Export Validation Report (TTL)</button></a>
 </div>
 {% else %}
+
 {% block message %}
 {% endblock %}
+
 {% endif %}
 <body>
 <div id="show-info" style="display:none">
@@ -103,30 +106,20 @@
         {% set triple_map = get_triple_map_ID(current_violation.get("triple_map")) %}
         {% set violation_location = find_violation_location(current_violation.get("location")) %}
 
-        <tr >
-
+        <tr>
             <td  scope="col">{{violation_ID}}</td>
             {% set metric_id_link = 'https://w3id.org/MQIO-metrics/#' + metric_ID %}
             <td scope="col"><a href={{metric_id_link}} target="_blank" class="link-secondary">{{metric_ID}}</a></td>
-
             <td scope="col">{{result_message}}
                 {% set metric_description = metric_descriptions.get(metric_ID) %}
                 <span class="tt" data-bs-placement="top" title="{{metric_description}}">
                     <i class="bi bi-info-circle" ></i>
                 </span>
-
-
-
             </td>
-
             <td scope="col">{{violation_value}}</td>
-
             <td scope="col">{{triple_map}}</td>
-
             <td scope="col">{{violation_location}}</td>
-
             <td scope="col" style="width:15%">
-
                 {% set current_refinements = suggested_refinements[violation_ID] %}
                 {% if current_refinements|length > 0 %}
                 <select class="form-select form-select-sm" id={{violation_ID}} name={{violation_ID}}>
@@ -254,6 +247,7 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 })
 </script>
 
+<script></script>
 
 <script>
     const tooltips = document.querySelectorAll(".tt")
