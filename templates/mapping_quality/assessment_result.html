@@ -214,7 +214,7 @@
 
 <div class="container w-100">
     <div class="row w-100">
-            {{ bar_chart_html | safe }}
+            {{ chart_violations(validation_result, user_id)| safe }}
     </div>
 </div>
 
@@ -223,7 +223,6 @@
 <!--<div class="container w-100">-->
 <!--    <div class="row w-100">-->
 <!--        {% set html_file = 'mapping_quality/bar_chart_' + user_id + '.html' %}-->
-<!--        {% include html_file %}-->
 <!--    </div>-->
 <!--</div>-->
 <script>

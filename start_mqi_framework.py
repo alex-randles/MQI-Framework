@@ -122,7 +122,7 @@ class API:
         os.makedirs(f"./static/user_files/change_graphs/{user_id}", exist_ok=True)
 
     @staticmethod
-    def validate_RDF(filename):
+    def validate_rdf(filename):
         try:
             rdflib.Graph().parse(filename, format="ttl")
             return True
@@ -454,7 +454,7 @@ class API:
                 file.save(mapping_file)
                 session["mapping_file"] = mapping_file
                 if file and file_extension in app.config["allowed_file_extensions"]:
-                    if API.validate_RDF(mapping_file):
+                    if API.validate_rdf(mapping_file):
                         try:
                             assessment_result = ValidateQuality(mapping_file)
                             content = pickle.dumps(assessment_result)
@@ -493,6 +493,7 @@ class API:
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
                                     open=open,
+                                    chart_violations=VisualiseResults.chart_dimensions,
                                     bar_chart_html=bar_chart_html,
                                     refinement_descriptions=session["refinements"].refinement_descriptions,
                                     user_id=user_id,
