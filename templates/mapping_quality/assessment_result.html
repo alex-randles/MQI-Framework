@@ -205,18 +205,18 @@
     <p class="font-weight-light">The validation bar chart shows the relationship between quality violations and their corresponding quality dimensions. <strong>Hover over the dimensions shown to discover a description.</strong></p>
 </div>
 
-<div class="container-fluid 100vw 100vh">
-    <div class="row">
-            <iframe src="{{ url_for('static', filename='bar_chart_19.html') }}" name="targetframe" allowTransparency="true" scrolling="no" frameborder="0" >
-    </iframe>
-    </div>
-</div>
-
-<!--<div class="container w-100">-->
-<!--    <div class="row w-100">-->
-<!--            {{ bar_chart_html | safe }}-->
+<!--<div class="container-fluid 100vw 100vh">-->
+<!--    <div class="row">-->
+<!--            <iframe src="{{ url_for('static', filename='bar_chart_19.html') }}" name="targetframe" allowTransparency="true" scrolling="no" frameborder="0" >-->
+<!--    </iframe>-->
 <!--    </div>-->
 <!--</div>-->
+
+<div class="container w-100">
+    <div class="row w-100">
+            {{ bar_chart_html | safe }}
+    </div>
+</div>
 
 
 

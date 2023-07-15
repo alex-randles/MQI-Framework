@@ -488,7 +488,7 @@ class API:
                                 user_id = session["user_id"]
                                 # bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
                                 bar_chart_html = "d"
-                                VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
+                                # VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
                                 session["bar_chart_html"] = bar_chart_html
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
