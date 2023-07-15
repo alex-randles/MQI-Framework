@@ -104,10 +104,10 @@ class API:
         print(error)
         return render_template("errors/500.html"), 500
 
-    @app.errorhandler(Exception)
-    def general_errors(error):
-        print(error)
-        return render_template("errors/500.html"), 500
+    # @app.errorhandler(Exception)
+    # def general_errors(error):
+    #     print(error)
+    #     return render_template("errors/500.html"), 500
 
     @app.errorhandler(403)
     def error_403(error):
@@ -486,14 +486,11 @@ class API:
                                 get_triple_map_id = assessment_result.get_triple_map_id
                                 session["get_triple_map_id"] = get_triple_map_id
                                 user_id = session["user_id"]
-                                # bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
-                                bar_chart_html = "d"
-                                # VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
+                                bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
                                 session["bar_chart_html"] = bar_chart_html
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
                                     open=open,
-                                    chart_violations=VisualiseResults.chart_dimensions,
                                     bar_chart_html=bar_chart_html,
                                     refinement_descriptions=session["refinements"].refinement_descriptions,
                                     user_id=user_id,
