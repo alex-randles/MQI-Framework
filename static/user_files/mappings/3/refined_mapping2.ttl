@@ -16,7 +16,7 @@
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:class foaf:Person, ibclo:Metric;	
+ 	 rr:class foaf:Person;	
 	 rr:template "ssjsjss";	
  ];	
 	

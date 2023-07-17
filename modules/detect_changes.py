@@ -213,7 +213,8 @@ class DetectChanges:
                     changed_data = changed_values.get("change_reason")
                     if changed_data == "":
                         changed_data = "No associated values."
-                    new_row = [change_id, change_type, detection_time, changed_data, structural_reference, data_reference, None, self.user_id, version_1, version_2]
+                    new_row = [change_id, change_type, detection_time, changed_data, structural_reference,
+                               data_reference, None, self.user_id, version_1, version_2]
                     df.loc[len(df)] = new_row
             else:
                 change_id = list(changes.keys())[0]
@@ -233,7 +234,7 @@ class DetectChanges:
             "DATATYPE_THRESHOLD": self.form_details.get("datatype-threshold", ""),
             "MERGE_THRESHOLD": self.form_details.get("merge-threshold", ""),
             "UPDATE_THRESHOLD": self.form_details.get("update-threshold", ""),
-            "DETECTION_START": datetime.datetime.now(),
+            "DETECTION_START": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
             "DETECTION_END": self.form_details.get("detection-end", "") + " 00:00:00.0000"
         }])
         df.to_csv(r2rml.notification_details_csv)
