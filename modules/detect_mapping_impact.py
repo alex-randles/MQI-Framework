@@ -4,6 +4,7 @@ import rdflib
 import re
 from modules.serialize import TurtleSerializer
 
+
 class DetectMappingImpact:
 
     def __init__(self, user_id, mapping_details, changes_file):
@@ -30,9 +31,9 @@ class DetectMappingImpact:
             }
 
         change_type_banners = {
-            "insert": "Column inserted",
-            "delete": "Column deleted",
-            "move": "Source data moved",
+                "insert": "Column inserted",
+                "delete": "Column deleted",
+                "move": "Source data moved",
         }
         return change_template_colors, change_type_banners
 
@@ -202,7 +203,6 @@ class DetectMappingImpact:
             return int(match)
         return int(0)
 
-
     @staticmethod
     def serialize(mapping_graph, triple_references):
         TurtleSerializer(mapping_graph, triple_references, "refined_mapping.ttl")
@@ -228,15 +228,13 @@ class DetectMappingImpact:
                """ % (new_data_reference, old_data_reference.lower())
         print(update_query)
         mapping_file_path = f"./static/user_files/mappings/{user_id}/{mapping_file_name}"
-        mapping_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
-        triple_references = DetectMappingImpact.create_triple_references(mapping_graph)
+        current_graph = rdflib.Graph().parse(mapping_file_path, format="ttl")
+        triple_references = DetectMappingImpact.create_triple_references(current_graph)
         print("triple references.....", triple_references)
-        rdflib.plugins.sparql.processUpdate(mapping_graph, update_query)
-        TurtleSerializer(mapping_graph, triple_references, mapping_file_path)
+        rdflib.plugins.sparql.processUpdate(current_graph, update_query)
+        TurtleSerializer(current_graph, triple_references, mapping_file_path)
         # mapping_graph.serialize(destination=mapping_file_path, format="ttl")
-        print(mapping_file_path)
-        print(update_query)
-        exit()
+
 
 if __name__ == "__main__":
     mapping_graph = "/home/alex/MQI-Framework/static/uploads/mappings/sample_mapping26.ttl"

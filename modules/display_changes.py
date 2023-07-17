@@ -34,7 +34,7 @@ class DisplayChanges:
                         for change_source in change_graph_sources:
                             for mapping_graph, mapping_values in self.mapping_details.items():
                                 mapping_sources = mapping_values.get("source_data")
-                                if change_source in mapping_sources:
+                                if (change_source in mapping_sources) or (change_source.split(".")[0] in mapping_sources):
                                     if "impacts_mapping" not in self.graph_details[change_graph].keys():
                                         self.graph_details[change_graph]["impacts_mapping"] = [mapping_graph]
                                     else:
