@@ -14,14 +14,20 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
         ex:violation-1,
         ex:violation-2 .
 
-ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasModelNames ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
+ex:refinement-0 a mqio:MappingRefinement ;
+    mqio:hasRefinementQuery """
+                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                DELETE {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .  }
+                INSERT {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasSysname> .     }
+                WHERE {
+                    ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .
+                    FILTER(str(?pom) = "n7d793591d3c644748d8294c40f23bfd3b9").
+                }
+                """^^xsd:string ;
+    mqio:refinedViolation ex:violation-1 ;
+    mqio:refinementName "Find Similar Predicates"^^xsd:string .
 
-ex:violation-1 a mqio:MappingViolation ;
+ex:violation-0 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
     mqio:hasObjectValue rr:child ;
     mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
@@ -36,4 +42,12 @@ ex:violation-2 a mqio:MappingViolation ;
     mqio:isDescribedBy mqio-metrics:D7 .
 
 <metric_mapping.ttl> a mqio:MappingArtefact .
+
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue ibclo:hasModelNames ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:D2 ;
+    mqio:wasRefinedBy ex:refinement-0 .
 

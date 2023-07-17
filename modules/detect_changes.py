@@ -11,10 +11,12 @@ import modules.r2rml as r2rml
 from collections import defaultdict
 from modules.validate_notification_policy import ValidateNotificationPolicy
 
+
 class DetectChanges:
 
     def __init__(self, user_id, form_details):
         self.form_details = form_details
+        self.version_1_source, self.version_2_source, self.diff = None, None, None
         self.user_id = user_id
         self.is_csv_data = "CSV-URL-2" in self.form_details.keys()
         try:
@@ -39,11 +41,9 @@ class DetectChanges:
 
     def create_contact_csv(self):
         df = pd.DataFrame(
-            columns=["EMAIL_ADDRESS",
-                     "USER_ID",])
+            columns=["EMAIL_ADDRESS", "USER_ID"])
         df.loc[len(df)] = [self.form_details.get("email-address"), self.user_id]
         df.to_csv(r2rml.contact_details_csv)
-
 
     def fetch_source_data(self):
         if self.is_csv_data:
@@ -69,7 +69,6 @@ class DetectChanges:
                 self.error_code = 1
                 return None
 
-
     def detect_xml_changes(self):
         # detect differences between XML file versions
         self.diff = xmldiff.main.diff_texts(
@@ -79,9 +78,9 @@ class DetectChanges:
             )
         print(self.diff)
         exit()
-        self.format_XML_changes()
+        self.format_xml_changes()
 
-    def format_XML_changes(self):
+    def format_xml_changes(self):
         # parse XML file and store in CSV format
         # namespace for changes - http://namespaces.shoobx.com/diff
         tree = ET.ElementTree(ET.fromstring(self.diff))
@@ -121,7 +120,8 @@ class DetectChanges:
             pass
         return item
 
-    def detect_duplicates(self, csv_data):
+    @staticmethod
+    def detect_duplicates(csv_data):
         with io.StringIO(csv_data) as csvin:
             reader = csv.DictReader(csvin)
             data = {k.strip(): [DetectChanges.fitem(v)] for k, v in next(reader).items()}
@@ -141,8 +141,8 @@ class DetectChanges:
         output_changes["delete"] = defaultdict(dict)
         change_id = 0
         # process output from csv diff library
-        csv_tuples_1 = self.detect_duplicates(self.version_1_source)
-        csv_tuples_2 = self.detect_duplicates(self.version_2_source)
+        csv_tuples_1 = DetectChanges.detect_duplicates(self.version_1_source)
+        csv_tuples_2 = DetectChanges.detect_duplicates(self.version_2_source)
         for change_type, related_changes in csv_diff.items():
             for changes in related_changes:
                 if isinstance(changes, dict):
@@ -204,7 +204,7 @@ class DetectChanges:
         )
         version_1 = self.form_details.get("CSV-URL-1")
         version_2 = self.form_details.get("CSV-URL-2")
-        detection_time = datetime.datetime.now()
+        detection_time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
         for change_type, changes in output_changes.items():
             if change_type != "move":
                 for change_id, changed_values in changes.items():
@@ -255,10 +255,10 @@ class DetectChanges:
     def execute_r2rml():
         os.system(r2rml.run_command)
 
+
 if __name__ == '__main__':
     csv_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/employee.csv"
     csv_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/employee-v6.csv"
-
     xml_file_1 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_1_files/student.xml"
     xml_file_2 = "https://raw.githubusercontent.com/alex-randles/Change-Detection-System-Examples/main/version_2_files/student.xml"
     form_details = {

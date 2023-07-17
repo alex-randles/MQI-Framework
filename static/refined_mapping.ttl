@@ -1,50 +1,59 @@
-@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
+@prefix owl: <http://www.w3.org/2002/07/owl#> . 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> . 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> . 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> . 
-@prefix owl: <http://www.w3.org/2002/07/owl#> . 
-@prefix ibclo: <https://ibclo.ericsson.com/#> . 
-@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix xml: <http://www.w3.org/XML/1998/namespace> . 
 @prefix rr: <http://www.w3.org/ns/r2rml#> . 
-@prefix foaf: <http://xmlns.com/foaf/0.1/> . 
-@prefix prov: <http://www.w3.org/ns/prov#> . 
-@prefix geo: <http://www.opengis.net/ont/geosparql#> . 
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> . 
+@prefix ibclo: <https://ibclo.ericsson.com/#> . 
 
 	
 <#Metric>	
 	
- rr:logicalTable [ 	
- 	 rr:sqlQuery "ss";	
-	 rr:tableName "ccc";	
-	 rr:sqlVersion "sssss";	
+ rml:logicalSource [ 	
+ 	 rml:source "metric-data-v1.csv";	
  ];	
 	
  rr:subjectMap [ 	
- 	 rr:template "kdjdjdjjdjdd-{user_id}";	
-	 rr:class foaf:Person;	
+ 	 rr:template "http://data.example.com/metric/{METRIC_ID}";	
+	 rr:class ibclo:Metric;	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasAlertstate;	
+ 	 rr:predicate ibclo:hasName;	
 	 rr:objectMap [	
-		 rr:column "__NAME__";	
+		 rr:column "_name__";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate rdf:label;	
+ 	 rr:predicate ibclo:hasInstance;	
 	 rr:objectMap [	
-		 rr:termType rr:BlankNode;	
-		 rr:column "path";	
+		 rr:column "instance";	
 		]; 	
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate foaf:names;	
+ 	 rr:predicate ibclo:hasLabel;	
+	 rr:objectMap [	
+		 rr:column "label";	
+		 rr:datatype xsd:integer;	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasSysname;	
+	 rr:objectMap [	
+		 rr:column "model_name";	
+		]; 	
+ ];	
+	
+ rr:predicateObjectMap [ 	
+ 	 rr:predicate ibclo:hasResultSet;	
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
-			 rr:child "se";	
+			 rr:parent "RESULT_ID";	
 			 ];	
  		]; 	
  ];	
