@@ -3,11 +3,10 @@ import os
 import pickle
 import random
 import re
-import shutil
 import string
 import urllib
 import datetime
-from collections import OrderedDict, defaultdict
+import collections
 from sematch.semantic.similarity import WordNetSimilarity
 from functools import wraps
 
@@ -348,8 +347,8 @@ class API:
                     user_id=user_id,
                     change_process_executed=change_process_executed,
                     process_removed=False,
-                    graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
-                    mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
+                    graph_details=collections.OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
+                    mapping_details=collections.OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                 )
             else:
                 return "<h1>Error!!!!!</h1>"
@@ -372,9 +371,9 @@ class API:
             return render_template("change_detection/change_results.html",
                                    mapping_uploaded=mapping_uploaded,
                                    change_process_executed=change_process_executed,
-                                   graph_details=OrderedDict(
+                                   graph_details=collections.OrderedDict(
                                        sorted(user_graph_details.items(), key=lambda t: t[0])),
-                                   mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
+                                   mapping_details=collections.OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                                    )
 
     @app.route('/remove/<file_id>/')
@@ -402,8 +401,8 @@ class API:
                                change_process_executed=False,
                                process_removed=process_removed,
                                user_id=session.get("user_id"),
-                               graph_details=OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
-                               mapping_details=OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
+                               graph_details=collections.OrderedDict(sorted(user_graph_details.items(), key=lambda t: t[0])),
+                               mapping_details=collections.OrderedDict(sorted(mapping_details.items(), key=lambda t: t[0])),
                                mappings_impacted=session.get("mappings_impacted"),
                                )
 
