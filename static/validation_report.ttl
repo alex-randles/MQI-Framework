@@ -1,98 +1,22 @@
 @prefix ex: <http://example.org/> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined_mapping2.ttl> ;
+    mqio:assessedMapping <refined_mapping1.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2,
-        ex:violation-3,
-        ex:violation-4,
-        ex:violation-5,
-        ex:violation-6,
-        ex:violation-7,
-        ex:violation-8 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-            INSERT {
-                ?subject rr:class <https://ibclo.ericsson.com/#Metric> .
-            }
-            WHERE {
-                <file:///home/alex/MQI-Framework/static/user_files/mappings/3/refined_mapping2.ttl#Metric> rr:subjectMap ?subject
-            }
-            """^^xsd:string ;
-    mqio:refinedViolation ex:violation-7 ;
-    mqio:refinementName "Add Domain Class"^^xsd:string .
+    mqio:hasViolation ex:violation-0 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
-    mqio:hasResultMessage "No Machine-Readable License."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC4 .
-
-ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
     mqio:hasObjectValue rr:child ;
     mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
     mqio:isDescribedBy mqio-metrics:MP4 .
 
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasModelNames ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D2 .
-
-ex:violation-3 a mqio:MappingViolation ;
-    mqio:hasObjectValue foaf: ;
-    mqio:hasResultMessage "No Human-Readable License."^^xsd:string ;
-    mqio:isDescribedBy mqio-metrics:VOC5 .
-
-ex:violation-4 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasName ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-5 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-2"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasInstance ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-6 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasLabel ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D3 .
-
-ex:violation-8 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasLabel ;
-    mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D7 .
-
-<refined_mapping2.ttl> a mqio:MappingArtefact ;
-    mqio:wasCreatedBy ex:Alexrandles .
-
-ex:violation-7 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasResultSet ;
-    mqio:hasResultMessage "Usage of incorrect domain."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D3 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+<refined_mapping1.ttl> a mqio:MappingArtefact .
 

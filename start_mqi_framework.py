@@ -521,7 +521,9 @@ class API:
                         #     return render_template("mapping_quality/index.html")
                     else:
                         os.remove(mapping_file)
-                        flash(Markup('Mapping file contains invalid RDF. Validate your mapping <a href="http://ttl.summerofcode.be/" target="_blank" class="alert-link">here</a>'))
+                        flash(Markup('Mapping file contains invalid RDF. Validate your mapping '
+                                     '<a href="http://ttl.summerofcode.be/" target="_blank" '
+                                     'class="alert-link">here</a>'))
                         return render_template("mapping_quality/index.html", user_id=user_id)
                 else:
                     os.remove(mapping_file)
@@ -649,7 +651,7 @@ class API:
     @app.route("/return-change-graph/<graph_file_name>", methods=['GET', 'POST'])
     @login_required
     def download_change_report(graph_file_name):
-        graph_location = "./static/change_detection_cache/change_graphs/" + graph_file_name
+        graph_location = f"./static/change_detection_cache/change_graphs/{graph_file_name}"
         return send_file(graph_location,
                          attachment_filename="change_graph.trig",
                          as_attachment=True, max_age=0)
