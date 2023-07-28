@@ -1,22 +1,30 @@
 @prefix ex: <http://example.org/> .
+@prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
-@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined_mapping1.ttl> ;
+    mqio:assessedMapping <refined_mapping.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0 .
+    mqio:hasViolation ex:violation-0,
+        ex:violation-1 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
-    mqio:hasObjectValue rr:child ;
-    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
+    mqio:hasObjectValue ibclo:hasModelNames ;
+    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:MP4 .
+    mqio:isDescribedBy mqio-metrics:D2 .
 
-<refined_mapping1.ttl> a mqio:MappingArtefact .
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
+    mqio:hasObjectValue ibclo:hasLabel ;
+    mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
+    mqio:inTripleMap <#Metric> ;
+    mqio:isDescribedBy mqio-metrics:D7 .
+
+<refined_mapping.ttl> a mqio:MappingArtefact .
 

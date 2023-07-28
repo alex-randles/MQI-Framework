@@ -101,9 +101,11 @@ class VisualiseResults:
         num_violations = max(df["Violation Count"])
         if num_violations < 3:
             fig.update_xaxes(range=[0,5])
-        div = fig.to_html(full_html=False)
-        fig.write_html(file=f'templates/mapping_quality/bar_chart_{user_id}.html')
-        return div
+        # div = fig.to_html(full_html=False)
+        # fig.write_html(file=f'templates/mapping_quality/bar_chart_{user_id}.html')
+        chart_file = f'static/images/bar_chart_{user_id}.png'
+        fig.write_image(file=chart_file)
+        return chart_file
 
 
 

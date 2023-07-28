@@ -485,12 +485,15 @@ class API:
                                 get_triple_map_id = assessment_result.get_triple_map_id
                                 session["get_triple_map_id"] = get_triple_map_id
                                 user_id = session["user_id"]
-                                bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
-                                session["bar_chart_html"] = bar_chart_html
+                                # bar_chart_html = VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
+                                # session["bar_chart_html"] = bar_chart_html
+                                chart_file = VisualiseResults.chart_dimensions(session.get("validation_result"), user_id)
+                                session["chart_file"] = chart_file
                                 return render_template(
                                     "mapping_quality/assessment_result.html",
                                     open=open,
-                                    bar_chart_html=bar_chart_html,
+                                    # bar_chart_html=bar_chart_html,
+                                    chart_file=chart_file,
                                     refinement_descriptions=session["refinements"].refinement_descriptions,
                                     user_id=user_id,
                                     display_violation=serializer.display_violation,
