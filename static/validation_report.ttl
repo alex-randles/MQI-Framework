@@ -6,51 +6,26 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <metric_mapping1.ttl> ;
+    mqio:assessedMapping <refined_mapping7.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2 .
-
-ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?objectMap rr:datatype ?datatype }
-                INSERT { ?objectMap rr:datatype <http://www.w3.org/2001/XMLSchema#string> }
-                WHERE {
-                    SELECT ?objectMap ?datatype
-                    WHERE {
-                          ?objectMap rr:datatype ?datatype.
-                          FILTER(str(?objectMap) = "n49a1a5d8058944859488da5d28d7a6cbb10").
-                    }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Add Correct Datatype"^^xsd:string .
+        ex:violation-1 .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
-    mqio:hasObjectValue rr:child ;
-    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:MP4 .
-
-ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
     mqio:hasObjectValue ibclo:hasModelNames ;
     mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
     mqio:isDescribedBy mqio-metrics:D2 .
 
-<metric_mapping1.ttl> a mqio:MappingArtefact .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasLabel ;
-    mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
+ex:violation-1 a mqio:MappingViolation ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:child ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D7 ;
-    mqio:wasRefinedBy ex:refinement-0 .
+    mqio:isDescribedBy mqio-metrics:MP4 .
+
+<refined_mapping7.ttl> a mqio:MappingArtefact .
 

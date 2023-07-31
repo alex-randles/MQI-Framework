@@ -1,4 +1,6 @@
 # Creating a bar plot with seaborn
+import base64
+
 import pandas as pd
 import rdflib
 import plotly.express as px
@@ -105,8 +107,9 @@ class VisualiseResults:
         # fig.write_html(file=f'templates/mapping_quality/bar_chart_{user_id}.html')
         chart_file = f'static/images/bar_chart_{user_id}.png'
         fig.write_image(file=chart_file)
-        return chart_file
-
+        with open(chart_file, 'rb') as imagefile:
+            base64string = base64.b64encode(imagefile.read()).decode('ascii')
+        return base64string
 
 
 if __name__ == "__main__":
