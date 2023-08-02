@@ -11,9 +11,12 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand d-flex ms-5 p-3 text-uppercase fw-bold" href="/index"><span class="mb-0">Mapping Quality Improvement Framework</span></a>
+    <a class="navbar-brand d-flex ms-5 p-3 text-uppercase fw-bold" href="."><span class="mb-0">Mapping Quality Improvement Framework</span></a>
     <i class="bi bi-person-circle"></i>&nbsp User: {{user_id}}
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggle-button" aria-controls="navbar-toggle-button" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-toggle-button">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0 p-4 mr-auto flex-grow-1 justify-content-end">
             <li class="nav-item active">
                  <a class="nav-link" href="{{ url_for('logout') }}" onclick="return logout(event);"><i class="bi bi-x-circle-fill p-2"></i>Logout<span class="sr-only p-2"></span></a>
