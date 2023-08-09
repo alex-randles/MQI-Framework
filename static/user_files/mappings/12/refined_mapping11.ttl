@@ -48,7 +48,7 @@
  	 rr:predicate ibclo:hasLabel;	
 	 rr:objectMap [	
 		 rr:column "label";	
-		 rr:datatype xsd:string;	
+		 rr:datatype xsd:integer;	
 		]; 	
  ];	
 	
