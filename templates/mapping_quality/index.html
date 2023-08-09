@@ -9,7 +9,7 @@
 
 {% block content %}
 <h3 class="h2 text-center mt-2">Mapping Quality Assessment</h3>
-<form style="" method="POST" action="{{ url_for('assess_mapping') }}" enctype = "multipart/form-data" id="mappingUpload" onSubmit="move();">
+<form style="" method="POST" action="{{ url_for('assess_mapping') }}" enctype = "multipart/form-data" id="mappingUpload" onSubmit="move(800);">
     <div class="container-fluid">
         <div class="row d-flex justify-content-center py-1 text-center">
             <div class="col-4 bg-light py-2">
@@ -118,7 +118,7 @@
         <div class="row d-flex justify-content-center py-1">
             <div class="col-4">
                 <div class="progress" id="myProgress" >
-                    <div class="progress-bar progress-bar-striped"  id="myBar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar progress-bar-striped"  id="progress-loading-bar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>

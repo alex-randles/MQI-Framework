@@ -8,7 +8,7 @@
 {% block content %}
 <body>
 <h3 class="h2 text-center mt-2">SHACL Shape Generation</h3>
-<form method="POST" action="{{ url_for('generate_shacl_shapes') }}" onSubmit="move();document.getElementById('myProgress').style.display = 'block'" enctype="multipart/form-data" id="shape-generation-form" >
+<form method="POST" action="{{ url_for('generate_shacl_shapes') }}" onSubmit="move(10);document.getElementById('myProgress').style.display = 'block'" enctype="multipart/form-data" id="shape-generation-form" >
     <div class="container-fluid">
         <div class="row d-flex justify-content-center py-1 text-center">
             <div class="col-sm-6 bg-light py-2 justify-content-center">
@@ -36,7 +36,7 @@
     <div class="container-fluid">
         <div class="row d-flex justify-content-center">
             <div class="col-sm-12 text-center">
-                <input class="my-2 btn btn-primary" id="button-style" type="submit" onClick="document.getElementById('download-div').style.display = 'none';document.getElementById('error-message').style.display = 'none';" value="Generate Shape" />
+                <input class="my-2 btn btn-primary" id="button-style" type="submit" onClick="toggleDivs()" value="Generate Shape" />
             </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -50,7 +50,7 @@
         <div class="row d-flex justify-content-center my-1">
             <div class="col-6">
                 <div class="progress" id="myProgress" >
-                    <div class="progress-bar progress-bar-striped" id="myBar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar progress-bar-striped" id="progress-loading-bar" role="progressbar"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>
@@ -89,6 +89,12 @@
         }
       })
     });
+</script>
+<script>
+    function toggleDivs() {
+        document.getElementById('download-div').style.display = 'none';
+        document.getElementById('error-message').style.display = 'none';
+    }
 </script>
 <script>
   function addSampleSourceData(sample_data_identifier){

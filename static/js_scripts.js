@@ -106,13 +106,13 @@ function scroll() {
 }
 
 
-function move() {
+function move(interval) {
 var i = 0;
   if (i == 0) {
     i = 1;
-    var elem = document.getElementById("myBar");
+    var elem = document.getElementById("progress-loading-bar");
     var width = 1;
-    var id = setInterval(frame, 800);
+    var id = setInterval(frame, interval);
     function frame() {
       if (width >= 100) {
        //  clearInterval(id);
