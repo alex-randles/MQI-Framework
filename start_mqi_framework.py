@@ -189,11 +189,9 @@ class API:
         if request.method == "GET":
             found_users = users.query.all()
             existing_ids = [user.user_id for user in found_users if isinstance(user.user_id, int)]
-            if existing_ids:
-                new_user_id = max(existing_ids) + 1
-            else:
-                new_user_id = 1
+            new_user_id = max(existing_ids) + 1 if existing_ids else 1
             new_password = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
+
             return render_template("register.html", new_user_id=new_user_id, new_password=new_password)
         else:
             user_id = request.form.get("user_id")

@@ -1,8 +1,10 @@
 import requests
 import io
+import json
 import urllib.request
 import pandas as pd
 import xml.etree.ElementTree as ET
+
 
 class SHACLShape:
 
@@ -17,8 +19,8 @@ class SHACLShape:
                 source_data = url_request.content
                 if source_data_url.endswith("csv"):
                     csv_data = pd.read_csv(io.StringIO(source_data.decode('utf-8')))
-                    columns = " ".join(['"{}"'.format(column) for column in list(csv_data.columns)])
-                else:
+                    columns = " ".join(['"{}"'.format(column) for column in list(set(csv_data.columns))])
+                elif source_data_url.endswith("xml"):
                     with urllib.request.urlopen(source_data_url) as f:
                         xml_tree = ET.parse(f)
                         elements = []
@@ -26,6 +28,13 @@ class SHACLShape:
                             elements.append(element.tag)
                         element_tags = list(set(elements))
                         columns = " ".join(['"{}"'.format(column) for column in element_tags])
+                else:
+                    columns = []
+                    with urllib.request.urlopen(source_data_url) as f:
+                        json_data = json.load(f)
+                        for attribute, value in json_data[0].items():
+                            columns.append(attribute)
+                    columns = " ".join(['"{}"'.format(column) for column in list(set(columns))])
                 shape_template = f"""@prefix schema: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
