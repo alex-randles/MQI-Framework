@@ -20,9 +20,16 @@
             <h4 class="mt-4">User Registration</h4>
             <p>The following user ID and password has been created for you. <strong>Please save these details for later use.</strong></p>
             <label for="user_id" class="form-label">User ID</label>
-            <input  placeholder="User ID" value="{{new_user_id}}" type="text" class="participant_id form-control"  id="user_id" name="user_id" readonly>
+            <input  placeholder="User ID" value="{{new_user_id}}" type="text" class="form-control"  id="user_id" name="user_id" readonly>
             <label for="password" class="form-label  mt-3">Password</label>
-            <input  placeholder="password" value="{{new_password}}" type="text" class="participant_id form-control"  id="password" name="password" readonly>
+            <div class="row mb-2">
+                <div class="col-9">
+                    <input  placeholder="password" value="{{new_password}}" type="text" class="form-control"  id="password" name="password" readonly>
+                </div>
+                <div class="col-3">
+                    <button type="button" class="btn btn-secondary" onClick="copyText()"><i id="copy-icon" class="bi bi-clipboard px-2"></i>Copy</button>
+                </div>
+            </div>
             <input type="submit" value="Complete Registration" id="submit" class="btn btn-primary center-block my-2">
             {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -40,18 +47,13 @@
 </body>
 </html>
 
-
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
 <script>
-    const tooltips = document.querySelectorAll(".tt")
-    tooltips.forEach ( t=> {
-       new bootstrap.Tooltip(t)
-    })
+    function copyText() {
+      var copyText = document.getElementById("password");
+      var newClass = "bi bi-check-square px-2";
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+      navigator.clipboard.writeText(copyText.value);
+      document.getElementById("copy-icon").className = newClass;
+    }
 </script>
