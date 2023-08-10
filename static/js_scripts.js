@@ -221,4 +221,12 @@ function loadMappingImpact(div_id) {
   spinner.style.display = "block";
 }
 
-
+function copyText() {
+      var copyText = document.getElementById("password");
+      var newClass = "bi bi-check-square px-2";
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+      navigator.clipboard.writeText(copyText.value);
+//      document.getElementById("copy-button").innerText = "Copied";
+      document.getElementById("copy-icon").className = newClass;
+    }

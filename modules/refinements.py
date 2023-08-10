@@ -1083,7 +1083,7 @@ class Refinements:
         # self.refinement_graph.add((refinement_identifier, self.PROV.endedAtTime, rdflib.Literal(datetime.utcnow(), datatype=rdflib.XSD.dateTime)))
         # adding the SPARQL query used for the refinement
         refinement_query = rdflib.term.Literal(refinement_query, datatype=rdflib.XSD.string)
-        self.refinement_graph.add((refinement_identifier, self.MQIO.hasRefinementQuery, refinement_query))
+        self.refinement_graph.add((refinement_identifier, self.MQIO.usedQuery, refinement_query))
         # adding the refinement name e.g FindSimilarClasses
         refinement_name = rdflib.term.Literal(self.split_camel_case(refinement_name), datatype=rdflib.XSD.string)
         self.refinement_graph.add((refinement_identifier, self.MQIO.refinementName, refinement_name))

@@ -12,20 +12,19 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
     mqio:hasViolation ex:violation-0 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
+    mqio:refinedViolation ex:violation-0 ;
+    mqio:refinementName "Remove Datatype"^^xsd:string ;
+    mqio:usedQuery """
                 PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?objectMap rr:datatype ?datatype }
-                INSERT { ?objectMap rr:datatype <http://www.w3.org/2001/XMLSchema#string> }
+                DELETE { ?subject rr:datatype ?datatype .  }
                 WHERE {
-                    SELECT ?objectMap ?datatype
-                    WHERE {
-                          ?objectMap rr:datatype ?datatype.
-                          FILTER(str(?objectMap) = "n7bb52bcf95784baea5bdb5adfd42436cb11").
+                SELECT ?subject ?datatype
+                WHERE {
+                      ?subject rr:datatype ?datatype.
+                      FILTER(str(?subject) = "nbed1b79821b046309448f3d3b265f7aab11").
                     }
                 }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Add Correct Datatype"^^xsd:string .
+               """^^xsd:string .
 
 <refined_mapping11.ttl> a mqio:MappingArtefact .
 
