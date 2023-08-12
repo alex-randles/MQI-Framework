@@ -25,6 +25,7 @@
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
 			 rr:parent "RESULT_ID", "DDDFD";	
+			 rr:child "aa";	
 			 ];	
  		]; 	
  ];	
@@ -47,7 +48,6 @@
  	 rr:predicate ibclo:hasLabel;	
 	 rr:objectMap [	
 		 rr:column "label";	
-		 rr:datatype xsd:string;	
 		]; 	
  ];	
 	

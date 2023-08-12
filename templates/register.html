@@ -19,20 +19,22 @@
     <div class="container-bg">
         <div class="container bg-light pe-4 pb-4" style="width:32.5%">
             <h4 class="mt-4">User Registration</h4>
-            <p>The following user ID and password has been created for you. <strong>Please save these details for later use.</strong></p>
+            <p>The following User ID and Password have been created for you. <strong>Please save these details for later use.</strong></p>
             <label for="user_id" class="form-label">User ID</label>
             <input  placeholder="User ID" value="{{new_user_id}}" type="text" class="form-control"  id="user_id" name="user_id" readonly>
             <label for="password" class="form-label  mt-3">Password</label>
             <div class="row mb-2">
-                <div class="col-9">
-                    <input  placeholder="password" value="{{new_password}}" type="text" class="form-control"  id="password" name="password" readonly>
-                </div>
-                <div class="col-3">
-                    <button type="button" id="copy-button" class="btn btn-secondary" onClick="copyText()"><i id="copy-icon" class="bi bi-clipboard px-2"></i>Copy</button>
+                <div class="input-group input-group-lg mb-3">
+                    <div class="col-9">
+                        <input  placeholder="password" value="{{new_password}}" type="text" class="form-control"  id="password" name="password" readonly>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" id="copy-button" class="btn btn-secondary" onClick="copyText()"><i id="copy-icon" class="bi bi-clipboard px-2"></i>Copy</button>
+                    </div>
                 </div>
             </div>
-<!--            <label for="email-address" class="form-label my-2">Email Address</label>-->
-<!--            <input  placeholder="Enter Email Address" type="email" class="form-control"  id="email-address" name="email-address">-->
+            <!--            <label for="email-address" class="form-label my-2">Email Address</label>-->
+            <!--            <input  placeholder="Enter Email Address" type="email" class="form-control"  id="email-address" name="email-address">-->
             <input type="submit" value="Complete Registration" id="submit" class="btn btn-primary center-block my-2">
         </div>
     </div>

@@ -227,6 +227,6 @@ function copyText() {
       copyText.select();
       copyText.setSelectionRange(0, 99999); // For mobile devices
       navigator.clipboard.writeText(copyText.value);
-//      document.getElementById("copy-button").innerText = "Copied";
       document.getElementById("copy-icon").className = newClass;
+      // document.getElementById("copy-button").textContent = "Copied";
     }

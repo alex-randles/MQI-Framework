@@ -168,7 +168,7 @@ class ValidationReport:
         print(self.validation_graph.serialize(format='turtle').decode('utf-8'))
 
     def save_validation_report(self):
-        self.validation_graph.serialize(destination="./static/validation_report.ttl", format='ttl')
+        self.validation_graph.serialize(destination="validation_report.ttl", format='ttl')
 
 
 if __name__ == "__main__":

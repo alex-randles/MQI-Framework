@@ -16,9 +16,9 @@
 </div>
 
 <div class="d-flex justify-content-center">
-    <a href="{{ url_for('static', filename='refined_mapping.ttl')}}"><button onclick="downloadWarning()" class="btn-secondary btn button-style mx-3 p-2">
+    <a href="{{ url_for('download_refined_mapping')}}"><button onclick="downloadWarning()" class="btn-secondary btn button-style mx-3 p-2">
         Export Refined Mapping (TTL)</button></a>
-    <a href="{{ url_for('static', filename='validation_report.ttl')}}"><button class="btn-secondary btn button-style mx-3 p-2">
+    <a href="{{ url_for('download_validation_report')}}"><button class="btn-secondary btn button-style mx-3 p-2">
         Export Validation Report (TTL)</button></a>
 </div>
 {% else %}

@@ -650,6 +650,16 @@ class API:
     def download_sample_mapping():
         return send_file("./static/sample_mapping.ttl", as_attachment=True, max_age=0)
 
+    @app.route("/return-refined-mapping/", methods=['GET', 'POST'])
+    @login_required
+    def download_refined_mapping():
+        return send_file("refined_mapping.ttl", as_attachment=True, max_age=0)
+
+    @app.route("/return-validation-report/", methods=['GET', 'POST'])
+    @login_required
+    def download_validation_report():
+        return send_file("validation_report.ttl", as_attachment=True, max_age=0)
+
     @app.route("/return-change-graph/<graph_file_name>", methods=['GET', 'POST'])
     @login_required
     def download_change_report(graph_file_name):

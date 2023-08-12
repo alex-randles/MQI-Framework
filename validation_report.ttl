@@ -1,85 +1,38 @@
 @prefix ex: <http://example.org/> .
-@prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <video_demo_mapping.ttl> ;
+    mqio:assessedMapping <refined_mapping1.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
-    mqio:hasViolation ex:violation-0,
-        ex:violation-1,
-        ex:violation-2 .
+    mqio:hasViolation ex:violation-0 .
 
 ex:refinement-0 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                DELETE {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .  }
-                INSERT {   ?pom rr:predicate <https://ibclo.ericsson.com/#hasBiosDate> .     }
-                WHERE {
-                    ?pom rr:predicate <https://ibclo.ericsson.com/#hasModelNames>  .
-                    FILTER(str(?pom) = "ub15bL44C24").
-                }
-                """^^xsd:string ;
     mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Find Similar Predicates"^^xsd:string .
-
-ex:refinement-1 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
+    mqio:refinementName "Add Parent Column"^^xsd:string ;
+    mqio:usedQuery """
                     PREFIX rr: <http://www.w3.org/ns/r2rml#> 
-                    INSERT { ?joinCondition rr:child "jjj" } 
+                    INSERT { ?joinCondition rr:parent "i" } 
                     WHERE { 
                     SELECT ?joinCondition
                     WHERE {
                           ?subject rr:joinCondition ?joinCondition.
-                          FILTER(str(?joinCondition) = "ub15bL55C30").
+                          FILTER(str(?joinCondition) = "n58a77036db4e4594839e8e2c7310f9dab13").
                         }
                     }
-                   """^^xsd:string ;
-    mqio:refinedViolation ex:violation-1 ;
-    mqio:refinementName "Add Child Column"^^xsd:string .
+                   """^^xsd:string .
 
-ex:refinement-2 a mqio:MappingRefinement ;
-    mqio:hasRefinementQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?subject rr:datatype ?datatype .  }
-                WHERE {
-                SELECT ?subject ?datatype
-                WHERE {
-                      ?subject rr:datatype ?datatype.
-                      FILTER(str(?subject) = "ub15bL38C16").
-                    }
-                }
-               """^^xsd:string ;
-    mqio:refinedViolation ex:violation-2 ;
-    mqio:refinementName "Remove Datatype"^^xsd:string .
-
-<video_demo_mapping.ttl> a mqio:MappingArtefact .
+<refined_mapping1.ttl> a mqio:MappingArtefact .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasModelNames ;
-    mqio:hasResultMessage "Usage of undefined property."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D2 ;
-    mqio:wasRefinedBy ex:refinement-0 .
-
-ex:violation-1 a mqio:MappingViolation ;
     mqio:hasLocation "predicateObjectMap-5"^^xsd:string ;
     mqio:hasObjectValue rr:child ;
     mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
     mqio:isDescribedBy mqio-metrics:MP4 ;
-    mqio:wasRefinedBy ex:refinement-1 .
-
-ex:violation-2 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-3"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasLabel ;
-    mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
-    mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D7 ;
-    mqio:wasRefinedBy ex:refinement-2 .
+    mqio:wasRefinedBy ex:refinement-0 .
 

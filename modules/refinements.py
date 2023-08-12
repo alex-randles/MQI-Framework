@@ -1030,7 +1030,7 @@ class Refinements:
 
     def execute_refinements(self, selected_violation_identifier, refinements, refinement_input, validation_report_file):
         # refinement graph updates the validation report graph
-        self.refinement_graph = self.refinement_graph.parse("./static/validation_report.ttl", format="ttl")
+        self.refinement_graph = self.refinement_graph.parse("validation_report.ttl", format="ttl")
         # execute each refinement selected to be executed with or without user input
         for violation_identifier in selected_violation_identifier:
             # html forms store values as strings
@@ -1054,12 +1054,12 @@ class Refinements:
     def create_refinement_report(self, validation_report_file):
         # output refinement into RDF report
         self.format_file_name_identifier()
-        self.refinement_graph.serialize(destination="./static/validation_report.ttl", format="ttl")
+        self.refinement_graph.serialize(destination="validation_report.ttl", format="ttl")
         self.generate_refined_mapping()
 
     def generate_refined_mapping(self):
         # uses custom serializer to preserve mapping ordering
-        TurtleSerializer(self.mapping_graph, self.triple_references, "./static/refined_mapping.ttl")
+        TurtleSerializer(self.mapping_graph, self.triple_references, "refined_mapping.ttl")
 
     def format_file_name_identifier(self):
         # remove local file name from IRI's

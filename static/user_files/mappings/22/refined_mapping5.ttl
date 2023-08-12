@@ -24,7 +24,7 @@
 	 rr:objectMap [	
 		 rr:parentTriplesMap <#MetricResults> ;	
 		 rr:joinCondition [	
-			 rr:parent "RESULT_ID", "DDDFD";	
+			 rr:parent "RESULT_ID";	
 			 ];	
  		]; 	
  ];	
@@ -52,7 +52,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasEvent;	
+ 	 rr:predicate ibclo:hasModelNames;	
 	 rr:objectMap [	
 		 rr:column "model_name";	
 		]; 	

@@ -52,7 +52,7 @@
  ];	
 	
  rr:predicateObjectMap [ 	
- 	 rr:predicate ibclo:hasEvent;	
+ 	 rr:predicate ibclo:hasModelNames;	
 	 rr:objectMap [	
 		 rr:column "model_name";	
 		]; 	

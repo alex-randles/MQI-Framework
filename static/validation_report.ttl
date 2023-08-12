@@ -1,11 +1,11 @@
 @prefix ex: <http://example.org/> .
-@prefix ibclo: <https://ibclo.ericsson.com/#> .
 @prefix mqio: <https://w3id.org/MQIO#> .
 @prefix mqio-metrics: <https://w3id.org/MQIO-metrics/#> .
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 ex:mappingQualityAssessment a mqio:MappingAssessment ;
-    mqio:assessedMapping <refined_mapping11.ttl> ;
+    mqio:assessedMapping <refined_mapping10.ttl> ;
     mqio:hasValidationReport ex:mappingValidationReport-0 .
 
 ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
@@ -13,26 +13,38 @@ ex:mappingValidationReport-0 a mqio:MappingValidationReport ;
 
 ex:refinement-0 a mqio:MappingRefinement ;
     mqio:refinedViolation ex:violation-0 ;
-    mqio:refinementName "Remove Datatype"^^xsd:string ;
+    mqio:refinementName "Add Child Column"^^xsd:string,
+        "Add Parent Column"^^xsd:string ;
     mqio:usedQuery """
-                PREFIX rr: <http://www.w3.org/ns/r2rml#>
-                DELETE { ?subject rr:datatype ?datatype .  }
-                WHERE {
-                SELECT ?subject ?datatype
-                WHERE {
-                      ?subject rr:datatype ?datatype.
-                      FILTER(str(?subject) = "nbed1b79821b046309448f3d3b265f7aab11").
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:child "child-1" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "n5dd27ebb0c5f41999dc9865498bfc617b5").
+                        }
                     }
-                }
-               """^^xsd:string .
+                   """^^xsd:string,
+        """
+                    PREFIX rr: <http://www.w3.org/ns/r2rml#> 
+                    INSERT { ?joinCondition rr:parent "parent" } 
+                    WHERE { 
+                    SELECT ?joinCondition
+                    WHERE {
+                          ?subject rr:joinCondition ?joinCondition.
+                          FILTER(str(?joinCondition) = "nb2c78e87677c471f9d1448c6dd0c296db5").
+                        }
+                    }
+                   """^^xsd:string .
 
-<refined_mapping11.ttl> a mqio:MappingArtefact .
+<refined_mapping10.ttl> a mqio:MappingArtefact .
 
 ex:violation-0 a mqio:MappingViolation ;
-    mqio:hasLocation "predicateObjectMap-4"^^xsd:string ;
-    mqio:hasObjectValue ibclo:hasLabel ;
-    mqio:hasResultMessage "Usage of incorrect datatype."^^xsd:string ;
+    mqio:hasLocation "predicateObjectMap-1"^^xsd:string ;
+    mqio:hasObjectValue rr:child ;
+    mqio:hasResultMessage "Join condition should have a parent and child column."^^xsd:string ;
     mqio:inTripleMap <#Metric> ;
-    mqio:isDescribedBy mqio-metrics:D7 ;
+    mqio:isDescribedBy mqio-metrics:MP4 ;
     mqio:wasRefinedBy ex:refinement-0 .
 
